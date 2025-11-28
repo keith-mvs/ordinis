@@ -22,7 +22,8 @@ knowledge-base/
 ├── 07_risk_management/               # Risk & position sizing
 ├── 08_strategy_design/               # Strategy construction
 ├── 09_system_architecture/           # Automation & execution
-└── 10_references/                    # Academic sources & citations
+├── 10_mathematical_foundations/      # Math & algorithmic foundations
+└── 11_references/                    # Academic sources & citations
 ```
 
 ---
@@ -238,7 +239,32 @@ Technical infrastructure for automated trading.
 
 ---
 
-## Section 10: Academic References & Sources
+## Section 10: Mathematical & Algorithmic Foundations
+
+Advanced mathematics underpinning systematic trading strategies.
+
+### Key Concepts
+1. **Probability Theory**: Probability spaces, distributions, moments, tail risk
+2. **Stochastic Processes**: Brownian motion, GBM, jump-diffusion, mean reversion
+3. **Stochastic Calculus**: Itô's Lemma, SDEs, Black-Scholes derivation
+4. **Time Series Analysis**: Stationarity, ARIMA, GARCH, cointegration
+5. **Signal Processing**: Fourier analysis, wavelets, Kalman filtering
+6. **Portfolio Optimization**: Mean-variance, Black-Litterman, risk parity
+7. **Convex Optimization**: Robust optimization, constraints handling
+8. **Dynamic Programming**: Optimal execution, Almgren-Chriss model
+9. **Statistical Learning**: Factor models, regime detection, ML for alpha
+10. **Numerical Methods**: Monte Carlo, finite difference, SDE discretization
+
+### Academic References
+- Shreve - Stochastic Calculus for Finance I & II
+- Hamilton - Time Series Analysis
+- Glasserman - Monte Carlo Methods in Financial Engineering
+- De Prado - Advances in Financial Machine Learning
+- Boyd & Vandenberghe - Convex Optimization
+
+---
+
+## Section 11: Academic References & Sources
 
 ### Primary Academic Sources
 - **Journal of Finance**
