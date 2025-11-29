@@ -8,6 +8,7 @@ Tests cover:
 - Health checking
 """
 
+from datetime import datetime
 from unittest.mock import AsyncMock
 
 import pytest
@@ -18,11 +19,14 @@ from src.plugins.base import Plugin, PluginConfig, PluginStatus
 @pytest.mark.unit
 def test_plugin_config_creation():
     """Test creating plugin configuration."""
-    config = PluginConfig(name="test_plugin", enabled=True, config={"api_key": "test123"})
+    config = PluginConfig(
+        name="test_plugin", enabled=True, api_key="test123", extra={"custom_field": "value"}
+    )
 
     assert config.name == "test_plugin"
     assert config.enabled is True
-    assert config.config["api_key"] == "test123"
+    assert config.api_key == "test123"
+    assert config.extra["custom_field"] == "value"
 
 
 @pytest.mark.unit
@@ -31,7 +35,7 @@ def test_plugin_status_enum():
     assert PluginStatus.INITIALIZING.value == "initializing"
     assert PluginStatus.READY.value == "ready"
     assert PluginStatus.ERROR.value == "error"
-    assert PluginStatus.DISABLED.value == "disabled"
+    assert PluginStatus.STOPPED.value == "stopped"
 
 
 @pytest.mark.unit
@@ -65,10 +69,13 @@ async def test_plugin_shutdown():
 @pytest.mark.asyncio
 async def test_plugin_health_check():
     """Test plugin health checking."""
+    from src.plugins.base import PluginHealth
+
     plugin = AsyncMock(spec=Plugin)
-    plugin.is_healthy.return_value = True
+    health = PluginHealth(status=PluginStatus.READY, last_check=datetime.now(), latency_ms=10.0)
+    plugin.health_check.return_value = health
 
-    is_healthy = await plugin.is_healthy()
+    result = await plugin.health_check()
 
-    assert is_healthy is True
-    plugin.is_healthy.assert_called_once()
+    assert result.status == PluginStatus.READY
+    plugin.health_check.assert_called_once()

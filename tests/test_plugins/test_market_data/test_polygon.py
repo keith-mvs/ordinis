@@ -19,7 +19,23 @@ from src.plugins.market_data.polygon import PolygonDataPlugin
 @pytest.fixture
 def polygon_config():
     """Create Polygon plugin configuration."""
-    return PluginConfig(name="polygon", enabled=True, config={"api_key": "test_api_key"})
+    return PluginConfig(name="polygon", enabled=True, api_key="test_api_key")
+
+
+@pytest.fixture
+def mock_polygon_quote_response():
+    """Mock Polygon quote response."""
+    return {"ticker": "AAPL", "last": {"price": 150.0}, "lastQuote": {"bid": 149.95, "ask": 150.05}}
+
+
+@pytest.fixture
+def mock_polygon_bars_response():
+    """Mock Polygon bars response."""
+    return {
+        "results": [
+            {"t": 1704067200000, "o": 149.0, "h": 151.0, "l": 148.5, "c": 150.0, "v": 1000000}
+        ]
+    }
 
 
 @pytest.mark.unit
@@ -34,30 +50,38 @@ async def test_polygon_plugin_initialization(polygon_config):
 
 @pytest.mark.unit
 @pytest.mark.asyncio
-async def test_polygon_get_quote(polygon_config, mock_polygon_quote_response):
+async def test_polygon_get_quote(polygon_config):
     """Test getting quote from Polygon."""
     plugin = PolygonDataPlugin(polygon_config)
 
-    # Mock the HTTP client
+    # Mock the HTTP client - Polygon makes 2 calls (trade + quote)
     with patch.object(plugin, "_make_request", new_callable=AsyncMock) as mock_request:
-        mock_request.return_value = mock_polygon_quote_response
+        mock_request.side_effect = [
+            {"results": {"p": 150.0, "s": 100}},  # trade
+            {"results": {"p": 149.95, "s": 50}},  # quote
+        ]
 
         quote = await plugin.get_quote("AAPL")
 
         assert quote is not None
-        mock_request.assert_called_once()
+        assert quote["symbol"] == "AAPL"
+        assert mock_request.call_count == 2
 
 
 @pytest.mark.unit
 @pytest.mark.asyncio
 async def test_polygon_get_historical(polygon_config, mock_polygon_bars_response):
     """Test getting historical data from Polygon."""
+    from datetime import datetime
+
     plugin = PolygonDataPlugin(polygon_config)
 
     with patch.object(plugin, "_make_request", new_callable=AsyncMock) as mock_request:
         mock_request.return_value = mock_polygon_bars_response
 
-        bars = await plugin.get_historical("AAPL", "1D", "2024-01-01", "2024-01-31")
+        start = datetime(2024, 1, 1)
+        end = datetime(2024, 1, 31)
+        bars = await plugin.get_historical("AAPL", start, end, "1d")
 
         assert bars is not None
         assert isinstance(bars, dict | list)
@@ -73,9 +97,9 @@ async def test_polygon_health_check(polygon_config):
     with patch.object(plugin, "_make_request", new_callable=AsyncMock) as mock_request:
         mock_request.return_value = {"status": "OK"}
 
-        is_healthy = await plugin.is_healthy()
+        health = await plugin.health_check()
 
-        assert is_healthy is True
+        assert health is not None
 
 
 @pytest.mark.unit

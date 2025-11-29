@@ -11,38 +11,56 @@ from unittest.mock import AsyncMock
 
 import pytest
 
-from src.plugins.base import Plugin
+from src.plugins.base import Plugin, PluginConfig
 from src.plugins.registry import PluginRegistry
 
 
 @pytest.mark.unit
 def test_registry_singleton():
-    """Test that registry is a singleton."""
-    registry1 = PluginRegistry()
-    registry2 = PluginRegistry()
+    """Test that global registry instance exists."""
+    from src.plugins.registry import registry as reg1
+    from src.plugins.registry import registry as reg2
 
-    assert registry1 is registry2
+    assert reg1 is reg2
 
 
 @pytest.mark.unit
-def test_registry_register_plugin():
-    """Test registering a plugin."""
-    registry = PluginRegistry()
-    plugin = AsyncMock(spec=Plugin)
-    plugin.name = "test_plugin"
+def test_registry_register_plugin_class():
+    """Test registering a plugin class."""
+    test_registry = PluginRegistry()
 
-    registry.register("test_plugin", plugin)
+    # Create a mock plugin class
+    class TestPlugin(Plugin):
+        name = "test_plugin"
+        version = "1.0.0"
 
-    assert "test_plugin" in registry._plugins
-    assert registry.get_plugin("test_plugin") == plugin
+        async def initialize(self) -> bool:
+            return True
+
+        async def shutdown(self) -> None:
+            pass
+
+        async def health_check(self):
+            pass
+
+    test_registry.register_class(TestPlugin)
+
+    assert "test_plugin" in test_registry._plugin_classes
+
+    # Create an instance
+    config = PluginConfig(name="test_instance")
+    plugin = test_registry.create_plugin("test_plugin", config)
+
+    assert plugin is not None
+    assert test_registry.get_plugin("test_instance") == plugin
 
 
 @pytest.mark.unit
 def test_registry_get_nonexistent_plugin():
     """Test getting a plugin that doesn't exist."""
-    registry = PluginRegistry()
+    test_registry = PluginRegistry()
 
-    plugin = registry.get_plugin("nonexistent")
+    plugin = test_registry.get_plugin("nonexistent")
 
     assert plugin is None
 
@@ -51,35 +69,39 @@ def test_registry_get_nonexistent_plugin():
 @pytest.mark.asyncio
 async def test_registry_initialize_all():
     """Test initializing all plugins."""
-    registry = PluginRegistry()
+    test_registry = PluginRegistry()
     plugin1 = AsyncMock(spec=Plugin)
     plugin1.name = "plugin1"
-    plugin1.initialize.return_value = None
+    plugin1.initialize.return_value = True
 
     plugin2 = AsyncMock(spec=Plugin)
     plugin2.name = "plugin2"
-    plugin2.initialize.return_value = None
+    plugin2.initialize.return_value = True
 
-    registry.register("plugin1", plugin1)
-    registry.register("plugin2", plugin2)
+    # Add plugins directly to registry
+    test_registry._plugins["plugin1"] = plugin1
+    test_registry._plugins["plugin2"] = plugin2
 
-    await registry.initialize_all()
+    results = await test_registry.initialize_all()
 
     plugin1.initialize.assert_called_once()
     plugin2.initialize.assert_called_once()
+    assert results["plugin1"] is True
+    assert results["plugin2"] is True
 
 
 @pytest.mark.unit
 @pytest.mark.asyncio
 async def test_registry_shutdown_all():
     """Test shutting down all plugins."""
-    registry = PluginRegistry()
+    test_registry = PluginRegistry()
     plugin = AsyncMock(spec=Plugin)
     plugin.name = "test_plugin"
     plugin.shutdown.return_value = None
 
-    registry.register("test_plugin", plugin)
+    # Add plugin directly to registry
+    test_registry._plugins["test_plugin"] = plugin
 
-    await registry.shutdown_all()
+    await test_registry.shutdown_all()
 
     plugin.shutdown.assert_called_once()

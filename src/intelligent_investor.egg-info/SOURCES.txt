@@ -3,6 +3,15 @@ pyproject.toml
 src/core/__init__.py
 src/core/rate_limiter.py
 src/core/validation.py
+src/engines/__init__.py
+src/engines/proofbench/__init__.py
+src/engines/proofbench/analytics/__init__.py
+src/engines/proofbench/analytics/performance.py
+src/engines/proofbench/core/__init__.py
+src/engines/proofbench/core/events.py
+src/engines/proofbench/core/execution.py
+src/engines/proofbench/core/portfolio.py
+src/engines/proofbench/core/simulator.py
 src/intelligent_investor.egg-info/PKG-INFO
 src/intelligent_investor.egg-info/SOURCES.txt
 src/intelligent_investor.egg-info/dependency_links.txt

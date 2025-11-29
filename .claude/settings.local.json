@@ -29,7 +29,12 @@
       "Bash(git push:*)",
       "Bash(timeout 60 pre-commit run:*)",
       "Bash(if exist NUL del NUL)",
-      "Bash(git reset:*)"
+      "Bash(git reset:*)",
+      "Bash(python docs/examples/proofbench_example.py:*)",
+      "Bash($env:PYTHONPATH=\"$PWD\")",
+      "Bash(python -m pip install:*)",
+      "Bash(python:*)",
+      "Bash(if exist test_proofbench.py del test_proofbench.py)"
     ],
     "deny": [],
     "ask": []

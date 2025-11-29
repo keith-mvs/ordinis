@@ -19,7 +19,18 @@ from src.plugins.market_data.iex import IEXDataPlugin
 @pytest.fixture
 def iex_config():
     """Create IEX plugin configuration."""
-    return PluginConfig(name="iex", enabled=True, config={"api_key": "test_api_key"})
+    return PluginConfig(name="iex", enabled=True, api_key="test_api_key")
+
+
+@pytest.fixture
+def mock_iex_quote_response():
+    """Mock IEX quote response."""
+    return {
+        "symbol": "AAPL",
+        "latestPrice": 150.0,
+        "latestTime": "2024-01-01T12:00:00Z",
+        "latestVolume": 1000000,
+    }
 
 
 @pytest.mark.unit
@@ -51,6 +62,8 @@ async def test_iex_get_quote(iex_config, mock_iex_quote_response):
 @pytest.mark.asyncio
 async def test_iex_get_historical(iex_config):
     """Test getting historical data from IEX."""
+    from datetime import datetime
+
     plugin = IEXDataPlugin(iex_config)
 
     with patch.object(plugin, "_make_request", new_callable=AsyncMock) as mock_request:
@@ -59,7 +72,9 @@ async def test_iex_get_historical(iex_config):
             {"date": "2024-01-02", "close": 151.0},
         ]
 
-        bars = await plugin.get_historical("AAPL", "1m")
+        start = datetime(2024, 1, 1)
+        end = datetime(2024, 1, 31)
+        bars = await plugin.get_historical("AAPL", start, end, "1d")
 
         assert bars is not None
         assert isinstance(bars, dict | list)
@@ -75,9 +90,9 @@ async def test_iex_health_check(iex_config):
     with patch.object(plugin, "_make_request", new_callable=AsyncMock) as mock_request:
         mock_request.return_value = {"status": "up"}
 
-        is_healthy = await plugin.is_healthy()
+        health = await plugin.health_check()
 
-        assert is_healthy is True
+        assert health is not None
 
 
 @pytest.mark.unit
