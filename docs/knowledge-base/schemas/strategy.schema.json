@@ -1,0 +1,317 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://intelligent-investor.io/schemas/strategy.schema.json",
+  "title": "Trading Strategy Specification Schema",
+  "description": "Formal specification schema for trading strategies",
+  "type": "object",
+  "required": ["id", "version", "name", "type", "universe", "signals", "risk", "execution"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^strat_[a-z0-9_]+$",
+      "description": "Unique strategy ID: strat_ma_crossover_spy",
+      "examples": ["strat_ma_crossover_spy", "strat_mean_reversion_etf"]
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^v\\d+\\.\\d+\\.\\d+$",
+      "description": "Semantic version of the strategy",
+      "examples": ["v1.0.0", "v2.1.3"]
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Human-readable strategy name"
+    },
+    "description": {
+      "type": "string",
+      "description": "Detailed description of the strategy logic and intent"
+    },
+    "type": {
+      "type": "string",
+      "enum": ["trend_following", "mean_reversion", "breakout", "statistical_arbitrage", "options", "hybrid", "custom"],
+      "description": "High-level strategy classification"
+    },
+    "universe": {
+      "type": "object",
+      "required": ["symbols"],
+      "properties": {
+        "symbols": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Z]{1,5}$"
+          },
+          "minItems": 1,
+          "description": "List of tradeable symbols or 'ALL' for dynamic universe"
+        },
+        "filters": {
+          "type": "object",
+          "properties": {
+            "liquidity": {
+              "type": "object",
+              "properties": {
+                "min_avg_volume": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "description": "Minimum average daily volume"
+                },
+                "min_price": {
+                  "type": "number",
+                  "minimum": 0,
+                  "description": "Minimum price per share"
+                },
+                "max_spread_pct": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 100,
+                  "description": "Maximum bid-ask spread as percentage"
+                }
+              }
+            },
+            "fundamental": {
+              "type": "object",
+              "properties": {
+                "min_market_cap": {
+                  "type": "number",
+                  "description": "Minimum market capitalization"
+                },
+                "sectors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Allowed sectors"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "signals": {
+      "type": "object",
+      "required": ["entry"],
+      "properties": {
+        "entry": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["indicator", "condition"],
+            "properties": {
+              "indicator": {
+                "type": "string",
+                "description": "Indicator name (e.g., 'rsi', 'bollinger_bands')"
+              },
+              "params": {
+                "type": "object",
+                "description": "Indicator-specific parameters"
+              },
+              "condition": {
+                "type": "string",
+                "description": "Condition expression (e.g., 'rsi < 30')"
+              },
+              "weight": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1,
+                "description": "Weight for multi-signal strategies"
+              }
+            }
+          }
+        },
+        "exit": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["type", "condition"],
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["stop_loss", "take_profit", "trailing_stop", "time_exit", "signal_exit", "mean_reversion_target"],
+                "description": "Type of exit condition"
+              },
+              "condition": {
+                "type": "string",
+                "description": "Exit condition expression"
+              },
+              "params": {
+                "type": "object",
+                "description": "Exit-type specific parameters"
+              }
+            }
+          }
+        },
+        "logic": {
+          "type": "string",
+          "enum": ["AND", "OR", "WEIGHTED"],
+          "default": "AND",
+          "description": "How to combine multiple signal conditions"
+        }
+      }
+    },
+    "risk": {
+      "type": "object",
+      "required": ["position_sizing"],
+      "properties": {
+        "max_concurrent_positions": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Maximum number of open positions"
+        },
+        "position_sizing": {
+          "type": "object",
+          "required": ["method"],
+          "properties": {
+            "method": {
+              "type": "string",
+              "enum": ["equal_weight", "risk_parity", "kelly", "fixed_dollar", "volatility_scaled", "custom"],
+              "description": "Position sizing methodology"
+            },
+            "max_position_pct": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100,
+              "description": "Maximum position size as % of equity"
+            },
+            "risk_per_trade_pct": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100,
+              "description": "Maximum risk per trade as % of equity"
+            }
+          }
+        },
+        "stop_loss": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": ["percentage", "atr", "fixed_dollar", "technical"],
+              "description": "Stop loss calculation method"
+            },
+            "value": {
+              "type": "number",
+              "description": "Stop loss parameter (e.g., 0.05 for 5%)"
+            }
+          }
+        },
+        "take_profit": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": ["percentage", "atr", "fixed_dollar", "technical"],
+              "description": "Take profit calculation method"
+            },
+            "value": {
+              "type": "number",
+              "description": "Take profit parameter"
+            }
+          }
+        }
+      }
+    },
+    "execution": {
+      "type": "object",
+      "properties": {
+        "order_type": {
+          "type": "string",
+          "enum": ["market", "limit", "stop", "stop_limit"],
+          "default": "market",
+          "description": "Default order type"
+        },
+        "entry_limit_offset": {
+          "type": "number",
+          "description": "Offset for limit orders (in basis points or fixed amount)"
+        },
+        "time_in_force": {
+          "type": "string",
+          "enum": ["DAY", "GTC", "IOC", "FOK"],
+          "default": "DAY",
+          "description": "Order time in force"
+        },
+        "max_slippage_bps": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Maximum acceptable slippage in basis points"
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "domains": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 9
+          },
+          "description": "Relevant knowledge base domains"
+        },
+        "references": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^pub_[a-z0-9_]+$"
+          },
+          "description": "Publication IDs that informed this strategy"
+        },
+        "created": {
+          "type": "string",
+          "format": "date",
+          "description": "Strategy creation date"
+        },
+        "author": {
+          "type": "string",
+          "description": "Strategy creator"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["draft", "backtest", "paper_trading", "live", "archived"],
+          "description": "Current deployment status"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Classification tags"
+        }
+      }
+    },
+    "backtest_config": {
+      "type": "object",
+      "properties": {
+        "initial_capital": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Starting capital for backtest"
+        },
+        "commission": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Commission per share or trade"
+        },
+        "slippage_bps": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Assumed slippage in basis points"
+        },
+        "start_date": {
+          "type": "string",
+          "format": "date",
+          "description": "Backtest start date"
+        },
+        "end_date": {
+          "type": "string",
+          "format": "date",
+          "description": "Backtest end date"
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

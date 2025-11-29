@@ -1,0 +1,186 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://intelligent-investor.io/schemas/skill.schema.json",
+  "title": "Skill/Command Definition Schema",
+  "description": "Schema for Claude Code skills and slash commands",
+  "type": "object",
+  "required": ["id", "name", "purpose", "input_schema", "output_schema", "version"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^/[a-z-]+$",
+      "description": "Skill command identifier (e.g., '/kb-search', '/position-size')",
+      "examples": ["/kb-search", "/position-size", "/research-ticker"]
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Human-readable skill name"
+    },
+    "purpose": {
+      "type": "string",
+      "minLength": 20,
+      "description": "Clear description of what this skill does"
+    },
+    "category": {
+      "type": "string",
+      "enum": ["research", "analysis", "risk", "strategy", "execution", "documentation", "system"],
+      "description": "Skill category for organization"
+    },
+    "input_schema": {
+      "type": "object",
+      "description": "JSON Schema defining required and optional inputs",
+      "required": ["type", "properties"],
+      "properties": {
+        "type": {
+          "const": "object"
+        },
+        "properties": {
+          "type": "object"
+        },
+        "required": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "output_schema": {
+      "type": "object",
+      "description": "JSON Schema defining expected outputs",
+      "required": ["type", "properties"],
+      "properties": {
+        "type": {
+          "const": "object"
+        },
+        "properties": {
+          "type": "object"
+        }
+      }
+    },
+    "error_cases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["code", "message"],
+        "properties": {
+          "code": {
+            "type": "string",
+            "pattern": "^[A-Z_]+$",
+            "description": "Error code (e.g., 'VALIDATION_ERROR', 'DATA_UNAVAILABLE')"
+          },
+          "message": {
+            "type": "string",
+            "description": "Human-readable error message template"
+          },
+          "recoverable": {
+            "type": "boolean",
+            "description": "Whether this error can be recovered from"
+          },
+          "suggested_action": {
+            "type": "string",
+            "description": "What the user should do to resolve this error"
+          }
+        }
+      },
+      "description": "Possible error conditions and handling"
+    },
+    "examples": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["command", "description"],
+        "properties": {
+          "command": {
+            "type": "string",
+            "description": "Example command invocation"
+          },
+          "description": {
+            "type": "string",
+            "description": "What this example demonstrates"
+          },
+          "expected_output": {
+            "type": "string",
+            "description": "Sample output (abbreviated)"
+          }
+        }
+      },
+      "description": "Usage examples"
+    },
+    "engine_integration": {
+      "type": "object",
+      "properties": {
+        "engines_used": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["Cortex", "SignalCore", "RiskGuard", "ProofBench", "FlowRoute", "KnowledgeEngine"]
+          },
+          "description": "Which engines this skill interacts with"
+        },
+        "data_sources": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "External data sources or plugins used"
+        },
+        "calculation_mode": {
+          "type": "string",
+          "enum": ["orchestration_only", "delegates_to_engine", "mixed"],
+          "description": "How this skill handles calculations"
+        }
+      },
+      "description": "Integration details with system engines"
+    },
+    "permissions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["read_data", "write_data", "execute_trade", "modify_risk_rules", "access_kb", "call_external_api"]
+      },
+      "description": "Required permissions to execute this skill"
+    },
+    "dependencies": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^/[a-z-]+$"
+      },
+      "description": "Other skills this skill depends on or commonly chains with"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^v\\d+\\.\\d+\\.\\d+$",
+      "description": "Semantic version of this skill",
+      "examples": ["v1.0.0", "v2.1.0"]
+    },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "experimental", "stable", "deprecated"],
+      "default": "draft",
+      "description": "Development status of this skill"
+    },
+    "created": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When this skill was first created"
+    },
+    "last_updated": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last modification timestamp"
+    },
+    "author": {
+      "type": "string",
+      "description": "Skill creator/maintainer"
+    },
+    "documentation_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Link to full documentation"
+    }
+  },
+  "additionalProperties": false
+}
