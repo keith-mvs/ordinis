@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(NUL)",
+      "Bash(dir:*)",
+      "Bash(findstr:*)",
+      "Bash(if [ -d \"venv\" ])",
+      "Bash(then ls -la venv/)",
+      "Bash(else echo \"No venv directory\")",
+      "Bash(fi)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
