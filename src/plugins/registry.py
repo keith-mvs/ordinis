@@ -2,9 +2,10 @@
 Plugin registry for managing plugin lifecycle.
 """
 
-from typing import Dict, List, Optional, Type
+from datetime import datetime
 import logging
-from .base import Plugin, PluginConfig, PluginStatus, PluginHealth
+
+from .base import Plugin, PluginConfig, PluginHealth, PluginStatus
 
 logger = logging.getLogger(__name__)
 
@@ -16,11 +17,11 @@ class PluginRegistry:
     Handles plugin registration, initialization, and lifecycle management.
     """
 
-    def __init__(self):
-        self._plugins: Dict[str, Plugin] = {}
-        self._plugin_classes: Dict[str, Type[Plugin]] = {}
+    def __init__(self) -> None:
+        self._plugins: dict[str, Plugin] = {}
+        self._plugin_classes: dict[str, type[Plugin]] = {}
 
-    def register_class(self, plugin_class: Type[Plugin]) -> None:
+    def register_class(self, plugin_class: type[Plugin]) -> None:
         """
         Register a plugin class for later instantiation.
 
@@ -33,11 +34,7 @@ class PluginRegistry:
         self._plugin_classes[name] = plugin_class
         logger.info(f"Registered plugin class: {name}")
 
-    def create_plugin(
-        self,
-        name: str,
-        config: PluginConfig
-    ) -> Optional[Plugin]:
+    def create_plugin(self, name: str, config: PluginConfig) -> Plugin | None:
         """
         Create a plugin instance from registered class.
 
@@ -58,19 +55,19 @@ class PluginRegistry:
         logger.info(f"Created plugin instance: {config.name}")
         return plugin
 
-    def get_plugin(self, name: str) -> Optional[Plugin]:
+    def get_plugin(self, name: str) -> Plugin | None:
         """Get plugin by name."""
         return self._plugins.get(name)
 
-    def list_plugins(self) -> List[str]:
+    def list_plugins(self) -> list[str]:
         """List all registered plugin instances."""
         return list(self._plugins.keys())
 
-    def list_available_classes(self) -> List[str]:
+    def list_available_classes(self) -> list[str]:
         """List all registered plugin classes."""
         return list(self._plugin_classes.keys())
 
-    async def initialize_all(self) -> Dict[str, bool]:
+    async def initialize_all(self) -> dict[str, bool]:
         """
         Initialize all registered plugins.
 
@@ -97,7 +94,7 @@ class PluginRegistry:
             except Exception as e:
                 logger.error(f"Plugin {name} shutdown error: {e}")
 
-    async def health_check_all(self) -> Dict[str, PluginHealth]:
+    async def health_check_all(self) -> dict[str, PluginHealth]:
         """
         Run health checks on all plugins.
 
@@ -114,21 +111,21 @@ class PluginRegistry:
                     status=PluginStatus.ERROR,
                     last_check=datetime.utcnow(),
                     latency_ms=0,
-                    last_error=str(e)
+                    last_error=str(e),
                 )
         return results
 
-    def get_plugins_by_status(self, status: PluginStatus) -> List[Plugin]:
+    def get_plugins_by_status(self, status: PluginStatus) -> list[Plugin]:
         """Get all plugins with a specific status."""
         return [p for p in self._plugins.values() if p.status == status]
 
-    def get_plugins_by_capability(self, capability: str) -> List[Plugin]:
+    def get_plugins_by_capability(self, capability: str) -> list[Plugin]:
         """Get all plugins with a specific capability."""
         from .base import PluginCapability
+
         cap = PluginCapability(capability)
         return [p for p in self._plugins.values() if cap in p.capabilities]
 
 
 # Global registry instance
-from datetime import datetime
 registry = PluginRegistry()

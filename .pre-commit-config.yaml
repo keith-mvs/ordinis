@@ -1,0 +1,68 @@
+# Pre-commit hooks configuration
+# See https://pre-commit.com for more information
+
+repos:
+  # Ruff - Fast Python linter
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.6.0
+    hooks:
+      # Run the linter
+      - id: ruff
+        args: [--fix]
+      # Run the formatter
+      - id: ruff-format
+
+  # MyPy - Static type checking
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.11.0
+    hooks:
+      - id: mypy
+        additional_dependencies:
+          - types-requests
+          - pandas-stubs
+          - numpy
+        exclude: ^(tests/|docs/|src/engines/proofbench/)
+
+  # General file checks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      # Prevent large files from being committed
+      - id: check-added-large-files
+        args: [--maxkb=1000]
+      # Check for files that would conflict on case-insensitive filesystems
+      - id: check-case-conflict
+      # Check for merge conflicts
+      - id: check-merge-conflict
+      # Check YAML files for syntax errors
+      - id: check-yaml
+        args: [--unsafe]  # Allow custom tags
+      # Check TOML files for syntax errors
+      - id: check-toml
+      # Check JSON files for syntax errors
+      - id: check-json
+      # Ensure files end with newline
+      - id: end-of-file-fixer
+      # Remove trailing whitespace
+      - id: trailing-whitespace
+      # Detect private keys
+      - id: detect-private-key
+
+# Global settings
+default_language_version:
+  python: python3.11
+
+# Files to exclude from all hooks
+exclude: |
+  (?x)^(
+      \.git/|
+      \.mypy_cache/|
+      \.pytest_cache/|
+      \.ruff_cache/|
+      __pycache__/|
+      \.venv/|
+      venv/|
+      build/|
+      dist/|
+      .*\.egg-info/
+  )

@@ -5,17 +5,18 @@ Provides real-time and historical market data from Polygon.io.
 """
 
 import asyncio
-import aiohttp
-from datetime import datetime, timedelta
-from typing import Any, Dict, List, Optional
+from datetime import datetime
 import logging
+from typing import Any
+
+import aiohttp
 
 from ..base import (
     DataPlugin,
+    PluginCapability,
     PluginConfig,
-    PluginStatus,
     PluginHealth,
-    PluginCapability
+    PluginStatus,
 )
 
 logger = logging.getLogger(__name__)
@@ -40,14 +41,14 @@ class PolygonDataPlugin(DataPlugin):
         PluginCapability.READ,
         PluginCapability.REALTIME,
         PluginCapability.HISTORICAL,
-        PluginCapability.STREAM
+        PluginCapability.STREAM,
     ]
 
     BASE_URL = "https://api.polygon.io"
 
     def __init__(self, config: PluginConfig):
         super().__init__(config)
-        self._session: Optional[aiohttp.ClientSession] = None
+        self._session: aiohttp.ClientSession | None = None
         self._ws_connection = None
 
     async def initialize(self) -> bool:
@@ -66,10 +67,9 @@ class PolygonDataPlugin(DataPlugin):
                 await self._set_status(PluginStatus.READY)
                 logger.info("Polygon plugin initialized successfully")
                 return True
-            else:
-                logger.error(f"Polygon API key validation failed: {test_result}")
-                await self._set_status(PluginStatus.ERROR)
-                return False
+            logger.error(f"Polygon API key validation failed: {test_result}")
+            await self._set_status(PluginStatus.ERROR)
+            return False
 
         except Exception as e:
             await self._handle_error(e)
@@ -99,7 +99,7 @@ class PolygonDataPlugin(DataPlugin):
                 status=PluginStatus.READY,
                 last_check=datetime.utcnow(),
                 latency_ms=latency,
-                message=f"Market status: {result.get('market', 'unknown')}"
+                message=f"Market status: {result.get('market', 'unknown')}",
             )
 
         except Exception as e:
@@ -108,16 +108,12 @@ class PolygonDataPlugin(DataPlugin):
                 last_check=datetime.utcnow(),
                 latency_ms=0,
                 error_count=self._health.error_count + 1,
-                last_error=str(e)
+                last_error=str(e),
             )
 
         return self._health
 
-    async def _make_request(
-        self,
-        endpoint: str,
-        params: Optional[Dict] = None
-    ) -> Dict[str, Any]:
+    async def _make_request(self, endpoint: str, params: dict | None = None) -> dict[str, Any]:
         """Make an API request to Polygon."""
         await self._rate_limiter.wait_for_token()
 
@@ -135,7 +131,7 @@ class PolygonDataPlugin(DataPlugin):
             response.raise_for_status()
             return await response.json()
 
-    async def get_quote(self, symbol: str) -> Dict[str, Any]:
+    async def get_quote(self, symbol: str) -> dict[str, Any]:
         """
         Get real-time quote for a symbol.
 
@@ -163,16 +159,12 @@ class PolygonDataPlugin(DataPlugin):
             "bid_size": last_quote.get("s"),
             "ask": last_quote.get("P"),
             "ask_size": last_quote.get("S"),
-            "source": "polygon"
+            "source": "polygon",
         }
 
     async def get_historical(
-        self,
-        symbol: str,
-        start: datetime,
-        end: datetime,
-        timeframe: str = "1d"
-    ) -> List[Dict[str, Any]]:
+        self, symbol: str, start: datetime, end: datetime, timeframe: str = "1d"
+    ) -> list[dict[str, Any]]:
         """
         Get historical OHLCV data.
 
@@ -193,39 +185,37 @@ class PolygonDataPlugin(DataPlugin):
             "30m": ("minute", 30),
             "1h": ("hour", 1),
             "1d": ("day", 1),
-            "1w": ("week", 1)
+            "1w": ("week", 1),
         }
 
         unit, multiplier = timeframe_map.get(timeframe, ("day", 1))
 
         endpoint = f"/v2/aggs/ticker/{symbol}/range/{multiplier}/{unit}/{start.strftime('%Y-%m-%d')}/{end.strftime('%Y-%m-%d')}"
 
-        params = {
-            "adjusted": "true",
-            "sort": "asc",
-            "limit": 50000
-        }
+        params = {"adjusted": "true", "sort": "asc", "limit": 50000}
 
         result = await self._make_request(endpoint, params)
 
         bars = []
         for bar in result.get("results", []):
-            bars.append({
-                "symbol": symbol,
-                "timestamp": datetime.fromtimestamp(bar["t"] / 1000).isoformat(),
-                "open": bar["o"],
-                "high": bar["h"],
-                "low": bar["l"],
-                "close": bar["c"],
-                "volume": bar["v"],
-                "vwap": bar.get("vw"),
-                "transactions": bar.get("n"),
-                "source": "polygon"
-            })
+            bars.append(
+                {
+                    "symbol": symbol,
+                    "timestamp": datetime.fromtimestamp(bar["t"] / 1000).isoformat(),
+                    "open": bar["o"],
+                    "high": bar["h"],
+                    "low": bar["l"],
+                    "close": bar["c"],
+                    "volume": bar["v"],
+                    "vwap": bar.get("vw"),
+                    "transactions": bar.get("n"),
+                    "source": "polygon",
+                }
+            )
 
         return bars
 
-    async def get_previous_close(self, symbol: str) -> Dict[str, Any]:
+    async def get_previous_close(self, symbol: str) -> dict[str, Any]:
         """Get previous day's close data."""
         result = await self._make_request(f"/v2/aggs/ticker/{symbol}/prev")
 
@@ -240,12 +230,12 @@ class PolygonDataPlugin(DataPlugin):
                 "close": bar["c"],
                 "volume": bar["v"],
                 "vwap": bar.get("vw"),
-                "source": "polygon"
+                "source": "polygon",
             }
 
         return {}
 
-    async def get_snapshot(self, symbol: str) -> Dict[str, Any]:
+    async def get_snapshot(self, symbol: str) -> dict[str, Any]:
         """Get a snapshot of current data for a symbol."""
         result = await self._make_request(f"/v2/snapshot/locale/us/markets/stocks/tickers/{symbol}")
 
@@ -261,12 +251,12 @@ class PolygonDataPlugin(DataPlugin):
                 "min": ticker.get("min", {}),
                 "todays_change": ticker.get("todaysChange"),
                 "todays_change_perc": ticker.get("todaysChangePerc"),
-                "source": "polygon"
+                "source": "polygon",
             }
 
         return {}
 
-    async def get_market_status(self) -> Dict[str, Any]:
+    async def get_market_status(self) -> dict[str, Any]:
         """Get current market status."""
         result = await self._make_request("/v1/marketstatus/now")
 
@@ -275,10 +265,10 @@ class PolygonDataPlugin(DataPlugin):
             "server_time": result.get("serverTime"),
             "exchanges": result.get("exchanges", {}),
             "currencies": result.get("currencies", {}),
-            "source": "polygon"
+            "source": "polygon",
         }
 
-    async def get_ticker_details(self, symbol: str) -> Dict[str, Any]:
+    async def get_ticker_details(self, symbol: str) -> dict[str, Any]:
         """Get detailed information about a ticker."""
         result = await self._make_request(f"/v3/reference/tickers/{symbol}")
 
@@ -299,7 +289,7 @@ class PolygonDataPlugin(DataPlugin):
                 "sic_code": details.get("sic_code"),
                 "sic_description": details.get("sic_description"),
                 "homepage": details.get("homepage_url"),
-                "source": "polygon"
+                "source": "polygon",
             }
 
         return {}
@@ -307,10 +297,10 @@ class PolygonDataPlugin(DataPlugin):
     async def get_options_chain(
         self,
         symbol: str,
-        expiration: Optional[str] = None,
-        strike_price: Optional[float] = None,
-        contract_type: Optional[str] = None
-    ) -> Dict[str, Any]:
+        expiration: str | None = None,
+        strike_price: float | None = None,
+        contract_type: str | None = None,
+    ) -> dict[str, Any]:
         """
         Get options chain for an underlying.
 
@@ -336,29 +326,27 @@ class PolygonDataPlugin(DataPlugin):
 
         contracts = []
         for contract in result.get("results", []):
-            contracts.append({
-                "ticker": contract.get("ticker"),
-                "underlying": contract.get("underlying_ticker"),
-                "contract_type": contract.get("contract_type"),
-                "strike_price": contract.get("strike_price"),
-                "expiration_date": contract.get("expiration_date"),
-                "shares_per_contract": contract.get("shares_per_contract"),
-                "exercise_style": contract.get("exercise_style"),
-                "primary_exchange": contract.get("primary_exchange")
-            })
+            contracts.append(
+                {
+                    "ticker": contract.get("ticker"),
+                    "underlying": contract.get("underlying_ticker"),
+                    "contract_type": contract.get("contract_type"),
+                    "strike_price": contract.get("strike_price"),
+                    "expiration_date": contract.get("expiration_date"),
+                    "shares_per_contract": contract.get("shares_per_contract"),
+                    "exercise_style": contract.get("exercise_style"),
+                    "primary_exchange": contract.get("primary_exchange"),
+                }
+            )
 
         return {
             "symbol": symbol,
             "contracts": contracts,
             "count": len(contracts),
-            "source": "polygon"
+            "source": "polygon",
         }
 
-    async def get_news(
-        self,
-        symbol: Optional[str] = None,
-        limit: int = 10
-    ) -> List[Dict[str, Any]]:
+    async def get_news(self, symbol: str | None = None, limit: int = 10) -> list[dict[str, Any]]:
         """Get news articles."""
         params = {"limit": limit, "order": "desc"}
 
@@ -369,17 +357,19 @@ class PolygonDataPlugin(DataPlugin):
 
         articles = []
         for article in result.get("results", []):
-            articles.append({
-                "id": article.get("id"),
-                "title": article.get("title"),
-                "author": article.get("author"),
-                "published": article.get("published_utc"),
-                "article_url": article.get("article_url"),
-                "tickers": article.get("tickers", []),
-                "description": article.get("description"),
-                "keywords": article.get("keywords", []),
-                "source": article.get("publisher", {}).get("name"),
-                "image_url": article.get("image_url")
-            })
+            articles.append(
+                {
+                    "id": article.get("id"),
+                    "title": article.get("title"),
+                    "author": article.get("author"),
+                    "published": article.get("published_utc"),
+                    "article_url": article.get("article_url"),
+                    "tickers": article.get("tickers", []),
+                    "description": article.get("description"),
+                    "keywords": article.get("keywords", []),
+                    "source": article.get("publisher", {}).get("name"),
+                    "image_url": article.get("image_url"),
+                }
+            )
 
         return articles

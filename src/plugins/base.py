@@ -3,18 +3,19 @@ Base plugin classes and interfaces.
 """
 
 from abc import ABC, abstractmethod
+import asyncio
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any, Dict, List, Optional
-import asyncio
 import logging
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
 
 class PluginStatus(Enum):
     """Plugin lifecycle status."""
+
     UNINITIALIZED = "uninitialized"
     INITIALIZING = "initializing"
     READY = "ready"
@@ -26,6 +27,7 @@ class PluginStatus(Enum):
 
 class PluginCapability(Enum):
     """Plugin capabilities."""
+
     READ = "read"
     WRITE = "write"
     STREAM = "stream"
@@ -36,26 +38,28 @@ class PluginCapability(Enum):
 @dataclass
 class PluginConfig:
     """Base plugin configuration."""
+
     name: str
     enabled: bool = True
-    api_key: Optional[str] = None
-    api_secret: Optional[str] = None
-    base_url: Optional[str] = None
+    api_key: str | None = None
+    api_secret: str | None = None
+    base_url: str | None = None
     timeout_seconds: int = 30
     max_retries: int = 3
     rate_limit_per_minute: int = 60
-    extra: Dict[str, Any] = field(default_factory=dict)
+    extra: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
 class PluginHealth:
     """Plugin health status."""
+
     status: PluginStatus
     last_check: datetime
     latency_ms: float
     error_count: int = 0
-    last_error: Optional[str] = None
-    message: Optional[str] = None
+    last_error: str | None = None
+    message: str | None = None
 
 
 class Plugin(ABC):
@@ -70,7 +74,7 @@ class Plugin(ABC):
     name: str = "base_plugin"
     version: str = "1.0.0"
     description: str = "Base plugin"
-    capabilities: List[PluginCapability] = []
+    capabilities: list[PluginCapability] = []
 
     def __init__(self, config: PluginConfig):
         self.config = config
@@ -78,7 +82,7 @@ class Plugin(ABC):
         self._health = PluginHealth(
             status=PluginStatus.UNINITIALIZED,
             last_check=datetime.utcnow(),
-            latency_ms=0.0
+            latency_ms=0.0,
         )
         self._rate_limiter = RateLimiter(config.rate_limit_per_minute)
 
@@ -100,12 +104,10 @@ class Plugin(ABC):
         Returns:
             True if initialization successful, False otherwise.
         """
-        pass
 
     @abstractmethod
     async def shutdown(self) -> None:
         """Shutdown the plugin gracefully."""
-        pass
 
     @abstractmethod
     async def health_check(self) -> PluginHealth:
@@ -115,7 +117,6 @@ class Plugin(ABC):
         Returns:
             Current health status.
         """
-        pass
 
     async def _set_status(self, status: PluginStatus) -> None:
         """Update plugin status."""
@@ -156,7 +157,7 @@ class RateLimiter:
 
             # Replenish tokens based on elapsed time
             tokens_to_add = elapsed * (self.requests_per_minute / 60)
-            self.tokens = min(self.requests_per_minute, self.tokens + tokens_to_add)
+            self.tokens = float(min(self.requests_per_minute, self.tokens + tokens_to_add))
             self.last_update = now
 
             if self.tokens >= 1:
@@ -181,20 +182,14 @@ class DataPlugin(Plugin):
     capabilities = [PluginCapability.READ]
 
     @abstractmethod
-    async def get_quote(self, symbol: str) -> Dict[str, Any]:
+    async def get_quote(self, symbol: str) -> dict[str, Any]:
         """Get real-time quote for a symbol."""
-        pass
 
     @abstractmethod
     async def get_historical(
-        self,
-        symbol: str,
-        start: datetime,
-        end: datetime,
-        timeframe: str = "1d"
-    ) -> List[Dict[str, Any]]:
+        self, symbol: str, start: datetime, end: datetime, timeframe: str = "1d"
+    ) -> list[dict[str, Any]]:
         """Get historical OHLCV data."""
-        pass
 
     async def validate_symbol(self, symbol: str) -> bool:
         """Validate if symbol exists."""
@@ -215,34 +210,29 @@ class BrokerPlugin(Plugin):
     capabilities = [PluginCapability.READ, PluginCapability.WRITE]
 
     @abstractmethod
-    async def get_account(self) -> Dict[str, Any]:
+    async def get_account(self) -> dict[str, Any]:
         """Get account information."""
-        pass
 
     @abstractmethod
-    async def get_positions(self) -> List[Dict[str, Any]]:
+    async def get_positions(self) -> list[dict[str, Any]]:
         """Get current positions."""
-        pass
 
     @abstractmethod
-    async def submit_order(self, order: Dict[str, Any]) -> str:
+    async def submit_order(self, order: dict[str, Any]) -> str:
         """
         Submit an order.
 
         Returns:
             Order ID from broker.
         """
-        pass
 
     @abstractmethod
     async def cancel_order(self, order_id: str) -> bool:
         """Cancel an order."""
-        pass
 
     @abstractmethod
-    async def get_order_status(self, order_id: str) -> Dict[str, Any]:
+    async def get_order_status(self, order_id: str) -> dict[str, Any]:
         """Get order status."""
-        pass
 
 
 class NewsPlugin(Plugin):
@@ -254,17 +244,13 @@ class NewsPlugin(Plugin):
 
     @abstractmethod
     async def get_news(
-        self,
-        symbols: Optional[List[str]] = None,
-        limit: int = 10
-    ) -> List[Dict[str, Any]]:
+        self, symbols: list[str] | None = None, limit: int = 10
+    ) -> list[dict[str, Any]]:
         """Get recent news articles."""
-        pass
 
     @abstractmethod
-    async def get_sentiment(self, symbol: str) -> Dict[str, Any]:
+    async def get_sentiment(self, symbol: str) -> dict[str, Any]:
         """Get sentiment analysis for symbol."""
-        pass
 
 
 class FundamentalsPlugin(Plugin):
@@ -275,23 +261,16 @@ class FundamentalsPlugin(Plugin):
     capabilities = [PluginCapability.READ, PluginCapability.HISTORICAL]
 
     @abstractmethod
-    async def get_financials(
-        self,
-        symbol: str,
-        period: str = "quarterly"
-    ) -> Dict[str, Any]:
+    async def get_financials(self, symbol: str, period: str = "quarterly") -> dict[str, Any]:
         """Get financial statements."""
-        pass
 
     @abstractmethod
-    async def get_metrics(self, symbol: str) -> Dict[str, Any]:
+    async def get_metrics(self, symbol: str) -> dict[str, Any]:
         """Get key financial metrics."""
-        pass
 
     @abstractmethod
-    async def get_estimates(self, symbol: str) -> Dict[str, Any]:
+    async def get_estimates(self, symbol: str) -> dict[str, Any]:
         """Get analyst estimates."""
-        pass
 
 
 class OptionsPlugin(Plugin):
@@ -302,24 +281,14 @@ class OptionsPlugin(Plugin):
     capabilities = [PluginCapability.READ, PluginCapability.REALTIME]
 
     @abstractmethod
-    async def get_options_chain(
-        self,
-        symbol: str,
-        expiration: Optional[str] = None
-    ) -> Dict[str, Any]:
+    async def get_options_chain(self, symbol: str, expiration: str | None = None) -> dict[str, Any]:
         """Get options chain for underlying."""
-        pass
 
     @abstractmethod
     async def get_greeks(
-        self,
-        symbol: str,
-        strike: float,
-        expiration: str,
-        option_type: str
-    ) -> Dict[str, Any]:
+        self, symbol: str, strike: float, expiration: str, option_type: str
+    ) -> dict[str, Any]:
         """Get option Greeks."""
-        pass
 
 
 class AlternativeDataPlugin(Plugin):
@@ -332,11 +301,5 @@ class AlternativeDataPlugin(Plugin):
     capabilities = [PluginCapability.READ]
 
     @abstractmethod
-    async def get_data(
-        self,
-        symbol: str,
-        data_type: str,
-        **kwargs
-    ) -> Dict[str, Any]:
+    async def get_data(self, symbol: str, data_type: str, **kwargs) -> dict[str, Any]:
         """Get alternative data."""
-        pass

@@ -5,18 +5,20 @@ Provides rate limiting for API calls, order submissions, etc.
 """
 
 import asyncio
-from dataclasses import dataclass, field
+from collections.abc import Callable
+from dataclasses import dataclass
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Dict, List, Optional, Callable, Any
 import logging
 import time
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
 
 class RateLimitStrategy(Enum):
     """Rate limiting strategy."""
+
     TOKEN_BUCKET = "token_bucket"
     SLIDING_WINDOW = "sliding_window"
     FIXED_WINDOW = "fixed_window"
@@ -25,10 +27,11 @@ class RateLimitStrategy(Enum):
 @dataclass
 class RateLimitConfig:
     """Rate limit configuration."""
+
     requests_per_second: float = 1.0
     requests_per_minute: float = 60.0
-    requests_per_hour: Optional[float] = None
-    requests_per_day: Optional[float] = None
+    requests_per_hour: float | None = None
+    requests_per_day: float | None = None
     burst_size: int = 10
     strategy: RateLimitStrategy = RateLimitStrategy.TOKEN_BUCKET
 
@@ -36,6 +39,7 @@ class RateLimitConfig:
 @dataclass
 class RateLimitState:
     """Current rate limiter state."""
+
     tokens: float
     last_update: datetime
     request_count: int = 0
@@ -130,7 +134,7 @@ class RateLimiter:
             tokens=self.tokens,
             last_update=datetime.utcnow(),
             request_count=self.request_count,
-            rejected_count=self.rejected_count
+            rejected_count=self.rejected_count,
         )
 
     def reset(self) -> None:
@@ -153,7 +157,7 @@ class SlidingWindowRateLimiter:
         self.config = config
         self.window_size = 60.0  # 1 minute window
         self.max_requests = int(config.requests_per_minute)
-        self.requests: List[float] = []
+        self.requests: list[float] = []
         self._lock = asyncio.Lock()
 
         # Stats
@@ -207,7 +211,7 @@ class SlidingWindowRateLimiter:
             tokens=self.max_requests - len(self.requests),
             last_update=datetime.utcnow(),
             request_count=self.request_count,
-            rejected_count=self.rejected_count
+            rejected_count=self.rejected_count,
         )
 
 
@@ -220,19 +224,21 @@ class MultiTierRateLimiter:
 
     def __init__(self, config: RateLimitConfig):
         self.config = config
-        self.limiters: Dict[str, RateLimiter] = {}
+        self.limiters: dict[str, RateLimiter | SlidingWindowRateLimiter] = {}
 
         # Create limiter for each tier
         if config.requests_per_second:
-            self.limiters["second"] = RateLimiter(RateLimitConfig(
-                requests_per_second=config.requests_per_second,
-                burst_size=max(1, int(config.requests_per_second * 2))
-            ))
+            self.limiters["second"] = RateLimiter(
+                RateLimitConfig(
+                    requests_per_second=config.requests_per_second,
+                    burst_size=max(1, int(config.requests_per_second * 2)),
+                )
+            )
 
         if config.requests_per_minute:
-            self.limiters["minute"] = SlidingWindowRateLimiter(RateLimitConfig(
-                requests_per_minute=config.requests_per_minute
-            ))
+            self.limiters["minute"] = SlidingWindowRateLimiter(
+                RateLimitConfig(requests_per_minute=config.requests_per_minute)
+            )
 
     async def acquire(self) -> bool:
         """Acquire from all tiers."""
@@ -262,13 +268,11 @@ class RateLimitedFunction:
         async def wrapper(*args, **kwargs) -> Any:
             await self.limiter.wait()
             return await func(*args, **kwargs)
+
         return wrapper
 
 
-def rate_limited(
-    requests_per_second: float = 1.0,
-    burst_size: int = 10
-) -> Callable:
+def rate_limited(requests_per_second: float = 1.0, burst_size: int = 10) -> Callable:
     """
     Decorator to rate limit an async function.
 
@@ -284,16 +288,14 @@ def rate_limited(
         async def api_call():
             ...
     """
-    config = RateLimitConfig(
-        requests_per_second=requests_per_second,
-        burst_size=burst_size
-    )
+    config = RateLimitConfig(requests_per_second=requests_per_second, burst_size=burst_size)
     limiter = RateLimiter(config)
 
     def decorator(func: Callable) -> Callable:
         async def wrapper(*args, **kwargs) -> Any:
             await limiter.wait()
             return await func(*args, **kwargs)
+
         return wrapper
 
     return decorator
@@ -316,9 +318,9 @@ class AdaptiveRateLimiter:
         self._lock = asyncio.Lock()
 
         # Track server-reported limits
-        self.server_limit: Optional[int] = None
-        self.server_remaining: Optional[int] = None
-        self.server_reset: Optional[datetime] = None
+        self.server_limit: int | None = None
+        self.server_remaining: int | None = None
+        self.server_reset: datetime | None = None
 
     async def acquire(self) -> bool:
         """Acquire using adaptive limits."""
@@ -341,7 +343,7 @@ class AdaptiveRateLimiter:
 
         return await self.limiter.wait()
 
-    def update_from_headers(self, headers: Dict[str, str]) -> None:
+    def update_from_headers(self, headers: dict[str, str]) -> None:
         """Update limits from response headers."""
         # Parse common rate limit headers
         if "X-RateLimit-Limit" in headers:

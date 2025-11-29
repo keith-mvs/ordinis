@@ -2,7 +2,7 @@
 Market data plugins.
 """
 
-from .polygon import PolygonDataPlugin
 from .iex import IEXDataPlugin
+from .polygon import PolygonDataPlugin
 
-__all__ = ['PolygonDataPlugin', 'IEXDataPlugin']
+__all__ = ["PolygonDataPlugin", "IEXDataPlugin"]
