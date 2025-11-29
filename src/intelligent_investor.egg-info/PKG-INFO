@@ -56,8 +56,12 @@ Provides-Extra: database
 Requires-Dist: psycopg>=3.1.0; extra == "database"
 Requires-Dist: asyncpg>=0.29.0; extra == "database"
 Requires-Dist: sqlalchemy>=2.0.0; extra == "database"
+Provides-Extra: ai
+Requires-Dist: langchain>=0.1.0; extra == "ai"
+Requires-Dist: langchain-nvidia-ai-endpoints>=0.1.0; extra == "ai"
+Requires-Dist: openai>=1.12.0; extra == "ai"
 Provides-Extra: all
-Requires-Dist: intelligent-investor[database,dev,ml,monitoring]; extra == "all"
+Requires-Dist: intelligent-investor[ai,database,dev,ml,monitoring]; extra == "all"
 
 # Intelligent Investor
 

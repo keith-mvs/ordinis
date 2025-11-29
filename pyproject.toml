@@ -100,8 +100,15 @@ database = [
     "sqlalchemy>=2.0.0",
 ]
 
+ai = [
+    # AI/LLM Integration
+    "langchain>=0.1.0",
+    "langchain-nvidia-ai-endpoints>=0.1.0",
+    "openai>=1.12.0",  # For OpenAI-compatible APIs
+]
+
 all = [
-    "intelligent-investor[dev,ml,monitoring,database]",
+    "intelligent-investor[dev,ml,monitoring,database,ai]",
 ]
 
 [project.urls]

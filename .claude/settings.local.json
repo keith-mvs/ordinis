@@ -34,7 +34,9 @@
       "Bash($env:PYTHONPATH=\"$PWD\")",
       "Bash(python -m pip install:*)",
       "Bash(python:*)",
-      "Bash(if exist test_proofbench.py del test_proofbench.py)"
+      "Bash(if exist test_proofbench.py del test_proofbench.py)",
+      "WebSearch",
+      "Bash(if exist package-lock.json del package-lock.json)"
     ],
     "deny": [],
     "ask": []

@@ -9,6 +9,16 @@ import uuid
 
 from .outputs import CortexOutput, OutputType, StrategyHypothesis
 
+# Optional NVIDIA integration - will fall back to rule-based if not available
+try:
+    from langchain_nvidia_ai_endpoints import ChatNVIDIA, NVIDIAEmbeddings
+
+    NVIDIA_AVAILABLE = True
+except ImportError:
+    NVIDIA_AVAILABLE = False
+    ChatNVIDIA = None  # type: ignore[misc, assignment]
+    NVIDIAEmbeddings = None  # type: ignore[misc, assignment]
+
 
 class CortexEngine:
     """
@@ -52,35 +62,36 @@ class CortexEngine:
         self._hypotheses: dict[str, StrategyHypothesis] = {}
 
     def _init_usd_code(self) -> Any:
-        """Initialize NVIDIA USD Code client."""
+        """Initialize NVIDIA Chat client for code analysis."""
         if not self.nvidia_api_key:
-            raise ValueError("NVIDIA API key required for USD Code model")
+            raise ValueError("NVIDIA API key required for chat model")
 
-        try:
-            # USD Code uses chat completions API
-            # This would integrate with NVIDIA's API catalog
-            # For now, return placeholder
-            return None
-        except ImportError as e:
-            raise ImportError(
-                "Install NVIDIA SDK: pip install langchain-nvidia-ai-endpoints"
-            ) from e
+        if not NVIDIA_AVAILABLE:
+            raise ImportError("Install NVIDIA SDK: pip install langchain-nvidia-ai-endpoints")
+
+        # Initialize ChatNVIDIA with a general chat model
+        # USD Code is specialized, but ChatNVIDIA supports general models
+        return ChatNVIDIA(
+            model="meta/llama-3.1-405b-instruct",  # Large general model
+            nvidia_api_key=self.nvidia_api_key,
+            temperature=0.2,  # Lower temperature for code analysis
+            max_tokens=2048,
+        )
 
     def _init_embeddings(self) -> Any:
         """Initialize NVIDIA embedding model client."""
         if not self.nvidia_api_key:
             raise ValueError("NVIDIA API key required for embedding models")
 
-        try:
-            # This would use langchain-nvidia-ai-endpoints
-            # from langchain_nvidia_ai_endpoints import NVIDIAEmbeddings
-            # return NVIDIAEmbeddings(
-            #     model="NV-Embed-QA",
-            #     nvidia_api_key=self.nvidia_api_key
-            # )
-            return None
-        except ImportError as e:
-            raise ImportError("Install: pip install langchain-nvidia-ai-endpoints") from e
+        if not NVIDIA_AVAILABLE:
+            raise ImportError("Install: pip install langchain-nvidia-ai-endpoints")
+
+        # Initialize NV-Embed-QA model for semantic understanding
+        return NVIDIAEmbeddings(
+            model="nvidia/nv-embedqa-e5-v5",
+            nvidia_api_key=self.nvidia_api_key,
+            truncate="END",  # Truncate from end if text too long
+        )
 
     def generate_hypothesis(
         self, market_context: dict[str, Any], constraints: dict[str, Any] | None = None
@@ -247,7 +258,7 @@ class CortexEngine:
 
     def analyze_code(self, code: str, analysis_type: str = "review") -> CortexOutput:
         """
-        Analyze code using NVIDIA USD Code model.
+        Analyze code using NVIDIA Chat model.
 
         Args:
             code: Code to analyze
@@ -256,19 +267,64 @@ class CortexEngine:
         Returns:
             Code analysis output
         """
-        # In production, this would use NVIDIA USD Code model
-        # For now, provide basic analysis structure
+        model_used = "rule-based"
+        confidence = 0.80
 
-        analysis = {
-            "code_quality": "good",
-            "suggestions": [
-                "Consider adding type hints for better code clarity",
-                "Add docstrings to document function behavior",
-                "Consider error handling for edge cases",
-            ],
-            "complexity_score": 0.6,
-            "maintainability_index": 75,
-        }
+        # Try to use NVIDIA model if enabled and available
+        if self.usd_code_enabled and self.nvidia_api_key:
+            if self._usd_code_client is None:
+                try:
+                    self._usd_code_client = self._init_usd_code()
+                except (ImportError, ValueError):
+                    # Fall back to rule-based on initialization error
+                    self._usd_code_client = None
+
+            if self._usd_code_client is not None:
+                # Use NVIDIA model for code analysis
+                try:
+                    prompt = f"""Analyze the following code for {analysis_type}.
+
+Provide analysis in this format:
+- Code Quality: (good/fair/poor)
+- Suggestions: (list 2-3 specific improvements)
+- Complexity Score: (0.0-1.0, where 1.0 is most complex)
+- Maintainability Index: (0-100, where 100 is most maintainable)
+
+Code to analyze:
+```python
+{code}
+```
+
+Provide concise, actionable feedback."""
+
+                    response = self._usd_code_client.invoke(prompt)
+                    analysis = {
+                        "code_quality": "AI-analyzed",
+                        "llm_analysis": response.content
+                        if hasattr(response, "content")
+                        else str(response),
+                        "suggestions": ["AI-generated suggestions available in llm_analysis"],
+                        "complexity_score": 0.7,  # Would parse from LLM response
+                        "maintainability_index": 70,  # Would parse from LLM response
+                    }
+                    model_used = "nvidia-llama-3.1-405b"
+                    confidence = 0.90
+                except Exception:  # noqa: S110
+                    # Fall back to rule-based
+                    pass
+
+        # Rule-based fallback (default when no API key or on error)
+        if model_used == "rule-based":
+            analysis = {
+                "code_quality": "good",
+                "suggestions": [
+                    "Consider adding type hints for better code clarity",
+                    "Add docstrings to document function behavior",
+                    "Consider error handling for edge cases",
+                ],
+                "complexity_score": 0.6,
+                "maintainability_index": 75,
+            }
 
         output = CortexOutput(
             output_type=OutputType.CODE_ANALYSIS,
@@ -277,9 +333,9 @@ class CortexEngine:
                 "analysis": analysis,
                 "code_snippet": code[:200],  # First 200 chars
             },
-            confidence=0.80,
-            reasoning="Code analysis based on best practices and patterns",
-            model_used="nvidia-usd-code" if self.usd_code_enabled else "rule-based",
+            confidence=confidence,
+            reasoning=f"Code analysis using {model_used}",
+            model_used=model_used,
         )
 
         self._outputs.append(output)
