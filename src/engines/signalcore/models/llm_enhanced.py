@@ -218,7 +218,7 @@ class LLMFeatureEngineer:
             model="meta/llama-3.1-70b-instruct",
             nvidia_api_key=self.nvidia_api_key,
             temperature=0.5,  # More creative for feature suggestions
-            max_tokens=1024,
+            max_completion_tokens=1024,
         )
 
     def suggest_features(self, data: pd.DataFrame, strategy_type: str = "general") -> list[str]:

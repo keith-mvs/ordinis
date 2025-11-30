@@ -64,7 +64,11 @@ class RSIMeanReversionModel(Model):
         if not is_valid:
             raise ValueError(f"Invalid data: {msg}")
 
-        symbol = data.get("symbol", ["UNKNOWN"])[0] if "symbol" in data else "UNKNOWN"
+        if "symbol" in data:
+            symbol_data = data["symbol"]
+            symbol = symbol_data.iloc[0] if hasattr(symbol_data, "iloc") else str(symbol_data)
+        else:
+            symbol = "UNKNOWN"
         close = data["close"]
 
         # Calculate RSI

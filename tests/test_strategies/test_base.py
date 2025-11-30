@@ -10,7 +10,7 @@ from strategies.base import BaseStrategy
 
 
 # Create concrete implementation for testing
-class TestStrategyImpl(BaseStrategy):
+class ConcreteTestStrategy(BaseStrategy):
     """Concrete strategy implementation for testing."""
 
     def configure(self):
@@ -52,7 +52,7 @@ class TestBaseStrategy:
 
     def test_strategy_initialization(self):
         """Test strategy initialization."""
-        strategy = TestStrategyImpl(name="test-strategy", param1="value1", param2=42)
+        strategy = ConcreteTestStrategy(name="test-strategy", param1="value1", param2=42)
 
         assert strategy.name == "test-strategy"
         assert strategy.params["param1"] == "value1"
@@ -61,7 +61,7 @@ class TestBaseStrategy:
 
     def test_strategy_initialization_calls_configure(self):
         """Test that __init__ calls configure()."""
-        strategy = TestStrategyImpl(name="test")
+        strategy = ConcreteTestStrategy(name="test")
 
         # configure() should have been called and set default params
         assert strategy.params["test_param"] == "default_value"
@@ -69,7 +69,7 @@ class TestBaseStrategy:
 
     def test_get_required_bars_default(self):
         """Test get_required_bars returns default."""
-        strategy = TestStrategyImpl(name="test")
+        strategy = ConcreteTestStrategy(name="test")
 
         required = strategy.get_required_bars()
 
@@ -78,7 +78,7 @@ class TestBaseStrategy:
 
     def test_get_required_bars_custom(self):
         """Test get_required_bars with custom value."""
-        strategy = TestStrategyImpl(name="test", min_bars=200)
+        strategy = ConcreteTestStrategy(name="test", min_bars=200)
 
         required = strategy.get_required_bars()
 
@@ -86,7 +86,7 @@ class TestBaseStrategy:
 
     def test_validate_data_empty_dataframe(self):
         """Test validation fails for empty DataFrame."""
-        strategy = TestStrategyImpl(name="test")
+        strategy = ConcreteTestStrategy(name="test")
         empty_data = pd.DataFrame()
 
         is_valid, msg = strategy.validate_data(empty_data)
@@ -96,7 +96,7 @@ class TestBaseStrategy:
 
     def test_validate_data_none(self):
         """Test validation fails for None data."""
-        strategy = TestStrategyImpl(name="test")
+        strategy = ConcreteTestStrategy(name="test")
 
         is_valid, msg = strategy.validate_data(None)
 
@@ -105,7 +105,7 @@ class TestBaseStrategy:
 
     def test_validate_data_missing_columns(self):
         """Test validation fails for missing required columns."""
-        strategy = TestStrategyImpl(name="test")
+        strategy = ConcreteTestStrategy(name="test")
 
         # Missing 'volume' column
         data = pd.DataFrame(
@@ -125,7 +125,7 @@ class TestBaseStrategy:
 
     def test_validate_data_insufficient_bars(self):
         """Test validation fails for insufficient data."""
-        strategy = TestStrategyImpl(name="test", min_bars=100)
+        strategy = ConcreteTestStrategy(name="test", min_bars=100)
 
         # Only 50 bars, need 100
         data = pd.DataFrame(
@@ -146,7 +146,7 @@ class TestBaseStrategy:
 
     def test_validate_data_valid(self):
         """Test validation succeeds for valid data."""
-        strategy = TestStrategyImpl(name="test", min_bars=50)
+        strategy = ConcreteTestStrategy(name="test", min_bars=50)
 
         data = pd.DataFrame(
             {
@@ -165,7 +165,7 @@ class TestBaseStrategy:
 
     def test_generate_signal_with_insufficient_data(self):
         """Test signal generation returns None for insufficient data."""
-        strategy = TestStrategyImpl(name="test")
+        strategy = ConcreteTestStrategy(name="test")
 
         data = pd.DataFrame(
             {
@@ -183,7 +183,7 @@ class TestBaseStrategy:
 
     def test_generate_signal_with_valid_data(self):
         """Test signal generation with valid data."""
-        strategy = TestStrategyImpl(name="test")
+        strategy = ConcreteTestStrategy(name="test")
 
         data = pd.DataFrame(
             {
@@ -206,7 +206,7 @@ class TestBaseStrategy:
 
     def test_get_description(self):
         """Test get_description returns string."""
-        strategy = TestStrategyImpl(name="test")
+        strategy = ConcreteTestStrategy(name="test")
 
         description = strategy.get_description()
 
@@ -216,7 +216,7 @@ class TestBaseStrategy:
 
     def test_str_representation(self):
         """Test __str__ method."""
-        strategy = TestStrategyImpl(name="my-strategy")
+        strategy = ConcreteTestStrategy(name="my-strategy")
 
         result = str(strategy)
 
@@ -224,18 +224,18 @@ class TestBaseStrategy:
 
     def test_repr_representation(self):
         """Test __repr__ method."""
-        strategy = TestStrategyImpl(name="my-strategy", param1="value1")
+        strategy = ConcreteTestStrategy(name="my-strategy", param1="value1")
 
         result = repr(strategy)
 
-        assert "TestStrategyImpl" in result
+        assert "ConcreteTestStrategy" in result
         assert "name='my-strategy'" in result
         assert "param1" in result
         assert "value1" in result
 
     def test_strategy_with_custom_params(self):
         """Test strategy with various custom parameters."""
-        strategy = TestStrategyImpl(
+        strategy = ConcreteTestStrategy(
             name="custom-test",
             window=20,
             threshold=0.5,
@@ -248,7 +248,7 @@ class TestBaseStrategy:
 
     def test_strategy_params_preserved(self):
         """Test that custom params are preserved after initialization."""
-        strategy = TestStrategyImpl(
+        strategy = ConcreteTestStrategy(
             name="test",
             custom_param="custom_value",
             min_bars=75,
@@ -325,7 +325,7 @@ class TestBaseStrategyValidation:
 
     def test_validate_data_extra_columns(self):
         """Test validation passes with extra columns."""
-        strategy = TestStrategyImpl(name="test", min_bars=10)
+        strategy = ConcreteTestStrategy(name="test", min_bars=10)
 
         data = pd.DataFrame(
             {
@@ -346,7 +346,7 @@ class TestBaseStrategyValidation:
 
     def test_validate_data_exact_required_bars(self):
         """Test validation with exact number of required bars."""
-        strategy = TestStrategyImpl(name="test", min_bars=50)
+        strategy = ConcreteTestStrategy(name="test", min_bars=50)
 
         data = pd.DataFrame(
             {
@@ -365,7 +365,7 @@ class TestBaseStrategyValidation:
 
     def test_validate_data_one_less_than_required(self):
         """Test validation fails with one less than required bars."""
-        strategy = TestStrategyImpl(name="test", min_bars=50)
+        strategy = ConcreteTestStrategy(name="test", min_bars=50)
 
         data = pd.DataFrame(
             {
