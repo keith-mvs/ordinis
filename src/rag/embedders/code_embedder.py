@@ -86,15 +86,25 @@ class CodeEmbedder(BaseEmbedder):
         return True
 
     def _init_local_model(self) -> None:
-        """Initialize local 7B model."""
+        """Initialize local 7B model with GPU support."""
         try:
             from sentence_transformers import SentenceTransformer
+            import torch
 
-            logger.info(f"Loading local code embedding model: {self.model_name}")
-            # Note: NVIDIA nv-embedcode-7b-v1 requires special handling
-            # For now, use a code-focused model. In production, use NVIDIA NIMs
-            self._model = SentenceTransformer("microsoft/codebert-base")  # Placeholder
-            logger.success("Local code embedding model loaded")
+            # Detect device (CUDA if available)
+            device = "cuda" if torch.cuda.is_available() else "cpu"
+            logger.info(
+                f"Loading local code embedding model: {self.model_name} on {device.upper()}"
+            )
+
+            # Load model with GPU support
+            self._model = SentenceTransformer(self.model_name, device=device)
+
+            logger.success(f"Local code embedding model loaded on {device.upper()}")
+            if device == "cuda":
+                logger.info(
+                    f"GPU: {torch.cuda.get_device_name(0)}, Memory: {torch.cuda.get_device_properties(0).total_memory / 1e9:.1f}GB"
+                )
         except Exception as e:
             logger.warning(f"Failed to load local code model: {e}")
             if get_config().use_api_fallback:

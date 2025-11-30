@@ -41,15 +41,25 @@ class TextEmbedder(BaseEmbedder):
             self._init_api_client()
 
     def _init_local_model(self) -> None:
-        """Initialize local model using sentence-transformers."""
+        """Initialize local model using sentence-transformers with GPU support."""
         try:
             from sentence_transformers import SentenceTransformer
+            import torch
 
-            logger.info(f"Loading local text embedding model: {self.model_name}")
-            # Note: NVIDIA NeMo Retriever models are not directly available in sentence-transformers
-            # For now, we use a compatible model. In production, use NVIDIA NIMs or API
-            self._model = SentenceTransformer("all-MiniLM-L6-v2")  # Placeholder
-            logger.success("Local text embedding model loaded")
+            # Detect device (CUDA if available)
+            device = "cuda" if torch.cuda.is_available() else "cpu"
+            logger.info(
+                f"Loading local text embedding model: {self.model_name} on {device.upper()}"
+            )
+
+            # Load model with GPU support
+            self._model = SentenceTransformer(self.model_name, device=device)
+
+            logger.success(f"Local text embedding model loaded on {device.upper()}")
+            if device == "cuda":
+                logger.info(
+                    f"GPU: {torch.cuda.get_device_name(0)}, Memory: {torch.cuda.get_device_properties(0).total_memory / 1e9:.1f}GB"
+                )
         except Exception as e:
             logger.warning(f"Failed to load local model: {e}")
             if get_config().use_api_fallback:

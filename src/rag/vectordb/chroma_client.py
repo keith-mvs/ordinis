@@ -97,7 +97,7 @@ class ChromaClient:
 
         collection.add(
             documents=texts,
-            embeddings=embeddings.tolist(),
+            embeddings=embeddings if isinstance(embeddings, list) else embeddings.tolist(),
             metadatas=metadata,
             ids=ids,
         )
@@ -131,7 +131,7 @@ class ChromaClient:
 
         collection.add(
             documents=code,
-            embeddings=embeddings.tolist(),
+            embeddings=embeddings if isinstance(embeddings, list) else embeddings.tolist(),
             metadatas=metadata,
             ids=ids,
         )
