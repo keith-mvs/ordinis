@@ -5,6 +5,7 @@ Event-driven simulation engine for strategy validation.
 Provides realistic execution modeling with comprehensive performance analytics.
 """
 
+from .analytics.llm_enhanced import LLMPerformanceNarrator
 from .analytics.performance import PerformanceAnalyzer, PerformanceMetrics
 from .core.events import Event, EventQueue, EventType
 from .core.execution import (
@@ -46,6 +47,7 @@ __all__ = [
     # Analytics
     "PerformanceAnalyzer",
     "PerformanceMetrics",
+    "LLMPerformanceNarrator",
 ]
 
 __version__ = "0.1.0"
