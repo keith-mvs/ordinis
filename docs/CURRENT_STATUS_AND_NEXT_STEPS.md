@@ -1,8 +1,34 @@
 # Intelligent Investor - Current Status & Next Steps
 
-**Last Updated:** 2025-01-29
+**Last Updated:** 2025-11-30
 **Version:** v0.1.0-alpha
-**Branch:** add-claude-github-actions-1764364603130
+**Branch:** user/interface
+
+---
+
+## Branch Status
+
+### Active Branches
+
+| Branch | Status | Tests | Coverage | Purpose |
+|--------|--------|-------|----------|---------|
+| **`main`** | Stable | 413 passing | 67% | Production-ready code |
+| **`user/interface`** | Testing | 413 passing, 14 known failures | 67% | User validation |
+| **`features/*`** | Development | Varies | Varies | Active development |
+
+### What's in `user/interface` (Current Branch)
+- All stable features from `main`
+- RAG system integration (experimental, in `src/rag/`)
+- Enhanced test suites (IEX, Polygon comprehensive tests)
+- Latest bug fixes (asyncio warnings, deprecations)
+- Documentation updates
+
+### Known Issues in `user/interface`
+- 14 test failures in experimental Bollinger Bands and Momentum strategies
+- RAG system not fully tested
+- Some experimental features in development
+
+**See:** `docs/BRANCH_WORKFLOW.md` for complete branch strategy
 
 ---
 
