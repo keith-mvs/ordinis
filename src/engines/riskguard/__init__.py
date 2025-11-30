@@ -5,6 +5,7 @@ Provides deterministic, auditable risk constraints for trading decisions.
 """
 
 from .core.engine import RiskGuardEngine
+from .core.llm_enhanced import LLMEnhancedRiskGuard, LLMRiskAnalyzer
 from .core.rules import RiskCheckResult, RiskRule, RuleCategory
 from .rules.standard import STANDARD_RISK_RULES
 
@@ -14,4 +15,6 @@ __all__ = [
     "RuleCategory",
     "RiskCheckResult",
     "STANDARD_RISK_RULES",
+    "LLMEnhancedRiskGuard",
+    "LLMRiskAnalyzer",
 ]
