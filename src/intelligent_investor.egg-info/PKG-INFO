@@ -60,8 +60,17 @@ Provides-Extra: ai
 Requires-Dist: langchain>=0.1.0; extra == "ai"
 Requires-Dist: langchain-nvidia-ai-endpoints>=0.1.0; extra == "ai"
 Requires-Dist: openai>=1.12.0; extra == "ai"
+Provides-Extra: rag
+Requires-Dist: chromadb>=0.4.22; extra == "rag"
+Requires-Dist: tiktoken>=0.5.0; extra == "rag"
+Requires-Dist: markdown>=3.4.0; extra == "rag"
+Requires-Dist: tree-sitter>=0.20.0; extra == "rag"
+Requires-Dist: sentence-transformers>=2.2.0; extra == "rag"
+Requires-Dist: fastapi>=0.104.0; extra == "rag"
+Requires-Dist: uvicorn>=0.24.0; extra == "rag"
+Requires-Dist: diskcache>=5.6.0; extra == "rag"
 Provides-Extra: all
-Requires-Dist: intelligent-investor[ai,database,dev,ml,monitoring]; extra == "all"
+Requires-Dist: intelligent-investor[ai,database,dev,ml,monitoring,rag]; extra == "all"
 
 # Intelligent Investor
 

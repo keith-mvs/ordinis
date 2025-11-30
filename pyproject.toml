@@ -107,8 +107,30 @@ ai = [
     "openai>=1.12.0",  # For OpenAI-compatible APIs
 ]
 
+rag = [
+    # Vector Database
+    "chromadb>=0.4.22",
+
+    # Text Processing & Chunking
+    "tiktoken>=0.5.0",
+    "markdown>=3.4.0",
+
+    # Code Parsing (AST)
+    "tree-sitter>=0.20.0",
+
+    # Embeddings (fallback/sentence transformers)
+    "sentence-transformers>=2.2.0",
+
+    # API Server (Phase 2)
+    "fastapi>=0.104.0",
+    "uvicorn>=0.24.0",
+
+    # Caching
+    "diskcache>=5.6.0",
+]
+
 all = [
-    "intelligent-investor[dev,ml,monitoring,database,ai]",
+    "intelligent-investor[dev,ml,monitoring,database,ai,rag]",
 ]
 
 [project.scripts]
@@ -261,14 +283,18 @@ ignore = [
     "ANN401",  # Dynamically typed expressions (Any)
     "S101",    # Use of assert (OK in tests)
     "S105",    # Possible hardcoded password (false positives on constants)
+    "S603",    # subprocess call without shell=True (OK for nvidia-smi)
+    "S607",    # Starting process with partial path (OK for nvidia-smi)
     "DTZ001",  # Datetime without tzinfo (not always needed)
     "DTZ003",  # Datetime.utcnow() (will migrate later)
     "DTZ006",  # Datetime.fromtimestamp() without tz
     "DTZ007",  # Naive datetime from strptime
     "PLR0913", # Too many arguments (sometimes necessary)
     "PLR2004", # Magic values (sometimes OK)
+    "PLW0603", # Global statement (OK for config singletons)
     "TRY003",  # Long exception message (prefer clarity)
     "TRY300",  # Consider moving to else block
+    "TRY301",  # Abstract raise to inner function (sometimes less clear)
     "TRY400",  # Use logging.exception (prefer explicit error logging)
     "E501",    # Line too long (handled by formatter)
     "EM101",   # Exception string literals (OK for simple cases)

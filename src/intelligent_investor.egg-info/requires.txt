@@ -14,7 +14,7 @@ langchain-nvidia-ai-endpoints>=0.1.0
 openai>=1.12.0
 
 [all]
-intelligent-investor[ai,database,dev,ml,monitoring]
+intelligent-investor[ai,database,dev,ml,monitoring,rag]
 
 [database]
 psycopg>=3.1.0
@@ -51,3 +51,13 @@ prometheus-client>=0.19.0
 sentry-sdk>=1.38.0
 opentelemetry-api>=1.21.0
 opentelemetry-sdk>=1.21.0
+
+[rag]
+chromadb>=0.4.22
+tiktoken>=0.5.0
+markdown>=3.4.0
+tree-sitter>=0.20.0
+sentence-transformers>=2.2.0
+fastapi>=0.104.0
+uvicorn>=0.24.0
+diskcache>=5.6.0

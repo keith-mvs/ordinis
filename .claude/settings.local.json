@@ -36,7 +36,19 @@
       "Bash(python:*)",
       "Bash(if exist test_proofbench.py del test_proofbench.py)",
       "WebSearch",
-      "Bash(if exist package-lock.json del package-lock.json)"
+      "Bash(if exist package-lock.json del package-lock.json)",
+      "Bash(git clean:*)",
+      "Bash(git branch:*)",
+      "WebFetch(domain:build.nvidia.com)",
+      "Bash(git restore:*)",
+      "Bash(git checkout:*)",
+      "Bash(git cherry-pick:*)",
+      "Bash(tree:*)",
+      "Bash(git config:*)",
+      "Bash(test:*)",
+      "Bash(cat:*)",
+      "Bash(git symbolic-ref:*)",
+      "Bash(git merge:*)"
     ],
     "deny": [],
     "ask": []
