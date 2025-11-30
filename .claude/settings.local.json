@@ -36,7 +36,8 @@
       "Bash(python:*)",
       "Bash(if exist test_proofbench.py del test_proofbench.py)",
       "WebSearch",
-      "Bash(if exist package-lock.json del package-lock.json)"
+      "Bash(if exist package-lock.json del package-lock.json)",
+      "Bash(git checkout:*)"
     ],
     "deny": [],
     "ask": []
