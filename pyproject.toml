@@ -111,6 +111,9 @@ all = [
     "intelligent-investor[dev,ml,monitoring,database,ai]",
 ]
 
+[project.scripts]
+intelligent-investor = "cli:main"
+
 [project.urls]
 Homepage = "https://github.com/FleithFeming/intelligent-investor"
 Documentation = "https://github.com/FleithFeming/intelligent-investor/tree/main/docs"
