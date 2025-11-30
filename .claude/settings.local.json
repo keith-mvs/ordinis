@@ -36,7 +36,14 @@
       "Bash(python:*)",
       "Bash(if exist test_proofbench.py del test_proofbench.py)",
       "WebSearch",
-      "Bash(if exist package-lock.json del package-lock.json)"
+      "Bash(if exist package-lock.json del package-lock.json)",
+      "Bash(ruff check:*)",
+      "Bash(ruff format:*)",
+      "Bash(git checkout:*)",
+      "Bash(if exist srcvisualization rmdir /s /q srcvisualization)",
+      "Bash(if exist srcrag rmdir /s /q srcrag)",
+      "Bash(if exist srcenginescortexrag rmdir /s /q srcenginescortexrag)",
+      "Bash(if exist scripts rmdir /s /q scripts)"
     ],
     "deny": [],
     "ask": []

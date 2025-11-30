@@ -107,8 +107,16 @@ ai = [
     "openai>=1.12.0",  # For OpenAI-compatible APIs
 ]
 
+visualization = [
+    # Interactive charting and dashboards
+    "plotly>=5.18.0",
+    "dash>=2.14.0",
+    "dash-bootstrap-components>=1.5.0",
+    "kaleido>=0.2.1",  # Static image export for plotly
+]
+
 all = [
-    "intelligent-investor[dev,ml,monitoring,database,ai]",
+    "intelligent-investor[dev,ml,monitoring,database,ai,visualization]",
 ]
 
 [project.scripts]
