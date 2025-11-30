@@ -43,7 +43,9 @@
       "Bash(if exist srcvisualization rmdir /s /q srcvisualization)",
       "Bash(if exist srcrag rmdir /s /q srcrag)",
       "Bash(if exist srcenginescortexrag rmdir /s /q srcenginescortexrag)",
-      "Bash(if exist scripts rmdir /s /q scripts)"
+      "Bash(if exist scripts rmdir /s /q scripts)",
+      "Bash(git switch:*)",
+      "Bash(if not exist srcragui mkdir srcragui)"
     ],
     "deny": [],
     "ask": []

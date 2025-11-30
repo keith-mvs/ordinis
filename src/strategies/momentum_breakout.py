@@ -63,7 +63,7 @@ class MomentumBreakoutStrategy(BaseStrategy):
 
         return atr
 
-    def generate_signal(self, data: pd.DataFrame, timestamp: datetime) -> Signal | None:
+    def generate_signal(self, data: pd.DataFrame, timestamp: datetime) -> Signal | None:  # noqa: PLR0912
         """
         Generate momentum breakout signal.
 
@@ -117,10 +117,19 @@ class MomentumBreakoutStrategy(BaseStrategy):
                     distance_from_high = (current_close - current_high) / current_high
                     probability = min(0.75, 0.55 + (distance_from_high * 10))
 
+                    # Extract symbol safely
+                    if "symbol" in data:
+                        symbol_data = data["symbol"]
+                        symbol = (
+                            symbol_data.iloc[0]
+                            if hasattr(symbol_data, "iloc")
+                            else str(symbol_data)
+                        )
+                    else:
+                        symbol = "UNKNOWN"
+
                     return Signal(
-                        symbol=data.get("symbol", ["UNKNOWN"])[0]
-                        if "symbol" in data
-                        else "UNKNOWN",
+                        symbol=symbol,
                         timestamp=timestamp,
                         signal_type=SignalType.ENTRY,
                         direction=Direction.LONG,
@@ -152,10 +161,19 @@ class MomentumBreakoutStrategy(BaseStrategy):
                     distance_from_low = (current_low - current_close) / current_low
                     probability = min(0.75, 0.55 + (distance_from_low * 10))
 
+                    # Extract symbol safely
+                    if "symbol" in data:
+                        symbol_data = data["symbol"]
+                        symbol = (
+                            symbol_data.iloc[0]
+                            if hasattr(symbol_data, "iloc")
+                            else str(symbol_data)
+                        )
+                    else:
+                        symbol = "UNKNOWN"
+
                     return Signal(
-                        symbol=data.get("symbol", ["UNKNOWN"])[0]
-                        if "symbol" in data
-                        else "UNKNOWN",
+                        symbol=symbol,
                         timestamp=timestamp,
                         signal_type=SignalType.ENTRY,
                         direction=Direction.SHORT,
@@ -182,8 +200,17 @@ class MomentumBreakoutStrategy(BaseStrategy):
 
             # Consolidation detection (no signal, but useful for context)
             if range_pct < 0.02:  # Less than 2% range
+                # Extract symbol safely
+                if "symbol" in data:
+                    symbol_data = data["symbol"]
+                    symbol = (
+                        symbol_data.iloc[0] if hasattr(symbol_data, "iloc") else str(symbol_data)
+                    )
+                else:
+                    symbol = "UNKNOWN"
+
                 return Signal(
-                    symbol=data.get("symbol", ["UNKNOWN"])[0] if "symbol" in data else "UNKNOWN",
+                    symbol=symbol,
                     timestamp=timestamp,
                     signal_type=SignalType.HOLD,
                     direction=Direction.NEUTRAL,
