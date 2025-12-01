@@ -71,7 +71,7 @@ async def health() -> HealthResponse:
             status="healthy",
             text_embedder_available=engine.text_embedder.is_available(),
             code_embedder_available=engine.code_embedder.is_available(),
-            chroma_persist_directory=str(engine.config.chroma_persist_dir),
+            chroma_persist_directory=str(engine.config.chroma_persist_directory),
         )
     except Exception as e:
         logger.error(f"Health check failed: {e}")
