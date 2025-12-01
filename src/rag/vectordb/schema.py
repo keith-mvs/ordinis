@@ -51,5 +51,5 @@ class QueryResponse(BaseModel):
     query: str = Field(..., description="Original query")
     query_type: str = Field(..., description="Detected or specified query type")
     results: list[RetrievalResult] = Field(default_factory=list, description="Retrieved results")
-    latency_ms: float = Field(..., description="Query latency in milliseconds")
+    execution_time_ms: float = Field(..., description="Query execution time in milliseconds")
     total_candidates: int = Field(..., description="Total candidates before reranking")
