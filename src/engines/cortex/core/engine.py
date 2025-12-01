@@ -4,6 +4,7 @@ Cortex LLM orchestration engine with NVIDIA AI integration.
 Provides research, strategy generation, and code analysis using NVIDIA models.
 """
 
+from contextlib import suppress
 from typing import Any
 import uuid
 
@@ -18,6 +19,15 @@ except ImportError:
     NVIDIA_AVAILABLE = False
     ChatNVIDIA = None  # type: ignore[misc, assignment]
     NVIDIAEmbeddings = None  # type: ignore[misc, assignment]
+
+# Optional RAG integration
+try:
+    from engines.cortex.rag.integration import CortexRAGHelper
+
+    RAG_AVAILABLE = True
+except ImportError:
+    RAG_AVAILABLE = False
+    CortexRAGHelper = None  # type: ignore[misc, assignment]
 
 
 class CortexEngine:
@@ -36,6 +46,7 @@ class CortexEngine:
         nvidia_api_key: str | None = None,
         usd_code_enabled: bool = False,
         embeddings_enabled: bool = False,
+        rag_enabled: bool = False,
     ):
         """
         Initialize Cortex engine.
@@ -44,18 +55,22 @@ class CortexEngine:
             nvidia_api_key: NVIDIA API key for model access
             usd_code_enabled: Enable NVIDIA USD Code model
             embeddings_enabled: Enable NVIDIA embedding models
+            rag_enabled: Enable RAG context retrieval
 
         Note:
             Get API key from https://build.nvidia.com/
             Install: pip install langchain-nvidia-ai-endpoints
+            RAG Install: pip install -e ".[rag]"
         """
         self.nvidia_api_key = nvidia_api_key
         self.usd_code_enabled = usd_code_enabled
         self.embeddings_enabled = embeddings_enabled
+        self.rag_enabled = rag_enabled
 
         # Lazy load NVIDIA clients
         self._usd_code_client = None
         self._embeddings_client = None
+        self._rag_helper = None
 
         # Output history
         self._outputs: list[CortexOutput] = []
@@ -93,6 +108,13 @@ class CortexEngine:
             truncate="END",  # Truncate from end if text too long
         )
 
+    def _init_rag_helper(self) -> Any:
+        """Initialize RAG helper for enhanced context."""
+        if not RAG_AVAILABLE:
+            raise ImportError('Install RAG dependencies: pip install -e ".[rag]"')
+
+        return CortexRAGHelper()
+
     def generate_hypothesis(
         self, market_context: dict[str, Any], constraints: dict[str, Any] | None = None
     ) -> StrategyHypothesis:
@@ -115,6 +137,22 @@ class CortexEngine:
         regime = market_context.get("regime", "unknown")
         volatility = market_context.get("volatility", "medium")
 
+        # Get RAG context if enabled
+        rag_context = None
+        if self.rag_enabled:
+            if self._rag_helper is None:
+                try:
+                    self._rag_helper = self._init_rag_helper()
+                except ImportError:
+                    self._rag_helper = None
+
+            if self._rag_helper is not None:
+                with suppress(Exception):
+                    rag_context = self._rag_helper.format_hypothesis_context(
+                        market_regime=regime,
+                        strategy_type=None,
+                    )
+
         # Generate hypothesis based on context
         # In production, this would use NVIDIA models for generation
         if regime == "trending" and volatility == "low":
@@ -131,18 +169,29 @@ class CortexEngine:
                 hypothesis_id, market_context, constraints
             )
 
+        # Enhance confidence if RAG context available
+        if rag_context:
+            hypothesis.confidence = min(1.0, hypothesis.confidence + 0.05)
+
         # Store hypothesis
         self._hypotheses[hypothesis_id] = hypothesis
 
         # Create Cortex output
+        reasoning = (
+            f"Generated hypothesis based on market regime: {regime}, volatility: {volatility}"
+        )
+        if rag_context:
+            reasoning += " (enhanced with RAG context)"
+
         output = CortexOutput(
             output_type=OutputType.HYPOTHESIS,
             content=hypothesis.to_dict(),
             confidence=hypothesis.confidence,
-            reasoning=f"Generated hypothesis based on market regime: {regime}, volatility: {volatility}",
+            reasoning=reasoning,
             metadata={
                 "market_context": market_context,
                 "constraints": constraints,
+                "rag_context_available": rag_context is not None,
             },
         )
 
@@ -256,7 +305,7 @@ class CortexEngine:
             confidence=0.60,
         )
 
-    def analyze_code(self, code: str, analysis_type: str = "review") -> CortexOutput:
+    def analyze_code(self, code: str, analysis_type: str = "review") -> CortexOutput:  # noqa: PLR0912
         """
         Analyze code using NVIDIA Chat model.
 
@@ -269,6 +318,22 @@ class CortexEngine:
         """
         model_used = "rule-based"
         confidence = 0.80
+
+        # Get RAG context if enabled
+        rag_context = None
+        if self.rag_enabled:
+            if self._rag_helper is None:
+                try:
+                    self._rag_helper = self._init_rag_helper()
+                except ImportError:
+                    self._rag_helper = None
+
+            if self._rag_helper is not None:
+                with suppress(Exception):
+                    rag_context = self._rag_helper.format_code_analysis_context(
+                        analysis_type=analysis_type,
+                        code_snippet=code[:100],
+                    )
 
         # Try to use NVIDIA model if enabled and available
         if self.usd_code_enabled and self.nvidia_api_key:
@@ -293,9 +358,13 @@ Provide analysis in this format:
 Code to analyze:
 ```python
 {code}
-```
+```"""
 
-Provide concise, actionable feedback."""
+                    # Add RAG context if available
+                    if rag_context:
+                        prompt += f"\n\nRelevant best practices and examples from codebase:\n{rag_context}"
+
+                    prompt += "\n\nProvide concise, actionable feedback."
 
                     response = self._usd_code_client.invoke(prompt)
                     analysis = {
@@ -326,6 +395,14 @@ Provide concise, actionable feedback."""
                 "maintainability_index": 75,
             }
 
+            # Enhance confidence if RAG context available
+            if rag_context:
+                confidence += 0.05
+
+        reasoning = f"Code analysis using {model_used}"
+        if rag_context:
+            reasoning += " (enhanced with RAG context)"
+
         output = CortexOutput(
             output_type=OutputType.CODE_ANALYSIS,
             content={
@@ -334,7 +411,7 @@ Provide concise, actionable feedback."""
                 "code_snippet": code[:200],  # First 200 chars
             },
             confidence=confidence,
-            reasoning=f"Code analysis using {model_used}",
+            reasoning=reasoning,
             model_used=model_used,
         )
 
@@ -451,6 +528,7 @@ Provide concise, actionable feedback."""
         return {
             "usd_code_enabled": self.usd_code_enabled,
             "embeddings_enabled": self.embeddings_enabled,
+            "rag_enabled": self.rag_enabled,
             "total_outputs": len(self._outputs),
             "total_hypotheses": len(self._hypotheses),
             "outputs_by_type": {

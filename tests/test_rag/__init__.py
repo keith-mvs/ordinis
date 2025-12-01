@@ -1,1 +1,1 @@
-"""Tests for RAG module."""
+"""Tests for RAG system."""
