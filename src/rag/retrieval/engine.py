@@ -91,7 +91,7 @@ class RetrievalEngine:
             query=query,
             query_type=detected_type.value,
             results=final_results,
-            latency_ms=latency_ms,
+            execution_time_ms=latency_ms,
             total_candidates=len(results),
         )
 

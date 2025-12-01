@@ -16,6 +16,7 @@ from rag.api.models import (
     HealthResponse,
     QueryRequest,
     QueryResponse,
+    QueryResult,
     StatsResponse,
 )
 from rag.retrieval.engine import RetrievalEngine
@@ -114,15 +115,29 @@ async def query_rag(request: QueryRequest) -> QueryResponse:
     try:
         engine = get_engine()
 
-        # Execute query
-        response = engine.query(
+        # Execute query (returns schema.QueryResponse)
+        schema_response = engine.query(
             query=request.query,
             query_type=request.query_type,
             top_k=request.top_k,
             filters=request.filters,
         )
 
-        return response
+        # Map schema response to API response model
+        return QueryResponse(
+            query=schema_response.query,
+            query_type=schema_response.query_type,
+            results=[
+                QueryResult(
+                    content=r.text,
+                    score=r.score,
+                    metadata=r.metadata,
+                )
+                for r in schema_response.results
+            ],
+            total_candidates=schema_response.total_candidates,
+            execution_time_ms=schema_response.execution_time_ms,
+        )
 
     except Exception as e:
         logger.error(f"Query failed: {e}")
