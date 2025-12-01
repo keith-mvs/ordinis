@@ -54,7 +54,10 @@
       "Bash(do echo \"=== $branch ===\")",
       "Bash(done)",
       "Bash(git clean:*)",
-      "Bash(git merge:*)"
+      "Bash(git merge:*)",
+      "Bash(git stash:*)",
+      "Bash(claude doctor)",
+      "Bash(git remote prune:*)"
     ],
     "deny": [],
     "ask": []
