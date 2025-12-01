@@ -4,6 +4,9 @@ from pathlib import Path
 
 from pydantic import BaseModel, ConfigDict, Field
 
+# Get project root (3 levels up from this file: src/rag/config.py -> project root)
+PROJECT_ROOT = Path(__file__).parent.parent.parent
+
 
 class RAGConfig(BaseModel):
     """Configuration for RAG system."""
@@ -12,7 +15,7 @@ class RAGConfig(BaseModel):
 
     # Vector database
     chroma_persist_directory: Path = Field(
-        default=Path("data/chromadb"),
+        default=PROJECT_ROOT / "data" / "chromadb",
         description="Directory for ChromaDB persistence",
     )
     text_collection_name: str = Field(
@@ -26,12 +29,12 @@ class RAGConfig(BaseModel):
 
     # Embedding models
     text_embedding_model: str = Field(
-        default="nvidia/llama-3.2-nemoretriever-300m-embed-v2",
-        description="NVIDIA text embedding model",
+        default="sentence-transformers/all-MiniLM-L6-v2",
+        description="Text embedding model (lightweight, works on CPU/GPU)",
     )
     code_embedding_model: str = Field(
-        default="nvidia/nv-embedcode-7b-v1",
-        description="NVIDIA code embedding model",
+        default="sentence-transformers/all-MiniLM-L6-v2",
+        description="Code embedding model (uses same model as text for simplicity)",
     )
     rerank_model: str = Field(
         default="nvidia/llama-3.2-nemoretriever-500m-rerank-v2",
@@ -78,11 +81,11 @@ class RAGConfig(BaseModel):
 
     # Knowledge base paths
     kb_base_path: Path = Field(
-        default=Path("docs/knowledge-base"),
+        default=PROJECT_ROOT / "docs" / "knowledge-base",
         description="Base directory for knowledge base",
     )
     code_base_path: Path = Field(
-        default=Path("src"),
+        default=PROJECT_ROOT / "src",
         description="Base directory for code indexing",
     )
 

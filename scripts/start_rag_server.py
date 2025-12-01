@@ -15,12 +15,13 @@ import argparse
 from pathlib import Path
 import sys
 
-from loguru import logger
-import uvicorn
-
-# Add project root to path
+# Add project root to path FIRST
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root / "src"))
+
+# Now import dependencies
+from loguru import logger  # noqa: E402
+import uvicorn  # noqa: E402
 
 
 def main() -> None:
