@@ -8,9 +8,13 @@ Available Strategies:
 - RSIMeanReversionStrategy: Mean reversion using RSI indicator
 - MovingAverageCrossoverStrategy: Trend following with MA crossovers
 - MomentumBreakoutStrategy: Breakout trading with momentum confirmation
+- BollingerBandsStrategy: Mean reversion using Bollinger Bands
+- MACDStrategy: Momentum trading using MACD crossovers
 """
 
 from .base import BaseStrategy
+from .bollinger_bands import BollingerBandsStrategy
+from .macd import MACDStrategy
 from .momentum_breakout import MomentumBreakoutStrategy
 from .moving_average_crossover import MovingAverageCrossoverStrategy
 from .rsi_mean_reversion import RSIMeanReversionStrategy
@@ -20,4 +24,6 @@ __all__ = [
     "RSIMeanReversionStrategy",
     "MovingAverageCrossoverStrategy",
     "MomentumBreakoutStrategy",
+    "BollingerBandsStrategy",
+    "MACDStrategy",
 ]
