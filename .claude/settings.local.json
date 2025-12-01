@@ -46,7 +46,21 @@
       "Bash(if exist scripts rmdir /s /q scripts)",
       "Bash(git switch:*)",
       "Bash(git stash:*)",
-      "Bash(git merge:*)"
+      "Bash(git merge:*)",
+      "Bash(curl:*)",
+      "Bash(git restore:*)",
+      "Bash(timeout /t 3)",
+      "Bash(timeout /t 5)",
+      "Bash(start http://localhost:8001/ui)",
+      "Bash(Get-ChildItem -Path src -Recurse -Directory -Filter __pycache__)",
+      "Bash(Remove-Item -Recurse -Force)",
+      "Bash(find:*)",
+      "Bash(if exist test_rag_api.py del test_rag_api.py)",
+      "Bash(if exist test_cortex_rag.py del test_cortex_rag.py)",
+      "Bash(if exist check_chromadb.py del check_chromadb.py)",
+      "Bash(del test_rag_api.py test_cortex_rag.py check_chromadb.py)",
+      "Bash(git check-ignore:*)",
+      "Bash(git rm:*)"
     ],
     "deny": [],
     "ask": []
