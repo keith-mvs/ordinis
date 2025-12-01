@@ -52,7 +52,9 @@
       "Bash(git branch:*)",
       "Bash(for branch in research/general user/interface features/general-enhancements)",
       "Bash(do echo \"=== $branch ===\")",
-      "Bash(done)"
+      "Bash(done)",
+      "Bash(git clean:*)",
+      "Bash(git merge:*)"
     ],
     "deny": [],
     "ask": []
