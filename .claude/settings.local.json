@@ -45,7 +45,14 @@
       "Bash(if exist srcenginescortexrag rmdir /s /q srcenginescortexrag)",
       "Bash(if exist scripts rmdir /s /q scripts)",
       "Bash(git switch:*)",
-      "Bash(if not exist srcragui mkdir srcragui)"
+      "Bash(if not exist srcragui mkdir srcragui)",
+      "Bash(if [ -f .env ])",
+      "Bash(then echo \"=== .env exists ===\")",
+      "Bash(else echo \".env file not found - need to create it\")",
+      "Bash(git branch:*)",
+      "Bash(for branch in research/general user/interface features/general-enhancements)",
+      "Bash(do echo \"=== $branch ===\")",
+      "Bash(done)"
     ],
     "deny": [],
     "ask": []
