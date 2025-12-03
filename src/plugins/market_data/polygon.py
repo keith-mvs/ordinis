@@ -1,7 +1,9 @@
 """
-Polygon.io market data plugin.
+Polygon.io / Massive market data plugin.
 
-Provides real-time and historical market data from Polygon.io.
+Provides real-time and historical market data from Polygon.io (now Massive).
+Note: As of October 2025, Polygon.io rebranded to Massive.
+Both api.polygon.io and api.massive.com are supported.
 """
 
 import asyncio
