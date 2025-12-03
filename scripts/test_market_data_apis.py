@@ -13,6 +13,7 @@ sys.path.insert(0, str(project_root))
 
 import asyncio  # noqa: E402
 import os  # noqa: E402
+import traceback  # noqa: E402
 from datetime import UTC, datetime, timedelta  # noqa: E402
 
 from dotenv import load_dotenv  # noqa: E402
@@ -22,6 +23,7 @@ from src.plugins.market_data import (  # noqa: E402
     AlphaVantageDataPlugin,
     FinnhubDataPlugin,
     PolygonDataPlugin,
+    TwelveDataPlugin,
 )
 
 
@@ -75,6 +77,7 @@ async def test_alphavantage():
 
     except Exception as e:
         print(f"[X] Error: {e}")
+        traceback.print_exc()
         return False
 
     finally:
@@ -148,6 +151,7 @@ async def test_finnhub():
 
     except Exception as e:
         print(f"[X] Error: {e}")
+        traceback.print_exc()
         return False
 
     finally:
@@ -201,6 +205,63 @@ async def test_polygon():
 
     except Exception as e:
         print(f"[X] Error: {e}")
+        traceback.print_exc()
+        return False
+
+    finally:
+        await plugin.shutdown()
+
+
+async def test_twelvedata():
+    """Test Twelve Data API."""
+    print("\n" + "=" * 60)
+    print("Testing Twelve Data API")
+    print("=" * 60)
+
+    api_key = os.getenv("TWELVEDATA_API_KEY")
+    if not api_key:
+        print("[X] TWELVEDATA_API_KEY not found in .env")
+        return False
+
+    config = PluginConfig(
+        name="twelvedata_test",
+        api_key=api_key,
+        enabled=True,
+        rate_limit_per_minute=8,
+        timeout_seconds=30,
+    )
+
+    plugin = TwelveDataPlugin(config)
+
+    try:
+        # Initialize
+        print("\n[1/3] Initializing...")
+        if not await plugin.initialize():
+            print("[X] Failed to initialize Twelve Data plugin")
+            return False
+        print("[OK] Initialized successfully")
+
+        # Get quote
+        print("\n[2/3] Fetching quote for AAPL...")
+        quote = await plugin.get_quote("AAPL")
+        print("[OK] Quote received:")
+        print(f"   Price: ${quote['last']:.2f}")
+        print(f"   Change: {quote['change']:.2f} ({quote['change_percent']:.2f}%)")
+        print(f"   Volume: {quote['volume']:,}")
+
+        # Get company info
+        print("\n[3/3] Fetching company profile...")
+        company = await plugin.get_company("AAPL")
+        print("[OK] Company profile received:")
+        print(f"   Name: {company['name']}")
+        print(f"   Exchange: {company['exchange']}")
+        print(f"   Sector: {company['sector']}")
+
+        return True
+
+    except Exception as e:
+        print(f"[X] Error: {e}")
+        traceback.print_exc()
         return False
 
     finally:
@@ -227,6 +288,10 @@ async def main():
 
     # Test Polygon/Massive
     results["Polygon/Massive"] = await test_polygon()
+    await asyncio.sleep(1)
+
+    # Test Twelve Data
+    results["Twelve Data"] = await test_twelvedata()
 
     # Summary
     print("\n" + "=" * 60)
@@ -242,7 +307,7 @@ async def main():
     print(f"\nTotal: {passed_count}/{total_count} APIs working")
 
     if passed_count == total_count:
-        print("\n🎉 All APIs are working correctly!")
+        print("\n[PASS] All APIs are working correctly!")
     else:
         print("\n[WARN]  Some APIs failed. Check the logs above for details.")
 

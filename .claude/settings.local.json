@@ -57,7 +57,11 @@
       "Bash(git merge:*)",
       "Bash(git stash:*)",
       "Bash(claude doctor)",
-      "Bash(git remote prune:*)"
+      "Bash(git remote prune:*)",
+      "Bash(pip show:*)",
+      "Bash(streamlit run:*)",
+      "Bash($env:STREAMLIT_SERVER_HEADLESS = \"true\")",
+      "Bash(Out-File -Encoding utf8 test_results.txt)"
     ],
     "deny": [],
     "ask": []
