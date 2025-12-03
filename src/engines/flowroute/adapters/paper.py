@@ -326,7 +326,20 @@ class PaperBrokerAdapter(BrokerAdapter):
             try:
                 price_data = await self._fetch_current_price(order.symbol)
                 if price_data:
+                    # Use bid/ask if available, otherwise fallback to last price with slippage
                     fill_price = price_data["ask"] if order.side == "buy" else price_data["bid"]
+
+                    if not fill_price or fill_price <= 0:
+                        # Fallback to last price with slippage simulation
+                        last_price = price_data.get("last", 0)
+                        if last_price > 0:
+                            slippage_factor = self.slippage_bps / 10000.0
+                            fill_price = (
+                                last_price * (1 + slippage_factor)
+                                if order.side == "buy"
+                                else last_price * (1 - slippage_factor)
+                            )
+
                     if fill_price and fill_price > 0:
                         fill = self.simulate_fill(order, fill_price, price_data["last"])
                         fills.append(fill)
