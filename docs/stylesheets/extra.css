@@ -1,0 +1,466 @@
+/* ==========================================================================
+   Ordinis Documentation - Enhanced Styles
+   Version: 2.0
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Design Tokens
+   -------------------------------------------------------------------------- */
+
+:root {
+  /* Brand Colors */
+  --ordinis-primary: #3f51b5;
+  --ordinis-primary-light: #7986cb;
+  --ordinis-primary-dark: #303f9f;
+  --ordinis-accent: #ff4081;
+  --ordinis-success: #4caf50;
+  --ordinis-warning: #ff9800;
+  --ordinis-error: #f44336;
+
+  /* Spacing Scale (4px base) */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-8: 3rem;
+  --space-10: 4rem;
+
+  /* Layout */
+  --content-max-width: 800px;
+  --sidebar-width: 280px;
+  --toc-width: 220px;
+
+  /* Typography */
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --line-height-tight: 1.25;
+  --line-height-normal: 1.6;
+  --line-height-relaxed: 1.75;
+}
+
+/* --------------------------------------------------------------------------
+   2. Content Layout
+   -------------------------------------------------------------------------- */
+
+/* Constrain content width for readability */
+.md-content__inner {
+  max-width: var(--content-max-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding: var(--space-6) var(--space-4);
+}
+
+/* Optimal line length for prose */
+.md-typeset p,
+.md-typeset li,
+.md-typeset blockquote {
+  max-width: 75ch;
+}
+
+/* --------------------------------------------------------------------------
+   3. Typography
+   -------------------------------------------------------------------------- */
+
+.md-typeset {
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-normal);
+}
+
+/* Heading Hierarchy */
+.md-typeset h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: var(--line-height-tight);
+  margin-top: 0;
+  margin-bottom: var(--space-6);
+  letter-spacing: -0.02em;
+}
+
+.md-typeset h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.3;
+  margin-top: var(--space-8);
+  margin-bottom: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--md-default-fg-color--lightest);
+}
+
+.md-typeset h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin-top: var(--space-6);
+  margin-bottom: var(--space-3);
+}
+
+.md-typeset h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.5;
+  margin-top: var(--space-5);
+  margin-bottom: var(--space-2);
+}
+
+/* First heading after title doesn't need top border */
+.md-typeset h1 + h2 {
+  margin-top: var(--space-5);
+  padding-top: 0;
+  border-top: none;
+}
+
+/* Paragraph spacing */
+.md-typeset p {
+  margin-bottom: var(--space-4);
+}
+
+/* List spacing */
+.md-typeset ul,
+.md-typeset ol {
+  margin-bottom: var(--space-4);
+  padding-left: var(--space-5);
+}
+
+.md-typeset li {
+  margin-bottom: var(--space-2);
+}
+
+.md-typeset li > ul,
+.md-typeset li > ol {
+  margin-top: var(--space-2);
+  margin-bottom: 0;
+}
+
+/* --------------------------------------------------------------------------
+   4. Code Blocks
+   -------------------------------------------------------------------------- */
+
+/* Code block container */
+.md-typeset .highlight {
+  margin: var(--space-5) 0;
+  border-radius: 8px;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  overflow: hidden;
+}
+
+.md-typeset .highlight pre {
+  margin: 0;
+  padding: var(--space-4);
+  overflow-x: auto;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  tab-size: 2;
+}
+
+/* Inline code */
+.md-typeset code:not(pre code) {
+  padding: 0.125em 0.375em;
+  border-radius: 4px;
+  font-size: 0.875em;
+  font-weight: 500;
+  background: var(--md-code-bg-color);
+  border: 1px solid var(--md-default-fg-color--lightest);
+}
+
+/* --------------------------------------------------------------------------
+   5. Tables
+   -------------------------------------------------------------------------- */
+
+/* Table container */
+.md-typeset__table {
+  margin: var(--space-5) 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.md-typeset table:not([class]) {
+  width: auto;
+  min-width: 50%;
+  display: table;
+  border-collapse: collapse;
+  font-size: var(--font-size-sm);
+}
+
+.md-typeset table:not([class]) th,
+.md-typeset table:not([class]) td {
+  padding: var(--space-3) var(--space-4);
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--md-default-fg-color--lightest);
+}
+
+.md-typeset table:not([class]) th {
+  font-weight: 600;
+  white-space: nowrap;
+  background: var(--md-default-fg-color--lightest);
+}
+
+/* Zebra striping */
+.md-typeset table:not([class]) tbody tr:nth-child(even) {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+[data-md-color-scheme="slate"] .md-typeset table:not([class]) tbody tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* --------------------------------------------------------------------------
+   6. Admonitions / Callouts
+   -------------------------------------------------------------------------- */
+
+.md-typeset .admonition {
+  margin: var(--space-5) 0;
+  border-radius: 8px;
+  border-width: 1px;
+  border-left-width: 4px;
+}
+
+.md-typeset .admonition-title {
+  padding: var(--space-3) var(--space-4);
+  font-weight: 600;
+}
+
+.md-typeset .admonition > p,
+.md-typeset .admonition > ul,
+.md-typeset .admonition > ol {
+  padding: 0 var(--space-4) var(--space-4);
+}
+
+/* Custom governance admonition */
+.md-typeset .admonition.governance {
+  border-color: var(--ordinis-primary);
+}
+
+.md-typeset .admonition.governance > .admonition-title {
+  background-color: rgba(63, 81, 181, 0.1);
+}
+
+.md-typeset .admonition.governance > .admonition-title::before {
+  content: "governance";
+}
+
+/* --------------------------------------------------------------------------
+   7. Navigation
+   -------------------------------------------------------------------------- */
+
+/* Sidebar navigation */
+.md-nav--primary .md-nav__item {
+  padding: var(--space-1) 0;
+}
+
+/* Active state indicator */
+.md-nav__link--active {
+  font-weight: 600;
+  color: var(--md-primary-fg-color) !important;
+}
+
+/* TOC styling */
+.md-nav--secondary {
+  font-size: var(--font-size-sm);
+}
+
+.md-nav--secondary .md-nav__link {
+  padding: var(--space-1) var(--space-2);
+  border-left: 2px solid transparent;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.md-nav--secondary .md-nav__link:hover,
+.md-nav--secondary .md-nav__link--active {
+  border-left-color: var(--md-primary-fg-color);
+}
+
+/* --------------------------------------------------------------------------
+   8. Status Badges
+   -------------------------------------------------------------------------- */
+
+.version-badge {
+  display: inline-block;
+  padding: var(--space-1) var(--space-2);
+  background-color: var(--ordinis-primary);
+  color: white;
+  border-radius: 4px;
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+}
+
+.status-complete {
+  color: var(--ordinis-success);
+  font-weight: 600;
+}
+
+.status-in-progress {
+  color: var(--ordinis-warning);
+  font-weight: 600;
+}
+
+.status-pending {
+  color: var(--ordinis-error);
+  font-weight: 600;
+}
+
+/* --------------------------------------------------------------------------
+   9. Responsive Adjustments
+   -------------------------------------------------------------------------- */
+
+/* Tablet */
+@media (max-width: 1200px) {
+  .md-content__inner {
+    padding: var(--space-5) var(--space-4);
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  :root {
+    --space-6: 1.5rem;
+    --space-8: 2rem;
+  }
+
+  .md-content__inner {
+    padding: var(--space-4) var(--space-3);
+  }
+
+  .md-typeset h1 {
+    font-size: 1.75rem;
+  }
+
+  .md-typeset h2 {
+    font-size: 1.375rem;
+    margin-top: var(--space-6);
+  }
+
+  .md-typeset h3 {
+    font-size: 1.125rem;
+  }
+
+  /* Full-width tables on mobile with scroll */
+  .md-typeset table:not([class]) {
+    min-width: 100%;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   10. Print Styles
+   -------------------------------------------------------------------------- */
+
+@media print {
+  .md-sidebar,
+  .md-header,
+  .md-footer,
+  .md-tabs,
+  .md-search,
+  .md-button {
+    display: none !important;
+  }
+
+  .md-content {
+    margin: 0 !important;
+    padding: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .md-main__inner {
+    margin: 0 !important;
+  }
+
+  h1, h2, h3, h4 {
+    page-break-after: avoid;
+  }
+
+  table, figure, pre {
+    page-break-inside: avoid;
+  }
+
+  a[href]::after {
+    content: none !important;
+  }
+}
+
+@page {
+  size: letter;
+  margin: 0.75in;
+
+  @top-center {
+    content: "Ordinis Trading System Documentation";
+    font-size: 9pt;
+    color: #666;
+  }
+
+  @bottom-center {
+    content: "Page " counter(page) " of " counter(pages);
+    font-size: 9pt;
+    color: #666;
+  }
+}
+
+@page :first {
+  @top-center {
+    content: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   11. Utility Classes
+   -------------------------------------------------------------------------- */
+
+.pdf-page-break {
+  page-break-before: always;
+}
+
+.pdf-no-break {
+  page-break-inside: avoid;
+}
+
+.doc-metadata {
+  background-color: var(--md-default-fg-color--lightest);
+  border-left: 4px solid var(--ordinis-primary);
+  padding: var(--space-3) var(--space-4);
+  margin-bottom: var(--space-5);
+  font-size: var(--font-size-sm);
+  border-radius: 0 4px 4px 0;
+}
+
+.doc-metadata dt {
+  font-weight: 600;
+  display: inline;
+}
+
+.doc-metadata dd {
+  display: inline;
+  margin-left: var(--space-2);
+}
+
+/* Mermaid diagrams */
+.mermaid {
+  text-align: center;
+  margin: var(--space-5) 0;
+}
+
+/* Architecture diagrams */
+pre.architecture {
+  background-color: var(--md-code-bg-color);
+  padding: var(--space-4);
+  border-radius: 8px;
+  overflow-x: auto;
+  font-family: var(--md-code-font-family);
+}
+
+/* --------------------------------------------------------------------------
+   12. Dark Mode Adjustments
+   -------------------------------------------------------------------------- */
+
+[data-md-color-scheme="slate"] {
+  --ordinis-primary-light: #9fa8da;
+}
+
+[data-md-color-scheme="slate"] .md-typeset code:not(pre code) {
+  border-color: var(--md-default-fg-color--lighter);
+}
+
+[data-md-color-scheme="slate"] .md-typeset .highlight {
+  border-color: var(--md-default-fg-color--lighter);
+}

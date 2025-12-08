@@ -1,0 +1,300 @@
+site_name: Ordinis Trading System Documentation
+site_description: Comprehensive documentation for the Ordinis algorithmic trading system
+site_author: Ordinis Development Team
+site_url: https://ordinis.local/
+
+# Repository
+repo_name: ordinis-1
+repo_url: https://github.com/ordinis/ordinis-1
+
+# Copyright
+copyright: Copyright &copy; 2024-2025 Ordinis Project
+
+# Configuration
+theme:
+  name: material
+  language: en
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  font:
+    text: Roboto
+    code: Roboto Mono
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.indexes
+    - navigation.top
+    - navigation.path
+    - navigation.prune
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
+    - toc.follow
+    - header.autohide
+  icon:
+    repo: fontawesome/brands/github
+
+# Plugins
+plugins:
+  - search:
+      separator: '[\s\-,:!=\[\]()"/]+|(?!\b)(?=[A-Z][a-z])|\.(?!\d)|&[lg]t;'
+  - git-revision-date-localized:
+      enable_creation_date: true
+      type: timeago
+      fallback_to_build_date: true
+      enable_git_follow: false
+  - section-index
+  - macros:
+      module_name: docs/macros
+      include_dir: docs/includes
+  - print-site:
+      add_to_navigation: true
+      print_page_title: 'Complete Documentation (Print/PDF)'
+      add_print_site_banner: true
+      print_site_banner_template: "docs/includes/pdf_banner.html"
+      add_cover_page: true
+      cover_page_template: "docs/includes/cover_page.html"
+      add_table_of_contents: true
+      toc_title: "Table of Contents"
+      toc_depth: 3
+      enumerate_headings: true
+      enumerate_headings_depth: 3
+      exclude:
+        - session-exports/
+
+# Extensions
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - toc:
+      permalink: true
+      toc_depth: 4
+      title: On this page
+  - tables
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.magiclink:
+      repo_url_shorthand: true
+      user: ordinis
+      repo: ordinis-1
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+# Extra CSS/JS
+extra_css:
+  - stylesheets/extra.css
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+# Extra configuration
+extra:
+  version:
+    provider: mike
+    default: latest
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/ordinis
+  generator: false
+  analytics:
+    provider: google
+    property: G-XXXXXXXXXX
+
+# Navigation
+nav:
+  - Home: index.md
+
+  - Project:
+    - project/index.md
+    - Project Scope: project/PROJECT_SCOPE.md
+    - Status Report: project/PROJECT_STATUS_REPORT.md
+    - Current Status: project/CURRENT_STATUS_AND_NEXT_STEPS.md
+    - Branch Workflow: project/BRANCH_WORKFLOW.md
+
+  - Architecture:
+    - architecture/index.md
+    - System Overview:
+      - SignalCore System: architecture/SIGNALCORE_SYSTEM.md
+      - Execution Path: architecture/EXECUTION_PATH.md
+      - Simulation Engine: architecture/SIMULATION_ENGINE.md
+      - Monitoring: architecture/MONITORING.md
+    - AI Integration:
+      - NVIDIA Integration: architecture/NVIDIA_INTEGRATION.md
+      - RAG System: architecture/RAG_SYSTEM.md
+      - RAG Implementation: architecture/RAG_IMPLEMENTATION.md
+    - Tools & Connectors:
+      - MCP Tools Evaluation: architecture/MCP_TOOLS_EVALUATION.md
+      - MCP Quick Start: architecture/MCP_TOOLS_QUICK_START.md
+      - Claude Connectors: architecture/CLAUDE_CONNECTORS_EVALUATION.md
+      - Connectors Reference: architecture/CONNECTORS_QUICK_REFERENCE.md
+      - Additional Plugins: architecture/ADDITIONAL_PLUGINS_ANALYSIS.md
+    - Capabilities: architecture/SYSTEM_CAPABILITIES_ASSESSMENT.md
+    - Development TODO: architecture/DEVELOPMENT_TODO.md
+
+  - Knowledge Base:
+    - knowledge-base/index.md
+    - Index: knowledge-base/00_KB_INDEX.md
+    - 1. Foundations:
+      - knowledge-base/01_foundations/README.md
+      - Harris Trading & Exchanges: knowledge-base/01_foundations/publications/harris_trading_exchanges.md
+    - 2. Signal Generation:
+      - knowledge-base/02_signals/technical/README.md
+      - Technical Analysis:
+        - Overlays:
+          - knowledge-base/02_signals/technical/overlays/README.md
+          - Moving Averages: knowledge-base/02_signals/technical/overlays/moving_averages.md
+          - Bollinger Bands: knowledge-base/02_signals/technical/overlays/bollinger_bands.md
+        - Oscillators:
+          - knowledge-base/02_signals/technical/oscillators/README.md
+          - RSI: knowledge-base/02_signals/technical/oscillators/rsi.md
+          - Stochastic: knowledge-base/02_signals/technical/oscillators/stochastic.md
+          - CCI: knowledge-base/02_signals/technical/oscillators/cci.md
+          - Williams %R: knowledge-base/02_signals/technical/oscillators/williams_r.md
+        - Trend Indicators:
+          - knowledge-base/02_signals/technical/trend_indicators/README.md
+          - ADX/DMI: knowledge-base/02_signals/technical/trend_indicators/adx_dmi.md
+          - Parabolic SAR: knowledge-base/02_signals/technical/trend_indicators/parabolic_sar.md
+          - Aroon: knowledge-base/02_signals/technical/trend_indicators/aroon.md
+        - Volatility:
+          - knowledge-base/02_signals/technical/volatility/README.md
+          - ATR: knowledge-base/02_signals/technical/volatility/atr.md
+          - Implied vs Realized: knowledge-base/02_signals/technical/volatility/implied_realized.md
+        - Composite:
+          - knowledge-base/02_signals/technical/composite/README.md
+          - MACD: knowledge-base/02_signals/technical/composite/macd.md
+          - Momentum: knowledge-base/02_signals/technical/composite/momentum.md
+        - Patterns:
+          - knowledge-base/02_signals/technical/patterns/README.md
+          - Candlestick: knowledge-base/02_signals/technical/patterns/candlestick.md
+          - Chart Patterns: knowledge-base/02_signals/technical/patterns/chart_patterns.md
+          - Support & Resistance: knowledge-base/02_signals/technical/patterns/support_resistance.md
+        - Advanced:
+          - knowledge-base/02_signals/technical/advanced/README.md
+          - Multi-Timeframe: knowledge-base/02_signals/technical/advanced/multi_timeframe.md
+          - Regime Detection: knowledge-base/02_signals/technical/advanced/regime_detection.md
+      - Fundamental: knowledge-base/02_signals/fundamental/README.md
+      - Volume: knowledge-base/02_signals/volume/README.md
+      - Sentiment:
+        - knowledge-base/02_signals/sentiment/README.md
+        - News Sentiment: knowledge-base/02_signals/sentiment/news_sentiment/README.md
+        - Social Media: knowledge-base/02_signals/sentiment/social_media/README.md
+        - Alternative Data: knowledge-base/02_signals/sentiment/alternative_data/README.md
+      - Events:
+        - knowledge-base/02_signals/events/README.md
+        - Earnings Events: knowledge-base/02_signals/events/earnings_events/README.md
+        - Corporate Actions: knowledge-base/02_signals/events/corporate_actions/README.md
+        - Macro Events: knowledge-base/02_signals/events/macro_events/README.md
+      - Quantitative:
+        - knowledge-base/02_signals/quantitative/README.md
+        - Algorithmic Strategies: knowledge-base/02_signals/quantitative/algorithmic_strategies.md
+        - Statistical Arbitrage:
+          - knowledge-base/02_signals/quantitative/statistical_arbitrage/README.md
+          - Pairs Trading: knowledge-base/02_signals/quantitative/statistical_arbitrage/pairs_trading.md
+          - Mean Reversion: knowledge-base/02_signals/quantitative/statistical_arbitrage/mean_reversion.md
+        - Factor Investing:
+          - knowledge-base/02_signals/quantitative/factor_investing/README.md
+          - Momentum Factor: knowledge-base/02_signals/quantitative/factor_investing/momentum_factor.md
+        - ML Strategies: knowledge-base/02_signals/quantitative/ml_strategies/README.md
+        - Execution Algorithms: knowledge-base/02_signals/quantitative/execution_algorithms/README.md
+        - Portfolio Construction: knowledge-base/02_signals/quantitative/portfolio_construction/README.md
+    - 3. Risk Management:
+      - knowledge-base/03_risk/README.md
+      - Advanced Risk Methods: knowledge-base/03_risk/advanced_risk_methods.md
+      - Lopez de Prado: knowledge-base/03_risk/publications/lopez_de_prado_advances.md
+    - 4. Strategy:
+      - Backtesting Requirements: knowledge-base/04_strategy/BACKTESTING_REQUIREMENTS.md
+      - Data Evaluation: knowledge-base/04_strategy/DATA_EVALUATION_REQUIREMENTS.md
+      - NVIDIA Integration: knowledge-base/04_strategy/nvidia_integration.md
+      - Strategy Framework: knowledge-base/04_strategy/strategy_formulation_framework.md
+    - 5. Execution:
+      - knowledge-base/05_execution/README.md
+      - Data Pipelines: knowledge-base/05_execution/data_pipelines.md
+      - Deployment Patterns: knowledge-base/05_execution/deployment_patterns.md
+      - Monitoring: knowledge-base/05_execution/monitoring.md
+      - Governance Engines: knowledge-base/05_execution/governance_engines.md
+    - 6. Options:
+      - knowledge-base/06_options/README.md
+      - Hull Options & Futures: knowledge-base/06_options/publications/hull_options_futures.md
+    - 7. References: knowledge-base/07_references/README.md
+
+  - Guides:
+    - guides/index.md
+    - CLI Usage: guides/CLI_USAGE.md
+    - Due Diligence Skill: guides/DUE_DILIGENCE_SKILL.md
+    - Recommended Skills: guides/RECOMMENDED_SKILLS.md
+    - UI Improvement Proposal: guides/UI_IMPROVEMENT_PROPOSAL.md
+
+  - Analysis:
+    - analysis/index.md
+    - Analysis Framework: analysis/ANALYSIS_FRAMEWORK.md
+    - Market Data Enhancement: analysis/MARKET_DATA_ENHANCEMENT_PLAN.md
+    - Backtest Results: analysis/BACKTEST_RESULTS_20251207.md
+
+  - Testing:
+    - testing/index.md
+    - Phase 1 Testing Setup: testing/PHASE_1_TESTING_SETUP.md
+    - ProofBench Guide: testing/PROOFBENCH_GUIDE.md
+    - User Testing Guide: testing/USER_TESTING_GUIDE.md
+
+  - Strategies:
+    - strategies/index.md
+    - Strategy Template: strategies/STRATEGY_TEMPLATE.md
+
+  - Session Exports:
+    - session-exports/index.md
+    - KB Implementation: session-exports/SESSION_SUMMARY_KB_IMPLEMENTATION.md
+    - RAG Phases 2-4: session-exports/SESSION_SUMMARY_RAG_PHASES_2-4.md
+    - Export 2024-11-30: session-exports/SESSION_EXPORT_20251130_main.md
+    - Export 2024-12-03: session-exports/SESSION_EXPORT_20251203.md
+    - Export 2024-12-07: session-exports/SESSION_EXPORT_20251207.md
+    - Export 2024-12-08: session-exports/SESSION_EXPORT_20251208.md
+    - KB Expansion: session-exports/SESSION_EXPORT_20251208_KB_EXPANSION.md
+
+# Watch for changes
+watch:
+  - docs

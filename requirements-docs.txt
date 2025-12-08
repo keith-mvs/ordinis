@@ -1,0 +1,22 @@
+# Documentation dependencies for Ordinis
+# Install with: pip install -r requirements-docs.txt
+
+# Core MkDocs
+mkdocs>=1.5.0
+mkdocs-material>=9.5.0
+
+# Plugins
+mkdocs-awesome-pages-plugin>=2.9.0
+mkdocs-section-index>=0.3.0
+mkdocs-git-revision-date-localized-plugin>=1.2.0
+mkdocs-macros-plugin>=1.0.0
+
+# Optional: PDF Export (requires weasyprint system dependencies)
+# mkdocs-pdf-export-plugin>=0.5.10
+# weasyprint>=60.0
+
+# Optional: Diagram support
+# mkdocs-mermaid2-plugin>=1.1.0
+
+# Markdown extensions (included with mkdocs-material)
+# pymdown-extensions>=10.0
