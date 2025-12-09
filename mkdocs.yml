@@ -169,6 +169,7 @@ nav:
     - AI Integration:
       - NVIDIA Integration: architecture/NVIDIA_INTEGRATION.md
       - NVIDIA Blueprint Integration: architecture/NVIDIA_BLUEPRINT_INTEGRATION.md
+      - Model Alternatives Framework: architecture/MODEL_ALTERNATIVES_FRAMEWORK.md
       - RAG System: architecture/RAG_SYSTEM.md
       - RAG Implementation: architecture/RAG_IMPLEMENTATION.md
     - Tools & Connectors:
