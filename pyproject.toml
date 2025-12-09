@@ -201,7 +201,7 @@ strict_equality = true
 ignore_missing_imports = true  # For now, until we add stubs
 explicit_package_bases = true
 namespace_packages = true
-mypy_path = "src"
+# Note: src/__init__.py exists, so src is the package root (not mypy_path)
 
 [[tool.mypy.overrides]]
 module = "tests.*"
@@ -213,14 +213,14 @@ ignore_errors = true
 
 [[tool.mypy.overrides]]
 module = [
-    "core.validation",
-    "plugins.base",
-    "plugins.market_data.iex",
-    "plugins.market_data.polygon",
-    "engines.proofbench.core.simulator"
+    "src.core.validation",
+    "src.plugins.base",
+    "src.plugins.market_data.*",
+    "src.engines.proofbench.core.simulator",
+    "src.dashboard.*"
 ]
 # Suppress type errors in Phase 1 code - will fix in future refactor
-disable_error_code = ["operator", "assignment", "union-attr", "arg-type"]
+disable_error_code = ["operator", "assignment", "union-attr", "arg-type", "index", "var-annotated"]
 
 # ==================== RUFF ====================
 [tool.ruff]

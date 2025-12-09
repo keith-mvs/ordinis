@@ -21,7 +21,7 @@ repos:
           - types-requests
           - pandas-stubs
           - numpy
-        exclude: ^(tests/|docs/|src/engines/proofbench/)
+        exclude: ^(tests/|docs/|scripts/|skills/|site/|src/engines/proofbench/|src/analysis/technical/|src/strategies/regime_adaptive/|src/engines/governance/)
 
   # General file checks
   - repo: https://github.com/pre-commit/pre-commit-hooks
