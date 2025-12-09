@@ -1,4 +1,4 @@
-# Intelligent Investor - Project Scope
+# Ordinis - Project Scope
 
 ## Mission Statement
 

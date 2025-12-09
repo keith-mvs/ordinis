@@ -1,4 +1,4 @@
-# Intelligent Investor Knowledge Base
+# Ordinis Knowledge Base
 
 ## Overview
 
@@ -20,7 +20,8 @@ knowledge-base/
 │   ├── volume/                 # Volume & liquidity
 │   ├── sentiment/              # News & social sentiment
 │   ├── events/                 # Event-driven strategies
-│   └── quantitative/           # Quant strategies & ML
+│   ├── quantitative/           # Quant strategies & ML
+│   └── 10_mathematical_foundations/  # Statistical & mathematical concepts
 ├── 03_risk/                    # Risk management & position sizing
 ├── 04_strategy/                # Strategy design & evaluation
 ├── 05_execution/               # System architecture & execution

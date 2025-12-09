@@ -6,7 +6,7 @@
 
 ## 3.1 Overview
 
-The Intelligent Investor Knowledge Base provides foundational trading knowledge for automated strategy development. Content is organized by strategy formulation workflow for efficient retrieval during strategy design, backtesting, and deployment.
+The Ordinis Knowledge Base provides foundational trading knowledge for automated strategy development. Content is organized by strategy formulation workflow for efficient retrieval during strategy design, backtesting, and deployment.
 
 ## 3.2 Navigation
 

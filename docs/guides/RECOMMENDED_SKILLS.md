@@ -1,8 +1,8 @@
-# Recommended Claude Code Skills for Intelligent Investor
+# Recommended Claude Code Skills for Ordinis
 
 ## Overview
 
-This document recommends custom Claude Code skill files (`.md` files in `.claude/commands/`) that would accelerate development of the Intelligent Investor automated trading system.
+This document recommends custom Claude Code skill files (`.md` files in `.claude/commands/`) that would accelerate development of the Ordinis automated trading system.
 
 Skills are reusable prompt templates that Claude can invoke to perform specialized tasks consistently.
 

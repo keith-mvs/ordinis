@@ -477,7 +477,7 @@ Potential future enhancements:
 
 **Version**: 1.0.0
 **Last Updated**: December 2025
-**Maintained by**: Intelligent Investor Project
+**Maintained by**: Ordinis Project
 
 **Status**:  Production Ready
 

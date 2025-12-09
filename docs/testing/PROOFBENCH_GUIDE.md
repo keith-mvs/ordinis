@@ -421,4 +421,4 @@ This ensures:
 
 ## License
 
-Part of the Intelligent Investor project.
+Part of the Ordinis project.

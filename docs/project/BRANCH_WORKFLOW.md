@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document outlines the branch strategy for the Intelligent Investor project, defining stability levels, testing expectations, and merge policies.
+This document outlines the branch strategy for the Ordinis project, defining stability levels, testing expectations, and merge policies.
 
 ## Branch Stability Levels
 
