@@ -259,7 +259,51 @@ execution_config = {
 
 ---
 
+## Implementation References
+
+Open-source implementations for each functional component.
+
+### Price Forecasting (LSTM, Transformers)
+
+| Repository | Description |
+|------------|-------------|
+| [Stock-Price-Prediction-Using-LSTM](https://github.com/Vikrant25122004/Stock-Price-Prediction-Using-LSTM) | LSTM-based stock price prediction |
+| [stock-price-prediction-lstm](https://github.com/veerS07/stock-price-prediction-lstm) | LSTM implementation for price forecasting |
+
+### Volatility Estimation (GARCH Family)
+
+| Repository | Description |
+|------------|-------------|
+| [garch-volatility-project](https://github.com/dhirajpatra/garch-volatility-project) | GARCH volatility modeling |
+| [garch-volatility-forecasting](https://github.com/sanjay5922/garch-volatility-forecasting) | GARCH forecasting implementation |
+| [GARCH-Volatility-Forecasting](https://github.com/hilmierkamgurbuz/GARCH-Volatility-Forecasting) | Comprehensive GARCH variants |
+
+### Sentiment Analysis (FinBERT, Transformers)
+
+| Repository | Description |
+|------------|-------------|
+| [finBERT (ProsusAI)](https://github.com/ProsusAI/finBERT) | Official FinBERT - financial sentiment |
+| [FinBERT (yya518)](https://github.com/yya518/FinBERT) | Alternative FinBERT implementation |
+
+### Trade Execution Optimization (RL Agents)
+
+| Repository | Description |
+|------------|-------------|
+| [rl-trade-exec](https://github.com/sabdulmajid/rl-trade-exec) | RL-based trade execution |
+| [Deep-Reinforcement-Learning-Trade-Execution](https://github.com/goofygamer/Deep-Reinforcement-Learning-Trade-Execution) | Deep RL for optimal execution |
+
+### Risk Control / Portfolio Management
+
+| Repository | Description |
+|------------|-------------|
+| [machine-learning-for-trading/bayesian](https://github.com/stefan-jansen/machine-learning-for-trading/tree/main/10_bayesian_machine_learning) | Bayesian ML for trading (Stefan Jansen) |
+| [risk-manager](https://github.com/alexcolls/risk-manager) | Portfolio risk management |
+
+---
+
 ## References
+
+### Academic
 
 - Lopez de Prado, M. (2018). Advances in Financial Machine Learning.
 - Goodfellow, I. et al. (2016). Deep Learning.
