@@ -12,6 +12,7 @@ Development session summaries and exports for continuity and knowledge preservat
 
 | Session | Date | Focus |
 |---------|------|-------|
+| [Coverage 75%](SESSION_EXPORT_20251209_COVERAGE_75.md) | 2025-12-09 | Test coverage target achievement (75%) |
 | [Docs Maintenance](SESSION_EXPORT_20251208_DOCS_MAINTENANCE.md) | 2025-12-08 | Documentation audit, deduplication, normalization |
 | [Model Implementations](SESSION_EXPORT_20251208_MODEL_IMPLEMENTATIONS.md) | 2025-12-08 | Multi-model framework implementation |
 | [KB Expansion](SESSION_EXPORT_20251208_KB_EXPANSION.md) | 2025-12-08 | Knowledge base expansion |
