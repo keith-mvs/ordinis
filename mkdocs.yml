@@ -46,7 +46,6 @@ theme:
     - content.code.annotate
     - content.tabs.link
     - toc.follow
-    - header.autohide
   icon:
     repo: fontawesome/brands/github
 

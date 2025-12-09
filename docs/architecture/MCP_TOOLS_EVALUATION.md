@@ -110,7 +110,7 @@ result = await mcp.call_tool("get_financials", {
 }
 ```
 
-**Integration Priority:** 🟡 Medium (Phase 2, if fundamental strategies)
+**Integration Priority:**  Medium (Phase 2, if fundamental strategies)
 
 ---
 
@@ -164,7 +164,7 @@ result = await mcp.call_tool("get_financials", {
 }
 ```
 
-**Integration Priority:** 🔴 Low (crypto out of scope)
+**Integration Priority:**  Low (crypto out of scope)
 
 ---
 
@@ -226,7 +226,7 @@ result = await mcp.call_tool("get_financials", {
 }
 ```
 
-**Integration Priority:** 🟢 Medium-High (Phase 2, for KB quality)
+**Integration Priority:**  Medium-High (Phase 2, for KB quality)
 
 **Workflow Example:**
 
@@ -299,7 +299,7 @@ User: "Add López de Prado to KB"
 }
 ```
 
-**Integration Priority:** 🟡 Medium (Phase 2-3, if event-driven)
+**Integration Priority:**  Medium (Phase 2-3, if event-driven)
 
 ---
 
@@ -354,7 +354,7 @@ User: "Add López de Prado to KB"
 }
 ```
 
-**Integration Priority:** 🔴 Low (too expensive, wrong scope)
+**Integration Priority:**  Low (too expensive, wrong scope)
 
 ---
 
@@ -420,7 +420,7 @@ User: "Add López de Prado to KB"
 }
 ```
 
-**Integration Priority:** 🟡 Medium (Phase 3, if sentiment strategies)
+**Integration Priority:**  Medium (Phase 3, if sentiment strategies)
 
 ---
 
@@ -484,7 +484,7 @@ These are **fundamental tools** that every Claude-based system should have.
 }
 ```
 
-**Integration Priority:** 🟢 **CRITICAL** (Phase 1)
+**Integration Priority:**  **CRITICAL** (Phase 1)
 
 **Use Cases:**
 
@@ -526,7 +526,7 @@ These are **fundamental tools** that every Claude-based system should have.
 }
 ```
 
-**Integration Priority:** 🟢 **HIGH** (Phase 1-2)
+**Integration Priority:**  **HIGH** (Phase 1-2)
 
 **Use Cases:**
 
@@ -537,7 +537,7 @@ These are **fundamental tools** that every Claude-based system should have.
 
 ---
 
-### 9. Git Tools 🟢 RECOMMENDED
+### 9. Git Tools  RECOMMENDED
 
 **MCP Server:** `@modelcontextprotocol/server-git`
 
@@ -577,7 +577,7 @@ These are **fundamental tools** that every Claude-based system should have.
 }
 ```
 
-**Integration Priority:** 🟢 **RECOMMENDED** (Phase 1)
+**Integration Priority:**  **RECOMMENDED** (Phase 1)
 
 **Use Cases:**
 
@@ -624,7 +624,7 @@ These are **fundamental tools** that every Claude-based system should have.
 }
 ```
 
-**Integration Priority:** 🟢 **CRITICAL** (Phase 1)
+**Integration Priority:**  **CRITICAL** (Phase 1)
 
 **Use Cases:**
 
@@ -635,7 +635,7 @@ These are **fundamental tools** that every Claude-based system should have.
 
 ---
 
-### 11. Calculation/Math Tools 🟡 USEFUL
+### 11. Calculation/Math Tools  USEFUL
 
 **MCP Server:** `custom-math-server`
 
@@ -655,13 +655,13 @@ These are **fundamental tools** that every Claude-based system should have.
 }
 ```
 
-**Integration Priority:** 🟡 Medium (Phase 2)
+**Integration Priority:**  Medium (Phase 2)
 
 **Note:** Most calculations should be in SignalCore, not MCP tools. This tool is for Cortex to request calculations without implementing logic.
 
 ---
 
-### 12. Logging/Observability Tools 🟢 RECOMMENDED
+### 12. Logging/Observability Tools  RECOMMENDED
 
 **MCP Server:** `custom-logging-server`
 
@@ -695,11 +695,11 @@ These are **fundamental tools** that every Claude-based system should have.
 }
 ```
 
-**Integration Priority:** 🟢 **RECOMMENDED** (Phase 1-2)
+**Integration Priority:**  **RECOMMENDED** (Phase 1-2)
 
 ---
 
-### 13. Web Scraping Tools 🟡 USEFUL
+### 13. Web Scraping Tools  USEFUL
 
 **MCP Server:** `@modelcontextprotocol/server-puppeteer`
 
@@ -730,7 +730,7 @@ These are **fundamental tools** that every Claude-based system should have.
 }
 ```
 
-**Integration Priority:** 🟡 Medium (Phase 2-3)
+**Integration Priority:**  Medium (Phase 2-3)
 
 **Use Cases:**
 
@@ -740,7 +740,7 @@ These are **fundamental tools** that every Claude-based system should have.
 
 ---
 
-### 14. Notification Tools 🟢 RECOMMENDED
+### 14. Notification Tools  RECOMMENDED
 
 **MCP Server:** `custom-notification-server`
 
@@ -760,7 +760,7 @@ These are **fundamental tools** that every Claude-based system should have.
 }
 ```
 
-**Integration Priority:** 🟢 **RECOMMENDED** (Phase 2)
+**Integration Priority:**  **RECOMMENDED** (Phase 2)
 
 **Use Cases:**
 
@@ -779,16 +779,16 @@ These are **fundamental tools** that every Claude-based system should have.
 
 | Tool | Description | Priority | Use Case |
 |------|-------------|----------|----------|
-| `@mcp/filesystem` | File operations | 🟢 Critical | Read/write configs, logs, results |
-| `@mcp/git` | Git version control | 🟢 High | Strategy versioning, KB changes |
-| `@mcp/sqlite` | SQLite database | 🟢 High | Local data storage |
-| `@mcp/postgres` | PostgreSQL database | 🟢 Critical | Production database |
-| `@mcp/fetch` | HTTP requests | 🟢 High | API calls (if not using plugins) |
-| `@mcp/memory` | Conversation memory | 🟡 Medium | Session state |
-| `@mcp/brave-search` | Web search | 🟡 Low | Research tasks |
-| `@mcp/puppeteer` | Web automation | 🟡 Medium | Scraping |
-| `@mcp/google-drive` | Drive access | 🔴 Low | Not needed |
-| `@mcp/slack` | Slack integration | 🟡 Medium | Notifications |
+| `@mcp/filesystem` | File operations |  Critical | Read/write configs, logs, results |
+| `@mcp/git` | Git version control |  High | Strategy versioning, KB changes |
+| `@mcp/sqlite` | SQLite database |  High | Local data storage |
+| `@mcp/postgres` | PostgreSQL database |  Critical | Production database |
+| `@mcp/fetch` | HTTP requests |  High | API calls (if not using plugins) |
+| `@mcp/memory` | Conversation memory |  Medium | Session state |
+| `@mcp/brave-search` | Web search |  Low | Research tasks |
+| `@mcp/puppeteer` | Web automation |  Medium | Scraping |
+| `@mcp/google-drive` | Drive access |  Low | Not needed |
+| `@mcp/slack` | Slack integration |  Medium | Notifications |
 
 ---
 
@@ -898,7 +898,7 @@ These are **fundamental tools** that every Claude-based system should have.
 
 ## Priority Matrix
 
-### 🟢 Critical Priority (Implement Phase 1)
+###  Critical Priority (Implement Phase 1)
 
 | Tool | Server | Rationale |
 |------|--------|-----------|
@@ -908,7 +908,7 @@ These are **fundamental tools** that every Claude-based system should have.
 
 **Total: 3 servers, ~10 tools**
 
-### 🟢 High Priority (Implement Phase 1-2)
+###  High Priority (Implement Phase 1-2)
 
 | Tool | Server | Rationale |
 |------|--------|-----------|
@@ -918,7 +918,7 @@ These are **fundamental tools** that every Claude-based system should have.
 
 **Total: 3 servers, ~8 tools**
 
-### 🟡 Medium Priority (Phase 2-3)
+###  Medium Priority (Phase 2-3)
 
 | Tool | Server | Rationale |
 |------|--------|-----------|
@@ -929,7 +929,7 @@ These are **fundamental tools** that every Claude-based system should have.
 
 **Total: 4 servers, ~12 tools**
 
-### 🔴 Low Priority (Phase 3+)
+###  Low Priority (Phase 3+)
 
 | Tool | Server | Rationale |
 |------|--------|-----------|
@@ -982,11 +982,11 @@ These are **fundamental tools** that every Claude-based system should have.
 
 **Before executing ANY tool:**
 
-1. ✅ Validate input against schema
-2. ✅ Check permissions
-3. ✅ Log tool call (who, what, when)
-4. ✅ Check rate limits
-5. ✅ Validate output before returning
+1.  Validate input against schema
+2.  Check permissions
+3.  Log tool call (who, what, when)
+4.  Check rate limits
+5.  Validate output before returning
 
 ### Error Handling
 
@@ -1074,19 +1074,19 @@ except PermissionError:
 
 ### DO This
 
-✅ **Start with official MCP tools** (`@mcp/filesystem`, `@mcp/git`, `@mcp/postgres`)
-✅ **Build custom servers** for domain-specific needs (logging, time-series DB)
-✅ **Restrict access** via path/table whitelists
-✅ **Log all tool calls** for audit trail
-✅ **Use tools for data access** NOT calculations (engines do that)
+ **Start with official MCP tools** (`@mcp/filesystem`, `@mcp/git`, `@mcp/postgres`)
+ **Build custom servers** for domain-specific needs (logging, time-series DB)
+ **Restrict access** via path/table whitelists
+ **Log all tool calls** for audit trail
+ **Use tools for data access** NOT calculations (engines do that)
 
 ### DON'T Do This
 
-❌ **Don't add data source tools** until strategies proven
-❌ **Don't expose dangerous operations** (DROP TABLE, rm -rf)
-❌ **Don't let LLM do calculations** via tools (use engines instead)
-❌ **Don't skip validation** on tool inputs/outputs
-❌ **Don't add tools "just in case"** (only when needed)
+ **Don't add data source tools** until strategies proven
+ **Don't expose dangerous operations** (DROP TABLE, rm -rf)
+ **Don't let LLM do calculations** via tools (use engines instead)
+ **Don't skip validation** on tool inputs/outputs
+ **Don't add tools "just in case"** (only when needed)
 
 ---
 
@@ -1115,12 +1115,12 @@ except PermissionError:
 
 ## Next Steps
 
-1. ✅ **Set up filesystem server** (use official `@mcp/filesystem`)
-2. ✅ **Set up database server** (PostgreSQL + TimescaleDB)
-3. ✅ **Set up git server** (use official `@mcp/git`)
-4. 🔲 **Build custom logging server** (Python MCP server)
-5. 🔲 **Build custom notification server** (Email + Slack)
-6. 🔲 **Evaluate Scholar Gateway** for KB automation
+1.  **Set up filesystem server** (use official `@mcp/filesystem`)
+2.  **Set up database server** (PostgreSQL + TimescaleDB)
+3.  **Set up git server** (use official `@mcp/git`)
+4.  **Build custom logging server** (Python MCP server)
+5.  **Build custom notification server** (Email + Slack)
+6.  **Evaluate Scholar Gateway** for KB automation
 
 **Focus:** Get essential tools working before adding data connectors.
 

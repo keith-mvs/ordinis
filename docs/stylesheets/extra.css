@@ -27,10 +27,10 @@
   --space-8: 3rem;
   --space-10: 4rem;
 
-  /* Layout */
-  --content-max-width: 800px;
+  /* Layout - expanded for full-width usage */
+  --content-max-width: 100%;
   --sidebar-width: 280px;
-  --toc-width: 220px;
+  --toc-width: 280px;
 
   /* Typography */
   --font-size-sm: 0.875rem;
@@ -42,22 +42,41 @@
 }
 
 /* --------------------------------------------------------------------------
-   2. Content Layout
+   2. Content Layout - Full Width
    -------------------------------------------------------------------------- */
 
-/* Constrain content width for readability */
+/* Remove constraints - use full available width */
 .md-content__inner {
-  max-width: var(--content-max-width);
-  margin-left: auto;
-  margin-right: auto;
-  padding: var(--space-6) var(--space-4);
+  max-width: none;
+  margin: 0;
+  padding: var(--space-4) var(--space-4);
 }
 
-/* Optimal line length for prose */
-.md-typeset p,
-.md-typeset li,
-.md-typeset blockquote {
-  max-width: 75ch;
+/* Remove width constraints from main container */
+.md-main__inner {
+  max-width: none;
+  margin: 0;
+}
+
+/* Expand content area */
+.md-content {
+  max-width: none;
+}
+
+/* Wider TOC panel */
+.md-sidebar--secondary {
+  width: var(--toc-width);
+}
+
+/* Non-sticky header - scrolls with page */
+.md-header {
+  position: relative;
+  box-shadow: none;
+}
+
+/* Remove top padding that was for fixed header */
+.md-main {
+  margin-top: 0;
 }
 
 /* --------------------------------------------------------------------------

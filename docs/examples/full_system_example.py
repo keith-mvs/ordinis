@@ -159,7 +159,7 @@ def risk_aware_strategy(engine, symbol, bar):  # noqa: PLR0912, PLR0915
     # Check kill switches FIRST
     triggered, reason = risk_guard.check_kill_switches(portfolio)
     if triggered:
-        print(f"\n⚠️  KILL SWITCH TRIGGERED: {reason}")
+        print(f"\n️  KILL SWITCH TRIGGERED: {reason}")
         print("   Closing all positions...")
 
         # Close all positions
@@ -205,7 +205,7 @@ def risk_aware_strategy(engine, symbol, bar):  # noqa: PLR0912, PLR0915
                     # Place order
                     engine.submit_order(symbol, shares, "buy")
 
-                    print(f"\n✓ {bar.timestamp.date()} | BUY {shares} {symbol} @ {bar.close:.2f}")
+                    print(f"\n {bar.timestamp.date()} | BUY {shares} {symbol} @ {bar.close:.2f}")
                     print(f"  Model: {signal.model_id} | Prob: {signal.probability:.2%}")
                     print(
                         f"  Score: {signal.score:.2f} | Expected Return: {signal.expected_return:.2%}"
@@ -214,9 +214,9 @@ def risk_aware_strategy(engine, symbol, bar):  # noqa: PLR0912, PLR0915
                     # Show risk checks
                     for result in results:
                         if not result.passed:
-                            print(f"  ⚠️  {result.rule_name}: {result.action_taken}")
+                            print(f"  ️  {result.rule_name}: {result.action_taken}")
                 else:
-                    print(f"\n✗ {bar.timestamp.date()} | REJECTED {symbol} trade")
+                    print(f"\n {bar.timestamp.date()} | REJECTED {symbol} trade")
                     for result in results:
                         if not result.passed:
                             print(
@@ -230,7 +230,7 @@ def risk_aware_strategy(engine, symbol, bar):  # noqa: PLR0912, PLR0915
                     engine.close_position(symbol)
 
                     print(
-                        f"\n✓ {bar.timestamp.date()} | SELL {current_position.quantity} {symbol} @ {bar.close:.2f}"
+                        f"\n {bar.timestamp.date()} | SELL {current_position.quantity} {symbol} @ {bar.close:.2f}"
                     )
                     print(f"  Model: {signal.model_id} | Prob: {signal.probability:.2%}")
 
@@ -318,7 +318,7 @@ if __name__ == "__main__":
     results = main()
     print("\nBacktest complete!")
     print("\nThis demonstrates:")
-    print("✓ SignalCore generating probabilistic trading signals")
-    print("✓ RiskGuard validating and sizing positions")
-    print("✓ ProofBench backtesting with realistic execution")
-    print("✓ Full audit trail of all decisions")
+    print(" SignalCore generating probabilistic trading signals")
+    print(" RiskGuard validating and sizing positions")
+    print(" ProofBench backtesting with realistic execution")
+    print(" Full audit trail of all decisions")

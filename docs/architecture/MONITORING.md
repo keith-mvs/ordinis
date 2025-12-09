@@ -266,9 +266,9 @@ def cli_health_command():
 
     for name, check in report['checks'].items():
         status_emoji = {
-            'healthy': '✓',
-            'degraded': '⚠',
-            'unhealthy': '✗',
+            'healthy': '',
+            'degraded': '',
+            'unhealthy': '',
             'unknown': '?'
         }
         emoji = status_emoji.get(check['status'], '?')
@@ -367,12 +367,12 @@ Output format:
 ### 1. Log Appropriately
 
 ```python
-# ✓ Good - Informative messages
+#  Good - Informative messages
 logger.info(f"Backtest started: {symbol}, {len(data)} bars")
 logger.warning(f"Low confidence signal: {signal.probability:.2%}")
 logger.error(f"API call failed: {status_code}")
 
-# ✗ Bad - Too verbose or not useful
+#  Bad - Too verbose or not useful
 logger.debug("Entering function")  # Unless actually debugging
 logger.info("Data processed")      # Too vague
 ```

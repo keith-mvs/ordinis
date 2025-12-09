@@ -205,10 +205,10 @@ See [NVIDIA_INTEGRATION.md](../NVIDIA_INTEGRATION.md) for detailed setup.
 
 | Operation | Target | Status |
 |-----------|--------|--------|
-| Text Embedding (local) | <2s | ⚠️ Pending NVIDIA model |
-| Code Embedding (local) | <2s | ⚠️ Pending NVIDIA model |
-| Vector Search | <100ms | ✅ Achieved |
-| End-to-End Retrieval | <3s | ⚠️ Pending NVIDIA model |
+| Text Embedding (local) | <2s | ️ Pending NVIDIA model |
+| Code Embedding (local) | <2s | ️ Pending NVIDIA model |
+| Vector Search | <100ms |  Achieved |
+| End-to-End Retrieval | <3s | ️ Pending NVIDIA model |
 
 ## Cost Estimate
 

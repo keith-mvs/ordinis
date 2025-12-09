@@ -458,22 +458,22 @@ cache:
 ## Success Criteria
 
 ### Functional Requirements
-- ✅ Real-time data (<1 minute delay)
-- ✅ <3 second response time
-- ✅ 99%+ success rate
-- ✅ Accurate regime classification
+-  Real-time data (<1 minute delay)
+-  <3 second response time
+-  99%+ success rate
+-  Accurate regime classification
 
 ### Technical Requirements
-- ✅ All tests passing (>90% coverage)
-- ✅ Proper error handling
-- ✅ Rate limiting implemented
-- ✅ Caching functional
+-  All tests passing (>90% coverage)
+-  Proper error handling
+-  Rate limiting implemented
+-  Caching functional
 
 ### User Experience
-- ✅ Faster command execution
-- ✅ More reliable results
-- ✅ Current (not stale) data
-- ✅ Clear error messages
+-  Faster command execution
+-  More reliable results
+-  Current (not stale) data
+-  Clear error messages
 
 ---
 
@@ -493,7 +493,7 @@ cache:
 ## Next Steps
 
 1. **Immediate (Today)**
-   - ✅ Document current limitations
+   -  Document current limitations
    - ⬜ Review existing plugin architecture
    - ⬜ Create skeleton for `MarketConditionsAnalyzer`
 

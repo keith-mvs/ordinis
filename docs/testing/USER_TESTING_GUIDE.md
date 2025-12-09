@@ -73,17 +73,17 @@ pytest tests/test_plugins/ -v
 ## Features Available for Testing
 
 ### Stable Features
-✅ Core Infrastructure
-✅ Trading Strategies (RSI, MA, Momentum)
-✅ Market Data Integration (Polygon.io, IEX Cloud)
-✅ Backtesting System
-✅ CLI Interface
-✅ Monitoring
+ Core Infrastructure
+ Trading Strategies (RSI, MA, Momentum)
+ Market Data Integration (Polygon.io, IEX Cloud)
+ Backtesting System
+ CLI Interface
+ Monitoring
 
 ### Experimental Features
-🔬 RAG System (src/rag/)
-🔬 Enhanced Testing
-🔬 Bollinger Bands Strategy (known test failures)
+ RAG System (src/rag/)
+ Enhanced Testing
+ Bollinger Bands Strategy (known test failures)
 
 ## Reporting Issues
 

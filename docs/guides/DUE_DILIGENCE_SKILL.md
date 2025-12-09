@@ -6,20 +6,20 @@
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Claude Compatible](https://img.shields.io/badge/claude-compatible-orange.svg)](https://claude.ai)
 
-## 🎯 Overview
+##  Overview
 
 The **Due Diligence & Research** skill transforms Claude into a systematic analyst capable of conducting comprehensive, audit-ready research across multiple domains. Whether you're evaluating vendors, assessing market opportunities, conducting technical reviews, or preparing for compliance audits, this skill provides structured workflows and domain expertise to deliver professional-grade analysis.
 
 ### Key Benefits
 
-- **⚡ Speed**: Reduce investigation timelines from weeks to days
-- **🔍 Thoroughness**: Catch critical details hidden in footnotes, disclaimers, and fine print
-- **📊 Synthesis**: Combine insights from web research, documents, databases, and interviews
-- **✅ Audit-Ready**: Complete source attribution and compliance-grade documentation
-- **⚖️ Risk-Aware**: Systematic risk identification with probability/impact assessment
-- **🎯 Decision-Focused**: Clear recommendations backed by evidence
+- ** Speed**: Reduce investigation timelines from weeks to days
+- ** Thoroughness**: Catch critical details hidden in footnotes, disclaimers, and fine print
+- ** Synthesis**: Combine insights from web research, documents, databases, and interviews
+- ** Audit-Ready**: Complete source attribution and compliance-grade documentation
+- **️ Risk-Aware**: Systematic risk identification with probability/impact assessment
+- ** Decision-Focused**: Clear recommendations backed by evidence
 
-## 📦 What's Included
+##  What's Included
 
 ### Core Framework
 Six-phase systematic workflow for conducting due diligence:
@@ -32,35 +32,35 @@ Six-phase systematic workflow for conducting due diligence:
 
 ### Domain-Specific Expertise
 
-**🔧 Technical Due Diligence**
+** Technical Due Diligence**
 - Architecture assessment & scalability analysis
 - Code quality evaluation & technical debt quantification
 - Technology stack viability & team capability
 - Security posture & vulnerability management
 - Performance benchmarking & capacity planning
 
-**📈 Market Analysis**
+** Market Analysis**
 - TAM/SAM/SOM market sizing with multiple methodologies
 - Competitive landscape mapping & positioning strategy
 - Customer segmentation & needs analysis
 - Porter's Five Forces & SWOT frameworks
 - Growth dynamics & barrier assessment
 
-**💰 Financial Due Diligence**
+** Financial Due Diligence**
 - Revenue quality & composition analysis
 - Unit economics (LTV:CAC, payback, Rule of 40)
 - Profitability path & cash flow forecasting
 - Cap table & equity structure review
 - Valuation analysis with multiple methodologies
 
-**🤝 Vendor Evaluation**
+** Vendor Evaluation**
 - Capability assessment & scope alignment
 - Financial stability & business viability
 - Performance track record & reference checks
 - Contract terms & commercial comparison
 - Security, compliance, & risk evaluation
 
-**📋 Compliance Review**
+** Compliance Review**
 - Regulatory landscape mapping (GDPR, HIPAA, SOC 2, etc.)
 - Data privacy & protection assessment
 - Security certification status & audit readiness
@@ -72,7 +72,7 @@ Six-phase systematic workflow for conducting due diligence:
 - **Comparison Matrices**: Side-by-side vendor/option evaluation frameworks
 - **Risk Registers**: Structured risk documentation with mitigation plans
 
-## 🚀 Installation
+##  Installation
 
 ### Prerequisites
 - Claude Pro, Team, or Enterprise account
@@ -96,7 +96,7 @@ Six-phase systematic workflow for conducting due diligence:
    - Type: "What due diligence skills do you have?"
    - Claude should acknowledge the due-diligence skill
 
-## 📖 Usage
+##  Usage
 
 ### Basic Usage
 
@@ -141,7 +141,7 @@ Request the deliverable format you need:
 "Generate a comparison matrix scoring the options"
 ```
 
-## 💡 Example Workflows
+##  Example Workflows
 
 ### Technology Evaluation
 
@@ -205,7 +205,7 @@ Request the deliverable format you need:
 
 **Deliverable**: Gap analysis with prioritized remediation plan and timeline
 
-## 🎨 Output Examples
+##  Output Examples
 
 ### Standard Report Structure
 ```
@@ -251,16 +251,16 @@ Request the deliverable format you need:
 | TOTAL          | 100%   | 4.15     | 3.90     | 4.05     |
 | RANKING        |        | 1st      | 3rd      | 2nd      |
 
-✅ Vendor A: Best overall, strong security and track record
-⚠️ Vendor B: Most mature but limited innovation
-⚠️ Vendor C: Best pricing but execution risk
+ Vendor A: Best overall, strong security and track record
+️ Vendor B: Most mature but limited innovation
+️ Vendor C: Best pricing but execution risk
 ```
 
-## 🎯 Best Practices
+##  Best Practices
 
 ### 1. Be Specific About Scope
-❌ **Too vague**: "Research this company"
-✅ **Specific**: "Conduct financial due diligence focusing on revenue quality, unit economics, and burn rate for Company X"
+ **Too vague**: "Research this company"
+ **Specific**: "Conduct financial due diligence focusing on revenue quality, unit economics, and burn rate for Company X"
 
 ### 2. Provide Context
 Include details that shape the analysis:
@@ -297,7 +297,7 @@ After receiving initial analysis:
 - Challenge assumptions that don't match your experience
 - Request sensitivity analysis on key variables
 
-## 🔍 Key Features
+##  Key Features
 
 ### Intelligent Source Management
 - Tracks all sources with collection timestamps
@@ -331,7 +331,7 @@ After receiving initial analysis:
 - Risk registers (structured lists)
 - Presentation outlines (slide structure)
 
-## 🛠️ Skill Architecture
+## ️ Skill Architecture
 
 ```
 due-diligence/
@@ -349,7 +349,7 @@ due-diligence/
 **Total Package Size**: ~230KB
 **Content**: 18,000+ words of frameworks, checklists, and best practices
 
-## 🧪 Testing & Validation
+##  Testing & Validation
 
 This skill has been designed based on:
 - Industry-standard due diligence frameworks (venture capital, private equity, consulting)
@@ -364,7 +364,7 @@ Recommended validation approach:
 4. **Challenge findings**: Ask questions to test the depth of analysis
 5. **Iterate**: Provide feedback to improve future analyses
 
-## 📊 Use Cases
+##  Use Cases
 
 ### Investment & M&A
 - Acquisition target evaluation
@@ -401,20 +401,20 @@ Recommended validation approach:
 - Database migration assessment
 - Tool and platform comparison
 
-## ⚠️ Limitations
+## ️ Limitations
 
 ### What This Skill Does Well
-✅ Structured research and synthesis across multiple sources
-✅ Risk identification and assessment with mitigation strategies
-✅ Comparative analysis and recommendation development
-✅ Professional documentation with audit trails
+ Structured research and synthesis across multiple sources
+ Risk identification and assessment with mitigation strategies
+ Comparative analysis and recommendation development
+ Professional documentation with audit trails
 
 ### What This Skill Doesn't Do
-❌ Legal advice (consult an attorney for legal matters)
-❌ Financial advice (consult a licensed advisor for investment decisions)
-❌ Real-time data access (knowledge cutoff applies)
-❌ Proprietary databases (unless you provide the data)
-❌ Replace human judgment (outputs should be reviewed and validated)
+ Legal advice (consult an attorney for legal matters)
+ Financial advice (consult a licensed advisor for investment decisions)
+ Real-time data access (knowledge cutoff applies)
+ Proprietary databases (unless you provide the data)
+ Replace human judgment (outputs should be reviewed and validated)
 
 ### Important Notes
 - **Verification Required**: All findings should be independently verified for critical decisions
@@ -422,7 +422,7 @@ Recommended validation approach:
 - **Current Information**: Web search results may be more current than training data
 - **Context Dependent**: Quality of analysis depends on quality of inputs and available information
 
-## 🤝 Contributing
+##  Contributing
 
 This skill can be enhanced with:
 - Company-specific due diligence checklists
@@ -438,17 +438,17 @@ To customize:
 4. Re-package using the packaging script
 5. Reinstall the updated skill
 
-## 📝 License
+##  License
 
 MIT License - See LICENSE file for details
 
-## 🔗 Resources
+##  Resources
 
 - [Claude Skills Documentation](https://docs.claude.com/docs/skills)
 - [Skill Creator Guide](https://github.com/anthropics/skill-creator)
 - [Due Diligence Best Practices](https://example.com/dd-guide)
 
-## 💬 Support
+##  Support
 
 ### Questions or Issues?
 - Review the Quick Reference Guide included with this package
@@ -463,7 +463,7 @@ Share your experience:
 - What additional frameworks would be helpful?
 - What use cases aren't well covered?
 
-## 🗺️ Roadmap
+## ️ Roadmap
 
 Potential future enhancements:
 - [ ] Additional domain frameworks (HR, operations, legal)
@@ -479,7 +479,7 @@ Potential future enhancements:
 **Last Updated**: December 2025
 **Maintained by**: Intelligent Investor Project
 
-**Status**: ✅ Production Ready
+**Status**:  Production Ready
 
 ---
 
