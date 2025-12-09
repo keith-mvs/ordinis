@@ -168,6 +168,7 @@ nav:
       - Monitoring: architecture/MONITORING.md
     - AI Integration:
       - NVIDIA Integration: architecture/NVIDIA_INTEGRATION.md
+      - NVIDIA Blueprint Integration: architecture/NVIDIA_BLUEPRINT_INTEGRATION.md
       - RAG System: architecture/RAG_SYSTEM.md
       - RAG Implementation: architecture/RAG_IMPLEMENTATION.md
     - Tools & Connectors:
@@ -192,6 +193,8 @@ nav:
           - knowledge-base/02_signals/technical/overlays/README.md
           - Moving Averages: knowledge-base/02_signals/technical/overlays/moving_averages.md
           - Bollinger Bands: knowledge-base/02_signals/technical/overlays/bollinger_bands.md
+          - Keltner Channels: knowledge-base/02_signals/technical/overlays/keltner_channels.md
+          - Envelopes: knowledge-base/02_signals/technical/overlays/envelopes.md
         - Oscillators:
           - knowledge-base/02_signals/technical/oscillators/README.md
           - RSI: knowledge-base/02_signals/technical/oscillators/rsi.md
@@ -239,12 +242,29 @@ nav:
           - knowledge-base/02_signals/quantitative/statistical_arbitrage/README.md
           - Pairs Trading: knowledge-base/02_signals/quantitative/statistical_arbitrage/pairs_trading.md
           - Mean Reversion: knowledge-base/02_signals/quantitative/statistical_arbitrage/mean_reversion.md
+          - Spread Trading: knowledge-base/02_signals/quantitative/statistical_arbitrage/spread_trading.md
         - Factor Investing:
           - knowledge-base/02_signals/quantitative/factor_investing/README.md
           - Momentum Factor: knowledge-base/02_signals/quantitative/factor_investing/momentum_factor.md
-        - ML Strategies: knowledge-base/02_signals/quantitative/ml_strategies/README.md
-        - Execution Algorithms: knowledge-base/02_signals/quantitative/execution_algorithms/README.md
-        - Portfolio Construction: knowledge-base/02_signals/quantitative/portfolio_construction/README.md
+          - Value Factor: knowledge-base/02_signals/quantitative/factor_investing/value_factor.md
+          - Quality Factor: knowledge-base/02_signals/quantitative/factor_investing/quality_factor.md
+          - Fama-French: knowledge-base/02_signals/quantitative/factor_investing/fama_french.md
+        - ML Strategies:
+          - knowledge-base/02_signals/quantitative/ml_strategies/README.md
+          - Signal Classification: knowledge-base/02_signals/quantitative/ml_strategies/signal_classification.md
+          - Return Prediction: knowledge-base/02_signals/quantitative/ml_strategies/return_prediction.md
+          - Regime Classification: knowledge-base/02_signals/quantitative/ml_strategies/regime_classification.md
+          - Feature Engineering: knowledge-base/02_signals/quantitative/ml_strategies/feature_engineering.md
+        - Execution Algorithms:
+          - knowledge-base/02_signals/quantitative/execution_algorithms/README.md
+          - TWAP/VWAP: knowledge-base/02_signals/quantitative/execution_algorithms/twap_vwap.md
+          - Optimal Execution: knowledge-base/02_signals/quantitative/execution_algorithms/optimal_execution.md
+          - Market Impact: knowledge-base/02_signals/quantitative/execution_algorithms/market_impact.md
+        - Portfolio Construction:
+          - knowledge-base/02_signals/quantitative/portfolio_construction/README.md
+          - Mean-Variance: knowledge-base/02_signals/quantitative/portfolio_construction/mean_variance.md
+          - Risk Parity: knowledge-base/02_signals/quantitative/portfolio_construction/risk_parity.md
+          - HRP: knowledge-base/02_signals/quantitative/portfolio_construction/hrp.md
     - 3. Risk Management:
       - knowledge-base/03_risk/README.md
       - Advanced Risk Methods: knowledge-base/03_risk/advanced_risk_methods.md
