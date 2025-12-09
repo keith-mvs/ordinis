@@ -1,14 +1,14 @@
 # Claude Connectors (MCP Servers) - Integration Evaluation
 
 **Date:** 2025-01-28
-**Project:** Intelligent Investor Trading System
+**Project:** Ordinis Trading System
 **Status:** Research & Evaluation Phase
 
 ---
 
 ## Executive Summary
 
-This document evaluates 6 Claude Connectors (MCP servers) for potential integration into the Intelligent Investor trading system ecosystem. Each connector is assessed against technical, functional, and strategic criteria to determine integration feasibility and priority.
+This document evaluates 6 Claude Connectors (MCP servers) for potential integration into the Ordinis trading system ecosystem. Each connector is assessed against technical, functional, and strategic criteria to determine integration feasibility and priority.
 
 ---
 
@@ -974,9 +974,9 @@ Aiera (acquired by S&P Global) provides AI-powered event detection, earnings cal
 ### Appendix A: Cost vs Value Matrix
 
 ```
-High Value, Low Cost: Scholar Gateway 
+High Value, Low Cost: Scholar Gateway
 High Value, High Cost: Daloopa, MT Newswires, S&P Aiera (conditional)
-Low Value, High Cost: Moody's Analytics 
+Low Value, High Cost: Moody's Analytics
 Low Value, Low Cost: Crypto.com (out of scope) ️
 ```
 

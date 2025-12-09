@@ -2,7 +2,7 @@
 
 ## Overview
 
-This guide provides instructions for testing features on the `user/interface` branch of the Intelligent Investor project. This branch contains new features and improvements that are ready for user validation before merging to the stable `main` branch.
+This guide provides instructions for testing features on the `user/interface` branch of the Ordinis project. This branch contains new features and improvements that are ready for user validation before merging to the stable `main` branch.
 
 ## Prerequisites
 
@@ -22,7 +22,7 @@ This guide provides instructions for testing features on the `user/interface` br
 
 ```powershell
 # Navigate to project directory
-cd C:\Users\kjfle\.projects\intelligent-investor
+cd C:\Users\kjfle\Workspace\ordinis
 
 # Checkout user testing branch
 git checkout user/interface

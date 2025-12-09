@@ -49,8 +49,7 @@ The Ordinis trading system is built on a modular architecture with clear separat
 | Document | Description |
 |----------|-------------|
 | [NVIDIA Integration](NVIDIA_INTEGRATION.md) | NVIDIA NIM model integration |
-| [RAG System](RAG_SYSTEM.md) | Knowledge retrieval architecture |
-| [RAG Implementation](RAG_IMPLEMENTATION.md) | Implementation details |
+| [RAG System](RAG_SYSTEM.md) | Knowledge retrieval architecture and implementation |
 
 ### 2.3.3 Tools & Connectors
 | Document | Description |
@@ -60,11 +59,20 @@ The Ordinis trading system is built on a modular architecture with clear separat
 | [Claude Connectors](CLAUDE_CONNECTORS_EVALUATION.md) | Claude API integration |
 | [Connectors Reference](CONNECTORS_QUICK_REFERENCE.md) | Quick reference guide |
 
-### 2.3.4 Development
+### 2.3.4 Advanced Architecture
+| Document | Description |
+|----------|-------------|
+| [Layered System Architecture](LAYERED_SYSTEM_ARCHITECTURE.md) | **Master spec** - Orchestration and component integration |
+| [Model Alternatives Framework](MODEL_ALTERNATIVES_FRAMEWORK.md) | Multi-model selection and fallback strategy |
+| [NVIDIA Blueprint Integration](NVIDIA_BLUEPRINT_INTEGRATION.md) | PortOpt and Distillery infrastructure |
+| [TensorTrade-Alpaca Deployment](TENSORTRADE_ALPACA_DEPLOYMENT.md) | Production deployment specification |
+
+### 2.3.5 Development & Analysis
 | Document | Description |
 |----------|-------------|
 | [System Capabilities](SYSTEM_CAPABILITIES_ASSESSMENT.md) | Feature assessment |
 | [Development TODO](DEVELOPMENT_TODO.md) | Development backlog |
+| [Additional Plugins](ADDITIONAL_PLUGINS_ANALYSIS.md) | Extended plugin analysis |
 
 ## 2.4 Technology Stack
 

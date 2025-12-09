@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document provides a concrete development to-do list analyzing the Intelligent Investor system from an integration and tooling perspective, covering architecture components, plugins, MCP servers/clients, hooks, and client requirements.
+This document provides a concrete development to-do list analyzing the Ordinis system from an integration and tooling perspective, covering architecture components, plugins, MCP servers/clients, hooks, and client requirements.
 
 ---
 
@@ -12,7 +12,7 @@ This document provides a concrete development to-do list analyzing the Intellige
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                        INTELLIGENT INVESTOR SYSTEM                           │
+│                        ORDINIS SYSTEM                           │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │                                                                              │
 │  ┌─────────────────────────────────────────────────────────────────────┐    │

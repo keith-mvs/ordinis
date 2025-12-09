@@ -1,7 +1,9 @@
 # Project Status Report
-**Date:** November 30, 2025
-**Branch:** main
-**Latest Commit:** 141e4e46 - Add visualization module with interactive charts
+**Date:** December 8, 2025
+**Branch:** master
+**Latest Commit:** fbbb9e07 - Add multi-model framework implementations
+
+> **Note:** This document captures historical development progress. For current architecture, see [LAYERED_SYSTEM_ARCHITECTURE.md](../architecture/LAYERED_SYSTEM_ARCHITECTURE.md).
 
 ---
 
@@ -12,20 +14,20 @@
 
 #### Completed Work:
 
-1. **Polygon.io Plugin Tests** 
+1. **Polygon.io Plugin Tests**
    - **Coverage:** 34.46% → 62.16% (+27.70%)
    - **Tests Added:** 30 comprehensive tests
    - **Status:** All 30 tests passing
    - **Commit:** 95942ae9
 
-2. **IEX Plugin Tests** 
+2. **IEX Plugin Tests**
    - **Previous Coverage:** 42.19%
    - **Tests Added:** 25 comprehensive tests
    - **Async Warnings:** Fixed 2 RuntimeWarnings
    - **Status:** All 25 tests passing cleanly
    - **Commit:** 02c89816, 11891d83
 
-3. **Momentum Breakout Strategy** 
+3. **Momentum Breakout Strategy**
    - **Deprecation Fixes:** Fixed 3 Series indexing issues
    - **Tests Added:** 15 comprehensive tests
    - **Status:** 11/15 passing (73% pass rate)
@@ -47,7 +49,7 @@
 
 ### 2.1 Current Implementation Status
 
-** Short Trading IS Supported** in the intelligent-investor codebase.
+** Short Trading IS Supported** in the Ordinis codebase.
 
 #### Evidence of Short Position Support:
 
@@ -257,19 +259,24 @@
 
 ---
 
-## 6. Recent Commits (Last 10)
+## 6. Recent Commits (Last 15)
 
 ```
-141e4e46 Add visualization module with interactive charts
-11891d83 Fix asyncio warnings in IEX comprehensive tests
-36ec0ab0 Add comprehensive session summary
-95942ae9 Add comprehensive tests for Polygon.io plugin
-02c89816 Add comprehensive IEX plugin tests (25 tests)
-d251f8a6 Fix deprecation warnings
-8d30b702 Add comprehensive .gitignore for Python project
-bf4a314f Add comprehensive integration tests for backtest workflow
-cf05c776 Add comprehensive tests for CLI interface
-e7bd0f24 Add comprehensive tests for Momentum Breakout strategy
+fbbb9e07 Add multi-model framework implementations with verified org repos
+6ab5c18a Add implementation references to model alternatives framework
+0f5f9847 Add multi-model alternatives framework specification
+0feefd2e Enhance RiskGuard with comprehensive risk rules and kill switches
+d9dbf1c9 Add NVIDIA Blueprint integration plan and fix documentation links
+8bfd855a Add session export for documentation enhancement work
+7dfa5125 Update documentation site with modern design and fixes
+a868a111 Fix UI: full-width layout, wider TOC, non-sticky header, remove emojis
+ef7ceac0 Add governance engines, regime-adaptive strategies, and infrastructure
+0ca488bc Add comprehensive KB expansion and MkDocs documentation site
+d7c6d7e0 Add session exports from intelligent-investor development
+7429178a Add real data backtesting with honest results
+7f984621 Update documentation for v0.2.0-dev release
+adc33905 Add complete end-to-end system demo
+12fbd186 Add live trading integration test and fix test script issues
 ```
 
 ---
@@ -312,5 +319,5 @@ e7bd0f24 Add comprehensive tests for Momentum Breakout strategy
 
 ---
 
-**Report Generated:** November 30, 2025
-**Next Review:** December 1, 2025
+**Report Generated:** December 8, 2025
+**Next Review:** After next major architecture changes

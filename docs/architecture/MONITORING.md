@@ -23,7 +23,7 @@ from monitoring import setup_logging, get_logger
 # Configure logging
 setup_logging(
     log_level="INFO",
-    log_file="logs/intelligent-investor.log",
+    log_file="logs/ordinis.log",
     rotation="100 MB",
     retention="30 days",
     json_format=False  # Set True for structured JSON logs

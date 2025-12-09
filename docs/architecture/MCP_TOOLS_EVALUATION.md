@@ -1,14 +1,14 @@
 # MCP Tools - Comprehensive Evaluation
 
 **Date:** 2025-01-28
-**Project:** Intelligent Investor Trading System
+**Project:** Ordinis Trading System
 **Status:** Research & Planning
 
 ---
 
 ## Overview
 
-This document evaluates MCP tools (functions exposed by MCP servers) for the Intelligent Investor system. We assess both **connector-specific tools** (from data providers) and **general-purpose tools** (filesystem, database, etc.) to determine integration priorities.
+This document evaluates MCP tools (functions exposed by MCP servers) for the Ordinis system. We assess both **connector-specific tools** (from data providers) and **general-purpose tools** (filesystem, database, etc.) to determine integration priorities.
 
 ---
 

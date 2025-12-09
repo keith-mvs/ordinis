@@ -1145,3 +1145,15 @@ The SignalCore Trading System provides a robust, auditable framework for automat
 3. **Flexibility** in implementation while preserving function
 4. **Safety** through layered constraints
 5. **Transparency** for human oversight and review
+
+---
+
+## Related Documentation
+
+| Document | Relationship |
+|----------|--------------|
+| [Layered System Architecture](LAYERED_SYSTEM_ARCHITECTURE.md) | **Master spec** - Defines orchestration layer on top of this 5-engine architecture |
+| [Model Alternatives Framework](MODEL_ALTERNATIVES_FRAMEWORK.md) | Model selection strategy for SignalCore ML engine |
+| [NVIDIA Blueprint Integration](NVIDIA_BLUEPRINT_INTEGRATION.md) | PortOpt and Distillery extensions to infrastructure |
+| [NVIDIA Integration](NVIDIA_INTEGRATION.md) | LLM model integration for Cortex engine |
+| [RiskGuard Implementation](../engines/riskguard/) | Enhanced risk rules and kill switches |

@@ -9,7 +9,7 @@
 
 ## Objective
 
-Set up comprehensive testing infrastructure for the Intelligent Investor system to enable safe development, refactoring, and deployment.
+Set up comprehensive testing infrastructure for the Ordinis system to enable safe development, refactoring, and deployment.
 
 **Success Criteria:**
 
@@ -25,7 +25,7 @@ Set up comprehensive testing infrastructure for the Intelligent Investor system 
 ## What We're Building
 
 ```
-intelligent-investor/
+ordinis/
 ├── pyproject.toml                    #  CREATED - Project configuration
 ├── .pre-commit-config.yaml           #  CREATED - Pre-commit hooks
 ├── .github/workflows/ci.yml          #  CREATED - CI/CD pipeline
@@ -1194,10 +1194,10 @@ xdg-open htmlcov/index.html  # Linux
 
 **Critical Coverage Targets:**
 
-- Rate limiter: >90% 
-- Validation: >90% 
-- Plugin base: >90% 
-- Market data plugins: >85% 
+- Rate limiter: >90%
+- Validation: >90%
+- Plugin base: >90%
+- Market data plugins: >85%
 
 ---
 

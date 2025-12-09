@@ -4,7 +4,7 @@ MkDocs Macros module for Ordinis Documentation.
 Provides template variables and functions for dynamic documentation generation.
 """
 
-from datetime import datetime
+from datetime import UTC, datetime
 
 
 def define_env(env):
@@ -15,34 +15,42 @@ def define_env(env):
     """
 
     # Project metadata
-    env.variables['project_name'] = 'Ordinis Trading System'
-    env.variables['project_version'] = '0.2.0-dev'
-    env.variables['project_author'] = 'Ordinis Development Team'
+    env.variables["project_name"] = "Ordinis Trading System"
+    env.variables["project_version"] = "0.2.0-dev"
+    env.variables["project_author"] = "Ordinis Development Team"
 
     # Version history
-    env.variables['version_history'] = [
-        {'version': '0.2.0-dev', 'date': '2024-12-08', 'changes': 'Governance engines, OECD principles, broker compliance'},
-        {'version': '0.1.0', 'date': '2024-11-30', 'changes': 'Initial release with core trading infrastructure'},
+    env.variables["version_history"] = [
+        {
+            "version": "0.2.0-dev",
+            "date": "2024-12-08",
+            "changes": "Governance engines, OECD principles, broker compliance",
+        },
+        {
+            "version": "0.1.0",
+            "date": "2024-11-30",
+            "changes": "Initial release with core trading infrastructure",
+        },
     ]
 
     # Component status
-    env.variables['components'] = {
-        'SignalCore': {'status': 'active', 'version': '0.2.0'},
-        'RiskGuard': {'status': 'active', 'version': '0.2.0'},
-        'FlowRoute': {'status': 'active', 'version': '0.2.0'},
-        'Cortex': {'status': 'development', 'version': '0.1.0'},
-        'Governance': {'status': 'active', 'version': '0.2.0'},
+    env.variables["components"] = {
+        "SignalCore": {"status": "active", "version": "0.2.0"},
+        "RiskGuard": {"status": "active", "version": "0.2.0"},
+        "FlowRoute": {"status": "active", "version": "0.2.0"},
+        "Cortex": {"status": "development", "version": "0.1.0"},
+        "Governance": {"status": "active", "version": "0.2.0"},
     }
 
     @env.macro
     def now():
         """Return current datetime."""
-        return datetime.now()
+        return datetime.now(tz=UTC)
 
     @env.macro
     def version_badge(version=None):
         """Generate HTML version badge."""
-        ver = version or env.variables['project_version']
+        ver = version or env.variables["project_version"]
         return f'<span class="version-badge">v{ver}</span>'
 
     @env.macro
@@ -55,15 +63,18 @@ def define_env(env):
     def component_table():
         """Generate component status table."""
         rows = []
-        for name, info in env.variables['components'].items():
-            status_html = status_badge(info['status'])
+        for name, info in env.variables["components"].items():
+            status_html = status_badge(info["status"])
             rows.append(f"| {name} | {status_html} | {info['version']} |")
-        return "\n".join([
-            "| Component | Status | Version |",
-            "|-----------|--------|---------|",
-        ] + rows)
+        return "\n".join(
+            [
+                "| Component | Status | Version |",
+                "|-----------|--------|---------|",
+                *rows,
+            ]
+        )
 
     @env.macro
     def last_updated():
         """Return last updated timestamp."""
-        return datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        return datetime.now(tz=UTC).strftime("%Y-%m-%d %H:%M:%S")

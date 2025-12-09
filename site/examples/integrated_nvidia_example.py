@@ -54,7 +54,7 @@ def example_complete_workflow():  # noqa: PLR0915
         print("To enable full NVIDIA AI: export NVIDIA_API_KEY='nvapi-...'")
         print("Get your key: https://build.nvidia.com/\n")
     else:
-        print("\n✓ NVIDIA AI Enabled - Full power mode!\n")
+        print("\n NVIDIA AI Enabled - Full power mode!\n")
 
     # ==================== Phase 1: Strategy Generation (Cortex) ====================
 
@@ -242,7 +242,7 @@ def generate_signal(data, fast_ma, slow_ma):
     passed, results, adjusted_signal = riskguard.evaluate_signal(signal, proposed_trade, portfolio)
 
     print("\n[3.3] Risk Evaluation Results:")
-    print(f"  Status: {'✓ PASSED' if passed else '✗ FAILED'}")
+    print(f"  Status: {' PASSED' if passed else ' FAILED'}")
     print(f"  Checks Run: {len(results)}")
     print(f"  Checks Passed: {len([r for r in results if r.passed])}")
 
@@ -359,10 +359,10 @@ def generate_signal(data, fast_ma, slow_ma):
     print("=" * 80)
 
     print("\n[5.1] Complete Workflow Executed:")
-    print(f"  ✓ Strategy Generated: {hypothesis.name}")
-    print(f"  ✓ Signal Generated: {signal.signal_type.value} {signal.direction.value}")
-    print(f"  ✓ Risk Evaluated: {'PASSED' if passed else 'NEEDS REVIEW'}")
-    print(f"  ✓ Backtest Analyzed: {metrics.total_return:.1%} return")
+    print(f"   Strategy Generated: {hypothesis.name}")
+    print(f"   Signal Generated: {signal.signal_type.value} {signal.direction.value}")
+    print(f"   Risk Evaluated: {'PASSED' if passed else 'NEEDS REVIEW'}")
+    print(f"   Backtest Analyzed: {metrics.total_return:.1%} return")
 
     print("\n[5.2] AI Models Utilized:")
     print("  - Cortex: Llama 3.1 405B (Strategy & Code Analysis)")
@@ -417,11 +417,11 @@ if __name__ == "__main__":
         print("3. Run with real market data")
         print("4. Deploy to production with FlowRoute")
         print()
-        print("All engines are AI-enhanced and ready for maximum POWER! 🚀")
+        print("All engines are AI-enhanced and ready for maximum POWER! ")
         print("=" * 80)
 
     except Exception as e:
-        print(f"\n❌ Error: {e}")
+        print(f"\n Error: {e}")
         print(
             "\nNote: This example requires market data and NVIDIA API key for full functionality."
         )

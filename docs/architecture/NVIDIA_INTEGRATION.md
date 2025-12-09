@@ -1,6 +1,6 @@
 # NVIDIA AI Integration
 
-Complete NVIDIA AI model integration across all Intelligent Investor engines, providing natural language insights, explanations, and optimizations throughout the trading workflow.
+Complete NVIDIA AI model integration across all Ordinis engines, providing natural language insights, explanations, and optimizations throughout the trading workflow.
 
 ## Overview
 
@@ -510,4 +510,4 @@ AI integration uses the same license as the main project.
 
 **Last Updated:** 2025-11-29
 **Version:** 1.0.0
-**Status:** Production Ready 
+**Status:** Production Ready

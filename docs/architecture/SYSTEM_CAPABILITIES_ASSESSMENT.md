@@ -1,16 +1,22 @@
-# Intelligent Investor - System Capabilities Assessment
+# Ordinis - System Capabilities Assessment
 
-**Last Updated:** 2025-01-29
+> **HISTORICAL DOCUMENT**
+>
+> This assessment was conducted in early Phase 1 (Jan 2025). Many components marked as "Design Only" have since been implemented.
+> For current status, see [PROJECT_STATUS_REPORT.md](../project/PROJECT_STATUS_REPORT.md).
+
+**Original Date:** 2025-01-29
+**Archived:** 2025-12-08
 **Assessment Type:** Comprehensive Infrastructure & Code Quality Audit
 **Conducted By:** Claude (Architecture Review)
 
 ---
 
-## Executive Summary
+## Executive Summary (Historical - Jan 2025)
 
-**Overall Production Readiness: 15-20%**
+**Overall Production Readiness: 15-20%** *(Note: Outdated - significant progress since)*
 
-The Intelligent Investor system represents **exceptional architectural design and documentation** paired with **limited implementation**. The codebase demonstrates professional understanding of trading systems, clean code organization, and comprehensive documentation. However, significant engineering work is required before production deployment.
+The Ordinis system represents **exceptional architectural design and documentation** paired with **limited implementation**. The codebase demonstrates professional understanding of trading systems, clean code organization, and comprehensive documentation. However, significant engineering work is required before production deployment.
 
 ### Key Findings
 

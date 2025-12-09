@@ -1,12 +1,22 @@
-# Intelligent Investor - Current Status & Next Steps
+# Ordinis - Current Status & Next Steps
 
-**Last Updated:** 2025-11-30
-**Version:** v0.1.0-alpha
+> **ARCHIVED DOCUMENT**
+>
+> This document was written during early Phase 1 development (pre-testing). Most information is now outdated.
+>
+> **Current references:**
+> - Architecture: [LAYERED_SYSTEM_ARCHITECTURE.md](../architecture/LAYERED_SYSTEM_ARCHITECTURE.md)
+> - Status: [PROJECT_STATUS_REPORT.md](PROJECT_STATUS_REPORT.md)
+> - Systems: [SIGNALCORE_SYSTEM.md](../architecture/SIGNALCORE_SYSTEM.md)
+
+**Original Date:** 2025-11-30
+**Archived:** 2025-12-08
+**Version:** v0.1.0-alpha (outdated - now v0.2.0-dev)
 **Branch:** user/interface
 
 ---
 
-## Branch Status
+## Branch Status (Historical)
 
 ### Active Branches
 
@@ -336,8 +346,8 @@ Phase 4+ (WEEKS 5+): Risk + Execution
 
  **We HAVE data sources** (sufficient for Phase 1-3):
 
-- Polygon.io: OHLCV, quotes, options, news 
-- IEX Cloud: Quotes, fundamentals, financials 
+- Polygon.io: OHLCV, quotes, options, news
+- IEX Cloud: Quotes, fundamentals, financials
 
  **We recommended DEFERRING additional connectors:**
 

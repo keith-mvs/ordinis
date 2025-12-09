@@ -337,7 +337,7 @@ def example_integrated_workflow():
 
         passed, results, _ = riskguard.evaluate_signal(signal, trade, portfolio)
 
-        status = "✓ PASS" if passed else "✗ FAIL"
+        status = " PASS" if passed else " FAIL"
         print(
             f"{symbol:6} {status}  Checks: {len([r for r in results if r.passed])}/{len(results)}"
         )

@@ -1,10 +1,10 @@
 # CLI Usage Guide
 
-Command-line interface for the Intelligent Investor trading system. Run backtests, analyze strategies, and generate performance reports directly from your terminal.
+Command-line interface for the Ordinis trading system. Run backtests, analyze strategies, and generate performance reports directly from your terminal.
 
 ## Installation
 
-After installing the package, the `intelligent-investor` command will be available:
+After installing the package, the `ordinis` command will be available:
 
 ```bash
 pip install -e .
@@ -13,7 +13,7 @@ pip install -e .
 Verify installation:
 
 ```bash
-intelligent-investor --help
+ordinis --help
 ```
 
 ## Quick Start
@@ -21,7 +21,7 @@ intelligent-investor --help
 ### 1. List Available Strategies
 
 ```bash
-intelligent-investor list
+ordinis list
 ```
 
 Output:
@@ -41,7 +41,7 @@ Available Strategies:
 ### 2. Run a Simple Backtest
 
 ```bash
-intelligent-investor backtest --data data/SPY_2024.csv --strategy rsi
+ordinis backtest --data data/SPY_2024.csv --strategy rsi
 ```
 
 This runs a backtest using:
@@ -53,7 +53,7 @@ This runs a backtest using:
 ### 3. Customize Strategy Parameters
 
 ```bash
-intelligent-investor backtest \
+ordinis backtest \
   --data data/SPY_2024.csv \
   --strategy rsi \
   --params rsi_period=14 oversold_threshold=25 overbought_threshold=75
@@ -67,7 +67,7 @@ Run a strategy backtest on historical data.
 
 **Usage:**
 ```bash
-intelligent-investor backtest [OPTIONS]
+ordinis backtest [OPTIONS]
 ```
 
 **Required Arguments:**
@@ -94,16 +94,16 @@ intelligent-investor backtest [OPTIONS]
 
 ```bash
 # Basic RSI backtest
-intelligent-investor backtest --data data.csv --strategy rsi
+ordinis backtest --data data.csv --strategy rsi
 
 # MA crossover with custom parameters
-intelligent-investor backtest \
+ordinis backtest \
   --data data.csv \
   --strategy ma \
   --params fast_period=50 slow_period=200 ma_type=SMA
 
 # Momentum with AI analysis
-intelligent-investor backtest \
+ordinis backtest \
   --data data.csv \
   --strategy momentum \
   --ai \
@@ -112,7 +112,7 @@ intelligent-investor backtest \
   --focus returns
 
 # Save results to file
-intelligent-investor backtest \
+ordinis backtest \
   --data data.csv \
   --strategy rsi \
   --output results.csv
@@ -124,7 +124,7 @@ List all available strategies with descriptions.
 
 **Usage:**
 ```bash
-intelligent-investor list
+ordinis list
 ```
 
 ## Data Format
@@ -166,7 +166,7 @@ timestamp,open,high,low,close,volume
 
 **Example:**
 ```bash
-intelligent-investor backtest \
+ordinis backtest \
   --data data.csv \
   --strategy rsi \
   --params rsi_period=14 oversold_threshold=30 overbought_threshold=70
@@ -181,7 +181,7 @@ intelligent-investor backtest \
 
 **Example:**
 ```bash
-intelligent-investor backtest \
+ordinis backtest \
   --data data.csv \
   --strategy ma \
   --params fast_period=50 slow_period=200 ma_type=EMA
@@ -197,7 +197,7 @@ intelligent-investor backtest \
 
 **Example:**
 ```bash
-intelligent-investor backtest \
+ordinis backtest \
   --data data.csv \
   --strategy momentum \
   --params lookback_period=20 atr_period=14 volume_multiplier=1.5
@@ -212,7 +212,7 @@ Enable AI analysis with NVIDIA models for enhanced insights:
 Get AI-generated analysis of backtest results:
 
 ```bash
-intelligent-investor backtest \
+ordinis backtest \
   --data data.csv \
   --strategy rsi \
   --ai \
@@ -230,7 +230,7 @@ Output includes:
 Get AI-powered recommendations for improving strategy performance:
 
 ```bash
-intelligent-investor backtest \
+ordinis backtest \
   --data data.csv \
   --strategy rsi \
   --ai \
@@ -324,7 +324,7 @@ Run multiple backtests with different parameters:
 
 for rsi_period in 10 14 20; do
   for threshold in 25 30 35; do
-    intelligent-investor backtest \
+    ordinis backtest \
       --data data.csv \
       --strategy rsi \
       --params rsi_period=$rsi_period oversold_threshold=$threshold \
@@ -342,7 +342,7 @@ Use the CLI in data pipelines:
 python scripts/download_data.py --symbol SPY --start 2024-01-01
 
 # Run backtest
-intelligent-investor backtest \
+ordinis backtest \
   --data data/SPY.csv \
   --strategy rsi \
   --output results.csv
@@ -362,15 +362,15 @@ WORKDIR /app
 COPY . .
 RUN pip install -e .
 
-ENTRYPOINT ["intelligent-investor"]
+ENTRYPOINT ["ordinis"]
 ```
 
 ```bash
 # Build
-docker build -t intelligent-investor .
+docker build -t ordinis .
 
 # Run
-docker run -v $(pwd)/data:/app/data intelligent-investor backtest \
+docker run -v $(pwd)/data:/app/data ordinis backtest \
   --data /app/data/SPY.csv \
   --strategy rsi
 ```
@@ -412,7 +412,7 @@ Enable verbose output:
 
 ```bash
 # Add debug logging (if implemented)
-LOGLEVEL=DEBUG intelligent-investor backtest --data data.csv --strategy rsi
+LOGLEVEL=DEBUG ordinis backtest --data data.csv --strategy rsi
 ```
 
 ## Performance Tips
@@ -447,7 +447,7 @@ LOGLEVEL=DEBUG intelligent-investor backtest --data data.csv --strategy rsi
 Test a strategy on recent data:
 
 ```bash
-intelligent-investor backtest \
+ordinis backtest \
   --data data/recent.csv \
   --strategy rsi \
   --capital 10000 \
@@ -459,7 +459,7 @@ intelligent-investor backtest \
 Complete backtest with AI insights:
 
 ```bash
-intelligent-investor backtest \
+ordinis backtest \
   --data data/SPY_5years.csv \
   --strategy ma \
   --params fast_period=50 slow_period=200 \
@@ -478,7 +478,7 @@ Compare different strategies:
 
 ```bash
 for strategy in rsi ma momentum; do
-  intelligent-investor backtest \
+  ordinis backtest \
     --data data/SPY.csv \
     --strategy $strategy \
     --output results/${strategy}_results.csv

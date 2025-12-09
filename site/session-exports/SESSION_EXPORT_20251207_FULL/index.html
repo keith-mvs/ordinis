@@ -2,124 +2,126 @@
 <!doctype html>
 <html lang="en" class="no-js">
   <head>
-    
+
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
-      
+
         <meta name="description" content="Comprehensive documentation for the Ordinis algorithmic trading system">
-      
-      
+
+
         <meta name="author" content="Ordinis Development Team">
-      
-      
+
+
         <link rel="canonical" href="https://ordinis.local/session-exports/SESSION_EXPORT_20251207_FULL/">
-      
-      
-      
-      
-        
-      
-      
+
+
+
+
+
+
+
       <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
-    
-    
-      
+
+
+
         <title>Claude Code Session Export - Full Context Backup - Ordinis Trading System Documentation</title>
-      
-    
-    
+
+
+
       <link rel="stylesheet" href="../../assets/stylesheets/main.618322db.min.css">
-      
-        
+
+
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
-      
-      
 
 
-    
-    
-      
-    
-    
-      
-        
-        
+
+
+
+
+
+
+
+
+
+
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
-        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
-      
-    
-    
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+
+
+
       <link rel="stylesheet" href="../../css/print-site.css">
-    
+
       <link rel="stylesheet" href="../../css/print-site-material.css">
-    
+
       <link rel="stylesheet" href="../../css/timeago.css">
-    
+
       <link rel="stylesheet" href="../../stylesheets/extra.css">
-    
+
     <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
-    
-      
-  
 
 
-  
-  
+
+
+
+
+
 
 <script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-XXXXXXXXXX"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-XXXXXXXXXX",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
-  
-    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
-  
 
-    
-    
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+
+
+
+
   </head>
-  
-  
-    
-    
-      
-    
-    
-    
-    
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
-  
-    
+
+
+
+
+
+
+
+
+
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="teal">
+
+
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
-      
-        
+
+
         <a href="#claude-code-session-export-full-context-backup" class="md-skip">
           Skip to content
         </a>
-      
+
     </div>
     <div data-md-component="announce">
-      
-    </div>
-    
-      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
-        
-      </div>
-    
-    
-      
 
-<header class="md-header" data-md-component="header">
+    </div>
+
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+
+      </div>
+
+
+
+
+
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href="../.." title="Ordinis Trading System Documentation" class="md-header__button md-logo" aria-label="Ordinis Trading System Documentation" data-md-component="logo">
-      
-  
+
+
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
-      
+
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
     </label>
     <div class="md-header__title" data-md-component="header-title">
@@ -131,49 +133,49 @@
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
-            
+
               Claude Code Session Export - Full Context Backup
-            
+
           </span>
         </div>
       </div>
     </div>
-    
-      
+
+
         <form class="md-header__option" data-md-component="palette">
-  
-    
-    
-    
-    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
-    
+
+
+
+
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="teal"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+
       <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
       </label>
-    
-  
-    
-    
-    
-    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
-    
+
+
+
+
+
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue-grey" data-md-color-accent="teal"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+
       <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
       </label>
-    
-  
+
+
 </form>
-      
-    
-    
+
+
+
       <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
-    
-    
-    
-      
-      
+
+
+
+
+
         <label class="md-header__button md-icon" for="__search">
-          
+
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
         </label>
         <div class="md-search" data-md-component="search" role="dialog">
@@ -182,21 +184,26 @@
     <form class="md-search__form" name="search">
       <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
       <label class="md-search__icon md-icon" for="__search">
-        
+
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
-        
+
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
       </label>
       <nav class="md-search__options" aria-label="Search">
-        
+
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+
         <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
-          
+
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
         </button>
       </nav>
-      
+
         <div class="md-search__suggest" data-md-component="search-suggest"></div>
-      
+
     </form>
     <div class="md-search__output">
       <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
@@ -210,13 +217,13 @@
     </div>
   </div>
 </div>
-      
-    
-    
+
+
+
       <div class="md-header__source">
         <a href="https://github.com/ordinis/ordinis-1" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
-    
+
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
   </div>
   <div class="md-source__repository">
@@ -224,246 +231,246 @@
   </div>
 </a>
       </div>
-    
+
   </nav>
-  
-</header>
-    
-    <div class="md-container" data-md-component="container">
-      
-      
-        
-          
-            
+
+
+
 <nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
   <div class="md-grid">
     <ul class="md-tabs__list">
-      
-        
-  
-  
-  
-  
+
+
+
+
+
+
     <li class="md-tabs__item">
       <a href="../.." class="md-tabs__link">
-        
-  
-  
-    
-  
+
+
+
+
+
   Home
 
       </a>
     </li>
-  
 
-      
-        
-  
-  
-  
-  
+
+
+
+
+
+
+
     <li class="md-tabs__item">
       <a href="../../project/" class="md-tabs__link">
-        
-  
-  
-    
-  
+
+
+
+
+
   Project
 
       </a>
     </li>
-  
 
-      
-        
-  
-  
-  
-  
+
+
+
+
+
+
+
     <li class="md-tabs__item">
       <a href="../../architecture/" class="md-tabs__link">
-        
-  
-  
-    
-  
+
+
+
+
+
   Architecture
 
       </a>
     </li>
-  
 
-      
-        
-  
-  
-  
-  
+
+
+
+
+
+
+
     <li class="md-tabs__item">
       <a href="../../knowledge-base/" class="md-tabs__link">
-        
-  
-  
-    
-  
+
+
+
+
+
   Knowledge Base
 
       </a>
     </li>
-  
 
-      
-        
-  
-  
-  
-  
+
+
+
+
+
+
+
     <li class="md-tabs__item">
       <a href="../../guides/" class="md-tabs__link">
-        
-  
-  
-    
-  
+
+
+
+
+
   Guides
 
       </a>
     </li>
-  
 
-      
-        
-  
-  
-  
-  
+
+
+
+
+
+
+
     <li class="md-tabs__item">
       <a href="../../analysis/" class="md-tabs__link">
-        
-  
-  
-    
-  
+
+
+
+
+
   Analysis
 
       </a>
     </li>
-  
 
-      
-        
-  
-  
-  
-  
+
+
+
+
+
+
+
     <li class="md-tabs__item">
       <a href="../../testing/" class="md-tabs__link">
-        
-  
-  
-    
-  
+
+
+
+
+
   Testing
 
       </a>
     </li>
-  
 
-      
-        
-  
-  
-  
-  
+
+
+
+
+
+
+
     <li class="md-tabs__item">
       <a href="../../strategies/" class="md-tabs__link">
-        
-  
-  
-    
-  
+
+
+
+
+
   Strategies
 
       </a>
     </li>
-  
 
-      
-        
-  
-  
-  
-  
+
+
+
+
+
+
+
     <li class="md-tabs__item">
       <a href="../" class="md-tabs__link">
-        
-  
-  
-    
-  
+
+
+
+
+
   Session Exports
 
       </a>
     </li>
-  
 
-      
-        
-  
-  
-  
-  
+
+
+
+
+
+
+
     <li class="md-tabs__item">
       <a href="../../print_page/" class="md-tabs__link">
-        
-  
-  
-    
-  
+
+
+
+
+
   Complete Documentation (Print/PDF)
 
       </a>
     </li>
-  
 
-      
+
+
     </ul>
   </div>
 </nav>
-          
-        
-      
+
+
+</header>
+
+    <div class="md-container" data-md-component="container">
+
+
+
+
       <main class="md-main" data-md-component="main">
         <div class="md-main__inner md-grid">
-          
-            
-              
+
+
+
               <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
-                    
 
 
-  
+
+
 
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
     <a href="../.." title="Ordinis Trading System Documentation" class="md-nav__button md-logo" aria-label="Ordinis Trading System Documentation" data-md-component="logo">
-      
-  
+
+
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
     Ordinis Trading System Documentation
   </label>
-  
+
     <div class="md-nav__source">
       <a href="https://github.com/ordinis/ordinis-1" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
-    
+
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
   </div>
   <div class="md-source__repository">
@@ -471,2041 +478,2045 @@
   </div>
 </a>
     </div>
-  
+
   <ul class="md-nav__list" data-md-scrollfix>
-    
-      
-      
-  
-  
-  
-  
+
+
+
+
+
+
+
     <li class="md-nav__item">
       <a href="../.." class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Home
-  
 
-    
+
+
+  <span class="md-ellipsis">
+
+
+    Home
+
+
+
   </span>
-  
-  
+
+
 
       </a>
     </li>
-  
 
-    
-      
-      
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-        
-      
-    
-    
-      
-        
-        
-      
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
-      
-        
-  
-  
-  
+
+
+
+
+
     <a href="../../project/PROJECT_SCOPE/" class="md-nav__link">
-      
-  
-  
+
+
+
   <span class="md-ellipsis">
-    
-  
+
+
     Project
-  
 
-    
+
+
   </span>
-  
-  
 
-      
+
+
+
         <span class="md-nav__icon md-icon"></span>
-      
+
     </a>
-  
 
-      
+
+
     </li>
-  
 
-    
-      
-      
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-        
-      
-    
-    
-      
-        
-        
-      
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
-      
-        
-  
-  
-  
-    
-  
-  
-  
+
+
+
+
+
+
+
+
+
     <a href="../../architecture/SIGNALCORE_SYSTEM/" class="md-nav__link">
-      
-  
-  
+
+
+
   <span class="md-ellipsis">
-    
-  
+
+
     Architecture
-  
 
-    
+
+
   </span>
-  
-  
 
-      
+
+
+
         <span class="md-nav__icon md-icon"></span>
-      
+
     </a>
-  
 
-  
 
-      
+
+
+
     </li>
-  
 
-    
-      
-      
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-        
-      
-    
-    
-      
-        
-        
-      
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
-      
-        
-  
-  
-  
+
+
+
+
+
     <a href="../../knowledge-base/00_KB_INDEX/" class="md-nav__link">
-      
-  
-  
+
+
+
   <span class="md-ellipsis">
-    
-  
+
+
     Knowledge Base
-  
 
-    
+
+
   </span>
-  
-  
 
-      
+
+
+
         <span class="md-nav__icon md-icon"></span>
-      
+
     </a>
-  
 
-      
+
+
     </li>
-  
 
-    
-      
-      
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-        
-      
-    
-    
-      
-        
-        
-      
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
-      
-        
-  
-  
-  
+
+
+
+
+
     <a href="../../guides/CLI_USAGE/" class="md-nav__link">
-      
-  
-  
+
+
+
   <span class="md-ellipsis">
-    
-  
+
+
     Guides
-  
 
-    
+
+
   </span>
-  
-  
 
-      
+
+
+
         <span class="md-nav__icon md-icon"></span>
-      
+
     </a>
-  
 
-      
+
+
     </li>
-  
 
-    
-      
-      
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-        
-      
-    
-    
-      
-        
-        
-      
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
-      
-        
-  
-  
-  
+
+
+
+
+
     <a href="../../analysis/ANALYSIS_FRAMEWORK/" class="md-nav__link">
-      
-  
-  
+
+
+
   <span class="md-ellipsis">
-    
-  
+
+
     Analysis
-  
 
-    
+
+
   </span>
-  
-  
 
-      
+
+
+
         <span class="md-nav__icon md-icon"></span>
-      
+
     </a>
-  
 
-      
+
+
     </li>
-  
 
-    
-      
-      
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-        
-      
-    
-    
-      
-        
-        
-      
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
-      
-        
-  
-  
-  
+
+
+
+
+
     <a href="../../testing/PHASE_1_TESTING_SETUP/" class="md-nav__link">
-      
-  
-  
+
+
+
   <span class="md-ellipsis">
-    
-  
+
+
     Testing
-  
 
-    
+
+
   </span>
-  
-  
 
-      
+
+
+
         <span class="md-nav__icon md-icon"></span>
-      
+
     </a>
-  
 
-      
+
+
     </li>
-  
 
-    
-      
-      
-  
-  
-  
-  
-    
-    
-      
-        
-      
-    
-    
-    
-      
-      
-        
-      
-    
-    
-      
-        
-        
-      
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
-      
-        
-  
-  
-  
+
+
+
+
+
     <a href="../../strategies/STRATEGY_TEMPLATE/" class="md-nav__link">
-      
-  
-  
+
+
+
   <span class="md-ellipsis">
-    
-  
+
+
     Strategies
-  
 
-    
+
+
   </span>
-  
-  
 
-      
+
+
+
         <span class="md-nav__icon md-icon"></span>
-      
+
     </a>
-  
 
-      
+
+
     </li>
-  
 
-    
-      
-      
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-        
-      
-    
-    
-      
-        
-        
-      
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
-      
-        
-  
-  
-  
+
+
+
+
+
     <a href="../SESSION_SUMMARY_KB_IMPLEMENTATION/" class="md-nav__link">
-      
-  
-  
+
+
+
   <span class="md-ellipsis">
-    
-  
+
+
     Session Exports
-  
 
-    
+
+
   </span>
-  
-  
 
-      
+
+
+
         <span class="md-nav__icon md-icon"></span>
-      
+
     </a>
-  
 
-      
+
+
     </li>
-  
 
-    
-      
-      
-  
-  
-  
-  
+
+
+
+
+
+
+
+
     <li class="md-nav__item">
       <a href="../../print_page/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Complete Documentation (Print/PDF)
-  
 
-    
+
+
+  <span class="md-ellipsis">
+
+
+    Complete Documentation (Print/PDF)
+
+
+
   </span>
-  
-  
+
+
 
       </a>
     </li>
-  
 
-    
+
+
   </ul>
 </nav>
                   </div>
                 </div>
               </div>
-            
-            
-              
+
+
+
               <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
-                    
 
-  
+
+
 
 <nav class="md-nav md-nav--secondary" aria-label="On this page">
-  
-  
-  
-    
-  
-  
+
+
+
+
+
+
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
       On this page
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
+
         <li class="md-nav__item">
   <a href="#session-summary" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         Session Summary
-      
+
     </span>
   </a>
-  
+
     <nav class="md-nav" aria-label="Session Summary">
       <ul class="md-nav__list">
-        
+
           <li class="md-nav__item">
   <a href="#key-accomplishments" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         Key Accomplishments
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#files-modifiedcreated" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         Files Modified/Created
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#1-user" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [1] User
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#2-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [2] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#3-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [3] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#4-user" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [4] User
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#5-user" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [5] User
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#6-user" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [6] User
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#7-user" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [7] User
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#8-user" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [8] User
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#9-user" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [9] User
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#10-user" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [10] User
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#11-user" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [11] User
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#12-user" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [12] User
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#13-user" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [13] User
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#14-user" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [14] User
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#15-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [15] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#16-user" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [16] User
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#17-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [17] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#18-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [18] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#19-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [19] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#20-user" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [20] User
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#21-user" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [21] User
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#22-user" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [22] User
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#23-user" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [23] User
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#24-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [24] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#25-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [25] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#26-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [26] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#27-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [27] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#28-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [28] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#29-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [29] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#30-user" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [30] User
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#31-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [31] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#32-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [32] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#33-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [33] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#34-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [34] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#35-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [35] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#36-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [36] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#37-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [37] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#38-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [38] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#39-user" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [39] User
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#40-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [40] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#41-user" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [41] User
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#42-user" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [42] User
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#43-user" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [43] User
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#44-user" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [44] User
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#45-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [45] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#46-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [46] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#47-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [47] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#48-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [48] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#49-user" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [49] User
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#50-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [50] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#51-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [51] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#52-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [52] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#53-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [53] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#54-user" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [54] User
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#55-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [55] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#56-user" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [56] User
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#57-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [57] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#58-user" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [58] User
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#59-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [59] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#60-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [60] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
       </ul>
     </nav>
-  
+
 </li>
-      
+
         <li class="md-nav__item">
   <a href="#current-state-cognisys-ordinis-1" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         Current State: Cognisys (ordinis-1)
-      
+
     </span>
   </a>
-  
+
 </li>
-      
+
         <li class="md-nav__item">
   <a href="#priority-options" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         Priority Options
-      
+
     </span>
   </a>
-  
+
     <nav class="md-nav" aria-label="Priority Options">
       <ul class="md-nav__list">
-        
+
           <li class="md-nav__item">
   <a href="#61-user" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [61] User
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#62-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [62] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#63-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [63] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#64-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [64] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#65-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [65] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#66-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [66] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#67-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [67] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#68-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [68] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#69-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [69] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#70-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [70] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#71-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [71] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#72-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [72] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#73-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [73] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#74-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [74] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#75-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [75] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#76-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [76] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#77-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [77] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#78-user" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [78] User
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#79-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [79] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
       </ul>
     </nav>
-  
+
 </li>
-      
+
         <li class="md-nav__item">
   <a href="#alpaca-paper-trading-setup" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         Alpaca Paper Trading Setup
-      
+
     </span>
   </a>
-  
+
     <nav class="md-nav" aria-label="Alpaca Paper Trading Setup">
       <ul class="md-nav__list">
-        
+
           <li class="md-nav__item">
   <a href="#1-create-account" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         1. Create Account
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#2-access-dashboard" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         2. Access Dashboard
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#3-generate-api-keys" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         3. Generate API Keys
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#4-add-to-env" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         4. Add to .env
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#80-user" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [80] User
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#81-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [81] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#82-user" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [82] User
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#83-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [83] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
       </ul>
     </nav>
-  
+
 </li>
-      
+
         <li class="md-nav__item">
   <a href="#alpaca-api-key-generation-steps" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         Alpaca API Key Generation Steps
-      
+
     </span>
   </a>
-  
+
     <nav class="md-nav" aria-label="Alpaca API Key Generation Steps">
       <ul class="md-nav__list">
-        
+
           <li class="md-nav__item">
   <a href="#84-user" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [84] User
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#85-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [85] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#86-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [86] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#87-user" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [87] User
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#88-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [88] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#89-user" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [89] User
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#90-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [90] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#91-user" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [91] User
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#92-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [92] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#93-user" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [93] User
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#94-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [94] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#95-user" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [95] User
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#96-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [96] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#97-user" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [97] User
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#98-user" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [98] User
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#99-user" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [99] User
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#100-user" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [100] User
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#101-user" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [101] User
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#102-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [102] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#103-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [103] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#104-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [104] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#105-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [105] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#106-user" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [106] User
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#107-user" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [107] User
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#108-user" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [108] User
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#109-user" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [109] User
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#110-user" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [110] User
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#111-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [111] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#112-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [112] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#113-user" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [113] User
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#114-user" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [114] User
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
           <li class="md-nav__item">
   <a href="#115-assistant" class="md-nav__link">
     <span class="md-ellipsis">
-      
+
         [115] Assistant
-      
+
     </span>
   </a>
-  
+
 </li>
-        
+
       </ul>
     </nav>
-  
+
 </li>
-      
+
     </ul>
-  
+
 </nav>
                   </div>
                 </div>
               </div>
-            
-          
-          
+
+
+
             <div class="md-content" data-md-component="content">
-              
-                
 
 
 
-  
 
 
-              
+
+
+
+
               <article class="md-content__inner md-typeset">
-                
-                  
 
 
-  
-  
+
+
+
+
 
 
 <h1 id="claude-code-session-export-full-context-backup">Claude Code Session Export - Full Context Backup<a class="headerlink" href="#claude-code-session-export-full-context-backup" title="Permanent link">&para;</a></h1>
@@ -2631,16 +2642,16 @@ Let me analyze this conversation chronologically:</p>
 <h3 id="10-user">[10] User<a class="headerlink" href="#10-user" title="Permanent link">&para;</a></h3>
 <p><local-command-stdout>[?2026h[?2026l[?2026h[?2026l[?2026h
  [1mContext Usage[22m
-[38;2;136;136;136m⛁ ⛀ [38;2;153;153;153m⛁ ⛁ ⛁ ⛁ ⛁ ⛁ ⛁ ⛁ [39m  [38;2;153;153;153mclaude-opus-4-5-20251101 · 71k/200k tokens (35%)[39m
-[38;2;153;153;153m⛁ ⛀ [38;2;215;119;87m⛀ [38;2;147;51;234m⛁ [38;2;153;153;153m⛶ ⛶ ⛶ ⛶ ⛶ ⛶ [39m
-[38;2;153;153;153m⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ [39m  [38;2;136;136;136m⛁[39m System prompt: [38;2;153;153;153m3.0k tokens (1.5%)[39m
-[38;2;153;153;153m⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ [39m  [38;2;153;153;153m⛁[39m System tools: [38;2;153;153;153m19.0k tokens (9.5%)[39m
-[38;2;153;153;153m⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ [39m  [38;2;215;119;87m⛁[39m Memory files: [38;2;153;153;153m952 tokens (0.5%)[39m
-[38;2;153;153;153m⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ [39m  [38;2;147;51;234m⛁[39m Messages: [38;2;153;153;153m2.7k tokens (1.3%)[39m
-[38;2;153;153;153m⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ [39m  [38;2;153;153;153m⛶[39m Free space: [38;2;153;153;153m129k (64.6%)[39m
-[38;2;153;153;153m⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛝ ⛝ ⛝ [39m  [38;2;153;153;153m⛝ Autocompact buffer: 45.0k tokens (22.5%)[39m
-[38;2;153;153;153m⛝ ⛝ ⛝ ⛝ ⛝ ⛝ ⛝ ⛝ ⛝ ⛝ [39m
-[38;2;153;153;153m⛝ ⛝ ⛝ ⛝ ⛝ ⛝ ⛝ ⛝ ⛝ ⛝ [39m</p>
+[38;2;136;136;136m  [38;2;153;153;153m        [39m  [38;2;153;153;153mclaude-opus-4-5-20251101 · 71k/200k tokens (35%)[39m
+[38;2;153;153;153m  [38;2;215;119;87m [38;2;147;51;234m [38;2;153;153;153m      [39m
+[38;2;153;153;153m          [39m  [38;2;136;136;136m[39m System prompt: [38;2;153;153;153m3.0k tokens (1.5%)[39m
+[38;2;153;153;153m          [39m  [38;2;153;153;153m[39m System tools: [38;2;153;153;153m19.0k tokens (9.5%)[39m
+[38;2;153;153;153m          [39m  [38;2;215;119;87m[39m Memory files: [38;2;153;153;153m952 tokens (0.5%)[39m
+[38;2;153;153;153m          [39m  [38;2;147;51;234m[39m Messages: [38;2;153;153;153m2.7k tokens (1.3%)[39m
+[38;2;153;153;153m          [39m  [38;2;153;153;153m[39m Free space: [38;2;153;153;153m129k (64.6%)[39m
+[38;2;153;153;153m          [39m  [38;2;153;153;153m Autocompact buffer: 45.0k tokens (22.5%)[39m
+[38;2;153;153;153m          [39m
+[38;2;153;153;153m          [39m</p>
 <p>[1mMemory files[22m[38;2;153;153;153m · /memory[39m
 └ User (C:\Users\kjfle.claude\CLAUDE.md): [38;2;153;153;153m128 tokens[39m
 └ Project (C:\Users\kjfle\CLAUDE.md): [38;2;153;153;153m824 tokens[39m</p>
@@ -2708,7 +2719,7 @@ Let me analyze this conversation chronologically:</p>
 <p><strong>Summary of search results:</strong></p>
 <p>No chat export from yesterday (Dec 6, 2025) was found in:
 - <code>ordinis-1</code> project repo
-- <code>~/.claude/</code> sessions directory<br />
+- <code>~/.claude/</code> sessions directory
 - <code>~/Downloads/</code>
 - <code>~/Desktop/</code>
 - <code>~/Documents/</code>
@@ -2985,7 +2996,7 @@ Created agent: [1mcode-reviewer[22m</local-command-stdout></p>
 <h3 id="57-assistant">[57] Assistant<a class="headerlink" href="#57-assistant" title="Permanent link">&para;</a></h3>
 <p>Updated. Refresh your browser to see the changes. The dashboard now shows:</p>
 <ul>
-<li><strong>Title:</strong> 🧠 Cognisys</li>
+<li><strong>Title:</strong>  Cognisys</li>
 <li><strong>Tagline:</strong> Intelligent &amp; Semi-Automated Multi-Vehicle Trading, Investment &amp; Analysis</li>
 </ul>
 <p>What other enhancements would you like?</p>
@@ -3140,7 +3151,7 @@ Created agent: [1mcode-reviewer[22m</local-command-stdout></p>
 <p>Click <strong>"Generate New Keys"</strong> there.</p>
 <p>If you don't see it on the right sidebar, try:
 1. Make sure you're on the <strong>Paper Trading</strong> view (not Live) - there should be a toggle at the top
-2. Look for a gear icon or "Settings" 
+2. Look for a gear icon or "Settings"
 3. Check for "API Keys" in the left navigation menu</p>
 <p>Which view are you on currently? The interface may vary slightly - let me know what you see and I can help locate it.</p>
 <h3 id="82-user">[82] User<a class="headerlink" href="#82-user" title="Permanent link">&para;</a></h3>
@@ -3190,7 +3201,7 @@ Created agent: [1mcode-reviewer[22m</local-command-stdout></p>
 <li>There should be a generate/view button there</li>
 </ol>
 <hr />
-<p>What exactly do you see on your Home/Dashboard page? The UI may have changed. Can you describe what sections/panels are visible? </p>
+<p>What exactly do you see on your Home/Dashboard page? The UI may have changed. Can you describe what sections/panels are visible?</p>
 <p>Some possibilities:
 - It might be under a <strong>"Developer"</strong> or <strong>"API"</strong> menu
 - Could be in your <strong>profile/account settings</strong> (gear icon)
@@ -3230,8 +3241,8 @@ You can skip Alpaca for now - the dashboard already works with:
 <h3 id="92-assistant">[92] Assistant<a class="headerlink" href="#92-assistant" title="Permanent link">&para;</a></h3>
 <p>Yes, that's the plan. Here's the architecture:</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>Cognisys (ordinis-1)
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>├── Market Data: Twelve Data API (quotes, prices) ✅ Working
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>├── Paper Trading: Local simulation ✅ Working
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>├── Market Data: Twelve Data API (quotes, prices)  Working
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>├── Paper Trading: Local simulation  Working
 </span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>└── Live/Paper Broker: Alpaca API (pending your keys)
 </span></code></pre></div>
 <p><strong>Why Alpaca was chosen:</strong>
@@ -3297,7 +3308,7 @@ Let me analyze the conversation chronologically:</p>
 <p>Broker Integration (Alpaca)</p>
 </li>
 <li>
-<p><strong>Live Market Data Integration</strong>: </p>
+<p><strong>Live Market Data Integration</strong>:</p>
 </li>
 <li>Added Twelve Data plugin integration to the dashboard</li>
 <li>Added watchlist functionality with default symbols</li>
@@ -3373,16 +3384,16 @@ Let me analyze the conversation chronologically:</p>
 <h3 id="108-user">[108] User<a class="headerlink" href="#108-user" title="Permanent link">&para;</a></h3>
 <p><local-command-stdout>[?2026h[?2026l[?2026h[?2026l[?2026h
  [1mContext Usage[22m
-[38;2;136;136;136m⛁ ⛀ [38;2;153;153;153m⛁ ⛁ ⛁ ⛁ ⛁ ⛁ ⛁ ⛁ [39m  [38;2;153;153;153mclaude-opus-4-5-20251101 · 86k/200k tokens (43%)[39m
-[38;2;153;153;153m⛁ ⛁ [38;2;177;185;249m⛀ [38;2;215;119;87m⛀ [38;2;147;51;234m⛁ ⛁ ⛁ ⛁ ⛁ ⛁ [39m
-[38;2;147;51;234m⛁ ⛁ ⛀ [38;2;153;153;153m⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ [39m  [38;2;136;136;136m⛁[39m System prompt: [38;2;153;153;153m3.0k tokens (1.5%)[39m
-[38;2;153;153;153m⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ [39m  [38;2;153;153;153m⛁[39m System tools: [38;2;153;153;153m19.4k tokens (9.7%)[39m
-[38;2;153;153;153m⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ [39m  [38;2;177;185;249m⛁[39m Custom agents: [38;2;153;153;153m333 tokens (0.2%)[39m
-[38;2;153;153;153m⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ [39m  [38;2;215;119;87m⛁[39m Memory files: [38;2;153;153;153m952 tokens (0.5%)[39m
-[38;2;153;153;153m⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ [39m  [38;2;147;51;234m⛁[39m Messages: [38;2;153;153;153m17.1k tokens (8.5%)[39m
-[38;2;153;153;153m⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛶ ⛝ ⛝ ⛝ [39m  [38;2;153;153;153m⛶[39m Free space: [38;2;153;153;153m114k (57.1%)[39m
-[38;2;153;153;153m⛝ ⛝ ⛝ ⛝ ⛝ ⛝ ⛝ ⛝ ⛝ ⛝ [39m  [38;2;153;153;153m⛝ Autocompact buffer: 45.0k tokens (22.5%)[39m
-[38;2;153;153;153m⛝ ⛝ ⛝ ⛝ ⛝ ⛝ ⛝ ⛝ ⛝ ⛝ [39m</p>
+[38;2;136;136;136m  [38;2;153;153;153m        [39m  [38;2;153;153;153mclaude-opus-4-5-20251101 · 86k/200k tokens (43%)[39m
+[38;2;153;153;153m  [38;2;177;185;249m [38;2;215;119;87m [38;2;147;51;234m      [39m
+[38;2;147;51;234m   [38;2;153;153;153m       [39m  [38;2;136;136;136m[39m System prompt: [38;2;153;153;153m3.0k tokens (1.5%)[39m
+[38;2;153;153;153m          [39m  [38;2;153;153;153m[39m System tools: [38;2;153;153;153m19.4k tokens (9.7%)[39m
+[38;2;153;153;153m          [39m  [38;2;177;185;249m[39m Custom agents: [38;2;153;153;153m333 tokens (0.2%)[39m
+[38;2;153;153;153m          [39m  [38;2;215;119;87m[39m Memory files: [38;2;153;153;153m952 tokens (0.5%)[39m
+[38;2;153;153;153m          [39m  [38;2;147;51;234m[39m Messages: [38;2;153;153;153m17.1k tokens (8.5%)[39m
+[38;2;153;153;153m          [39m  [38;2;153;153;153m[39m Free space: [38;2;153;153;153m114k (57.1%)[39m
+[38;2;153;153;153m          [39m  [38;2;153;153;153m Autocompact buffer: 45.0k tokens (22.5%)[39m
+[38;2;153;153;153m          [39m</p>
 <p>[1mCustom agents[22m[38;2;153;153;153m · /agents[39m
 └ code-reviewer (Project): [38;2;153;153;153m333 tokens[39m</p>
 <p>[1mMemory files[22m[38;2;153;153;153m · /memory[39m
@@ -3512,32 +3523,32 @@ docs/USER_TESTING_GUIDE.md
 <tbody>
 <tr>
 <td>Credential Management</td>
-<td>✅ PASS</td>
+<td>PASS</td>
 <td>All API keys loaded from environment variables, no hardcoded secrets</td>
 </tr>
 <tr>
 <td>Input Handling</td>
-<td>✅ PASS</td>
+<td>PASS</td>
 <td>User inputs passed to type-safe dataclasses, no injection vectors</td>
 </tr>
 <tr>
 <td>Subprocess Usage</td>
-<td>✅ PASS</td>
+<td>PASS</td>
 <td>Single subprocess call uses hardcoded command with list-based args, no shell=True</td>
 </tr>
 <tr>
 <td>Logging</td>
-<td>✅ PASS</td>
+<td>PASS</td>
 <td>Credentials never logged, only validation failures and metadata</td>
 </tr>
 <tr>
 <td>Deserialization</td>
-<td>✅ PASS</td>
+<td>PASS</td>
 <td>No pickle usage, no unsafe YAML loading, JSON only</td>
 </tr>
 <tr>
 <td>Code Injection</td>
-<td>✅ PASS</td>
+<td>PASS</td>
 <td>No eval(), exec(), os.system() in production code</td>
 </tr>
 <tr>
@@ -3547,7 +3558,7 @@ docs/USER_TESTING_GUIDE.md
 </tr>
 <tr>
 <td>Path Traversal</td>
-<td>✅ PASS</td>
+<td>PASS</td>
 <td>No file operations with user input</td>
 </tr>
 </tbody>
@@ -3569,7 +3580,7 @@ docs/USER_TESTING_GUIDE.md
 <h3 id="122-assistant">[122] Assistant<a class="headerlink" href="#122-assistant" title="Permanent link">&para;</a></h3>
 <p>Here's the current state:</p>
 <h2 id="summary_1">Summary<a class="headerlink" href="#summary_1" title="Permanent link">&para;</a></h2>
-<h3 id="dependencies-verified">Dependencies Verified ✓<a class="headerlink" href="#dependencies-verified" title="Permanent link">&para;</a></h3>
+<h3 id="dependencies-verified">Dependencies Verified<a class="headerlink" href="#dependencies-verified" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
@@ -3690,23 +3701,23 @@ docs/USER_TESTING_GUIDE.md
 <tbody>
 <tr>
 <td><code>Model</code> base class</td>
-<td>✓ Configurable, auditable</td>
+<td>Configurable, auditable</td>
 </tr>
 <tr>
 <td><code>ModelRegistry</code></td>
-<td>✓ Model lifecycle management</td>
+<td>Model lifecycle management</td>
 </tr>
 <tr>
 <td><code>LLMEnhancedModel</code></td>
-<td>✓ NVIDIA LLM integration for signal interpretation</td>
+<td>NVIDIA LLM integration for signal interpretation</td>
 </tr>
 <tr>
 <td><code>LLMFeatureEngineer</code></td>
-<td>✓ AI-suggested feature engineering</td>
+<td>AI-suggested feature engineering</td>
 </tr>
 <tr>
 <td><code>TechnicalIndicators</code></td>
-<td>✓ SMA, EMA, RSI, MACD, Bollinger, ATR, Stochastic, ADX, OBV, VWAP</td>
+<td>SMA, EMA, RSI, MACD, Bollinger, ATR, Stochastic, ADX, OBV, VWAP</td>
 </tr>
 </tbody>
 </table>
@@ -3715,7 +3726,7 @@ docs/USER_TESTING_GUIDE.md
 - Buy-and-hold: +49.26%
 - Best strategy (Bollinger): +24.10% (Sharpe 0.71)
 - Worst strategy (MACD): -27.29% (Sharpe -2.34)</p>
-<p><strong>Conclusion</strong>: Simple technical analysis underperforms in strong bull markets. </p>
+<p><strong>Conclusion</strong>: Simple technical analysis underperforms in strong bull markets.</p>
 <h3 id="refinement-options">Refinement Options<a class="headerlink" href="#refinement-options" title="Permanent link">&para;</a></h3>
 <p>What direction would you like to take for strategy refinement?</p>
 <ol>
@@ -3737,122 +3748,122 @@ docs/USER_TESTING_GUIDE.md
 
 
 
-  
-    
-  
-  
-    
-  
+
+
+
+
+
+
 
 
   <aside class="md-source-file">
-    
-      
+
+
   <span class="md-source-file__fact">
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="December 8, 2025 16:45:11 UTC"><span class="timeago" datetime="2025-12-08T16:45:11+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="December 8, 2025 16:45:11 UTC">2025-12-08</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="December 9, 2025 02:20:27 UTC"><span class="timeago" datetime="2025-12-09T02:20:27+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="December 9, 2025 02:20:27 UTC">2025-12-09</span>
   </span>
 
-    
-    
-      
+
+
+
   <span class="md-source-file__fact">
     <span class="md-icon" title="Created">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="December 8, 2025 16:45:11 UTC"><span class="timeago" datetime="2025-12-08T16:45:11+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="December 8, 2025 16:45:11 UTC">2025-12-08</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="December 8, 2025 17:09:56 UTC"><span class="timeago" datetime="2025-12-08T17:09:56+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="December 8, 2025 17:09:56 UTC">2025-12-08</span>
   </span>
 
-    
-    
-    
+
+
+
   </aside>
 
 
-  
 
 
 
 
-                
+
+
               </article>
             </div>
-          
-          
+
+
   <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
 
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
-        
+
           <button type="button" class="md-top md-icon" data-md-component="top" hidden>
-  
+
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
   Back to top
 </button>
-        
+
       </main>
-      
+
         <footer class="md-footer">
-  
+
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
       <div class="md-copyright">
-  
+
     <div class="md-copyright__highlight">
       Copyright &copy; 2024-2025 Ordinis Project
     </div>
-  
-  
+
+
 </div>
-      
-        
+
+
 <div class="md-social">
-  
-    
-    
-    
-    
-      
-      
-    
+
+
+
+
+
+
+
+
     <a href="https://github.com/ordinis" target="_blank" rel="noopener" title="github.com" class="md-social__link">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
     </a>
-  
+
 </div>
-      
+
     </div>
   </div>
 </footer>
-      
+
     </div>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    
-    
-    
-      
-      
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.indexes", "navigation.top", "navigation.path", "navigation.prune", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "content.tabs.link", "toc.follow", "header.autohide"], "search": "../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
-    
-    
+
+
+
+
+
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.indexes", "navigation.top", "navigation.path", "navigation.prune", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.annotate", "content.tabs.link", "toc.follow", "announce.dismiss"], "search": "../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
+
+
       <script src="../../assets/javascripts/bundle.e71a0d61.min.js"></script>
-      
+
         <script src="../../js/print-site.js"></script>
-      
+
         <script src="../../js/timeago.min.js"></script>
-      
+
         <script src="../../js/timeago_mkdocs_material.js"></script>
-      
+
         <script src="../../javascripts/mathjax.js"></script>
-      
+
         <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-      
+
         <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-      
-    
+
+
   </body>
 </html>
