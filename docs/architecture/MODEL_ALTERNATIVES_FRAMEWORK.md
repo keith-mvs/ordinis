@@ -261,43 +261,47 @@ execution_config = {
 
 ## Implementation References
 
-Open-source implementations for each functional component.
+Verified organization repositories for each functional component.
 
-### Price Forecasting (LSTM, Transformers)
+### Price Forecasting (Time Series)
 
-| Repository | Description |
-|------------|-------------|
-| [Stock-Price-Prediction-Using-LSTM](https://github.com/Vikrant25122004/Stock-Price-Prediction-Using-LSTM) | LSTM-based stock price prediction |
-| [stock-price-prediction-lstm](https://github.com/veerS07/stock-price-prediction-lstm) | LSTM implementation for price forecasting |
+| Repository | Organization | Description |
+|------------|--------------|-------------|
+| [Nixtla/statsforecast](https://github.com/Nixtla/statsforecast) | Nixtla (verified) | Production-ready time series forecasting (ARIMA, ETS, Theta, AutoARIMA) |
+
+**Installation**: `pip install statsforecast`
 
 ### Volatility Estimation (GARCH Family)
 
-| Repository | Description |
-|------------|-------------|
-| [garch-volatility-project](https://github.com/dhirajpatra/garch-volatility-project) | GARCH volatility modeling |
-| [garch-volatility-forecasting](https://github.com/sanjay5922/garch-volatility-forecasting) | GARCH forecasting implementation |
-| [GARCH-Volatility-Forecasting](https://github.com/hilmierkamgurbuz/GARCH-Volatility-Forecasting) | Comprehensive GARCH variants |
+| Repository | Organization | Description |
+|------------|--------------|-------------|
+| [statsforecast GARCH Tutorial](https://github.com/Nixtla/statsforecast/blob/main/nbs/docs/tutorials/GARCH_tutorial.ipynb) | Nixtla (verified) | GARCH volatility forecasting tutorial |
 
-### Sentiment Analysis (FinBERT, Transformers)
+**Installation**: `pip install statsforecast arch`
 
-| Repository | Description |
-|------------|-------------|
-| [finBERT (ProsusAI)](https://github.com/ProsusAI/finBERT) | Official FinBERT - financial sentiment |
-| [FinBERT (yya518)](https://github.com/yya518/FinBERT) | Alternative FinBERT implementation |
+### Sentiment Analysis (FinBERT)
+
+| Repository | Organization | Description |
+|------------|--------------|-------------|
+| [ProsusAI/finBERT](https://github.com/ProsusAI/finBERT) | ProsusAI (verified) | Finance-tuned BERT for sentiment analysis |
+
+**Installation**: `pip install transformers torch`
 
 ### Trade Execution Optimization (RL Agents)
 
-| Repository | Description |
-|------------|-------------|
-| [rl-trade-exec](https://github.com/sabdulmajid/rl-trade-exec) | RL-based trade execution |
-| [Deep-Reinforcement-Learning-Trade-Execution](https://github.com/goofygamer/Deep-Reinforcement-Learning-Trade-Execution) | Deep RL for optimal execution |
+| Repository | Organization | Description |
+|------------|--------------|-------------|
+| [tensortrade-org/tensortrade](https://github.com/tensortrade-org/tensortrade) | TensorTrade (verified) | RL framework for trading agents |
+
+**Installation**: `pip install tensortrade`
 
 ### Risk Control / Portfolio Management
 
-| Repository | Description |
-|------------|-------------|
-| [machine-learning-for-trading/bayesian](https://github.com/stefan-jansen/machine-learning-for-trading/tree/main/10_bayesian_machine_learning) | Bayesian ML for trading (Stefan Jansen) |
-| [risk-manager](https://github.com/alexcolls/risk-manager) | Portfolio risk management |
+| Repository | Organization | Description |
+|------------|--------------|-------------|
+| [goldmansachs/gs-quant](https://github.com/goldmansachs/gs-quant) | Goldman Sachs (verified) | Quantitative finance library for risk and portfolio |
+
+**Installation**: `pip install gs-quant`
 
 ---
 

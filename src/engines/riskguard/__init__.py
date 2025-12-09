@@ -7,6 +7,13 @@ Provides deterministic, auditable risk constraints for trading decisions.
 from .core.engine import PortfolioState, Position, ProposedTrade, RiskGuardEngine
 from .core.llm_enhanced import LLMEnhancedRiskGuard, LLMRiskAnalyzer
 from .core.rules import RiskCheckResult, RiskRule, RuleCategory
+from .models.gsquant_risk import (
+    GSQuantRiskManager,
+    PortfolioRiskMetrics,
+    RiskFactorExposure,
+    ScenarioResult,
+    VaRCalculator,
+)
 from .rules.standard import (
     STANDARD_RISK_RULES,
     create_aggressive_ruleset,
@@ -34,4 +41,10 @@ __all__ = [
     # LLM enhanced
     "LLMEnhancedRiskGuard",
     "LLMRiskAnalyzer",
+    # GS Quant risk models
+    "GSQuantRiskManager",
+    "PortfolioRiskMetrics",
+    "RiskFactorExposure",
+    "ScenarioResult",
+    "VaRCalculator",
 ]
