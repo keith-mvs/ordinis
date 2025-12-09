@@ -199,7 +199,7 @@ set_config(config)
 2. Configure model paths in `RAGConfig`
 3. Set `use_local_embeddings=True`
 
-See [NVIDIA_INTEGRATION.md](../NVIDIA_INTEGRATION.md) for detailed setup.
+See [NVIDIA_INTEGRATION.md](./NVIDIA_INTEGRATION.md) for detailed setup.
 
 ## Performance Targets
 

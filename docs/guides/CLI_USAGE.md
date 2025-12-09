@@ -487,9 +487,9 @@ done
 
 ## Next Steps
 
-- Review [Strategy Library](../src/strategies/README.md) for detailed strategy documentation
-- Check [Complete Backtest Demo](../examples/complete_backtest_demo.py) for Python API usage
-- Explore [NVIDIA Integration](./NVIDIA_INTEGRATION.md) for AI features
+- Review the strategy implementations in `src/strategies/` for detailed documentation
+- Check the examples in `scripts/` for Python API usage
+- Explore [NVIDIA Integration](../architecture/NVIDIA_INTEGRATION.md) for AI features
 
 ---
 

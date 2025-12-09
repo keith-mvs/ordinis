@@ -1,4 +1,4 @@
-## Monitoring and Logging
+# Monitoring and Logging
 
 Comprehensive monitoring and logging system for observability, debugging, and performance tracking.
 

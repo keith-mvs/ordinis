@@ -89,9 +89,9 @@ File: `docs/stylesheets/extra.css`
 ## 3. Jinja Template Fixes
 
 ### 3.1 Problem
-MkDocs macros plugin interprets `{{ }}` as Jinja templates, causing errors with:
-- Prometheus alerting rules: `{{ $value }}`
-- GitHub Actions YAML: `${{ github.* }}`, `${{ matrix.* }}`
+MkDocs macros plugin interprets double curly braces as Jinja templates, causing errors with:
+- Prometheus alerting rules: template variables
+- GitHub Actions YAML: github and matrix context variables
 
 ### 3.2 Solution
 Wrapped affected code blocks with `{% raw %}...{% endraw %}`:
