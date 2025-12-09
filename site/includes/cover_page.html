@@ -1,0 +1,20 @@
+{% if config.site_name %}
+<div style="text-align: center; page-break-after: always; padding-top: 200px;">
+    <h1 style="font-size: 48px; margin-bottom: 20px;">{{ config.site_name }}</h1>
+    <h2 style="font-size: 24px; color: #666; margin-bottom: 40px;">Complete Documentation</h2>
+
+    <div style="margin-top: 100px; color: #888;">
+        <p><strong>Version:</strong> 0.2.0-dev</p>
+        <p><strong>Generated:</strong> <span id="print-date"></span></p>
+        <p><strong>Author:</strong> Ordinis Development Team</p>
+    </div>
+
+    <div style="margin-top: 150px; font-size: 12px; color: #999;">
+        <p>This document contains the complete documentation for the Ordinis Trading System.</p>
+        <p>Implements OECD AI Principles (2024) for responsible automated trading.</p>
+    </div>
+</div>
+<script>
+document.getElementById('print-date').textContent = new Date().toISOString().split('T')[0];
+</script>
+{% endif %}

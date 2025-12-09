@@ -61,9 +61,39 @@
       "Bash(pip show:*)",
       "Bash(streamlit run:*)",
       "Bash($env:STREAMLIT_SERVER_HEADLESS = \"true\")",
-      "Bash(Out-File -Encoding utf8 test_results.txt)"
+      "Bash(Out-File -Encoding utf8 test_results.txt)",
+      "Bash(git -C \"C:\\Users\\kjfle\\Workspace\\ordinis-1\" log:*)",
+      "Bash(find:*)",
+      "Bash(ls:*)",
+      "Bash(source:*)",
+      "WebFetch(domain:docs.alpaca.markets)",
+      "WebFetch(domain:alpaca.markets)",
+      "Bash(..venvScriptspython.exe scriptsrun_real_backtest.py)",
+      "Bash(if not exist \"src\\data\" mkdir \"src\\data\")",
+      "Bash(if exist \"data\\historical_cache\" rmdir /s /q \"data\\historical_cache\")",
+      "Bash(if not exist \"C:\\Users\\kjfle\\Workspace\\ordinis-1\\docs\\knowledge-base\\02_technical_analysis\\advanced\" mkdir \"C:\\Users\\kjfle\\Workspace\\ordinis-1\\docs\\knowledge-base\\02_technical_analysis\\advanced\")",
+      "Bash(New-Item -ItemType Directory -Path \"C:\\Users\\kjfle\\Workspace\\ordinis-1\\docs\\knowledge-base\\13_event_driven_analysis\" -Force)",
+      "Bash(New-Item -ItemType Directory -Path \"C:\\Users\\kjfle\\Workspace\\ordinis-1\\docs\\knowledge-base\\14_sentiment_analysis\" -Force)",
+      "Bash(if not exist \"C:\\Users\\kjfle\\Workspace\\ordinis-1\\src\\engines\\governance\" mkdir \"C:\\Users\\kjfle\\Workspace\\ordinis-1\\src\\engines\\governance\")",
+      "Bash(if not exist \"C:\\Users\\kjfle\\Workspace\\ordinis-1\\src\\engines\\governance\\core\" mkdir \"C:\\Users\\kjfle\\Workspace\\ordinis-1\\src\\engines\\governance\\core\")",
+      "Bash(if [ -f mkdocs.yml ])",
+      "Bash(then cat mkdocs.yml)",
+      "Bash(else echo \"mkdocs.yml not found\")",
+      "Bash(mkdocs build:*)",
+      "Bash($env:ENABLE_PDF_EXPORT=1)",
+      "Bash(Select-String -Pattern \"(INFO|ERROR|pdf|PDF)\")",
+      "Bash(Select-Object -First 20)",
+      "Bash(ENABLE_PDF_EXPORT=1 mkdocs build:*)",
+      "Bash(..venvScriptsActivate.ps1)",
+      "Bash(.....venvScriptspython.exe -m mkdocs build)",
+      "Bash(Select-Object -First 30)",
+      "Bash(pwsh -NoProfile -Command \"cd ''C:\\Users\\kjfle\\Workspace\\ordinis-1''; & ''C:\\Users\\kjfle\\.venv\\Scripts\\python.exe'' -m mkdocs build 2>&1 | Select-Object -First 20\")",
+      "Bash(pwsh -NoProfile -Command:*)"
     ],
     "deny": [],
     "ask": []
+  },
+  "remote": {
+    "defaultEnvironmentId": "env_011CUthQLyyWnx5ythFHPfnJ"
   }
 }

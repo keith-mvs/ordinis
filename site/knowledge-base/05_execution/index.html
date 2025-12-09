@@ -1,0 +1,3519 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Comprehensive documentation for the Ordinis algorithmic trading system">
+      
+      
+        <meta name="author" content="Ordinis Development Team">
+      
+      
+        <link rel="canonical" href="https://ordinis.local/knowledge-base/05_execution/">
+      
+      
+        <link rel="prev" href="../04_strategy/strategy_formulation_framework/">
+      
+      
+        <link rel="next" href="data_pipelines/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>5. Execution - Ordinis Trading System Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../css/print-site.css">
+    
+      <link rel="stylesheet" href="../../css/print-site-material.css">
+    
+      <link rel="stylesheet" href="../../css/timeago.css">
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-XXXXXXXXXX"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-XXXXXXXXXX",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#system-architecture-ordinis-trading-system" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Ordinis Trading System Documentation" class="md-header__button md-logo" aria-label="Ordinis Trading System Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Ordinis Trading System Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              5. Execution
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ordinis/ordinis-1" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ordinis-1
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../project/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Project
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../architecture/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Architecture
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="../" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Knowledge Base
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../guides/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Guides
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../analysis/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Analysis
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../testing/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Testing
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../strategies/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Strategies
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../session-exports/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Session Exports
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../print_page/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Complete Documentation (Print/PDF)
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Ordinis Trading System Documentation" class="md-nav__button md-logo" aria-label="Ordinis Trading System Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Ordinis Trading System Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ordinis/ordinis-1" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ordinis-1
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../project/PROJECT_SCOPE/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    
+  
+  
+  
+    <a href="../../architecture/SIGNALCORE_SYSTEM/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Knowledge Base
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Knowledge Base
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00_KB_INDEX/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../01_foundations/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Foundations
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_2" id="__nav_4_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    1. Foundations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01_foundations/publications/harris_trading_exchanges/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Harris Trading & Exchanges
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../02_signals/technical/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Signal Generation
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_3" id="__nav_4_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    2. Signal Generation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    
+  
+  
+  
+    <a href="../02_signals/technical/overlays/moving_averages/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technical Analysis
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02_signals/fundamental/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fundamental
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02_signals/volume/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Volume
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../02_signals/sentiment/news_sentiment/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sentiment
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../02_signals/events/earnings_events/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Events
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../02_signals/quantitative/algorithmic_strategies/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quantitative
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../03_risk/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Risk Management
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_4" id="__nav_4_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    3. Risk Management
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03_risk/advanced_risk_methods/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advanced Risk Methods
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03_risk/publications/lopez_de_prado_advances/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lopez de Prado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_5" id="__nav_4_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Strategy
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    4. Strategy
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04_strategy/BACKTESTING_REQUIREMENTS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backtesting Requirements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04_strategy/DATA_EVALUATION_REQUIREMENTS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Evaluation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04_strategy/nvidia_integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    NVIDIA Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04_strategy/strategy_formulation_framework/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Strategy Framework
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_6" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="./" class="md-nav__link md-nav__link--active">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Execution
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link md-nav__link--active" for="__nav_4_6" id="__nav_4_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    5. Execution
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="data_pipelines/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Pipelines
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="deployment_patterns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment Patterns
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Monitoring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="governance_engines/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance Engines
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../06_options/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Options
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_7" id="__nav_4_7_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    6. Options
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06_options/publications/hull_options_futures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hull Options & Futures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07_references/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. References
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../guides/CLI_USAGE/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guides
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../analysis/ANALYSIS_FRAMEWORK/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Analysis
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../testing/PHASE_1_TESTING_SETUP/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../strategies/STRATEGY_TEMPLATE/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Strategies
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../session-exports/SESSION_SUMMARY_KB_IMPLEMENTATION/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Session Exports
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../print_page/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complete Documentation (Print/PDF)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#purpose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-high-level-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. High-Level Architecture
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. High-Level Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-system-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 System Overview
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-engine-responsibilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Engine Responsibilities
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-data-layer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Data Layer
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Data Layer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-training-data-generator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Training Data Generator
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-data-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Data Flow
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-signalcore-engine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. SignalCore Engine
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. SignalCore Engine">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Architecture
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-signal-definition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Signal Definition
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-strategy-framework" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Strategy Framework
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Strategy Framework">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-base-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Base Strategy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-legacy-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Legacy Strategies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-regime-adaptive-framework" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Regime-Adaptive Framework
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4.3 Regime-Adaptive Framework">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#regime-detector" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Regime Detector
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#strategy-pools" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Strategy Pools
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adaptive-manager" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adaptive Manager
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-technical-indicators-library" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Technical Indicators Library
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Technical Indicators Library">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-combined-interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Combined Interface
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-proofbench-backtesting-engine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. ProofBench (Backtesting Engine)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. ProofBench (Backtesting Engine)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-simulation-engine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Simulation Engine
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-strategy-callback-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Strategy Callback Pattern
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-performance-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Performance Metrics
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-riskguard-engine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. RiskGuard Engine
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. RiskGuard Engine">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-risk-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 Risk Checks
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-flowroute-execution-engine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. FlowRoute (Execution Engine)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. FlowRoute (Execution Engine)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-broker-adapters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 Broker Adapters
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-cross-validation-framework" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Cross-Validation Framework
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Cross-Validation Framework">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#91-regime-stratified-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1 Regime-Stratified Validation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#92-walk-forward-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2 Walk-Forward Validation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-dashboard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Dashboard
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-directory-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Directory Structure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-current-status-known-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. Current Status &amp; Known Issues
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="12. Current Status &amp; Known Issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#121-working-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.1 Working Components
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#122-known-issues-as-of-dec-7-2025" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.2 Known Issues (as of Dec 7, 2025)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#123-backtest-results-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12.3 Backtest Results Summary
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13. Configuration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="13. Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#131-environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.1 Environment Variables
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#132-strategy-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13.2 Strategy Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#14-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        14. References
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-principles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Principles
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../00_KB_INDEX/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Knowledge Base
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="system-architecture-ordinis-trading-system">System Architecture - Ordinis Trading System<a class="headerlink" href="#system-architecture-ordinis-trading-system" title="Permanent link">&para;</a></h1>
+<h2 id="purpose">Purpose<a class="headerlink" href="#purpose" title="Permanent link">&para;</a></h2>
+<p>This document describes the technical architecture of the Ordinis algorithmic trading system, including all engines, data pipelines, strategy frameworks, and execution components.</p>
+<p><strong>Last Updated</strong>: December 7, 2025
+<strong>Version</strong>: 0.3.0-dev</p>
+<hr />
+<h2 id="1-high-level-architecture">1. High-Level Architecture<a class="headerlink" href="#1-high-level-architecture" title="Permanent link">&para;</a></h2>
+<h3 id="11-system-overview">1.1 System Overview<a class="headerlink" href="#11-system-overview" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>+-----------------------------------------------------------------------------+
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>|                           ORDINIS TRADING SYSTEM                             |
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>+-----------------------------------------------------------------------------+
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>|                                                                              |
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>|  +------------------+    +------------------+    +------------------+        |
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>|  |   DATA LAYER     |---&gt;|   SIGNALCORE     |---&gt;|   RISKGUARD      |        |
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>|  | TrainingDataGen  |    | Signal Engine    |    | Risk Engine      |        |
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>|  | HistoricalFetcher|    | Strategies       |    | Position Sizing  |        |
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>|  +------------------+    +------------------+    +------------------+        |
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>|          |                      |                       |                    |
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>|          v                      v                       v                    |
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>|  +------------------+    +------------------+    +------------------+        |
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>|  |   PROOFBENCH     |    | REGIME ADAPTIVE  |    |   FLOWROUTE      |        |
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>|  | Backtesting      |    | Strategy Manager |    | Order Execution  |        |
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>|  | Simulation       |    | Regime Detector  |    | Broker Adapters  |        |
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>|  +------------------+    +------------------+    +------------------+        |
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>|          |                      |                       |                    |
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>|          +----------------------+-----------------------+                    |
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>|                                 |                                            |
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>|                                 v                                            |
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>|  +-----------------------------------------------------------------------+   |
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>|  |                        CORTEX (AI/RAG Layer)                          |   |
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>|  |   LLM Integration  |  Knowledge Base  |  Enhanced Analytics           |   |
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>|  +-----------------------------------------------------------------------+   |
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>|                                 |                                            |
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>|                                 v                                            |
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a>|  +-----------------------------------------------------------------------+   |
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>|  |                    DASHBOARD &amp; MONITORING                             |   |
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>|  |   Streamlit UI  |  Real-time Metrics  |  Performance Analytics        |   |
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a>|  +-----------------------------------------------------------------------+   |
+</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a>|                                                                              |
+</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a>+-----------------------------------------------------------------------------+
+</span></code></pre></div>
+<hr />
+<h3 id="12-engine-responsibilities">1.2 Engine Responsibilities<a class="headerlink" href="#12-engine-responsibilities" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Engine</th>
+<th>Location</th>
+<th>Responsibility</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>SignalCore</strong></td>
+<td><code>src/engines/signalcore/</code></td>
+<td>Signal generation, ML models, feature engineering</td>
+</tr>
+<tr>
+<td><strong>ProofBench</strong></td>
+<td><code>src/engines/proofbench/</code></td>
+<td>Backtesting simulation, portfolio tracking, metrics</td>
+</tr>
+<tr>
+<td><strong>RiskGuard</strong></td>
+<td><code>src/engines/riskguard/</code></td>
+<td>Risk management, position limits, kill switches</td>
+</tr>
+<tr>
+<td><strong>FlowRoute</strong></td>
+<td><code>src/engines/flowroute/</code></td>
+<td>Order routing, broker adapters (Paper, Alpaca)</td>
+</tr>
+<tr>
+<td><strong>Cortex</strong></td>
+<td><code>src/engines/cortex/</code></td>
+<td>LLM integration, RAG system, AI-enhanced analysis</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="2-data-layer">2. Data Layer<a class="headerlink" href="#2-data-layer" title="Permanent link">&para;</a></h2>
+<h3 id="21-training-data-generator">2.1 Training Data Generator<a class="headerlink" href="#21-training-data-generator" title="Permanent link">&para;</a></h3>
+<p>Location: <code>src/data/training_data_generator.py</code></p>
+<p>Generates regime-balanced, multi-timeframe datasets for strategy development.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Key Classes</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">TrainingConfig</span>          <span class="c1"># Configuration for data generation</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">MarketRegimeClassifier</span>  <span class="c1"># Classifies data into regime types</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">HistoricalDataFetcher</span>   <span class="c1"># Fetches data from Yahoo Finance</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="n">TrainingDataGenerator</span>   <span class="c1"># Main generator with balanced sampling</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="n">DataChunk</span>               <span class="c1"># Individual training data chunk</span>
+</span></code></pre></div>
+<p><strong>Features:</strong>
+- Variable chunk sizes: 2, 3, 4, 6, 8, 10, 12 months
+- Random start points within 5, 10, 15, 20 year windows
+- Regime-balanced sampling across market conditions
+- Automatic timezone handling for yfinance data</p>
+<p><strong>Market Regimes:</strong>
+| Regime | Criteria |
+|--------|----------|
+| BULL | Annualized return &gt; 15% |
+| BEAR | Annualized return &lt; -15% |
+| SIDEWAYS | Return between -5% and +5% |
+| VOLATILE | Volatility &gt; 25% annualized |
+| RECOVERY | Post-crash bounce (&gt;5% recent gain) |
+| CORRECTION | 10-20% decline from peak |</p>
+<hr />
+<h3 id="22-data-flow">2.2 Data Flow<a class="headerlink" href="#22-data-flow" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>+-------------+     +---------------+     +----------------+     +-------------+
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>|   Yahoo     |----&gt;| Historical    |----&gt;|   Regime      |----&gt;|   Data      |
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>|   Finance   |     | DataFetcher   |     |   Classifier  |     |   Chunks    |
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>+-------------+     +---------------+     +----------------+     +-------------+
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>                           |
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>                           v
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>                    +-------------+
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>                    |   Cache     |
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>                    | (CSV files) |
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>                    +-------------+
+</span></code></pre></div>
+<hr />
+<h2 id="3-signalcore-engine">3. SignalCore Engine<a class="headerlink" href="#3-signalcore-engine" title="Permanent link">&para;</a></h2>
+<h3 id="31-architecture">3.1 Architecture<a class="headerlink" href="#31-architecture" title="Permanent link">&para;</a></h3>
+<p>Location: <code>src/engines/signalcore/</code></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>signalcore/
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>├── core/
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>│   ├── signal.py       # Signal, Direction, SignalType definitions
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>│   └── model.py        # ModelConfig, base model interfaces
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>├── features/
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>│   └── technical.py    # Feature engineering
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>└── models/
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>    ├── sma_crossover.py
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>    ├── rsi_mean_reversion.py
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>    ├── bollinger_bands.py
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>    ├── macd.py
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>    └── llm_enhanced.py
+</span></code></pre></div>
+<h3 id="32-signal-definition">3.2 Signal Definition<a class="headerlink" href="#32-signal-definition" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nd">@dataclass</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">Signal</span><span class="p">:</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>    <span class="n">symbol</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>    <span class="n">timestamp</span><span class="p">:</span> <span class="n">datetime</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>    <span class="n">signal_type</span><span class="p">:</span> <span class="n">SignalType</span>      <span class="c1"># ENTRY, EXIT, HOLD</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    <span class="n">direction</span><span class="p">:</span> <span class="n">Direction</span>          <span class="c1"># LONG, SHORT, NEUTRAL</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>    <span class="n">probability</span><span class="p">:</span> <span class="nb">float</span>            <span class="c1"># 0-1 confidence</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>    <span class="n">expected_return</span><span class="p">:</span> <span class="nb">float</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>    <span class="n">confidence_interval</span><span class="p">:</span> <span class="nb">tuple</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>    <span class="n">score</span><span class="p">:</span> <span class="nb">float</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>    <span class="n">model_id</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>    <span class="n">model_version</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>    <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span>
+</span></code></pre></div>
+<hr />
+<h2 id="4-strategy-framework">4. Strategy Framework<a class="headerlink" href="#4-strategy-framework" title="Permanent link">&para;</a></h2>
+<h3 id="41-base-strategy">4.1 Base Strategy<a class="headerlink" href="#41-base-strategy" title="Permanent link">&para;</a></h3>
+<p>Location: <code>src/strategies/base.py</code></p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">BaseStrategy</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">configure</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">generate_signal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Signal</span><span class="p">:</span> <span class="o">...</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_description</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span> <span class="o">...</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_required_bars</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span> <span class="o">...</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">validate_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span> <span class="o">...</span>
+</span></code></pre></div>
+<h3 id="42-legacy-strategies">4.2 Legacy Strategies<a class="headerlink" href="#42-legacy-strategies" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Strategy</th>
+<th>File</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Moving Average Crossover</td>
+<td><code>moving_average_crossover.py</code></td>
+<td>Golden/death cross signals</td>
+</tr>
+<tr>
+<td>RSI Mean Reversion</td>
+<td><code>rsi_mean_reversion.py</code></td>
+<td>Oversold/overbought reversals</td>
+</tr>
+<tr>
+<td>Bollinger Bands</td>
+<td><code>bollinger_bands.py</code></td>
+<td>Volatility-based mean reversion</td>
+</tr>
+<tr>
+<td>MACD</td>
+<td><code>macd.py</code></td>
+<td>Momentum crossovers</td>
+</tr>
+<tr>
+<td>Momentum Breakout</td>
+<td><code>momentum_breakout.py</code></td>
+<td>Price breakouts with volume</td>
+</tr>
+</tbody>
+</table>
+<h3 id="43-regime-adaptive-framework">4.3 Regime-Adaptive Framework<a class="headerlink" href="#43-regime-adaptive-framework" title="Permanent link">&para;</a></h3>
+<p>Location: <code>src/strategies/regime_adaptive/</code></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>regime_adaptive/
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>├── __init__.py
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>├── regime_detector.py      # Market condition classification
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>├── trend_following.py      # Bull market strategies
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>├── mean_reversion.py       # Sideways market strategies
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>├── volatility_trading.py   # High volatility strategies
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>└── adaptive_manager.py     # Unified strategy orchestrator
+</span></code></pre></div>
+<h4 id="regime-detector">Regime Detector<a class="headerlink" href="#regime-detector" title="Permanent link">&para;</a></h4>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">RegimeDetector</span><span class="p">:</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Multi-indicator regime classification.&quot;&quot;&quot;</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>    <span class="c1"># Indicators used:</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>    <span class="c1"># - ADX for trend strength</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>    <span class="c1"># - Price vs moving averages for direction</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>    <span class="c1"># - Bollinger Band width for volatility</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>    <span class="c1"># - RSI for momentum extremes</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>    <span class="c1"># - Historical volatility percentile</span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">detect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RegimeSignal</span><span class="p">:</span> <span class="o">...</span>
+</span></code></pre></div>
+<h4 id="strategy-pools">Strategy Pools<a class="headerlink" href="#strategy-pools" title="Permanent link">&para;</a></h4>
+<p><strong>Trend-Following (Bull Markets):</strong>
+- MACrossoverStrategy (10/30 EMA with 200 trend filter)
+- BreakoutStrategy (Donchian channel breakouts)
+- ADXTrendStrategy (ADX-based with DI crossovers)</p>
+<p><strong>Mean-Reversion (Sideways Markets):</strong>
+- BollingerFadeStrategy (Fade moves to band extremes)
+- RSIReversalStrategy (RSI reversal confirmation)
+- KeltnerChannelStrategy (ATR-based channels)
+- StatisticalArbitrageStrategy (Z-score based)</p>
+<p><strong>Volatility Trading (High Volatility):</strong>
+- ScalpingStrategy (Quick in-and-out trades)
+- VolatilityBreakoutStrategy (BB squeeze breakouts)
+- ATRTrailingStrategy (Chandelier exit concept)</p>
+<h4 id="adaptive-manager">Adaptive Manager<a class="headerlink" href="#adaptive-manager" title="Permanent link">&para;</a></h4>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Default Regime Weights</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="n">REGIME_WEIGHTS</span> <span class="o">=</span> <span class="p">{</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>    <span class="n">BULL</span><span class="p">:</span>         <span class="p">{</span><span class="n">trend</span><span class="p">:</span> <span class="mi">80</span><span class="o">%</span><span class="p">,</span> <span class="n">reversion</span><span class="p">:</span> <span class="mi">10</span><span class="o">%</span><span class="p">,</span> <span class="n">volatility</span><span class="p">:</span> <span class="mi">5</span><span class="o">%</span><span class="p">,</span>  <span class="n">cash</span><span class="p">:</span> <span class="mi">5</span><span class="o">%</span><span class="p">},</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>    <span class="n">BEAR</span><span class="p">:</span>         <span class="p">{</span><span class="n">trend</span><span class="p">:</span> <span class="mi">20</span><span class="o">%</span><span class="p">,</span> <span class="n">reversion</span><span class="p">:</span> <span class="mi">20</span><span class="o">%</span><span class="p">,</span> <span class="n">volatility</span><span class="p">:</span> <span class="mi">10</span><span class="o">%</span><span class="p">,</span> <span class="n">cash</span><span class="p">:</span> <span class="mi">50</span><span class="o">%</span><span class="p">},</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>    <span class="n">SIDEWAYS</span><span class="p">:</span>     <span class="p">{</span><span class="n">trend</span><span class="p">:</span> <span class="mi">10</span><span class="o">%</span><span class="p">,</span> <span class="n">reversion</span><span class="p">:</span> <span class="mi">70</span><span class="o">%</span><span class="p">,</span> <span class="n">volatility</span><span class="p">:</span> <span class="mi">10</span><span class="o">%</span><span class="p">,</span> <span class="n">cash</span><span class="p">:</span> <span class="mi">10</span><span class="o">%</span><span class="p">},</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>    <span class="n">VOLATILE</span><span class="p">:</span>     <span class="p">{</span><span class="n">trend</span><span class="p">:</span> <span class="mi">20</span><span class="o">%</span><span class="p">,</span> <span class="n">reversion</span><span class="p">:</span> <span class="mi">20</span><span class="o">%</span><span class="p">,</span> <span class="n">volatility</span><span class="p">:</span> <span class="mi">40</span><span class="o">%</span><span class="p">,</span> <span class="n">cash</span><span class="p">:</span> <span class="mi">20</span><span class="o">%</span><span class="p">},</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>    <span class="n">TRANSITIONAL</span><span class="p">:</span> <span class="p">{</span><span class="n">trend</span><span class="p">:</span> <span class="mi">15</span><span class="o">%</span><span class="p">,</span> <span class="n">reversion</span><span class="p">:</span> <span class="mi">15</span><span class="o">%</span><span class="p">,</span> <span class="n">volatility</span><span class="p">:</span> <span class="mi">10</span><span class="o">%</span><span class="p">,</span> <span class="n">cash</span><span class="p">:</span> <span class="mi">60</span><span class="o">%</span><span class="p">},</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="p">}</span>
+</span></code></pre></div>
+<hr />
+<h2 id="5-technical-indicators-library">5. Technical Indicators Library<a class="headerlink" href="#5-technical-indicators-library" title="Permanent link">&para;</a></h2>
+<p>Location: <code>src/analysis/technical/indicators/</code></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>indicators/
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>├── __init__.py
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>├── moving_averages.py    # SMA, EMA, WMA, VWAP, Hull MA, KAMA
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>├── oscillators.py        # RSI, Stochastic, CCI, Williams %R, MFI
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>├── volatility.py         # ATR, Bollinger Bands, Keltner, Donchian
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>├── volume.py             # OBV, A/D Line, CMF, Force Index, VWAP
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>└── combined.py           # TechnicalIndicators unified interface
+</span></code></pre></div>
+<h3 id="51-combined-interface">5.1 Combined Interface<a class="headerlink" href="#51-combined-interface" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">TechnicalIndicators</span><span class="p">:</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Unified technical analysis interface.&quot;&quot;&quot;</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">analyze</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TechnicalSnapshot</span><span class="p">:</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>        <span class="c1"># Returns comprehensive analysis including:</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>        <span class="c1"># - Trend direction and strength</span>
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>        <span class="c1"># - RSI, Stochastic, MACD</span>
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>        <span class="c1"># - ATR, Bollinger position</span>
+</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>        <span class="c1"># - Volume confirmation</span>
+</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>        <span class="c1"># - Overall bias (strong_buy to strong_sell)</span>
+</span></code></pre></div>
+<hr />
+<h2 id="6-proofbench-backtesting-engine">6. ProofBench (Backtesting Engine)<a class="headerlink" href="#6-proofbench-backtesting-engine" title="Permanent link">&para;</a></h2>
+<p>Location: <code>src/engines/proofbench/</code></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>proofbench/
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>├── core/
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>│   ├── simulator.py      # SimulationEngine, SimulationConfig
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>│   ├── execution.py      # Order, OrderSide, OrderType
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>│   ├── portfolio.py      # Portfolio tracking
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>│   └── events.py         # Event system
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>└── analytics/
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>    ├── performance.py    # Metrics calculation
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>    └── llm_enhanced.py   # AI-powered analysis
+</span></code></pre></div>
+<h3 id="61-simulation-engine">6.1 Simulation Engine<a class="headerlink" href="#61-simulation-engine" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">SimulationEngine</span><span class="p">:</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">SimulationConfig</span><span class="p">):</span> <span class="o">...</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">load_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">symbol</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span> <span class="o">...</span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">set_strategy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">Callable</span><span class="p">):</span> <span class="o">...</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SimulationResults</span><span class="p">:</span> <span class="o">...</span>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">submit_order</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">order</span><span class="p">:</span> <span class="n">Order</span><span class="p">):</span> <span class="o">...</span>
+</span></code></pre></div>
+<h3 id="62-strategy-callback-pattern">6.2 Strategy Callback Pattern<a class="headerlink" href="#62-strategy-callback-pattern" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">strategy_callback</span><span class="p">(</span><span class="n">engine</span><span class="p">,</span> <span class="n">symbol</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">bar</span><span class="p">):</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Called on each bar during simulation.&quot;&quot;&quot;</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>    <span class="n">data</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">symbol</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[:</span><span class="n">bar</span><span class="o">.</span><span class="n">timestamp</span><span class="p">]</span>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>    <span class="c1"># Generate signals</span>
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>    <span class="c1"># Submit orders via engine.submit_order()</span>
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>    <span class="c1"># Access portfolio via engine.portfolio</span>
+</span></code></pre></div>
+<h3 id="63-performance-metrics">6.3 Performance Metrics<a class="headerlink" href="#63-performance-metrics" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="nd">@dataclass</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">SimulationMetrics</span><span class="p">:</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>    <span class="n">total_return</span><span class="p">:</span> <span class="nb">float</span>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>    <span class="n">sharpe_ratio</span><span class="p">:</span> <span class="nb">float</span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>    <span class="n">max_drawdown</span><span class="p">:</span> <span class="nb">float</span>
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>    <span class="n">win_rate</span><span class="p">:</span> <span class="nb">float</span>
+</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>    <span class="n">num_trades</span><span class="p">:</span> <span class="nb">int</span>
+</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>    <span class="c1"># ... additional metrics</span>
+</span></code></pre></div>
+<hr />
+<h2 id="7-riskguard-engine">7. RiskGuard Engine<a class="headerlink" href="#7-riskguard-engine" title="Permanent link">&para;</a></h2>
+<p>Location: <code>src/engines/riskguard/</code></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>riskguard/
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>├── core/
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>│   ├── engine.py         # Main risk engine
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>│   ├── rules.py          # Rule definitions
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>│   └── llm_enhanced.py   # AI-enhanced risk
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>└── rules/
+</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>    └── standard.py       # Standard risk rules
+</span></code></pre></div>
+<h3 id="71-risk-checks">7.1 Risk Checks<a class="headerlink" href="#71-risk-checks" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Daily loss limit (default: 3%)</li>
+<li>Maximum drawdown (default: 15%)</li>
+<li>Position concentration limits</li>
+<li>Sector exposure limits</li>
+<li>Correlation checks</li>
+<li>Kill switch triggers</li>
+</ul>
+<hr />
+<h2 id="8-flowroute-execution-engine">8. FlowRoute (Execution Engine)<a class="headerlink" href="#8-flowroute-execution-engine" title="Permanent link">&para;</a></h2>
+<p>Location: <code>src/engines/flowroute/</code></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>flowroute/
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>├── core/
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>│   ├── engine.py         # Order routing logic
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>│   └── orders.py         # Order management
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>└── adapters/
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>    ├── __init__.py
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>    ├── paper.py          # Paper trading adapter
+</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>    └── alpaca.py         # Alpaca broker adapter
+</span></code></pre></div>
+<h3 id="81-broker-adapters">8.1 Broker Adapters<a class="headerlink" href="#81-broker-adapters" title="Permanent link">&para;</a></h3>
+<p><strong>Paper Trading:</strong>
+- Simulated order execution
+- No real money at risk
+- Full order lifecycle simulation</p>
+<p><strong>Alpaca Integration:</strong>
+- Real broker connectivity
+- Paper and live trading modes
+- Market data access
+- Position management</p>
+<hr />
+<h2 id="9-cross-validation-framework">9. Cross-Validation Framework<a class="headerlink" href="#9-cross-validation-framework" title="Permanent link">&para;</a></h2>
+<p>Location: <code>src/data/regime_cross_validator.py</code></p>
+<h3 id="91-regime-stratified-validation">9.1 Regime-Stratified Validation<a class="headerlink" href="#91-regime-stratified-validation" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">RegimeCrossValidator</span><span class="p">:</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Ensures strategies tested across all market regimes.&quot;&quot;&quot;</span>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chunks</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">DataChunk</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">CrossValidationReport</span><span class="p">:</span>
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>        <span class="c1"># Tests strategy on each chunk</span>
+</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>        <span class="c1"># Aggregates results by regime</span>
+</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>        <span class="c1"># Computes consistency score</span>
+</span></code></pre></div>
+<h3 id="92-walk-forward-validation">9.2 Walk-Forward Validation<a class="headerlink" href="#92-walk-forward-validation" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">WalkForwardValidator</span><span class="p">:</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Walk-forward with expanding or rolling windows.&quot;&quot;&quot;</span>
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">generate_folds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">min_train_bars</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">]:</span>
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>        <span class="c1"># Returns (train_data, test_data, fold_info) tuples</span>
+</span></code></pre></div>
+<hr />
+<h2 id="10-dashboard">10. Dashboard<a class="headerlink" href="#10-dashboard" title="Permanent link">&para;</a></h2>
+<p>Location: <code>src/dashboard/app.py</code></p>
+<p>Streamlit-based monitoring dashboard with:
+- Real-time portfolio metrics
+- Strategy performance visualization
+- Regime detection status
+- Trade history
+- Risk metrics</p>
+<hr />
+<h2 id="11-directory-structure">11. Directory Structure<a class="headerlink" href="#11-directory-structure" title="Permanent link">&para;</a></h2>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>ordinis-1/
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>├── src/
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>│   ├── engines/
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>│   │   ├── signalcore/       # Signal generation
+</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>│   │   ├── proofbench/       # Backtesting
+</span><span id="__span-19-6"><a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>│   │   ├── riskguard/        # Risk management
+</span><span id="__span-19-7"><a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a>│   │   ├── flowroute/        # Order execution
+</span><span id="__span-19-8"><a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>│   │   └── cortex/           # AI/RAG integration
+</span><span id="__span-19-9"><a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a>│   ├── strategies/
+</span><span id="__span-19-10"><a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a>│   │   ├── base.py           # Base strategy class
+</span><span id="__span-19-11"><a id="__codelineno-19-11" name="__codelineno-19-11" href="#__codelineno-19-11"></a>│   │   ├── moving_average_crossover.py
+</span><span id="__span-19-12"><a id="__codelineno-19-12" name="__codelineno-19-12" href="#__codelineno-19-12"></a>│   │   ├── rsi_mean_reversion.py
+</span><span id="__span-19-13"><a id="__codelineno-19-13" name="__codelineno-19-13" href="#__codelineno-19-13"></a>│   │   ├── bollinger_bands.py
+</span><span id="__span-19-14"><a id="__codelineno-19-14" name="__codelineno-19-14" href="#__codelineno-19-14"></a>│   │   ├── macd.py
+</span><span id="__span-19-15"><a id="__codelineno-19-15" name="__codelineno-19-15" href="#__codelineno-19-15"></a>│   │   ├── momentum_breakout.py
+</span><span id="__span-19-16"><a id="__codelineno-19-16" name="__codelineno-19-16" href="#__codelineno-19-16"></a>│   │   └── regime_adaptive/  # Adaptive strategy framework
+</span><span id="__span-19-17"><a id="__codelineno-19-17" name="__codelineno-19-17" href="#__codelineno-19-17"></a>│   ├── analysis/
+</span><span id="__span-19-18"><a id="__codelineno-19-18" name="__codelineno-19-18" href="#__codelineno-19-18"></a>│   │   └── technical/
+</span><span id="__span-19-19"><a id="__codelineno-19-19" name="__codelineno-19-19" href="#__codelineno-19-19"></a>│   │       └── indicators/   # Technical indicator library
+</span><span id="__span-19-20"><a id="__codelineno-19-20" name="__codelineno-19-20" href="#__codelineno-19-20"></a>│   ├── data/
+</span><span id="__span-19-21"><a id="__codelineno-19-21" name="__codelineno-19-21" href="#__codelineno-19-21"></a>│   │   ├── training_data_generator.py
+</span><span id="__span-19-22"><a id="__codelineno-19-22" name="__codelineno-19-22" href="#__codelineno-19-22"></a>│   │   └── regime_cross_validator.py
+</span><span id="__span-19-23"><a id="__codelineno-19-23" name="__codelineno-19-23" href="#__codelineno-19-23"></a>│   └── dashboard/
+</span><span id="__span-19-24"><a id="__codelineno-19-24" name="__codelineno-19-24" href="#__codelineno-19-24"></a>│       └── app.py
+</span><span id="__span-19-25"><a id="__codelineno-19-25" name="__codelineno-19-25" href="#__codelineno-19-25"></a>├── scripts/
+</span><span id="__span-19-26"><a id="__codelineno-19-26" name="__codelineno-19-26" href="#__codelineno-19-26"></a>│   ├── run_adaptive_backtest.py
+</span><span id="__span-19-27"><a id="__codelineno-19-27" name="__codelineno-19-27" href="#__codelineno-19-27"></a>│   ├── run_regime_backtest.py
+</span><span id="__span-19-28"><a id="__codelineno-19-28" name="__codelineno-19-28" href="#__codelineno-19-28"></a>│   ├── run_real_backtest.py
+</span><span id="__span-19-29"><a id="__codelineno-19-29" name="__codelineno-19-29" href="#__codelineno-19-29"></a>│   └── run_paper_trading.py
+</span><span id="__span-19-30"><a id="__codelineno-19-30" name="__codelineno-19-30" href="#__codelineno-19-30"></a>├── tests/
+</span><span id="__span-19-31"><a id="__codelineno-19-31" name="__codelineno-19-31" href="#__codelineno-19-31"></a>├── docs/
+</span><span id="__span-19-32"><a id="__codelineno-19-32" name="__codelineno-19-32" href="#__codelineno-19-32"></a>│   ├── knowledge-base/
+</span><span id="__span-19-33"><a id="__codelineno-19-33" name="__codelineno-19-33" href="#__codelineno-19-33"></a>│   └── architecture/
+</span><span id="__span-19-34"><a id="__codelineno-19-34" name="__codelineno-19-34" href="#__codelineno-19-34"></a>└── data/
+</span><span id="__span-19-35"><a id="__codelineno-19-35" name="__codelineno-19-35" href="#__codelineno-19-35"></a>    └── historical_cache/
+</span></code></pre></div>
+<hr />
+<h2 id="12-current-status-known-issues">12. Current Status &amp; Known Issues<a class="headerlink" href="#12-current-status-known-issues" title="Permanent link">&para;</a></h2>
+<h3 id="121-working-components">12.1 Working Components<a class="headerlink" href="#121-working-components" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Training data generation with regime labeling</li>
+<li>Technical indicators library</li>
+<li>ProofBench simulation engine</li>
+<li>Legacy strategy backtesting</li>
+<li>Paper trading via Alpaca adapter</li>
+<li>Dashboard (basic)</li>
+</ul>
+<h3 id="122-known-issues-as-of-dec-7-2025">12.2 Known Issues (as of Dec 7, 2025)<a class="headerlink" href="#122-known-issues-as-of-dec-7-2025" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Issue</th>
+<th>Impact</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Strategy returns 0%</td>
+<td>Signals not crossing threshold</td>
+<td>Needs tuning</td>
+</tr>
+<tr>
+<td>Bull market 0% win rate</td>
+<td>Trend strategies exit too early</td>
+<td>Needs work</td>
+</tr>
+<tr>
+<td>Regime detection 25% accuracy</td>
+<td>Detector vs labels mismatch</td>
+<td>Needs calibration</td>
+</tr>
+</tbody>
+</table>
+<h3 id="123-backtest-results-summary">12.3 Backtest Results Summary<a class="headerlink" href="#123-backtest-results-summary" title="Permanent link">&para;</a></h3>
+<p><strong>Legacy Strategies (no regime awareness):</strong>
+- Best performer: Bollinger Bands (34.7% beat B&amp;H)
+- None reliably beat buy-and-hold</p>
+<p><strong>Adaptive System (current):</strong>
+- Bear markets: 100% beat B&amp;H (+9% avg alpha)
+- Recovery: 100% beat B&amp;H (+12% avg alpha)
+- Volatile: 52% beat B&amp;H
+- Bull/Sideways/Correction: Underperforming</p>
+<hr />
+<h2 id="13-configuration">13. Configuration<a class="headerlink" href="#13-configuration" title="Permanent link">&para;</a></h2>
+<h3 id="131-environment-variables">13.1 Environment Variables<a class="headerlink" href="#131-environment-variables" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="nv">ALPACA_API_KEY</span><span class="o">=</span>your_key
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="nv">ALPACA_SECRET_KEY</span><span class="o">=</span>your_secret
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="nv">ALPACA_BASE_URL</span><span class="o">=</span>https://paper-api.alpaca.markets<span class="w">  </span><span class="c1"># or live</span>
+</span></code></pre></div>
+<h3 id="132-strategy-configuration">13.2 Strategy Configuration<a class="headerlink" href="#132-strategy-configuration" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="n">AdaptiveConfig</span><span class="p">(</span>
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>    <span class="n">regime_lookback</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>    <span class="n">regime_confirm_bars</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>    <span class="n">use_ensemble</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>    <span class="n">base_position_size</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
+</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>    <span class="n">min_position_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
+</span><span id="__span-21-7"><a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a>    <span class="n">confidence_scaling</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="__span-21-8"><a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a>    <span class="n">volatility_scaling</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="__span-21-9"><a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a>    <span class="n">max_drawdown_threshold</span><span class="o">=</span><span class="mf">0.10</span><span class="p">,</span>
+</span><span id="__span-21-10"><a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h2 id="14-references">14. References<a class="headerlink" href="#14-references" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Architecture Docs</strong>: <code>docs/architecture/</code></li>
+<li><strong>Strategy Docs</strong>: <code>docs/strategies/</code></li>
+<li><strong>Analysis Framework</strong>: <code>docs/ANALYSIS_FRAMEWORK.md</code></li>
+<li><strong>Backtest Results</strong>: <code>docs/BACKTEST_RESULTS_20251207.md</code></li>
+<li><strong>ProofBench Guide</strong>: <code>docs/PROOFBENCH_GUIDE.md</code></li>
+</ul>
+<hr />
+<h2 id="key-principles">Key Principles<a class="headerlink" href="#key-principles" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Modular Engines</strong>: Each engine has single responsibility</li>
+<li><strong>Regime Awareness</strong>: Strategies adapt to market conditions</li>
+<li><strong>Risk First</strong>: RiskGuard enforces all constraints</li>
+<li><strong>Paper Before Live</strong>: Always validate in simulation</li>
+<li><strong>Data Quality</strong>: Validate and normalize all inputs</li>
+<li><strong>Audit Trail</strong>: Log all decisions for review</li>
+</ol>
+
+
+
+
+
+
+
+  
+    
+  
+  
+    
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="December 8, 2025 16:45:11 UTC"><span class="timeago" datetime="2025-12-08T16:45:11+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="December 8, 2025 16:45:11 UTC">2025-12-08</span>
+  </span>
+
+    
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Created">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="December 8, 2025 16:45:11 UTC"><span class="timeago" datetime="2025-12-08T16:45:11+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="December 8, 2025 16:45:11 UTC">2025-12-08</span>
+  </span>
+
+    
+    
+    
+  </aside>
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024-2025 Ordinis Project
+    </div>
+  
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/ordinis" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.indexes", "navigation.top", "navigation.path", "navigation.prune", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "content.tabs.link", "toc.follow", "header.autohide"], "search": "../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+        <script src="../../js/print-site.js"></script>
+      
+        <script src="../../js/timeago.min.js"></script>
+      
+        <script src="../../js/timeago_mkdocs_material.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,14 +1,14 @@
-# Context Reference - Intelligent Investor Project
-**Last Updated:** 2025-12-01
+# Context Reference - Ordinis Trading System
+**Last Updated:** 2024-12-08
 **Purpose:** Compact reference to reduce token usage in future sessions
 
 ---
 
 ## Project Identity
-**Name:** Intelligent Investor
-**Type:** Algorithmic trading system
+**Name:** Ordinis (formerly Intelligent Investor)
+**Type:** Algorithmic trading system with OECD AI Principles governance
 **Language:** Python 3.11
-**Status:** Phase 3 (Paper Trading) - 85% complete
+**Status:** v0.2.0-dev - Documentation system complete
 
 ---
 
@@ -215,6 +215,40 @@ cat .claude/SESSION_STATE.json
 - `SESSION_STATE.json` - Current state
 - `READY_TO_RUN.md` - Quick start
 - `PAPER_BROKER_PLAN.md` - Phase 3 specifics
+
+---
+
+## Session Reference Hooks
+
+### Latest Session (2024-12-08)
+**Focus:** Documentation System + Governance Engines Completion
+**Export:** `docs/session-exports/SESSION_EXPORT_20251208.md`
+
+**Key Accomplishments:**
+- MkDocs Material documentation system (104 HTML pages)
+- Broker Compliance Engine (Alpaca/IB terms of service)
+- CI/CD pipeline for GitHub Pages deployment
+- CHANGELOG.md and version tracking
+
+**Load Command:**
+```
+Read docs/session-exports/SESSION_EXPORT_20251208.md
+```
+
+### Previous Sessions
+| Date | Focus | Export |
+|------|-------|--------|
+| 2024-12-07 | Governance engines implementation | SESSION_EXPORT_20251207.md |
+| 2024-12-03 | AI integration, RAG system | SESSION_EXPORT_20251203.md |
+| 2024-11-30 | Core infrastructure | SESSION_EXPORT_20251130_main.md |
+
+### Component Reference
+| Component | Status | Last Updated |
+|-----------|--------|--------------|
+| Governance Engines | Complete | 2024-12-08 |
+| Documentation System | Complete | 2024-12-08 |
+| Knowledge Base | Complete | 2024-12-07 |
+| Paper Trading | Active | 2024-11-30 |
 
 ---
 

@@ -1,0 +1,3990 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Comprehensive documentation for the Ordinis algorithmic trading system">
+      
+      
+        <meta name="author" content="Ordinis Development Team">
+      
+      
+        <link rel="canonical" href="https://ordinis.local/knowledge-base/02_signals/fundamental/">
+      
+      
+        <link rel="prev" href="../technical/advanced/regime_detection/">
+      
+      
+        <link rel="next" href="../volume/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>Fundamental - Ordinis Trading System Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../css/print-site.css">
+    
+      <link rel="stylesheet" href="../../../css/print-site-material.css">
+    
+      <link rel="stylesheet" href="../../../css/timeago.css">
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-XXXXXXXXXX"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-XXXXXXXXXX",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#fundamental-macro-analysis-knowledge-base" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Ordinis Trading System Documentation" class="md-header__button md-logo" aria-label="Ordinis Trading System Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Ordinis Trading System Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Fundamental
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ordinis/ordinis-1" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ordinis-1
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../project/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Project
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../architecture/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Architecture
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="../../" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Knowledge Base
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../guides/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Guides
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../analysis/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Analysis
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../testing/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Testing
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../strategies/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Strategies
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../session-exports/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Session Exports
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../print_page/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Complete Documentation (Print/PDF)
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Ordinis Trading System Documentation" class="md-nav__button md-logo" aria-label="Ordinis Trading System Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Ordinis Trading System Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ordinis/ordinis-1" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ordinis-1
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../project/PROJECT_SCOPE/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    
+  
+  
+  
+    <a href="../../../architecture/SIGNALCORE_SYSTEM/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Knowledge Base
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Knowledge Base
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../00_KB_INDEX/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../01_foundations/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Foundations
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_2" id="__nav_4_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    1. Foundations
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../01_foundations/publications/harris_trading_exchanges/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Harris Trading & Exchanges
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../technical/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Signal Generation
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_3" id="__nav_4_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    2. Signal Generation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    
+  
+  
+  
+    <a href="../technical/overlays/moving_averages/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technical Analysis
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fundamental
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fundamental
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#purpose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-financial-statement-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Financial Statement Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Financial Statement Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-income-statement-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Income Statement Metrics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-balance-sheet-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Balance Sheet Metrics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-cash-flow-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Cash Flow Metrics
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-valuation-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Valuation Metrics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Valuation Metrics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-price-based-ratios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Price-Based Ratios
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-enterprise-value-ratios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Enterprise Value Ratios
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-quality-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Quality Metrics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Quality Metrics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-profitability-ratios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Profitability Ratios
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-earnings-quality-indicators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Earnings Quality Indicators
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-growth-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Growth Metrics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Growth Metrics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-growth-rates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Growth Rates
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-growth-quality" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Growth Quality
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-sector-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Sector Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Sector Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-sector-classification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Sector Classification
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-sector-specific-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Sector-Specific Metrics
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-macro-indicators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Macro Indicators
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Macro Indicators">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-interest-rates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Interest Rates
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-inflation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Inflation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-economic-growth" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Economic Growth
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-risk-regimes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 Risk Regimes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-fundamental-filters-overrides" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Fundamental Filters &amp; Overrides
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Fundamental Filters &amp; Overrides">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-universe-filters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 Universe Filters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-directional-bias-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 Directional Bias Rules
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-event-overrides" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 Event Overrides
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-data-sources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Data Sources
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Data Sources">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-fundamental-data-providers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 Fundamental Data Providers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-data-quality-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2 Data Quality Considerations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#academic-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Academic References
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-takeaways" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Takeaways
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../volume/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Volume
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../sentiment/news_sentiment/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sentiment
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../events/earnings_events/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Events
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../quantitative/algorithmic_strategies/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quantitative
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../03_risk/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Risk Management
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_4" id="__nav_4_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    3. Risk Management
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_risk/advanced_risk_methods/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advanced Risk Methods
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../03_risk/publications/lopez_de_prado_advances/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lopez de Prado
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_5" id="__nav_4_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Strategy
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    4. Strategy
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04_strategy/BACKTESTING_REQUIREMENTS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backtesting Requirements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04_strategy/DATA_EVALUATION_REQUIREMENTS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Evaluation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04_strategy/nvidia_integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    NVIDIA Integration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../04_strategy/strategy_formulation_framework/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Strategy Framework
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../05_execution/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Execution
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_6" id="__nav_4_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    5. Execution
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_execution/data_pipelines/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Pipelines
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_execution/deployment_patterns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deployment Patterns
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_execution/monitoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Monitoring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../05_execution/governance_engines/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance Engines
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../06_options/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Options
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_7" id="__nav_4_7_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    6. Options
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../06_options/publications/hull_options_futures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hull Options & Futures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../07_references/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. References
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../guides/CLI_USAGE/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guides
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../analysis/ANALYSIS_FRAMEWORK/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Analysis
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../testing/PHASE_1_TESTING_SETUP/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../strategies/STRATEGY_TEMPLATE/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Strategies
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../../session-exports/SESSION_SUMMARY_KB_IMPLEMENTATION/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Session Exports
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../print_page/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complete Documentation (Print/PDF)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#purpose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-financial-statement-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Financial Statement Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Financial Statement Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-income-statement-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Income Statement Metrics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-balance-sheet-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Balance Sheet Metrics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-cash-flow-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Cash Flow Metrics
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-valuation-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Valuation Metrics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Valuation Metrics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-price-based-ratios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Price-Based Ratios
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-enterprise-value-ratios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Enterprise Value Ratios
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-quality-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Quality Metrics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Quality Metrics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-profitability-ratios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Profitability Ratios
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-earnings-quality-indicators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Earnings Quality Indicators
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-growth-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Growth Metrics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Growth Metrics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-growth-rates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Growth Rates
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-growth-quality" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Growth Quality
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-sector-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Sector Analysis
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Sector Analysis">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-sector-classification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Sector Classification
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-sector-specific-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Sector-Specific Metrics
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-macro-indicators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Macro Indicators
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Macro Indicators">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-interest-rates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Interest Rates
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-inflation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Inflation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-economic-growth" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Economic Growth
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-risk-regimes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 Risk Regimes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-fundamental-filters-overrides" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Fundamental Filters &amp; Overrides
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Fundamental Filters &amp; Overrides">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-universe-filters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 Universe Filters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-directional-bias-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 Directional Bias Rules
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-event-overrides" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 Event Overrides
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-data-sources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Data Sources
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Data Sources">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-fundamental-data-providers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 Fundamental Data Providers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-data-quality-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2 Data Quality Considerations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#academic-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Academic References
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-takeaways" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Takeaways
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../../00_KB_INDEX/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Knowledge Base
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+    
+      
+  
+  
+    
+    
+      
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../technical/overlays/moving_averages/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    2. Signal Generation
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="fundamental-macro-analysis-knowledge-base">Fundamental &amp; Macro Analysis - Knowledge Base<a class="headerlink" href="#fundamental-macro-analysis-knowledge-base" title="Permanent link">&para;</a></h1>
+<h2 id="purpose">Purpose<a class="headerlink" href="#purpose" title="Permanent link">&para;</a></h2>
+<p>Fundamental and macroeconomic analysis provides <strong>universe filters</strong>, <strong>directional bias</strong>, and <strong>rule-based overrides</strong> for the automated trading system. This section documents how to integrate fundamentals systematically.</p>
+<hr />
+<h2 id="1-financial-statement-analysis">1. Financial Statement Analysis<a class="headerlink" href="#1-financial-statement-analysis" title="Permanent link">&para;</a></h2>
+<h3 id="11-income-statement-metrics">1.1 Income Statement Metrics<a class="headerlink" href="#11-income-statement-metrics" title="Permanent link">&para;</a></h3>
+<p><strong>Key Metrics</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Formula</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Revenue</td>
+<td>Top line sales</td>
+<td>Growth indicator</td>
+</tr>
+<tr>
+<td>Gross Margin</td>
+<td>(Revenue - COGS) / Revenue</td>
+<td>Pricing power</td>
+</tr>
+<tr>
+<td>Operating Margin</td>
+<td>Operating Income / Revenue</td>
+<td>Operational efficiency</td>
+</tr>
+<tr>
+<td>Net Margin</td>
+<td>Net Income / Revenue</td>
+<td>Bottom line profitability</td>
+</tr>
+<tr>
+<td>EPS</td>
+<td>Net Income / Shares Outstanding</td>
+<td>Per-share earnings</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Rule Templates</strong>:
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Profitability filters</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">PROFITABLE</span> <span class="o">=</span> <span class="n">net_income</span> <span class="o">&gt;</span> <span class="mi">0</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">POSITIVE_OPERATING_INCOME</span> <span class="o">=</span> <span class="n">operating_income</span> <span class="o">&gt;</span> <span class="mi">0</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="c1"># Margin thresholds</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="n">HIGH_GROSS_MARGIN</span> <span class="o">=</span> <span class="n">gross_margin</span> <span class="o">&gt;</span> <span class="mf">0.40</span>  <span class="c1"># &gt;40%</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="n">STRONG_OPERATING_MARGIN</span> <span class="o">=</span> <span class="n">operating_margin</span> <span class="o">&gt;</span> <span class="mf">0.15</span>  <span class="c1"># &gt;15%</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="n">HEALTHY_NET_MARGIN</span> <span class="o">=</span> <span class="n">net_margin</span> <span class="o">&gt;</span> <span class="mf">0.05</span>  <span class="c1"># &gt;5%</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="c1"># Growth filters</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="n">REVENUE_GROWTH</span> <span class="o">=</span> <span class="n">revenue_yoy_growth</span> <span class="o">&gt;</span> <span class="mf">0.10</span>  <span class="c1"># &gt;10% YoY</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="n">EARNINGS_GROWTH</span> <span class="o">=</span> <span class="n">eps_yoy_growth</span> <span class="o">&gt;</span> <span class="mf">0.15</span>  <span class="c1"># &gt;15% YoY</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="n">ACCELERATING_GROWTH</span> <span class="o">=</span> <span class="n">revenue_growth_qoq</span> <span class="o">&gt;</span> <span class="n">revenue_growth_qoq</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>  <span class="c1"># Accelerating</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="c1"># Quality filters</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="n">CONSISTENT_PROFITABILITY</span> <span class="o">=</span> <span class="nb">all</span><span class="p">(</span><span class="n">quarterly_eps</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">last</span> <span class="mi">8</span> <span class="n">quarters</span><span class="p">)</span>
+</span></code></pre></div></p>
+<hr />
+<h3 id="12-balance-sheet-metrics">1.2 Balance Sheet Metrics<a class="headerlink" href="#12-balance-sheet-metrics" title="Permanent link">&para;</a></h3>
+<p><strong>Key Metrics</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Formula</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Current Ratio</td>
+<td>Current Assets / Current Liabilities</td>
+<td>Short-term liquidity</td>
+</tr>
+<tr>
+<td>Quick Ratio</td>
+<td>(Current Assets - Inventory) / Current Liabilities</td>
+<td>Immediate liquidity</td>
+</tr>
+<tr>
+<td>Debt/Equity</td>
+<td>Total Debt / Total Equity</td>
+<td>Leverage</td>
+</tr>
+<tr>
+<td>Debt/EBITDA</td>
+<td>Total Debt / EBITDA</td>
+<td>Debt servicing ability</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Rule Templates</strong>:
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Liquidity filters</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">ADEQUATE_LIQUIDITY</span> <span class="o">=</span> <span class="n">current_ratio</span> <span class="o">&gt;</span> <span class="mf">1.5</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">STRONG_LIQUIDITY</span> <span class="o">=</span> <span class="n">quick_ratio</span> <span class="o">&gt;</span> <span class="mf">1.0</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="c1"># Leverage filters</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="n">LOW_DEBT</span> <span class="o">=</span> <span class="n">debt_to_equity</span> <span class="o">&lt;</span> <span class="mf">0.5</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="n">MODERATE_DEBT</span> <span class="o">=</span> <span class="n">debt_to_equity</span> <span class="o">&lt;</span> <span class="mf">1.0</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="n">HIGH_DEBT</span> <span class="o">=</span> <span class="n">debt_to_equity</span> <span class="o">&gt;</span> <span class="mf">2.0</span>  <span class="c1"># Warning</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="n">OVERLEVERAGED</span> <span class="o">=</span> <span class="n">debt_to_ebitda</span> <span class="o">&gt;</span> <span class="mf">4.0</span>  <span class="c1"># Danger zone</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="c1"># Balance sheet quality</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="n">NET_CASH</span> <span class="o">=</span> <span class="n">cash</span> <span class="o">&gt;</span> <span class="n">total_debt</span>  <span class="c1"># Net cash position</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="n">IMPROVING_BALANCE_SHEET</span> <span class="o">=</span> <span class="n">debt_to_equity</span> <span class="o">&lt;</span> <span class="n">debt_to_equity</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>  <span class="c1"># Deleveraging</span>
+</span></code></pre></div></p>
+<hr />
+<h3 id="13-cash-flow-metrics">1.3 Cash Flow Metrics<a class="headerlink" href="#13-cash-flow-metrics" title="Permanent link">&para;</a></h3>
+<p><strong>Key Metrics</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Formula</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Operating Cash Flow</td>
+<td>Cash from operations</td>
+<td>Core cash generation</td>
+</tr>
+<tr>
+<td>Free Cash Flow</td>
+<td>OCF - CapEx</td>
+<td>Discretionary cash</td>
+</tr>
+<tr>
+<td>FCF Margin</td>
+<td>FCF / Revenue</td>
+<td>Cash efficiency</td>
+</tr>
+<tr>
+<td>Cash Conversion</td>
+<td>FCF / Net Income</td>
+<td>Earnings quality</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Rule Templates</strong>:
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Cash flow quality</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">POSITIVE_OCF</span> <span class="o">=</span> <span class="n">operating_cash_flow</span> <span class="o">&gt;</span> <span class="mi">0</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">POSITIVE_FCF</span> <span class="o">=</span> <span class="n">free_cash_flow</span> <span class="o">&gt;</span> <span class="mi">0</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">FCF_POSITIVE_STREAK</span> <span class="o">=</span> <span class="nb">all</span><span class="p">(</span><span class="n">quarterly_fcf</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">last</span> <span class="mi">4</span> <span class="n">quarters</span><span class="p">)</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="c1"># Cash conversion</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="n">HIGH_CASH_CONVERSION</span> <span class="o">=</span> <span class="n">fcf</span> <span class="o">/</span> <span class="n">net_income</span> <span class="o">&gt;</span> <span class="mf">0.80</span>  <span class="c1"># 80%+ conversion</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="n">EARNINGS_QUALITY_CHECK</span> <span class="o">=</span> <span class="n">operating_cash_flow</span> <span class="o">&gt;</span> <span class="n">net_income</span>  <span class="c1"># Cash backs earnings</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="c1"># FCF yield</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="n">ATTRACTIVE_FCF_YIELD</span> <span class="o">=</span> <span class="n">fcf</span> <span class="o">/</span> <span class="n">market_cap</span> <span class="o">&gt;</span> <span class="mf">0.05</span>  <span class="c1"># &gt;5% FCF yield</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="c1"># Self-funding</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="n">SELF_SUSTAINING</span> <span class="o">=</span> <span class="n">fcf</span> <span class="o">&gt;</span> <span class="n">dividends</span> <span class="o">+</span> <span class="n">buybacks</span>  <span class="c1"># Funds shareholder returns</span>
+</span></code></pre></div></p>
+<hr />
+<h2 id="2-valuation-metrics">2. Valuation Metrics<a class="headerlink" href="#2-valuation-metrics" title="Permanent link">&para;</a></h2>
+<h3 id="21-price-based-ratios">2.1 Price-Based Ratios<a class="headerlink" href="#21-price-based-ratios" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Formula</th>
+<th>Typical Range</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P/E</td>
+<td>Price / EPS</td>
+<td>10-25</td>
+<td>Earnings-based</td>
+</tr>
+<tr>
+<td>Forward P/E</td>
+<td>Price / Forward EPS</td>
+<td>10-25</td>
+<td>Forward-looking</td>
+</tr>
+<tr>
+<td>P/S</td>
+<td>Price / Revenue per Share</td>
+<td>1-5</td>
+<td>Revenue-based</td>
+</tr>
+<tr>
+<td>P/B</td>
+<td>Price / Book Value</td>
+<td>1-4</td>
+<td>Asset-based</td>
+</tr>
+<tr>
+<td>P/FCF</td>
+<td>Price / FCF per Share</td>
+<td>10-25</td>
+<td>Cash-based</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Rule Templates</strong>:
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Value thresholds (sector-dependent)</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">VALUE_PE</span> <span class="o">=</span> <span class="n">pe_ratio</span> <span class="o">&lt;</span> <span class="mi">15</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">GROWTH_PE</span> <span class="o">=</span> <span class="n">pe_ratio</span> <span class="o">&gt;</span> <span class="mi">25</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">REASONABLE_PE</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">&lt;</span> <span class="n">pe_ratio</span> <span class="o">&lt;</span> <span class="mi">25</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="c1"># Relative value</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="n">UNDERVALUED_VS_SECTOR</span> <span class="o">=</span> <span class="n">pe_ratio</span> <span class="o">&lt;</span> <span class="n">sector_median_pe</span> <span class="o">*</span> <span class="mf">0.80</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="n">OVERVALUED_VS_SECTOR</span> <span class="o">=</span> <span class="n">pe_ratio</span> <span class="o">&gt;</span> <span class="n">sector_median_pe</span> <span class="o">*</span> <span class="mf">1.20</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="c1"># PEG ratio (P/E to Growth)</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="n">PEG_ATTRACTIVE</span> <span class="o">=</span> <span class="n">peg_ratio</span> <span class="o">&lt;</span> <span class="mf">1.0</span>  <span class="c1"># P/E &lt; growth rate</span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="n">PEG_FAIR</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">&lt;</span> <span class="n">peg_ratio</span> <span class="o">&lt;</span> <span class="mf">2.0</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="n">PEG_EXPENSIVE</span> <span class="o">=</span> <span class="n">peg_ratio</span> <span class="o">&gt;</span> <span class="mf">2.0</span>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="c1"># Multiple expansion/contraction</span>
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="n">MULTIPLE_EXPANSION</span> <span class="o">=</span> <span class="n">pe_ratio</span> <span class="o">&gt;</span> <span class="n">pe_ratio_1y_ago</span>
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="n">MULTIPLE_CONTRACTION</span> <span class="o">=</span> <span class="n">pe_ratio</span> <span class="o">&lt;</span> <span class="n">pe_ratio_1y_ago</span>
+</span></code></pre></div></p>
+<hr />
+<h3 id="22-enterprise-value-ratios">2.2 Enterprise Value Ratios<a class="headerlink" href="#22-enterprise-value-ratios" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Formula</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EV</td>
+<td>Market Cap + Debt - Cash</td>
+<td>Total firm value</td>
+</tr>
+<tr>
+<td>EV/EBITDA</td>
+<td>EV / EBITDA</td>
+<td>Comparable across capital structures</td>
+</tr>
+<tr>
+<td>EV/Sales</td>
+<td>EV / Revenue</td>
+<td>Revenue-based enterprise value</td>
+</tr>
+<tr>
+<td>EV/FCF</td>
+<td>EV / Free Cash Flow</td>
+<td>Cash-based</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Rule Templates</strong>:
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># EV/EBITDA thresholds</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">LOW_EV_EBITDA</span> <span class="o">=</span> <span class="n">ev_ebitda</span> <span class="o">&lt;</span> <span class="mi">8</span>  <span class="c1"># Potentially cheap</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">MODERATE_EV_EBITDA</span> <span class="o">=</span> <span class="mi">8</span> <span class="o">&lt;</span> <span class="n">ev_ebitda</span> <span class="o">&lt;</span> <span class="mi">12</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="n">HIGH_EV_EBITDA</span> <span class="o">=</span> <span class="n">ev_ebitda</span> <span class="o">&gt;</span> <span class="mi">15</span>  <span class="c1"># Potentially expensive</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="c1"># M&amp;A screen (acquisition targets)</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="n">POTENTIAL_TARGET</span> <span class="o">=</span> <span class="n">ev_ebitda</span> <span class="o">&lt;</span> <span class="mi">10</span> <span class="n">AND</span> <span class="n">fcf_positive</span> <span class="n">AND</span> <span class="n">revenue_growing</span>
+</span></code></pre></div></p>
+<hr />
+<h2 id="3-quality-metrics">3. Quality Metrics<a class="headerlink" href="#3-quality-metrics" title="Permanent link">&para;</a></h2>
+<h3 id="31-profitability-ratios">3.1 Profitability Ratios<a class="headerlink" href="#31-profitability-ratios" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Formula</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ROE</td>
+<td>Net Income / Equity</td>
+<td>Return on shareholder capital</td>
+</tr>
+<tr>
+<td>ROA</td>
+<td>Net Income / Total Assets</td>
+<td>Asset efficiency</td>
+</tr>
+<tr>
+<td>ROIC</td>
+<td>NOPAT / Invested Capital</td>
+<td>Capital efficiency</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Rule Templates</strong>:
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Return thresholds</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">HIGH_ROE</span> <span class="o">=</span> <span class="n">roe</span> <span class="o">&gt;</span> <span class="mf">0.15</span>  <span class="c1"># &gt;15%</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="n">STRONG_ROA</span> <span class="o">=</span> <span class="n">roa</span> <span class="o">&gt;</span> <span class="mf">0.08</span>  <span class="c1"># &gt;8%</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="n">EXCEPTIONAL_ROIC</span> <span class="o">=</span> <span class="n">roic</span> <span class="o">&gt;</span> <span class="mf">0.15</span>  <span class="c1"># &gt;15%</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="c1"># Quality screen</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="n">QUALITY_COMPANY</span> <span class="o">=</span> <span class="p">(</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>    <span class="n">roe</span> <span class="o">&gt;</span> <span class="mf">0.12</span> <span class="n">AND</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>    <span class="n">roic</span> <span class="o">&gt;</span> <span class="mf">0.10</span> <span class="n">AND</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>    <span class="n">debt_to_equity</span> <span class="o">&lt;</span> <span class="mf">1.0</span> <span class="n">AND</span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>    <span class="n">fcf_positive</span>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="p">)</span>
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="c1"># DuPont decomposition</span>
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="n">ROE_FROM_MARGINS</span> <span class="o">=</span> <span class="n">high_net_margin</span> <span class="n">contributing</span> <span class="n">to</span> <span class="n">roe</span>
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="n">ROE_FROM_LEVERAGE</span> <span class="o">=</span> <span class="n">high_leverage</span> <span class="n">inflating</span> <span class="n">roe</span>  <span class="c1"># Warning</span>
+</span></code></pre></div></p>
+<hr />
+<h3 id="32-earnings-quality-indicators">3.2 Earnings Quality Indicators<a class="headerlink" href="#32-earnings-quality-indicators" title="Permanent link">&para;</a></h3>
+<p><strong>Warning Signs</strong>:
+<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Accruals check (high accruals = lower quality)</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">ACCRUALS</span> <span class="o">=</span> <span class="p">(</span><span class="n">net_income</span> <span class="o">-</span> <span class="n">operating_cash_flow</span><span class="p">)</span> <span class="o">/</span> <span class="n">total_assets</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="n">HIGH_ACCRUALS</span> <span class="o">=</span> <span class="n">ACCRUALS</span> <span class="o">&gt;</span> <span class="mf">0.10</span>  <span class="c1"># Warning sign</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="c1"># Revenue quality</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="n">RECEIVABLES_GROWING_FASTER</span> <span class="o">=</span> <span class="n">receivables_growth</span> <span class="o">&gt;</span> <span class="n">revenue_growth</span>  <span class="c1"># Warning</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="c1"># One-time items</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="n">RECURRING_EARNINGS</span> <span class="o">=</span> <span class="n">exclude_one_time_items</span><span class="p">(</span><span class="n">net_income</span><span class="p">)</span>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="n">ADJUSTED_EPS_INFLATED</span> <span class="o">=</span> <span class="n">adjusted_eps</span> <span class="o">&gt;</span> <span class="n">gaap_eps</span> <span class="o">*</span> <span class="mf">1.20</span>  <span class="c1"># Suspicious adjustments</span>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="c1"># Audit quality</span>
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="n">AUDIT_OPINION_CLEAN</span> <span class="o">=</span> <span class="n">no_qualified_opinion</span>
+</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="n">NO_RESTATEMENTS</span> <span class="o">=</span> <span class="n">no_recent_restatements</span>
+</span></code></pre></div></p>
+<hr />
+<h2 id="4-growth-metrics">4. Growth Metrics<a class="headerlink" href="#4-growth-metrics" title="Permanent link">&para;</a></h2>
+<h3 id="41-growth-rates">4.1 Growth Rates<a class="headerlink" href="#41-growth-rates" title="Permanent link">&para;</a></h3>
+<p><strong>Key Metrics</strong>:
+<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Revenue growth</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">REVENUE_YOY</span> <span class="o">=</span> <span class="p">(</span><span class="n">revenue</span> <span class="o">-</span> <span class="n">revenue_1y_ago</span><span class="p">)</span> <span class="o">/</span> <span class="n">revenue_1y_ago</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="n">REVENUE_QOQ</span> <span class="o">=</span> <span class="p">(</span><span class="n">revenue</span> <span class="o">-</span> <span class="n">revenue_1q_ago</span><span class="p">)</span> <span class="o">/</span> <span class="n">revenue_1q_ago</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="n">REVENUE_CAGR_3Y</span> <span class="o">=</span> <span class="p">(</span><span class="n">revenue</span> <span class="o">/</span> <span class="n">revenue_3y_ago</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="c1"># Earnings growth</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="n">EPS_YOY</span> <span class="o">=</span> <span class="p">(</span><span class="n">eps</span> <span class="o">-</span> <span class="n">eps_1y_ago</span><span class="p">)</span> <span class="o">/</span> <span class="n">eps_1y_ago</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="n">EPS_CAGR_3Y</span> <span class="o">=</span> <span class="p">(</span><span class="n">eps</span> <span class="o">/</span> <span class="n">eps_3y_ago</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="c1"># Growth thresholds</span>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="n">HIGH_GROWTH</span> <span class="o">=</span> <span class="n">revenue_yoy</span> <span class="o">&gt;</span> <span class="mf">0.20</span>  <span class="c1"># &gt;20%</span>
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="n">MODERATE_GROWTH</span> <span class="o">=</span> <span class="mf">0.05</span> <span class="o">&lt;</span> <span class="n">revenue_yoy</span> <span class="o">&lt;</span> <span class="mf">0.20</span>
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="n">SLOW_GROWTH</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">&lt;</span> <span class="n">revenue_yoy</span> <span class="o">&lt;</span> <span class="mf">0.05</span>
+</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="n">DECLINING</span> <span class="o">=</span> <span class="n">revenue_yoy</span> <span class="o">&lt;</span> <span class="mi">0</span>
+</span></code></pre></div></p>
+<hr />
+<h3 id="42-growth-quality">4.2 Growth Quality<a class="headerlink" href="#42-growth-quality" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Sustainable growth</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="n">ORGANIC_GROWTH</span> <span class="o">=</span> <span class="n">growth</span> <span class="kn">from</span><span class="w"> </span><span class="nn">operations</span><span class="p">,</span> <span class="ow">not</span> <span class="n">acquisitions</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="n">EFFICIENT_GROWTH</span> <span class="o">=</span> <span class="n">revenue_growth</span> <span class="o">&gt;</span> <span class="n">capex_growth</span>  <span class="c1"># Scaling efficiently</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="c1"># Growth consistency</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="n">CONSISTENT_GROWER</span> <span class="o">=</span> <span class="n">std</span><span class="p">(</span><span class="n">revenue_growth_quarterly</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.10</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="n">VOLATILE_GROWTH</span> <span class="o">=</span> <span class="n">std</span><span class="p">(</span><span class="n">revenue_growth_quarterly</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">0.20</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="c1"># Growth vs valuation</span>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="n">GROWTH_AT_REASONABLE_PRICE</span> <span class="o">=</span> <span class="n">revenue_growth</span> <span class="o">&gt;</span> <span class="mf">0.15</span> <span class="n">AND</span> <span class="n">pe_ratio</span> <span class="o">&lt;</span> <span class="mi">25</span>
+</span></code></pre></div>
+<hr />
+<h2 id="5-sector-analysis">5. Sector Analysis<a class="headerlink" href="#5-sector-analysis" title="Permanent link">&para;</a></h2>
+<h3 id="51-sector-classification">5.1 Sector Classification<a class="headerlink" href="#51-sector-classification" title="Permanent link">&para;</a></h3>
+<p><strong>GICS Sectors</strong> (Standard):
+1. Information Technology
+2. Health Care
+3. Financials
+4. Consumer Discretionary
+5. Communication Services
+6. Industrials
+7. Consumer Staples
+8. Energy
+9. Utilities
+10. Real Estate
+11. Materials</p>
+<p><strong>Rule Templates</strong>:
+<div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Sector exposure limits</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">MAX_SECTOR_EXPOSURE</span> <span class="o">=</span> <span class="mf">0.25</span>  <span class="c1"># Max 25% in any sector</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="n">SECTOR_CONCENTRATION</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">position</span> <span class="ow">in</span> <span class="n">sector</span><span class="p">)</span> <span class="o">/</span> <span class="n">total_portfolio</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="c1"># Sector momentum</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="n">SECTOR_RELATIVE_STRENGTH</span> <span class="o">=</span> <span class="n">sector_return</span> <span class="o">/</span> <span class="n">market_return</span>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="n">SECTOR_LEADING</span> <span class="o">=</span> <span class="n">sector_relative_strength</span> <span class="o">&gt;</span> <span class="mf">1.0</span>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="n">SECTOR_LAGGING</span> <span class="o">=</span> <span class="n">sector_relative_strength</span> <span class="o">&lt;</span> <span class="mf">1.0</span>
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="c1"># Sector rotation</span>
+</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="n">OVERWEIGHT_SECTOR</span> <span class="o">=</span> <span class="n">IF</span> <span class="n">sector_momentum_rank</span> <span class="ow">in</span> <span class="n">top_3</span>
+</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="n">UNDERWEIGHT_SECTOR</span> <span class="o">=</span> <span class="n">IF</span> <span class="n">sector_momentum_rank</span> <span class="ow">in</span> <span class="n">bottom_3</span>
+</span></code></pre></div></p>
+<hr />
+<h3 id="52-sector-specific-metrics">5.2 Sector-Specific Metrics<a class="headerlink" href="#52-sector-specific-metrics" title="Permanent link">&para;</a></h3>
+<p><strong>Technology</strong>:
+<div class="language-python highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">TECH_METRICS</span> <span class="o">=</span> <span class="p">{</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>    <span class="s1">&#39;revenue_growth&#39;</span><span class="p">:</span> <span class="n">required</span> <span class="o">&gt;</span> <span class="mf">0.10</span><span class="p">,</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>    <span class="s1">&#39;gross_margin&#39;</span><span class="p">:</span> <span class="n">required</span> <span class="o">&gt;</span> <span class="mf">0.50</span><span class="p">,</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>    <span class="s1">&#39;r_and_d_ratio&#39;</span><span class="p">:</span> <span class="n">informational</span><span class="p">,</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>    <span class="s1">&#39;saas_metrics&#39;</span><span class="p">:</span> <span class="n">arr_growth</span><span class="p">,</span> <span class="n">net_retention</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="p">}</span>
+</span></code></pre></div></p>
+<p><strong>Financials</strong>:
+<div class="language-python highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="n">FINANCIAL_METRICS</span> <span class="o">=</span> <span class="p">{</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>    <span class="s1">&#39;book_value&#39;</span><span class="p">:</span> <span class="n">primary_valuation</span><span class="p">,</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>    <span class="s1">&#39;roa&#39;</span><span class="p">:</span> <span class="n">efficiency</span><span class="p">,</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>    <span class="s1">&#39;net_interest_margin&#39;</span><span class="p">:</span> <span class="n">bank_profitability</span><span class="p">,</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>    <span class="s1">&#39;capital_ratios&#39;</span><span class="p">:</span> <span class="n">regulatory_compliance</span>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="p">}</span>
+</span></code></pre></div></p>
+<p><strong>Energy</strong>:
+<div class="language-python highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="n">ENERGY_METRICS</span> <span class="o">=</span> <span class="p">{</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>    <span class="s1">&#39;ev_ebitda&#39;</span><span class="p">:</span> <span class="n">primary_valuation</span><span class="p">,</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>    <span class="s1">&#39;production_growth&#39;</span><span class="p">:</span> <span class="n">growth</span><span class="p">,</span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>    <span class="s1">&#39;reserve_replacement&#39;</span><span class="p">:</span> <span class="n">sustainability</span><span class="p">,</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>    <span class="s1">&#39;breakeven_cost&#39;</span><span class="p">:</span> <span class="n">profitability_sensitivity</span>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="p">}</span>
+</span></code></pre></div></p>
+<hr />
+<h2 id="6-macro-indicators">6. Macro Indicators<a class="headerlink" href="#6-macro-indicators" title="Permanent link">&para;</a></h2>
+<h3 id="61-interest-rates">6.1 Interest Rates<a class="headerlink" href="#61-interest-rates" title="Permanent link">&para;</a></h3>
+<p><strong>Key Rates</strong>:
+- Federal Funds Rate
+- 10-Year Treasury Yield
+- 2-Year Treasury Yield
+- Yield Curve (10Y - 2Y spread)</p>
+<p><strong>Rule Templates</strong>:
+<div class="language-python highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># Rate environment</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="n">RISING_RATES</span> <span class="o">=</span> <span class="n">fed_funds_rate</span> <span class="o">&gt;</span> <span class="n">fed_funds_rate_3m_ago</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="n">FALLING_RATES</span> <span class="o">=</span> <span class="n">fed_funds_rate</span> <span class="o">&lt;</span> <span class="n">fed_funds_rate_3m_ago</span>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="c1"># Yield curve</span>
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="n">YIELD_CURVE</span> <span class="o">=</span> <span class="n">treasury_10y</span> <span class="o">-</span> <span class="n">treasury_2y</span>
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="n">NORMAL_CURVE</span> <span class="o">=</span> <span class="n">YIELD_CURVE</span> <span class="o">&gt;</span> <span class="mf">0.50</span>  <span class="c1"># Positive slope</span>
+</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="n">FLAT_CURVE</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.25</span> <span class="o">&lt;</span> <span class="n">YIELD_CURVE</span> <span class="o">&lt;</span> <span class="mf">0.25</span>
+</span><span id="__span-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="n">INVERTED_CURVE</span> <span class="o">=</span> <span class="n">YIELD_CURVE</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mf">0.25</span>  <span class="c1"># Recession warning</span>
+</span><span id="__span-13-10"><a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>
+</span><span id="__span-13-11"><a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a><span class="c1"># Rate sensitivity</span>
+</span><span id="__span-13-12"><a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a><span class="n">AVOID_RATE_SENSITIVE</span> <span class="o">=</span> <span class="n">IF</span> <span class="n">RISING_RATES</span><span class="p">:</span> <span class="n">underweight</span> <span class="n">utilities</span><span class="p">,</span> <span class="n">reits</span>
+</span><span id="__span-13-13"><a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a><span class="n">FAVOR_FINANCIALS</span> <span class="o">=</span> <span class="n">IF</span> <span class="n">RISING_RATES</span> <span class="n">AND</span> <span class="n">normal_curve</span><span class="p">:</span> <span class="n">overweight</span> <span class="n">banks</span>
+</span></code></pre></div></p>
+<hr />
+<h3 id="62-inflation">6.2 Inflation<a class="headerlink" href="#62-inflation" title="Permanent link">&para;</a></h3>
+<p><strong>Key Indicators</strong>:
+- CPI (Consumer Price Index)
+- PPI (Producer Price Index)
+- PCE (Personal Consumption Expenditures)
+- Inflation Expectations (TIPS breakevens)</p>
+<p><strong>Rule Templates</strong>:
+<div class="language-python highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># Inflation regime</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="n">HIGH_INFLATION</span> <span class="o">=</span> <span class="n">cpi_yoy</span> <span class="o">&gt;</span> <span class="mf">0.04</span>  <span class="c1"># &gt;4%</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="n">MODERATE_INFLATION</span> <span class="o">=</span> <span class="mf">0.02</span> <span class="o">&lt;</span> <span class="n">cpi_yoy</span> <span class="o">&lt;</span> <span class="mf">0.04</span>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="n">LOW_INFLATION</span> <span class="o">=</span> <span class="n">cpi_yoy</span> <span class="o">&lt;</span> <span class="mf">0.02</span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="n">DEFLATION_RISK</span> <span class="o">=</span> <span class="n">cpi_yoy</span> <span class="o">&lt;</span> <span class="mi">0</span>
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>
+</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="c1"># Inflation-adjusted returns</span>
+</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="n">REAL_RETURN</span> <span class="o">=</span> <span class="n">nominal_return</span> <span class="o">-</span> <span class="n">inflation_rate</span>
+</span><span id="__span-14-9"><a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>
+</span><span id="__span-14-10"><a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="c1"># Inflation hedges</span>
+</span><span id="__span-14-11"><a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a><span class="n">IF</span> <span class="n">HIGH_INFLATION</span><span class="p">:</span>
+</span><span id="__span-14-12"><a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a>    <span class="n">overweight</span><span class="p">:</span> <span class="n">commodities</span><span class="p">,</span> <span class="n">tips</span><span class="p">,</span> <span class="n">real_assets</span>
+</span><span id="__span-14-13"><a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a>    <span class="n">underweight</span><span class="p">:</span> <span class="n">long_duration_bonds</span><span class="p">,</span> <span class="n">growth_stocks</span>
+</span></code></pre></div></p>
+<hr />
+<h3 id="63-economic-growth">6.3 Economic Growth<a class="headerlink" href="#63-economic-growth" title="Permanent link">&para;</a></h3>
+<p><strong>Key Indicators</strong>:
+- GDP Growth
+- ISM Manufacturing/Services PMI
+- Unemployment Rate
+- Retail Sales
+- Industrial Production</p>
+<p><strong>Rule Templates</strong>:
+<div class="language-python highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># Growth regime</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="n">EXPANSION</span> <span class="o">=</span> <span class="n">gdp_growth</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="n">AND</span> <span class="n">pmi</span> <span class="o">&gt;</span> <span class="mi">50</span>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="n">CONTRACTION</span> <span class="o">=</span> <span class="n">gdp_growth</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="n">OR</span> <span class="n">pmi</span> <span class="o">&lt;</span> <span class="mi">50</span>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="n">SLOWING</span> <span class="o">=</span> <span class="n">gdp_growth</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="n">AND</span> <span class="n">gdp_growth</span> <span class="o">&lt;</span> <span class="n">gdp_growth_prior</span>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="c1"># PMI signals</span>
+</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="n">PMI_EXPANSION</span> <span class="o">=</span> <span class="n">pmi</span> <span class="o">&gt;</span> <span class="mi">50</span>
+</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="n">PMI_CONTRACTION</span> <span class="o">=</span> <span class="n">pmi</span> <span class="o">&lt;</span> <span class="mi">50</span>
+</span><span id="__span-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a><span class="n">PMI_ACCELERATING</span> <span class="o">=</span> <span class="n">pmi</span> <span class="o">&gt;</span> <span class="n">pmi_3m_ago</span>
+</span><span id="__span-15-10"><a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a><span class="n">PMI_DECELERATING</span> <span class="o">=</span> <span class="n">pmi</span> <span class="o">&lt;</span> <span class="n">pmi_3m_ago</span>
+</span><span id="__span-15-11"><a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a>
+</span><span id="__span-15-12"><a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a><span class="c1"># Economic cycle positioning</span>
+</span><span id="__span-15-13"><a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a><span class="n">IF</span> <span class="n">EXPANSION</span> <span class="n">AND</span> <span class="n">ACCELERATING</span><span class="p">:</span>
+</span><span id="__span-15-14"><a id="__codelineno-15-14" name="__codelineno-15-14" href="#__codelineno-15-14"></a>    <span class="n">favor</span><span class="p">:</span> <span class="n">cyclicals</span><span class="p">,</span> <span class="n">growth</span><span class="p">,</span> <span class="n">small_caps</span>
+</span><span id="__span-15-15"><a id="__codelineno-15-15" name="__codelineno-15-15" href="#__codelineno-15-15"></a><span class="n">IF</span> <span class="n">EXPANSION</span> <span class="n">AND</span> <span class="n">DECELERATING</span><span class="p">:</span>
+</span><span id="__span-15-16"><a id="__codelineno-15-16" name="__codelineno-15-16" href="#__codelineno-15-16"></a>    <span class="n">favor</span><span class="p">:</span> <span class="n">quality</span><span class="p">,</span> <span class="n">defensives</span>
+</span><span id="__span-15-17"><a id="__codelineno-15-17" name="__codelineno-15-17" href="#__codelineno-15-17"></a><span class="n">IF</span> <span class="n">CONTRACTION</span><span class="p">:</span>
+</span><span id="__span-15-18"><a id="__codelineno-15-18" name="__codelineno-15-18" href="#__codelineno-15-18"></a>    <span class="n">favor</span><span class="p">:</span> <span class="n">defensives</span><span class="p">,</span> <span class="n">cash</span><span class="p">,</span> <span class="n">treasuries</span>
+</span></code></pre></div></p>
+<hr />
+<h3 id="64-risk-regimes">6.4 Risk Regimes<a class="headerlink" href="#64-risk-regimes" title="Permanent link">&para;</a></h3>
+<p><strong>Risk-On / Risk-Off Indicators</strong>:
+<div class="language-python highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># Volatility regime</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="n">VIX_LOW</span> <span class="o">=</span> <span class="n">vix</span> <span class="o">&lt;</span> <span class="mi">15</span>  <span class="c1"># Complacency</span>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="n">VIX_MODERATE</span> <span class="o">=</span> <span class="mi">15</span> <span class="o">&lt;</span> <span class="n">vix</span> <span class="o">&lt;</span> <span class="mi">25</span>  <span class="c1"># Normal</span>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="n">VIX_ELEVATED</span> <span class="o">=</span> <span class="mi">25</span> <span class="o">&lt;</span> <span class="n">vix</span> <span class="o">&lt;</span> <span class="mi">35</span>  <span class="c1"># Caution</span>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="n">VIX_HIGH</span> <span class="o">=</span> <span class="n">vix</span> <span class="o">&gt;</span> <span class="mi">35</span>  <span class="c1"># Fear</span>
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="c1"># Credit spreads</span>
+</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="n">CREDIT_SPREAD</span> <span class="o">=</span> <span class="n">high_yield_spread</span> <span class="o">-</span> <span class="n">treasury_yield</span>
+</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="n">CREDIT_STRESS</span> <span class="o">=</span> <span class="n">credit_spread</span> <span class="o">&gt;</span> <span class="n">credit_spread_avg_1y</span> <span class="o">*</span> <span class="mf">1.5</span>
+</span><span id="__span-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a>
+</span><span id="__span-16-11"><a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a><span class="c1"># Risk regime classification</span>
+</span><span id="__span-16-12"><a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a><span class="n">RISK_ON</span> <span class="o">=</span> <span class="n">vix</span> <span class="o">&lt;</span> <span class="mi">20</span> <span class="n">AND</span> <span class="n">credit_spread</span> <span class="n">normal</span> <span class="n">AND</span> <span class="n">pmi</span> <span class="o">&gt;</span> <span class="mi">50</span>
+</span><span id="__span-16-13"><a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a><span class="n">RISK_OFF</span> <span class="o">=</span> <span class="n">vix</span> <span class="o">&gt;</span> <span class="mi">25</span> <span class="n">OR</span> <span class="n">credit_spread</span> <span class="n">elevated</span> <span class="n">OR</span> <span class="n">pmi</span> <span class="o">&lt;</span> <span class="mi">50</span>
+</span><span id="__span-16-14"><a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a>
+</span><span id="__span-16-15"><a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a><span class="c1"># Dollar strength</span>
+</span><span id="__span-16-16"><a id="__codelineno-16-16" name="__codelineno-16-16" href="#__codelineno-16-16"></a><span class="n">DOLLAR_STRONG</span> <span class="o">=</span> <span class="n">dxy</span> <span class="o">&gt;</span> <span class="n">dxy_200ma</span>  <span class="c1"># Risk-off typically</span>
+</span><span id="__span-16-17"><a id="__codelineno-16-17" name="__codelineno-16-17" href="#__codelineno-16-17"></a><span class="n">DOLLAR_WEAK</span> <span class="o">=</span> <span class="n">dxy</span> <span class="o">&lt;</span> <span class="n">dxy_200ma</span>   <span class="c1"># Risk-on typically</span>
+</span></code></pre></div></p>
+<hr />
+<h2 id="7-fundamental-filters-overrides">7. Fundamental Filters &amp; Overrides<a class="headerlink" href="#7-fundamental-filters-overrides" title="Permanent link">&para;</a></h2>
+<h3 id="71-universe-filters">7.1 Universe Filters<a class="headerlink" href="#71-universe-filters" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># Quality universe filter</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="n">QUALITY_UNIVERSE</span> <span class="o">=</span> <span class="p">(</span>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>    <span class="n">profitable</span> <span class="o">==</span> <span class="kc">True</span> <span class="n">AND</span>
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>    <span class="n">positive_fcf</span> <span class="o">==</span> <span class="kc">True</span> <span class="n">AND</span>
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>    <span class="n">debt_to_equity</span> <span class="o">&lt;</span> <span class="mf">2.0</span> <span class="n">AND</span>
+</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>    <span class="n">roe</span> <span class="o">&gt;</span> <span class="mf">0.08</span> <span class="n">AND</span>
+</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>    <span class="n">no_accounting_issues</span> <span class="o">==</span> <span class="kc">True</span>
+</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="p">)</span>
+</span><span id="__span-17-9"><a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>
+</span><span id="__span-17-10"><a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a><span class="c1"># Growth universe filter</span>
+</span><span id="__span-17-11"><a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a><span class="n">GROWTH_UNIVERSE</span> <span class="o">=</span> <span class="p">(</span>
+</span><span id="__span-17-12"><a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a>    <span class="n">revenue_growth_yoy</span> <span class="o">&gt;</span> <span class="mf">0.15</span> <span class="n">AND</span>
+</span><span id="__span-17-13"><a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a>    <span class="n">eps_growth_yoy</span> <span class="o">&gt;</span> <span class="mf">0.20</span> <span class="n">AND</span>
+</span><span id="__span-17-14"><a id="__codelineno-17-14" name="__codelineno-17-14" href="#__codelineno-17-14"></a>    <span class="n">gross_margin</span> <span class="o">&gt;</span> <span class="mf">0.40</span>
+</span><span id="__span-17-15"><a id="__codelineno-17-15" name="__codelineno-17-15" href="#__codelineno-17-15"></a><span class="p">)</span>
+</span><span id="__span-17-16"><a id="__codelineno-17-16" name="__codelineno-17-16" href="#__codelineno-17-16"></a>
+</span><span id="__span-17-17"><a id="__codelineno-17-17" name="__codelineno-17-17" href="#__codelineno-17-17"></a><span class="c1"># Value universe filter</span>
+</span><span id="__span-17-18"><a id="__codelineno-17-18" name="__codelineno-17-18" href="#__codelineno-17-18"></a><span class="n">VALUE_UNIVERSE</span> <span class="o">=</span> <span class="p">(</span>
+</span><span id="__span-17-19"><a id="__codelineno-17-19" name="__codelineno-17-19" href="#__codelineno-17-19"></a>    <span class="n">pe_ratio</span> <span class="o">&lt;</span> <span class="n">sector_median_pe</span> <span class="n">AND</span>
+</span><span id="__span-17-20"><a id="__codelineno-17-20" name="__codelineno-17-20" href="#__codelineno-17-20"></a>    <span class="n">ev_ebitda</span> <span class="o">&lt;</span> <span class="mi">12</span> <span class="n">AND</span>
+</span><span id="__span-17-21"><a id="__codelineno-17-21" name="__codelineno-17-21" href="#__codelineno-17-21"></a>    <span class="n">fcf_yield</span> <span class="o">&gt;</span> <span class="mf">0.04</span> <span class="n">AND</span>
+</span><span id="__span-17-22"><a id="__codelineno-17-22" name="__codelineno-17-22" href="#__codelineno-17-22"></a>    <span class="n">dividend_yield</span> <span class="o">&gt;</span> <span class="mf">0.02</span>
+</span><span id="__span-17-23"><a id="__codelineno-17-23" name="__codelineno-17-23" href="#__codelineno-17-23"></a><span class="p">)</span>
+</span><span id="__span-17-24"><a id="__codelineno-17-24" name="__codelineno-17-24" href="#__codelineno-17-24"></a>
+</span><span id="__span-17-25"><a id="__codelineno-17-25" name="__codelineno-17-25" href="#__codelineno-17-25"></a><span class="c1"># Combined filter (quality at reasonable price)</span>
+</span><span id="__span-17-26"><a id="__codelineno-17-26" name="__codelineno-17-26" href="#__codelineno-17-26"></a><span class="n">GARP_UNIVERSE</span> <span class="o">=</span> <span class="p">(</span>
+</span><span id="__span-17-27"><a id="__codelineno-17-27" name="__codelineno-17-27" href="#__codelineno-17-27"></a>    <span class="n">QUALITY_UNIVERSE</span> <span class="n">AND</span>
+</span><span id="__span-17-28"><a id="__codelineno-17-28" name="__codelineno-17-28" href="#__codelineno-17-28"></a>    <span class="n">peg_ratio</span> <span class="o">&lt;</span> <span class="mf">2.0</span> <span class="n">AND</span>
+</span><span id="__span-17-29"><a id="__codelineno-17-29" name="__codelineno-17-29" href="#__codelineno-17-29"></a>    <span class="n">pe_ratio</span> <span class="o">&lt;</span> <span class="mi">25</span>
+</span><span id="__span-17-30"><a id="__codelineno-17-30" name="__codelineno-17-30" href="#__codelineno-17-30"></a><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h3 id="72-directional-bias-rules">7.2 Directional Bias Rules<a class="headerlink" href="#72-directional-bias-rules" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># Macro-driven bias</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="n">IF</span> <span class="n">EXPANSION</span> <span class="n">AND</span> <span class="n">RISK_ON</span><span class="p">:</span>
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>    <span class="n">bias</span> <span class="o">=</span> <span class="s2">&quot;bullish&quot;</span>
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>    <span class="n">favor</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;cyclicals&quot;</span><span class="p">,</span> <span class="s2">&quot;small_caps&quot;</span><span class="p">,</span> <span class="s2">&quot;high_beta&quot;</span><span class="p">]</span>
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>
+</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a><span class="n">IF</span> <span class="n">CONTRACTION</span> <span class="n">OR</span> <span class="n">RISK_OFF</span><span class="p">:</span>
+</span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>    <span class="n">bias</span> <span class="o">=</span> <span class="s2">&quot;cautious&quot;</span>
+</span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>    <span class="n">favor</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;defensives&quot;</span><span class="p">,</span> <span class="s2">&quot;quality&quot;</span><span class="p">,</span> <span class="s2">&quot;low_volatility&quot;</span><span class="p">]</span>
+</span><span id="__span-18-9"><a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>
+</span><span id="__span-18-10"><a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a><span class="n">IF</span> <span class="n">HIGH_INFLATION</span><span class="p">:</span>
+</span><span id="__span-18-11"><a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a>    <span class="n">bias</span> <span class="o">=</span> <span class="s2">&quot;selective&quot;</span>
+</span><span id="__span-18-12"><a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a>    <span class="n">favor</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;pricing_power&quot;</span><span class="p">,</span> <span class="s2">&quot;real_assets&quot;</span><span class="p">,</span> <span class="s2">&quot;commodities&quot;</span><span class="p">]</span>
+</span><span id="__span-18-13"><a id="__codelineno-18-13" name="__codelineno-18-13" href="#__codelineno-18-13"></a>
+</span><span id="__span-18-14"><a id="__codelineno-18-14" name="__codelineno-18-14" href="#__codelineno-18-14"></a><span class="c1"># Sector rotation</span>
+</span><span id="__span-18-15"><a id="__codelineno-18-15" name="__codelineno-18-15" href="#__codelineno-18-15"></a><span class="n">IF</span> <span class="n">EARLY_CYCLE</span><span class="p">:</span>
+</span><span id="__span-18-16"><a id="__codelineno-18-16" name="__codelineno-18-16" href="#__codelineno-18-16"></a>    <span class="n">overweight</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;financials&quot;</span><span class="p">,</span> <span class="s2">&quot;industrials&quot;</span><span class="p">,</span> <span class="s2">&quot;materials&quot;</span><span class="p">]</span>
+</span><span id="__span-18-17"><a id="__codelineno-18-17" name="__codelineno-18-17" href="#__codelineno-18-17"></a><span class="n">IF</span> <span class="n">LATE_CYCLE</span><span class="p">:</span>
+</span><span id="__span-18-18"><a id="__codelineno-18-18" name="__codelineno-18-18" href="#__codelineno-18-18"></a>    <span class="n">overweight</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;energy&quot;</span><span class="p">,</span> <span class="s2">&quot;materials&quot;</span><span class="p">,</span> <span class="s2">&quot;defensives&quot;</span><span class="p">]</span>
+</span><span id="__span-18-19"><a id="__codelineno-18-19" name="__codelineno-18-19" href="#__codelineno-18-19"></a><span class="n">IF</span> <span class="n">RECESSION</span><span class="p">:</span>
+</span><span id="__span-18-20"><a id="__codelineno-18-20" name="__codelineno-18-20" href="#__codelineno-18-20"></a>    <span class="n">overweight</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;utilities&quot;</span><span class="p">,</span> <span class="s2">&quot;staples&quot;</span><span class="p">,</span> <span class="s2">&quot;healthcare&quot;</span><span class="p">]</span>
+</span></code></pre></div>
+<hr />
+<h3 id="73-event-overrides">7.3 Event Overrides<a class="headerlink" href="#73-event-overrides" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1"># Earnings-related</span>
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="n">NO_NEW_POSITIONS</span> <span class="o">=</span> <span class="n">days_to_earnings</span> <span class="o">&lt;</span> <span class="mi">3</span>  <span class="c1"># Avoid earnings risk</span>
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="n">REDUCE_POSITION</span> <span class="o">=</span> <span class="n">earnings_announced</span> <span class="n">AND</span> <span class="n">significant_miss</span>
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>
+</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="c1"># Macro events</span>
+</span><span id="__span-19-6"><a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a><span class="n">NO_NEW_POSITIONS</span> <span class="o">=</span> <span class="n">major_fed_meeting</span> <span class="n">within</span> <span class="mi">24</span> <span class="n">hours</span>
+</span><span id="__span-19-7"><a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a><span class="n">REDUCE_EXPOSURE</span> <span class="o">=</span> <span class="n">major_economic_data_release</span> <span class="n">within</span> <span class="mi">1</span> <span class="n">hour</span>
+</span><span id="__span-19-8"><a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>
+</span><span id="__span-19-9"><a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a><span class="c1"># Company-specific</span>
+</span><span id="__span-19-10"><a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a><span class="n">EXIT_POSITION</span> <span class="o">=</span> <span class="p">(</span>
+</span><span id="__span-19-11"><a id="__codelineno-19-11" name="__codelineno-19-11" href="#__codelineno-19-11"></a>    <span class="n">earnings_miss</span> <span class="o">&gt;</span> <span class="mi">20</span><span class="o">%</span> <span class="n">OR</span>
+</span><span id="__span-19-12"><a id="__codelineno-19-12" name="__codelineno-19-12" href="#__codelineno-19-12"></a>    <span class="n">guidance_cut</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="o">%</span> <span class="n">OR</span>
+</span><span id="__span-19-13"><a id="__codelineno-19-13" name="__codelineno-19-13" href="#__codelineno-19-13"></a>    <span class="n">key_executive_departure</span> <span class="n">OR</span>
+</span><span id="__span-19-14"><a id="__codelineno-19-14" name="__codelineno-19-14" href="#__codelineno-19-14"></a>    <span class="n">sec_investigation</span> <span class="n">OR</span>
+</span><span id="__span-19-15"><a id="__codelineno-19-15" name="__codelineno-19-15" href="#__codelineno-19-15"></a>    <span class="n">downgrade_to_sell</span> <span class="n">by</span> <span class="n">multiple</span> <span class="n">analysts</span>
+</span><span id="__span-19-16"><a id="__codelineno-19-16" name="__codelineno-19-16" href="#__codelineno-19-16"></a><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h2 id="8-data-sources">8. Data Sources<a class="headerlink" href="#8-data-sources" title="Permanent link">&para;</a></h2>
+<h3 id="81-fundamental-data-providers">8.1 Fundamental Data Providers<a class="headerlink" href="#81-fundamental-data-providers" title="Permanent link">&para;</a></h3>
+<p><strong>Primary (Regulatory/Official)</strong>:
+- SEC EDGAR (Company filings)
+- Federal Reserve FRED (Macro data)
+- Bureau of Labor Statistics (Employment, inflation)
+- Bureau of Economic Analysis (GDP)</p>
+<p><strong>Commercial Providers</strong>:
+- Bloomberg, Refinitiv (Comprehensive)
+- S&amp;P Capital IQ, FactSet (Fundamentals)
+- Quandl/Nasdaq Data Link (Alternative data)</p>
+<h3 id="82-data-quality-considerations">8.2 Data Quality Considerations<a class="headerlink" href="#82-data-quality-considerations" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="c1"># Data freshness</span>
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="n">STALE_DATA_WARNING</span> <span class="o">=</span> <span class="n">last_update</span> <span class="o">&gt;</span> <span class="mi">30</span> <span class="n">days</span> <span class="n">ago</span>
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="n">REQUIRE_TTM</span> <span class="o">=</span> <span class="n">use</span> <span class="n">trailing</span> <span class="n">twelve</span> <span class="n">months</span> <span class="k">for</span> <span class="n">consistency</span>
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>
+</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="c1"># Point-in-time (avoid lookahead bias)</span>
+</span><span id="__span-20-6"><a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a><span class="n">USE_POINT_IN_TIME</span> <span class="o">=</span> <span class="n">use</span> <span class="n">data</span> <span class="n">available</span> <span class="n">at</span> <span class="n">signal</span> <span class="n">time</span>
+</span><span id="__span-20-7"><a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a><span class="n">DONT_USE_RESTATED</span> <span class="o">=</span> <span class="n">use</span> <span class="n">original</span> <span class="n">reported</span> <span class="n">values</span>
+</span><span id="__span-20-8"><a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a>
+</span><span id="__span-20-9"><a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a><span class="c1"># Standardization</span>
+</span><span id="__span-20-10"><a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a><span class="n">NORMALIZE_ACCOUNTING</span> <span class="o">=</span> <span class="n">adjust</span> <span class="k">for</span> <span class="n">different</span> <span class="n">accounting</span> <span class="n">standards</span>
+</span><span id="__span-20-11"><a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a><span class="n">SECTOR_ADJUST</span> <span class="o">=</span> <span class="n">compare</span> <span class="n">within</span> <span class="n">sector</span><span class="p">,</span> <span class="ow">not</span> <span class="n">across</span> <span class="nb">all</span> <span class="n">stocks</span>
+</span></code></pre></div>
+<hr />
+<h2 id="academic-references">Academic References<a class="headerlink" href="#academic-references" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Graham, B. &amp; Dodd, D.</strong>: "Security Analysis" - Foundational value investing text</li>
+<li><strong>Fama, E. &amp; French, K.</strong>: Three-Factor Model, Five-Factor Model papers</li>
+<li><strong>Piotroski, J. (2000)</strong>: "Value Investing: The Use of Historical Financial Statement Information" - F-Score</li>
+<li><strong>Greenblatt, J.</strong>: "The Little Book That Beats the Market" - Magic Formula</li>
+<li><strong>Asness, C. et al. (AQR)</strong>: Quality factor research papers</li>
+<li><strong>Sloan, R. (1996)</strong>: "Do Stock Prices Fully Reflect Information in Accruals and Cash Flows?"</li>
+</ol>
+<hr />
+<h2 id="key-takeaways">Key Takeaways<a class="headerlink" href="#key-takeaways" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Use fundamentals as filters</strong>: Screen universe, not timing signals</li>
+<li><strong>Sector context matters</strong>: Compare within sectors, not across all stocks</li>
+<li><strong>Quality over quantity</strong>: Focus on few reliable metrics</li>
+<li><strong>Macro sets the backdrop</strong>: Adjust strategy based on economic regime</li>
+<li><strong>Avoid binary decisions</strong>: Use fundamentals for bias, not absolutes</li>
+<li><strong>Point-in-time data</strong>: Prevent lookahead bias in backtesting</li>
+<li><strong>Combine with technicals</strong>: Fundamentals say what, technicals say when</li>
+</ol>
+
+
+
+
+
+
+
+  
+    
+  
+  
+    
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="December 8, 2025 16:45:11 UTC"><span class="timeago" datetime="2025-12-08T16:45:11+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="December 8, 2025 16:45:11 UTC">2025-12-08</span>
+  </span>
+
+    
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Created">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="December 8, 2025 16:45:11 UTC"><span class="timeago" datetime="2025-12-08T16:45:11+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="December 8, 2025 16:45:11 UTC">2025-12-08</span>
+  </span>
+
+    
+    
+    
+  </aside>
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024-2025 Ordinis Project
+    </div>
+  
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/ordinis" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.indexes", "navigation.top", "navigation.path", "navigation.prune", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "content.tabs.link", "toc.follow", "header.autohide"], "search": "../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+        <script src="../../../js/print-site.js"></script>
+      
+        <script src="../../../js/timeago.min.js"></script>
+      
+        <script src="../../../js/timeago_mkdocs_material.js"></script>
+      
+        <script src="../../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
