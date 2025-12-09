@@ -919,6 +919,7 @@ async def check_polygon() -> bool:
 
 **Enhanced GitHub Actions:**
 
+{% raw %}
 ```yaml
 # .github/workflows/ci.yml
 name: CI Pipeline
@@ -1016,6 +1017,7 @@ jobs:
           name: dist
           path: dist/
 ```
+{% endraw %}
 
 ---
 

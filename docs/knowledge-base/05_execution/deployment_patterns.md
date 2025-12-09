@@ -721,6 +721,7 @@ class HashiCorpVault(SecretsProvider):
 
 ### 6.1 CI/CD Pipeline
 
+{% raw %}
 ```yaml
 # .github/workflows/deploy.yml
 
@@ -835,6 +836,7 @@ jobs:
             --namespace=production \
             --timeout=600s
 ```
+{% endraw %}
 
 ### 6.2 Blue-Green Deployment
 

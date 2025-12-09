@@ -1,4 +1,47 @@
-<div style="background: #3f51b5; color: white; padding: 10px 20px; margin-bottom: 20px; border-radius: 4px;">
-    <strong>Print/PDF Version</strong> - Use your browser's print function (Ctrl+P / Cmd+P) to save as PDF.
-    <a href="{{ config.site_url }}" style="color: #fff; margin-left: 20px;">Return to Online Documentation</a>
+<div class="print-site-banner" style="
+    background: linear-gradient(135deg, #1e3a5f 0%, #0f1f33 100%);
+    color: white;
+    padding: 16px 24px;
+    margin-bottom: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 4px 12px rgba(30, 58, 95, 0.3);
+">
+    <div style="display: flex; align-items: center; gap: 16px;">
+        <div style="
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        ">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+        </div>
+        <div>
+            <strong style="font-size: 14px; display: block; margin-bottom: 2px;">Print / PDF Version</strong>
+            <span style="font-size: 12px; opacity: 0.85;">Use Ctrl+P (Windows) or Cmd+P (Mac) to save as PDF</span>
+        </div>
+    </div>
+    <a href="{{ config.site_url }}" style="
+        color: white;
+        background: rgba(255,255,255,0.15);
+        padding: 8px 16px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 500;
+        transition: background 0.2s;
+    " onmouseover="this.style.background='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">
+        Return to Online Docs
+    </a>
 </div>

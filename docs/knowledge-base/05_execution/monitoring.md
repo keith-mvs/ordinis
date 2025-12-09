@@ -687,6 +687,7 @@ scrape_configs:
 
 ### 5.1 Trading Alerts
 
+{% raw %}
 ```yaml
 # trading_rules.yml
 
@@ -779,6 +780,7 @@ groups:
         annotations:
           summary: "Database connection pool nearly exhausted"
 ```
+{% endraw %}
 
 ### 5.2 Alert Manager Configuration
 
