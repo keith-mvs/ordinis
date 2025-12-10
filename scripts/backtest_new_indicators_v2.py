@@ -377,12 +377,12 @@ def run_backtest(strategy_func, strategy_name, data, symbol, initial_capital):
     metrics = results.metrics
 
     print(f"\n{strategy_name} Results:")
-    print(f"  Total Return:       {metrics.total_return:>8.2%}")
-    print(f"  Annualized Return:  {metrics.annualized_return:>8.2%}")
+    print(f"  Total Return:       {metrics.total_return:>7.2f}%")
+    print(f"  Annualized Return:  {metrics.annualized_return:>7.2f}%")
     print(f"  Sharpe Ratio:       {metrics.sharpe_ratio:>8.2f}")
     print(f"  Sortino Ratio:      {metrics.sortino_ratio:>8.2f}")
-    print(f"  Max Drawdown:       {metrics.max_drawdown:>8.2%}")
-    print(f"  Win Rate:           {metrics.win_rate:>8.2%}")
+    print(f"  Max Drawdown:       {metrics.max_drawdown:>7.2f}%")
+    print(f"  Win Rate:           {metrics.win_rate:>7.2f}%")
     print(f"  Total Trades:       {len(results.trades):>8}")
     print(f"  Final Equity:       ${results.portfolio.equity:>8,.2f}")
 
@@ -487,7 +487,7 @@ def main():  # noqa: PLR0915
         if len(df) > 0:
             best_return = df.loc[df["total_return"].idxmax()]
             print(f"\nHighest Return: {best_return['strategy']}")
-            print(f"  Return: {best_return['total_return']:.2%}")
+            print(f"  Return: {best_return['total_return']:.2f}%")
             print(f"  Trades: {best_return['total_trades']:.0f}")
 
             if df["sharpe_ratio"].max() > 0:
@@ -497,7 +497,7 @@ def main():  # noqa: PLR0915
 
             min_dd = df.loc[df["max_drawdown"].abs().idxmin()]
             print(f"\nLowest Drawdown: {min_dd['strategy']}")
-            print(f"  Max DD: {min_dd['max_drawdown']:.2%}")
+            print(f"  Max DD: {min_dd['max_drawdown']:.2f}%")
 
         # Save results if output directory specified
         if args.output:

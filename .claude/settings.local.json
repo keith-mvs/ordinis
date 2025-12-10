@@ -88,7 +88,19 @@
       "Bash(.....venvScriptspython.exe -m mkdocs build)",
       "Bash(Select-Object -First 30)",
       "Bash(pwsh -NoProfile -Command \"cd ''C:\\Users\\kjfle\\Workspace\\ordinis-1''; & ''C:\\Users\\kjfle\\.venv\\Scripts\\python.exe'' -m mkdocs build 2>&1 | Select-Object -First 20\")",
-      "Bash(pwsh -NoProfile -Command:*)"
+      "Bash(pwsh -NoProfile -Command:*)",
+      "Bash(git restore:*)",
+      "Bash(git tag:*)",
+      "Bash(then echo \".env exists\")",
+      "Bash(else echo \".env not found - need to create it\")",
+      "Bash(unzip:*)",
+      "Bash(wc:*)",
+      "Bash(then echo \"mkdocs.yml found\")",
+      "Bash(cat:*)",
+      "Bash(else echo \"No mkdocs.yml found\")",
+      "Bash(mkdocs serve:*)",
+      "Bash(Select-String -Pattern \"FAILED|ERROR|passed|failed\")",
+      "Bash(Select-Object -Last 50)"
     ],
     "deny": [],
     "ask": []
