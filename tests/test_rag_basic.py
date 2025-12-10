@@ -31,7 +31,7 @@ def test_config():
     assert config.code_collection_name == "codebase"
     assert config.top_k_retrieval == 20
     assert config.top_k_rerank == 5
-    assert config.similarity_threshold == 0.7
+    assert config.similarity_threshold == 0.15  # Adjusted for better recall
 
     logger.info("Config tests passed")
 

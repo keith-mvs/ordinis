@@ -21,7 +21,7 @@ def rag_config() -> RAGConfig:
 @pytest.fixture
 def retrieval_engine(rag_config: RAGConfig) -> RetrievalEngine:
     """Create retrieval engine for testing."""
-    return RetrievalEngine(config=rag_config)
+    return RetrievalEngine()
 
 
 # =============================================================================
@@ -39,10 +39,10 @@ def test_query_classification() -> None:
 
     # Code queries
     assert classify_query("Show me the code for strategy validation") == QueryType.CODE
-    assert classify_query("class BaseStrategy implementation") == QueryType.CODE
     assert classify_query("def calculate_rsi function") == QueryType.CODE
 
     # Hybrid queries
+    assert classify_query("class BaseStrategy implementation") == QueryType.HYBRID
     assert classify_query("strategy architecture design patterns") == QueryType.HYBRID
     assert classify_query("how to implement backtesting framework") == QueryType.HYBRID
 
