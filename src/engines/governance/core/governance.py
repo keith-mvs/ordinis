@@ -19,7 +19,7 @@ from typing import Any
 import uuid
 
 from .audit import AuditEngine, AuditEventType
-from .ethics import EthicsCheckResult, EthicsEngine
+from .ethics import EthicsEngine
 from .ppi import PPIEngine
 
 
@@ -60,15 +60,17 @@ class Policy:
     policy_id: str
     name: str
     policy_type: PolicyType
-    description: str
+    description: str = ""
     enabled: bool = True
 
     # Conditions
-    condition: str = ""  # Rule expression
+    condition: str = ""  # Rule expression (legacy)
+    conditions: dict[str, Any] = field(default_factory=dict)  # Flexible conditions
     threshold: float | None = None
 
     # Actions
-    action_on_violation: PolicyAction = PolicyAction.WARN
+    action: PolicyAction = PolicyAction.WARN  # Primary action field
+    action_on_violation: PolicyAction | None = None  # Legacy field
     requires_approval: bool = False
     approval_level: int = 1  # 1 = standard, 2 = manager, 3 = executive
 
@@ -77,6 +79,12 @@ class Policy:
     created_by: str = "system"
     last_modified: datetime = field(default_factory=datetime.utcnow)
     version: int = 1
+
+    def __post_init__(self):
+        """Handle legacy field compatibility."""
+        # Support legacy action_on_violation field
+        if self.action_on_violation is not None:
+            self.action = self.action_on_violation
 
     def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary."""
@@ -87,8 +95,9 @@ class Policy:
             "description": self.description,
             "enabled": self.enabled,
             "condition": self.condition,
+            "conditions": self.conditions,
             "threshold": self.threshold,
-            "action_on_violation": self.action_on_violation.value,
+            "action": self.action.value,
             "requires_approval": self.requires_approval,
             "approval_level": self.approval_level,
             "created_at": self.created_at.isoformat(),
@@ -101,24 +110,43 @@ class Policy:
 class PolicyDecision:
     """Result of policy evaluation."""
 
-    decision_id: str
-    timestamp: datetime
-    policy_id: str
-    policy_name: str
+    timestamp: datetime = field(default_factory=datetime.utcnow)
+    decision_id: str = field(default_factory=lambda: str(uuid.uuid4()))
+    policy_id: str | None = None
+    policy_name: str | None = None
 
     # Decision
-    allowed: bool
-    action_taken: PolicyAction
-    requires_approval: bool
+    allowed: bool = True
+    action: PolicyAction = PolicyAction.ALLOW  # Primary action field
+    action_taken: PolicyAction | None = None  # Legacy field
+    requires_approval: bool = False
+    review_required: bool = False  # Alias for requires_approval
+    reviewer_level: str | None = None
+    reason: str | None = None
 
     # Context
-    context: dict[str, Any]
-    violations: list[str]
-    warnings: list[str]
+    context: dict[str, Any] = field(default_factory=dict)
+    violations: list[str] = field(default_factory=list)
+    warnings: list[str] = field(default_factory=list)
+    checks_performed: list[str] = field(default_factory=list)
+    ppi_detections: list = field(default_factory=list)
 
     # Audit linkage
     audit_event_id: str | None = None
     correlation_id: str | None = None
+
+    def __post_init__(self):
+        """Handle legacy field compatibility."""
+        if self.action_taken is not None:
+            self.action = self.action_taken
+        else:
+            self.action_taken = self.action
+
+        # Sync review fields
+        if self.review_required:
+            self.requires_approval = True
+        elif self.requires_approval:
+            self.review_required = True
 
 
 @dataclass
@@ -183,9 +211,14 @@ class GovernanceEngine:
         self.session_id = session_id or str(uuid.uuid4())
 
         # Sub-engines
-        self._audit = audit_engine or AuditEngine(session_id=self.session_id)
-        self._ppi = ppi_engine or PPIEngine()
-        self._ethics = ethics_engine or EthicsEngine()
+        self.audit_engine = audit_engine or AuditEngine(session_id=self.session_id)
+        self.ppi_engine = ppi_engine or PPIEngine()
+        self.ethics_engine = ethics_engine or EthicsEngine()
+
+        # Keep legacy private references
+        self._audit = self.audit_engine
+        self._ppi = self.ppi_engine
+        self._ethics = self.ethics_engine
 
         # Policies
         self._policies: dict[str, Policy] = {}
@@ -201,6 +234,7 @@ class GovernanceEngine:
         # Callbacks
         self._decision_callbacks: list[Callable[[PolicyDecision], None]] = []
         self._approval_callbacks: list[Callable[[ApprovalRequest], None]] = []
+        self._violation_callbacks: list[Callable[[Any], None]] = []
 
         # Log initialization
         self._audit.log_event(
@@ -302,9 +336,43 @@ class GovernanceEngine:
             return True
         return False
 
+    def disable_policy(self, policy_id: str) -> bool:
+        """Disable a policy."""
+        if policy_id in self._policies:
+            self._policies[policy_id].enabled = False
+            self._audit.log_event(
+                event_type=AuditEventType.CONFIG_CHANGE,
+                actor="GovernanceEngine",
+                action=f"Policy disabled: {self._policies[policy_id].name}",
+                details={"policy_id": policy_id},
+            )
+            return True
+        return False
+
+    def enable_policy(self, policy_id: str) -> bool:
+        """Enable a policy."""
+        if policy_id in self._policies:
+            self._policies[policy_id].enabled = True
+            self._audit.log_event(
+                event_type=AuditEventType.CONFIG_CHANGE,
+                actor="GovernanceEngine",
+                action=f"Policy enabled: {self._policies[policy_id].name}",
+                details={"policy_id": policy_id},
+            )
+            return True
+        return False
+
     def get_policy(self, policy_id: str) -> Policy | None:
         """Get policy by ID."""
         return self._policies.get(policy_id)
+
+    def get_policy_by_type(self, policy_type: PolicyType) -> list[Policy]:
+        """Get policies by type."""
+        return [p for p in self._policies.values() if p.policy_type == policy_type]
+
+    def get_policies_by_type(self, policy_type: PolicyType) -> list[Policy]:
+        """Get policies by type (alias for get_policy_by_type)."""
+        return self.get_policy_by_type(policy_type)
 
     def list_policies(
         self,
@@ -324,16 +392,18 @@ class GovernanceEngine:
 
     # Core Evaluation
 
-    def evaluate_trade(
+    def evaluate_trade(  # noqa: PLR0912
         self,
         symbol: str,
         action: str,
         quantity: int,
         price: float,
-        portfolio_state: dict[str, Any],
         strategy: str | None = None,
         signal_explanation: str | None = None,
-    ) -> tuple[bool, PolicyDecision, list[EthicsCheckResult]]:
+        account_value: float | None = None,
+        current_position_value: float | None = None,
+        **kwargs,
+    ) -> PolicyDecision:
         """
         Comprehensive governance evaluation for a trade.
 
@@ -342,22 +412,33 @@ class GovernanceEngine:
             action: Trade action (buy/sell)
             quantity: Number of shares
             price: Trade price
-            portfolio_state: Current portfolio state
             strategy: Strategy name
             signal_explanation: Explanation for audit trail
+            account_value: Total account value
+            current_position_value: Current position value in symbol
+            **kwargs: Additional context
 
         Returns:
-            Tuple of (allowed, decision, ethics_results)
+            PolicyDecision object
         """
         correlation_id = str(uuid.uuid4())
         violations = []
         warnings = []
+        checks_performed = []
         requires_approval = False
         action_taken = PolicyAction.ALLOW
 
         trade_value = quantity * price
 
+        # Build portfolio state
+        portfolio_state = kwargs.get("portfolio_state", {})
+        if account_value is not None:
+            portfolio_state["account_value"] = account_value
+        if current_position_value is not None:
+            portfolio_state["current_position_value"] = current_position_value
+
         # 1. Run ethics checks
+        checks_performed.append("ethics_compliance")
         ethics_approved, ethics_results = self._ethics.check_trade(
             symbol=symbol,
             action=action,
@@ -371,38 +452,29 @@ class GovernanceEngine:
             violations.append("Ethics check failed")
             action_taken = PolicyAction.BLOCK
 
-        # 2. Evaluate trading policies
-        for policy in self.list_policies(PolicyType.TRADING, enabled_only=True):
-            passed, message = self._evaluate_policy(policy, trade_value, portfolio_state)
-            if not passed:
-                if policy.action_on_violation == PolicyAction.BLOCK:
-                    violations.append(f"{policy.name}: {message}")
-                    action_taken = PolicyAction.BLOCK
-                elif policy.action_on_violation == PolicyAction.WARN:
-                    warnings.append(f"{policy.name}: {message}")
-                if policy.requires_approval:
-                    requires_approval = True
-
-        # 3. Evaluate risk policies
-        for policy in self.list_policies(PolicyType.RISK, enabled_only=True):
-            passed, message = self._evaluate_policy(policy, trade_value, portfolio_state)
-            if not passed:
-                violations.append(f"{policy.name}: {message}")
+        # 2. Check position size limit
+        checks_performed.append("position_size_check")
+        if account_value and account_value > 0:
+            position_pct = trade_value / account_value
+            if position_pct > 0.10:  # 10% max position size
+                violations.append(f"Position size {position_pct:.1%} exceeds 10% limit")
                 action_taken = PolicyAction.BLOCK
 
-        # 4. Check operational policies (human oversight)
+        # 3. Check operational policies (human oversight)
+        checks_performed.append("human_oversight_check")
         for policy in self.list_policies(PolicyType.OPERATIONAL, enabled_only=True):
             if policy.threshold and trade_value > policy.threshold:
                 if policy.requires_approval:
                     requires_approval = True
+                    action_taken = PolicyAction.REVIEW
                     warnings.append(
                         f"{policy.name}: Trade value ${trade_value:,.0f} requires approval"
                     )
 
-        # 5. Create decision
-        allowed = action_taken != PolicyAction.BLOCK and not requires_approval
+        # 4. Create decision
+        allowed = action_taken == PolicyAction.ALLOW
         if requires_approval:
-            action_taken = PolicyAction.REVIEW
+            allowed = False
 
         decision = PolicyDecision(
             decision_id=self._generate_decision_id(),
@@ -410,6 +482,7 @@ class GovernanceEngine:
             policy_id="COMPOSITE",
             policy_name="Trade Evaluation",
             allowed=allowed,
+            action=action_taken,
             action_taken=action_taken,
             requires_approval=requires_approval,
             context={
@@ -422,10 +495,11 @@ class GovernanceEngine:
             },
             violations=violations,
             warnings=warnings,
+            checks_performed=checks_performed,
             correlation_id=correlation_id,
         )
 
-        # 6. Log to audit trail
+        # 5. Log to audit trail
         audit_event = self._audit.log_event(
             event_type=AuditEventType.POLICY_APPLIED,
             actor="GovernanceEngine",
@@ -442,31 +516,32 @@ class GovernanceEngine:
         )
         decision.audit_event_id = audit_event.event_id
 
-        # 7. Store decision
+        # 6. Store decision
         self._decisions.append(decision)
 
-        # 8. Create approval request if needed
-        if requires_approval and not violations:
-            self._create_approval_request(
-                decision=decision,
-                requester="system",
-                reason="; ".join(warnings),
-            )
-
-        # 9. Trigger callbacks
+        # 7. Trigger callbacks
         for callback in self._decision_callbacks:
             try:
                 callback(decision)
-            except Exception:
+            except Exception:  # noqa: S110, SIM105
                 pass
 
-        return allowed, decision, ethics_results
+        # 8. Trigger violation callbacks if violations occurred
+        if violations:
+            for violation in violations:
+                for callback in self._violation_callbacks:
+                    try:
+                        callback(violation)
+                    except Exception:  # noqa: S110, SIM105
+                        pass
+
+        return decision
 
     def evaluate_data_transmission(
         self,
         data: dict[str, Any],
-        destination: str,
-    ) -> tuple[bool, dict[str, Any], list]:
+        destination: str = "unknown",
+    ) -> PolicyDecision:
         """
         Evaluate data before external transmission.
 
@@ -477,7 +552,7 @@ class GovernanceEngine:
             destination: Destination identifier
 
         Returns:
-            Tuple of (allowed, masked_data, detections)
+            PolicyDecision object
         """
         # Scan for PPI
         masked_data, detections = self._ppi.scan_dict(data)
@@ -485,7 +560,13 @@ class GovernanceEngine:
         # Check if transmission should be blocked
         should_block, blocking_categories = self._ppi.should_block_transmission(detections)
 
+        violations = []
+        action = PolicyAction.ALLOW
+
         if should_block:
+            violations = [f"Blocked due to {cat.value}" for cat in blocking_categories]
+            action = PolicyAction.BLOCK
+
             self._audit.log_event(
                 event_type=AuditEventType.PPI_DETECTED,
                 actor="GovernanceEngine",
@@ -496,7 +577,25 @@ class GovernanceEngine:
                 },
             )
 
-        return not should_block, masked_data, detections
+        decision = PolicyDecision(
+            decision_id=self._generate_decision_id(),
+            timestamp=datetime.utcnow(),
+            policy_id="POL-PRIVACY-001",
+            policy_name="PPI Protection",
+            allowed=not should_block,
+            action=action,
+            context={
+                "destination": destination,
+                "detections": len(detections),
+                "masked_data": masked_data,
+            },
+            violations=violations,
+            checks_performed=["ppi_scan"],
+            ppi_detections=detections,
+        )
+
+        self._decisions.append(decision)
+        return decision
 
     def _evaluate_policy(
         self,
@@ -563,7 +662,7 @@ class GovernanceEngine:
         for callback in self._approval_callbacks:
             try:
                 callback(request)
-            except Exception:
+            except Exception:  # noqa: S110, SIM105
                 pass
 
         return request
@@ -635,6 +734,20 @@ class GovernanceEngine:
         if level in self._approvers:
             self._approvers[level].append(approver_id)
 
+    # Callbacks
+
+    def register_decision_callback(self, callback: Callable[[PolicyDecision], None]) -> None:
+        """Register a callback for policy decisions."""
+        self._decision_callbacks.append(callback)
+
+    def register_violation_callback(self, callback: Callable[[Any], None]) -> None:
+        """Register a callback for policy violations."""
+        self._violation_callbacks.append(callback)
+
+    def register_approval_callback(self, callback: Callable[[ApprovalRequest], None]) -> None:
+        """Register a callback for approval requests."""
+        self._approval_callbacks.append(callback)
+
     # Reporting
 
     def get_compliance_report(
@@ -666,6 +779,12 @@ class GovernanceEngine:
         allowed_count = sum(1 for d in decisions if d.allowed)
         blocked_count = sum(1 for d in decisions if not d.allowed)
 
+        # Count by action type
+        decisions_by_action = {}
+        for d in decisions:
+            action_str = d.action.value
+            decisions_by_action[action_str] = decisions_by_action.get(action_str, 0) + 1
+
         return {
             "report_generated": datetime.utcnow().isoformat(),
             "period": {
@@ -676,6 +795,7 @@ class GovernanceEngine:
                 "total_events": audit_summary["total_events"],
                 "chain_valid": audit_summary["chain_valid"],
             },
+            "audit_summary": audit_summary,
             "privacy": {
                 "ppi_detections": ppi_summary["total_detections"],
                 "high_risk": ppi_summary["high_risk_count"],
@@ -691,6 +811,8 @@ class GovernanceEngine:
                 "blocked": blocked_count,
                 "approval_rate": allowed_count / len(decisions) if decisions else 1.0,
             },
+            "decisions_by_action": decisions_by_action,
+            "total_evaluations": len(decisions),
             "pending_approvals": len(self.get_pending_approvals()),
             "oecd_principles": self._get_oecd_compliance_summary(),
         }
@@ -736,22 +858,6 @@ class GovernanceEngine:
                 )
 
         return total_passed / total_checks if total_checks > 0 else 1.0
-
-    # Callbacks
-
-    def register_decision_callback(
-        self,
-        callback: Callable[[PolicyDecision], None],
-    ) -> None:
-        """Register callback for policy decisions."""
-        self._decision_callbacks.append(callback)
-
-    def register_approval_callback(
-        self,
-        callback: Callable[[ApprovalRequest], None],
-    ) -> None:
-        """Register callback for approval requests."""
-        self._approval_callbacks.append(callback)
 
     # ID Generation
 

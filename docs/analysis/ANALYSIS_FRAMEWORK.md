@@ -2,10 +2,22 @@
 
 ## Overview
 
-The Ordinis Analysis Framework provides a comprehensive suite of tools for stock analysis, organized into three primary approaches:
+The Ordinis Analysis Framework (OAF) is engineered to provide a robust, multi-dimensional suite of tools for sophisticated stock market analysis. By synthesizing diverse analytical methodologies, the framework enables traders and algorithms to construct a holistic view of market conditions. Central to this architecture is a flexible configuration system—utilizing classes like `AdaptiveConfig` and `TrainingConfig`—which allows precise tuning of parameters such as regime detection thresholds, indicator lookback periods, and ensemble weighting. The system is built upon three primary pillars of analysis, each offering unique insights into asset valuation and price action:
 
 1. **Technical Analysis** - Studies price/volume data to predict movements
+    Support and Resistance: Support and resistance levels identify key price zones where historical buying or selling pressure has caused reversals. These "floors" and "ceilings" are critical for the framework to determine optimal entry and exit points and anticipate trend exhaustion.
+    Trendlines: Trendlines connect series of highs or lows to visually map the asset's directional momentum. Whether indicating bullish higher lows or bearish lower highs, these lines serve as dynamic support/resistance boundaries used to confirm trend strength within the `trend_analysis` module.
+    Candlestick Patterns: Candlestick patterns decode immediate market sentiment through specific formations like Doji, Hammer, and Engulfing. The framework utilizes these patterns (defined in `src/analysis/technical/patterns/candlestick.py`) to anticipate short-term reversals or continuations based on crowd psychology.
+    Fibonacci Retracement: Fibonacci retracement applies mathematical ratios (23.6%, 38.2%, 50%, 61.8%) to identify probable reversal zones during market corrections. These levels help predict where price pullbacks might stabilize before the primary trend resumes.
+    Moving Averages: Moving averages (SMA, EMA, VWAP) smooth price data to filter noise and highlight the prevailing trend. The framework analyzes crossovers and slopes of these averages to generate buy/sell signals and define the current market regime.
+    Price Action: Price action analysis focuses on raw market movements—highs, lows, and formations—without the lag of derived indicators. This approach allows for swift decision-making based on pure price behavior and structural market shifts.
 2. **Fundamental Analysis** - Evaluates company financial health
+    Financial Ratios: Financial ratios utilize data from financial statements to evaluate a company's operational efficiency, liquidity, and profitability. Metrics like the Price-to-Earnings (P/E) ratio and Return on Equity (ROE) allow for quick comparisons against industry peers to assess relative value.
+    Financial Statements: Financial statements—comprising the balance sheet, income statement, and cash flow statement—provide the raw data regarding a company's assets, liabilities, and operational results. Deep analysis of these documents reveals the structural health and cash-generating ability of the business.
+    Intrinsic Valuation: Intrinsic valuation methods, such as Discounted Cash Flow (DCF) analysis, estimate the true value of a company based on its projected future cash flows rather than current market sentiment. This approach helps investors identify stocks trading below their calculated worth, signaling a potential buying opportunity.
+    Qualitative Factors: Qualitative analysis assesses non-quantifiable aspects of a business, including management quality, brand reputation, and competitive advantages or "moats." These factors are crucial for determining the sustainability of a company's long-term growth and market position.
+    Macroeconomic Analysis: Macroeconomic analysis examines broader economic conditions, such as interest rates, inflation, and GDP growth, to understand the external environment affecting a company. This "top-down" perspective helps determine if the economic climate is favorable for specific sectors or industries.
+    Growth Metrics: Growth metrics focus on the rate at which a company is expanding its revenue, earnings, and free cash flow over time. Analyzing historical and projected growth rates helps distinguish between stagnant value traps and high-potential compounding investments.
 3. **Sentiment Analysis** - Gauges market psychology and investor attitudes
 
 These approaches provide different perspectives and can be combined for robust investment decisions.
