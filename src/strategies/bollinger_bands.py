@@ -68,6 +68,28 @@ class BollingerBandsStrategy(BaseStrategy):
         try:
             # Generate signal using Bollinger Bands model
             signal = self.model.generate(data, timestamp)
+
+            # Enrich signal metadata with strategy info
+            if signal:
+                signal.metadata["strategy"] = self.name
+
+                # Add stop loss and take profit based on bands
+                current_price = signal.metadata.get("current_price", 0)
+                lower_band = signal.metadata.get("lower_band", 0)
+                middle_band = signal.metadata.get("middle_band", 0)
+                upper_band = signal.metadata.get("upper_band", 0)
+
+                # Set stop loss and take profit based on band position
+                if signal.direction.value == "long":
+                    signal.metadata["stop_loss"] = lower_band * 0.99  # Below lower band
+                    signal.metadata["take_profit"] = middle_band  # Target middle band
+                elif signal.direction.value == "short":
+                    signal.metadata["stop_loss"] = upper_band * 1.01  # Above upper band
+                    signal.metadata["take_profit"] = middle_band  # Target middle band
+                else:
+                    signal.metadata["stop_loss"] = current_price * 0.98
+                    signal.metadata["take_profit"] = current_price * 1.02
+
             return signal
         except Exception:
             return None

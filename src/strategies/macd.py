@@ -73,6 +73,29 @@ class MACDStrategy(BaseStrategy):
         try:
             # Generate signal using MACD model
             signal = self.model.generate(data, timestamp)
+
+            # Enrich signal metadata with strategy info
+            if signal:
+                signal.metadata["strategy"] = self.name
+
+                # Add stop loss and take profit based on MACD
+                current_price = signal.metadata.get("current_price", 0)
+                histogram = signal.metadata.get("histogram", 0)
+
+                # Use histogram size to set risk/reward
+                atr_proxy = abs(histogram) * 100 if histogram != 0 else current_price * 0.02
+
+                # Set stop loss and take profit
+                if signal.direction.value == "long":
+                    signal.metadata["stop_loss"] = current_price - (atr_proxy * 2)
+                    signal.metadata["take_profit"] = current_price + (atr_proxy * 3)
+                elif signal.direction.value == "short":
+                    signal.metadata["stop_loss"] = current_price + (atr_proxy * 2)
+                    signal.metadata["take_profit"] = current_price - (atr_proxy * 3)
+                else:
+                    signal.metadata["stop_loss"] = current_price * 0.98
+                    signal.metadata["take_profit"] = current_price * 1.02
+
             return signal
         except Exception:
             return None

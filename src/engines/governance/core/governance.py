@@ -523,7 +523,7 @@ class GovernanceEngine:
         for callback in self._decision_callbacks:
             try:
                 callback(decision)
-            except Exception:  # noqa: S110, SIM105
+            except Exception:  # noqa: S110
                 pass
 
         # 8. Trigger violation callbacks if violations occurred
@@ -532,7 +532,7 @@ class GovernanceEngine:
                 for callback in self._violation_callbacks:
                     try:
                         callback(violation)
-                    except Exception:  # noqa: S110, SIM105
+                    except Exception:  # noqa: S110
                         pass
 
         return decision
@@ -662,7 +662,7 @@ class GovernanceEngine:
         for callback in self._approval_callbacks:
             try:
                 callback(request)
-            except Exception:  # noqa: S110, SIM105
+            except Exception:  # noqa: S110
                 pass
 
         return request
