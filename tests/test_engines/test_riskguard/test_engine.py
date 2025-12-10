@@ -297,7 +297,7 @@ def test_engine_to_dict():
 
     state = engine.to_dict()
 
-    assert state["total_rules"] == 9
-    assert state["enabled_rules"] == 9
+    assert state["total_rules"] == 25  # 25 standard risk rules
+    assert state["enabled_rules"] == 25
     assert state["halted"] is False
     assert "rules" in state

@@ -174,7 +174,10 @@ class TestEthicsEngine:
         """Test human oversight requirement detection."""
         engine = EthicsEngine()
 
-        # Small trade - no review needed
+        # Seed order history to avoid "first trade in new symbol" trigger
+        engine._order_patterns["AAPL"] = [{"action": "buy", "timestamp": datetime.utcnow()}]
+
+        # Small trade - no review needed (under $100k threshold)
         small_result = engine.check_human_oversight_required(
             symbol="AAPL",
             action="buy",
@@ -182,7 +185,7 @@ class TestEthicsEngine:
         )
         assert small_result.requires_human_review is False
 
-        # Large trade - review needed
+        # Large trade - review needed (exceeds $100k threshold)
         large_result = engine.check_human_oversight_required(
             symbol="AAPL",
             action="buy",

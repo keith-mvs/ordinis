@@ -124,10 +124,11 @@ class TestMiddleBandBehavior:
         """Test hold signal when price near middle band."""
         strategy = BollingerBandsStrategy(name="test", bb_period=5, bb_std=2.0)
 
-        # Price oscillating around middle
+        # Price oscillating around middle, ending centered
+        # Last 5 values: [101, 99, 100, 100, 100] -> SMA = 100, current = 100
         data = create_test_data(
             bars=60,
-            close=[100, 101, 99, 100, 101] * 12,
+            close=[100, 101, 99, 100, 101] * 11 + [100, 101, 99, 100, 100],
         )
         data["symbol"] = "AAPL"
 
