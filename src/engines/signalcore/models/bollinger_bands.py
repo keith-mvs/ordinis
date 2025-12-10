@@ -225,5 +225,7 @@ class BollingerBandsModel(Model):
                 "lower_band": float(lower_val),
                 "middle_band": float(middle_val),
                 "upper_band": float(upper_val),
+                "band_position": float(bb_position),
+                "band_width": float(band_width),
             },
         )

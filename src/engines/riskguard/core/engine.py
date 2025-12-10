@@ -347,7 +347,12 @@ class RiskGuardEngine:
         """Calculate current value for rule evaluation."""
         # Position size checks
         if "position_value" in rule.condition:
-            return (trade.quantity * trade.entry_price) / portfolio.equity
+            # Check if comparing to absolute threshold or ratio
+            position_value = trade.quantity * trade.entry_price
+            if rule.threshold >= 1.0:  # Absolute dollar threshold
+                return position_value
+            # Percentage of equity
+            return position_value / portfolio.equity
 
         if "risk_per_trade" in rule.condition and trade.stop_price:
             risk_per_share = abs(trade.entry_price - trade.stop_price)
@@ -366,6 +371,10 @@ class RiskGuardEngine:
         if "correlated_exposure" in rule.condition:
             return portfolio.correlated_exposure / portfolio.equity
 
+        # Cash checks
+        if "cash" in rule.condition and "portfolio_equity" in rule.condition:
+            return portfolio.cash / portfolio.equity
+
         # Sanity checks
         if "price_deviation" in rule.condition:
             if trade.symbol in portfolio.open_positions:
@@ -383,6 +392,12 @@ class RiskGuardEngine:
 
         if "drawdown" in rule.condition or "peak_equity" in rule.condition:
             return (portfolio.equity - portfolio.peak_equity) / portfolio.peak_equity
+
+        if "market_open" in rule.condition:
+            return 1.0 if portfolio.market_open else 0.0
+
+        if "connectivity_ok" in rule.condition:
+            return 1.0 if portfolio.connectivity_ok else 0.0
 
         return 0.0
 

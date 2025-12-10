@@ -50,7 +50,7 @@ class MACDModel(Model):
             self.config.min_data_points, self.slow_period + self.signal_period + 20
         )
 
-    def generate(self, data: pd.DataFrame, timestamp: datetime) -> Signal:  # noqa: PLR0915
+    def generate(self, data: pd.DataFrame, timestamp: datetime) -> Signal:  # noqa: PLR0912, PLR0915
         """
         Generate trading signal from MACD analysis.
 
@@ -203,6 +203,14 @@ class MACDModel(Model):
         else:
             staleness = timedelta(seconds=0)
 
+        # Determine crossover type
+        if bullish_cross:
+            crossover_type = "bullish"
+        elif bearish_cross:
+            crossover_type = "bearish"
+        else:
+            crossover_type = "none"
+
         return Signal(
             symbol=symbol,
             timestamp=timestamp,
@@ -226,5 +234,6 @@ class MACDModel(Model):
                 "macd_line": float(current_macd),
                 "signal_line": float(current_signal),
                 "histogram": float(current_hist),
+                "crossover_type": crossover_type,
             },
         )
