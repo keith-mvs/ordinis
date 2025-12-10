@@ -1,4 +1,4 @@
-# Intelligent Investor
+# Ordinis
 
 **Version:** 0.2.0-dev (Development Build)
 **Status:** ✅ Ready for Testing
