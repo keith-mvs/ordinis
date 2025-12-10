@@ -43,7 +43,7 @@ class BollingerBandsModel(Model):
         self.min_band_width = params.get("min_band_width", 0.01)
 
         # Update min data points
-        self.config.min_data_points = max(self.config.min_data_points, self.bb_period + 30)
+        self.config.min_data_points = self.bb_period + 30
 
     def generate(self, data: pd.DataFrame, timestamp: datetime) -> Signal:  # noqa: PLR0912, PLR0915
         """

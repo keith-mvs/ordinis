@@ -46,9 +46,7 @@ class MACDModel(Model):
         self.min_histogram = params.get("min_histogram", 0.0)
 
         # Update min data points
-        self.config.min_data_points = max(
-            self.config.min_data_points, self.slow_period + self.signal_period + 20
-        )
+        self.config.min_data_points = self.slow_period + self.signal_period + 20
 
     def generate(self, data: pd.DataFrame, timestamp: datetime) -> Signal:  # noqa: PLR0912, PLR0915
         """
