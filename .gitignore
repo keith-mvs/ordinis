@@ -58,3 +58,16 @@ build/
 # Temporary files
 *.tmp
 NUL
+
+# Data directories (transient/generated)
+data/backtest_results/
+data/historical/
+data/raw/
+data/synthetic/
+data/macro/
+data/*.csv
+data/*.txt
+results/
+
+# Skills (external packages)
+skills/
