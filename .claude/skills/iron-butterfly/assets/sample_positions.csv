@@ -1,0 +1,6 @@
+ticker,entry_price,call_spread_strikes,put_spread_strikes,net_credit,expiration_days,iv_rank,expected_range,scenario
+SPY,450.00,455-460,445-440,2.50,45,55,445-455,earnings_quiet_period_range_bound
+QQQ,380.00,385-390,375-370,3.25,60,48,375-385,tech_consolidation_after_rally
+DIA,350.00,355-360,345-340,2.75,45,42,345-355,blue_chip_low_volatility_grind
+IWM,195.00,200-205,190-185,3.00,30,60,190-200,small_cap_choppy_action
+XLE,85.00,88-91,82-79,1.75,45,38,82-88,energy_sector_sideways_trading

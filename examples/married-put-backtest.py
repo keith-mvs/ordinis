@@ -176,15 +176,17 @@ class MarriedPutBacktest:
         protection_events = 0
 
         # Record initial put purchase
-        self.trades.append({
-            "entry_date": data.index[0],
-            "entry_price": initial_price,
-            "strike": initial_strike,
-            "premium": initial_put["price"],
-            "expiry_date": data.index[0] + timedelta(days=self.days_to_expiration),
-            "delta": initial_put["delta"],
-            "status": "open",
-        })
+        self.trades.append(
+            {
+                "entry_date": data.index[0],
+                "entry_price": initial_price,
+                "strike": initial_strike,
+                "premium": initial_put["price"],
+                "expiry_date": data.index[0] + timedelta(days=self.days_to_expiration),
+                "delta": initial_put["delta"],
+                "status": "open",
+            }
+        )
 
         position_open = True
         position_entry_date = data.index[0]
@@ -233,15 +235,17 @@ class MarriedPutBacktest:
                 total_trades += 1
 
                 # Record new trade
-                self.trades.append({
-                    "entry_date": current_date,
-                    "entry_price": current_price,
-                    "strike": new_strike,
-                    "premium": new_put["price"],
-                    "expiry_date": new_expiry,
-                    "delta": new_put["delta"],
-                    "status": "open",
-                })
+                self.trades.append(
+                    {
+                        "entry_date": current_date,
+                        "entry_price": current_price,
+                        "strike": new_strike,
+                        "premium": new_put["price"],
+                        "expiry_date": new_expiry,
+                        "delta": new_put["delta"],
+                        "status": "open",
+                    }
+                )
 
                 position_entry_date = current_date
                 position_entry_price = current_price
@@ -266,14 +270,16 @@ class MarriedPutBacktest:
 
             total_equity = stock_value + put_value + remaining_cash
 
-            self.equity_curve.append({
-                "date": current_date,
-                "stock_price": current_price,
-                "stock_value": stock_value,
-                "put_value": put_value,
-                "cash": remaining_cash,
-                "total_equity": total_equity,
-            })
+            self.equity_curve.append(
+                {
+                    "date": current_date,
+                    "stock_price": current_price,
+                    "stock_value": stock_value,
+                    "put_value": put_value,
+                    "cash": remaining_cash,
+                    "total_equity": total_equity,
+                }
+            )
 
         # Calculate performance metrics
         equity_df = pd.DataFrame(self.equity_curve).set_index("date")
@@ -299,7 +305,9 @@ class MarriedPutBacktest:
 
         # Max drawdown
         equity_df["cummax"] = equity_df["total_equity"].cummax()
-        equity_df["drawdown"] = (equity_df["total_equity"] - equity_df["cummax"]) / equity_df["cummax"]
+        equity_df["drawdown"] = (equity_df["total_equity"] - equity_df["cummax"]) / equity_df[
+            "cummax"
+        ]
         max_drawdown = equity_df["drawdown"].min()
 
         # Print results
@@ -311,7 +319,9 @@ class MarriedPutBacktest:
         print(f"  Initial Capital:          ${self.initial_capital:,.2f}")
         print(f"  Final Equity:             ${final_equity:,.2f}")
         print(f"  Total Return:             {total_return*100:.2f}%")
-        print(f"  Premium Paid:             ${total_premium_paid:,.2f} ({total_premium_pct*100:.2f}%)")
+        print(
+            f"  Premium Paid:             ${total_premium_paid:,.2f} ({total_premium_pct*100:.2f}%)"
+        )
         print(f"  Max Drawdown:             {max_drawdown*100:.2f}%")
         print(f"  Sharpe Ratio:             {sharpe_ratio:.2f}")
         print()
@@ -324,8 +334,12 @@ class MarriedPutBacktest:
 
         print("Trade Statistics:")
         print(f"  Total Puts Purchased:     {total_trades}")
-        print(f"  Expired Worthless:        {put_expirations} ({put_expirations/total_trades*100:.1f}%)")
-        print(f"  Protection Events:        {protection_events} ({protection_events/total_trades*100:.1f}%)")
+        print(
+            f"  Expired Worthless:        {put_expirations} ({put_expirations/total_trades*100:.1f}%)"
+        )
+        print(
+            f"  Protection Events:        {protection_events} ({protection_events/total_trades*100:.1f}%)"
+        )
         print(f"  Avg Premium/Put:          ${total_premium_paid/total_trades:,.2f}")
         print(f"  Annual Protection Cost:   {(total_premium_pct / (len(data)/252))*100:.2f}%")
         print()
@@ -426,8 +440,12 @@ def main():
     print("=" * 80)
     print()
     print("Key Insights:")
-    print(f"  - Protected position returned {results['total_return']*100:.2f}% vs {results['bnh_return']*100:.2f}% buy-and-hold")
-    print(f"  - Total protection cost: {(results['bnh_return'] - results['total_return'])*100:.2f}%")
+    print(
+        f"  - Protected position returned {results['total_return']*100:.2f}% vs {results['bnh_return']*100:.2f}% buy-and-hold"
+    )
+    print(
+        f"  - Total protection cost: {(results['bnh_return'] - results['total_return'])*100:.2f}%"
+    )
     print(f"  - Maximum drawdown reduced from unprotected to {results['max_drawdown']*100:.2f}%")
     print(f"  - {results['protection_events']} times protection prevented larger losses")
     print()

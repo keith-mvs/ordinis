@@ -246,9 +246,7 @@ class MarriedPutStrategy(BaseStrategy):
 
         # Total P&L
         total_pl = stock_pl + put_pl
-        total_cost = (
-            stock_entry * shares
-        ) + put_cost + self.params.get("transaction_cost", 0.65)
+        total_cost = (stock_entry * shares) + put_cost + self.params.get("transaction_cost", 0.65)
         roi = (total_pl / total_cost) * 100 if total_cost > 0 else 0.0
 
         # Protection activated?
