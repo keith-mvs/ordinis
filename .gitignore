@@ -48,6 +48,10 @@ src/data/
 # Build
 dist/
 build/
+_build/
+site/
+static-site/build/
+static-site/dist/
 *.egg-info/
 
 # Jupyter
@@ -55,6 +59,7 @@ build/
 
 # Logs
 *.log
+logs/
 
 # Environment variables
 .env
@@ -67,12 +72,11 @@ NUL
 # Data directories (transient/generated)
 data/backtest_results/
 data/historical/
+data/historical_cache/
 data/raw/
 data/synthetic/
 data/macro/
 data/*.csv
 data/*.txt
 results/
-
-# Skills (external packages)
-skills/
+demo_results/

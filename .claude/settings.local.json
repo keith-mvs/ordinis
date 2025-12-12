@@ -136,7 +136,9 @@
       "Bash(python scripts/consolidate_dependencies.py:*)",
       "Bash(python scripts/generate_skill_assets.py:*)",
       "Bash(python scripts/generate_all_references.py:*)",
-      "Bash(dir /B \"C:\\Users\\kjfle\\Workspace\\ordinis\\.claude\\skills\\bear-put-spread\\references\"\")"
+      "Bash(dir /B \"C:\\Users\\kjfle\\Workspace\\ordinis\\.claude\\skills\\bear-put-spread\\references\"\")",
+      "Bash(git remote set-head:*)",
+      "Bash(tree:*)"
     ],
     "deny": [],
     "ask": []

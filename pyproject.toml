@@ -3,14 +3,14 @@ requires = ["setuptools>=65.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "intelligent-investor"
+name = "ordinis"
 version = "0.2.0-dev"
-description = "Quantitative trading system with multi-source market data and paper trading"
+description = "AI-driven quantitative trading system with multi-source market data and paper trading"
 readme = "README.md"
 requires-python = ">=3.11"
 license = {text = "MIT"}
 authors = [
-    {name = "Intelligent Investor Team"}
+    {name = "Ordinis Development Team"}
 ]
 keywords = ["trading", "quantitative", "machine-learning", "finance", "algorithmic-trading"]
 classifiers = [
