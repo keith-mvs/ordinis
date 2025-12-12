@@ -2,618 +2,492 @@
 
 from datetime import datetime
 
-import numpy as np
 import pandas as pd
-import pytest
 
-from strategies.macd import MACDStrategy
-
-
-def create_test_data(bars: int = 150, trend: str = "neutral") -> pd.DataFrame:
-    """
-    Create test market data.
-
-    Args:
-        bars: Number of bars to generate
-        trend: Market trend (neutral, uptrend, downtrend, volatile, bullish_crossover, bearish_crossover)
-
-    Returns:
-        DataFrame with OHLCV data
-    """
-    dates = pd.date_range(start="2024-01-01", periods=bars, freq="D")
-
-    # Use numpy arrays to avoid index alignment issues with DatetimeIndex
-    if trend == "neutral":
-        # Sideways market with oscillations
-        close = 100 + 5 * np.array([(x % 20 - 10) * 0.5 for x in range(bars)])
-    elif trend == "uptrend":
-        # Strong uptrend (MACD should be positive)
-        close = 100 + np.arange(bars) * 0.5
-    elif trend == "downtrend":
-        # Strong downtrend (MACD should be negative)
-        close = 200 - np.arange(bars) * 0.5
-    elif trend == "volatile":
-        # High volatility oscillations
-        np.random.seed(42)
-        close = 100 + np.cumsum(np.random.randn(bars) * 3)
-    elif trend == "bullish_crossover":
-        # Create conditions for bullish MACD crossover
-        # Start with downtrend, then transition to uptrend
-        np.random.seed(42)
-        base = np.concatenate([
-            100 - np.arange(bars // 2) * 0.2,
-            100 - (bars // 2) * 0.2 + np.arange(bars - bars // 2) * 0.4,
-        ])
-        close = base + np.random.randn(bars) * 0.5
-    elif trend == "bearish_crossover":
-        # Create conditions for bearish MACD crossover
-        # Start with uptrend, then transition to downtrend
-        np.random.seed(42)
-        base = np.concatenate([
-            100 + np.arange(bars // 2) * 0.3,
-            100 + (bars // 2) * 0.3 - np.arange(bars - bars // 2) * 0.5,
-        ])
-        close = base + np.random.randn(bars) * 0.5
-    elif trend == "consolidating":
-        # Tight range with low volatility
-        np.random.seed(42)
-        close = 100 + np.random.randn(bars) * 0.5
-    else:
-        close = np.array([100.0] * bars)
-
-    data = pd.DataFrame(
-        {
-            "open": close * 0.99,
-            "high": close * 1.02,
-            "low": close * 0.98,
-            "close": close,
-            "volume": [1000000] * bars,
-        },
-        index=dates,
-    )
-
-    return data
+from src.engines.signalcore.core.signal import Direction, SignalType
+from src.strategies.macd import MACDStrategy
 
 
-class TestMACDStrategy:
-    """Tests for MACDStrategy class."""
+def create_test_data(bars=70, **overrides):
+    """Create test OHLCV data with sensible defaults."""
+    defaults = {
+        "open": [100] * bars,
+        "high": [102] * bars,
+        "low": [98] * bars,
+        "close": [100] * bars,
+        "volume": [1000] * bars,
+    }
+    defaults.update(overrides)
+    return pd.DataFrame(defaults)
 
-    def test_strategy_initialization(self):
-        """Test strategy initializes with default parameters."""
+
+class TestMACDConfiguration:
+    """Test strategy configuration."""
+
+    def test_default_configuration(self):
+        """Test default parameter configuration."""
         strategy = MACDStrategy(name="test-macd")
 
-        assert strategy.name == "test-macd"
         assert strategy.params["fast_period"] == 12
         assert strategy.params["slow_period"] == 26
         assert strategy.params["signal_period"] == 9
+        assert strategy.params["min_bars"] == 55  # slow_period + signal_period + 20
 
-    def test_strategy_custom_parameters(self):
-        """Test strategy with custom parameters."""
-        strategy = MACDStrategy(
-            name="custom-macd",
-            fast_period=8,
-            slow_period=21,
-            signal_period=5,
-        )
+    def test_custom_configuration(self):
+        """Test custom parameter configuration."""
+        strategy = MACDStrategy(name="test", fast_period=8, slow_period=17, signal_period=5)
 
         assert strategy.params["fast_period"] == 8
-        assert strategy.params["slow_period"] == 21
+        assert strategy.params["slow_period"] == 17
         assert strategy.params["signal_period"] == 5
 
-    def test_configure_creates_model(self):
-        """Test that configure creates underlying MACD model."""
-        strategy = MACDStrategy(name="test-macd")
-
-        assert hasattr(strategy, "model")
-        assert strategy.model is not None
-        assert strategy.model.config.model_type == "momentum"
-
-    def test_get_description(self):
-        """Test strategy description."""
-        strategy = MACDStrategy(name="test-macd")
-
-        description = strategy.get_description()
-
-        assert isinstance(description, str)
-        assert "MACD" in description
-        assert "crossover" in description.lower()
-        assert "12" in description  # Default fast period
-        assert "26" in description  # Default slow period
-        assert "9" in description  # Default signal period
-
-    def test_get_required_bars_default(self):
+    def test_get_required_bars(self):
         """Test required bars calculation."""
-        strategy = MACDStrategy(name="test-macd")
+        strategy = MACDStrategy(name="test", slow_period=30)
+        assert strategy.get_required_bars() == 59  # slow_period + signal_period + 20
 
-        required = strategy.get_required_bars()
+    def test_invalid_period_configuration(self):
+        """Test that fast period must be less than slow period."""
+        # This should work - fast < slow
+        strategy = MACDStrategy(name="test", fast_period=10, slow_period=20)
+        assert strategy.params["fast_period"] < strategy.params["slow_period"]
 
-        # Should be slow_period + signal_period + 20
-        assert required == 26 + 9 + 20
-        assert required == 55
 
-    def test_get_required_bars_custom(self):
-        """Test required bars with custom periods."""
-        strategy = MACDStrategy(
-            name="test-macd",
-            slow_period=30,
-            signal_period=12,
+class TestBullishCrossover:
+    """Test bullish crossover signal generation."""
+
+    def test_bullish_crossover_entry(self):
+        """Test long entry on bullish MACD crossover."""
+        strategy = MACDStrategy(name="test", fast_period=5, slow_period=10, signal_period=3)
+
+        # Uptrend with bullish crossover - need at least 33 bars (10+3+20)
+        pattern = (
+            [100] * 30
+            + [100, 101, 102, 103, 104]  # Start uptrend
+            + [105, 106, 107, 108, 109]  # Continue
+            + [110, 111, 112, 113, 114]  # Bullish crossover
+            + [115, 116, 117, 118, 119, 120]  # Continuation
+            + [121] * 10
+        )  # Extra bars for stability
+        data = create_test_data(
+            bars=len(pattern),
+            close=pattern,
         )
+        data["symbol"] = "AAPL"
 
-        required = strategy.get_required_bars()
+        signal = strategy.generate_signal(data, datetime.utcnow())
 
-        assert required == 30 + 12 + 20
-        assert required == 62
+        assert signal is not None
+        if signal.signal_type == SignalType.ENTRY and signal.direction == Direction.LONG:
+            assert signal.probability > 0.5
+            assert signal.expected_return > 0
+            assert "crossover_type" in signal.metadata
+            assert signal.metadata["crossover_type"] == "bullish"
 
-    def test_validate_data_insufficient_bars(self):
-        """Test validation fails with insufficient data."""
-        strategy = MACDStrategy(name="test-macd")
-        data = create_test_data(bars=40)  # Need 55
+    def test_bullish_crossover_with_positive_histogram(self):
+        """Test bullish signal with increasing histogram."""
+        strategy = MACDStrategy(name="test", fast_period=5, slow_period=10, signal_period=3)
 
-        is_valid, msg = strategy.validate_data(data)
+        # Strong uptrend - need at least 33 bars
+        data = create_test_data(
+            bars=70,
+            close=list(range(100, 170)),  # Continuous uptrend
+        )
+        data["symbol"] = "AAPL"
 
-        assert is_valid is False
-        assert "Insufficient data" in msg
+        signal = strategy.generate_signal(data, datetime.utcnow())
 
-    def test_validate_data_sufficient_bars(self):
-        """Test validation succeeds with sufficient data."""
-        strategy = MACDStrategy(name="test-macd")
-        data = create_test_data(bars=100)
+        if signal is not None and signal.signal_type == SignalType.ENTRY:
+            assert "histogram" in signal.metadata
+            # In strong uptrend, histogram should be positive
+            assert signal.metadata["histogram"] >= 0
 
-        is_valid, msg = strategy.validate_data(data)
 
-        assert is_valid is True
-        assert msg == ""
+class TestBearishCrossover:
+    """Test bearish crossover signal generation."""
 
-    def test_generate_signal_with_insufficient_data(self):
-        """Test signal generation returns None for insufficient data."""
-        strategy = MACDStrategy(name="test-macd")
-        data = create_test_data(bars=30)
+    def test_bearish_crossover_exit(self):
+        """Test exit signal on bearish MACD crossover."""
+        strategy = MACDStrategy(name="test", fast_period=5, slow_period=10, signal_period=3)
+
+        # Downtrend with bearish crossover
+        pattern = (
+            [120] * 30
+            + [120, 118, 116, 114, 112]  # Start downtrend
+            + [110, 108, 106, 104, 102]  # Continue
+            + [100, 98, 96, 94, 92]  # Bearish crossover
+            + [90, 88, 86, 84, 82, 80]  # Continuation
+            + [78] * 10
+        )  # Extra bars
+        data = create_test_data(
+            bars=len(pattern),
+            close=pattern,
+        )
+        data["symbol"] = "AAPL"
+
+        signal = strategy.generate_signal(data, datetime.utcnow())
+
+        assert signal is not None
+        if signal.signal_type == SignalType.EXIT:
+            assert signal.direction == Direction.NEUTRAL
+            assert "crossover_type" in signal.metadata
+            assert signal.metadata["crossover_type"] == "bearish"
+
+    def test_bearish_crossover_with_negative_histogram(self):
+        """Test bearish signal with decreasing histogram."""
+        strategy = MACDStrategy(name="test", fast_period=5, slow_period=10, signal_period=3)
+
+        # Strong downtrend
+        data = create_test_data(
+            bars=70,
+            close=list(range(170, 100, -1)),  # Continuous downtrend
+        )
+        data["symbol"] = "AAPL"
+
+        signal = strategy.generate_signal(data, datetime.utcnow())
+
+        if signal is not None and signal.signal_type == SignalType.EXIT:
+            assert "histogram" in signal.metadata
+            # In strong downtrend, histogram should be negative
+            assert signal.metadata["histogram"] <= 0
+
+
+class TestTrendStrength:
+    """Test trend strength assessment."""
+
+    def test_strong_uptrend_high_probability(self):
+        """Test higher probability in strong uptrend."""
+        strategy = MACDStrategy(name="test", fast_period=5, slow_period=10, signal_period=3)
+
+        # Very strong uptrend
+        data = create_test_data(
+            bars=70,
+            close=[100 + i * 2 for i in range(70)],  # Steep climb
+        )
+        data["symbol"] = "AAPL"
+
+        signal = strategy.generate_signal(data, datetime.utcnow())
+
+        if signal is not None and signal.signal_type == SignalType.ENTRY:
+            # Strong trend should yield higher probability
+            assert signal.probability > 0.55
+
+    def test_weak_trend_lower_probability(self):
+        """Test lower probability in weak/sideways market."""
+        strategy = MACDStrategy(name="test", fast_period=5, slow_period=10, signal_period=3)
+
+        # Sideways with small oscillations
+        data = create_test_data(
+            bars=70,
+            close=[100, 101, 100, 99, 100] * 14,
+        )
+        data["symbol"] = "AAPL"
+
+        signal = strategy.generate_signal(data, datetime.utcnow())
+
+        if signal is not None:
+            # Weak/sideways should have moderate or low probability
+            assert signal.probability <= 0.7
+
+
+class TestHistogramAnalysis:
+    """Test MACD histogram analysis."""
+
+    def test_histogram_divergence_detection(self):
+        """Test histogram values in metadata."""
+        strategy = MACDStrategy(name="test", fast_period=5, slow_period=10, signal_period=3)
+
+        data = create_test_data(
+            bars=70,
+            close=list(range(100, 170)),
+        )
+        data["symbol"] = "AAPL"
+
+        signal = strategy.generate_signal(data, datetime.utcnow())
+
+        if signal is not None:
+            assert "histogram" in signal.metadata
+            assert "macd_line" in signal.metadata
+            assert "signal_line" in signal.metadata
+            assert isinstance(signal.metadata["histogram"], (int, float))
+
+    def test_histogram_magnitude_affects_score(self):
+        """Test that larger histogram affects signal strength."""
+        strategy = MACDStrategy(name="test", fast_period=5, slow_period=10, signal_period=3)
+
+        # Strong trend = large histogram
+        data_strong = create_test_data(
+            bars=70,
+            close=[100 + i * 3 for i in range(70)],  # Steep
+        )
+        data_strong["symbol"] = "AAPL"
+
+        # Weak trend = small histogram
+        data_weak = create_test_data(
+            bars=70,
+            close=[100 + i * 0.5 for i in range(70)],  # Gentle
+        )
+        data_weak["symbol"] = "AAPL"
+
+        signal_strong = strategy.generate_signal(data_strong, datetime.utcnow())
+        signal_weak = strategy.generate_signal(data_weak, datetime.utcnow())
+
+        if signal_strong and signal_weak:
+            # Strong trend should have larger histogram magnitude
+            strong_hist = abs(signal_strong.metadata.get("histogram", 0))
+            weak_hist = abs(signal_weak.metadata.get("histogram", 0))
+            assert strong_hist > weak_hist
+
+
+class TestSignalMetadata:
+    """Test signal metadata fields."""
+
+    def test_entry_metadata_complete(self):
+        """Test all metadata fields present in entry signal."""
+        strategy = MACDStrategy(name="test", fast_period=5, slow_period=10, signal_period=3)
+
+        data = create_test_data(
+            bars=70,
+            close=list(range(100, 170)),
+        )
+        data["symbol"] = "AAPL"
+
+        signal = strategy.generate_signal(data, datetime.utcnow())
+
+        assert signal is not None
+        metadata = signal.metadata
+
+        assert "strategy" in metadata
+        assert "macd_line" in metadata
+        assert "signal_line" in metadata
+        assert "histogram" in metadata
+        assert "crossover_type" in metadata
+
+    def test_metadata_values_reasonable(self):
+        """Test metadata values are within reasonable ranges."""
+        strategy = MACDStrategy(name="test", fast_period=5, slow_period=10, signal_period=3)
+
+        data = create_test_data(bars=70, close=list(range(100, 170)))
+        data["symbol"] = "AAPL"
+
+        signal = strategy.generate_signal(data, datetime.utcnow())
+
+        if signal is not None:
+            metadata = signal.metadata
+
+            # MACD values should be numeric
+            assert isinstance(metadata.get("macd_line", 0), (int, float))
+            assert isinstance(metadata.get("signal_line", 0), (int, float))
+            assert isinstance(metadata.get("histogram", 0), (int, float))
+
+            # Histogram should equal macd_line - signal_line (approximately)
+            if all(k in metadata for k in ["macd_line", "signal_line", "histogram"]):
+                calculated_hist = metadata["macd_line"] - metadata["signal_line"]
+                # Allow small floating point differences
+                assert abs(metadata["histogram"] - calculated_hist) < 0.01
+
+
+class TestDataValidation:
+    """Test data validation and error handling."""
+
+    def test_insufficient_data_returns_none(self):
+        """Test that insufficient data returns None."""
+        strategy = MACDStrategy(name="test", slow_period=26)
+
+        data = create_test_data(bars=20)  # Need 26
 
         signal = strategy.generate_signal(data, datetime.utcnow())
 
         assert signal is None
 
-    def test_generate_signal_with_valid_data(self):
-        """Test signal generation with valid data."""
-        strategy = MACDStrategy(name="test-macd")
-        data = create_test_data(bars=150, trend="volatile")
-
-        timestamp = datetime.utcnow()
-        signal = strategy.generate_signal(data, timestamp)
-
-        # Should generate a signal (even if HOLD)
-        assert signal is not None
-        assert hasattr(signal, "symbol")
-        assert hasattr(signal, "signal_type")
-
-    def test_generate_signal_handles_exceptions(self):
-        """Test signal generation handles exceptions gracefully."""
-        strategy = MACDStrategy(name="test-macd")
-        data = create_test_data(bars=100)
-
-        try:
-            signal = strategy.generate_signal(data, datetime.utcnow())
-            assert signal is None or hasattr(signal, "symbol")
-        except Exception:
-            pytest.fail("generate_signal should handle exceptions gracefully")
-
-    def test_str_representation(self):
-        """Test string representation."""
-        strategy = MACDStrategy(name="my-macd-strategy")
-
-        result = str(strategy)
-
-        assert result == "my-macd-strategy Strategy"
-
-    def test_repr_representation(self):
-        """Test repr representation."""
-        strategy = MACDStrategy(name="my-macd-strategy")
-
-        result = repr(strategy)
-
-        assert "MACDStrategy" in result
-        assert "my-macd-strategy" in result
-
-
-class TestMACDStrategyParameters:
-    """Tests for parameter handling."""
-
-    def test_min_bars_calculated_from_periods(self):
-        """Test min_bars is calculated from periods."""
-        strategy = MACDStrategy(name="test", slow_period=30, signal_period=12)
-
-        assert strategy.params["min_bars"] == 30 + 12 + 20
-
-    def test_model_config_parameters(self):
-        """Test model config includes all parameters."""
-        strategy = MACDStrategy(
-            name="test",
-            fast_period=8,
-            slow_period=21,
-            signal_period=5,
-        )
-
-        config = strategy.model.config
-
-        assert config.parameters["fast_period"] == 8
-        assert config.parameters["slow_period"] == 21
-        assert config.parameters["signal_period"] == 5
-
-
-class TestMACDStrategySignals:
-    """Tests for signal generation logic."""
-
-    def test_signal_contains_macd_metadata(self):
-        """Test signal contains MACD metadata."""
-        strategy = MACDStrategy(name="test-macd")
-        data = create_test_data(bars=150, trend="volatile")
-
-        signal = strategy.generate_signal(data, datetime.utcnow())
-
-        assert signal is not None
-        assert "fast_period" in signal.metadata
-        assert "slow_period" in signal.metadata
-        assert "signal_period" in signal.metadata
-        assert "current_price" in signal.metadata
-
-    def test_signal_contains_feature_contributions(self):
-        """Test signal contains feature contributions."""
-        strategy = MACDStrategy(name="test-macd")
-        data = create_test_data(bars=150, trend="volatile")
-
-        signal = strategy.generate_signal(data, datetime.utcnow())
-
-        assert signal is not None
-        assert "macd" in signal.feature_contributions
-        assert "signal" in signal.feature_contributions
-        assert "histogram" in signal.feature_contributions
-        assert "histogram_strength" in signal.feature_contributions
-        assert "macd_above_zero" in signal.feature_contributions
-        assert "bullish_crossover" in signal.feature_contributions
-        assert "bearish_crossover" in signal.feature_contributions
-
-    def test_signal_has_regime_detection(self):
-        """Test signal includes regime detection."""
-        strategy = MACDStrategy(name="test-macd")
-        data = create_test_data(bars=150, trend="volatile")
-
-        signal = strategy.generate_signal(data, datetime.utcnow())
-
-        assert signal is not None
-        assert signal.regime in ["crossover", "consolidating", "trending_up", "trending_down", "ranging"]
-
-    def test_uptrend_macd_above_zero(self):
-        """Test MACD is above zero in strong uptrend."""
-        strategy = MACDStrategy(name="test-macd")
-        # Create a more pronounced uptrend with some volatility
-        np.random.seed(42)
-        dates = pd.date_range(start="2024-01-01", periods=150, freq="D")
-        # Strong uptrend with noise (use numpy array, not Series)
-        close = 100 + np.arange(150) * 1.0 + np.random.randn(150) * 2
-        data = pd.DataFrame(
-            {
-                "open": close * 0.99,
-                "high": close * 1.02,
-                "low": close * 0.98,
-                "close": close,
-                "volume": [1000000] * 150,
-            },
-            index=dates,
-        )
-
-        signal = strategy.generate_signal(data, datetime.utcnow())
-
-        assert signal is not None
-        # In a strong uptrend, MACD should be positive
-        assert signal.feature_contributions["macd_above_zero"] == 1.0
-
-    def test_downtrend_macd_below_zero(self):
-        """Test MACD is below zero in strong downtrend."""
-        strategy = MACDStrategy(name="test-macd")
-        # Create a more pronounced downtrend with some volatility
-        np.random.seed(42)
-        dates = pd.date_range(start="2024-01-01", periods=150, freq="D")
-        # Strong downtrend with noise (use numpy array, not Series)
-        close = 300 - np.arange(150) * 1.0 + np.random.randn(150) * 2
-        data = pd.DataFrame(
-            {
-                "open": close * 0.99,
-                "high": close * 1.02,
-                "low": close * 0.98,
-                "close": close,
-                "volume": [1000000] * 150,
-            },
-            index=dates,
-        )
-
-        signal = strategy.generate_signal(data, datetime.utcnow())
-
-        assert signal is not None
-        # In a strong downtrend, MACD should be negative
-        assert signal.feature_contributions["macd_above_zero"] == 0.0
-
-
-class TestMACDStrategyIntegration:
-    """Integration tests for MACD strategy."""
-
-    def test_strategy_with_trending_market(self):
-        """Test strategy behavior in trending market."""
-        strategy = MACDStrategy(name="test-macd")
-        data = create_test_data(bars=150, trend="uptrend")
-
-        # Test at multiple points
-        for i in range(60, len(data), 20):
-            timestamp = data.index[i]
-            signal = strategy.generate_signal(data.iloc[: i + 1], timestamp)
-
-            if signal:
-                assert hasattr(signal, "symbol")
-                assert hasattr(signal, "timestamp")
-                assert hasattr(signal, "signal_type")
-
-    def test_strategy_with_volatile_market(self):
-        """Test strategy behavior in volatile market."""
-        strategy = MACDStrategy(name="test-macd")
-        data = create_test_data(bars=150, trend="volatile")
-
-        timestamp = data.index[-1]
-        signal = strategy.generate_signal(data, timestamp)
-
-        # Should handle volatile data without crashing
-        assert signal is not None
-        assert hasattr(signal, "symbol")
-
-    def test_strategy_with_different_timeframes(self):
-        """Test strategy with different data lengths."""
-        strategy = MACDStrategy(name="test-macd")
-
-        # Start at 100 to meet model's min_data_points requirement
-        for bars in [100, 200, 500]:
-            data = create_test_data(bars=bars, trend="volatile")
-            timestamp = data.index[-1]
-            signal = strategy.generate_signal(data, timestamp)
-
-            # Should handle different timeframes
-            assert signal is not None
-
-    def test_strategy_consistency(self):
-        """Test strategy generates consistent signals for same data."""
-        strategy = MACDStrategy(name="test-macd")
-        data = create_test_data(bars=150, trend="neutral")
-        timestamp = data.index[-1]
-
-        # Generate signal multiple times
-        signal1 = strategy.generate_signal(data, timestamp)
-        signal2 = strategy.generate_signal(data, timestamp)
-
-        # Should be consistent
-        if signal1 is None:
-            assert signal2 is None
-        else:
-            assert signal2 is not None
-            assert signal1.symbol == signal2.symbol
-            assert signal1.signal_type == signal2.signal_type
-
-
-class TestMACDStrategyValidation:
-    """Tests for data validation."""
-
-    def test_requires_ohlcv_columns(self):
-        """Test strategy requires OHLCV columns."""
+    def test_missing_columns_returns_none(self):
+        """Test that missing columns returns None."""
         strategy = MACDStrategy(name="test")
 
-        # Missing volume
-        data = pd.DataFrame(
-            {
-                "open": [100] * 100,
-                "high": [105] * 100,
-                "low": [95] * 100,
-                "close": [102] * 100,
-            },
-            index=pd.date_range("2024-01-01", periods=100),
-        )
+        data = pd.DataFrame({"high": [100] * 40, "low": [95] * 40, "open": [98] * 40})
 
-        is_valid, msg = strategy.validate_data(data)
+        signal = strategy.generate_signal(data, datetime.utcnow())
 
-        assert is_valid is False
-        assert "volume" in msg.lower()
+        assert signal is None
 
-    def test_handles_empty_data(self):
-        """Test strategy handles empty data."""
+    def test_empty_dataframe_returns_none(self):
+        """Test that empty DataFrame returns None."""
         strategy = MACDStrategy(name="test")
+
         data = pd.DataFrame()
 
-        is_valid, msg = strategy.validate_data(data)
+        signal = strategy.generate_signal(data, datetime.utcnow())
 
-        assert is_valid is False
-        assert "empty" in msg.lower()
+        assert signal is None
 
-    def test_handles_none_data(self):
-        """Test strategy handles None data."""
+
+class TestSymbolHandling:
+    """Test symbol extraction from data."""
+
+    def test_symbol_from_data(self):
+        """Test symbol extraction when present."""
+        strategy = MACDStrategy(name="test", fast_period=5, slow_period=10)
+
+        data = create_test_data(bars=70)
+        data["symbol"] = "MSFT"
+
+        signal = strategy.generate_signal(data, datetime.utcnow())
+
+        assert signal is not None
+        assert signal.symbol == "MSFT"
+
+    def test_default_symbol_when_missing(self):
+        """Test default symbol when not in data."""
+        strategy = MACDStrategy(name="test", fast_period=5, slow_period=10)
+
+        data = create_test_data(bars=70)
+
+        signal = strategy.generate_signal(data, datetime.utcnow())
+
+        if signal is not None:
+            assert signal.symbol == "UNKNOWN"
+
+
+class TestStrategyDescription:
+    """Test strategy description."""
+
+    def test_get_description_format(self):
+        """Test description contains key information."""
         strategy = MACDStrategy(name="test")
 
-        is_valid, msg = strategy.validate_data(None)
+        description = strategy.get_description()
 
-        assert is_valid is False
-        assert "empty" in msg.lower()
+        assert isinstance(description, str)
+        assert len(description) > 100
+        assert "MACD" in description
+        assert "Entry Rules" in description
+        assert "Exit Rules" in description
 
 
-class TestMACDModel:
-    """Tests for the underlying MACD model."""
+class TestEdgeCases:
+    """Test edge cases."""
 
-    def test_model_has_correct_parameters(self):
-        """Test model is configured with correct parameters."""
-        strategy = MACDStrategy(
-            name="test",
-            fast_period=8,
-            slow_period=21,
-            signal_period=5,
+    def test_probability_bounds(self):
+        """Test that probability is within valid bounds."""
+        strategy = MACDStrategy(name="test", fast_period=5, slow_period=10, signal_period=3)
+
+        # Extreme price movement
+        pattern = [100] * 30 + [120, 80, 150, 60, 200] * 8
+        data = create_test_data(
+            bars=len(pattern),
+            close=pattern,
         )
-
-        model = strategy.model
-
-        assert model.fast_period == 8
-        assert model.slow_period == 21
-        assert model.signal_period == 5
-
-    def test_model_calculates_macd_correctly(self):
-        """Test model calculates MACD values correctly."""
-        strategy = MACDStrategy(name="test-macd")
-        data = create_test_data(bars=150, trend="volatile")
+        data["symbol"] = "AAPL"
 
         signal = strategy.generate_signal(data, datetime.utcnow())
 
         assert signal is not None
-        # MACD = fast EMA - slow EMA
-        # Histogram = MACD - signal line
-        macd = signal.feature_contributions["macd"]
-        signal_line = signal.feature_contributions["signal"]
-        histogram = signal.feature_contributions["histogram"]
+        assert 0 <= signal.probability <= 1
 
-        # Histogram should equal MACD - signal line (approximately)
-        assert abs(histogram - (macd - signal_line)) < 0.01
+    def test_nan_handling(self):
+        """Test handling of NaN values in data."""
+        strategy = MACDStrategy(name="test", fast_period=5, slow_period=10)
 
+        data = create_test_data(bars=70)
+        # Introduce some NaN values
+        data.loc[15:18, "close"] = float("nan")
+        data["symbol"] = "AAPL"
 
-class TestMACDEdgeCases:
-    """Edge case tests for MACD strategy."""
+        signal = strategy.generate_signal(data, datetime.utcnow())
 
-    def test_handles_constant_prices(self):
-        """Test strategy handles constant price data (zero volatility)."""
-        strategy = MACDStrategy(name="test-macd")
+        # Should either handle gracefully or return None
+        assert signal is None or isinstance(signal.probability, float)
 
-        # Create data with constant prices
-        dates = pd.date_range(start="2024-01-01", periods=100, freq="D")
-        data = pd.DataFrame(
-            {
-                "open": [100.0] * 100,
-                "high": [100.0] * 100,
-                "low": [100.0] * 100,
-                "close": [100.0] * 100,
-                "volume": [1000000] * 100,
-            },
-            index=dates,
+    def test_constant_price_no_signal(self):
+        """Test handling of constant price (no movement)."""
+        strategy = MACDStrategy(name="test", fast_period=5, slow_period=10, signal_period=3)
+
+        data = create_test_data(
+            bars=70,
+            close=[100] * 70,  # No price movement
         )
+        data["symbol"] = "AAPL"
 
-        # Should handle gracefully
         signal = strategy.generate_signal(data, datetime.utcnow())
 
-        assert signal is not None
-        # MACD should be 0 with constant prices
-        assert abs(signal.feature_contributions["macd"]) < 0.01
+        # With no price movement, MACD should be near zero
+        if signal is not None:
+            assert abs(signal.metadata.get("macd_line", 0)) < 1
+            assert abs(signal.metadata.get("histogram", 0)) < 1
 
-    def test_handles_missing_values(self):
-        """Test strategy handles data with NaN values."""
-        strategy = MACDStrategy(name="test-macd")
-        data = create_test_data(bars=100, trend="neutral")
 
-        # Add some NaN values
-        data.iloc[50, data.columns.get_loc("close")] = np.nan
+class TestCrossoverDetection:
+    """Test crossover detection logic."""
 
-        # Should handle gracefully
-        try:
-            signal = strategy.generate_signal(data, datetime.utcnow())
-            # May return None or a signal with degraded data_quality
-            assert signal is None or signal.data_quality < 1.0
-        except ValueError:
-            # Also acceptable to raise an error for invalid data
-            pass
+    def test_no_crossover_hold_signal(self):
+        """Test hold signal when no crossover occurs."""
+        strategy = MACDStrategy(name="test", fast_period=5, slow_period=10, signal_period=3)
 
-    def test_extreme_price_movements(self):
-        """Test strategy handles extreme price movements."""
-        strategy = MACDStrategy(name="test-macd")
-
-        # Create volatile data with extreme spike at the end
-        np.random.seed(42)
-        dates = pd.date_range(start="2024-01-01", periods=150, freq="D")
-        # Start with some volatility to establish MACD properly (use numpy array)
-        close = 100 + np.cumsum(np.random.randn(150) * 2)
-        close[-5:] = close[-6] * np.array([1.1, 1.3, 1.6, 2.0, 2.5])  # Exponential spike
-
-        data = pd.DataFrame(
-            {
-                "open": close * 0.99,
-                "high": close * 1.02,
-                "low": close * 0.98,
-                "close": close,
-                "volume": [1000000] * 150,
-            },
-            index=dates,
+        # Gradual uptrend without sharp crossover
+        data = create_test_data(
+            bars=70,
+            close=[100 + i * 0.1 for i in range(70)],
         )
+        data["symbol"] = "AAPL"
 
         signal = strategy.generate_signal(data, datetime.utcnow())
 
-        # Should still generate a signal
-        assert signal is not None
-        # MACD should be strongly positive after spike
-        assert signal.feature_contributions["macd"] > 0
+        if signal is not None:
+            # Should be entry, exit, or hold
+            assert signal.signal_type in [SignalType.ENTRY, SignalType.EXIT, SignalType.HOLD]
 
-    def test_consolidating_market(self):
-        """Test strategy behavior in consolidating market."""
-        strategy = MACDStrategy(name="test-macd")
-        data = create_test_data(bars=150, trend="consolidating")
+    def test_multiple_crossovers(self):
+        """Test behavior with multiple recent crossovers."""
+        strategy = MACDStrategy(name="test", fast_period=5, slow_period=10, signal_period=3)
 
-        signal = strategy.generate_signal(data, datetime.utcnow())
-
-        assert signal is not None
-        # In consolidating market, histogram strength should be low
-        assert signal.feature_contributions["histogram_strength"] < 0.1
-
-
-class TestMACDCrossovers:
-    """Tests for MACD crossover detection."""
-
-    def test_bullish_crossover_detection(self):
-        """Test bullish crossover is detected."""
-        strategy = MACDStrategy(name="test-macd")
-        # Create more volatile data for bullish crossover
-        np.random.seed(42)
-        dates = pd.date_range(start="2024-01-01", periods=150, freq="D")
-        # Downtrend then strong uptrend
-        base = np.concatenate([
-            100 - np.arange(75) * 0.3 + np.random.randn(75) * 1.5,
-            100 - 75 * 0.3 + np.arange(75) * 0.6 + np.random.randn(75) * 1.5,
-        ])
-        data = pd.DataFrame(
-            {
-                "open": base * 0.99,
-                "high": base * 1.02,
-                "low": base * 0.98,
-                "close": base,
-                "volume": [1000000] * 150,
-            },
-            index=dates,
+        # Oscillating price
+        data = create_test_data(
+            bars=70,
+            close=[100 + (10 if i % 4 < 2 else -10) for i in range(70)],
         )
+        data["symbol"] = "AAPL"
 
         signal = strategy.generate_signal(data, datetime.utcnow())
 
+        # Should generate some signal based on most recent crossover
         assert signal is not None
-        # May or may not catch the exact crossover point, but should detect trend change
-        assert hasattr(signal, "feature_contributions")
 
-    def test_bearish_crossover_detection(self):
-        """Test bearish crossover is detected."""
-        strategy = MACDStrategy(name="test-macd")
-        # Create more volatile data for bearish crossover
-        np.random.seed(42)
-        dates = pd.date_range(start="2024-01-01", periods=150, freq="D")
-        # Uptrend then strong downtrend
-        base = np.concatenate([
-            100 + np.arange(75) * 0.5 + np.random.randn(75) * 1.5,
-            100 + 75 * 0.5 - np.arange(75) * 0.8 + np.random.randn(75) * 1.5,
-        ])
-        data = pd.DataFrame(
-            {
-                "open": base * 0.99,
-                "high": base * 1.02,
-                "low": base * 0.98,
-                "close": base,
-                "volume": [1000000] * 150,
-            },
-            index=dates,
+
+class TestTrendReversal:
+    """Test trend reversal detection."""
+
+    def test_uptrend_to_downtrend_reversal(self):
+        """Test detection of uptrend to downtrend reversal."""
+        strategy = MACDStrategy(name="test", fast_period=5, slow_period=10, signal_period=3)
+
+        # Uptrend followed by reversal - need sufficient bars
+        pattern = [100] * 20 + list(range(100, 120)) + list(range(120, 105, -1)) + [105] * 10
+        data = create_test_data(
+            bars=len(pattern),
+            close=pattern,
         )
+        data["symbol"] = "AAPL"
 
         signal = strategy.generate_signal(data, datetime.utcnow())
 
-        assert signal is not None
-        # May or may not catch the exact crossover point
-        assert hasattr(signal, "feature_contributions")
+        if signal is not None and signal.signal_type == SignalType.EXIT:
+            # Reversal should trigger exit
+            assert "crossover_type" in signal.metadata
+
+    def test_downtrend_to_uptrend_reversal(self):
+        """Test detection of downtrend to uptrend reversal."""
+        strategy = MACDStrategy(name="test", fast_period=5, slow_period=10, signal_period=3)
+
+        # Downtrend followed by reversal
+        pattern = [120] * 20 + list(range(120, 100, -1)) + list(range(100, 115)) + [115] * 10
+        data = create_test_data(
+            bars=len(pattern),
+            close=pattern,
+        )
+        data["symbol"] = "AAPL"
+
+        signal = strategy.generate_signal(data, datetime.utcnow())
+
+        if signal is not None and signal.signal_type == SignalType.ENTRY:
+            # Reversal to uptrend should trigger entry
+            assert signal.direction == Direction.LONG

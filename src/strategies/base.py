@@ -9,7 +9,7 @@ from datetime import datetime
 
 import pandas as pd
 
-from engines.signalcore.core.signal import Signal
+from src.engines.signalcore.core.signal import Signal
 
 
 class BaseStrategy(ABC):

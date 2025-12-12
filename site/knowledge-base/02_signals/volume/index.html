@@ -1,0 +1,3826 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+
+        <meta name="description" content="Comprehensive documentation for the Ordinis algorithmic trading system">
+
+
+        <meta name="author" content="Ordinis Development Team">
+
+
+        <link rel="canonical" href="https://ordinis.local/knowledge-base/02_signals/volume/">
+
+
+        <link rel="prev" href="../fundamental/">
+
+
+        <link rel="next" href="../sentiment/">
+
+
+
+
+
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+
+
+
+        <title>Volume - Ordinis Trading System Documentation</title>
+
+
+
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.618322db.min.css">
+
+
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+
+
+
+
+
+
+
+
+
+
+
+
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+
+
+
+      <link rel="stylesheet" href="../../../css/print-site.css">
+
+      <link rel="stylesheet" href="../../../css/print-site-material.css">
+
+      <link rel="stylesheet" href="../../../css/timeago.css">
+
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+
+
+
+
+
+
+
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-XXXXXXXXXX"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-XXXXXXXXXX",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+
+
+
+
+  </head>
+
+
+
+
+
+
+
+
+
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="teal">
+
+
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+
+
+        <a href="#volume-liquidity-order-flow-knowledge-base" class="md-skip">
+          Skip to content
+        </a>
+
+    </div>
+    <div data-md-component="announce">
+
+    </div>
+
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+
+      </div>
+
+
+
+
+
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Ordinis Trading System Documentation" class="md-header__button md-logo" aria-label="Ordinis Trading System Documentation" data-md-component="logo">
+
+
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Ordinis Trading System Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+
+              Volume
+
+          </span>
+        </div>
+      </div>
+    </div>
+
+
+        <form class="md-header__option" data-md-component="palette">
+
+
+
+
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="teal"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+
+
+
+
+
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue-grey" data-md-color-accent="teal"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+
+
+</form>
+
+
+
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+
+
+
+
+
+        <label class="md-header__button md-icon" for="__search">
+
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+      <div class="md-header__source">
+        <a href="https://github.com/ordinis/ordinis-1" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ordinis-1
+  </div>
+</a>
+      </div>
+
+  </nav>
+
+
+
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+
+
+
+
+
+
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+
+
+
+
+
+  Home
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+    <li class="md-tabs__item">
+      <a href="../../../project/" class="md-tabs__link">
+
+
+
+
+
+  Project
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+    <li class="md-tabs__item">
+      <a href="../../../architecture/" class="md-tabs__link">
+
+
+
+
+
+  Architecture
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="../../" class="md-tabs__link">
+
+
+
+
+
+  Knowledge Base
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+    <li class="md-tabs__item">
+      <a href="../../../guides/" class="md-tabs__link">
+
+
+
+
+
+  Guides
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+    <li class="md-tabs__item">
+      <a href="../../../analysis/" class="md-tabs__link">
+
+
+
+
+
+  Analysis
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+    <li class="md-tabs__item">
+      <a href="../../../testing/" class="md-tabs__link">
+
+
+
+
+
+  Testing
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+    <li class="md-tabs__item">
+      <a href="../../../strategies/" class="md-tabs__link">
+
+
+
+
+
+  Strategies
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+    <li class="md-tabs__item">
+      <a href="../../../session-exports/" class="md-tabs__link">
+
+
+
+
+
+  Session Exports
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+    <li class="md-tabs__item">
+      <a href="../../../print_page/" class="md-tabs__link">
+
+
+
+
+
+  Complete Documentation (Print/PDF)
+
+      </a>
+    </li>
+
+
+
+    </ul>
+  </div>
+</nav>
+
+
+</header>
+
+    <div class="md-container" data-md-component="container">
+
+
+
+
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+
+
+
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+
+
+
+
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Ordinis Trading System Documentation" class="md-nav__button md-logo" aria-label="Ordinis Trading System Documentation" data-md-component="logo">
+
+
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Ordinis Trading System Documentation
+  </label>
+
+    <div class="md-nav__source">
+      <a href="https://github.com/ordinis/ordinis-1" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ordinis-1
+  </div>
+</a>
+    </div>
+
+  <ul class="md-nav__list" data-md-scrollfix>
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Home
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+
+
+
+
+
+    <a href="../../../project/PROJECT_SCOPE/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Project
+
+
+
+  </span>
+
+
+
+
+        <span class="md-nav__icon md-icon"></span>
+
+    </a>
+
+
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+
+
+
+
+
+
+
+
+
+    <a href="../../../architecture/SIGNALCORE_SYSTEM/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Architecture
+
+
+
+  </span>
+
+
+
+
+        <span class="md-nav__icon md-icon"></span>
+
+    </a>
+
+
+
+
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+
+
+
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+
+
+          <div class="md-nav__link md-nav__container">
+            <a href="../../" class="md-nav__link ">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Knowledge Base
+
+
+
+  </span>
+
+
+
+            </a>
+
+
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+
+          </div>
+
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+
+
+    Knowledge Base
+
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../../00_KB_INDEX/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Index
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+
+
+
+
+
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_2" >
+
+
+          <div class="md-nav__link md-nav__container">
+            <a href="../../01_foundations/" class="md-nav__link ">
+
+
+
+  <span class="md-ellipsis">
+
+
+    1. Foundations
+
+
+
+  </span>
+
+
+
+            </a>
+
+
+              <label class="md-nav__link " for="__nav_4_2" id="__nav_4_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+
+          </div>
+
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+
+
+    1. Foundations
+
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../../01_foundations/publications/harris_trading_exchanges/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Harris Trading & Exchanges
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+          </ul>
+        </nav>
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+
+
+
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" checked>
+
+
+          <div class="md-nav__link md-nav__container">
+            <a href="../technical/" class="md-nav__link ">
+
+
+
+  <span class="md-ellipsis">
+
+
+    2. Signal Generation
+
+
+
+  </span>
+
+
+
+            </a>
+
+
+              <label class="md-nav__link " for="__nav_4_3" id="__nav_4_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+
+          </div>
+
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+
+
+    2. Signal Generation
+
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+
+
+
+
+
+
+
+
+
+    <a href="../technical/overlays/moving_averages/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Technical Analysis
+
+
+
+  </span>
+
+
+
+
+        <span class="md-nav__icon md-icon"></span>
+
+    </a>
+
+
+
+
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../fundamental/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Fundamental
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--active">
+
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+
+
+
+
+
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Volume
+
+
+
+  </span>
+
+
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+
+      <a href="./" class="md-nav__link md-nav__link--active">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Volume
+
+
+
+  </span>
+
+
+
+      </a>
+
+
+
+
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+
+
+
+
+
+
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+
+        <li class="md-nav__item">
+  <a href="#purpose" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Purpose
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#1-volume-fundamentals" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        1. Volume Fundamentals
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="1. Volume Fundamentals">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#11-absolute-volume" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        1.1 Absolute Volume
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#12-relative-volume-rvol" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        1.2 Relative Volume (RVOL)
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#13-volume-spikes" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        1.3 Volume Spikes
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#14-volume-dry-ups" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        1.4 Volume Dry-ups
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#2-volume-confirmation-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        2. Volume Confirmation Rules
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="2. Volume Confirmation Rules">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#21-breakout-volume-confirmation" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        2.1 Breakout Volume Confirmation
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#22-trend-confirmation-with-volume" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        2.2 Trend Confirmation with Volume
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#23-reversal-volume-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        2.3 Reversal Volume Patterns
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#3-liquidity-assessment" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        3. Liquidity Assessment
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="3. Liquidity Assessment">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#31-average-daily-volume-adv" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        3.1 Average Daily Volume (ADV)
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#32-bid-ask-spread" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        3.2 Bid-Ask Spread
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#33-market-impact-estimation" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        3.3 Market Impact Estimation
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#4-order-flow-proxies" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        4. Order Flow Proxies
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="4. Order Flow Proxies">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#41-on-balance-volume-obv" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        4.1 On-Balance Volume (OBV)
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#42-accumulationdistribution-ad" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        4.2 Accumulation/Distribution (A/D)
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#43-money-flow-index-mfi" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        4.3 Money Flow Index (MFI)
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#44-vwap-volume-weighted-average-price" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        4.4 VWAP (Volume Weighted Average Price)
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#5-volume-based-filters" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        5. Volume-Based Filters
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="5. Volume-Based Filters">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#51-eligibility-filters" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        5.1 Eligibility Filters
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#52-confirmation-filters" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        5.2 Confirmation Filters
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#53-warning-filters" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        5.3 Warning Filters
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#6-volume-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        6. Volume Patterns
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="6. Volume Patterns">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#61-volume-profile-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        6.1 Volume Profile Concepts
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#62-session-volume-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        6.2 Session Volume Patterns
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#7-implementation-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        7. Implementation Examples
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="7. Implementation Examples">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#example-1-volume-confirmed-breakout-strategy-filter" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Example 1: Volume-Confirmed Breakout Strategy Filter
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#example-2-liquidity-filter" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Example 2: Liquidity Filter
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#example-3-rvol-signal-enhancement" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Example 3: RVOL Signal Enhancement
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#academic-references" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Academic References
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#key-takeaways" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Key Takeaways
+
+    </span>
+  </a>
+
+</li>
+
+    </ul>
+
+</nav>
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+
+
+
+
+
+    <a href="../sentiment/news_sentiment/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Sentiment
+
+
+
+  </span>
+
+
+
+
+        <span class="md-nav__icon md-icon"></span>
+
+    </a>
+
+
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+
+
+
+
+
+    <a href="../events/earnings_events/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Events
+
+
+
+  </span>
+
+
+
+
+        <span class="md-nav__icon md-icon"></span>
+
+    </a>
+
+
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+
+
+
+
+
+    <a href="../quantitative/algorithmic_strategies/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Quantitative
+
+
+
+  </span>
+
+
+
+
+        <span class="md-nav__icon md-icon"></span>
+
+    </a>
+
+
+
+    </li>
+
+
+
+
+          </ul>
+        </nav>
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+
+
+
+
+
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_4" >
+
+
+          <div class="md-nav__link md-nav__container">
+            <a href="../../03_risk/" class="md-nav__link ">
+
+
+
+  <span class="md-ellipsis">
+
+
+    3. Risk Management
+
+
+
+  </span>
+
+
+
+            </a>
+
+
+              <label class="md-nav__link " for="__nav_4_4" id="__nav_4_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+
+          </div>
+
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+
+
+    3. Risk Management
+
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../../03_risk/advanced_risk_methods/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Advanced Risk Methods
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../../03_risk/publications/lopez_de_prado_advances/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Lopez de Prado
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+          </ul>
+        </nav>
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+
+
+
+
+
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_5" >
+
+
+          <label class="md-nav__link" for="__nav_4_5" id="__nav_4_5_label" tabindex="">
+
+
+
+  <span class="md-ellipsis">
+
+
+    4. Strategy
+
+
+
+  </span>
+
+
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_5">
+            <span class="md-nav__icon md-icon"></span>
+
+
+    4. Strategy
+
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../../04_strategy/BACKTESTING_REQUIREMENTS/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Backtesting Requirements
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../../04_strategy/DATA_EVALUATION_REQUIREMENTS/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Data Evaluation
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../../04_strategy/nvidia_integration/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    NVIDIA Integration
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../../04_strategy/strategy_formulation_framework/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Strategy Framework
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+          </ul>
+        </nav>
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+
+
+
+
+
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_6" >
+
+
+          <div class="md-nav__link md-nav__container">
+            <a href="../../05_execution/" class="md-nav__link ">
+
+
+
+  <span class="md-ellipsis">
+
+
+    5. Execution
+
+
+
+  </span>
+
+
+
+            </a>
+
+
+              <label class="md-nav__link " for="__nav_4_6" id="__nav_4_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+
+          </div>
+
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_6">
+            <span class="md-nav__icon md-icon"></span>
+
+
+    5. Execution
+
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../../05_execution/data_pipelines/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Data Pipelines
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../../05_execution/deployment_patterns/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Deployment Patterns
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../../05_execution/monitoring/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Monitoring
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../../05_execution/governance_engines/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Governance Engines
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+          </ul>
+        </nav>
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+
+
+
+
+
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_7" >
+
+
+          <div class="md-nav__link md-nav__container">
+            <a href="../../06_options/" class="md-nav__link ">
+
+
+
+  <span class="md-ellipsis">
+
+
+    6. Options
+
+
+
+  </span>
+
+
+
+            </a>
+
+
+              <label class="md-nav__link " for="__nav_4_7" id="__nav_4_7_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+
+          </div>
+
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_7">
+            <span class="md-nav__icon md-icon"></span>
+
+
+    6. Options
+
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../../06_options/publications/hull_options_futures/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Hull Options & Futures
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+          </ul>
+        </nav>
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../../07_references/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    7. References
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+          </ul>
+        </nav>
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+
+
+
+
+
+    <a href="../../../guides/CLI_USAGE/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Guides
+
+
+
+  </span>
+
+
+
+
+        <span class="md-nav__icon md-icon"></span>
+
+    </a>
+
+
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+
+
+
+
+
+    <a href="../../../analysis/ANALYSIS_FRAMEWORK/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Analysis
+
+
+
+  </span>
+
+
+
+
+        <span class="md-nav__icon md-icon"></span>
+
+    </a>
+
+
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+
+
+
+
+
+    <a href="../../../testing/PHASE_1_TESTING_SETUP/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Testing
+
+
+
+  </span>
+
+
+
+
+        <span class="md-nav__icon md-icon"></span>
+
+    </a>
+
+
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+
+
+
+
+
+    <a href="../../../strategies/STRATEGY_TEMPLATE/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Strategies
+
+
+
+  </span>
+
+
+
+
+        <span class="md-nav__icon md-icon"></span>
+
+    </a>
+
+
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+
+
+
+
+
+    <a href="../../../session-exports/SESSION_SUMMARY_KB_IMPLEMENTATION/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Session Exports
+
+
+
+  </span>
+
+
+
+
+        <span class="md-nav__icon md-icon"></span>
+
+    </a>
+
+
+
+    </li>
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../../../print_page/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Complete Documentation (Print/PDF)
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+
+
+
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+
+
+
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+
+
+
+
+
+
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+
+        <li class="md-nav__item">
+  <a href="#purpose" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Purpose
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#1-volume-fundamentals" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        1. Volume Fundamentals
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="1. Volume Fundamentals">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#11-absolute-volume" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        1.1 Absolute Volume
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#12-relative-volume-rvol" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        1.2 Relative Volume (RVOL)
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#13-volume-spikes" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        1.3 Volume Spikes
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#14-volume-dry-ups" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        1.4 Volume Dry-ups
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#2-volume-confirmation-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        2. Volume Confirmation Rules
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="2. Volume Confirmation Rules">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#21-breakout-volume-confirmation" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        2.1 Breakout Volume Confirmation
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#22-trend-confirmation-with-volume" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        2.2 Trend Confirmation with Volume
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#23-reversal-volume-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        2.3 Reversal Volume Patterns
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#3-liquidity-assessment" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        3. Liquidity Assessment
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="3. Liquidity Assessment">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#31-average-daily-volume-adv" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        3.1 Average Daily Volume (ADV)
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#32-bid-ask-spread" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        3.2 Bid-Ask Spread
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#33-market-impact-estimation" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        3.3 Market Impact Estimation
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#4-order-flow-proxies" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        4. Order Flow Proxies
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="4. Order Flow Proxies">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#41-on-balance-volume-obv" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        4.1 On-Balance Volume (OBV)
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#42-accumulationdistribution-ad" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        4.2 Accumulation/Distribution (A/D)
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#43-money-flow-index-mfi" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        4.3 Money Flow Index (MFI)
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#44-vwap-volume-weighted-average-price" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        4.4 VWAP (Volume Weighted Average Price)
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#5-volume-based-filters" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        5. Volume-Based Filters
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="5. Volume-Based Filters">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#51-eligibility-filters" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        5.1 Eligibility Filters
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#52-confirmation-filters" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        5.2 Confirmation Filters
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#53-warning-filters" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        5.3 Warning Filters
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#6-volume-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        6. Volume Patterns
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="6. Volume Patterns">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#61-volume-profile-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        6.1 Volume Profile Concepts
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#62-session-volume-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        6.2 Session Volume Patterns
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#7-implementation-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        7. Implementation Examples
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="7. Implementation Examples">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#example-1-volume-confirmed-breakout-strategy-filter" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Example 1: Volume-Confirmed Breakout Strategy Filter
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#example-2-liquidity-filter" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Example 2: Liquidity Filter
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#example-3-rvol-signal-enhancement" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Example 3: RVOL Signal Enhancement
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#academic-references" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Academic References
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#key-takeaways" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Key Takeaways
+
+    </span>
+  </a>
+
+</li>
+
+    </ul>
+
+</nav>
+                  </div>
+                </div>
+              </div>
+
+
+
+            <div class="md-content" data-md-component="content">
+
+
+
+
+
+
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+
+
+
+
+    <li class="md-path__item">
+      <a href="../../.." class="md-path__link">
+
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+      <li class="md-path__item">
+        <a href="../../00_KB_INDEX/" class="md-path__link">
+
+  <span class="md-ellipsis">
+    Knowledge Base
+  </span>
+
+        </a>
+      </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <li class="md-path__item">
+        <a href="../technical/overlays/moving_averages/" class="md-path__link">
+
+  <span class="md-ellipsis">
+    2. Signal Generation
+  </span>
+
+        </a>
+      </li>
+
+
+
+
+
+
+
+
+
+
+    </ol>
+  </nav>
+
+
+              <article class="md-content__inner md-typeset">
+
+
+
+
+
+
+
+
+<h1 id="volume-liquidity-order-flow-knowledge-base">Volume, Liquidity &amp; Order Flow - Knowledge Base<a class="headerlink" href="#volume-liquidity-order-flow-knowledge-base" title="Permanent link">&para;</a></h1>
+<h2 id="purpose">Purpose<a class="headerlink" href="#purpose" title="Permanent link">&para;</a></h2>
+<p>Volume and liquidity analysis provides <strong>confirmation signals</strong> and <strong>eligibility filters</strong> for automated trading. This section documents how to use volume systematically in rule-based logic.</p>
+<hr />
+<h2 id="1-volume-fundamentals">1. Volume Fundamentals<a class="headerlink" href="#1-volume-fundamentals" title="Permanent link">&para;</a></h2>
+<h3 id="11-absolute-volume">1.1 Absolute Volume<a class="headerlink" href="#11-absolute-volume" title="Permanent link">&para;</a></h3>
+<p><strong>Definition</strong>: Total shares/contracts traded in a period.</p>
+<p><strong>Usage</strong>:
+- Identify unusual activity
+- Validate price moves
+- Assess institutional participation</p>
+<p><strong>Rule Templates</strong>:
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Volume thresholds</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">HIGH_VOLUME</span> <span class="o">=</span> <span class="n">volume</span> <span class="o">&gt;</span> <span class="mi">1_000_000</span>  <span class="c1"># Absolute threshold</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">LOW_VOLUME</span> <span class="o">=</span> <span class="n">volume</span> <span class="o">&lt;</span> <span class="mi">100_000</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="c1"># Tradability filter</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="n">SUFFICIENT_LIQUIDITY</span> <span class="o">=</span> <span class="n">avg_volume</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">500_000</span>  <span class="c1"># Minimum ADV for trading</span>
+</span></code></pre></div></p>
+<hr />
+<h3 id="12-relative-volume-rvol">1.2 Relative Volume (RVOL)<a class="headerlink" href="#12-relative-volume-rvol" title="Permanent link">&para;</a></h3>
+<p><strong>Definition</strong>: Current volume compared to historical average.</p>
+<p><strong>Formula</strong>:
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>RVOL = Current Volume / Average Volume (same time period)
+</span></code></pre></div></p>
+<p><strong>Types</strong>:
+- Intraday RVOL: Current bar vs same time of day average
+- Daily RVOL: Today's volume vs N-day average</p>
+<p><strong>Rule Templates</strong>:
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Relative volume calculation</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">RVOL</span> <span class="o">=</span> <span class="n">volume</span> <span class="o">/</span> <span class="n">SMA</span><span class="p">(</span><span class="n">volume</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># RVOL thresholds</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">ELEVATED_VOLUME</span> <span class="o">=</span> <span class="n">RVOL</span> <span class="o">&gt;</span> <span class="mf">1.5</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="n">HIGH_VOLUME</span> <span class="o">=</span> <span class="n">RVOL</span> <span class="o">&gt;</span> <span class="mf">2.0</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="n">VOLUME_SPIKE</span> <span class="o">=</span> <span class="n">RVOL</span> <span class="o">&gt;</span> <span class="mf">3.0</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="n">LOW_VOLUME</span> <span class="o">=</span> <span class="n">RVOL</span> <span class="o">&lt;</span> <span class="mf">0.5</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="c1"># Intraday RVOL (time-adjusted)</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="n">INTRADAY_RVOL</span> <span class="o">=</span> <span class="n">current_bar_volume</span> <span class="o">/</span> <span class="n">avg_volume_this_time_of_day</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+</span></code></pre></div></p>
+<p><strong>Usage Notes</strong>:
+- RVOL normalizes across different stocks
+- Time-of-day adjustment important for intraday
+- Opening 30 min typically has highest volume</p>
+<hr />
+<h3 id="13-volume-spikes">1.3 Volume Spikes<a class="headerlink" href="#13-volume-spikes" title="Permanent link">&para;</a></h3>
+<p><strong>Definition</strong>: Sudden, significant increase in volume.</p>
+<p><strong>Detection Methods</strong>:
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Simple spike detection</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">VOLUME_SPIKE</span> <span class="o">=</span> <span class="n">volume</span> <span class="o">&gt;</span> <span class="n">SMA</span><span class="p">(</span><span class="n">volume</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span> <span class="o">*</span> <span class="mf">2.5</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># Standard deviation based</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="n">VOL_ZSCORE</span> <span class="o">=</span> <span class="p">(</span><span class="n">volume</span> <span class="o">-</span> <span class="n">SMA</span><span class="p">(</span><span class="n">volume</span><span class="p">,</span> <span class="mi">20</span><span class="p">))</span> <span class="o">/</span> <span class="n">StdDev</span><span class="p">(</span><span class="n">volume</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="n">VOLUME_SPIKE</span> <span class="o">=</span> <span class="n">VOL_ZSCORE</span> <span class="o">&gt;</span> <span class="mf">2.0</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="c1"># Percentile based</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="n">VOLUME_SPIKE</span> <span class="o">=</span> <span class="n">volume</span> <span class="o">&gt;</span> <span class="n">percentile</span><span class="p">(</span><span class="n">volume</span><span class="p">,</span> <span class="mi">95</span><span class="p">,</span> <span class="n">lookback</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+</span></code></pre></div></p>
+<p><strong>Interpretation</strong>:
+- Spike + breakout = confirmation of move
+- Spike at support/resistance = potential reversal
+- Spike without price move = absorption (potential reversal)</p>
+<hr />
+<h3 id="14-volume-dry-ups">1.4 Volume Dry-ups<a class="headerlink" href="#14-volume-dry-ups" title="Permanent link">&para;</a></h3>
+<p><strong>Definition</strong>: Unusually low volume, often preceding moves.</p>
+<p><strong>Detection</strong>:
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Volume contraction</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">VOLUME_DRYUP</span> <span class="o">=</span> <span class="n">volume</span> <span class="o">&lt;</span> <span class="n">SMA</span><span class="p">(</span><span class="n">volume</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">VOLUME_DRYUP_PERIOD</span> <span class="o">=</span> <span class="nb">all</span><span class="p">(</span><span class="n">volume</span> <span class="o">&lt;</span> <span class="n">avg_volume</span> <span class="o">*</span> <span class="mf">0.6</span> <span class="k">for</span> <span class="n">last</span> <span class="mi">5</span> <span class="n">bars</span><span class="p">)</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="c1"># Lowest volume in range</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="n">LOWEST_VOLUME</span> <span class="o">=</span> <span class="n">volume</span> <span class="o">==</span> <span class="nb">min</span><span class="p">(</span><span class="n">volume</span><span class="p">,</span> <span class="n">lookback</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+</span></code></pre></div></p>
+<p><strong>Significance</strong>:
+- Often precedes breakouts (calm before storm)
+- In trend, may signal consolidation before continuation
+- Combined with price contraction = setup for move</p>
+<hr />
+<h2 id="2-volume-confirmation-rules">2. Volume Confirmation Rules<a class="headerlink" href="#2-volume-confirmation-rules" title="Permanent link">&para;</a></h2>
+<h3 id="21-breakout-volume-confirmation">2.1 Breakout Volume Confirmation<a class="headerlink" href="#21-breakout-volume-confirmation" title="Permanent link">&para;</a></h3>
+<p><strong>Principle</strong>: Valid breakouts should occur on above-average volume.</p>
+<p><strong>Rule Templates</strong>:
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Basic breakout confirmation</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">VALID_BREAKOUT</span> <span class="o">=</span> <span class="p">(</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    <span class="n">close</span> <span class="o">&gt;</span> <span class="n">resistance</span> <span class="n">AND</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    <span class="n">volume</span> <span class="o">&gt;</span> <span class="n">SMA</span><span class="p">(</span><span class="n">volume</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1.5</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="p">)</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1"># Strict breakout confirmation</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="n">STRONG_BREAKOUT</span> <span class="o">=</span> <span class="p">(</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>    <span class="n">close</span> <span class="o">&gt;</span> <span class="n">resistance</span> <span class="n">AND</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>    <span class="n">volume</span> <span class="o">&gt;</span> <span class="n">SMA</span><span class="p">(</span><span class="n">volume</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span> <span class="o">*</span> <span class="mf">2.0</span> <span class="n">AND</span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>    <span class="n">close</span> <span class="o">&gt;</span> <span class="n">high</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># Close above previous high</span>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="p">)</span>
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="c1"># Weak/suspect breakout</span>
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="n">SUSPECT_BREAKOUT</span> <span class="o">=</span> <span class="p">(</span>
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>    <span class="n">close</span> <span class="o">&gt;</span> <span class="n">resistance</span> <span class="n">AND</span>
+</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>    <span class="n">volume</span> <span class="o">&lt;</span> <span class="n">SMA</span><span class="p">(</span><span class="n">volume</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>  <span class="c1"># Below average volume</span>
+</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a><span class="p">)</span>
+</span><span id="__span-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a>
+</span><span id="__span-5-20"><a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a><span class="c1"># Multi-day breakout</span>
+</span><span id="__span-5-21"><a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a><span class="n">CONFIRMED_BREAKOUT</span> <span class="o">=</span> <span class="p">(</span>
+</span><span id="__span-5-22"><a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a>    <span class="n">VALID_BREAKOUT</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="n">AND</span>  <span class="c1"># Breakout yesterday</span>
+</span><span id="__span-5-23"><a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a>    <span class="n">close</span> <span class="o">&gt;</span> <span class="n">resistance</span> <span class="n">AND</span>  <span class="c1"># Still above today</span>
+</span><span id="__span-5-24"><a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a>    <span class="n">volume</span> <span class="o">&gt;</span> <span class="n">SMA</span><span class="p">(</span><span class="n">volume</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1.2</span>  <span class="c1"># Follow-through volume</span>
+</span><span id="__span-5-25"><a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a><span class="p">)</span>
+</span></code></pre></div></p>
+<hr />
+<h3 id="22-trend-confirmation-with-volume">2.2 Trend Confirmation with Volume<a class="headerlink" href="#22-trend-confirmation-with-volume" title="Permanent link">&para;</a></h3>
+<p><strong>Principle</strong>: Healthy trends have volume in direction of trend.</p>
+<p><strong>Rule Templates</strong>:
+<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Uptrend volume pattern</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">HEALTHY_UPTREND</span> <span class="o">=</span> <span class="p">(</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    <span class="n">avg_volume_on_up_days</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">avg_volume_on_down_days</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="p">)</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="c1"># Volume expansion on moves</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="n">UP_MOVE_WITH_VOLUME</span> <span class="o">=</span> <span class="p">(</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>    <span class="n">close</span> <span class="o">&gt;</span> <span class="n">close</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="n">AND</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>    <span class="n">volume</span> <span class="o">&gt;</span> <span class="n">volume</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="n">AND</span>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>    <span class="n">volume</span> <span class="o">&gt;</span> <span class="n">SMA</span><span class="p">(</span><span class="n">volume</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="p">)</span>
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="c1"># Declining volume warning</span>
+</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="n">TREND_WEAKENING</span> <span class="o">=</span> <span class="p">(</span>
+</span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>    <span class="n">price_making_new_high</span> <span class="n">AND</span>
+</span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a>    <span class="n">volume</span> <span class="o">&lt;</span> <span class="n">SMA</span><span class="p">(</span><span class="n">volume</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>  <span class="c1"># Lower volume on new high</span>
+</span><span id="__span-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="p">)</span>
+</span><span id="__span-6-18"><a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a>
+</span><span id="__span-6-19"><a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a><span class="c1"># Volume divergence (bearish)</span>
+</span><span id="__span-6-20"><a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a><span class="n">VOLUME_DIVERGENCE</span> <span class="o">=</span> <span class="p">(</span>
+</span><span id="__span-6-21"><a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a>    <span class="n">close</span> <span class="o">&gt;</span> <span class="n">close</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="n">AND</span>  <span class="c1"># Price higher</span>
+</span><span id="__span-6-22"><a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a>    <span class="n">volume</span> <span class="o">&lt;</span> <span class="n">SMA</span><span class="p">(</span><span class="n">volume</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.8</span>  <span class="c1"># Volume lower</span>
+</span><span id="__span-6-23"><a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a><span class="p">)</span>
+</span></code></pre></div></p>
+<hr />
+<h3 id="23-reversal-volume-patterns">2.3 Reversal Volume Patterns<a class="headerlink" href="#23-reversal-volume-patterns" title="Permanent link">&para;</a></h3>
+<p><strong>Principle</strong>: Reversals often show volume climax or volume dry-up.</p>
+<p><strong>Rule Templates</strong>:
+<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Climax top (blowoff)</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">CLIMAX_TOP</span> <span class="o">=</span> <span class="p">(</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>    <span class="n">close</span> <span class="n">near</span> <span class="n">highest</span><span class="p">(</span><span class="n">high</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span> <span class="n">AND</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>    <span class="n">volume</span> <span class="o">&gt;</span> <span class="n">SMA</span><span class="p">(</span><span class="n">volume</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span> <span class="o">*</span> <span class="mf">3.0</span> <span class="n">AND</span>  <span class="c1"># Extreme volume</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>    <span class="n">close</span> <span class="o">&lt;</span> <span class="nb">open</span>  <span class="c1"># Bearish candle</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="p">)</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="c1"># Climax bottom (capitulation)</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="n">CAPITULATION</span> <span class="o">=</span> <span class="p">(</span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>    <span class="n">close</span> <span class="n">near</span> <span class="n">lowest</span><span class="p">(</span><span class="n">low</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span> <span class="n">AND</span>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>    <span class="n">volume</span> <span class="o">&gt;</span> <span class="n">SMA</span><span class="p">(</span><span class="n">volume</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span> <span class="o">*</span> <span class="mf">3.0</span> <span class="n">AND</span>
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>    <span class="n">close</span> <span class="o">&gt;</span> <span class="nb">open</span>  <span class="c1"># Bullish candle on extreme volume</span>
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="p">)</span>
+</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>
+</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="c1"># Drying up before reversal</span>
+</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="n">DRYUP_REVERSAL_SETUP</span> <span class="o">=</span> <span class="p">(</span>
+</span><span id="__span-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a>    <span class="n">downtrend</span> <span class="n">AND</span>
+</span><span id="__span-7-18"><a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a>    <span class="n">volume</span> <span class="o">&lt;</span> <span class="n">SMA</span><span class="p">(</span><span class="n">volume</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="k">for</span> <span class="mi">3</span><span class="o">+</span> <span class="n">bars</span> <span class="n">AND</span>
+</span><span id="__span-7-19"><a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a>    <span class="n">RSI</span> <span class="o">&lt;</span> <span class="mi">30</span>
+</span><span id="__span-7-20"><a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a><span class="p">)</span>
+</span></code></pre></div></p>
+<hr />
+<h2 id="3-liquidity-assessment">3. Liquidity Assessment<a class="headerlink" href="#3-liquidity-assessment" title="Permanent link">&para;</a></h2>
+<h3 id="31-average-daily-volume-adv">3.1 Average Daily Volume (ADV)<a class="headerlink" href="#31-average-daily-volume-adv" title="Permanent link">&para;</a></h3>
+<p><strong>Definition</strong>: Average shares traded per day over N periods.</p>
+<p><strong>Rule Templates</strong>:
+<div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># ADV calculation</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="n">ADV_20</span> <span class="o">=</span> <span class="n">SMA</span><span class="p">(</span><span class="n">volume</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="n">ADV_50</span> <span class="o">=</span> <span class="n">SMA</span><span class="p">(</span><span class="n">volume</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="c1"># Liquidity tiers</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="n">HIGHLY_LIQUID</span> <span class="o">=</span> <span class="n">ADV_20</span> <span class="o">&gt;</span> <span class="mi">5_000_000</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="n">LIQUID</span> <span class="o">=</span> <span class="n">ADV_20</span> <span class="o">&gt;</span> <span class="mi">1_000_000</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="n">MODERATELY_LIQUID</span> <span class="o">=</span> <span class="n">ADV_20</span> <span class="o">&gt;</span> <span class="mi">500_000</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="n">ILLIQUID</span> <span class="o">=</span> <span class="n">ADV_20</span> <span class="o">&lt;</span> <span class="mi">100_000</span>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="c1"># Trading eligibility filter</span>
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="n">TRADEABLE</span> <span class="o">=</span> <span class="n">ADV_20</span> <span class="o">&gt;</span> <span class="n">minimum_adv_threshold</span>
+</span></code></pre></div></p>
+<hr />
+<h3 id="32-bid-ask-spread">3.2 Bid-Ask Spread<a class="headerlink" href="#32-bid-ask-spread" title="Permanent link">&para;</a></h3>
+<p><strong>Definition</strong>: Difference between best bid and best ask.</p>
+<p><strong>Metrics</strong>:
+<div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Absolute spread</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">SPREAD</span> <span class="o">=</span> <span class="n">ask</span> <span class="o">-</span> <span class="n">bid</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="c1"># Relative spread (percentage)</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="n">SPREAD_PCT</span> <span class="o">=</span> <span class="p">(</span><span class="n">ask</span> <span class="o">-</span> <span class="n">bid</span><span class="p">)</span> <span class="o">/</span> <span class="n">midpoint</span> <span class="o">*</span> <span class="mi">100</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="c1"># Spread thresholds</span>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="n">TIGHT_SPREAD</span> <span class="o">=</span> <span class="n">SPREAD_PCT</span> <span class="o">&lt;</span> <span class="mf">0.05</span>  <span class="c1"># &lt;5 bps</span>
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="n">NORMAL_SPREAD</span> <span class="o">=</span> <span class="n">SPREAD_PCT</span> <span class="o">&lt;</span> <span class="mf">0.10</span>  <span class="c1"># &lt;10 bps</span>
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="n">WIDE_SPREAD</span> <span class="o">=</span> <span class="n">SPREAD_PCT</span> <span class="o">&gt;</span> <span class="mf">0.20</span>  <span class="c1"># &gt;20 bps</span>
+</span></code></pre></div></p>
+<p><strong>Rule Templates</strong>:
+<div class="language-python highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># Spread filter for entry</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="n">ACCEPTABLE_SPREAD</span> <span class="o">=</span> <span class="n">SPREAD_PCT</span> <span class="o">&lt;</span> <span class="n">max_spread_threshold</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="c1"># Adjusted for cost</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="n">EFFECTIVE_COST</span> <span class="o">=</span> <span class="n">SPREAD_PCT</span> <span class="o">/</span> <span class="mi">2</span>  <span class="c1"># Half-spread as execution cost</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="c1"># Skip trade if spread too wide</span>
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="n">DO_NOT_TRADE</span> <span class="o">=</span> <span class="n">SPREAD_PCT</span> <span class="o">&gt;</span> <span class="mf">0.50</span>  <span class="c1"># &gt;50 bps spread</span>
+</span></code></pre></div></p>
+<hr />
+<h3 id="33-market-impact-estimation">3.3 Market Impact Estimation<a class="headerlink" href="#33-market-impact-estimation" title="Permanent link">&para;</a></h3>
+<p><strong>Definition</strong>: Expected price impact of order size.</p>
+<p><strong>Simple Model</strong>:
+<div class="language-python highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># Impact as function of order size vs ADV</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="n">ORDER_SIZE_PCT</span> <span class="o">=</span> <span class="n">order_shares</span> <span class="o">/</span> <span class="n">ADV_20</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="c1"># Simple impact estimate</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="n">ESTIMATED_IMPACT_BPS</span> <span class="o">=</span> <span class="n">ORDER_SIZE_PCT</span> <span class="o">*</span> <span class="n">impact_coefficient</span>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="c1"># Size limit based on ADV</span>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="n">MAX_POSITION_SHARES</span> <span class="o">=</span> <span class="n">ADV_20</span> <span class="o">*</span> <span class="n">max_adv_percentage</span>  <span class="c1"># e.g., 1% of ADV</span>
+</span></code></pre></div></p>
+<p><strong>Rule Templates</strong>:
+<div class="language-python highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># Position size limits</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="n">MAX_SHARES</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>    <span class="n">intended_shares</span><span class="p">,</span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>    <span class="n">ADV_20</span> <span class="o">*</span> <span class="mf">0.01</span><span class="p">,</span>  <span class="c1"># Max 1% of ADV</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>    <span class="n">max_dollar_position</span> <span class="o">/</span> <span class="n">price</span>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="p">)</span>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="c1"># Warn if position too large</span>
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="n">LIQUIDITY_WARNING</span> <span class="o">=</span> <span class="n">intended_shares</span> <span class="o">&gt;</span> <span class="n">ADV_20</span> <span class="o">*</span> <span class="mf">0.005</span>  <span class="c1"># &gt;0.5% of ADV</span>
+</span></code></pre></div></p>
+<hr />
+<h2 id="4-order-flow-proxies">4. Order Flow Proxies<a class="headerlink" href="#4-order-flow-proxies" title="Permanent link">&para;</a></h2>
+<h3 id="41-on-balance-volume-obv">4.1 On-Balance Volume (OBV)<a class="headerlink" href="#41-on-balance-volume-obv" title="Permanent link">&para;</a></h3>
+<p><strong>Definition</strong>: Cumulative volume based on price direction.</p>
+<p><strong>Formula</strong>:
+<div class="language-text highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>If close &gt; close[1]: OBV = OBV[1] + volume
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>If close &lt; close[1]: OBV = OBV[1] - volume
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>If close = close[1]: OBV = OBV[1]
+</span></code></pre></div></p>
+<p><strong>Rule Templates</strong>:
+<div class="language-python highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># OBV trend</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="n">OBV_UPTREND</span> <span class="o">=</span> <span class="n">OBV</span> <span class="o">&gt;</span> <span class="n">SMA</span><span class="p">(</span><span class="n">OBV</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="n">OBV_DOWNTREND</span> <span class="o">=</span> <span class="n">OBV</span> <span class="o">&lt;</span> <span class="n">SMA</span><span class="p">(</span><span class="n">OBV</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="c1"># OBV divergence</span>
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="n">BULLISH_OBV_DIV</span> <span class="o">=</span> <span class="n">price</span> <span class="n">makes</span> <span class="n">lower_low</span> <span class="n">AND</span> <span class="n">OBV</span> <span class="n">makes</span> <span class="n">higher_low</span>
+</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="n">BEARISH_OBV_DIV</span> <span class="o">=</span> <span class="n">price</span> <span class="n">makes</span> <span class="n">higher_high</span> <span class="n">AND</span> <span class="n">OBV</span> <span class="n">makes</span> <span class="n">lower_high</span>
+</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>
+</span><span id="__span-14-9"><a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="c1"># OBV breakout (leading indicator)</span>
+</span><span id="__span-14-10"><a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="n">OBV_BREAKOUT</span> <span class="o">=</span> <span class="n">OBV</span> <span class="o">&gt;</span> <span class="n">highest</span><span class="p">(</span><span class="n">OBV</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>  <span class="c1"># Before price breakout</span>
+</span></code></pre></div></p>
+<hr />
+<h3 id="42-accumulationdistribution-ad">4.2 Accumulation/Distribution (A/D)<a class="headerlink" href="#42-accumulationdistribution-ad" title="Permanent link">&para;</a></h3>
+<p><strong>Definition</strong>: Volume-weighted price position within range.</p>
+<p><strong>Formula</strong>:
+<div class="language-text highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>CLV = ((close - low) - (high - close)) / (high - low)
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>A/D = A/D[1] + CLV × volume
+</span></code></pre></div></p>
+<p><strong>Rule Templates</strong>:
+<div class="language-python highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># A/D trend</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="n">AD_UPTREND</span> <span class="o">=</span> <span class="n">AD</span> <span class="o">&gt;</span> <span class="n">SMA</span><span class="p">(</span><span class="n">AD</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="n">AD_DOWNTREND</span> <span class="o">=</span> <span class="n">AD</span> <span class="o">&lt;</span> <span class="n">SMA</span><span class="p">(</span><span class="n">AD</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="c1"># A/D divergence</span>
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="n">BULLISH_AD_DIV</span> <span class="o">=</span> <span class="n">price</span> <span class="n">downtrend</span> <span class="n">AND</span> <span class="n">AD</span> <span class="n">uptrend</span>
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="n">BEARISH_AD_DIV</span> <span class="o">=</span> <span class="n">price</span> <span class="n">uptrend</span> <span class="n">AND</span> <span class="n">AD</span> <span class="n">downtrend</span>
+</span></code></pre></div></p>
+<hr />
+<h3 id="43-money-flow-index-mfi">4.3 Money Flow Index (MFI)<a class="headerlink" href="#43-money-flow-index-mfi" title="Permanent link">&para;</a></h3>
+<p><strong>Definition</strong>: Volume-weighted RSI.</p>
+<p><strong>Formula</strong>:
+<div class="language-text highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>Typical Price = (High + Low + Close) / 3
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>Raw Money Flow = Typical Price × Volume
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>MFI = 100 - (100 / (1 + Positive MF / Negative MF))
+</span></code></pre></div></p>
+<p><strong>Rule Templates</strong>:
+<div class="language-python highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># Overbought/Oversold</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="n">MFI_OVERBOUGHT</span> <span class="o">=</span> <span class="n">MFI</span><span class="p">(</span><span class="mi">14</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">80</span>
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="n">MFI_OVERSOLD</span> <span class="o">=</span> <span class="n">MFI</span><span class="p">(</span><span class="mi">14</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">20</span>
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="c1"># Divergence</span>
+</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a><span class="n">BULLISH_MFI_DIV</span> <span class="o">=</span> <span class="n">price</span> <span class="n">makes</span> <span class="n">lower_low</span> <span class="n">AND</span> <span class="n">MFI</span> <span class="n">makes</span> <span class="n">higher_low</span>
+</span></code></pre></div></p>
+<hr />
+<h3 id="44-vwap-volume-weighted-average-price">4.4 VWAP (Volume Weighted Average Price)<a class="headerlink" href="#44-vwap-volume-weighted-average-price" title="Permanent link">&para;</a></h3>
+<p><strong>Definition</strong>: Average price weighted by volume, typically intraday.</p>
+<p><strong>Formula</strong>:
+<div class="language-text highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>VWAP = Cumulative(Price × Volume) / Cumulative(Volume)
+</span></code></pre></div></p>
+<p><strong>Rule Templates</strong>:
+<div class="language-python highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="c1"># VWAP as support/resistance</span>
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="n">ABOVE_VWAP</span> <span class="o">=</span> <span class="n">close</span> <span class="o">&gt;</span> <span class="n">VWAP</span>  <span class="c1"># Bullish intraday bias</span>
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="n">BELOW_VWAP</span> <span class="o">=</span> <span class="n">close</span> <span class="o">&lt;</span> <span class="n">VWAP</span>  <span class="c1"># Bearish intraday bias</span>
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>
+</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="c1"># VWAP pullback entry</span>
+</span><span id="__span-20-6"><a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a><span class="n">VWAP_PULLBACK_LONG</span> <span class="o">=</span> <span class="n">uptrend</span> <span class="n">AND</span> <span class="n">low</span> <span class="o">&lt;</span> <span class="n">VWAP</span> <span class="n">AND</span> <span class="n">close</span> <span class="o">&gt;</span> <span class="n">VWAP</span>
+</span><span id="__span-20-7"><a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a><span class="n">VWAP_PULLBACK_SHORT</span> <span class="o">=</span> <span class="n">downtrend</span> <span class="n">AND</span> <span class="n">high</span> <span class="o">&gt;</span> <span class="n">VWAP</span> <span class="n">AND</span> <span class="n">close</span> <span class="o">&lt;</span> <span class="n">VWAP</span>
+</span><span id="__span-20-8"><a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a>
+</span><span id="__span-20-9"><a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a><span class="c1"># Distance from VWAP</span>
+</span><span id="__span-20-10"><a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a><span class="n">EXTENDED_FROM_VWAP</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">close</span> <span class="o">-</span> <span class="n">VWAP</span><span class="p">)</span> <span class="o">/</span> <span class="n">VWAP</span> <span class="o">&gt;</span> <span class="mf">0.02</span>  <span class="c1"># &gt;2% from VWAP</span>
+</span></code></pre></div></p>
+<p><strong>Usage Notes</strong>:
+- VWAP resets each session (typically)
+- Institutional benchmark for execution quality
+- Acts as intraday magnet</p>
+<hr />
+<h2 id="5-volume-based-filters">5. Volume-Based Filters<a class="headerlink" href="#5-volume-based-filters" title="Permanent link">&para;</a></h2>
+<h3 id="51-eligibility-filters">5.1 Eligibility Filters<a class="headerlink" href="#51-eligibility-filters" title="Permanent link">&para;</a></h3>
+<p><strong>Purpose</strong>: Ensure sufficient liquidity before considering trade.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="c1"># Master liquidity filter</span>
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="n">TRADEABLE</span> <span class="o">=</span> <span class="p">(</span>
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>    <span class="n">ADV_20</span> <span class="o">&gt;</span> <span class="mi">500_000</span> <span class="n">AND</span>            <span class="c1"># Minimum average volume</span>
+</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>    <span class="n">SPREAD_PCT</span> <span class="o">&lt;</span> <span class="mf">0.10</span> <span class="n">AND</span>            <span class="c1"># Maximum spread</span>
+</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>    <span class="n">price</span> <span class="o">&gt;</span> <span class="mf">5.00</span> <span class="n">AND</span>                 <span class="c1"># Avoid penny stocks</span>
+</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>    <span class="n">market_cap</span> <span class="o">&gt;</span> <span class="mi">300_000_000</span>         <span class="c1"># Minimum market cap</span>
+</span><span id="__span-21-7"><a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a><span class="p">)</span>
+</span><span id="__span-21-8"><a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a>
+</span><span id="__span-21-9"><a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a><span class="c1"># Intraday specific</span>
+</span><span id="__span-21-10"><a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a><span class="n">INTRADAY_ELIGIBLE</span> <span class="o">=</span> <span class="p">(</span>
+</span><span id="__span-21-11"><a id="__codelineno-21-11" name="__codelineno-21-11" href="#__codelineno-21-11"></a>    <span class="n">TRADEABLE</span> <span class="n">AND</span>
+</span><span id="__span-21-12"><a id="__codelineno-21-12" name="__codelineno-21-12" href="#__codelineno-21-12"></a>    <span class="n">current_volume</span> <span class="o">&gt;</span> <span class="mi">10_000</span> <span class="n">AND</span>      <span class="c1"># Some activity today</span>
+</span><span id="__span-21-13"><a id="__codelineno-21-13" name="__codelineno-21-13" href="#__codelineno-21-13"></a>    <span class="n">RVOL</span> <span class="o">&gt;</span> <span class="mf">0.8</span>                       <span class="c1"># Not abnormally quiet</span>
+</span><span id="__span-21-14"><a id="__codelineno-21-14" name="__codelineno-21-14" href="#__codelineno-21-14"></a><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h3 id="52-confirmation-filters">5.2 Confirmation Filters<a class="headerlink" href="#52-confirmation-filters" title="Permanent link">&para;</a></h3>
+<p><strong>Purpose</strong>: Require volume confirmation for signals.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="c1"># Breakout confirmation required</span>
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="n">CONFIRMED_BREAKOUT</span> <span class="o">=</span> <span class="p">(</span>
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>    <span class="n">price_breakout</span> <span class="n">AND</span>
+</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>    <span class="n">volume</span> <span class="o">&gt;</span> <span class="n">SMA</span><span class="p">(</span><span class="n">volume</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1.5</span>
+</span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a><span class="p">)</span>
+</span><span id="__span-22-6"><a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>
+</span><span id="__span-22-7"><a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a><span class="c1"># Trend entry confirmation</span>
+</span><span id="__span-22-8"><a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a><span class="n">CONFIRMED_TREND_ENTRY</span> <span class="o">=</span> <span class="p">(</span>
+</span><span id="__span-22-9"><a id="__codelineno-22-9" name="__codelineno-22-9" href="#__codelineno-22-9"></a>    <span class="n">trend_signal</span> <span class="n">AND</span>
+</span><span id="__span-22-10"><a id="__codelineno-22-10" name="__codelineno-22-10" href="#__codelineno-22-10"></a>    <span class="n">RVOL</span> <span class="o">&gt;</span> <span class="mf">1.0</span>  <span class="c1"># At least average volume</span>
+</span><span id="__span-22-11"><a id="__codelineno-22-11" name="__codelineno-22-11" href="#__codelineno-22-11"></a><span class="p">)</span>
+</span><span id="__span-22-12"><a id="__codelineno-22-12" name="__codelineno-22-12" href="#__codelineno-22-12"></a>
+</span><span id="__span-22-13"><a id="__codelineno-22-13" name="__codelineno-22-13" href="#__codelineno-22-13"></a><span class="c1"># Reject low-volume signals</span>
+</span><span id="__span-22-14"><a id="__codelineno-22-14" name="__codelineno-22-14" href="#__codelineno-22-14"></a><span class="n">REJECT_IF</span> <span class="o">=</span> <span class="n">volume</span> <span class="o">&lt;</span> <span class="n">SMA</span><span class="p">(</span><span class="n">volume</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
+</span></code></pre></div>
+<hr />
+<h3 id="53-warning-filters">5.3 Warning Filters<a class="headerlink" href="#53-warning-filters" title="Permanent link">&para;</a></h3>
+<p><strong>Purpose</strong>: Generate warnings for suspicious conditions.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="c1"># Volume warnings</span>
+</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="n">LIQUIDITY_WARNING</span> <span class="o">=</span> <span class="n">RVOL</span> <span class="o">&lt;</span> <span class="mf">0.3</span>  <span class="c1"># Very low relative volume</span>
+</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a><span class="n">SPREAD_WARNING</span> <span class="o">=</span> <span class="n">SPREAD_PCT</span> <span class="o">&gt;</span> <span class="n">avg_spread</span> <span class="o">*</span> <span class="mi">2</span>  <span class="c1"># Spread widening</span>
+</span><span id="__span-23-4"><a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a><span class="n">IMPACT_WARNING</span> <span class="o">=</span> <span class="n">order_size</span> <span class="o">&gt;</span> <span class="n">ADV_20</span> <span class="o">*</span> <span class="mf">0.01</span>  <span class="c1"># Large relative to ADV</span>
+</span><span id="__span-23-5"><a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a>
+</span><span id="__span-23-6"><a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a><span class="c1"># Action: reduce size or skip trade</span>
+</span><span id="__span-23-7"><a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a><span class="n">IF</span> <span class="n">LIQUIDITY_WARNING</span><span class="p">:</span> <span class="n">reduce_position_size</span><span class="p">()</span>
+</span><span id="__span-23-8"><a id="__codelineno-23-8" name="__codelineno-23-8" href="#__codelineno-23-8"></a><span class="n">IF</span> <span class="n">SPREAD_WARNING</span><span class="p">:</span> <span class="n">use_limit_order_only</span><span class="p">()</span>
+</span><span id="__span-23-9"><a id="__codelineno-23-9" name="__codelineno-23-9" href="#__codelineno-23-9"></a><span class="n">IF</span> <span class="n">IMPACT_WARNING</span><span class="p">:</span> <span class="n">split_order</span><span class="p">()</span> <span class="ow">or</span> <span class="n">skip</span><span class="p">()</span>
+</span></code></pre></div>
+<hr />
+<h2 id="6-volume-patterns">6. Volume Patterns<a class="headerlink" href="#6-volume-patterns" title="Permanent link">&para;</a></h2>
+<h3 id="61-volume-profile-concepts">6.1 Volume Profile Concepts<a class="headerlink" href="#61-volume-profile-concepts" title="Permanent link">&para;</a></h3>
+<p><strong>Definition</strong>: Distribution of volume across price levels.</p>
+<p><strong>Key Levels</strong>:
+- <strong>Point of Control (POC)</strong>: Price with highest volume
+- <strong>Value Area High (VAH)</strong>: Upper bound of 70% volume
+- <strong>Value Area Low (VAL)</strong>: Lower bound of 70% volume</p>
+<p><strong>Rule Templates</strong>:
+<div class="language-python highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="c1"># Value area positioning</span>
+</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="n">ABOVE_VALUE</span> <span class="o">=</span> <span class="n">close</span> <span class="o">&gt;</span> <span class="n">VAH</span>  <span class="c1"># Price accepted above value area</span>
+</span><span id="__span-24-3"><a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a><span class="n">BELOW_VALUE</span> <span class="o">=</span> <span class="n">close</span> <span class="o">&lt;</span> <span class="n">VAL</span>  <span class="c1"># Price accepted below value area</span>
+</span><span id="__span-24-4"><a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a><span class="n">IN_VALUE</span> <span class="o">=</span> <span class="n">VAL</span> <span class="o">&lt;</span> <span class="n">close</span> <span class="o">&lt;</span> <span class="n">VAH</span>  <span class="c1"># Price in value area</span>
+</span><span id="__span-24-5"><a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a>
+</span><span id="__span-24-6"><a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a><span class="c1"># POC as support/resistance</span>
+</span><span id="__span-24-7"><a id="__codelineno-24-7" name="__codelineno-24-7" href="#__codelineno-24-7"></a><span class="n">AT_POC</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">close</span> <span class="o">-</span> <span class="n">POC</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">ATR</span> <span class="o">*</span> <span class="mf">0.5</span>
+</span><span id="__span-24-8"><a id="__codelineno-24-8" name="__codelineno-24-8" href="#__codelineno-24-8"></a>
+</span><span id="__span-24-9"><a id="__codelineno-24-9" name="__codelineno-24-9" href="#__codelineno-24-9"></a><span class="c1"># Volume node trade</span>
+</span><span id="__span-24-10"><a id="__codelineno-24-10" name="__codelineno-24-10" href="#__codelineno-24-10"></a><span class="n">HIGH_VOLUME_NODE</span> <span class="o">=</span> <span class="n">local_volume</span> <span class="o">&gt;</span> <span class="n">avg_profile_volume</span> <span class="o">*</span> <span class="mf">1.5</span>
+</span><span id="__span-24-11"><a id="__codelineno-24-11" name="__codelineno-24-11" href="#__codelineno-24-11"></a><span class="n">LOW_VOLUME_NODE</span> <span class="o">=</span> <span class="n">local_volume</span> <span class="o">&lt;</span> <span class="n">avg_profile_volume</span> <span class="o">*</span> <span class="mf">0.5</span>  <span class="c1"># Potential gap</span>
+</span></code></pre></div></p>
+<hr />
+<h3 id="62-session-volume-patterns">6.2 Session Volume Patterns<a class="headerlink" href="#62-session-volume-patterns" title="Permanent link">&para;</a></h3>
+<p><strong>Intraday Volume Distribution</strong> (US Equities):
+- Opening 30 min: ~15-20% of daily volume
+- Midday: Lower volume, choppier
+- Closing 30 min: ~10-15% of daily volume</p>
+<p><strong>Rule Templates</strong>:
+<div class="language-python highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="c1"># Time-based volume expectations</span>
+</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="n">OPENING_RANGE</span> <span class="o">=</span> <span class="n">time</span> <span class="n">between</span> <span class="mi">09</span><span class="p">:</span><span class="mi">30</span> <span class="ow">and</span> <span class="mi">10</span><span class="p">:</span><span class="mi">00</span>
+</span><span id="__span-25-3"><a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a><span class="n">LUNCH_DOLDRUMS</span> <span class="o">=</span> <span class="n">time</span> <span class="n">between</span> <span class="mi">12</span><span class="p">:</span><span class="mi">00</span> <span class="ow">and</span> <span class="mi">14</span><span class="p">:</span><span class="mi">00</span>
+</span><span id="__span-25-4"><a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a><span class="n">POWER_HOUR</span> <span class="o">=</span> <span class="n">time</span> <span class="n">between</span> <span class="mi">15</span><span class="p">:</span><span class="mi">00</span> <span class="ow">and</span> <span class="mi">16</span><span class="p">:</span><span class="mi">00</span>
+</span><span id="__span-25-5"><a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a>
+</span><span id="__span-25-6"><a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a><span class="c1"># Adjust expectations by session</span>
+</span><span id="__span-25-7"><a id="__codelineno-25-7" name="__codelineno-25-7" href="#__codelineno-25-7"></a><span class="n">IF</span> <span class="n">LUNCH_DOLDRUMS</span><span class="p">:</span>
+</span><span id="__span-25-8"><a id="__codelineno-25-8" name="__codelineno-25-8" href="#__codelineno-25-8"></a>    <span class="n">lower_volume_threshold</span><span class="p">()</span>
+</span><span id="__span-25-9"><a id="__codelineno-25-9" name="__codelineno-25-9" href="#__codelineno-25-9"></a>    <span class="n">widen_filters</span><span class="p">()</span>
+</span></code></pre></div></p>
+<hr />
+<h2 id="7-implementation-examples">7. Implementation Examples<a class="headerlink" href="#7-implementation-examples" title="Permanent link">&para;</a></h2>
+<h3 id="example-1-volume-confirmed-breakout-strategy-filter">Example 1: Volume-Confirmed Breakout Strategy Filter<a class="headerlink" href="#example-1-volume-confirmed-breakout-strategy-filter" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">volume_confirmed_breakout</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">lookback</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">vol_mult</span><span class="o">=</span><span class="mf">1.5</span><span class="p">):</span>
+</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="__span-26-3"><a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a><span class="sd">    Confirm breakout with volume.</span>
+</span><span id="__span-26-4"><a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-26-5"><a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a>    <span class="n">resistance</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;high&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">lookback</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+</span><span id="__span-26-6"><a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a>    <span class="n">avg_volume</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;volume&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">lookback</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</span><span id="__span-26-7"><a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a>
+</span><span id="__span-26-8"><a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a>    <span class="n">price_breakout</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;close&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">resistance</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-26-9"><a id="__codelineno-26-9" name="__codelineno-26-9" href="#__codelineno-26-9"></a>    <span class="n">volume_confirm</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;volume&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">avg_volume</span> <span class="o">*</span> <span class="n">vol_mult</span>
+</span><span id="__span-26-10"><a id="__codelineno-26-10" name="__codelineno-26-10" href="#__codelineno-26-10"></a>
+</span><span id="__span-26-11"><a id="__codelineno-26-11" name="__codelineno-26-11" href="#__codelineno-26-11"></a>    <span class="k">return</span> <span class="n">price_breakout</span> <span class="o">&amp;</span> <span class="n">volume_confirm</span>
+</span></code></pre></div>
+<h3 id="example-2-liquidity-filter">Example 2: Liquidity Filter<a class="headerlink" href="#example-2-liquidity-filter" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">liquidity_filter</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">min_adv</span><span class="o">=</span><span class="mi">500000</span><span class="p">,</span> <span class="n">max_spread_pct</span><span class="o">=</span><span class="mf">0.10</span><span class="p">):</span>
+</span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="__span-27-3"><a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a><span class="sd">    Filter for sufficient liquidity.</span>
+</span><span id="__span-27-4"><a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-27-5"><a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a>    <span class="n">adv_20</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;volume&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</span><span id="__span-27-6"><a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a>    <span class="n">spread_pct</span> <span class="o">=</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;ask&#39;</span><span class="p">]</span> <span class="o">-</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;bid&#39;</span><span class="p">])</span> <span class="o">/</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;mid&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">100</span>
+</span><span id="__span-27-7"><a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a>
+</span><span id="__span-27-8"><a id="__codelineno-27-8" name="__codelineno-27-8" href="#__codelineno-27-8"></a>    <span class="n">liquid</span> <span class="o">=</span> <span class="n">adv_20</span> <span class="o">&gt;</span> <span class="n">min_adv</span>
+</span><span id="__span-27-9"><a id="__codelineno-27-9" name="__codelineno-27-9" href="#__codelineno-27-9"></a>    <span class="n">tight_spread</span> <span class="o">=</span> <span class="n">spread_pct</span> <span class="o">&lt;</span> <span class="n">max_spread_pct</span>
+</span><span id="__span-27-10"><a id="__codelineno-27-10" name="__codelineno-27-10" href="#__codelineno-27-10"></a>
+</span><span id="__span-27-11"><a id="__codelineno-27-11" name="__codelineno-27-11" href="#__codelineno-27-11"></a>    <span class="k">return</span> <span class="n">liquid</span> <span class="o">&amp;</span> <span class="n">tight_spread</span>
+</span></code></pre></div>
+<h3 id="example-3-rvol-signal-enhancement">Example 3: RVOL Signal Enhancement<a class="headerlink" href="#example-3-rvol-signal-enhancement" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">enhanced_signal_with_rvol</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">volume</span><span class="p">,</span> <span class="n">lookback</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">min_rvol</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+</span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="__span-28-3"><a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a><span class="sd">    Only accept signals with sufficient relative volume.</span>
+</span><span id="__span-28-4"><a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-28-5"><a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a>    <span class="n">avg_volume</span> <span class="o">=</span> <span class="n">volume</span><span class="o">.</span><span class="n">rolling</span><span class="p">(</span><span class="n">lookback</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</span><span id="__span-28-6"><a id="__codelineno-28-6" name="__codelineno-28-6" href="#__codelineno-28-6"></a>    <span class="n">rvol</span> <span class="o">=</span> <span class="n">volume</span> <span class="o">/</span> <span class="n">avg_volume</span>
+</span><span id="__span-28-7"><a id="__codelineno-28-7" name="__codelineno-28-7" href="#__codelineno-28-7"></a>
+</span><span id="__span-28-8"><a id="__codelineno-28-8" name="__codelineno-28-8" href="#__codelineno-28-8"></a>    <span class="k">return</span> <span class="n">signal</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">rvol</span> <span class="o">&gt;</span> <span class="n">min_rvol</span><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h2 id="academic-references">Academic References<a class="headerlink" href="#academic-references" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Harris, L. (2003)</strong>: "Trading and Exchanges: Market Microstructure for Practitioners"</li>
+<li><strong>Easley, D. &amp; O'Hara, M. (1987)</strong>: "Price, Trade Size, and Information in Securities Markets"</li>
+<li><strong>Blume, L., Easley, D., &amp; O'Hara, M. (1994)</strong>: "Market Statistics and Technical Analysis: The Role of Volume"</li>
+<li><strong>Karpoff, J.M. (1987)</strong>: "The Relation Between Price Changes and Trading Volume: A Survey"</li>
+<li><strong>Campbell, J., Grossman, S., &amp; Wang, J. (1993)</strong>: "Trading Volume and Serial Correlation in Stock Returns"</li>
+</ol>
+<hr />
+<h2 id="key-takeaways">Key Takeaways<a class="headerlink" href="#key-takeaways" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Volume confirms price</strong>: Price moves on low volume are suspect</li>
+<li><strong>Liquidity gates</strong>: Always filter for tradeable stocks first</li>
+<li><strong>RVOL normalizes</strong>: Use relative volume to compare across securities</li>
+<li><strong>Spikes and dryups</strong>: Both carry information about coming moves</li>
+<li><strong>Cost matters</strong>: Spread and impact affect real returns</li>
+<li><strong>Time of day</strong>: Volume patterns differ intraday</li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <aside class="md-source-file">
+
+
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="December 8, 2025 17:09:56 UTC"><span class="timeago" datetime="2025-12-08T17:09:56+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="December 8, 2025 17:09:56 UTC">2025-12-08</span>
+  </span>
+
+
+
+
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Created">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="December 8, 2025 17:09:56 UTC"><span class="timeago" datetime="2025-12-08T17:09:56+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="December 8, 2025 17:09:56 UTC">2025-12-08</span>
+  </span>
+
+
+
+
+  </aside>
+
+
+
+
+
+
+
+
+              </article>
+            </div>
+
+
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+
+      </main>
+
+        <footer class="md-footer">
+
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024-2025 Ordinis Project
+    </div>
+
+
+</div>
+
+
+<div class="md-social">
+
+
+
+
+
+
+
+
+    <a href="https://github.com/ordinis" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+
+</div>
+
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+
+
+
+
+
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.indexes", "navigation.top", "navigation.path", "navigation.prune", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.annotate", "content.tabs.link", "toc.follow", "announce.dismiss"], "search": "../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
+
+
+      <script src="../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+
+        <script src="../../../js/print-site.js"></script>
+
+        <script src="../../../js/timeago.min.js"></script>
+
+        <script src="../../../js/timeago_mkdocs_material.js"></script>
+
+        <script src="../../../javascripts/mathjax.js"></script>
+
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
+  </body>
+</html>

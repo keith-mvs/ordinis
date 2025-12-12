@@ -11,6 +11,11 @@ env/
 ENV/
 .venv/
 
+# Conda
+environment-lock.yml
+.conda/
+venv-backup-*/
+
 # Testing
 .coverage
 .coverage.*
@@ -23,6 +28,7 @@ coverage.xml
 
 # IDE
 .vscode/
+.vs/
 .idea/
 *.swp
 *.swo
@@ -36,6 +42,8 @@ Thumbs.db
 .ruff_cache/
 .mypy_cache/
 .serena/
+data/chromadb/
+src/data/
 
 # Build
 dist/

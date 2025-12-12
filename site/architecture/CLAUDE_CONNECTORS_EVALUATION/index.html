@@ -1,0 +1,4793 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+
+        <meta name="description" content="Comprehensive documentation for the Ordinis algorithmic trading system">
+
+
+        <meta name="author" content="Ordinis Development Team">
+
+
+        <link rel="canonical" href="https://ordinis.local/architecture/CLAUDE_CONNECTORS_EVALUATION/">
+
+
+        <link rel="prev" href="../MCP_TOOLS_QUICK_START/">
+
+
+        <link rel="next" href="../CONNECTORS_QUICK_REFERENCE/">
+
+
+
+
+
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+
+
+
+        <title>Claude Connectors - Ordinis Trading System Documentation</title>
+
+
+
+      <link rel="stylesheet" href="../../assets/stylesheets/main.618322db.min.css">
+
+
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+
+
+
+
+
+
+
+
+
+
+
+
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+
+
+
+      <link rel="stylesheet" href="../../css/print-site.css">
+
+      <link rel="stylesheet" href="../../css/print-site-material.css">
+
+      <link rel="stylesheet" href="../../css/timeago.css">
+
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+
+
+
+
+
+
+
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-XXXXXXXXXX"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-XXXXXXXXXX",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+
+
+
+
+  </head>
+
+
+
+
+
+
+
+
+
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="teal">
+
+
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+
+
+        <a href="#claude-connectors-mcp-servers-integration-evaluation" class="md-skip">
+          Skip to content
+        </a>
+
+    </div>
+    <div data-md-component="announce">
+
+    </div>
+
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+
+      </div>
+
+
+
+
+
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Ordinis Trading System Documentation" class="md-header__button md-logo" aria-label="Ordinis Trading System Documentation" data-md-component="logo">
+
+
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Ordinis Trading System Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+
+              Claude Connectors
+
+          </span>
+        </div>
+      </div>
+    </div>
+
+
+        <form class="md-header__option" data-md-component="palette">
+
+
+
+
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="teal"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+
+
+
+
+
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue-grey" data-md-color-accent="teal"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+
+
+</form>
+
+
+
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+
+
+
+
+
+        <label class="md-header__button md-icon" for="__search">
+
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+      <div class="md-header__source">
+        <a href="https://github.com/ordinis/ordinis-1" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ordinis-1
+  </div>
+</a>
+      </div>
+
+  </nav>
+
+
+
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+
+
+
+
+
+
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+
+
+
+
+
+  Home
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+    <li class="md-tabs__item">
+      <a href="../../project/" class="md-tabs__link">
+
+
+
+
+
+  Project
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="../" class="md-tabs__link">
+
+
+
+
+
+  Architecture
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+    <li class="md-tabs__item">
+      <a href="../../knowledge-base/" class="md-tabs__link">
+
+
+
+
+
+  Knowledge Base
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+    <li class="md-tabs__item">
+      <a href="../../guides/" class="md-tabs__link">
+
+
+
+
+
+  Guides
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+    <li class="md-tabs__item">
+      <a href="../../analysis/" class="md-tabs__link">
+
+
+
+
+
+  Analysis
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+    <li class="md-tabs__item">
+      <a href="../../testing/" class="md-tabs__link">
+
+
+
+
+
+  Testing
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+    <li class="md-tabs__item">
+      <a href="../../strategies/" class="md-tabs__link">
+
+
+
+
+
+  Strategies
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+    <li class="md-tabs__item">
+      <a href="../../session-exports/" class="md-tabs__link">
+
+
+
+
+
+  Session Exports
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+    <li class="md-tabs__item">
+      <a href="../../print_page/" class="md-tabs__link">
+
+
+
+
+
+  Complete Documentation (Print/PDF)
+
+      </a>
+    </li>
+
+
+
+    </ul>
+  </div>
+</nav>
+
+
+</header>
+
+    <div class="md-container" data-md-component="container">
+
+
+
+
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+
+
+
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+
+
+
+
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Ordinis Trading System Documentation" class="md-nav__button md-logo" aria-label="Ordinis Trading System Documentation" data-md-component="logo">
+
+
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Ordinis Trading System Documentation
+  </label>
+
+    <div class="md-nav__source">
+      <a href="https://github.com/ordinis/ordinis-1" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ordinis-1
+  </div>
+</a>
+    </div>
+
+  <ul class="md-nav__list" data-md-scrollfix>
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Home
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+
+
+
+
+
+    <a href="../../project/PROJECT_SCOPE/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Project
+
+
+
+  </span>
+
+
+
+
+        <span class="md-nav__icon md-icon"></span>
+
+    </a>
+
+
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+
+
+
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+
+
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Architecture
+
+
+
+  </span>
+
+
+
+            </a>
+
+
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+
+          </div>
+
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+
+
+    Architecture
+
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+
+
+
+
+
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_1" >
+
+
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="">
+
+
+
+  <span class="md-ellipsis">
+
+
+    System Overview
+
+
+
+  </span>
+
+
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+
+
+    System Overview
+
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../SIGNALCORE_SYSTEM/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    SignalCore System
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../EXECUTION_PATH/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Execution Path
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../SIMULATION_ENGINE/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Simulation Engine
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../MONITORING/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Monitoring
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+          </ul>
+        </nav>
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+
+
+
+
+
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_2" >
+
+
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="">
+
+
+
+  <span class="md-ellipsis">
+
+
+    AI Integration
+
+
+
+  </span>
+
+
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+
+
+    AI Integration
+
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../NVIDIA_INTEGRATION/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    NVIDIA Integration
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../NVIDIA_BLUEPRINT_INTEGRATION/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    NVIDIA Blueprint Integration
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../RAG_SYSTEM/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    RAG System
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../RAG_IMPLEMENTATION/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    RAG Implementation
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+          </ul>
+        </nav>
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+
+
+
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" checked>
+
+
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Tools & Connectors
+
+
+
+  </span>
+
+
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+
+
+    Tools & Connectors
+
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../MCP_TOOLS_EVALUATION/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    MCP Tools Evaluation
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../MCP_TOOLS_QUICK_START/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    MCP Quick Start
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--active">
+
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+
+
+
+
+
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Claude Connectors
+
+
+
+  </span>
+
+
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+
+      <a href="./" class="md-nav__link md-nav__link--active">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Claude Connectors
+
+
+
+  </span>
+
+
+
+      </a>
+
+
+
+
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+
+
+
+
+
+
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+
+        <li class="md-nav__item">
+  <a href="#executive-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Executive Summary
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#evaluation-framework" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Evaluation Framework
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Evaluation Framework">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#assessment-criteria" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Assessment Criteria
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Assessment Criteria">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#1-technical-compatibility" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        1. Technical Compatibility
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#2-functional-fit" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        2. Functional Fit
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#3-cost-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        3. Cost Analysis
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#4-integration-complexity" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        4. Integration Complexity
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#5-strategic-value" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        5. Strategic Value
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#connector-profiles" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Connector Profiles
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Connector Profiles">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#1-daloopa-financial-data-modeling" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        1. Daloopa - Financial Data &amp; Modeling
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="1. Daloopa - Financial Data &amp; Modeling">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Overview
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#technical-assessment" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Technical Assessment
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#functional-fit" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Functional Fit
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#use-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Use Cases
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#integration-complexity" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Integration Complexity
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#cost-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Cost Analysis
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#strategic-assessment" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Strategic Assessment
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#2-cryptocom-cryptocurrency-data" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        2. Crypto.com - Cryptocurrency Data
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="2. Crypto.com - Cryptocurrency Data">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#overview_1" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Overview
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#technical-assessment_1" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Technical Assessment
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#functional-fit_1" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Functional Fit
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#use-cases_1" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Use Cases
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#integration-complexity_1" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Integration Complexity
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#cost-analysis_1" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Cost Analysis
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#strategic-assessment_1" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Strategic Assessment
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#3-scholar-gateway-academic-research" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        3. Scholar Gateway - Academic Research
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="3. Scholar Gateway - Academic Research">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#overview_2" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Overview
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#technical-assessment_2" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Technical Assessment
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#functional-fit_2" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Functional Fit
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#use-cases_2" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Use Cases
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#integration-complexity_2" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Integration Complexity
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#cost-analysis_2" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Cost Analysis
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#strategic-assessment_2" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Strategic Assessment
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#4-mt-newswires-market-news" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        4. MT Newswires - Market News
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="4. MT Newswires - Market News">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#overview_3" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Overview
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#technical-assessment_3" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Technical Assessment
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#functional-fit_3" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Functional Fit
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#use-cases_3" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Use Cases
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#integration-complexity_3" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Integration Complexity
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#cost-analysis_3" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Cost Analysis
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#strategic-assessment_3" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Strategic Assessment
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#5-moodys-analytics-credit-risk-analytics" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        5. Moody's Analytics - Credit &amp; Risk Analytics
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="5. Moody&#39;s Analytics - Credit &amp; Risk Analytics">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#overview_4" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Overview
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#technical-assessment_4" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Technical Assessment
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#functional-fit_4" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Functional Fit
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#use-cases_4" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Use Cases
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#integration-complexity_4" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Integration Complexity
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#cost-analysis_4" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Cost Analysis
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#strategic-assessment_4" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Strategic Assessment
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#6-sp-global-aiera-events-transcripts" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        6. S&amp;P Global Aiera - Events &amp; Transcripts
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="6. S&amp;P Global Aiera - Events &amp; Transcripts">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#overview_5" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Overview
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#technical-assessment_5" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Technical Assessment
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#functional-fit_5" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Functional Fit
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#use-cases_5" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Use Cases
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#integration-complexity_5" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Integration Complexity
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#cost-analysis_5" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Cost Analysis
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#strategic-assessment_5" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Strategic Assessment
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#comparison-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Comparison Matrix
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#integration-recommendations" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Integration Recommendations
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Integration Recommendations">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#tier-1-high-priority-implement-first" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Tier 1: High Priority (Implement First)
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#tier-2-medium-priority-evaluate-in-phase-2-3" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Tier 2: Medium Priority (Evaluate in Phase 2-3)
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#tier-3-low-priority-deprioritize" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Tier 3: Low Priority (Deprioritize)
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#strategic-recommendations" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Strategic Recommendations
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Strategic Recommendations">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#short-term-next-3-months" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Short-Term (Next 3 Months)
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#medium-term-3-6-months" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Medium-Term (3-6 Months)
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#long-term-6-12-months" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Long-Term (6-12 Months)
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Next Steps
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Next Steps">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#immediate-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Immediate Actions
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#before-adding-any-connector" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Before Adding Any Connector
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#recommended-sequence-if-all-are-eventually-added" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Recommended Sequence (if all are eventually added)
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Conclusion
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#appendices" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Appendices
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Appendices">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#appendix-a-cost-vs-value-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Appendix A: Cost vs Value Matrix
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#appendix-b-integration-effort-estimates" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Appendix B: Integration Effort Estimates
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#appendix-c-alternative-data-sources-freecheaper" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Appendix C: Alternative Data Sources (Free/Cheaper)
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+    </ul>
+
+</nav>
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../CONNECTORS_QUICK_REFERENCE/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Connectors Reference
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../ADDITIONAL_PLUGINS_ANALYSIS/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Additional Plugins
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+          </ul>
+        </nav>
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../SYSTEM_CAPABILITIES_ASSESSMENT/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Capabilities
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../DEVELOPMENT_TODO/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Development TODO
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+          </ul>
+        </nav>
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+
+
+
+
+
+    <a href="../../knowledge-base/00_KB_INDEX/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Knowledge Base
+
+
+
+  </span>
+
+
+
+
+        <span class="md-nav__icon md-icon"></span>
+
+    </a>
+
+
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+
+
+
+
+
+    <a href="../../guides/CLI_USAGE/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Guides
+
+
+
+  </span>
+
+
+
+
+        <span class="md-nav__icon md-icon"></span>
+
+    </a>
+
+
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+
+
+
+
+
+    <a href="../../analysis/ANALYSIS_FRAMEWORK/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Analysis
+
+
+
+  </span>
+
+
+
+
+        <span class="md-nav__icon md-icon"></span>
+
+    </a>
+
+
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+
+
+
+
+
+    <a href="../../testing/PHASE_1_TESTING_SETUP/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Testing
+
+
+
+  </span>
+
+
+
+
+        <span class="md-nav__icon md-icon"></span>
+
+    </a>
+
+
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+
+
+
+
+
+    <a href="../../strategies/STRATEGY_TEMPLATE/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Strategies
+
+
+
+  </span>
+
+
+
+
+        <span class="md-nav__icon md-icon"></span>
+
+    </a>
+
+
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+
+
+
+
+
+    <a href="../../session-exports/SESSION_SUMMARY_KB_IMPLEMENTATION/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Session Exports
+
+
+
+  </span>
+
+
+
+
+        <span class="md-nav__icon md-icon"></span>
+
+    </a>
+
+
+
+    </li>
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../../print_page/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Complete Documentation (Print/PDF)
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+
+
+
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+
+
+
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+
+
+
+
+
+
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+
+        <li class="md-nav__item">
+  <a href="#executive-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Executive Summary
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#evaluation-framework" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Evaluation Framework
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Evaluation Framework">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#assessment-criteria" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Assessment Criteria
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Assessment Criteria">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#1-technical-compatibility" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        1. Technical Compatibility
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#2-functional-fit" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        2. Functional Fit
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#3-cost-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        3. Cost Analysis
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#4-integration-complexity" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        4. Integration Complexity
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#5-strategic-value" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        5. Strategic Value
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#connector-profiles" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Connector Profiles
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Connector Profiles">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#1-daloopa-financial-data-modeling" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        1. Daloopa - Financial Data &amp; Modeling
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="1. Daloopa - Financial Data &amp; Modeling">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Overview
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#technical-assessment" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Technical Assessment
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#functional-fit" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Functional Fit
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#use-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Use Cases
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#integration-complexity" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Integration Complexity
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#cost-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Cost Analysis
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#strategic-assessment" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Strategic Assessment
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#2-cryptocom-cryptocurrency-data" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        2. Crypto.com - Cryptocurrency Data
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="2. Crypto.com - Cryptocurrency Data">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#overview_1" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Overview
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#technical-assessment_1" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Technical Assessment
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#functional-fit_1" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Functional Fit
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#use-cases_1" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Use Cases
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#integration-complexity_1" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Integration Complexity
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#cost-analysis_1" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Cost Analysis
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#strategic-assessment_1" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Strategic Assessment
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#3-scholar-gateway-academic-research" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        3. Scholar Gateway - Academic Research
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="3. Scholar Gateway - Academic Research">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#overview_2" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Overview
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#technical-assessment_2" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Technical Assessment
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#functional-fit_2" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Functional Fit
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#use-cases_2" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Use Cases
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#integration-complexity_2" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Integration Complexity
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#cost-analysis_2" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Cost Analysis
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#strategic-assessment_2" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Strategic Assessment
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#4-mt-newswires-market-news" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        4. MT Newswires - Market News
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="4. MT Newswires - Market News">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#overview_3" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Overview
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#technical-assessment_3" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Technical Assessment
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#functional-fit_3" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Functional Fit
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#use-cases_3" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Use Cases
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#integration-complexity_3" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Integration Complexity
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#cost-analysis_3" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Cost Analysis
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#strategic-assessment_3" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Strategic Assessment
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#5-moodys-analytics-credit-risk-analytics" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        5. Moody's Analytics - Credit &amp; Risk Analytics
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="5. Moody&#39;s Analytics - Credit &amp; Risk Analytics">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#overview_4" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Overview
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#technical-assessment_4" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Technical Assessment
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#functional-fit_4" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Functional Fit
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#use-cases_4" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Use Cases
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#integration-complexity_4" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Integration Complexity
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#cost-analysis_4" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Cost Analysis
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#strategic-assessment_4" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Strategic Assessment
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#6-sp-global-aiera-events-transcripts" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        6. S&amp;P Global Aiera - Events &amp; Transcripts
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="6. S&amp;P Global Aiera - Events &amp; Transcripts">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#overview_5" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Overview
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#technical-assessment_5" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Technical Assessment
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#functional-fit_5" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Functional Fit
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#use-cases_5" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Use Cases
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#integration-complexity_5" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Integration Complexity
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#cost-analysis_5" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Cost Analysis
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#strategic-assessment_5" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Strategic Assessment
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#comparison-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Comparison Matrix
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#integration-recommendations" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Integration Recommendations
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Integration Recommendations">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#tier-1-high-priority-implement-first" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Tier 1: High Priority (Implement First)
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#tier-2-medium-priority-evaluate-in-phase-2-3" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Tier 2: Medium Priority (Evaluate in Phase 2-3)
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#tier-3-low-priority-deprioritize" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Tier 3: Low Priority (Deprioritize)
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#strategic-recommendations" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Strategic Recommendations
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Strategic Recommendations">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#short-term-next-3-months" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Short-Term (Next 3 Months)
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#medium-term-3-6-months" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Medium-Term (3-6 Months)
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#long-term-6-12-months" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Long-Term (6-12 Months)
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Next Steps
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Next Steps">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#immediate-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Immediate Actions
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#before-adding-any-connector" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Before Adding Any Connector
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#recommended-sequence-if-all-are-eventually-added" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Recommended Sequence (if all are eventually added)
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Conclusion
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#appendices" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Appendices
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Appendices">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#appendix-a-cost-vs-value-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Appendix A: Cost vs Value Matrix
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#appendix-b-integration-effort-estimates" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Appendix B: Integration Effort Estimates
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#appendix-c-alternative-data-sources-freecheaper" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Appendix C: Alternative Data Sources (Free/Cheaper)
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+    </ul>
+
+</nav>
+                  </div>
+                </div>
+              </div>
+
+
+
+            <div class="md-content" data-md-component="content">
+
+
+
+
+
+
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+
+
+
+
+    <li class="md-path__item">
+      <a href="../.." class="md-path__link">
+
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <li class="md-path__item">
+        <a href="../SIGNALCORE_SYSTEM/" class="md-path__link">
+
+  <span class="md-ellipsis">
+    Architecture
+  </span>
+
+        </a>
+      </li>
+
+
+
+
+
+
+
+
+
+
+
+
+      <li class="md-path__item">
+        <a href="../MCP_TOOLS_EVALUATION/" class="md-path__link">
+
+  <span class="md-ellipsis">
+    Tools & Connectors
+  </span>
+
+        </a>
+      </li>
+
+
+
+
+    </ol>
+  </nav>
+
+
+              <article class="md-content__inner md-typeset">
+
+
+
+
+
+
+
+
+<h1 id="claude-connectors-mcp-servers-integration-evaluation">Claude Connectors (MCP Servers) - Integration Evaluation<a class="headerlink" href="#claude-connectors-mcp-servers-integration-evaluation" title="Permanent link">&para;</a></h1>
+<p><strong>Date:</strong> 2025-01-28
+<strong>Project:</strong> Intelligent Investor Trading System
+<strong>Status:</strong> Research &amp; Evaluation Phase</p>
+<hr />
+<h2 id="executive-summary">Executive Summary<a class="headerlink" href="#executive-summary" title="Permanent link">&para;</a></h2>
+<p>This document evaluates 6 Claude Connectors (MCP servers) for potential integration into the Intelligent Investor trading system ecosystem. Each connector is assessed against technical, functional, and strategic criteria to determine integration feasibility and priority.</p>
+<hr />
+<h2 id="evaluation-framework">Evaluation Framework<a class="headerlink" href="#evaluation-framework" title="Permanent link">&para;</a></h2>
+<h3 id="assessment-criteria">Assessment Criteria<a class="headerlink" href="#assessment-criteria" title="Permanent link">&para;</a></h3>
+<h4 id="1-technical-compatibility">1. Technical Compatibility<a class="headerlink" href="#1-technical-compatibility" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>MCP Protocol Compliance</strong> - Standard MCP server implementation</li>
+<li><strong>Authentication Methods</strong> - API key, OAuth, mutual TLS</li>
+<li><strong>Rate Limiting</strong> - Requests per second/minute/day</li>
+<li><strong>Data Formats</strong> - JSON, CSV, Parquet, streaming</li>
+<li><strong>API Stability</strong> - Version management, breaking changes</li>
+<li><strong>Error Handling</strong> - Retry logic, graceful degradation</li>
+</ul>
+<h4 id="2-functional-fit">2. Functional Fit<a class="headerlink" href="#2-functional-fit" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Domain Mapping</strong> - Which KB domains (1-9) does this serve?</li>
+<li><strong>Engine Integration</strong> - Cortex, SignalCore, RiskGuard, ProofBench, FlowRoute</li>
+<li><strong>Data Latency</strong> - Real-time, near-real-time, batch, historical</li>
+<li><strong>Coverage</strong> - Equities, options, futures, crypto, forex, commodities</li>
+<li><strong>Uniqueness</strong> - Does it provide data unavailable elsewhere?</li>
+</ul>
+<h4 id="3-cost-analysis">3. Cost Analysis<a class="headerlink" href="#3-cost-analysis" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Pricing Model</strong> - Per-call, subscription, tiered, enterprise</li>
+<li><strong>Cost Estimate</strong> - Low (&lt;<span class="arithmatex">\(100/mo), Medium (\)</span>100-1K/mo), High (&gt;$1K/mo)</li>
+<li><strong>Free Tier</strong> - Availability and limits</li>
+<li><strong>ROI Potential</strong> - Does unique data justify cost?</li>
+</ul>
+<h4 id="4-integration-complexity">4. Integration Complexity<a class="headerlink" href="#4-integration-complexity" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Setup Effort</strong> - Hours to get working (Low &lt;4h, Med 4-16h, High &gt;16h)</li>
+<li><strong>Maintenance</strong> - Ongoing effort required</li>
+<li><strong>Dependencies</strong> - External libraries, services</li>
+<li><strong>Documentation Quality</strong> - Excellent, Good, Fair, Poor</li>
+</ul>
+<h4 id="5-strategic-value">5. Strategic Value<a class="headerlink" href="#5-strategic-value" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Priority</strong> - Critical, High, Medium, Low</li>
+<li><strong>Use Cases</strong> - Specific trading workflows enabled</li>
+<li><strong>Competitive Advantage</strong> - Unique capabilities vs alternatives</li>
+<li><strong>Scalability</strong> - Supports growth to 1000+ requests/day</li>
+</ul>
+<hr />
+<h2 id="connector-profiles">Connector Profiles<a class="headerlink" href="#connector-profiles" title="Permanent link">&para;</a></h2>
+<h3 id="1-daloopa-financial-data-modeling">1. Daloopa - Financial Data &amp; Modeling<a class="headerlink" href="#1-daloopa-financial-data-modeling" title="Permanent link">&para;</a></h3>
+<p><strong>Provider:</strong> Daloopa (Financial data technology company)</p>
+<h4 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h4>
+<p>Daloopa provides standardized financial statement data, models, and transcripts for public companies. Known for high-quality fundamental data extraction and modeling tools.</p>
+<h4 id="technical-assessment">Technical Assessment<a class="headerlink" href="#technical-assessment" title="Permanent link">&para;</a></h4>
+<p><strong>MCP Protocol:</strong>  Standard compliance expected
+<strong>Authentication:</strong> API Key (likely)
+<strong>Rate Limits:</strong> Unknown - need to verify
+<strong>Data Format:</strong> JSON, likely structured financial statements
+<strong>Latency:</strong> Batch/Historical (updated quarterly/annually)</p>
+<h4 id="functional-fit">Functional Fit<a class="headerlink" href="#functional-fit" title="Permanent link">&para;</a></h4>
+<p><strong>Domains Served:</strong>
+- <strong>Domain 4 (Fundamental &amp; Macro)</strong> - PRIMARY
+- Domain 8 (Strategy &amp; Backtesting) - Secondary</p>
+<p><strong>Engine Integration:</strong>
+- <strong>Cortex:</strong> Financial statement analysis, company research
+- <strong>SignalCore:</strong> Fundamental signals (value, quality factors)
+- <strong>ProofBench:</strong> Historical fundamental data for backtests</p>
+<p><strong>Data Coverage:</strong>
+- Public equities (US, likely international)
+- Financial statements (10-K, 10-Q)
+- Earnings transcripts
+- Financial models (DCF, comps)</p>
+<p><strong>Unique Value:</strong>
+- Standardized financial data (vs raw EDGAR)
+- Pre-built financial models
+- Transcript search and analysis
+- Higher quality than free alternatives</p>
+<h4 id="use-cases">Use Cases<a class="headerlink" href="#use-cases" title="Permanent link">&para;</a></h4>
+<ol>
+<li>
+<p><strong>Fundamental Screening:</strong>
+   <div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>/research-ticker AAPL
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>→ Cortex queries Daloopa for:
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>   - Latest 10-Q financials
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>   - YoY revenue/earnings growth
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>   - Margin trends
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>   - Transcript key points
+</span></code></pre></div></p>
+</li>
+<li>
+<p><strong>Factor Strategy Development:</strong>
+   <div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>SignalCore:
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>- Pull P/E, P/B, ROE, debt/equity for universe
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>- Generate value/quality scores
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>- Backtest on historical financials
+</span></code></pre></div></p>
+</li>
+<li>
+<p><strong>Earnings Analysis:</strong>
+   <div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>/analyze-earnings AAPL
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>→ Extract key metrics from latest transcript
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>→ Compare to estimates
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>→ Sentiment analysis on management commentary
+</span></code></pre></div></p>
+</li>
+</ol>
+<h4 id="integration-complexity">Integration Complexity<a class="headerlink" href="#integration-complexity" title="Permanent link">&para;</a></h4>
+<p><strong>Setup Effort:</strong>  Medium (8-12 hours)
+- API integration straightforward
+- Data normalization needed
+- Schema mapping to internal format</p>
+<p><strong>Maintenance:</strong>  Low
+- Quarterly data updates automatic
+- Stable API expected</p>
+<p><strong>Dependencies:</strong>
+- Financial data schemas
+- Transcript NLP (if doing sentiment)</p>
+<p><strong>Documentation:</strong> Expected Good (standard for fintech APIs)</p>
+<h4 id="cost-analysis">Cost Analysis<a class="headerlink" href="#cost-analysis" title="Permanent link">&para;</a></h4>
+<p><strong>Pricing Model:</strong> Likely subscription-based
+<strong>Estimated Cost:</strong>  Medium ($500-2,000/month)
+- Professional/institutional pricing
+- Depends on symbols covered and API access level</p>
+<p><strong>Free Tier:</strong> Unlikely (institutional product)</p>
+<p><strong>ROI Assessment:</strong>
+- <strong>Value:</strong> HIGH for fundamental strategies
+- <strong>Alternatives:</strong> Free (EDGAR), Paid (FactSet, Bloomberg - much more expensive)
+- <strong>Justification:</strong> If running fundamental strategies, worth the cost</p>
+<h4 id="strategic-assessment">Strategic Assessment<a class="headerlink" href="#strategic-assessment" title="Permanent link">&para;</a></h4>
+<p><strong>Priority:</strong>  <strong>MEDIUM-HIGH</strong></p>
+<p><strong>Strengths:</strong>
+-  High-quality fundamental data
+-  Standardized format (saves engineering time)
+-  Transcripts add unique value
+-  Supports Domain 4 (currently underserved)</p>
+<p><strong>Weaknesses:</strong>
+-  Cost may be high for retail/small institutional
+-  Batch data (not real-time)
+-  Limited to fundamentals (narrow scope)</p>
+<p><strong>Recommendation:</strong>
+- <strong>Phase 2</strong> implementation (after core data sources)
+- <strong>Conditional:</strong> IF implementing fundamental strategies
+- <strong>Alternative:</strong> Start with free EDGAR parsing, upgrade to Daloopa if needed</p>
+<hr />
+<h3 id="2-cryptocom-cryptocurrency-data">2. Crypto.com - Cryptocurrency Data<a class="headerlink" href="#2-cryptocom-cryptocurrency-data" title="Permanent link">&para;</a></h3>
+<p><strong>Provider:</strong> Crypto.com Exchange</p>
+<h4 id="overview_1">Overview<a class="headerlink" href="#overview_1" title="Permanent link">&para;</a></h4>
+<p>Crypto.com provides cryptocurrency market data, including spot prices, trading pairs, order books, and historical data for digital assets.</p>
+<h4 id="technical-assessment_1">Technical Assessment<a class="headerlink" href="#technical-assessment_1" title="Permanent link">&para;</a></h4>
+<p><strong>MCP Protocol:</strong>  Standard compliance expected
+<strong>Authentication:</strong> API Key
+<strong>Rate Limits:</strong> Likely generous for market data (100-1000 req/min)
+<strong>Data Format:</strong> JSON (REST), WebSocket (streaming)
+<strong>Latency:</strong> Real-time (WebSocket), Near-real-time (REST)</p>
+<h4 id="functional-fit_1">Functional Fit<a class="headerlink" href="#functional-fit_1" title="Permanent link">&para;</a></h4>
+<p><strong>Domains Served:</strong>
+- <strong>Domain 1 (Market Microstructure)</strong> - Order book, trades
+- <strong>Domain 3 (Volume &amp; Liquidity)</strong> - Volume, VWAP
+- Domain 8 (Backtesting) - Historical data</p>
+<p><strong>Engine Integration:</strong>
+- <strong>SignalCore:</strong> Crypto signals (momentum, mean reversion)
+- <strong>FlowRoute:</strong> Execution (if trading crypto)
+- <strong>ProofBench:</strong> Historical crypto backtests
+- <strong>RiskGuard:</strong> Crypto position limits</p>
+<p><strong>Data Coverage:</strong>
+- Major cryptocurrencies (BTC, ETH, etc.)
+- Trading pairs (USDT, USD, EUR)
+- Spot markets (futures likely limited)</p>
+<p><strong>Unique Value:</strong>
+- Direct exchange data (vs aggregators)
+- Order book depth
+- Low latency (if using WebSocket)</p>
+<h4 id="use-cases_1">Use Cases<a class="headerlink" href="#use-cases_1" title="Permanent link">&para;</a></h4>
+<ol>
+<li>
+<p><strong>Crypto Momentum Strategy:</strong>
+   <div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>SignalCore:
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>- Pull BTC/ETH 1-hour bars
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>- Generate momentum signals
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>- RiskGuard validates volatility limits
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>- FlowRoute executes (if enabled)
+</span></code></pre></div></p>
+</li>
+<li>
+<p><strong>Cross-Asset Correlation:</strong>
+   <div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>Cortex:
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>- Track BTC correlation with tech stocks
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>- Use as market sentiment indicator
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>- Risk-off signal when BTC declines sharply
+</span></code></pre></div></p>
+</li>
+<li>
+<p><strong>Arbitrage Detection (Advanced):</strong>
+   <div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>SignalCore:
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>- Compare Crypto.com prices to other exchanges
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>- Identify price discrepancies
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>- Alert on arbitrage opportunities
+</span></code></pre></div></p>
+</li>
+</ol>
+<h4 id="integration-complexity_1">Integration Complexity<a class="headerlink" href="#integration-complexity_1" title="Permanent link">&para;</a></h4>
+<p><strong>Setup Effort:</strong>  Low (4-8 hours)
+- Standard REST/WebSocket API
+- Well-documented (crypto exchanges prioritize this)
+- Similar to Polygon.io integration</p>
+<p><strong>Maintenance:</strong>  Low
+- Stable API
+- Crypto market 24/7 (no market hours complexity)</p>
+<p><strong>Dependencies:</strong>
+- WebSocket library (for streaming)
+- Crypto-specific data models</p>
+<p><strong>Documentation:</strong> Expected Excellent (crypto exchanges compete on APIs)</p>
+<h4 id="cost-analysis_1">Cost Analysis<a class="headerlink" href="#cost-analysis_1" title="Permanent link">&para;</a></h4>
+<p><strong>Pricing Model:</strong> Typically free for market data, paid for high-frequency
+<strong>Estimated Cost:</strong>  Low ($0-100/month)
+- Free tier likely sufficient for non-HFT use</p>
+<p><strong>Free Tier:</strong> Yes, likely generous</p>
+<p><strong>ROI Assessment:</strong>
+- <strong>Value:</strong> MEDIUM (only if trading crypto)
+- <strong>Alternatives:</strong> Free (CoinGecko, CryptoCompare), Paid (Kaiko, CoinAPI)
+- <strong>Justification:</strong> Only if crypto is in trading universe</p>
+<h4 id="strategic-assessment_1">Strategic Assessment<a class="headerlink" href="#strategic-assessment_1" title="Permanent link">&para;</a></h4>
+<p><strong>Priority:</strong>  <strong>LOW</strong> (for current scope)</p>
+<p><strong>Strengths:</strong>
+-  Free/low cost
+-  Real-time data
+-  Easy integration
+-  Direct exchange (not aggregated)</p>
+<p><strong>Weaknesses:</strong>
+-  Crypto not in current scope (equity/options focus)
+-  High volatility may complicate RiskGuard
+-  Regulatory uncertainty
+-  Limited cross-asset applicability</p>
+<p><strong>Recommendation:</strong>
+- <strong>Phase 3+</strong> or <strong>Never</strong> (unless strategy expands to crypto)
+- <strong>Conditional:</strong> Only if explicitly adding crypto to universe
+- <strong>Alternative:</strong> Use existing equity/options plugins, skip crypto for now</p>
+<hr />
+<h3 id="3-scholar-gateway-academic-research">3. Scholar Gateway - Academic Research<a class="headerlink" href="#3-scholar-gateway-academic-research" title="Permanent link">&para;</a></h3>
+<p><strong>Provider:</strong> Academic research aggregation service</p>
+<h4 id="overview_2">Overview<a class="headerlink" href="#overview_2" title="Permanent link">&para;</a></h4>
+<p>Scholar Gateway provides access to academic papers, research publications, and scholarly articles. Likely integrates with Google Scholar, JSTOR, arXiv, SSRN, etc.</p>
+<h4 id="technical-assessment_2">Technical Assessment<a class="headerlink" href="#technical-assessment_2" title="Permanent link">&para;</a></h4>
+<p><strong>MCP Protocol:</strong>  Standard compliance expected
+<strong>Authentication:</strong> API Key or institutional access
+<strong>Rate Limits:</strong> Moderate (academic APIs typically restrictive)
+<strong>Data Format:</strong> JSON (metadata), PDF (full-text)
+<strong>Latency:</strong> Batch/On-demand (search-based)</p>
+<h4 id="functional-fit_2">Functional Fit<a class="headerlink" href="#functional-fit_2" title="Permanent link">&para;</a></h4>
+<p><strong>Domains Served:</strong>
+- <strong>ALL DOMAINS (Meta)</strong> - Research supports all 9 domains
+- Particularly valuable for Domain 8 (validating backtest methodologies)</p>
+<p><strong>Engine Integration:</strong>
+- <strong>Cortex:</strong> Literature search, citation retrieval
+- <strong>Knowledge Engine:</strong> Populate KB with academic references
+- <strong>ProofBench:</strong> Validate methodologies against academic standards</p>
+<p><strong>Data Coverage:</strong>
+- Finance journals (JoF, RFS, JFE, etc.)
+- Quantitative finance (arXiv quant-fin)
+- Trading methodologies
+- Risk management papers</p>
+<p><strong>Unique Value:</strong>
+- Academic rigor
+- Latest research (pre-publication on SSRN/arXiv)
+- Citation graphs
+- Full-text search</p>
+<h4 id="use-cases_2">Use Cases<a class="headerlink" href="#use-cases_2" title="Permanent link">&para;</a></h4>
+<ol>
+<li>
+<p><strong>Strategy Validation:</strong>
+   <div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>/validate-strategy ma_crossover
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>→ Cortex searches Scholar Gateway for:
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>   - &quot;moving average crossover&quot;
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>   - &quot;technical analysis efficacy&quot;
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>   - Cites academic support or skepticism
+</span></code></pre></div></p>
+</li>
+<li>
+<p><strong>Knowledge Base Expansion:</strong>
+   <div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>/kb-update-academic
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>→ Scholar Gateway finds papers published since last check
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>→ Auto-add to KB publications if relevant
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>→ Tag with domains automatically
+</span></code></pre></div></p>
+</li>
+<li>
+<p><strong>Research Queries:</strong>
+   <div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>/academic-search &quot;purged k-fold cross-validation finance&quot;
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>→ Returns López de Prado papers
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>→ Related citations
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>→ Links to implementations
+</span></code></pre></div></p>
+</li>
+<li>
+<p><strong>Citation Validation:</strong>
+   <div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>During KB contribution:
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>- Verify publication metadata
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>- Find DOIs automatically
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>- Check citation count for credibility
+</span></code></pre></div></p>
+</li>
+</ol>
+<h4 id="integration-complexity_2">Integration Complexity<a class="headerlink" href="#integration-complexity_2" title="Permanent link">&para;</a></h4>
+<p><strong>Setup Effort:</strong>  Medium (6-10 hours)
+- Multiple potential backends (Scholar, SSRN, arXiv)
+- PDF parsing if needed
+- Metadata normalization</p>
+<p><strong>Maintenance:</strong>  Low
+- Academic APIs stable
+- Infrequent updates needed</p>
+<p><strong>Dependencies:</strong>
+- PDF parsing library (PyPDF2, pdfplumber)
+- Citation formatting
+- Institutional access (for paywalled content)</p>
+<p><strong>Documentation:</strong> Variable (depends on specific APIs used)</p>
+<h4 id="cost-analysis_2">Cost Analysis<a class="headerlink" href="#cost-analysis_2" title="Permanent link">&para;</a></h4>
+<p><strong>Pricing Model:</strong> Likely free for metadata, paid for full-text
+<strong>Estimated Cost:</strong>  Low ($0-50/month)
+- Google Scholar API free (if available)
+- SSRN/arXiv free
+- JSTOR institutional access (if needed)</p>
+<p><strong>Free Tier:</strong> Significant (most academic data is open access)</p>
+<p><strong>ROI Assessment:</strong>
+- <strong>Value:</strong> HIGH for knowledge base quality
+- <strong>Alternatives:</strong> Manual search (free but time-consuming)
+- <strong>Justification:</strong> Enhances KB credibility and completeness</p>
+<h4 id="strategic-assessment_2">Strategic Assessment<a class="headerlink" href="#strategic-assessment_2" title="Permanent link">&para;</a></h4>
+<p><strong>Priority:</strong>  <strong>MEDIUM</strong></p>
+<p><strong>Strengths:</strong>
+-  Enhances Knowledge Base quality
+-  Academic rigor supports credibility
+-  Low/no cost
+-  Unique value (automated academic search)</p>
+<p><strong>Weaknesses:</strong>
+-  Not directly trading-related (meta-tool)
+-  Doesn't generate signals or data
+-  May require institutional access for full value</p>
+<p><strong>Recommendation:</strong>
+- <strong>Phase 2</strong> implementation (after core trading functionality)
+- <strong>Use Case:</strong> Primarily for Knowledge Base maintenance
+- <strong>Integration:</strong> As <code>/academic-search</code> skill, KB auto-update
+- <strong>Priority:</strong> Lower than trading-critical connectors, but valuable for long-term quality</p>
+<hr />
+<h3 id="4-mt-newswires-market-news">4. MT Newswires - Market News<a class="headerlink" href="#4-mt-newswires-market-news" title="Permanent link">&para;</a></h3>
+<p><strong>Provider:</strong> MT Newswires (Market news and intelligence service)</p>
+<h4 id="overview_3">Overview<a class="headerlink" href="#overview_3" title="Permanent link">&para;</a></h4>
+<p>MT Newswires provides real-time financial news, market-moving events, earnings announcements, and corporate actions. Institutional-grade news service.</p>
+<h4 id="technical-assessment_3">Technical Assessment<a class="headerlink" href="#technical-assessment_3" title="Permanent link">&para;</a></h4>
+<p><strong>MCP Protocol:</strong>  Standard compliance expected
+<strong>Authentication:</strong> API Key (institutional)
+<strong>Rate Limits:</strong> Moderate (news flow dependent)
+<strong>Data Format:</strong> JSON, structured news articles
+<strong>Latency:</strong> Real-time (seconds from event)</p>
+<h4 id="functional-fit_3">Functional Fit<a class="headerlink" href="#functional-fit_3" title="Permanent link">&para;</a></h4>
+<p><strong>Domains Served:</strong>
+- <strong>Domain 5 (News &amp; Sentiment)</strong> - PRIMARY
+- Domain 4 (Fundamental &amp; Macro) - Secondary (earnings, events)</p>
+<p><strong>Engine Integration:</strong>
+- <strong>Cortex:</strong> News analysis, sentiment extraction
+- <strong>SignalCore:</strong> Event-driven signals (earnings, M&amp;A)
+- <strong>RiskGuard:</strong> News-based trading halts (avoid trading during major news)
+- <strong>NewsPlugin:</strong> Direct integration</p>
+<p><strong>Data Coverage:</strong>
+- US equities primarily
+- Corporate actions (dividends, splits, buybacks)
+- Earnings announcements
+- M&amp;A, FDA approvals, etc.</p>
+<p><strong>Unique Value:</strong>
+- Institutional speed (faster than free sources)
+- Structured data (easier to parse than raw headlines)
+- Pre-categorized events
+- Sentiment scores (if provided)</p>
+<h4 id="use-cases_3">Use Cases<a class="headerlink" href="#use-cases_3" title="Permanent link">&para;</a></h4>
+<ol>
+<li>
+<p><strong>Event-Driven Trading:</strong>
+   <div class="language-text highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>MT Newswires pushes: &quot;AAPL beats earnings estimates&quot;
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>→ SignalCore generates LONG signal (earnings beat factor)
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>→ RiskGuard checks position limits
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>→ FlowRoute executes if approved
+</span></code></pre></div></p>
+</li>
+<li>
+<p><strong>Earnings Blackout:</strong>
+   <div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>MT Newswires: &quot;AAPL earnings in 2 days&quot;
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>→ RiskGuard adds AAPL to blacklist
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>→ Prevents new trades until after earnings
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>→ Reduces earnings surprise risk
+</span></code></pre></div></p>
+</li>
+<li>
+<p><strong>News Sentiment Signal:</strong>
+   <div class="language-text highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>SignalCore:
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>- Pull last 24h of news for SPY holdings
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>- Calculate aggregate sentiment score
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>- Adjust position sizes based on sentiment
+</span></code></pre></div></p>
+</li>
+<li>
+<p><strong>Research Enhancement:</strong>
+   <div class="language-text highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>/research-ticker TSLA
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>→ Pull last 7 days of news from MT Newswires
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>→ Cortex summarizes key events
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>→ User sees news-aware analysis
+</span></code></pre></div></p>
+</li>
+</ol>
+<h4 id="integration-complexity_3">Integration Complexity<a class="headerlink" href="#integration-complexity_3" title="Permanent link">&para;</a></h4>
+<p><strong>Setup Effort:</strong>  Medium (8-12 hours)
+- Real-time streaming (WebSocket or webhooks)
+- Event classification
+- Sentiment analysis (if not provided)
+- Alert routing</p>
+<p><strong>Maintenance:</strong>  Medium
+- Monitor feed uptime
+- Handle schema changes
+- Filter noise (irrelevant news)</p>
+<p><strong>Dependencies:</strong>
+- NLP library (if doing custom sentiment)
+- Event taxonomy
+- Real-time processing pipeline</p>
+<p><strong>Documentation:</strong> Expected Good (institutional service)</p>
+<h4 id="cost-analysis_3">Cost Analysis<a class="headerlink" href="#cost-analysis_3" title="Permanent link">&para;</a></h4>
+<p><strong>Pricing Model:</strong> Subscription (institutional pricing)
+<strong>Estimated Cost:</strong>  High ($1,000-5,000/month)
+- Enterprise pricing typical for news services
+- May have volume tiers</p>
+<p><strong>Free Tier:</strong> Unlikely (institutional product)</p>
+<p><strong>ROI Assessment:</strong>
+- <strong>Value:</strong> HIGH if event-driven trading is core strategy
+- <strong>Alternatives:</strong> Free (Google News, Yahoo Finance), Paid (Bloomberg, Refinitiv - even more expensive)
+- <strong>Justification:</strong> Only if news is PRIMARY alpha source</p>
+<h4 id="strategic-assessment_3">Strategic Assessment<a class="headerlink" href="#strategic-assessment_3" title="Permanent link">&para;</a></h4>
+<p><strong>Priority:</strong>  <strong>MEDIUM</strong> (conditional)</p>
+<p><strong>Strengths:</strong>
+-  Real-time (critical for event-driven)
+-  Institutional quality
+-  Structured data (easier to parse)
+-  Supports Domain 5 (currently underserved)</p>
+<p><strong>Weaknesses:</strong>
+-  High cost
+-  Requires event-driven infrastructure
+-  Diminishing returns if not using news as primary alpha
+-  NLP complexity for sentiment extraction</p>
+<p><strong>Recommendation:</strong>
+- <strong>Phase 2-3</strong> (after core strategies proven)
+- <strong>Conditional:</strong> IF implementing event-driven or sentiment strategies
+- <strong>Alternative:</strong> Start with free news (NewsAPI, RSS), upgrade if alpha is proven
+- <strong>Pilot:</strong> Test with trial period before committing</p>
+<hr />
+<h3 id="5-moodys-analytics-credit-risk-analytics">5. Moody's Analytics - Credit &amp; Risk Analytics<a class="headerlink" href="#5-moodys-analytics-credit-risk-analytics" title="Permanent link">&para;</a></h3>
+<p><strong>Provider:</strong> Moody's Corporation (credit rating and risk analysis)</p>
+<h4 id="overview_4">Overview<a class="headerlink" href="#overview_4" title="Permanent link">&para;</a></h4>
+<p>Moody's Analytics provides credit ratings, default probabilities, risk models, and economic data. Enterprise-grade risk analytics platform.</p>
+<h4 id="technical-assessment_4">Technical Assessment<a class="headerlink" href="#technical-assessment_4" title="Permanent link">&para;</a></h4>
+<p><strong>MCP Protocol:</strong>  Standard compliance expected
+<strong>Authentication:</strong> API Key + OAuth (enterprise)
+<strong>Rate Limits:</strong> Conservative (enterprise APIs are rate-limited)
+<strong>Data Format:</strong> JSON, XML (legacy)
+<strong>Latency:</strong> Batch/Daily updates (credit ratings don't change intraday)</p>
+<h4 id="functional-fit_4">Functional Fit<a class="headerlink" href="#functional-fit_4" title="Permanent link">&para;</a></h4>
+<p><strong>Domains Served:</strong>
+- <strong>Domain 7 (Risk Management)</strong> - PRIMARY
+- Domain 4 (Fundamental &amp; Macro) - Secondary</p>
+<p><strong>Engine Integration:</strong>
+- <strong>RiskGuard:</strong> Credit risk limits, exposure management
+- <strong>SignalCore:</strong> Credit-based signals (avoid deteriorating credits)
+- <strong>Cortex:</strong> Economic scenario analysis</p>
+<p><strong>Data Coverage:</strong>
+- Corporate credit ratings (Aa, A, Baa, etc.)
+- Default probabilities (PD, expected loss)
+- Sovereign risk
+- Economic forecasts
+- Industry risk metrics</p>
+<p><strong>Unique Value:</strong>
+- Authoritative credit ratings (Moody's is one of the Big 3)
+- Forward-looking risk metrics
+- Economic scenarios for stress testing</p>
+<h4 id="use-cases_4">Use Cases<a class="headerlink" href="#use-cases_4" title="Permanent link">&para;</a></h4>
+<ol>
+<li>
+<p><strong>Credit Risk Filtering:</strong>
+   <div class="language-text highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>RiskGuard Rule RC001:
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>- &quot;Do not trade bonds/preferreds rated below BBB-&quot;
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>- Query Moody&#39;s API for credit rating
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>- Reject signal if credit too low
+</span></code></pre></div></p>
+</li>
+<li>
+<p><strong>Sector Risk Assessment:</strong>
+   <div class="language-text highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>/risk-report
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>→ Pull Moody&#39;s sector risk scores
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>→ Identify sectors with rising default risk
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>→ Reduce exposure to risky sectors
+</span></code></pre></div></p>
+</li>
+<li>
+<p><strong>Stress Testing:</strong>
+   <div class="language-text highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>ProofBench:
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>- Load Moody&#39;s recession scenario
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>- Apply default probabilities to portfolio
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>- Estimate portfolio loss in downturn
+</span></code></pre></div></p>
+</li>
+<li>
+<p><strong>Fixed Income Signals (Advanced):</strong>
+   <div class="language-text highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>SignalCore:
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>- Track credit rating changes
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>- SELL signal if downgrade announced
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>- BUY signal if upgrade announced (spread tightening)
+</span></code></pre></div></p>
+</li>
+</ol>
+<h4 id="integration-complexity_4">Integration Complexity<a class="headerlink" href="#integration-complexity_4" title="Permanent link">&para;</a></h4>
+<p><strong>Setup Effort:</strong>  High (16-24 hours)
+- Complex enterprise API
+- Extensive data models
+- Requires domain expertise (credit analysis)
+- Integration with risk rules</p>
+<p><strong>Maintenance:</strong>  Medium
+- Daily updates
+- Model version changes
+- Regulatory changes impact data</p>
+<p><strong>Dependencies:</strong>
+- Credit risk knowledge
+- Fixed income pricing (if trading bonds)
+- Economic scenario modeling</p>
+<p><strong>Documentation:</strong> Expected Excellent (Moody's has strong documentation)</p>
+<h4 id="cost-analysis_4">Cost Analysis<a class="headerlink" href="#cost-analysis_4" title="Permanent link">&para;</a></h4>
+<p><strong>Pricing Model:</strong> Enterprise subscription (very expensive)
+<strong>Estimated Cost:</strong>  Very High ($10,000-50,000+/month)
+- Enterprise pricing, likely minimum commitments
+- Depends on modules subscribed</p>
+<p><strong>Free Tier:</strong> None (institutional product)</p>
+<p><strong>ROI Assessment:</strong>
+- <strong>Value:</strong> VERY HIGH for fixed income, credit portfolios
+- <strong>Alternatives:</strong> Free (public ratings from Moody's/S&amp;P websites - delayed), Paid (Moody's is already top-tier)
+- <strong>Justification:</strong> <strong>ONLY</strong> if trading credit instruments or managing large portfolios</p>
+<h4 id="strategic-assessment_4">Strategic Assessment<a class="headerlink" href="#strategic-assessment_4" title="Permanent link">&para;</a></h4>
+<p><strong>Priority:</strong>  <strong>LOW</strong> (for current scope)</p>
+<p><strong>Strengths:</strong>
+-  Best-in-class credit analytics
+-  Authoritative data
+-  Comprehensive risk models
+-  Economic scenarios valuable for stress testing</p>
+<p><strong>Weaknesses:</strong>
+-  <strong>VERY EXPENSIVE</strong> (prohibitive for most users)
+-  <strong>NOT RELEVANT</strong> if only trading equities/options (no credit risk)
+-  Overkill for retail/small institutional
+-  Complex integration</p>
+<p><strong>Recommendation:</strong>
+- <strong>Phase 4+</strong> or <strong>Never</strong> (unless strategy significantly expands)
+- <strong>Conditional:</strong> ONLY if:
+  - Trading corporate bonds or preferreds
+  - Managing &gt;$10M+ portfolio
+  - Institutional client requiring credit risk management
+- <strong>Alternative:</strong> Use free credit ratings from public sources, skip Moody's Analytics</p>
+<hr />
+<h3 id="6-sp-global-aiera-events-transcripts">6. S&amp;P Global Aiera - Events &amp; Transcripts<a class="headerlink" href="#6-sp-global-aiera-events-transcripts" title="Permanent link">&para;</a></h3>
+<p><strong>Provider:</strong> S&amp;P Global (via Aiera acquisition)</p>
+<h4 id="overview_5">Overview<a class="headerlink" href="#overview_5" title="Permanent link">&para;</a></h4>
+<p>Aiera (acquired by S&amp;P Global) provides AI-powered event detection, earnings call transcripts, and audio intelligence for financial markets. Focuses on extracting insights from corporate events and communications.</p>
+<h4 id="technical-assessment_5">Technical Assessment<a class="headerlink" href="#technical-assessment_5" title="Permanent link">&para;</a></h4>
+<p><strong>MCP Protocol:</strong>  Standard compliance expected
+<strong>Authentication:</strong> API Key (S&amp;P Global credentials)
+<strong>Rate Limits:</strong> Moderate (typical for S&amp;P APIs)
+<strong>Data Format:</strong> JSON (events), Audio (optional), Text (transcripts)
+<strong>Latency:</strong> Real-time event detection, Near-real-time transcripts</p>
+<h4 id="functional-fit_5">Functional Fit<a class="headerlink" href="#functional-fit_5" title="Permanent link">&para;</a></h4>
+<p><strong>Domains Served:</strong>
+- <strong>Domain 5 (News &amp; Sentiment)</strong> - PRIMARY
+- Domain 4 (Fundamental &amp; Macro) - Secondary (earnings analysis)</p>
+<p><strong>Engine Integration:</strong>
+- <strong>Cortex:</strong> Transcript analysis, event summarization
+- <strong>SignalCore:</strong> Sentiment-based signals from management tone
+- <strong>NewsPlugin:</strong> Event alerts</p>
+<p><strong>Data Coverage:</strong>
+- Earnings calls (audio + transcripts)
+- Corporate events (investor days, product launches)
+- Executive interviews
+- Conference presentations
+- Sentiment scoring</p>
+<p><strong>Unique Value:</strong>
+- <strong>Audio analysis</strong> (tone, sentiment from voice)
+- AI-extracted key points (saves manual reading)
+- Event detection (alerts on important moments)
+- S&amp;P Global integration (complements other S&amp;P data)</p>
+<h4 id="use-cases_5">Use Cases<a class="headerlink" href="#use-cases_5" title="Permanent link">&para;</a></h4>
+<ol>
+<li>
+<p><strong>Earnings Call Analysis:</strong>
+   <div class="language-text highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>AAPL announces earnings
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>→ Aiera auto-transcribes call in real-time
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>→ AI extracts key points:
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>   - &quot;Strong iPhone sales in China&quot;
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>   - &quot;Services revenue exceeded expectations&quot;
+</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>   - CFO tone: Confident
+</span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>→ Cortex generates summary for /research-ticker
+</span></code></pre></div></p>
+</li>
+<li>
+<p><strong>Management Sentiment Signal:</strong>
+   <div class="language-text highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>SignalCore:
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>- Pull last 4 quarters of earnings call sentiment
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>- Track sentiment trend
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>- SELL signal if sentiment deteriorating
+</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>- BUY signal if sentiment improving + fundamentals strong
+</span></code></pre></div></p>
+</li>
+<li>
+<p><strong>Event-Driven Alerts:</strong>
+   <div class="language-text highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>Aiera detects: &quot;FDA approval announcement on call&quot;
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>→ Alert sent to user
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>→ SignalCore generates signal if relevant
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>→ Faster than waiting for news wire
+</span></code></pre></div></p>
+</li>
+<li>
+<p><strong>Transcript Search:</strong>
+   <div class="language-text highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>/search-transcripts &quot;supply chain challenges&quot;
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>→ Find all companies discussing supply chain issues
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>→ Identify sector-wide trends
+</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>→ Adjust risk for affected sectors
+</span></code></pre></div></p>
+</li>
+</ol>
+<h4 id="integration-complexity_5">Integration Complexity<a class="headerlink" href="#integration-complexity_5" title="Permanent link">&para;</a></h4>
+<p><strong>Setup Effort:</strong>  Medium (10-14 hours)
+- Transcript ingestion
+- Event classification
+- Sentiment analysis (if not provided)
+- Audio processing (if using)</p>
+<p><strong>Maintenance:</strong>  Medium
+- Monitor event feed
+- Update event taxonomy
+- Validate sentiment accuracy</p>
+<p><strong>Dependencies:</strong>
+- NLP library (for custom analysis)
+- Audio processing (if using audio features)
+- Event taxonomy</p>
+<p><strong>Documentation:</strong> Expected Good (S&amp;P Global has strong docs)</p>
+<h4 id="cost-analysis_5">Cost Analysis<a class="headerlink" href="#cost-analysis_5" title="Permanent link">&para;</a></h4>
+<p><strong>Pricing Model:</strong> Subscription (S&amp;P Global pricing)
+<strong>Estimated Cost:</strong>  High ($2,000-10,000/month)
+- S&amp;P Global pricing is institutional-tier
+- Depends on coverage and features</p>
+<p><strong>Free Tier:</strong> Unlikely (S&amp;P Global product)</p>
+<p><strong>ROI Assessment:</strong>
+- <strong>Value:</strong> HIGH for fundamental/sentiment strategies
+- <strong>Alternatives:</strong> Free (manually read transcripts on company IR sites), Paid (Sentieo, AlphaSense - similar pricing)
+- <strong>Justification:</strong> If sentiment is core alpha source, high value</p>
+<h4 id="strategic-assessment_5">Strategic Assessment<a class="headerlink" href="#strategic-assessment_5" title="Permanent link">&para;</a></h4>
+<p><strong>Priority:</strong>  <strong>MEDIUM</strong> (conditional)</p>
+<p><strong>Strengths:</strong>
+-  Unique audio analysis (tone, sentiment from voice)
+-  Real-time event detection
+-  AI-extracted insights (saves time)
+-  S&amp;P Global credibility and coverage</p>
+<p><strong>Weaknesses:</strong>
+-  High cost
+-  Requires NLP expertise to fully utilize
+-  Diminishing returns if not using sentiment as primary alpha
+-  Overlaps somewhat with MT Newswires</p>
+<p><strong>Recommendation:</strong>
+- <strong>Phase 3</strong> (after core strategies proven)
+- <strong>Conditional:</strong> IF implementing sentiment/fundamental strategies
+- <strong>Alternative:</strong> Start with free transcript reading, upgrade if proven valuable
+- <strong>Evaluation:</strong> Request trial/demo to assess AI quality before committing</p>
+<hr />
+<h2 id="comparison-matrix">Comparison Matrix<a class="headerlink" href="#comparison-matrix" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Connector</th>
+<th>Domain(s)</th>
+<th>Priority</th>
+<th>Cost</th>
+<th>Setup</th>
+<th>Unique Value</th>
+<th>Recommendation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Daloopa</strong></td>
+<td>4, 8</td>
+<td>Med-High</td>
+<td>$$</td>
+<td>Med</td>
+<td>Standardized fundamentals</td>
+<td>Phase 2, if fundamental strategies</td>
+</tr>
+<tr>
+<td><strong>Crypto.com</strong></td>
+<td>1, 3, 8</td>
+<td>Low</td>
+<td>$</td>
+<td>Low</td>
+<td>Real-time crypto</td>
+<td>Phase 3+, only if crypto in scope</td>
+</tr>
+<tr>
+<td><strong>Scholar Gateway</strong></td>
+<td>All (Meta)</td>
+<td>Medium</td>
+<td>$</td>
+<td>Med</td>
+<td>Academic rigor for KB</td>
+<td>Phase 2, KB quality enhancement</td>
+</tr>
+<tr>
+<td><strong>MT Newswires</strong></td>
+<td>5, 4</td>
+<td>Medium</td>
+<td>$$$</td>
+<td>Med</td>
+<td>Real-time institutional news</td>
+<td>Phase 2-3, if event-driven</td>
+</tr>
+<tr>
+<td><strong>Moody's Analytics</strong></td>
+<td>7, 4</td>
+<td>Low</td>
+<td>$$$$</td>
+<td>High</td>
+<td>Enterprise credit risk</td>
+<td>Phase 4+, only if fixed income</td>
+</tr>
+<tr>
+<td><strong>S&amp;P Aiera</strong></td>
+<td>5, 4</td>
+<td>Medium</td>
+<td>$$$</td>
+<td>Med</td>
+<td>Audio + AI event analysis</td>
+<td>Phase 3, if sentiment strategies</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Cost Legend:</strong>
+- $ = &lt;$100/month
+- $$ = $100-1,000/month
+- $$$ = $1,000-10,000/month
+- $$$$ = &gt;$10,000/month</p>
+<p><strong>Priority Legend:</strong>
+-  High - Implement soon
+-  Medium - Evaluate and plan
+-  Low - Deprioritize or skip</p>
+<hr />
+<h2 id="integration-recommendations">Integration Recommendations<a class="headerlink" href="#integration-recommendations" title="Permanent link">&para;</a></h2>
+<h3 id="tier-1-high-priority-implement-first">Tier 1: High Priority (Implement First)<a class="headerlink" href="#tier-1-high-priority-implement-first" title="Permanent link">&para;</a></h3>
+<p><strong>NONE of the evaluated connectors are Tier 1</strong></p>
+<p><strong>Rationale:</strong> Current data sources (Polygon, IEX) cover Domains 1-3 adequately. Focus on building out SignalCore, RiskGuard, ProofBench before adding more data.</p>
+<h3 id="tier-2-medium-priority-evaluate-in-phase-2-3">Tier 2: Medium Priority (Evaluate in Phase 2-3)<a class="headerlink" href="#tier-2-medium-priority-evaluate-in-phase-2-3" title="Permanent link">&para;</a></h3>
+<p><strong>1. Daloopa</strong> - If implementing fundamental strategies
+- <strong>When:</strong> After MA Crossover and technical strategies proven
+- <strong>Condition:</strong> IF expanding to fundamental/value strategies
+- <strong>Cost vs Benefit:</strong> Medium cost, high value for fundamental alpha</p>
+<p><strong>2. MT Newswires</strong> - If implementing event-driven strategies
+- <strong>When:</strong> After core strategies operational
+- <strong>Condition:</strong> IF news/events are primary alpha source
+- <strong>Cost vs Benefit:</strong> High cost, but critical for event-driven</p>
+<p><strong>3. Scholar Gateway</strong> - For Knowledge Base quality
+- <strong>When:</strong> Ongoing KB maintenance
+- <strong>Condition:</strong> To enhance KB credibility and completeness
+- <strong>Cost vs Benefit:</strong> Low cost, moderate value (meta-tool)</p>
+<p><strong>4. S&amp;P Aiera</strong> - If implementing sentiment strategies
+- <strong>When:</strong> After event-driven infrastructure built
+- <strong>Condition:</strong> IF sentiment from transcripts is alpha source
+- <strong>Cost vs Benefit:</strong> High cost, unique audio/AI value</p>
+<h3 id="tier-3-low-priority-deprioritize">Tier 3: Low Priority (Deprioritize)<a class="headerlink" href="#tier-3-low-priority-deprioritize" title="Permanent link">&para;</a></h3>
+<p><strong>1. Crypto.com</strong> - Not in current scope
+- <strong>Rationale:</strong> System focused on equities/options, crypto is out of scope
+- <strong>Reconsider:</strong> Only if strategy explicitly expands to crypto</p>
+<p><strong>2. Moody's Analytics</strong> - Too expensive, not relevant for equities
+- <strong>Rationale:</strong> Only valuable for fixed income/credit, current focus is equities/options
+- <strong>Reconsider:</strong> Only if managing very large portfolios or adding fixed income</p>
+<hr />
+<h2 id="strategic-recommendations">Strategic Recommendations<a class="headerlink" href="#strategic-recommendations" title="Permanent link">&para;</a></h2>
+<h3 id="short-term-next-3-months">Short-Term (Next 3 Months)<a class="headerlink" href="#short-term-next-3-months" title="Permanent link">&para;</a></h3>
+<p><strong>DO:</strong>
+-  Focus on <strong>existing data sources</strong> (Polygon, IEX)
+-  Build out <strong>SignalCore models</strong> (MA Crossover working, add more)
+-  Complete <strong>RiskGuard</strong> implementation (kill switches, limits)
+-  Enhance <strong>ProofBench</strong> (purged CV, deflated Sharpe)
+-  Implement <strong>Knowledge Base</strong> semantic search</p>
+<p><strong>DON'T:</strong>
+-  Add new data sources yet (sufficient coverage for now)
+-  Spend on expensive connectors before alpha is proven
+-  Get distracted by crypto or fixed income</p>
+<h3 id="medium-term-3-6-months">Medium-Term (3-6 Months)<a class="headerlink" href="#medium-term-3-6-months" title="Permanent link">&para;</a></h3>
+<p><strong>IF fundamental strategies are roadmap:</strong>
+-  Evaluate <strong>Daloopa</strong> trial
+-  Compare to free alternatives (EDGAR parsing)
+-  Make build vs buy decision</p>
+<p><strong>IF event-driven strategies are roadmap:</strong>
+-  Evaluate <strong>MT Newswires</strong> trial
+-  Start with free news (NewsAPI) for proof-of-concept
+-  Upgrade to MT Newswires if alpha proven</p>
+<p><strong>For Knowledge Base:</strong>
+-  Implement <strong>Scholar Gateway</strong> integration
+-  Automate academic paper ingestion
+-  Enhance KB credibility</p>
+<h3 id="long-term-6-12-months">Long-Term (6-12 Months)<a class="headerlink" href="#long-term-6-12-months" title="Permanent link">&para;</a></h3>
+<p><strong>Re-evaluate based on:</strong>
+- Proven alpha sources (technical, fundamental, sentiment?)
+- User needs and feedback
+- Budget availability
+- Competitive positioning</p>
+<p><strong>Consider:</strong>
+- <strong>S&amp;P Aiera</strong> if sentiment strategies are working
+- <strong>Crypto.com</strong> if expanding to digital assets
+- <strong>NOT Moody's</strong> unless adding fixed income</p>
+<hr />
+<h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
+<h3 id="immediate-actions">Immediate Actions<a class="headerlink" href="#immediate-actions" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Document Decision:</strong> Share this evaluation with stakeholders</li>
+<li><strong>Focus on Core:</strong> Prioritize building strategies over adding data sources</li>
+<li><strong>Monitor Trials:</strong> Sign up for free trials when ready to evaluate (Daloopa, MT Newswires, Aiera)</li>
+</ol>
+<h3 id="before-adding-any-connector">Before Adding Any Connector<a class="headerlink" href="#before-adding-any-connector" title="Permanent link">&para;</a></h3>
+<p><strong>Checklist:</strong>
+- [ ] Is this connector critical for a proven alpha source?
+- [ ] Have we maxed out current data sources?
+- [ ] Is the cost justified by expected ROI?
+- [ ] Do we have engineering capacity to integrate?
+- [ ] Is there a free alternative to test first?</p>
+<h3 id="recommended-sequence-if-all-are-eventually-added">Recommended Sequence (if all are eventually added)<a class="headerlink" href="#recommended-sequence-if-all-are-eventually-added" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Scholar Gateway</strong> (low cost, KB enhancement)</li>
+<li><strong>Daloopa</strong> (if fundamental strategies validated)</li>
+<li><strong>MT Newswires</strong> OR <strong>S&amp;P Aiera</strong> (not both initially - overlapping)</li>
+<li><strong>Crypto.com</strong> (only if crypto added to scope)</li>
+<li><strong>Moody's</strong> (likely never, unless scope dramatically changes)</li>
+</ol>
+<hr />
+<h2 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">&para;</a></h2>
+<p><strong>Summary:</strong> None of the evaluated connectors are critical for the current phase of development. The system already has adequate data coverage (Polygon, IEX) for technical and volume-based strategies.</p>
+<p><strong>Recommendation:</strong> <strong>DEFER</strong> all connector integrations until Phase 2-3, when core strategies are proven and specific data needs are identified.</p>
+<p><strong>Exception:</strong> Consider <strong>Scholar Gateway</strong> in Phase 2 for Knowledge Base quality enhancement (low cost, moderate value).</p>
+<p><strong>Cost Optimization:</strong> Start with free data sources and build strategies. Only add paid connectors when they unlock specific alpha that justifies the cost.</p>
+<hr />
+<h2 id="appendices">Appendices<a class="headerlink" href="#appendices" title="Permanent link">&para;</a></h2>
+<h3 id="appendix-a-cost-vs-value-matrix">Appendix A: Cost vs Value Matrix<a class="headerlink" href="#appendix-a-cost-vs-value-matrix" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>High Value, Low Cost: Scholar Gateway
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>High Value, High Cost: Daloopa, MT Newswires, S&amp;P Aiera (conditional)
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>Low Value, High Cost: Moody&#39;s Analytics
+</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>Low Value, Low Cost: Crypto.com (out of scope) ️
+</span></code></pre></div>
+<h3 id="appendix-b-integration-effort-estimates">Appendix B: Integration Effort Estimates<a class="headerlink" href="#appendix-b-integration-effort-estimates" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Connector</th>
+<th>Research</th>
+<th>Setup</th>
+<th>Testing</th>
+<th>Documentation</th>
+<th>Total</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Daloopa</td>
+<td>2h</td>
+<td>8h</td>
+<td>3h</td>
+<td>2h</td>
+<td><strong>15h</strong></td>
+</tr>
+<tr>
+<td>Crypto.com</td>
+<td>1h</td>
+<td>4h</td>
+<td>2h</td>
+<td>1h</td>
+<td><strong>8h</strong></td>
+</tr>
+<tr>
+<td>Scholar Gateway</td>
+<td>2h</td>
+<td>6h</td>
+<td>2h</td>
+<td>2h</td>
+<td><strong>12h</strong></td>
+</tr>
+<tr>
+<td>MT Newswires</td>
+<td>2h</td>
+<td>10h</td>
+<td>4h</td>
+<td>2h</td>
+<td><strong>18h</strong></td>
+</tr>
+<tr>
+<td>Moody's Analytics</td>
+<td>4h</td>
+<td>16h</td>
+<td>4h</td>
+<td>3h</td>
+<td><strong>27h</strong></td>
+</tr>
+<tr>
+<td>S&amp;P Aiera</td>
+<td>3h</td>
+<td>12h</td>
+<td>4h</td>
+<td>2h</td>
+<td><strong>21h</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Total if all implemented:</strong> 101 hours (~2.5 weeks full-time)</p>
+<h3 id="appendix-c-alternative-data-sources-freecheaper">Appendix C: Alternative Data Sources (Free/Cheaper)<a class="headerlink" href="#appendix-c-alternative-data-sources-freecheaper" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Need</th>
+<th>Connector (Paid)</th>
+<th>Alternative (Free/Cheaper)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fundamentals</td>
+<td>Daloopa</td>
+<td>EDGAR SEC filings, Yahoo Finance, Financial Modeling Prep (cheaper)</td>
+</tr>
+<tr>
+<td>Crypto</td>
+<td>Crypto.com</td>
+<td>CoinGecko, CryptoCompare, Binance API</td>
+</tr>
+<tr>
+<td>Academic</td>
+<td>Scholar Gateway</td>
+<td>Google Scholar (manual), arXiv, SSRN</td>
+</tr>
+<tr>
+<td>News</td>
+<td>MT Newswires</td>
+<td>NewsAPI, Google News RSS, Yahoo Finance News</td>
+</tr>
+<tr>
+<td>Credit Risk</td>
+<td>Moody's Analytics</td>
+<td>Free credit ratings on Moody's website (delayed), FINRA bond data</td>
+</tr>
+<tr>
+<td>Transcripts</td>
+<td>S&amp;P Aiera</td>
+<td>Company IR websites, Seeking Alpha transcripts</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><strong>Document Version:</strong> v1.0.0
+<strong>Last Updated:</strong> 2025-01-28
+<strong>Next Review:</strong> Q2 2025 (before Phase 2 planning)
+<strong>Owner:</strong> Architecture Team</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <aside class="md-source-file">
+
+
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="December 9, 2025 02:20:27 UTC"><span class="timeago" datetime="2025-12-09T02:20:27+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="December 9, 2025 02:20:27 UTC">2025-12-09</span>
+  </span>
+
+
+
+
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Created">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="November 29, 2025 07:21:33 UTC"><span class="timeago" datetime="2025-11-29T07:21:33+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="November 29, 2025 07:21:33 UTC">2025-11-29</span>
+  </span>
+
+
+
+
+  </aside>
+
+
+
+
+
+
+
+
+              </article>
+            </div>
+
+
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+
+      </main>
+
+        <footer class="md-footer">
+
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024-2025 Ordinis Project
+    </div>
+
+
+</div>
+
+
+<div class="md-social">
+
+
+
+
+
+
+
+
+    <a href="https://github.com/ordinis" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+
+</div>
+
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+
+
+
+
+
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.indexes", "navigation.top", "navigation.path", "navigation.prune", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.annotate", "content.tabs.link", "toc.follow", "announce.dismiss"], "search": "../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
+
+
+      <script src="../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+
+        <script src="../../js/print-site.js"></script>
+
+        <script src="../../js/timeago.min.js"></script>
+
+        <script src="../../js/timeago_mkdocs_material.js"></script>
+
+        <script src="../../javascripts/mathjax.js"></script>
+
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
+  </body>
+</html>

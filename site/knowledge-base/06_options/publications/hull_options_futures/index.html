@@ -1,0 +1,3551 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+
+        <meta name="description" content="Comprehensive documentation for the Ordinis algorithmic trading system">
+
+
+        <meta name="author" content="Ordinis Development Team">
+
+
+        <link rel="canonical" href="https://ordinis.local/knowledge-base/06_options/publications/hull_options_futures/">
+
+
+        <link rel="prev" href="../../">
+
+
+        <link rel="next" href="../../../07_references/">
+
+
+
+
+
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+
+
+
+        <title>Hull Options & Futures - Ordinis Trading System Documentation</title>
+
+
+
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.618322db.min.css">
+
+
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+
+
+
+
+
+
+
+
+
+
+
+
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+
+
+
+      <link rel="stylesheet" href="../../../../css/print-site.css">
+
+      <link rel="stylesheet" href="../../../../css/print-site-material.css">
+
+      <link rel="stylesheet" href="../../../../css/timeago.css">
+
+      <link rel="stylesheet" href="../../../../stylesheets/extra.css">
+
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+
+
+
+
+
+
+
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-XXXXXXXXXX"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-XXXXXXXXXX",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+
+
+
+
+  </head>
+
+
+
+
+
+
+
+
+
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="teal">
+
+
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+
+
+        <a href="#options-futures-and-other-derivatives" class="md-skip">
+          Skip to content
+        </a>
+
+    </div>
+    <div data-md-component="announce">
+
+    </div>
+
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+
+      </div>
+
+
+
+
+
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="Ordinis Trading System Documentation" class="md-header__button md-logo" aria-label="Ordinis Trading System Documentation" data-md-component="logo">
+
+
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Ordinis Trading System Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+
+              Hull Options & Futures
+
+          </span>
+        </div>
+      </div>
+    </div>
+
+
+        <form class="md-header__option" data-md-component="palette">
+
+
+
+
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="teal"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+
+
+
+
+
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue-grey" data-md-color-accent="teal"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+
+
+</form>
+
+
+
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+
+
+
+
+
+        <label class="md-header__button md-icon" for="__search">
+
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+      <div class="md-header__source">
+        <a href="https://github.com/ordinis/ordinis-1" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ordinis-1
+  </div>
+</a>
+      </div>
+
+  </nav>
+
+
+
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+
+
+
+
+
+
+    <li class="md-tabs__item">
+      <a href="../../../.." class="md-tabs__link">
+
+
+
+
+
+  Home
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+    <li class="md-tabs__item">
+      <a href="../../../../project/" class="md-tabs__link">
+
+
+
+
+
+  Project
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+    <li class="md-tabs__item">
+      <a href="../../../../architecture/" class="md-tabs__link">
+
+
+
+
+
+  Architecture
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="../../../" class="md-tabs__link">
+
+
+
+
+
+  Knowledge Base
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+    <li class="md-tabs__item">
+      <a href="../../../../guides/" class="md-tabs__link">
+
+
+
+
+
+  Guides
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+    <li class="md-tabs__item">
+      <a href="../../../../analysis/" class="md-tabs__link">
+
+
+
+
+
+  Analysis
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+    <li class="md-tabs__item">
+      <a href="../../../../testing/" class="md-tabs__link">
+
+
+
+
+
+  Testing
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+    <li class="md-tabs__item">
+      <a href="../../../../strategies/" class="md-tabs__link">
+
+
+
+
+
+  Strategies
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+    <li class="md-tabs__item">
+      <a href="../../../../session-exports/" class="md-tabs__link">
+
+
+
+
+
+  Session Exports
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+    <li class="md-tabs__item">
+      <a href="../../../../print_page/" class="md-tabs__link">
+
+
+
+
+
+  Complete Documentation (Print/PDF)
+
+      </a>
+    </li>
+
+
+
+    </ul>
+  </div>
+</nav>
+
+
+</header>
+
+    <div class="md-container" data-md-component="container">
+
+
+
+
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+
+
+
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+
+
+
+
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="Ordinis Trading System Documentation" class="md-nav__button md-logo" aria-label="Ordinis Trading System Documentation" data-md-component="logo">
+
+
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Ordinis Trading System Documentation
+  </label>
+
+    <div class="md-nav__source">
+      <a href="https://github.com/ordinis/ordinis-1" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ordinis-1
+  </div>
+</a>
+    </div>
+
+  <ul class="md-nav__list" data-md-scrollfix>
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Home
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+
+
+
+
+
+    <a href="../../../../project/PROJECT_SCOPE/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Project
+
+
+
+  </span>
+
+
+
+
+        <span class="md-nav__icon md-icon"></span>
+
+    </a>
+
+
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+
+
+
+
+
+
+
+
+
+    <a href="../../../../architecture/SIGNALCORE_SYSTEM/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Architecture
+
+
+
+  </span>
+
+
+
+
+        <span class="md-nav__icon md-icon"></span>
+
+    </a>
+
+
+
+
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+
+
+
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+
+
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../" class="md-nav__link ">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Knowledge Base
+
+
+
+  </span>
+
+
+
+            </a>
+
+
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+
+          </div>
+
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+
+
+    Knowledge Base
+
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../../../00_KB_INDEX/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Index
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+
+
+
+
+
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_2" >
+
+
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../01_foundations/" class="md-nav__link ">
+
+
+
+  <span class="md-ellipsis">
+
+
+    1. Foundations
+
+
+
+  </span>
+
+
+
+            </a>
+
+
+              <label class="md-nav__link " for="__nav_4_2" id="__nav_4_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+
+          </div>
+
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+
+
+    1. Foundations
+
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../../../01_foundations/publications/harris_trading_exchanges/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Harris Trading & Exchanges
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+          </ul>
+        </nav>
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+
+
+
+
+
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_3" >
+
+
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../02_signals/technical/" class="md-nav__link ">
+
+
+
+  <span class="md-ellipsis">
+
+
+    2. Signal Generation
+
+
+
+  </span>
+
+
+
+            </a>
+
+
+              <label class="md-nav__link " for="__nav_4_3" id="__nav_4_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+
+          </div>
+
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+
+
+    2. Signal Generation
+
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+
+
+
+
+
+
+
+
+
+    <a href="../../../02_signals/technical/overlays/moving_averages/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Technical Analysis
+
+
+
+  </span>
+
+
+
+
+        <span class="md-nav__icon md-icon"></span>
+
+    </a>
+
+
+
+
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../../../02_signals/fundamental/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Fundamental
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../../../02_signals/volume/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Volume
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+
+
+
+
+
+    <a href="../../../02_signals/sentiment/news_sentiment/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Sentiment
+
+
+
+  </span>
+
+
+
+
+        <span class="md-nav__icon md-icon"></span>
+
+    </a>
+
+
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+
+
+
+
+
+    <a href="../../../02_signals/events/earnings_events/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Events
+
+
+
+  </span>
+
+
+
+
+        <span class="md-nav__icon md-icon"></span>
+
+    </a>
+
+
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+
+
+
+
+
+    <a href="../../../02_signals/quantitative/algorithmic_strategies/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Quantitative
+
+
+
+  </span>
+
+
+
+
+        <span class="md-nav__icon md-icon"></span>
+
+    </a>
+
+
+
+    </li>
+
+
+
+
+          </ul>
+        </nav>
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+
+
+
+
+
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_4" >
+
+
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../03_risk/" class="md-nav__link ">
+
+
+
+  <span class="md-ellipsis">
+
+
+    3. Risk Management
+
+
+
+  </span>
+
+
+
+            </a>
+
+
+              <label class="md-nav__link " for="__nav_4_4" id="__nav_4_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+
+          </div>
+
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+
+
+    3. Risk Management
+
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../../../03_risk/advanced_risk_methods/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Advanced Risk Methods
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../../../03_risk/publications/lopez_de_prado_advances/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Lopez de Prado
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+          </ul>
+        </nav>
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+
+
+
+
+
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_5" >
+
+
+          <label class="md-nav__link" for="__nav_4_5" id="__nav_4_5_label" tabindex="">
+
+
+
+  <span class="md-ellipsis">
+
+
+    4. Strategy
+
+
+
+  </span>
+
+
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_5">
+            <span class="md-nav__icon md-icon"></span>
+
+
+    4. Strategy
+
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../../../04_strategy/BACKTESTING_REQUIREMENTS/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Backtesting Requirements
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../../../04_strategy/DATA_EVALUATION_REQUIREMENTS/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Data Evaluation
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../../../04_strategy/nvidia_integration/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    NVIDIA Integration
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../../../04_strategy/strategy_formulation_framework/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Strategy Framework
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+          </ul>
+        </nav>
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+
+
+
+
+
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_6" >
+
+
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../05_execution/" class="md-nav__link ">
+
+
+
+  <span class="md-ellipsis">
+
+
+    5. Execution
+
+
+
+  </span>
+
+
+
+            </a>
+
+
+              <label class="md-nav__link " for="__nav_4_6" id="__nav_4_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+
+          </div>
+
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_6">
+            <span class="md-nav__icon md-icon"></span>
+
+
+    5. Execution
+
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../../../05_execution/data_pipelines/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Data Pipelines
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../../../05_execution/deployment_patterns/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Deployment Patterns
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../../../05_execution/monitoring/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Monitoring
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../../../05_execution/governance_engines/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Governance Engines
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+          </ul>
+        </nav>
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+
+
+
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_7" checked>
+
+
+          <div class="md-nav__link md-nav__container">
+            <a href="../../" class="md-nav__link ">
+
+
+
+  <span class="md-ellipsis">
+
+
+    6. Options
+
+
+
+  </span>
+
+
+
+            </a>
+
+
+              <label class="md-nav__link " for="__nav_4_7" id="__nav_4_7_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+
+          </div>
+
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_7_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4_7">
+            <span class="md-nav__icon md-icon"></span>
+
+
+    6. Options
+
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--active">
+
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+
+
+
+
+
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Hull Options & Futures
+
+
+
+  </span>
+
+
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+
+      <a href="./" class="md-nav__link md-nav__link--active">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Hull Options & Futures
+
+
+
+  </span>
+
+
+
+      </a>
+
+
+
+
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+
+
+
+
+
+
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+
+        <li class="md-nav__item">
+  <a href="#metadata" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Metadata
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Overview
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#key-topics" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Key Topics
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Key Topics">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#part-1-fundamentals-ch-1-11" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Part 1: Fundamentals (Ch 1-11)
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#part-2-options-pricing-ch-12-17" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Part 2: Options Pricing (Ch 12-17)
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#part-3-advanced-topics-ch-18-30" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Part 3: Advanced Topics (Ch 18-30)
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#critical-formulas" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Critical Formulas
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Critical Formulas">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#black-scholes-call-option-price" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Black-Scholes Call Option Price
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#the-greeks" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        The Greeks
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="The Greeks">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#delta" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Delta (Δ)
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#gamma" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Gamma (Γ)
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#vega" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Vega (ν)
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#theta" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Theta (Θ)
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#rho" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Rho (ρ)
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#integration-with-intelligent-investor-system" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Integration with Intelligent Investor System
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Integration with Intelligent Investor System">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#signalcore-options-module" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        SignalCore Options Module
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#riskguard-options-risk" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        RiskGuard Options Risk
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#key-options-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Key Options Strategies
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Key Options Strategies">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#covered-call" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Covered Call
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#protective-put" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Protective Put
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#vertical-spread" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Vertical Spread
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#iron-condor" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Iron Condor
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#critical-insights" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Critical Insights
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Critical Insights">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#volatility-smile" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Volatility Smile
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#put-call-parity" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Put-Call Parity
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#early-exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Early Exercise
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#related-publications" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Related Publications
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Tags
+
+    </span>
+  </a>
+
+</li>
+
+    </ul>
+
+</nav>
+
+    </li>
+
+
+
+
+          </ul>
+        </nav>
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../../../07_references/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    7. References
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+          </ul>
+        </nav>
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+
+
+
+
+
+    <a href="../../../../guides/CLI_USAGE/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Guides
+
+
+
+  </span>
+
+
+
+
+        <span class="md-nav__icon md-icon"></span>
+
+    </a>
+
+
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+
+
+
+
+
+    <a href="../../../../analysis/ANALYSIS_FRAMEWORK/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Analysis
+
+
+
+  </span>
+
+
+
+
+        <span class="md-nav__icon md-icon"></span>
+
+    </a>
+
+
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+
+
+
+
+
+    <a href="../../../../testing/PHASE_1_TESTING_SETUP/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Testing
+
+
+
+  </span>
+
+
+
+
+        <span class="md-nav__icon md-icon"></span>
+
+    </a>
+
+
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+
+
+
+
+
+    <a href="../../../../strategies/STRATEGY_TEMPLATE/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Strategies
+
+
+
+  </span>
+
+
+
+
+        <span class="md-nav__icon md-icon"></span>
+
+    </a>
+
+
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+
+
+
+
+
+    <a href="../../../../session-exports/SESSION_SUMMARY_KB_IMPLEMENTATION/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Session Exports
+
+
+
+  </span>
+
+
+
+
+        <span class="md-nav__icon md-icon"></span>
+
+    </a>
+
+
+
+    </li>
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../../../../print_page/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Complete Documentation (Print/PDF)
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+
+
+
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+
+
+
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+
+
+
+
+
+
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+
+        <li class="md-nav__item">
+  <a href="#metadata" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Metadata
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Overview
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#key-topics" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Key Topics
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Key Topics">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#part-1-fundamentals-ch-1-11" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Part 1: Fundamentals (Ch 1-11)
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#part-2-options-pricing-ch-12-17" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Part 2: Options Pricing (Ch 12-17)
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#part-3-advanced-topics-ch-18-30" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Part 3: Advanced Topics (Ch 18-30)
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#critical-formulas" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Critical Formulas
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Critical Formulas">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#black-scholes-call-option-price" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Black-Scholes Call Option Price
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#the-greeks" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        The Greeks
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="The Greeks">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#delta" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Delta (Δ)
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#gamma" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Gamma (Γ)
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#vega" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Vega (ν)
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#theta" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Theta (Θ)
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#rho" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Rho (ρ)
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#integration-with-intelligent-investor-system" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Integration with Intelligent Investor System
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Integration with Intelligent Investor System">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#signalcore-options-module" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        SignalCore Options Module
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#riskguard-options-risk" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        RiskGuard Options Risk
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#key-options-strategies" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Key Options Strategies
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Key Options Strategies">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#covered-call" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Covered Call
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#protective-put" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Protective Put
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#vertical-spread" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Vertical Spread
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#iron-condor" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Iron Condor
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#critical-insights" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Critical Insights
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Critical Insights">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#volatility-smile" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Volatility Smile
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#put-call-parity" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Put-Call Parity
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#early-exercise" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Early Exercise
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#related-publications" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Related Publications
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#tags" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Tags
+
+    </span>
+  </a>
+
+</li>
+
+    </ul>
+
+</nav>
+                  </div>
+                </div>
+              </div>
+
+
+
+            <div class="md-content" data-md-component="content">
+
+
+
+
+
+
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+
+
+
+
+    <li class="md-path__item">
+      <a href="../../../.." class="md-path__link">
+
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+      <li class="md-path__item">
+        <a href="../../../00_KB_INDEX/" class="md-path__link">
+
+  <span class="md-ellipsis">
+    Knowledge Base
+  </span>
+
+        </a>
+      </li>
+
+
+
+
+
+
+
+
+
+      <li class="md-path__item">
+        <a href="./" class="md-path__link">
+
+  <span class="md-ellipsis">
+    6. Options
+  </span>
+
+        </a>
+      </li>
+
+
+
+
+    </ol>
+  </nav>
+
+
+              <article class="md-content__inner md-typeset">
+
+
+
+
+
+
+
+
+<h1 id="options-futures-and-other-derivatives">Options, Futures, and Other Derivatives<a class="headerlink" href="#options-futures-and-other-derivatives" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p><strong>Industry Standard for Derivatives Pricing</strong></p>
+</blockquote>
+<hr />
+<h2 id="metadata">Metadata<a class="headerlink" href="#metadata" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ID</strong></td>
+<td><code>pub_hull_options_futures</code></td>
+</tr>
+<tr>
+<td><strong>Author</strong></td>
+<td>John C. Hull</td>
+</tr>
+<tr>
+<td><strong>Published</strong></td>
+<td>2021 (10<sup>th</sup> Edition)</td>
+</tr>
+<tr>
+<td><strong>Publisher</strong></td>
+<td>Pearson</td>
+</tr>
+<tr>
+<td><strong>ISBN</strong></td>
+<td>978-0136939979</td>
+</tr>
+<tr>
+<td><strong>Domain</strong></td>
+<td>6 (Options &amp; Derivatives)</td>
+</tr>
+<tr>
+<td><strong>Type</strong></td>
+<td>Textbook</td>
+</tr>
+<tr>
+<td><strong>Audience</strong></td>
+<td>Intermediate</td>
+</tr>
+<tr>
+<td><strong>Practical/Theoretical</strong></td>
+<td>0.5</td>
+</tr>
+<tr>
+<td><strong>Status</strong></td>
+<td><code>pending_review</code></td>
+</tr>
+<tr>
+<td><strong>Version</strong></td>
+<td>v1.0.0</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>The industry-standard textbook on derivatives pricing and risk management. Used in CFA, FRM, and MBA programs worldwide. Covers everything from basic options to exotic derivatives and counterparty credit risk.</p>
+<hr />
+<h2 id="key-topics">Key Topics<a class="headerlink" href="#key-topics" title="Permanent link">&para;</a></h2>
+<h3 id="part-1-fundamentals-ch-1-11">Part 1: Fundamentals (Ch 1-11)<a class="headerlink" href="#part-1-fundamentals-ch-1-11" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Futures and forwards mechanics</li>
+<li>Hedging strategies with futures</li>
+<li>Interest rate markets</li>
+<li>Swaps (interest rate, currency, commodity)</li>
+<li><strong>Options fundamentals</strong> - calls, puts, payoffs</li>
+<li><strong>Trading strategies</strong> - spreads, straddles, strangles</li>
+</ul>
+<h3 id="part-2-options-pricing-ch-12-17">Part 2: Options Pricing (Ch 12-17)<a class="headerlink" href="#part-2-options-pricing-ch-12-17" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Binomial Trees</strong> - Discrete-time pricing</li>
+<li><strong>Black-Scholes-Merton</strong> - Continuous-time model</li>
+<li><strong>Greeks</strong> - Delta, Gamma, Vega, Theta, Rho</li>
+<li>Dividend treatment</li>
+<li>American options pricing</li>
+</ul>
+<h3 id="part-3-advanced-topics-ch-18-30">Part 3: Advanced Topics (Ch 18-30)<a class="headerlink" href="#part-3-advanced-topics-ch-18-30" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Volatility smiles and surfaces</li>
+<li>Exotic options</li>
+<li>Value at Risk (VaR)</li>
+<li>Credit derivatives</li>
+<li>Real options</li>
+</ul>
+<hr />
+<h2 id="critical-formulas">Critical Formulas<a class="headerlink" href="#critical-formulas" title="Permanent link">&para;</a></h2>
+<h3 id="black-scholes-call-option-price">Black-Scholes Call Option Price<a class="headerlink" href="#black-scholes-call-option-price" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>C = S₀N(d₁) - Ke^(-rT)N(d₂)
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>Where:
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>d₁ = [ln(S₀/K) + (r + σ²/2)T] / (σ√T)
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>d₂ = d₁ - σ√T
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>S₀ = Current stock price
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>K = Strike price
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>T = Time to expiration
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>r = Risk-free rate
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>σ = Volatility
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>N(·) = Cumulative standard normal distribution
+</span></code></pre></div>
+<h3 id="the-greeks">The Greeks<a class="headerlink" href="#the-greeks" title="Permanent link">&para;</a></h3>
+<h4 id="delta">Delta (Δ)<a class="headerlink" href="#delta" title="Permanent link">&para;</a></h4>
+<p><div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Δ = ∂C/∂S ≈ N(d₁)  (for calls)
+</span></code></pre></div>
+<strong>Meaning:</strong> Change in option price per $1 change in underlying</p>
+<h4 id="gamma">Gamma (Γ)<a class="headerlink" href="#gamma" title="Permanent link">&para;</a></h4>
+<p><div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>Γ = ∂²C/∂S² = N&#39;(d₁) / (S₀σ√T)
+</span></code></pre></div>
+<strong>Meaning:</strong> Rate of change of delta</p>
+<h4 id="vega">Vega (ν)<a class="headerlink" href="#vega" title="Permanent link">&para;</a></h4>
+<p><div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>ν = ∂C/∂σ = S₀N&#39;(d₁)√T
+</span></code></pre></div>
+<strong>Meaning:</strong> Change in option price per 1% change in volatility</p>
+<h4 id="theta">Theta (Θ)<a class="headerlink" href="#theta" title="Permanent link">&para;</a></h4>
+<p><div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>Θ = ∂C/∂T
+</span></code></pre></div>
+<strong>Meaning:</strong> Time decay (typically negative for long options)</p>
+<h4 id="rho">Rho (ρ)<a class="headerlink" href="#rho" title="Permanent link">&para;</a></h4>
+<p><div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>ρ = ∂C/∂r = KTe^(-rT)N(d₂)
+</span></code></pre></div>
+<strong>Meaning:</strong> Change in option price per 1% change in interest rates</p>
+<hr />
+<h2 id="integration-with-intelligent-investor-system">Integration with Intelligent Investor System<a class="headerlink" href="#integration-with-intelligent-investor-system" title="Permanent link">&para;</a></h2>
+<h3 id="signalcore-options-module">SignalCore Options Module<a class="headerlink" href="#signalcore-options-module" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Application</th>
+<th>Priority</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Black-Scholes</td>
+<td>Theoretical value calculation</td>
+<td>Critical</td>
+</tr>
+<tr>
+<td>Greeks</td>
+<td>Risk metrics</td>
+<td>Critical</td>
+</tr>
+<tr>
+<td>Volatility Surface</td>
+<td>Implied vol interpolation</td>
+<td>High</td>
+</tr>
+<tr>
+<td>Binomial Trees</td>
+<td>American options pricing</td>
+<td>Medium</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Implementation:</strong>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">OptionsSignalModel</span><span class="p">:</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">calculate_greeks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">option_type</span><span class="o">=</span><span class="s1">&#39;call&#39;</span><span class="p">):</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate all Greeks for an option.&quot;&quot;&quot;</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>        <span class="n">d1</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">S</span><span class="o">/</span><span class="n">K</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">r</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">sigma</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">T</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">sigma</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">T</span><span class="p">))</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>        <span class="n">d2</span> <span class="o">=</span> <span class="n">d1</span> <span class="o">-</span> <span class="n">sigma</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">T</span><span class="p">)</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>        <span class="k">if</span> <span class="n">option_type</span> <span class="o">==</span> <span class="s1">&#39;call&#39;</span><span class="p">:</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>            <span class="n">delta</span> <span class="o">=</span> <span class="n">norm</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">d1</span><span class="p">)</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>            <span class="n">price</span> <span class="o">=</span> <span class="n">S</span><span class="o">*</span><span class="n">norm</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">d1</span><span class="p">)</span> <span class="o">-</span> <span class="n">K</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">r</span><span class="o">*</span><span class="n">T</span><span class="p">)</span><span class="o">*</span><span class="n">norm</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="n">d2</span><span class="p">)</span>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>        <span class="k">else</span><span class="p">:</span>  <span class="c1"># put</span>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>            <span class="n">delta</span> <span class="o">=</span> <span class="o">-</span><span class="n">norm</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="o">-</span><span class="n">d1</span><span class="p">)</span>
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>            <span class="n">price</span> <span class="o">=</span> <span class="n">K</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">r</span><span class="o">*</span><span class="n">T</span><span class="p">)</span><span class="o">*</span><span class="n">norm</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="o">-</span><span class="n">d2</span><span class="p">)</span> <span class="o">-</span> <span class="n">S</span><span class="o">*</span><span class="n">norm</span><span class="o">.</span><span class="n">cdf</span><span class="p">(</span><span class="o">-</span><span class="n">d1</span><span class="p">)</span>
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>
+</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>        <span class="n">gamma</span> <span class="o">=</span> <span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">d1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">S</span> <span class="o">*</span> <span class="n">sigma</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">T</span><span class="p">))</span>
+</span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>        <span class="n">vega</span> <span class="o">=</span> <span class="n">S</span> <span class="o">*</span> <span class="n">norm</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">d1</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">T</span><span class="p">)</span>
+</span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a>        <span class="n">theta</span> <span class="o">=</span> <span class="o">...</span> <span class="c1"># Implementation</span>
+</span><span id="__span-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a>        <span class="n">rho</span> <span class="o">=</span> <span class="o">...</span> <span class="c1"># Implementation</span>
+</span><span id="__span-6-18"><a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a>
+</span><span id="__span-6-19"><a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a>        <span class="k">return</span> <span class="p">{</span>
+</span><span id="__span-6-20"><a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a>            <span class="s1">&#39;price&#39;</span><span class="p">:</span> <span class="n">price</span><span class="p">,</span> <span class="s1">&#39;delta&#39;</span><span class="p">:</span> <span class="n">delta</span><span class="p">,</span> <span class="s1">&#39;gamma&#39;</span><span class="p">:</span> <span class="n">gamma</span><span class="p">,</span>
+</span><span id="__span-6-21"><a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a>            <span class="s1">&#39;vega&#39;</span><span class="p">:</span> <span class="n">vega</span><span class="p">,</span> <span class="s1">&#39;theta&#39;</span><span class="p">:</span> <span class="n">theta</span><span class="p">,</span> <span class="s1">&#39;rho&#39;</span><span class="p">:</span> <span class="n">rho</span>
+</span><span id="__span-6-22"><a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a>        <span class="p">}</span>
+</span></code></pre></div></p>
+<h3 id="riskguard-options-risk">RiskGuard Options Risk<a class="headerlink" href="#riskguard-options-risk" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Risk Metric</th>
+<th>Application</th>
+<th>Priority</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Portfolio Delta</td>
+<td>Directional risk</td>
+<td>Critical</td>
+</tr>
+<tr>
+<td>Portfolio Gamma</td>
+<td>Convexity risk</td>
+<td>Critical</td>
+</tr>
+<tr>
+<td>Portfolio Vega</td>
+<td>Volatility exposure</td>
+<td>High</td>
+</tr>
+<tr>
+<td>Greeks Limits</td>
+<td>Position limits</td>
+<td>High</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Risk Rules:</strong>
+- <code>RO001</code>: Portfolio delta within [-1000, +1000] shares
+- <code>RO002</code>: Max vega exposure ±$10,000 per 1% vol move
+- <code>RO003</code>: Gamma limits to avoid pin risk near expiration</p>
+<hr />
+<h2 id="key-options-strategies">Key Options Strategies<a class="headerlink" href="#key-options-strategies" title="Permanent link">&para;</a></h2>
+<h3 id="covered-call">Covered Call<a class="headerlink" href="#covered-call" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Structure:</strong> Long stock + Short call</li>
+<li><strong>Max Profit:</strong> Strike - Entry + Premium</li>
+<li><strong>Max Loss:</strong> Entry - Premium (if stock → 0)</li>
+<li><strong>Use Case:</strong> Generate income on existing holdings</li>
+</ul>
+<h3 id="protective-put">Protective Put<a class="headerlink" href="#protective-put" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Structure:</strong> Long stock + Long put</li>
+<li><strong>Max Profit:</strong> Unlimited</li>
+<li><strong>Max Loss:</strong> Entry - Strike + Premium paid</li>
+<li><strong>Use Case:</strong> Downside protection (insurance)</li>
+</ul>
+<h3 id="vertical-spread">Vertical Spread<a class="headerlink" href="#vertical-spread" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Bull Call Spread:</strong> Buy low strike call + Sell high strike call</li>
+<li><strong>Bear Put Spread:</strong> Buy high strike put + Sell low strike put</li>
+<li><strong>Max Profit:</strong> Limited to strike difference - net premium</li>
+<li><strong>Use Case:</strong> Directional view with defined risk</li>
+</ul>
+<h3 id="iron-condor">Iron Condor<a class="headerlink" href="#iron-condor" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Structure:</strong> OTM put spread + OTM call spread</li>
+<li><strong>Max Profit:</strong> Net premium received</li>
+<li><strong>Max Loss:</strong> Width of wider spread - premium</li>
+<li><strong>Use Case:</strong> Profit from low volatility</li>
+</ul>
+<hr />
+<h2 id="critical-insights">Critical Insights<a class="headerlink" href="#critical-insights" title="Permanent link">&para;</a></h2>
+<h3 id="volatility-smile">Volatility Smile<a class="headerlink" href="#volatility-smile" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Problem:</strong> Black-Scholes assumes constant volatility</li>
+<li><strong>Reality:</strong> Implied volatility varies by strike</li>
+<li><strong>Pattern:</strong> Often higher IV for OTM puts (crash risk)</li>
+</ul>
+<p><strong>Implications:</strong>
+- Use market IV, not historical vol
+- IV surface interpolation for off-market strikes
+- Skew trading opportunities</p>
+<h3 id="put-call-parity">Put-Call Parity<a class="headerlink" href="#put-call-parity" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>C - P = S - Ke^(-rT)
+</span></code></pre></div>
+<p><strong>Use:</strong>
+- Arbitrage detection
+- Synthetic position creation
+- Pricing consistency check</p>
+<h3 id="early-exercise">Early Exercise<a class="headerlink" href="#early-exercise" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>American calls on non-dividend stocks:</strong> Never optimal</li>
+<li><strong>American puts:</strong> May be optimal to exercise early</li>
+<li><strong>Use binomial trees</strong> for American option pricing</li>
+</ul>
+<hr />
+<h2 id="related-publications">Related Publications<a class="headerlink" href="#related-publications" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Natenberg, "Option Volatility and Pricing"</strong> - Practitioner focus</li>
+<li><strong>Taleb, "Dynamic Hedging"</strong> - Options trading</li>
+<li><strong>Wilmott, "Paul Wilmott on Quantitative Finance"</strong> - Mathematical depth</li>
+</ul>
+<hr />
+<h2 id="tags">Tags<a class="headerlink" href="#tags" title="Permanent link">&para;</a></h2>
+<p><code>options</code>, <code>derivatives</code>, <code>black_scholes</code>, <code>greeks</code>, <code>hedging</code>, <code>volatility</code>, <code>options_strategies</code>, <code>risk_neutral_valuation</code></p>
+<hr />
+<p><strong>Document Version:</strong> v1.0.0
+<strong>Last Updated:</strong> 2025-01-28
+<strong>Status:</strong> indexed</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <aside class="md-source-file">
+
+
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="December 8, 2025 17:09:56 UTC"><span class="timeago" datetime="2025-12-08T17:09:56+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="December 8, 2025 17:09:56 UTC">2025-12-08</span>
+  </span>
+
+
+
+
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Created">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="December 8, 2025 17:09:56 UTC"><span class="timeago" datetime="2025-12-08T17:09:56+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="December 8, 2025 17:09:56 UTC">2025-12-08</span>
+  </span>
+
+
+
+
+  </aside>
+
+
+
+
+
+
+
+
+              </article>
+            </div>
+
+
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+
+      </main>
+
+        <footer class="md-footer">
+
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024-2025 Ordinis Project
+    </div>
+
+
+</div>
+
+
+<div class="md-social">
+
+
+
+
+
+
+
+
+    <a href="https://github.com/ordinis" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+
+</div>
+
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+
+
+
+
+
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.indexes", "navigation.top", "navigation.path", "navigation.prune", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.annotate", "content.tabs.link", "toc.follow", "announce.dismiss"], "search": "../../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
+
+
+      <script src="../../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+
+        <script src="../../../../js/print-site.js"></script>
+
+        <script src="../../../../js/timeago.min.js"></script>
+
+        <script src="../../../../js/timeago_mkdocs_material.js"></script>
+
+        <script src="../../../../javascripts/mathjax.js"></script>
+
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
+  </body>
+</html>

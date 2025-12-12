@@ -1,31 +1,32 @@
 """
 MACD Strategy.
 
-Trades momentum signals using MACD (Moving Average Convergence Divergence) indicator.
+Momentum and trend identification strategy using MACD indicator.
 """
 
 from datetime import datetime
 
 import pandas as pd
 
-from engines.signalcore.core.model import ModelConfig
-from engines.signalcore.core.signal import Signal
-from engines.signalcore.models import MACDModel
+from src.engines.signalcore.core.model import ModelConfig
+from src.engines.signalcore.core.signal import Signal
+from src.engines.signalcore.models import MACDModel
 
 from .base import BaseStrategy
 
 
 class MACDStrategy(BaseStrategy):
     """
-    MACD Momentum Strategy.
+    MACD (Moving Average Convergence Divergence) Strategy.
 
-    Enters long positions on bullish MACD crossovers
-    and exits on bearish crossovers.
+    Trades momentum shifts and trend changes based on MACD line crossovers
+    with the signal line. Designed for trending markets.
 
     Default Parameters:
-    - fast_period: 12 (fast EMA period)
-    - slow_period: 26 (slow EMA period)
-    - signal_period: 9 (signal line period)
+    - fast_period: 12 (Fast EMA period)
+    - slow_period: 26 (Slow EMA period)
+    - signal_period: 9 (Signal line period)
+    - min_histogram: 0.0 (Minimum histogram value for entry)
     """
 
     def configure(self):
@@ -34,9 +35,9 @@ class MACDStrategy(BaseStrategy):
         self.params.setdefault("fast_period", 12)
         self.params.setdefault("slow_period", 26)
         self.params.setdefault("signal_period", 9)
+        self.params.setdefault("min_histogram", 0.0)
         self.params.setdefault(
-            "min_bars",
-            self.params["slow_period"] + self.params["signal_period"] + 20,
+            "min_bars", self.params["slow_period"] + self.params["signal_period"] + 20
         )
 
         # Create underlying signal model
@@ -47,6 +48,7 @@ class MACDStrategy(BaseStrategy):
                 "fast_period": self.params["fast_period"],
                 "slow_period": self.params["slow_period"],
                 "signal_period": self.params["signal_period"],
+                "min_histogram": self.params.get("min_histogram", 0.0),
             },
         )
 
@@ -71,6 +73,29 @@ class MACDStrategy(BaseStrategy):
         try:
             # Generate signal using MACD model
             signal = self.model.generate(data, timestamp)
+
+            # Enrich signal metadata with strategy info
+            if signal:
+                signal.metadata["strategy"] = self.name
+
+                # Add stop loss and take profit based on MACD
+                current_price = signal.metadata.get("current_price", 0)
+                histogram = signal.metadata.get("histogram", 0)
+
+                # Use histogram size to set risk/reward
+                atr_proxy = abs(histogram) * 100 if histogram != 0 else current_price * 0.02
+
+                # Set stop loss and take profit
+                if signal.direction.value == "long":
+                    signal.metadata["stop_loss"] = current_price - (atr_proxy * 2)
+                    signal.metadata["take_profit"] = current_price + (atr_proxy * 3)
+                elif signal.direction.value == "short":
+                    signal.metadata["stop_loss"] = current_price + (atr_proxy * 2)
+                    signal.metadata["take_profit"] = current_price - (atr_proxy * 3)
+                else:
+                    signal.metadata["stop_loss"] = current_price * 0.98
+                    signal.metadata["take_profit"] = current_price * 1.02
+
             return signal
         except Exception:
             return None
@@ -79,37 +104,40 @@ class MACDStrategy(BaseStrategy):
         """Get strategy description."""
         return f"""MACD Momentum Strategy
 
-Trades momentum opportunities using MACD crossovers.
+Trades trend changes and momentum shifts using the Moving Average
+Convergence Divergence (MACD) indicator.
 
 Entry Rules:
-- BUY on bullish crossover (MACD crosses above signal line)
-- Higher conviction when crossover occurs above zero line
-- Histogram strength adds to conviction
+- BUY when MACD line crosses above signal line (bullish crossover)
+- Higher conviction when crossing above zero line
+- Requires minimum histogram of {self.params.get('min_histogram', 0.0):.4f}
+- Stronger signals with increasing histogram momentum
 
 Exit Rules:
-- SELL on bearish crossover (MACD crosses below signal line)
-- Higher conviction when crossover occurs below zero line
+- SELL when MACD line crosses below signal line (bearish crossover)
+- Exit priority when crossing below zero line
 
 Parameters:
-- Fast Period: {self.params['fast_period']} bars
-- Slow Period: {self.params['slow_period']} bars
-- Signal Period: {self.params['signal_period']} bars
+- Fast EMA: {self.params['fast_period']} periods
+- Slow EMA: {self.params['slow_period']} periods
+- Signal Line: {self.params['signal_period']} periods
+- Min Histogram: {self.params.get('min_histogram', 0.0):.4f}
 
 Best For:
 - Trending markets
 - Momentum-driven assets
-- Medium-term trading
-- Trend confirmation
+- Trend following strategies
+- Medium to long-term trades
 
 Risk Considerations:
-- Lagging indicator (may miss early moves)
-- Can generate false signals in ranging markets
-- Works best with trend confirmation
+- Lagging indicator (uses EMAs)
+- Can whipsaw in ranging markets
+- False signals during consolidation
+- Best combined with trend filters
 """
 
     def get_required_bars(self) -> int:
         """Get minimum bars required."""
         return self.params.get(
-            "min_bars",
-            self.params["slow_period"] + self.params["signal_period"] + 20,
+            "min_bars", self.params["slow_period"] + self.params["signal_period"] + 20
         )

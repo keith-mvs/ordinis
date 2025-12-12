@@ -1,0 +1,21 @@
+# Technical Indicators Skill Package Dependencies
+
+# Core data manipulation
+pandas>=1.3.0
+numpy>=1.20.0
+
+# Visualization
+matplotlib>=3.3.0
+
+# Technical analysis
+scipy>=1.7.0
+ta>=0.10.0
+
+# Data source (optional, for examples)
+yfinance>=0.1.70
+
+# Optional: Optimized TA-Lib (requires system library)
+# TA-Lib>=0.4.24
+# Install system library first:
+#   Ubuntu/Debian: sudo apt-get install ta-lib
+#   macOS: brew install ta-lib

@@ -1,0 +1,2674 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+
+        <meta name="description" content="Comprehensive documentation for the Ordinis algorithmic trading system">
+
+
+        <meta name="author" content="Ordinis Development Team">
+
+
+        <link rel="canonical" href="https://ordinis.local/architecture/CONNECTORS_QUICK_REFERENCE/">
+
+
+        <link rel="prev" href="../CLAUDE_CONNECTORS_EVALUATION/">
+
+
+        <link rel="next" href="../ADDITIONAL_PLUGINS_ANALYSIS/">
+
+
+
+
+
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+
+
+
+        <title>Connectors Reference - Ordinis Trading System Documentation</title>
+
+
+
+      <link rel="stylesheet" href="../../assets/stylesheets/main.618322db.min.css">
+
+
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+
+
+
+
+
+
+
+
+
+
+
+
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+
+
+
+      <link rel="stylesheet" href="../../css/print-site.css">
+
+      <link rel="stylesheet" href="../../css/print-site-material.css">
+
+      <link rel="stylesheet" href="../../css/timeago.css">
+
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+
+
+
+
+
+
+
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-XXXXXXXXXX"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-XXXXXXXXXX",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+
+
+
+
+  </head>
+
+
+
+
+
+
+
+
+
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="teal">
+
+
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+
+
+        <a href="#claude-connectors-quick-reference" class="md-skip">
+          Skip to content
+        </a>
+
+    </div>
+    <div data-md-component="announce">
+
+    </div>
+
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+
+      </div>
+
+
+
+
+
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Ordinis Trading System Documentation" class="md-header__button md-logo" aria-label="Ordinis Trading System Documentation" data-md-component="logo">
+
+
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Ordinis Trading System Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+
+              Connectors Reference
+
+          </span>
+        </div>
+      </div>
+    </div>
+
+
+        <form class="md-header__option" data-md-component="palette">
+
+
+
+
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="teal"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+
+
+
+
+
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue-grey" data-md-color-accent="teal"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+
+
+</form>
+
+
+
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+
+
+
+
+
+        <label class="md-header__button md-icon" for="__search">
+
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+      <div class="md-header__source">
+        <a href="https://github.com/ordinis/ordinis-1" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ordinis-1
+  </div>
+</a>
+      </div>
+
+  </nav>
+
+
+
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+
+
+
+
+
+
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+
+
+
+
+
+  Home
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+    <li class="md-tabs__item">
+      <a href="../../project/" class="md-tabs__link">
+
+
+
+
+
+  Project
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="../" class="md-tabs__link">
+
+
+
+
+
+  Architecture
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+    <li class="md-tabs__item">
+      <a href="../../knowledge-base/" class="md-tabs__link">
+
+
+
+
+
+  Knowledge Base
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+    <li class="md-tabs__item">
+      <a href="../../guides/" class="md-tabs__link">
+
+
+
+
+
+  Guides
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+    <li class="md-tabs__item">
+      <a href="../../analysis/" class="md-tabs__link">
+
+
+
+
+
+  Analysis
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+    <li class="md-tabs__item">
+      <a href="../../testing/" class="md-tabs__link">
+
+
+
+
+
+  Testing
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+    <li class="md-tabs__item">
+      <a href="../../strategies/" class="md-tabs__link">
+
+
+
+
+
+  Strategies
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+    <li class="md-tabs__item">
+      <a href="../../session-exports/" class="md-tabs__link">
+
+
+
+
+
+  Session Exports
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+    <li class="md-tabs__item">
+      <a href="../../print_page/" class="md-tabs__link">
+
+
+
+
+
+  Complete Documentation (Print/PDF)
+
+      </a>
+    </li>
+
+
+
+    </ul>
+  </div>
+</nav>
+
+
+</header>
+
+    <div class="md-container" data-md-component="container">
+
+
+
+
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+
+
+
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+
+
+
+
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Ordinis Trading System Documentation" class="md-nav__button md-logo" aria-label="Ordinis Trading System Documentation" data-md-component="logo">
+
+
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Ordinis Trading System Documentation
+  </label>
+
+    <div class="md-nav__source">
+      <a href="https://github.com/ordinis/ordinis-1" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ordinis-1
+  </div>
+</a>
+    </div>
+
+  <ul class="md-nav__list" data-md-scrollfix>
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Home
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+
+
+
+
+
+    <a href="../../project/PROJECT_SCOPE/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Project
+
+
+
+  </span>
+
+
+
+
+        <span class="md-nav__icon md-icon"></span>
+
+    </a>
+
+
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+
+
+
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+
+
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Architecture
+
+
+
+  </span>
+
+
+
+            </a>
+
+
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+
+          </div>
+
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+
+
+    Architecture
+
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+
+
+
+
+
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_1" >
+
+
+          <label class="md-nav__link" for="__nav_3_1" id="__nav_3_1_label" tabindex="">
+
+
+
+  <span class="md-ellipsis">
+
+
+    System Overview
+
+
+
+  </span>
+
+
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+
+
+    System Overview
+
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../SIGNALCORE_SYSTEM/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    SignalCore System
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../EXECUTION_PATH/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Execution Path
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../SIMULATION_ENGINE/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Simulation Engine
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../MONITORING/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Monitoring
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+          </ul>
+        </nav>
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+
+
+
+
+
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_2" >
+
+
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="">
+
+
+
+  <span class="md-ellipsis">
+
+
+    AI Integration
+
+
+
+  </span>
+
+
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+
+
+    AI Integration
+
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../NVIDIA_INTEGRATION/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    NVIDIA Integration
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../NVIDIA_BLUEPRINT_INTEGRATION/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    NVIDIA Blueprint Integration
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../RAG_SYSTEM/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    RAG System
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../RAG_IMPLEMENTATION/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    RAG Implementation
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+          </ul>
+        </nav>
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+
+
+
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" checked>
+
+
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Tools & Connectors
+
+
+
+  </span>
+
+
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+
+
+    Tools & Connectors
+
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../MCP_TOOLS_EVALUATION/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    MCP Tools Evaluation
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../MCP_TOOLS_QUICK_START/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    MCP Quick Start
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../CLAUDE_CONNECTORS_EVALUATION/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Claude Connectors
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--active">
+
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+
+
+
+
+
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Connectors Reference
+
+
+
+  </span>
+
+
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+
+      <a href="./" class="md-nav__link md-nav__link--active">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Connectors Reference
+
+
+
+  </span>
+
+
+
+      </a>
+
+
+
+
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+
+
+
+
+
+
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+
+        <li class="md-nav__item">
+  <a href="#tldr-recommendation" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        TL;DR Recommendation
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#quick-assessment-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Quick Assessment Matrix
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#priority-tiers" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Priority Tiers
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Priority Tiers">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#tier-1-do-not-add-yet" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Tier 1: DO NOT ADD (Yet)
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#tier-2-evaluate-later-phase-2-3" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Tier 2: EVALUATE Later (Phase 2-3)
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#tier-3-skip-likely-never" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Tier 3: SKIP (Likely Never)
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#decision-framework" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Decision Framework
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#quick-cost-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Quick Cost Analysis
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Quick Cost Analysis">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#total-cost-if-all-added" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Total Cost if All Added
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#free-alternatives" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Free Alternatives
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#integration-effort" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Integration Effort
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#recommended-sequence" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Recommended Sequence
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#red-flags" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Red Flags
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#key-takeaways" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Key Takeaways
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Next Steps
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#contact-for-more-info" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Contact for More Info
+
+    </span>
+  </a>
+
+</li>
+
+    </ul>
+
+</nav>
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../ADDITIONAL_PLUGINS_ANALYSIS/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Additional Plugins
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+          </ul>
+        </nav>
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../SYSTEM_CAPABILITIES_ASSESSMENT/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Capabilities
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../DEVELOPMENT_TODO/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Development TODO
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+          </ul>
+        </nav>
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+
+
+
+
+
+    <a href="../../knowledge-base/00_KB_INDEX/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Knowledge Base
+
+
+
+  </span>
+
+
+
+
+        <span class="md-nav__icon md-icon"></span>
+
+    </a>
+
+
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+
+
+
+
+
+    <a href="../../guides/CLI_USAGE/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Guides
+
+
+
+  </span>
+
+
+
+
+        <span class="md-nav__icon md-icon"></span>
+
+    </a>
+
+
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+
+
+
+
+
+    <a href="../../analysis/ANALYSIS_FRAMEWORK/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Analysis
+
+
+
+  </span>
+
+
+
+
+        <span class="md-nav__icon md-icon"></span>
+
+    </a>
+
+
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+
+
+
+
+
+    <a href="../../testing/PHASE_1_TESTING_SETUP/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Testing
+
+
+
+  </span>
+
+
+
+
+        <span class="md-nav__icon md-icon"></span>
+
+    </a>
+
+
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+
+
+
+
+
+    <a href="../../strategies/STRATEGY_TEMPLATE/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Strategies
+
+
+
+  </span>
+
+
+
+
+        <span class="md-nav__icon md-icon"></span>
+
+    </a>
+
+
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+
+
+
+
+
+    <a href="../../session-exports/SESSION_SUMMARY_KB_IMPLEMENTATION/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Session Exports
+
+
+
+  </span>
+
+
+
+
+        <span class="md-nav__icon md-icon"></span>
+
+    </a>
+
+
+
+    </li>
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../../print_page/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Complete Documentation (Print/PDF)
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+
+
+
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+
+
+
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+
+
+
+
+
+
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+
+        <li class="md-nav__item">
+  <a href="#tldr-recommendation" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        TL;DR Recommendation
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#quick-assessment-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Quick Assessment Matrix
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#priority-tiers" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Priority Tiers
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Priority Tiers">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#tier-1-do-not-add-yet" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Tier 1: DO NOT ADD (Yet)
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#tier-2-evaluate-later-phase-2-3" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Tier 2: EVALUATE Later (Phase 2-3)
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#tier-3-skip-likely-never" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Tier 3: SKIP (Likely Never)
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#decision-framework" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Decision Framework
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#quick-cost-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Quick Cost Analysis
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Quick Cost Analysis">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#total-cost-if-all-added" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Total Cost if All Added
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#free-alternatives" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Free Alternatives
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#integration-effort" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Integration Effort
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#recommended-sequence" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Recommended Sequence
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#red-flags" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Red Flags
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#key-takeaways" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Key Takeaways
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Next Steps
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#contact-for-more-info" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Contact for More Info
+
+    </span>
+  </a>
+
+</li>
+
+    </ul>
+
+</nav>
+                  </div>
+                </div>
+              </div>
+
+
+
+            <div class="md-content" data-md-component="content">
+
+
+
+
+
+
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+
+
+
+
+    <li class="md-path__item">
+      <a href="../.." class="md-path__link">
+
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <li class="md-path__item">
+        <a href="../SIGNALCORE_SYSTEM/" class="md-path__link">
+
+  <span class="md-ellipsis">
+    Architecture
+  </span>
+
+        </a>
+      </li>
+
+
+
+
+
+
+
+
+
+
+
+
+      <li class="md-path__item">
+        <a href="../MCP_TOOLS_EVALUATION/" class="md-path__link">
+
+  <span class="md-ellipsis">
+    Tools & Connectors
+  </span>
+
+        </a>
+      </li>
+
+
+
+
+    </ol>
+  </nav>
+
+
+              <article class="md-content__inner md-typeset">
+
+
+
+
+
+
+
+
+<h1 id="claude-connectors-quick-reference">Claude Connectors - Quick Reference<a class="headerlink" href="#claude-connectors-quick-reference" title="Permanent link">&para;</a></h1>
+<p><strong>Last Updated:</strong> 2025-01-28</p>
+<hr />
+<h2 id="tldr-recommendation">TL;DR Recommendation<a class="headerlink" href="#tldr-recommendation" title="Permanent link">&para;</a></h2>
+<p>** DO NOT implement any connectors in Phase 1**</p>
+<p><strong>Rationale:</strong>
+- Current data sources (Polygon, IEX) are sufficient for core strategies
+- Focus engineering effort on SignalCore, RiskGuard, ProofBench
+- Add connectors only when specific alpha sources are proven</p>
+<p><strong>Exception:</strong> Consider <strong>Scholar Gateway</strong> in Phase 2 for Knowledge Base quality (low cost, passive benefit)</p>
+<hr />
+<h2 id="quick-assessment-matrix">Quick Assessment Matrix<a class="headerlink" href="#quick-assessment-matrix" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Connector</th>
+<th>Use Case</th>
+<th>Priority</th>
+<th>Cost/Month</th>
+<th>When to Add</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Daloopa</strong></td>
+<td>Fundamental data</td>
+<td>Medium-High</td>
+<td>$500-2K</td>
+<td>IF building fundamental strategies</td>
+</tr>
+<tr>
+<td><strong>Crypto.com</strong></td>
+<td>Crypto data</td>
+<td>Low</td>
+<td>$0-100</td>
+<td>IF adding crypto to universe (unlikely)</td>
+</tr>
+<tr>
+<td><strong>Scholar Gateway</strong></td>
+<td>Academic papers</td>
+<td>Medium</td>
+<td>$0-50</td>
+<td>Phase 2, for KB quality</td>
+</tr>
+<tr>
+<td><strong>MT Newswires</strong></td>
+<td>Real-time news</td>
+<td>Medium</td>
+<td>$1K-5K</td>
+<td>IF event-driven is core strategy</td>
+</tr>
+<tr>
+<td><strong>Moody's Analytics</strong></td>
+<td>Credit risk</td>
+<td>Low</td>
+<td>$10K-50K+</td>
+<td>Likely never (too expensive, wrong scope)</td>
+</tr>
+<tr>
+<td><strong>S&amp;P Aiera</strong></td>
+<td>Transcripts + AI</td>
+<td>Medium</td>
+<td>$2K-10K</td>
+<td>IF sentiment is core alpha source</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="priority-tiers">Priority Tiers<a class="headerlink" href="#priority-tiers" title="Permanent link">&para;</a></h2>
+<h3 id="tier-1-do-not-add-yet">Tier 1: DO NOT ADD (Yet)<a class="headerlink" href="#tier-1-do-not-add-yet" title="Permanent link">&para;</a></h3>
+<p><strong>All evaluated connectors are Tier 1 "Do Not Add" for now</strong></p>
+<p>Why? System needs to prove core strategies first before expanding data sources.</p>
+<h3 id="tier-2-evaluate-later-phase-2-3">Tier 2: EVALUATE Later (Phase 2-3)<a class="headerlink" href="#tier-2-evaluate-later-phase-2-3" title="Permanent link">&para;</a></h3>
+<p><strong>Add IF specific conditions met:</strong></p>
+<ol>
+<li><strong>Scholar Gateway</strong> - Low-hanging fruit</li>
+<li><strong>Condition:</strong> KB maintenance in Phase 2</li>
+<li><strong>Cost:</strong> ~$0-50/month</li>
+<li><strong>Effort:</strong> ~12 hours</li>
+<li>
+<p><strong>Value:</strong> Improves KB credibility</p>
+</li>
+<li>
+<p><strong>Daloopa</strong> - Fundamental alpha</p>
+</li>
+<li><strong>Condition:</strong> Building fundamental/value strategies</li>
+<li><strong>Cost:</strong> ~$500-2,000/month</li>
+<li><strong>Effort:</strong> ~15 hours</li>
+<li>
+<p><strong>Value:</strong> HIGH if fundamentals are alpha source</p>
+</li>
+<li>
+<p><strong>MT Newswires</strong> - Event-driven alpha</p>
+</li>
+<li><strong>Condition:</strong> Event-driven trading is core strategy</li>
+<li><strong>Cost:</strong> ~$1,000-5,000/month</li>
+<li><strong>Effort:</strong> ~18 hours</li>
+<li>
+<p><strong>Value:</strong> HIGH if news is alpha source</p>
+</li>
+<li>
+<p><strong>S&amp;P Aiera</strong> - Sentiment alpha</p>
+</li>
+<li><strong>Condition:</strong> Sentiment from transcripts is alpha source</li>
+<li><strong>Cost:</strong> ~$2,000-10,000/month</li>
+<li><strong>Effort:</strong> ~21 hours</li>
+<li><strong>Value:</strong> HIGH if sentiment works, overlaps with MT Newswires</li>
+</ol>
+<h3 id="tier-3-skip-likely-never">Tier 3: SKIP (Likely Never)<a class="headerlink" href="#tier-3-skip-likely-never" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Crypto.com</strong></li>
+<li><strong>Reason:</strong> Out of scope (equities/options focus)</li>
+<li>
+<p><strong>Reconsider:</strong> Only if crypto explicitly added</p>
+</li>
+<li>
+<p><strong>Moody's Analytics</strong></p>
+</li>
+<li><strong>Reason:</strong> Too expensive, not relevant for equities</li>
+<li><strong>Reconsider:</strong> Only if managing $10M+ portfolios or adding fixed income</li>
+</ol>
+<hr />
+<h2 id="decision-framework">Decision Framework<a class="headerlink" href="#decision-framework" title="Permanent link">&para;</a></h2>
+<p><strong>Before adding ANY connector, ask:</strong></p>
+<ol>
+<li><strong>Is there proven alpha?</strong> Have we tested strategies that need this data?</li>
+<li><strong>Have we maxed out current data?</strong> Can Polygon/IEX provide this?</li>
+<li><strong>Is cost justified?</strong> Will this data generate &gt;10x its cost in alpha?</li>
+<li><strong>Do we have capacity?</strong> Can we integrate and maintain this?</li>
+<li><strong>Is there a free alternative?</strong> Can we test with free data first?</li>
+</ol>
+<p><strong>If ANY answer is NO → DEFER the connector</strong></p>
+<hr />
+<h2 id="quick-cost-analysis">Quick Cost Analysis<a class="headerlink" href="#quick-cost-analysis" title="Permanent link">&para;</a></h2>
+<h3 id="total-cost-if-all-added">Total Cost if All Added<a class="headerlink" href="#total-cost-if-all-added" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Connector</th>
+<th>Monthly Cost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Daloopa</td>
+<td>$1,000 (mid-range)</td>
+</tr>
+<tr>
+<td>Crypto.com</td>
+<td>$0 (free tier)</td>
+</tr>
+<tr>
+<td>Scholar Gateway</td>
+<td>$25 (estimated)</td>
+</tr>
+<tr>
+<td>MT Newswires</td>
+<td>$3,000 (mid-range)</td>
+</tr>
+<tr>
+<td>Moody's Analytics</td>
+<td>$25,000 (mid-range)</td>
+</tr>
+<tr>
+<td>S&amp;P Aiera</td>
+<td>$5,000 (mid-range)</td>
+</tr>
+<tr>
+<td><strong>TOTAL</strong></td>
+<td><strong>$34,025/month</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Annual:</strong> ~$408,000/year</p>
+<p><strong>Recommended Spend:</strong> <span class="arithmatex">\(0 now, &lt;\)</span>2,000/month in Phase 2-3 (Scholar + one data source)</p>
+<hr />
+<h2 id="free-alternatives">Free Alternatives<a class="headerlink" href="#free-alternatives" title="Permanent link">&para;</a></h2>
+<p><strong>Use BEFORE paying for connectors:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Need</th>
+<th>Free Alternative</th>
+<th>Limitation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fundamentals</td>
+<td>EDGAR SEC, Yahoo Finance, FMP</td>
+<td>Manual work, less structured</td>
+</tr>
+<tr>
+<td>Crypto</td>
+<td>CoinGecko, Binance API</td>
+<td>No institutional SLA</td>
+</tr>
+<tr>
+<td>Academic</td>
+<td>Google Scholar, arXiv, SSRN</td>
+<td>Manual search</td>
+</tr>
+<tr>
+<td>News</td>
+<td>NewsAPI, Yahoo Finance News</td>
+<td>Delayed, lower quality</td>
+</tr>
+<tr>
+<td>Transcripts</td>
+<td>Company IR sites, Seeking Alpha</td>
+<td>Manual, no AI analysis</td>
+</tr>
+<tr>
+<td>Credit</td>
+<td>Moody's website (delayed)</td>
+<td>Not real-time</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Strategy:</strong> Start with free, upgrade to paid when proven valuable</p>
+<hr />
+<h2 id="integration-effort">Integration Effort<a class="headerlink" href="#integration-effort" title="Permanent link">&para;</a></h2>
+<p><strong>Total effort if all added:</strong> ~101 hours (2.5 weeks full-time)</p>
+<p><strong>Recommended:</strong> Add one at a time, only when needed</p>
+<hr />
+<h2 id="recommended-sequence">Recommended Sequence<a class="headerlink" href="#recommended-sequence" title="Permanent link">&para;</a></h2>
+<p><strong>IF eventually adding connectors (Phase 2+):</strong></p>
+<ol>
+<li><strong>Scholar Gateway</strong> (Phase 2) - Low cost, KB quality</li>
+<li><strong>Daloopa</strong> OR <strong>MT Newswires</strong> (Phase 2-3) - Pick one based on strategy type</li>
+<li><strong>S&amp;P Aiera</strong> (Phase 3+) - Only if Daloopa/MT Newswires prove valuable</li>
+<li><strong>Crypto.com</strong> (Unlikely) - Only if scope expands</li>
+<li><strong>Moody's</strong> (Never) - Unless scope dramatically changes</li>
+</ol>
+<p><strong>Do NOT add multiple expensive connectors simultaneously</strong></p>
+<hr />
+<h2 id="red-flags">Red Flags<a class="headerlink" href="#red-flags" title="Permanent link">&para;</a></h2>
+<p><strong>DO NOT add a connector if:</strong></p>
+<ul>
+<li>No proven strategy needs this data</li>
+<li>Cost &gt;1% of expected monthly returns</li>
+<li>Free alternative untested</li>
+<li>Engineering team at capacity</li>
+<li>Similar connector already integrated</li>
+</ul>
+<hr />
+<h2 id="key-takeaways">Key Takeaways<a class="headerlink" href="#key-takeaways" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Current data is sufficient</strong> - Polygon + IEX cover technical/volume strategies</li>
+<li><strong>Defer all connectors to Phase 2+</strong> - Build strategies first, add data later</li>
+<li><strong>Start with free alternatives</strong> - Prove alpha before paying</li>
+<li><strong>Scholar Gateway exception</strong> - Low cost, passive KB improvement</li>
+<li><strong>Avoid Moody's</strong> - Too expensive, wrong scope for equities/options</li>
+<li><strong>One at a time</strong> - Don't add multiple expensive sources simultaneously</li>
+</ol>
+<hr />
+<h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Focus on core system</strong> (SignalCore, RiskGuard, ProofBench)</li>
+<li><strong>Prove technical strategies</strong> (MA Crossover, breakouts, etc.)</li>
+<li><strong>Re-evaluate in Phase 2</strong> (Q2 2025)</li>
+<li><strong>Request trials</strong> when ready (Daloopa, MT Newswires, Aiera)</li>
+<li><strong>Make data-driven decision</strong> (measure alpha, calculate ROI)</li>
+</ol>
+<hr />
+<h2 id="contact-for-more-info">Contact for More Info<a class="headerlink" href="#contact-for-more-info" title="Permanent link">&para;</a></h2>
+<p><strong>Full Analysis:</strong> <code>docs/architecture/CLAUDE_CONNECTORS_EVALUATION.md</code>
+<strong>Questions:</strong> Reach out to Architecture Team
+<strong>Trials:</strong> Contact connectors directly when Phase 2 begins</p>
+<hr />
+<p><strong>Document Version:</strong> v1.0.0
+<strong>Owner:</strong> Architecture Team
+<strong>Next Review:</strong> Q2 2025</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <aside class="md-source-file">
+
+
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="December 9, 2025 02:20:27 UTC"><span class="timeago" datetime="2025-12-09T02:20:27+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="December 9, 2025 02:20:27 UTC">2025-12-09</span>
+  </span>
+
+
+
+
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Created">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="November 29, 2025 07:21:33 UTC"><span class="timeago" datetime="2025-11-29T07:21:33+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="November 29, 2025 07:21:33 UTC">2025-11-29</span>
+  </span>
+
+
+
+
+  </aside>
+
+
+
+
+
+
+
+
+              </article>
+            </div>
+
+
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+
+      </main>
+
+        <footer class="md-footer">
+
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024-2025 Ordinis Project
+    </div>
+
+
+</div>
+
+
+<div class="md-social">
+
+
+
+
+
+
+
+
+    <a href="https://github.com/ordinis" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+
+</div>
+
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+
+
+
+
+
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.indexes", "navigation.top", "navigation.path", "navigation.prune", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.annotate", "content.tabs.link", "toc.follow", "announce.dismiss"], "search": "../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
+
+
+      <script src="../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+
+        <script src="../../js/print-site.js"></script>
+
+        <script src="../../js/timeago.min.js"></script>
+
+        <script src="../../js/timeago_mkdocs_material.js"></script>
+
+        <script src="../../javascripts/mathjax.js"></script>
+
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
+  </body>
+</html>

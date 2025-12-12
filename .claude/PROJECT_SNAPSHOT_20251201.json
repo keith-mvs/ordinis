@@ -1,0 +1,103 @@
+{
+  "snapshot_date": "2025-12-01T14:45:00Z",
+  "snapshot_type": "cleanup_sprint",
+
+  "git": {
+    "current_branch": "master",
+    "latest_commit": "a1cee2a9",
+    "remote": "origin/master",
+    "status": "clean",
+    "branches": {
+      "local": ["master", "tests/backtest"],
+      "remote": ["origin/master", "origin/main", "origin/tests/backtest"]
+    },
+    "deleted_branches": [
+      "origin/add-claude-github-actions-1764364603130",
+      "origin/research/general",
+      "origin/user/interface"
+    ]
+  },
+
+  "phases": {
+    "phase_1_knowledge_base": 100,
+    "phase_2_backtesting": 90,
+    "phase_3_paper_trading": 85,
+    "phase_4_risk_management": 15,
+    "phase_5_system_integration": 5,
+    "phase_6_production_prep": 0
+  },
+
+  "components": {
+    "proofbench": {"status": "working", "file": "src/engines/proofbench/core/simulator.py"},
+    "paper_broker": {"status": "complete", "file": "src/engines/flowroute/adapters/paper.py"},
+    "strategies": {
+      "status": "working",
+      "count": 5,
+      "list": ["MA_Cross", "RSI", "Momentum", "Bollinger", "MACD"],
+      "path": "src/strategies/"
+    },
+    "market_data_plugins": {
+      "iex": {"status": "implemented", "needs": "api_key"},
+      "polygon": {"status": "implemented", "needs": "api_key"}
+    },
+    "rag_system": {"status": "integrated", "path": "src/engines/cortex/rag/"},
+    "sample_data": {
+      "status": "generated",
+      "path": "data/",
+      "files": [
+        "sample_spy_trending_up.csv",
+        "sample_qqq_volatile.csv",
+        "sample_xyz_sideways.csv",
+        "sample_abc_trending_down.csv"
+      ]
+    }
+  },
+
+  "test_coverage": {
+    "total_tests": 413,
+    "coverage_percent": 67,
+    "paper_broker_tests": "passing"
+  },
+
+  "file_counts": {
+    "python_src": 86,
+    "python_tests": 49,
+    "markdown_docs": 15,
+    "sample_data_csvs": 4
+  },
+
+  "recent_session": {
+    "accomplishments": [
+      "Paper broker implementation complete",
+      "Market data plugin integration added",
+      "Auto-fill with price caching implemented",
+      "Trading loop for continuous operation added",
+      "Test suite created and passing",
+      "Documentation updated"
+    ],
+    "commits": [
+      {"hash": "cb2b391a", "message": "Add paper broker market data integration and auto-fill"},
+      {"hash": "a1cee2a9", "message": "Update session state: Phase 3 85% complete, paper broker done"}
+    ]
+  },
+
+  "next_priorities": [
+    "Integrate paper broker with strategy engine",
+    "Test with real market data (IEX/Polygon)",
+    "Build monitoring dashboard",
+    "Complete RiskGuard implementation"
+  ],
+
+  "cleanup_actions": {
+    "branches_deleted": 3,
+    "context_files_created": 3,
+    "remote_pruned": true
+  },
+
+  "context_files": {
+    "session_summary": ".claude/CURRENT_SESSION_SUMMARY.md",
+    "context_reference": ".claude/CONTEXT_REFERENCE.md",
+    "session_state": ".claude/SESSION_STATE.json",
+    "quick_status": ".claude/quick_status.txt"
+  }
+}

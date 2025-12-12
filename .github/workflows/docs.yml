@@ -1,0 +1,119 @@
+name: Build and Publish Documentation
+
+on:
+  push:
+    branches: [main, master]
+    paths:
+      - 'docs/**'
+      - 'mkdocs.yml'
+      - '.github/workflows/docs.yml'
+  pull_request:
+    branches: [main, master]
+    paths:
+      - 'docs/**'
+      - 'mkdocs.yml'
+  workflow_dispatch:  # Allow manual trigger
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history for git-revision-date plugin
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Cache pip dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-docs-${{ hashFiles('requirements-docs.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-docs-
+
+      - name: Install MkDocs and plugins
+        run: |
+          pip install --upgrade pip
+          pip install mkdocs mkdocs-material mkdocs-awesome-pages-plugin \
+                      mkdocs-section-index mkdocs-git-revision-date-localized-plugin \
+                      mkdocs-macros-plugin
+
+      - name: Build documentation
+        run: mkdocs build --verbose
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./site
+
+      - name: Upload site as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: docs-site
+          path: site/
+          retention-days: 30
+
+  # Deploy to GitHub Pages (only on main/master push)
+  deploy:
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    needs: build-docs
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  # Optional: Generate PDF (if weasyprint is available)
+  build-pdf:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install mkdocs mkdocs-material mkdocs-section-index \
+                      mkdocs-git-revision-date-localized-plugin mkdocs-macros-plugin
+          # Install weasyprint for PDF generation
+          sudo apt-get update
+          sudo apt-get install -y libpango-1.0-0 libpangocairo-1.0-0 libgdk-pixbuf2.0-0 \
+                                   libffi-dev shared-mime-info
+          pip install mkdocs-pdf-export-plugin weasyprint
+
+      - name: Build with PDF export
+        run: |
+          ENABLE_PDF_EXPORT=1 mkdocs build --verbose
+        continue-on-error: true
+
+      - name: Upload PDF artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: docs-pdf
+          path: site/**/*.pdf
+          retention-days: 30
+          if-no-files-found: ignore

@@ -1,0 +1,40 @@
+# Ordinis - Algorithmic Trading System
+# Consolidated dependencies from all skill packages
+# Generated automatically - DO NOT EDIT MANUALLY
+#
+# Last Updated: 2025-12-12
+
+# Core Dependencies (Required for all skills)
+# =============================================
+
+numpy>=1.24.0
+pandas>=2.0.0
+scipy>=1.10.0
+matplotlib>=3.7.0
+
+# Specialized Dependencies
+# ========================
+
+ta>=0.10.0
+yfinance>=0.1.70
+
+# Optional Dependencies (Recommended)
+# ====================================
+# Uncomment as needed:
+
+# Data Sources
+# yfinance>=0.2.0          # Real-time market data
+# alpaca-trade-api>=3.0.0  # Alpaca trading integration
+
+# Development Tools
+# jupyter>=1.0.0           # Interactive notebooks
+# pytest>=7.0.0            # Testing framework
+# pytest-cov>=4.0.0        # Coverage reporting
+# ruff>=0.1.0              # Linter and formatter
+
+# Excel Support
+# openpyxl>=3.1.0          # Excel file I/O
+
+# Advanced TA Libraries (optional)
+# TA-Lib>=0.4.24           # Technical analysis (requires system library)
+# pandas-ta>=0.3.14        # Alternative TA library

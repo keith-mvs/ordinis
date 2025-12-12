@@ -1,14 +1,14 @@
 # Claude Connectors (MCP Servers) - Integration Evaluation
 
 **Date:** 2025-01-28
-**Project:** Intelligent Investor Trading System
+**Project:** Ordinis Trading System
 **Status:** Research & Evaluation Phase
 
 ---
 
 ## Executive Summary
 
-This document evaluates 6 Claude Connectors (MCP servers) for potential integration into the Intelligent Investor trading system ecosystem. Each connector is assessed against technical, functional, and strategic criteria to determine integration feasibility and priority.
+This document evaluates 6 Claude Connectors (MCP servers) for potential integration into the Ordinis trading system ecosystem. Each connector is assessed against technical, functional, and strategic criteria to determine integration feasibility and priority.
 
 ---
 
@@ -62,7 +62,7 @@ Daloopa provides standardized financial statement data, models, and transcripts 
 
 #### Technical Assessment
 
-**MCP Protocol:** ✅ Standard compliance expected
+**MCP Protocol:**  Standard compliance expected
 **Authentication:** API Key (likely)
 **Rate Limits:** Unknown - need to verify
 **Data Format:** JSON, likely structured financial statements
@@ -121,12 +121,12 @@ Daloopa provides standardized financial statement data, models, and transcripts 
 
 #### Integration Complexity
 
-**Setup Effort:** 🟡 Medium (8-12 hours)
+**Setup Effort:**  Medium (8-12 hours)
 - API integration straightforward
 - Data normalization needed
 - Schema mapping to internal format
 
-**Maintenance:** 🟢 Low
+**Maintenance:**  Low
 - Quarterly data updates automatic
 - Stable API expected
 
@@ -139,7 +139,7 @@ Daloopa provides standardized financial statement data, models, and transcripts 
 #### Cost Analysis
 
 **Pricing Model:** Likely subscription-based
-**Estimated Cost:** 🟡 Medium ($500-2,000/month)
+**Estimated Cost:**  Medium ($500-2,000/month)
 - Professional/institutional pricing
 - Depends on symbols covered and API access level
 
@@ -152,18 +152,18 @@ Daloopa provides standardized financial statement data, models, and transcripts 
 
 #### Strategic Assessment
 
-**Priority:** 🟡 **MEDIUM-HIGH**
+**Priority:**  **MEDIUM-HIGH**
 
 **Strengths:**
-- ✅ High-quality fundamental data
-- ✅ Standardized format (saves engineering time)
-- ✅ Transcripts add unique value
-- ✅ Supports Domain 4 (currently underserved)
+-  High-quality fundamental data
+-  Standardized format (saves engineering time)
+-  Transcripts add unique value
+-  Supports Domain 4 (currently underserved)
 
 **Weaknesses:**
-- ❌ Cost may be high for retail/small institutional
-- ❌ Batch data (not real-time)
-- ❌ Limited to fundamentals (narrow scope)
+-  Cost may be high for retail/small institutional
+-  Batch data (not real-time)
+-  Limited to fundamentals (narrow scope)
 
 **Recommendation:**
 - **Phase 2** implementation (after core data sources)
@@ -181,7 +181,7 @@ Crypto.com provides cryptocurrency market data, including spot prices, trading p
 
 #### Technical Assessment
 
-**MCP Protocol:** ✅ Standard compliance expected
+**MCP Protocol:**  Standard compliance expected
 **Authentication:** API Key
 **Rate Limits:** Likely generous for market data (100-1000 req/min)
 **Data Format:** JSON (REST), WebSocket (streaming)
@@ -239,12 +239,12 @@ Crypto.com provides cryptocurrency market data, including spot prices, trading p
 
 #### Integration Complexity
 
-**Setup Effort:** 🟢 Low (4-8 hours)
+**Setup Effort:**  Low (4-8 hours)
 - Standard REST/WebSocket API
 - Well-documented (crypto exchanges prioritize this)
 - Similar to Polygon.io integration
 
-**Maintenance:** 🟢 Low
+**Maintenance:**  Low
 - Stable API
 - Crypto market 24/7 (no market hours complexity)
 
@@ -257,7 +257,7 @@ Crypto.com provides cryptocurrency market data, including spot prices, trading p
 #### Cost Analysis
 
 **Pricing Model:** Typically free for market data, paid for high-frequency
-**Estimated Cost:** 🟢 Low ($0-100/month)
+**Estimated Cost:**  Low ($0-100/month)
 - Free tier likely sufficient for non-HFT use
 
 **Free Tier:** Yes, likely generous
@@ -269,19 +269,19 @@ Crypto.com provides cryptocurrency market data, including spot prices, trading p
 
 #### Strategic Assessment
 
-**Priority:** 🔴 **LOW** (for current scope)
+**Priority:**  **LOW** (for current scope)
 
 **Strengths:**
-- ✅ Free/low cost
-- ✅ Real-time data
-- ✅ Easy integration
-- ✅ Direct exchange (not aggregated)
+-  Free/low cost
+-  Real-time data
+-  Easy integration
+-  Direct exchange (not aggregated)
 
 **Weaknesses:**
-- ❌ Crypto not in current scope (equity/options focus)
-- ❌ High volatility may complicate RiskGuard
-- ❌ Regulatory uncertainty
-- ❌ Limited cross-asset applicability
+-  Crypto not in current scope (equity/options focus)
+-  High volatility may complicate RiskGuard
+-  Regulatory uncertainty
+-  Limited cross-asset applicability
 
 **Recommendation:**
 - **Phase 3+** or **Never** (unless strategy expands to crypto)
@@ -299,7 +299,7 @@ Scholar Gateway provides access to academic papers, research publications, and s
 
 #### Technical Assessment
 
-**MCP Protocol:** ✅ Standard compliance expected
+**MCP Protocol:**  Standard compliance expected
 **Authentication:** API Key or institutional access
 **Rate Limits:** Moderate (academic APIs typically restrictive)
 **Data Format:** JSON (metadata), PDF (full-text)
@@ -365,12 +365,12 @@ Scholar Gateway provides access to academic papers, research publications, and s
 
 #### Integration Complexity
 
-**Setup Effort:** 🟡 Medium (6-10 hours)
+**Setup Effort:**  Medium (6-10 hours)
 - Multiple potential backends (Scholar, SSRN, arXiv)
 - PDF parsing if needed
 - Metadata normalization
 
-**Maintenance:** 🟢 Low
+**Maintenance:**  Low
 - Academic APIs stable
 - Infrequent updates needed
 
@@ -384,7 +384,7 @@ Scholar Gateway provides access to academic papers, research publications, and s
 #### Cost Analysis
 
 **Pricing Model:** Likely free for metadata, paid for full-text
-**Estimated Cost:** 🟢 Low ($0-50/month)
+**Estimated Cost:**  Low ($0-50/month)
 - Google Scholar API free (if available)
 - SSRN/arXiv free
 - JSTOR institutional access (if needed)
@@ -398,18 +398,18 @@ Scholar Gateway provides access to academic papers, research publications, and s
 
 #### Strategic Assessment
 
-**Priority:** 🟢 **MEDIUM**
+**Priority:**  **MEDIUM**
 
 **Strengths:**
-- ✅ Enhances Knowledge Base quality
-- ✅ Academic rigor supports credibility
-- ✅ Low/no cost
-- ✅ Unique value (automated academic search)
+-  Enhances Knowledge Base quality
+-  Academic rigor supports credibility
+-  Low/no cost
+-  Unique value (automated academic search)
 
 **Weaknesses:**
-- ❌ Not directly trading-related (meta-tool)
-- ❌ Doesn't generate signals or data
-- ❌ May require institutional access for full value
+-  Not directly trading-related (meta-tool)
+-  Doesn't generate signals or data
+-  May require institutional access for full value
 
 **Recommendation:**
 - **Phase 2** implementation (after core trading functionality)
@@ -428,7 +428,7 @@ MT Newswires provides real-time financial news, market-moving events, earnings a
 
 #### Technical Assessment
 
-**MCP Protocol:** ✅ Standard compliance expected
+**MCP Protocol:**  Standard compliance expected
 **Authentication:** API Key (institutional)
 **Rate Limits:** Moderate (news flow dependent)
 **Data Format:** JSON, structured news articles
@@ -494,13 +494,13 @@ MT Newswires provides real-time financial news, market-moving events, earnings a
 
 #### Integration Complexity
 
-**Setup Effort:** 🟡 Medium (8-12 hours)
+**Setup Effort:**  Medium (8-12 hours)
 - Real-time streaming (WebSocket or webhooks)
 - Event classification
 - Sentiment analysis (if not provided)
 - Alert routing
 
-**Maintenance:** 🟡 Medium
+**Maintenance:**  Medium
 - Monitor feed uptime
 - Handle schema changes
 - Filter noise (irrelevant news)
@@ -515,7 +515,7 @@ MT Newswires provides real-time financial news, market-moving events, earnings a
 #### Cost Analysis
 
 **Pricing Model:** Subscription (institutional pricing)
-**Estimated Cost:** 🔴 High ($1,000-5,000/month)
+**Estimated Cost:**  High ($1,000-5,000/month)
 - Enterprise pricing typical for news services
 - May have volume tiers
 
@@ -528,19 +528,19 @@ MT Newswires provides real-time financial news, market-moving events, earnings a
 
 #### Strategic Assessment
 
-**Priority:** 🟡 **MEDIUM** (conditional)
+**Priority:**  **MEDIUM** (conditional)
 
 **Strengths:**
-- ✅ Real-time (critical for event-driven)
-- ✅ Institutional quality
-- ✅ Structured data (easier to parse)
-- ✅ Supports Domain 5 (currently underserved)
+-  Real-time (critical for event-driven)
+-  Institutional quality
+-  Structured data (easier to parse)
+-  Supports Domain 5 (currently underserved)
 
 **Weaknesses:**
-- ❌ High cost
-- ❌ Requires event-driven infrastructure
-- ❌ Diminishing returns if not using news as primary alpha
-- ❌ NLP complexity for sentiment extraction
+-  High cost
+-  Requires event-driven infrastructure
+-  Diminishing returns if not using news as primary alpha
+-  NLP complexity for sentiment extraction
 
 **Recommendation:**
 - **Phase 2-3** (after core strategies proven)
@@ -559,7 +559,7 @@ Moody's Analytics provides credit ratings, default probabilities, risk models, a
 
 #### Technical Assessment
 
-**MCP Protocol:** ✅ Standard compliance expected
+**MCP Protocol:**  Standard compliance expected
 **Authentication:** API Key + OAuth (enterprise)
 **Rate Limits:** Conservative (enterprise APIs are rate-limited)
 **Data Format:** JSON, XML (legacy)
@@ -624,13 +624,13 @@ Moody's Analytics provides credit ratings, default probabilities, risk models, a
 
 #### Integration Complexity
 
-**Setup Effort:** 🔴 High (16-24 hours)
+**Setup Effort:**  High (16-24 hours)
 - Complex enterprise API
 - Extensive data models
 - Requires domain expertise (credit analysis)
 - Integration with risk rules
 
-**Maintenance:** 🟡 Medium
+**Maintenance:**  Medium
 - Daily updates
 - Model version changes
 - Regulatory changes impact data
@@ -645,7 +645,7 @@ Moody's Analytics provides credit ratings, default probabilities, risk models, a
 #### Cost Analysis
 
 **Pricing Model:** Enterprise subscription (very expensive)
-**Estimated Cost:** 🔴 Very High ($10,000-50,000+/month)
+**Estimated Cost:**  Very High ($10,000-50,000+/month)
 - Enterprise pricing, likely minimum commitments
 - Depends on modules subscribed
 
@@ -658,19 +658,19 @@ Moody's Analytics provides credit ratings, default probabilities, risk models, a
 
 #### Strategic Assessment
 
-**Priority:** 🔴 **LOW** (for current scope)
+**Priority:**  **LOW** (for current scope)
 
 **Strengths:**
-- ✅ Best-in-class credit analytics
-- ✅ Authoritative data
-- ✅ Comprehensive risk models
-- ✅ Economic scenarios valuable for stress testing
+-  Best-in-class credit analytics
+-  Authoritative data
+-  Comprehensive risk models
+-  Economic scenarios valuable for stress testing
 
 **Weaknesses:**
-- ❌ **VERY EXPENSIVE** (prohibitive for most users)
-- ❌ **NOT RELEVANT** if only trading equities/options (no credit risk)
-- ❌ Overkill for retail/small institutional
-- ❌ Complex integration
+-  **VERY EXPENSIVE** (prohibitive for most users)
+-  **NOT RELEVANT** if only trading equities/options (no credit risk)
+-  Overkill for retail/small institutional
+-  Complex integration
 
 **Recommendation:**
 - **Phase 4+** or **Never** (unless strategy significantly expands)
@@ -691,7 +691,7 @@ Aiera (acquired by S&P Global) provides AI-powered event detection, earnings cal
 
 #### Technical Assessment
 
-**MCP Protocol:** ✅ Standard compliance expected
+**MCP Protocol:**  Standard compliance expected
 **Authentication:** API Key (S&P Global credentials)
 **Rate Limits:** Moderate (typical for S&P APIs)
 **Data Format:** JSON (events), Audio (optional), Text (transcripts)
@@ -761,13 +761,13 @@ Aiera (acquired by S&P Global) provides AI-powered event detection, earnings cal
 
 #### Integration Complexity
 
-**Setup Effort:** 🟡 Medium (10-14 hours)
+**Setup Effort:**  Medium (10-14 hours)
 - Transcript ingestion
 - Event classification
 - Sentiment analysis (if not provided)
 - Audio processing (if using)
 
-**Maintenance:** 🟡 Medium
+**Maintenance:**  Medium
 - Monitor event feed
 - Update event taxonomy
 - Validate sentiment accuracy
@@ -782,7 +782,7 @@ Aiera (acquired by S&P Global) provides AI-powered event detection, earnings cal
 #### Cost Analysis
 
 **Pricing Model:** Subscription (S&P Global pricing)
-**Estimated Cost:** 🔴 High ($2,000-10,000/month)
+**Estimated Cost:**  High ($2,000-10,000/month)
 - S&P Global pricing is institutional-tier
 - Depends on coverage and features
 
@@ -795,19 +795,19 @@ Aiera (acquired by S&P Global) provides AI-powered event detection, earnings cal
 
 #### Strategic Assessment
 
-**Priority:** 🟡 **MEDIUM** (conditional)
+**Priority:**  **MEDIUM** (conditional)
 
 **Strengths:**
-- ✅ Unique audio analysis (tone, sentiment from voice)
-- ✅ Real-time event detection
-- ✅ AI-extracted insights (saves time)
-- ✅ S&P Global credibility and coverage
+-  Unique audio analysis (tone, sentiment from voice)
+-  Real-time event detection
+-  AI-extracted insights (saves time)
+-  S&P Global credibility and coverage
 
 **Weaknesses:**
-- ❌ High cost
-- ❌ Requires NLP expertise to fully utilize
-- ❌ Diminishing returns if not using sentiment as primary alpha
-- ❌ Overlaps somewhat with MT Newswires
+-  High cost
+-  Requires NLP expertise to fully utilize
+-  Diminishing returns if not using sentiment as primary alpha
+-  Overlaps somewhat with MT Newswires
 
 **Recommendation:**
 - **Phase 3** (after core strategies proven)
@@ -821,12 +821,12 @@ Aiera (acquired by S&P Global) provides AI-powered event detection, earnings cal
 
 | Connector | Domain(s) | Priority | Cost | Setup | Unique Value | Recommendation |
 |-----------|-----------|----------|------|-------|--------------|----------------|
-| **Daloopa** | 4, 8 | 🟡 Med-High | $$ | 🟡 Med | Standardized fundamentals | Phase 2, if fundamental strategies |
-| **Crypto.com** | 1, 3, 8 | 🔴 Low | $ | 🟢 Low | Real-time crypto | Phase 3+, only if crypto in scope |
-| **Scholar Gateway** | All (Meta) | 🟡 Medium | $ | 🟡 Med | Academic rigor for KB | Phase 2, KB quality enhancement |
-| **MT Newswires** | 5, 4 | 🟡 Medium | $$$ | 🟡 Med | Real-time institutional news | Phase 2-3, if event-driven |
-| **Moody's Analytics** | 7, 4 | 🔴 Low | $$$$ | 🔴 High | Enterprise credit risk | Phase 4+, only if fixed income |
-| **S&P Aiera** | 5, 4 | 🟡 Medium | $$$ | 🟡 Med | Audio + AI event analysis | Phase 3, if sentiment strategies |
+| **Daloopa** | 4, 8 |  Med-High | $$ |  Med | Standardized fundamentals | Phase 2, if fundamental strategies |
+| **Crypto.com** | 1, 3, 8 |  Low | $ |  Low | Real-time crypto | Phase 3+, only if crypto in scope |
+| **Scholar Gateway** | All (Meta) |  Medium | $ |  Med | Academic rigor for KB | Phase 2, KB quality enhancement |
+| **MT Newswires** | 5, 4 |  Medium | $$$ |  Med | Real-time institutional news | Phase 2-3, if event-driven |
+| **Moody's Analytics** | 7, 4 |  Low | $$$$ |  High | Enterprise credit risk | Phase 4+, only if fixed income |
+| **S&P Aiera** | 5, 4 |  Medium | $$$ |  Med | Audio + AI event analysis | Phase 3, if sentiment strategies |
 
 **Cost Legend:**
 - $ = <$100/month
@@ -835,9 +835,9 @@ Aiera (acquired by S&P Global) provides AI-powered event detection, earnings cal
 - $$$$ = >$10,000/month
 
 **Priority Legend:**
-- 🟢 High - Implement soon
-- 🟡 Medium - Evaluate and plan
-- 🔴 Low - Deprioritize or skip
+-  High - Implement soon
+-  Medium - Evaluate and plan
+-  Low - Deprioritize or skip
 
 ---
 
@@ -887,33 +887,33 @@ Aiera (acquired by S&P Global) provides AI-powered event detection, earnings cal
 ### Short-Term (Next 3 Months)
 
 **DO:**
-- ✅ Focus on **existing data sources** (Polygon, IEX)
-- ✅ Build out **SignalCore models** (MA Crossover working, add more)
-- ✅ Complete **RiskGuard** implementation (kill switches, limits)
-- ✅ Enhance **ProofBench** (purged CV, deflated Sharpe)
-- ✅ Implement **Knowledge Base** semantic search
+-  Focus on **existing data sources** (Polygon, IEX)
+-  Build out **SignalCore models** (MA Crossover working, add more)
+-  Complete **RiskGuard** implementation (kill switches, limits)
+-  Enhance **ProofBench** (purged CV, deflated Sharpe)
+-  Implement **Knowledge Base** semantic search
 
 **DON'T:**
-- ❌ Add new data sources yet (sufficient coverage for now)
-- ❌ Spend on expensive connectors before alpha is proven
-- ❌ Get distracted by crypto or fixed income
+-  Add new data sources yet (sufficient coverage for now)
+-  Spend on expensive connectors before alpha is proven
+-  Get distracted by crypto or fixed income
 
 ### Medium-Term (3-6 Months)
 
 **IF fundamental strategies are roadmap:**
-- 🟡 Evaluate **Daloopa** trial
-- 🟡 Compare to free alternatives (EDGAR parsing)
-- 🟡 Make build vs buy decision
+-  Evaluate **Daloopa** trial
+-  Compare to free alternatives (EDGAR parsing)
+-  Make build vs buy decision
 
 **IF event-driven strategies are roadmap:**
-- 🟡 Evaluate **MT Newswires** trial
-- 🟡 Start with free news (NewsAPI) for proof-of-concept
-- 🟡 Upgrade to MT Newswires if alpha proven
+-  Evaluate **MT Newswires** trial
+-  Start with free news (NewsAPI) for proof-of-concept
+-  Upgrade to MT Newswires if alpha proven
 
 **For Knowledge Base:**
-- 🟡 Implement **Scholar Gateway** integration
-- 🟡 Automate academic paper ingestion
-- 🟡 Enhance KB credibility
+-  Implement **Scholar Gateway** integration
+-  Automate academic paper ingestion
+-  Enhance KB credibility
 
 ### Long-Term (6-12 Months)
 
@@ -974,10 +974,10 @@ Aiera (acquired by S&P Global) provides AI-powered event detection, earnings cal
 ### Appendix A: Cost vs Value Matrix
 
 ```
-High Value, Low Cost: Scholar Gateway ✅
+High Value, Low Cost: Scholar Gateway
 High Value, High Cost: Daloopa, MT Newswires, S&P Aiera (conditional)
-Low Value, High Cost: Moody's Analytics ❌
-Low Value, Low Cost: Crypto.com (out of scope) ⚠️
+Low Value, High Cost: Moody's Analytics
+Low Value, Low Cost: Crypto.com (out of scope) ️
 ```
 
 ### Appendix B: Integration Effort Estimates

@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document analyzes potential additional plugins for the Intelligent Investor system beyond the core data providers and broker connectors. These plugins can enhance research, risk management, and execution capabilities.
+This document analyzes potential additional plugins for the Ordinis system beyond the core data providers and broker connectors. These plugins can enhance research, risk management, and execution capabilities.
 
 ---
 

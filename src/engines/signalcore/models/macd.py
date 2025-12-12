@@ -1,8 +1,8 @@
 """
 MACD Model.
 
-Momentum strategy based on Moving Average Convergence Divergence.
-Buy on bullish crossovers, sell on bearish crossovers.
+Momentum and trend identification using Moving Average Convergence Divergence (MACD).
+Bullish crossovers generate buy signals, bearish crossovers generate sell signals.
 """
 
 from datetime import datetime, timedelta
@@ -16,19 +16,22 @@ from ..features.technical import TechnicalIndicators
 
 class MACDModel(Model):
     """
-    MACD trading model.
+    MACD (Moving Average Convergence Divergence) trading model.
 
-    Generates signals based on MACD line and signal line crossovers.
+    Generates signals based on MACD line crossovers with the signal line,
+    which indicates momentum shifts and potential trend changes.
 
     Parameters:
         fast_period: Fast EMA period (default 12)
         slow_period: Slow EMA period (default 26)
         signal_period: Signal line period (default 9)
+        min_histogram: Minimum histogram value for signal (default 0.0)
 
     Signals:
-        - ENTRY/LONG on bullish crossover (MACD crosses above signal line)
-        - EXIT on bearish crossover (MACD crosses below signal line)
-        - Signal strength based on histogram magnitude and zero line position
+        - ENTRY/LONG when MACD crosses above signal line (bullish crossover)
+        - EXIT when MACD crosses below signal line (bearish crossover)
+        - HOLD when maintaining trend direction
+        - Score based on histogram magnitude (momentum strength)
     """
 
     def __init__(self, config: ModelConfig):
@@ -40,22 +43,21 @@ class MACDModel(Model):
         self.fast_period = params.get("fast_period", 12)
         self.slow_period = params.get("slow_period", 26)
         self.signal_period = params.get("signal_period", 9)
+        self.min_histogram = params.get("min_histogram", 0.0)
 
-        # Update min data points (need enough for slow EMA + signal line)
-        self.config.min_data_points = max(
-            self.config.min_data_points, self.slow_period + self.signal_period + 20
-        )
+        # Update min data points
+        self.config.min_data_points = self.slow_period + self.signal_period + 20
 
-    def generate(self, data: pd.DataFrame, timestamp: datetime) -> Signal:
+    def generate(self, data: pd.DataFrame, timestamp: datetime) -> Signal:  # noqa: PLR0912, PLR0915
         """
-        Generate trading signal from MACD.
+        Generate trading signal from MACD analysis.
 
         Args:
             data: Historical OHLCV data
             timestamp: Current timestamp
 
         Returns:
-            Signal with momentum prediction
+            Signal with MACD momentum prediction
         """
         # Validate data
         is_valid, msg = self.validate(data)
@@ -67,6 +69,7 @@ class MACDModel(Model):
             symbol = symbol_data.iloc[0] if hasattr(symbol_data, "iloc") else str(symbol_data)
         else:
             symbol = "UNKNOWN"
+
         close = data["close"]
 
         # Calculate MACD
@@ -74,30 +77,27 @@ class MACDModel(Model):
             close, self.fast_period, self.slow_period, self.signal_period
         )
 
-        # Get current and previous values
+        # Get current values
         current_macd = macd_line.iloc[-1]
         current_signal = signal_line.iloc[-1]
-        current_histogram = histogram.iloc[-1]
+        current_hist = histogram.iloc[-1]
 
+        # Get previous values for crossover detection
         prev_macd = macd_line.iloc[-2] if len(macd_line) > 1 else current_macd
         prev_signal = signal_line.iloc[-2] if len(signal_line) > 1 else current_signal
-        prev_histogram = histogram.iloc[-2] if len(histogram) > 1 else current_histogram
+        prev_hist = histogram.iloc[-2] if len(histogram) > 1 else current_hist
 
         # Detect crossovers
-        bullish_crossover = prev_macd <= prev_signal and current_macd > current_signal
-        bearish_crossover = prev_macd >= prev_signal and current_macd < current_signal
+        bullish_cross = prev_macd <= prev_signal and current_macd > current_signal
+        bearish_cross = prev_macd >= prev_signal and current_macd < current_signal
 
-        # Check position relative to zero line
+        # Calculate histogram momentum
+        hist_momentum = current_hist - prev_hist
+        hist_strength = abs(current_hist)
+
+        # Determine zero line position
         macd_above_zero = current_macd > 0
-        signal_above_zero = current_signal > 0
-
-        # Histogram momentum (increasing or decreasing)
-        histogram_increasing = current_histogram > prev_histogram
-        histogram_decreasing = current_histogram < prev_histogram
-
-        # Calculate histogram strength (normalized by price)
-        current_price = close.iloc[-1]
-        histogram_strength = abs(current_histogram) / current_price if current_price != 0 else 0
+        macd_below_zero = current_macd < 0
 
         # Determine signal
         signal_type = SignalType.HOLD
@@ -106,54 +106,59 @@ class MACDModel(Model):
         probability = 0.5
         expected_return = 0.0
 
-        # Bullish crossover - buy signal
-        if bullish_crossover:
+        # Bullish crossover: MACD crosses above signal line
+        if bullish_cross and abs(current_hist) >= self.min_histogram:
             signal_type = SignalType.ENTRY
             direction = Direction.LONG
 
-            # Stronger signal if crossover happens above zero line
-            if macd_above_zero:
-                # Strong bullish - MACD above zero with bullish crossover
-                score = 0.7 + min(histogram_strength * 10, 0.3)
-                probability = 0.70 + min(histogram_strength * 5, 0.10)  # 0.70-0.80
-                expected_return = 0.06 + min(histogram_strength * 2, 0.04)  # 0.06-0.10
-            else:
-                # Moderate bullish - crossover below zero (potential trend reversal)
-                score = 0.5 + min(histogram_strength * 10, 0.2)
-                probability = 0.60 + min(histogram_strength * 5, 0.10)  # 0.60-0.70
-                expected_return = 0.04 + min(histogram_strength * 2, 0.02)  # 0.04-0.06
+            # Stronger signal when:
+            # 1. Crossing above zero line (strong momentum)
+            # 2. Large histogram value
+            # 3. Increasing histogram momentum
+            zero_line_factor = 1.2 if macd_above_zero else 1.0
+            momentum_factor = 1.1 if hist_momentum > 0 else 1.0
 
-        # Bearish crossover - exit signal
-        elif bearish_crossover:
+            # Normalize histogram strength
+            hist_score = min(hist_strength * 100, 1.0)
+            score = min(hist_score * zero_line_factor * momentum_factor, 1.0)
+
+            probability = 0.60 + (score * 0.20)  # 0.60-0.80
+            expected_return = 0.04 + (score * 0.06)  # 4-10% expected return
+
+        # Bearish crossover: MACD crosses below signal line
+        elif bearish_cross:
             signal_type = SignalType.EXIT
             direction = Direction.NEUTRAL
 
-            if not macd_above_zero:
-                # Strong bearish - MACD below zero with bearish crossover
-                score = -0.7 - min(histogram_strength * 10, 0.3)
-                probability = 0.70 + min(histogram_strength * 5, 0.10)
-            else:
-                # Moderate bearish - crossover above zero (potential momentum loss)
-                score = -0.5 - min(histogram_strength * 10, 0.2)
-                probability = 0.60 + min(histogram_strength * 5, 0.10)
+            # Stronger exit signal when crossing below zero
+            zero_line_factor = 1.2 if macd_below_zero else 1.0
+            momentum_factor = 1.1 if hist_momentum < 0 else 1.0
 
-        # No crossover - hold with momentum indication
+            hist_score = min(hist_strength * 100, 1.0)
+            score = -min(hist_score * zero_line_factor * momentum_factor, 1.0)
+
+            probability = 0.60 + (abs(score) * 0.20)
+
+        # Hold with bullish bias: MACD above signal line
+        elif current_macd > current_signal:
+            signal_type = SignalType.HOLD
+            direction = Direction.LONG
+
+            # Score based on histogram strength and momentum
+            hist_score = min(hist_strength * 100, 0.8)
+            momentum_boost = 0.1 if hist_momentum > 0 else 0.0
+            score = hist_score + momentum_boost
+            probability = 0.52 + (score * 0.05)
+
+        # Hold with bearish bias: MACD below signal line
         else:
             signal_type = SignalType.HOLD
-            direction = Direction.NEUTRAL
+            direction = Direction.SHORT
 
-            # Score based on histogram direction and MACD position
-            if current_macd > current_signal:
-                # Bullish positioning
-                base_score = 0.2 if macd_above_zero else 0.1
-                score = base_score + (0.1 if histogram_increasing else -0.05)
-            else:
-                # Bearish positioning
-                base_score = -0.2 if not macd_above_zero else -0.1
-                score = base_score + (-0.1 if histogram_decreasing else 0.05)
-
-            score = max(min(score, 0.3), -0.3)  # Cap at ±0.3 for hold
-            probability = 0.5
+            hist_score = min(hist_strength * 100, 0.8)
+            momentum_boost = 0.1 if hist_momentum < 0 else 0.0
+            score = -(hist_score + momentum_boost)
+            probability = 0.52 + (abs(score) * 0.05)
 
         # Calculate confidence interval
         returns = close.pct_change().dropna()
@@ -163,17 +168,28 @@ class MACDModel(Model):
             expected_return + 2 * recent_vol,
         )
 
-        # Feature contributions
+        # Feature contributions for explainability
         feature_contributions = {
-            "macd": float(current_macd),
-            "signal": float(current_signal),
-            "histogram": float(current_histogram),
-            "histogram_strength": float(histogram_strength),
+            "macd_line": float(current_macd),
+            "signal_line": float(current_signal),
+            "histogram": float(current_hist),
+            "histogram_momentum": float(hist_momentum),
+            "bullish_cross": float(bullish_cross),
+            "bearish_cross": float(bearish_cross),
             "macd_above_zero": float(macd_above_zero),
-            "bullish_crossover": float(bullish_crossover),
-            "bearish_crossover": float(bearish_crossover),
-            "histogram_increasing": float(histogram_increasing),
+            "histogram_strength": float(hist_strength),
         }
+
+        # Regime detection based on MACD behavior
+        # Calculate histogram volatility over recent period
+        hist_volatility = histogram.tail(20).std()
+
+        if hist_volatility > 0.015:
+            regime = "trending"
+        elif hist_volatility > 0.005:
+            regime = "ranging"
+        else:
+            regime = "consolidating"
 
         # Data quality
         recent_close = close.tail(20)
@@ -185,17 +201,13 @@ class MACDModel(Model):
         else:
             staleness = timedelta(seconds=0)
 
-        # Regime detection based on MACD characteristics
-        if bullish_crossover or bearish_crossover:
-            regime = "crossover"
-        elif abs(current_histogram) < histogram.tail(20).std() * 0.5:
-            regime = "consolidating"
-        elif histogram_increasing and current_macd > current_signal:
-            regime = "trending_up"
-        elif histogram_decreasing and current_macd < current_signal:
-            regime = "trending_down"
+        # Determine crossover type
+        if bullish_cross:
+            crossover_type = "bullish"
+        elif bearish_cross:
+            crossover_type = "bearish"
         else:
-            regime = "ranging"
+            crossover_type = "none"
 
         return Signal(
             symbol=symbol,
@@ -216,6 +228,10 @@ class MACDModel(Model):
                 "fast_period": self.fast_period,
                 "slow_period": self.slow_period,
                 "signal_period": self.signal_period,
-                "current_price": float(current_price),
+                "current_price": float(close.iloc[-1]),
+                "macd_line": float(current_macd),
+                "signal_line": float(current_signal),
+                "histogram": float(current_hist),
+                "crossover_type": crossover_type,
             },
         )

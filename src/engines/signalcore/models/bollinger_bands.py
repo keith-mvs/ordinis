@@ -1,8 +1,8 @@
 """
 Bollinger Bands Model.
 
-Mean reversion strategy based on Bollinger Bands.
-Buy when price touches lower band (oversold), sell when price touches upper band (overbought).
+Volatility-based trading strategy using Bollinger Bands for mean reversion.
+Buy on lower band touches, sell on upper band touches.
 """
 
 from datetime import datetime, timedelta
@@ -18,17 +18,18 @@ class BollingerBandsModel(Model):
     """
     Bollinger Bands trading model.
 
-    Generates signals based on price position relative to Bollinger Bands.
+    Generates signals based on price interaction with Bollinger Bands,
+    which measure volatility and potential overbought/oversold conditions.
 
     Parameters:
-        bb_period: Bollinger Bands calculation period (default 20)
-        bb_std: Number of standard deviations for bands (default 2.0)
-        min_band_width: Minimum band width to avoid low volatility signals (default 0.02)
+        bb_period: Bollinger Bands period (default 20)
+        bb_std: Number of standard deviations (default 2.0)
+        min_band_width: Minimum band width for signal generation (default 0.01)
 
     Signals:
-        - ENTRY/LONG when price touches or crosses below lower band (oversold)
-        - EXIT when price touches or crosses above upper band (overbought)
-        - Stronger signals when price is further outside bands
+        - ENTRY/LONG when price touches/crosses below lower band
+        - EXIT when price reaches middle or upper band
+        - Score based on band width (volatility) and distance from bands
     """
 
     def __init__(self, config: ModelConfig):
@@ -39,21 +40,21 @@ class BollingerBandsModel(Model):
         params = self.config.parameters
         self.bb_period = params.get("bb_period", 20)
         self.bb_std = params.get("bb_std", 2.0)
-        self.min_band_width = params.get("min_band_width", 0.02)
+        self.min_band_width = params.get("min_band_width", 0.01)
 
         # Update min data points
-        self.config.min_data_points = max(self.config.min_data_points, self.bb_period + 20)
+        self.config.min_data_points = self.bb_period + 30
 
-    def generate(self, data: pd.DataFrame, timestamp: datetime) -> Signal:
+    def generate(self, data: pd.DataFrame, timestamp: datetime) -> Signal:  # noqa: PLR0912, PLR0915
         """
-        Generate trading signal from Bollinger Bands.
+        Generate trading signal from Bollinger Bands analysis.
 
         Args:
             data: Historical OHLCV data
             timestamp: Current timestamp
 
         Returns:
-            Signal with mean reversion prediction
+            Signal with Bollinger Bands prediction
         """
         # Validate data
         is_valid, msg = self.validate(data)
@@ -65,6 +66,7 @@ class BollingerBandsModel(Model):
             symbol = symbol_data.iloc[0] if hasattr(symbol_data, "iloc") else str(symbol_data)
         else:
             symbol = "UNKNOWN"
+
         close = data["close"]
 
         # Calculate Bollinger Bands
@@ -73,28 +75,34 @@ class BollingerBandsModel(Model):
         )
 
         # Get current values
-        current_close = close.iloc[-1]
-        current_upper = upper.iloc[-1]
-        current_lower = lower.iloc[-1]
-        current_middle = middle.iloc[-1]
+        current_price = close.iloc[-1]
+        prev_price = close.iloc[-2] if len(close) > 1 else current_price
 
-        # Calculate band width (as percentage of middle band)
-        band_width = (current_upper - current_lower) / current_middle if current_middle != 0 else 0
+        lower_val = lower.iloc[-1]
+        middle_val = middle.iloc[-1]
+        upper_val = upper.iloc[-1]
 
-        # Calculate %B (position within bands: 0 = lower, 1 = upper)
-        band_range = current_upper - current_lower
-        percent_b = (current_close - current_lower) / band_range if band_range != 0 else 0.5
+        prev_lower = lower.iloc[-2] if len(lower) > 1 else lower_val
+        prev_upper = upper.iloc[-2] if len(upper) > 1 else upper_val
 
-        # Get previous values for crossover detection
-        prev_close = close.iloc[-2] if len(close) > 1 else current_close
-        prev_upper = upper.iloc[-2] if len(upper) > 1 else current_upper
-        prev_lower = lower.iloc[-2] if len(lower) > 1 else current_lower
+        # Calculate band width (volatility measure)
+        band_width = (upper_val - lower_val) / middle_val if middle_val != 0 else 0.0
 
-        # Detect crossovers
-        crossing_below_lower = prev_close >= prev_lower and current_close < current_lower
-        crossing_above_upper = prev_close <= prev_upper and current_close > current_upper
-        touching_lower = current_close <= current_lower
-        touching_upper = current_close >= current_upper
+        # Calculate position within bands (0 = lower band, 1 = upper band)
+        band_range = upper_val - lower_val
+        if band_range > 0:
+            bb_position = (current_price - lower_val) / band_range
+        else:
+            bb_position = 0.5
+
+        # Detect band touches and crosses
+        touching_lower = current_price <= lower_val * 1.001  # Within 0.1% of lower band
+        crossed_below_lower = prev_price > prev_lower and current_price <= lower_val
+        touched_or_crossed_lower = touching_lower or crossed_below_lower
+
+        touching_upper = current_price >= upper_val * 0.999  # Within 0.1% of upper band
+        crossed_above_upper = prev_price < prev_upper and current_price >= upper_val
+        touched_or_crossed_upper = touching_upper or crossed_above_upper
 
         # Determine signal
         signal_type = SignalType.HOLD
@@ -103,49 +111,60 @@ class BollingerBandsModel(Model):
         probability = 0.5
         expected_return = 0.0
 
-        # Check for low volatility (skip signals)
-        low_volatility = band_width < self.min_band_width
+        # Only generate signals if band width is sufficient (avoid low volatility periods)
+        if band_width < self.min_band_width:
+            # Low volatility - hold
+            signal_type = SignalType.HOLD
+            direction = Direction.NEUTRAL
+            score = 0.0
+            probability = 0.5
+        # Buy signal: Price at/below lower band
+        elif touched_or_crossed_lower:
+            signal_type = SignalType.ENTRY
+            direction = Direction.LONG
 
-        if not low_volatility:
-            # Buy signal: Price at or below lower band (oversold)
-            if touching_lower or crossing_below_lower:
-                signal_type = SignalType.ENTRY
-                direction = Direction.LONG
+            # Score based on:
+            # 1. How far below lower band (stronger signal)
+            # 2. Band width (higher volatility = stronger signal)
+            distance_below = max(0, lower_val - current_price) / lower_val
+            volatility_factor = min(band_width / 0.04, 1.0)  # Normalize to 0.04 = high vol
 
-                # Calculate signal strength based on how far below lower band
-                if current_close < current_lower:
-                    # Below lower band - strong signal
-                    overshoot = (current_lower - current_close) / current_lower
-                    score = min(0.5 + overshoot * 10, 1.0)
-                    probability = 0.65 + min(overshoot * 5, 0.15)  # 0.65-0.80
-                    expected_return = 0.05 + min(overshoot * 3, 0.03)  # 0.05-0.08
-                else:
-                    # At lower band
-                    score = 0.5
-                    probability = 0.60
-                    expected_return = 0.03
+            score = min((distance_below * 5 + volatility_factor) / 2, 1.0)
+            probability = 0.60 + (score * 0.15)  # 0.60-0.75
+            expected_return = 0.03 + (score * 0.05)  # 3-8% expected return
 
-            # Sell/Exit signal: Price at or above upper band (overbought)
-            elif touching_upper or crossing_above_upper:
-                signal_type = SignalType.EXIT
-                direction = Direction.NEUTRAL
+        # Sell signal: Price at/above upper band
+        elif touched_or_crossed_upper:
+            signal_type = SignalType.EXIT
+            direction = Direction.NEUTRAL
 
-                # Calculate signal strength
-                if current_close > current_upper:
-                    overshoot = (current_close - current_upper) / current_upper
-                    score = -min(0.5 + overshoot * 10, 1.0)
-                    probability = 0.65 + min(overshoot * 5, 0.15)
-                else:
-                    score = -0.5
-                    probability = 0.60
+            # Score based on distance above upper band
+            distance_above = max(0, current_price - upper_val) / upper_val
+            volatility_factor = min(band_width / 0.04, 1.0)
 
-            # Hold in neutral zone
-            else:
-                signal_type = SignalType.HOLD
-                direction = Direction.NEUTRAL
-                # Score reflects position within bands (0.5 = middle)
-                score = (0.5 - percent_b) * 0.6  # Map to -0.3 to 0.3
-                probability = 0.5
+            score = -min((distance_above * 5 + volatility_factor) / 2, 1.0)
+            probability = 0.60 + (abs(score) * 0.15)
+
+        # Price near middle band - potential hold or weak signal
+        elif abs(bb_position - 0.5) < 0.2:  # Within 20% of middle
+            signal_type = SignalType.HOLD
+            direction = Direction.NEUTRAL
+            score = 0.0
+            probability = 0.5
+
+        # Price in lower half but not at band
+        elif bb_position < 0.5:
+            signal_type = SignalType.HOLD
+            direction = Direction.LONG
+            score = (0.5 - bb_position) * 0.5  # Weak positive score
+            probability = 0.52
+
+        # Price in upper half but not at band
+        else:
+            signal_type = SignalType.HOLD
+            direction = Direction.SHORT
+            score = -(bb_position - 0.5) * 0.5  # Weak negative score
+            probability = 0.52
 
         # Calculate confidence interval
         returns = close.pct_change().dropna()
@@ -155,19 +174,24 @@ class BollingerBandsModel(Model):
             expected_return + 2 * recent_vol,
         )
 
-        # Feature contributions
+        # Feature contributions for explainability
         feature_contributions = {
-            "percent_b": float(percent_b),
+            "bb_position": float(bb_position),
             "band_width": float(band_width),
-            "price_vs_middle": float((current_close - current_middle) / current_middle)
-            if current_middle != 0
-            else 0.0,
-            "touching_lower": float(touching_lower),
-            "touching_upper": float(touching_upper),
-            "crossing_lower": float(crossing_below_lower),
-            "crossing_upper": float(crossing_above_upper),
-            "low_volatility": float(low_volatility),
+            "distance_to_lower": float((current_price - lower_val) / lower_val),
+            "distance_to_upper": float((upper_val - current_price) / upper_val),
+            "touched_lower": float(touched_or_crossed_lower),
+            "touched_upper": float(touched_or_crossed_upper),
+            "volatility": float(band_width),
         }
+
+        # Regime detection based on band width
+        if band_width > 0.04:
+            regime = "high_volatility"
+        elif band_width > 0.02:
+            regime = "moderate_volatility"
+        else:
+            regime = "low_volatility"
 
         # Data quality
         recent_close = close.tail(20)
@@ -178,14 +202,6 @@ class BollingerBandsModel(Model):
             staleness = timestamp - data.index[-1]
         else:
             staleness = timedelta(seconds=0)
-
-        # Regime detection
-        if band_width < 0.03:
-            regime = "low_volatility"
-        elif band_width > 0.08:
-            regime = "high_volatility"
-        else:
-            regime = "moderate_volatility"
 
         return Signal(
             symbol=symbol,
@@ -205,9 +221,11 @@ class BollingerBandsModel(Model):
             metadata={
                 "bb_period": self.bb_period,
                 "bb_std": self.bb_std,
-                "current_price": float(current_close),
-                "upper_band": float(current_upper),
-                "middle_band": float(current_middle),
-                "lower_band": float(current_lower),
+                "current_price": float(current_price),
+                "lower_band": float(lower_val),
+                "middle_band": float(middle_val),
+                "upper_band": float(upper_val),
+                "band_position": float(bb_position),
+                "band_width": float(band_width),
             },
         )

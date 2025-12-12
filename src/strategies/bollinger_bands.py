@@ -1,31 +1,31 @@
 """
 Bollinger Bands Strategy.
 
-Trades mean reversion signals using Bollinger Bands indicator.
+Volatility-based mean reversion strategy using Bollinger Bands.
 """
 
 from datetime import datetime
 
 import pandas as pd
 
-from engines.signalcore.core.model import ModelConfig
-from engines.signalcore.core.signal import Signal
-from engines.signalcore.models import BollingerBandsModel
+from src.engines.signalcore.core.model import ModelConfig
+from src.engines.signalcore.core.signal import Signal
+from src.engines.signalcore.models import BollingerBandsModel
 
 from .base import BaseStrategy
 
 
 class BollingerBandsStrategy(BaseStrategy):
     """
-    Bollinger Bands Mean Reversion Strategy.
+    Bollinger Bands Strategy.
 
-    Enters long positions when price touches lower band (oversold)
-    and exits when price touches upper band (overbought).
+    Trades mean reversion opportunities based on Bollinger Bands,
+    which measure price volatility using standard deviations.
 
     Default Parameters:
-    - bb_period: 20 (standard BB calculation period)
-    - bb_std: 2.0 (number of standard deviations)
-    - min_band_width: 0.02 (minimum band width to avoid low volatility)
+    - bb_period: 20 (Bollinger Bands calculation period)
+    - bb_std: 2.0 (Number of standard deviations)
+    - min_band_width: 0.01 (Minimum volatility for signal generation)
     """
 
     def configure(self):
@@ -33,17 +33,17 @@ class BollingerBandsStrategy(BaseStrategy):
         # Set default parameters if not provided
         self.params.setdefault("bb_period", 20)
         self.params.setdefault("bb_std", 2.0)
-        self.params.setdefault("min_band_width", 0.02)
-        self.params.setdefault("min_bars", self.params["bb_period"] + 20)
+        self.params.setdefault("min_band_width", 0.01)
+        self.params.setdefault("min_bars", self.params["bb_period"] + 30)
 
         # Create underlying signal model
         model_config = ModelConfig(
             model_id=f"{self.name}-bb-model",
-            model_type="mean_reversion",
+            model_type="volatility",
             parameters={
                 "bb_period": self.params["bb_period"],
                 "bb_std": self.params["bb_std"],
-                "min_band_width": self.params["min_band_width"],
+                "min_band_width": self.params.get("min_band_width", 0.01),
             },
         )
 
@@ -66,43 +66,68 @@ class BollingerBandsStrategy(BaseStrategy):
             return None
 
         try:
-            # Generate signal using BB model
+            # Generate signal using Bollinger Bands model
             signal = self.model.generate(data, timestamp)
+
+            # Enrich signal metadata with strategy info
+            if signal:
+                signal.metadata["strategy"] = self.name
+
+                # Add stop loss and take profit based on bands
+                current_price = signal.metadata.get("current_price", 0)
+                lower_band = signal.metadata.get("lower_band", 0)
+                middle_band = signal.metadata.get("middle_band", 0)
+                upper_band = signal.metadata.get("upper_band", 0)
+
+                # Set stop loss and take profit based on band position
+                if signal.direction.value == "long":
+                    signal.metadata["stop_loss"] = lower_band * 0.99  # Below lower band
+                    signal.metadata["take_profit"] = middle_band  # Target middle band
+                elif signal.direction.value == "short":
+                    signal.metadata["stop_loss"] = upper_band * 1.01  # Above upper band
+                    signal.metadata["take_profit"] = middle_band  # Target middle band
+                else:
+                    signal.metadata["stop_loss"] = current_price * 0.98
+                    signal.metadata["take_profit"] = current_price * 1.02
+
             return signal
         except Exception:
             return None
 
     def get_description(self) -> str:
         """Get strategy description."""
-        return f"""Bollinger Bands Mean Reversion Strategy
+        return f"""Bollinger Bands Volatility Strategy
 
-Trades mean reversion opportunities using Bollinger Bands.
+Trades mean reversion opportunities using Bollinger Bands as dynamic
+support and resistance levels based on price volatility.
 
 Entry Rules:
-- BUY when price touches or crosses below lower band (oversold)
-- Higher conviction when price moves further below lower band
+- BUY when price touches or crosses below the lower band (oversold)
+- Higher conviction in high volatility environments
+- Requires minimum band width of {self.params.get('min_band_width', 0.01):.1%}
 
 Exit Rules:
-- SELL when price touches or crosses above upper band (overbought)
-- Higher conviction when price moves further above upper band
+- SELL when price reaches middle or upper band
+- Exit when price touches or crosses above upper band (overbought)
 
 Parameters:
 - BB Period: {self.params['bb_period']} bars
 - Standard Deviations: {self.params['bb_std']}
-- Min Band Width: {self.params['min_band_width']} (filters low volatility)
+- Min Band Width: {self.params.get('min_band_width', 0.01):.1%}
 
 Best For:
 - Range-bound markets
 - Mean-reverting assets
-- Counter-trend trading
-- Moderate volatility environments
+- Markets with cyclical volatility
+- Sideways trending periods
 
 Risk Considerations:
-- Can struggle in strong trends (band walking)
-- May experience drawdowns during breakouts
-- Avoid low volatility periods (compressed bands)
+- Weak in strong trending markets
+- Can give false signals in low volatility
+- Requires proper position sizing
+- Works best with volume confirmation
 """
 
     def get_required_bars(self) -> int:
         """Get minimum bars required."""
-        return self.params.get("min_bars", self.params["bb_period"] + 20)
+        return self.params.get("min_bars", self.params["bb_period"] + 30)

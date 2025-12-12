@@ -66,8 +66,8 @@ def test_engine_with_standard_rules():
     """Test engine with standard rules."""
     engine = RiskGuardEngine(rules=STANDARD_RISK_RULES)
 
-    assert len(engine.list_rules()) == 9  # 9 standard rules
-    assert len(engine.list_rules(enabled_only=True)) == 9
+    assert len(engine.list_rules()) == 25  # 25 standard rules
+    assert len(engine.list_rules(enabled_only=True)) == 25
 
 
 @pytest.mark.unit
@@ -125,8 +125,8 @@ def test_list_rules_by_category():
     pre_trade = engine.list_rules(category=RuleCategory.PRE_TRADE)
     kill_switches = engine.list_rules(category=RuleCategory.KILL_SWITCH)
 
-    assert len(pre_trade) == 2  # RT001, RT002
-    assert len(kill_switches) == 2  # RK001, RK002
+    assert len(pre_trade) == 4  # RT001-RT004
+    assert len(kill_switches) == 7  # RK001-RK007
 
 
 @pytest.mark.unit
@@ -297,7 +297,7 @@ def test_engine_to_dict():
 
     state = engine.to_dict()
 
-    assert state["total_rules"] == 9
-    assert state["enabled_rules"] == 9
+    assert state["total_rules"] == 25  # 25 standard risk rules
+    assert state["enabled_rules"] == 25
     assert state["halted"] is False
     assert "rules" in state

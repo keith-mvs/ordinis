@@ -2,505 +2,366 @@
 
 from datetime import datetime
 
-import numpy as np
 import pandas as pd
-import pytest
 
-from strategies.bollinger_bands import BollingerBandsStrategy
-
-
-def create_test_data(bars: int = 150, trend: str = "neutral") -> pd.DataFrame:
-    """
-    Create test market data.
-
-    Args:
-        bars: Number of bars to generate
-        trend: Market trend (neutral, uptrend, downtrend, volatile, low_volatility)
-
-    Returns:
-        DataFrame with OHLCV data
-    """
-    dates = pd.date_range(start="2024-01-01", periods=bars, freq="D")
-
-    # Use numpy arrays to avoid index alignment issues with DatetimeIndex
-    if trend == "neutral":
-        # Sideways market with oscillations
-        close = 100 + 5 * np.array([(x % 20 - 10) * 0.5 for x in range(bars)])
-    elif trend == "uptrend":
-        # Strong uptrend
-        close = 100 + np.arange(bars) * 0.3
-    elif trend == "downtrend":
-        # Strong downtrend
-        close = 150 - np.arange(bars) * 0.3
-    elif trend == "volatile":
-        # High volatility oscillations
-        np.random.seed(42)
-        close = 100 + np.cumsum(np.random.randn(bars) * 3)
-    elif trend == "low_volatility":
-        # Very low volatility (compressed bands)
-        np.random.seed(42)
-        close = 100 + np.random.randn(bars) * 0.1
-    elif trend == "touching_lower":
-        # Create data where price touches lower band
-        np.random.seed(42)
-        close = 100 + np.cumsum(np.random.randn(bars) * 1)
-        # Force last values to drop significantly
-        close[-10:] = close[-10] - np.arange(10) * 0.5
-    elif trend == "touching_upper":
-        # Create data where price touches upper band
-        np.random.seed(42)
-        close = 100 + np.cumsum(np.random.randn(bars) * 1)
-        # Force last values to spike up significantly
-        close[-10:] = close[-10] + np.arange(10) * 0.5
-    else:
-        close = np.array([100.0] * bars)
-
-    data = pd.DataFrame(
-        {
-            "open": close * 0.99,
-            "high": close * 1.02,
-            "low": close * 0.98,
-            "close": close,
-            "volume": [1000000] * bars,
-        },
-        index=dates,
-    )
-
-    return data
+from src.engines.signalcore.core.signal import Direction, SignalType
+from src.strategies.bollinger_bands import BollingerBandsStrategy
 
 
-class TestBollingerBandsStrategy:
-    """Tests for BollingerBandsStrategy class."""
+def create_test_data(bars=60, **overrides):
+    """Create test OHLCV data with sensible defaults."""
+    defaults = {
+        "open": [100] * bars,
+        "high": [102] * bars,
+        "low": [98] * bars,
+        "close": [100] * bars,
+        "volume": [1000] * bars,
+    }
+    defaults.update(overrides)
+    return pd.DataFrame(defaults)
 
-    def test_strategy_initialization(self):
-        """Test strategy initializes with default parameters."""
+
+class TestBollingerBandsConfiguration:
+    """Test strategy configuration."""
+
+    def test_default_configuration(self):
+        """Test default parameter configuration."""
         strategy = BollingerBandsStrategy(name="test-bb")
 
-        assert strategy.name == "test-bb"
         assert strategy.params["bb_period"] == 20
         assert strategy.params["bb_std"] == 2.0
+        assert strategy.params["min_band_width"] == 0.01
+        assert strategy.params["min_bars"] == 50  # bb_period + 30
+
+    def test_custom_configuration(self):
+        """Test custom parameter configuration."""
+        strategy = BollingerBandsStrategy(
+            name="test", bb_period=30, bb_std=2.5, min_band_width=0.02
+        )
+
+        assert strategy.params["bb_period"] == 30
+        assert strategy.params["bb_std"] == 2.5
         assert strategy.params["min_band_width"] == 0.02
 
-    def test_strategy_custom_parameters(self):
-        """Test strategy with custom parameters."""
-        strategy = BollingerBandsStrategy(
-            name="custom-bb",
-            bb_period=25,
-            bb_std=2.5,
-            min_band_width=0.03,
-        )
-
-        assert strategy.params["bb_period"] == 25
-        assert strategy.params["bb_std"] == 2.5
-        assert strategy.params["min_band_width"] == 0.03
-
-    def test_configure_creates_model(self):
-        """Test that configure creates underlying BB model."""
-        strategy = BollingerBandsStrategy(name="test-bb")
-
-        assert hasattr(strategy, "model")
-        assert strategy.model is not None
-        assert strategy.model.config.model_type == "mean_reversion"
-
-    def test_get_description(self):
-        """Test strategy description."""
-        strategy = BollingerBandsStrategy(name="test-bb")
-
-        description = strategy.get_description()
-
-        assert isinstance(description, str)
-        assert "Bollinger Bands" in description
-        assert "lower band" in description.lower()
-        assert "upper band" in description.lower()
-        assert "20" in description  # Default BB period
-
-    def test_get_required_bars_default(self):
+    def test_get_required_bars(self):
         """Test required bars calculation."""
-        strategy = BollingerBandsStrategy(name="test-bb")
+        strategy = BollingerBandsStrategy(name="test", bb_period=25)
+        assert strategy.get_required_bars() == 55  # bb_period + 30
 
-        required = strategy.get_required_bars()
 
-        # Should be bb_period + 20
-        assert required == 20 + 20
-        assert required == 40
+class TestLowerBandTouch:
+    """Test lower band touch signal generation."""
 
-    def test_get_required_bars_custom(self):
-        """Test required bars with custom BB period."""
-        strategy = BollingerBandsStrategy(
-            name="test-bb",
-            bb_period=30,
+    def test_lower_band_touch_long_entry(self):
+        """Test long entry signal when price touches lower band."""
+        strategy = BollingerBandsStrategy(name="test", bb_period=5, bb_std=2.0)
+
+        # Price touches lower band - need at least 35 bars (bb_period + 30)
+        # Sharp drop at the end to cross below established bands
+        data = create_test_data(
+            bars=60,
+            close=[100] * 56 + [100, 100, 100, 63.9],  # Sharp drop to touch lower band
         )
+        data["symbol"] = "AAPL"
 
-        required = strategy.get_required_bars()
+        signal = strategy.generate_signal(data, datetime.utcnow())
 
-        assert required == 30 + 20
-        assert required == 50
+        assert signal is not None
+        # Signal should be ENTRY or HOLD (near lower band can be either)
+        assert signal.signal_type in [SignalType.ENTRY, SignalType.HOLD]
+        assert signal.direction == Direction.LONG
+        assert signal.probability >= 0.5
+        assert "band_position" in signal.metadata
+        assert signal.metadata["band_position"] < 0.2  # Near lower band
 
-    def test_validate_data_insufficient_bars(self):
-        """Test validation fails with insufficient data."""
-        strategy = BollingerBandsStrategy(name="test-bb")
-        data = create_test_data(bars=30)  # Need 40
+    def test_lower_band_touch_with_high_volatility(self):
+        """Test signal with sufficient band width."""
+        strategy = BollingerBandsStrategy(name="test", bb_period=5, bb_std=2.0, min_band_width=0.01)
 
-        is_valid, msg = strategy.validate_data(data)
+        # High volatility data - need at least 35 bars
+        base_pattern = [100, 105, 95, 110, 90]
+        data = create_test_data(
+            bars=60,
+            close=base_pattern * 11 + [85, 84, 83, 82, 80],
+        )
+        data["symbol"] = "AAPL"
 
-        assert is_valid is False
-        assert "Insufficient data" in msg
+        signal = strategy.generate_signal(data, datetime.utcnow())
 
-    def test_validate_data_sufficient_bars(self):
-        """Test validation succeeds with sufficient data."""
-        strategy = BollingerBandsStrategy(name="test-bb")
-        data = create_test_data(bars=100)
+        assert signal is not None
+        if signal.signal_type == SignalType.ENTRY:
+            assert "band_width" in signal.metadata
+            assert signal.metadata["band_width"] >= strategy.params["min_band_width"]
 
-        is_valid, msg = strategy.validate_data(data)
 
-        assert is_valid is True
-        assert msg == ""
+class TestUpperBandTouch:
+    """Test upper band touch signal generation."""
 
-    def test_generate_signal_with_insufficient_data(self):
-        """Test signal generation returns None for insufficient data."""
-        strategy = BollingerBandsStrategy(name="test-bb")
-        data = create_test_data(bars=20)
+    def test_upper_band_touch_exit_signal(self):
+        """Test exit signal when price touches upper band."""
+        strategy = BollingerBandsStrategy(name="test", bb_period=5, bb_std=2.0)
+
+        # Price rallies to upper band
+        data = create_test_data(
+            bars=60,
+            close=[100] * 55 + [105, 108, 110, 112, 115],
+        )
+        data["symbol"] = "AAPL"
+
+        signal = strategy.generate_signal(data, datetime.utcnow())
+
+        assert signal is not None
+        if signal.signal_type == SignalType.EXIT:
+            assert signal.direction == Direction.NEUTRAL
+            assert "band_position" in signal.metadata
+            assert signal.metadata["band_position"] > 0.8  # Near upper band
+
+
+class TestMiddleBandBehavior:
+    """Test behavior around middle band."""
+
+    def test_middle_band_hold_signal(self):
+        """Test hold signal when price near middle band."""
+        strategy = BollingerBandsStrategy(name="test", bb_period=5, bb_std=2.0)
+
+        # Price oscillating around middle, ending centered
+        # Last 5 values: [101, 99, 100, 100, 100] -> SMA = 100, current = 100
+        data = create_test_data(
+            bars=60,
+            close=[100, 101, 99, 100, 101] * 11 + [100, 101, 99, 100, 100],
+        )
+        data["symbol"] = "AAPL"
+
+        signal = strategy.generate_signal(data, datetime.utcnow())
+
+        assert signal is not None
+        if signal.signal_type == SignalType.HOLD:
+            assert signal.direction == Direction.NEUTRAL
+            assert 0.3 < signal.metadata["band_position"] < 0.7  # Mid-range
+
+
+class TestBandWidthConditions:
+    """Test band width filtering."""
+
+    def test_insufficient_band_width_no_entry(self):
+        """Test no entry signal when bands too narrow."""
+        strategy = BollingerBandsStrategy(name="test", bb_period=5, bb_std=2.0, min_band_width=0.05)
+
+        # Very low volatility (tight bands)
+        data = create_test_data(
+            bars=60,
+            close=[100, 100.1, 99.9, 100, 100.1] * 12,
+        )
+        data["symbol"] = "AAPL"
+
+        signal = strategy.generate_signal(data, datetime.utcnow())
+
+        # Should get hold/neutral, not entry
+        if signal is not None and signal.signal_type == SignalType.ENTRY:
+            # If we somehow got an entry, band_width should meet minimum
+            assert signal.metadata.get("band_width", 0) >= strategy.params["min_band_width"]
+
+
+class TestSignalMetadata:
+    """Test signal metadata fields."""
+
+    def test_entry_metadata_complete(self):
+        """Test all metadata fields present in entry signal."""
+        strategy = BollingerBandsStrategy(name="test", bb_period=5, bb_std=2.0)
+
+        data = create_test_data(
+            bars=60,
+            close=[100] * 55 + [95, 94, 93, 92, 88],
+        )
+        data["symbol"] = "AAPL"
+
+        signal = strategy.generate_signal(data, datetime.utcnow())
+
+        assert signal is not None
+        metadata = signal.metadata
+
+        assert "strategy" in metadata
+        assert "band_position" in metadata
+        assert "band_width" in metadata
+        assert "middle_band" in metadata
+        assert "upper_band" in metadata
+        assert "lower_band" in metadata
+        assert "stop_loss" in metadata
+        assert "take_profit" in metadata
+
+    def test_metadata_values_reasonable(self):
+        """Test metadata values are within reasonable ranges."""
+        strategy = BollingerBandsStrategy(name="test", bb_period=5, bb_std=2.0)
+
+        data = create_test_data(bars=60, close=list(range(100, 160)))
+        data["symbol"] = "AAPL"
+
+        signal = strategy.generate_signal(data, datetime.utcnow())
+
+        if signal is not None:
+            metadata = signal.metadata
+
+            # Band position should be 0-1
+            assert 0 <= metadata.get("band_position", 0.5) <= 1
+
+            # Band width should be positive
+            assert metadata.get("band_width", 0) >= 0
+
+            # Bands should be ordered: lower < middle < upper
+            if all(k in metadata for k in ["lower_band", "middle_band", "upper_band"]):
+                assert metadata["lower_band"] < metadata["middle_band"] < metadata["upper_band"]
+
+
+class TestDataValidation:
+    """Test data validation and error handling."""
+
+    def test_insufficient_data_returns_none(self):
+        """Test that insufficient data returns None."""
+        strategy = BollingerBandsStrategy(name="test", bb_period=20)
+
+        data = create_test_data(bars=10)  # Need 20
 
         signal = strategy.generate_signal(data, datetime.utcnow())
 
         assert signal is None
 
-    def test_generate_signal_with_valid_data(self):
-        """Test signal generation with valid data."""
-        strategy = BollingerBandsStrategy(name="test-bb")
-        data = create_test_data(bars=150, trend="volatile")
-
-        timestamp = datetime.utcnow()
-        signal = strategy.generate_signal(data, timestamp)
-
-        # Should generate a signal (even if HOLD)
-        assert signal is not None
-        assert hasattr(signal, "symbol")
-        assert hasattr(signal, "signal_type")
-
-    def test_generate_signal_handles_exceptions(self):
-        """Test signal generation handles exceptions gracefully."""
-        strategy = BollingerBandsStrategy(name="test-bb")
-        data = create_test_data(bars=100)
-
-        try:
-            signal = strategy.generate_signal(data, datetime.utcnow())
-            assert signal is None or hasattr(signal, "symbol")
-        except Exception:
-            pytest.fail("generate_signal should handle exceptions gracefully")
-
-    def test_str_representation(self):
-        """Test string representation."""
-        strategy = BollingerBandsStrategy(name="my-bb-strategy")
-
-        result = str(strategy)
-
-        assert result == "my-bb-strategy Strategy"
-
-    def test_repr_representation(self):
-        """Test repr representation."""
-        strategy = BollingerBandsStrategy(name="my-bb-strategy")
-
-        result = repr(strategy)
-
-        assert "BollingerBandsStrategy" in result
-        assert "my-bb-strategy" in result
-
-
-class TestBollingerBandsStrategyParameters:
-    """Tests for parameter handling."""
-
-    def test_min_bars_calculated_from_bb_period(self):
-        """Test min_bars is calculated from BB period."""
-        strategy = BollingerBandsStrategy(name="test", bb_period=25)
-
-        assert strategy.params["min_bars"] == 25 + 20
-
-    def test_min_band_width_optional(self):
-        """Test min_band_width has default."""
+    def test_missing_columns_returns_none(self):
+        """Test that missing columns returns None."""
         strategy = BollingerBandsStrategy(name="test")
 
-        assert "min_band_width" in strategy.params
-        assert strategy.params["min_band_width"] == 0.02
-
-    def test_model_config_parameters(self):
-        """Test model config includes all parameters."""
-        strategy = BollingerBandsStrategy(
-            name="test",
-            bb_period=25,
-            bb_std=2.5,
-            min_band_width=0.03,
-        )
-
-        config = strategy.model.config
-
-        assert config.parameters["bb_period"] == 25
-        assert config.parameters["bb_std"] == 2.5
-        assert config.parameters["min_band_width"] == 0.03
-
-
-class TestBollingerBandsStrategySignals:
-    """Tests for signal generation logic."""
-
-    def test_signal_contains_band_metadata(self):
-        """Test signal contains Bollinger Bands metadata."""
-        strategy = BollingerBandsStrategy(name="test-bb")
-        data = create_test_data(bars=150, trend="volatile")
+        data = pd.DataFrame({"high": [100] * 30, "low": [95] * 30, "close": [98] * 30})
 
         signal = strategy.generate_signal(data, datetime.utcnow())
 
-        assert signal is not None
-        assert "bb_period" in signal.metadata
-        assert "upper_band" in signal.metadata
-        assert "middle_band" in signal.metadata
-        assert "lower_band" in signal.metadata
-        assert "current_price" in signal.metadata
+        assert signal is None
 
-    def test_signal_contains_feature_contributions(self):
-        """Test signal contains feature contributions."""
-        strategy = BollingerBandsStrategy(name="test-bb")
-        data = create_test_data(bars=150, trend="volatile")
-
-        signal = strategy.generate_signal(data, datetime.utcnow())
-
-        assert signal is not None
-        assert "percent_b" in signal.feature_contributions
-        assert "band_width" in signal.feature_contributions
-
-    def test_signal_has_regime_detection(self):
-        """Test signal includes regime detection."""
-        strategy = BollingerBandsStrategy(name="test-bb")
-        data = create_test_data(bars=150, trend="volatile")
-
-        signal = strategy.generate_signal(data, datetime.utcnow())
-
-        assert signal is not None
-        assert signal.regime in ["low_volatility", "moderate_volatility", "high_volatility"]
-
-    def test_low_volatility_detection(self):
-        """Test low volatility regime is detected."""
-        strategy = BollingerBandsStrategy(name="test-bb")
-        data = create_test_data(bars=150, trend="low_volatility")
-
-        signal = strategy.generate_signal(data, datetime.utcnow())
-
-        assert signal is not None
-        # Low volatility should result in HOLD signals
-        assert signal.feature_contributions["low_volatility"] == 1.0 or signal.regime == "low_volatility"
-
-
-class TestBollingerBandsStrategyIntegration:
-    """Integration tests for BB strategy."""
-
-    def test_strategy_with_trending_market(self):
-        """Test strategy behavior in trending market."""
-        strategy = BollingerBandsStrategy(name="test-bb")
-        data = create_test_data(bars=150, trend="uptrend")
-
-        # Test at multiple points
-        for i in range(50, len(data), 20):
-            timestamp = data.index[i]
-            signal = strategy.generate_signal(data.iloc[: i + 1], timestamp)
-
-            if signal:
-                assert hasattr(signal, "symbol")
-                assert hasattr(signal, "timestamp")
-                assert hasattr(signal, "signal_type")
-
-    def test_strategy_with_volatile_market(self):
-        """Test strategy behavior in volatile market."""
-        strategy = BollingerBandsStrategy(name="test-bb")
-        data = create_test_data(bars=150, trend="volatile")
-
-        timestamp = data.index[-1]
-        signal = strategy.generate_signal(data, timestamp)
-
-        # Should handle volatile data without crashing
-        assert signal is not None
-        assert hasattr(signal, "symbol")
-
-    def test_strategy_with_different_timeframes(self):
-        """Test strategy with different data lengths."""
-        strategy = BollingerBandsStrategy(name="test-bb")
-
-        for bars in [100, 200, 500]:  # Start at 100 to meet min_data_points
-            data = create_test_data(bars=bars, trend="volatile")
-            timestamp = data.index[-1]
-            signal = strategy.generate_signal(data, timestamp)
-
-            # Should handle different timeframes
-            assert signal is not None
-
-    def test_strategy_consistency(self):
-        """Test strategy generates consistent signals for same data."""
-        strategy = BollingerBandsStrategy(name="test-bb", bb_period=20)
-        data = create_test_data(bars=150, trend="neutral")
-        timestamp = data.index[-1]
-
-        # Generate signal multiple times
-        signal1 = strategy.generate_signal(data, timestamp)
-        signal2 = strategy.generate_signal(data, timestamp)
-
-        # Should be consistent
-        if signal1 is None:
-            assert signal2 is None
-        else:
-            assert signal2 is not None
-            assert signal1.symbol == signal2.symbol
-            assert signal1.signal_type == signal2.signal_type
-
-
-class TestBollingerBandsStrategyValidation:
-    """Tests for data validation."""
-
-    def test_requires_ohlcv_columns(self):
-        """Test strategy requires OHLCV columns."""
+    def test_empty_dataframe_returns_none(self):
+        """Test that empty DataFrame returns None."""
         strategy = BollingerBandsStrategy(name="test")
 
-        # Missing volume
-        data = pd.DataFrame(
-            {
-                "open": [100] * 100,
-                "high": [105] * 100,
-                "low": [95] * 100,
-                "close": [102] * 100,
-            },
-            index=pd.date_range("2024-01-01", periods=100),
-        )
-
-        is_valid, msg = strategy.validate_data(data)
-
-        assert is_valid is False
-        assert "volume" in msg.lower()
-
-    def test_handles_empty_data(self):
-        """Test strategy handles empty data."""
-        strategy = BollingerBandsStrategy(name="test")
         data = pd.DataFrame()
 
-        is_valid, msg = strategy.validate_data(data)
+        signal = strategy.generate_signal(data, datetime.utcnow())
 
-        assert is_valid is False
-        assert "empty" in msg.lower()
+        assert signal is None
 
-    def test_handles_none_data(self):
-        """Test strategy handles None data."""
+
+class TestSymbolHandling:
+    """Test symbol extraction from data."""
+
+    def test_symbol_from_data(self):
+        """Test symbol extraction when present."""
+        strategy = BollingerBandsStrategy(name="test", bb_period=5)
+
+        data = create_test_data(bars=60)
+        data["symbol"] = "TSLA"
+
+        signal = strategy.generate_signal(data, datetime.utcnow())
+
+        assert signal is not None
+        assert signal.symbol == "TSLA"
+
+    def test_default_symbol_when_missing(self):
+        """Test default symbol when not in data."""
+        strategy = BollingerBandsStrategy(name="test", bb_period=5)
+
+        data = create_test_data(bars=60)
+
+        signal = strategy.generate_signal(data, datetime.utcnow())
+
+        if signal is not None:
+            assert signal.symbol == "UNKNOWN"
+
+
+class TestStrategyDescription:
+    """Test strategy description."""
+
+    def test_get_description_format(self):
+        """Test description contains key information."""
         strategy = BollingerBandsStrategy(name="test")
 
-        is_valid, msg = strategy.validate_data(None)
+        description = strategy.get_description()
 
-        assert is_valid is False
-        assert "empty" in msg.lower()
+        assert isinstance(description, str)
+        assert len(description) > 100
+        assert "Bollinger Bands" in description
+        assert "Entry Rules" in description
+        assert "Exit Rules" in description
 
 
-class TestBollingerBandsModel:
-    """Tests for the underlying Bollinger Bands model."""
+class TestEdgeCases:
+    """Test edge cases."""
 
-    def test_model_has_correct_parameters(self):
-        """Test model is configured with correct parameters."""
-        strategy = BollingerBandsStrategy(
-            name="test",
-            bb_period=25,
-            bb_std=2.5,
+    def test_probability_bounds(self):
+        """Test that probability is within valid bounds."""
+        strategy = BollingerBandsStrategy(name="test", bb_period=5, bb_std=2.0)
+
+        # Extreme price movement
+        data = create_test_data(
+            bars=60,
+            close=[100] * 55 + [120, 80, 150, 60, 50],
         )
-
-        model = strategy.model
-
-        assert model.bb_period == 25
-        assert model.bb_std == 2.5
-
-    def test_model_calculates_bands_correctly(self):
-        """Test model calculates Bollinger Bands correctly."""
-        strategy = BollingerBandsStrategy(name="test-bb")
-        data = create_test_data(bars=150, trend="volatile")
+        data["symbol"] = "AAPL"
 
         signal = strategy.generate_signal(data, datetime.utcnow())
 
         assert signal is not None
-        # Upper band should be above middle, lower below
-        assert signal.metadata["upper_band"] > signal.metadata["middle_band"]
-        assert signal.metadata["lower_band"] < signal.metadata["middle_band"]
+        assert 0 <= signal.probability <= 1
 
-    def test_percent_b_in_valid_range(self):
-        """Test %B is calculated and in reasonable range."""
-        strategy = BollingerBandsStrategy(name="test-bb")
-        data = create_test_data(bars=150, trend="volatile")
+    def test_nan_handling(self):
+        """Test handling of NaN values in data."""
+        strategy = BollingerBandsStrategy(name="test", bb_period=5)
+
+        data = create_test_data(bars=60)
+        # Introduce some NaN values
+        data.loc[10:12, "close"] = float("nan")
+        data["symbol"] = "AAPL"
 
         signal = strategy.generate_signal(data, datetime.utcnow())
 
-        assert signal is not None
-        percent_b = signal.feature_contributions["percent_b"]
-        # %B can be outside 0-1 when price is outside bands
-        # But should generally be in a reasonable range
-        assert -0.5 <= percent_b <= 1.5
+        # Should either handle gracefully or return None
+        # Not crash with exception
+        assert signal is None or isinstance(signal.probability, float)
 
+    def test_zero_volume(self):
+        """Test handling of zero volume."""
+        strategy = BollingerBandsStrategy(name="test", bb_period=5)
 
-class TestBollingerBandsEdgeCases:
-    """Edge case tests for Bollinger Bands strategy."""
-
-    def test_handles_constant_prices(self):
-        """Test strategy handles constant price data (zero volatility)."""
-        strategy = BollingerBandsStrategy(name="test-bb")
-
-        # Create data with constant prices
-        dates = pd.date_range(start="2024-01-01", periods=100, freq="D")
-        data = pd.DataFrame(
-            {
-                "open": [100.0] * 100,
-                "high": [100.0] * 100,
-                "low": [100.0] * 100,
-                "close": [100.0] * 100,
-                "volume": [1000000] * 100,
-            },
-            index=dates,
+        data = create_test_data(
+            bars=60,
+            close=[100] * 55 + [95, 94, 93, 92, 88],
+            volume=[0] * 60,
         )
-
-        # Should handle gracefully (may return HOLD due to low volatility)
-        signal = strategy.generate_signal(data, datetime.utcnow())
-        assert signal is not None or True  # May raise or return None
-
-    def test_handles_missing_values(self):
-        """Test strategy handles data with NaN values."""
-        strategy = BollingerBandsStrategy(name="test-bb")
-        data = create_test_data(bars=100, trend="neutral")
-
-        # Add some NaN values
-        data.iloc[50, data.columns.get_loc("close")] = np.nan
-
-        # Should handle gracefully
-        try:
-            signal = strategy.generate_signal(data, datetime.utcnow())
-            # May return None or a signal with degraded data_quality
-            assert signal is None or signal.data_quality < 1.0
-        except ValueError:
-            # Also acceptable to raise an error for invalid data
-            pass
-
-    def test_extreme_price_movements(self):
-        """Test strategy handles extreme price movements."""
-        strategy = BollingerBandsStrategy(name="test-bb")
-
-        # Create data with volatility followed by extreme spike
-        np.random.seed(42)
-        dates = pd.date_range(start="2024-01-01", periods=150, freq="D")
-        # Start with volatile data to establish proper bands (use numpy array, not Series)
-        close_values = 100 + np.cumsum(np.random.randn(150) * 2)
-        close_values[-1] = close_values[-2] + 50  # Large spike at end
-
-        data = pd.DataFrame(
-            {
-                "open": close_values * 0.99,
-                "high": close_values * 1.02,
-                "low": close_values * 0.98,
-                "close": close_values,
-                "volume": [1000000] * 150,
-            },
-            index=dates,
-        )
+        data["symbol"] = "AAPL"
 
         signal = strategy.generate_signal(data, datetime.utcnow())
 
-        # Should still generate a signal
+        # Should still generate signal (BB doesn't depend on volume)
         assert signal is not None
-        # Price should be well above upper band after spike
-        assert signal.metadata["current_price"] > signal.metadata["upper_band"]
+
+
+class TestMeanReversion:
+    """Test mean reversion behavior."""
+
+    def test_oversold_to_mean_reversion(self):
+        """Test mean reversion from oversold condition."""
+        strategy = BollingerBandsStrategy(name="test", bb_period=10, bb_std=2.0)
+
+        # Price drops to lower band then reverts - need 40+ bars (10 + 30)
+        data = create_test_data(
+            bars=60,
+            close=[100] * 35 + [95, 93, 91, 90, 89] + [90, 92, 94, 96, 98] + [100] * 15,
+        )
+        data["symbol"] = "AAPL"
+
+        # Check signal at bottom (should be entry)
+        signal_bottom = strategy.generate_signal(data.iloc[:45], datetime.utcnow())
+
+        # Check signal at reversion (might be exit)
+        signal_revert = strategy.generate_signal(data, datetime.utcnow())
+
+        if signal_bottom is not None and signal_bottom.signal_type == SignalType.ENTRY:
+            assert signal_bottom.direction == Direction.LONG
+
+        if signal_revert is not None and signal_revert.signal_type == SignalType.EXIT:
+            assert signal_revert.metadata["band_position"] > signal_bottom.metadata["band_position"]

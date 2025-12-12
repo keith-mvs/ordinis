@@ -6,7 +6,7 @@
 
 ## TL;DR Recommendation
 
-**❌ DO NOT implement any connectors in Phase 1**
+** DO NOT implement any connectors in Phase 1**
 
 **Rationale:**
 - Current data sources (Polygon, IEX) are sufficient for core strategies
@@ -21,23 +21,23 @@
 
 | Connector | Use Case | Priority | Cost/Month | When to Add |
 |-----------|----------|----------|------------|-------------|
-| 🟡 **Daloopa** | Fundamental data | Medium-High | $500-2K | IF building fundamental strategies |
-| 🔴 **Crypto.com** | Crypto data | Low | $0-100 | IF adding crypto to universe (unlikely) |
-| 🟡 **Scholar Gateway** | Academic papers | Medium | $0-50 | Phase 2, for KB quality |
-| 🟡 **MT Newswires** | Real-time news | Medium | $1K-5K | IF event-driven is core strategy |
-| 🔴 **Moody's Analytics** | Credit risk | Low | $10K-50K+ | Likely never (too expensive, wrong scope) |
-| 🟡 **S&P Aiera** | Transcripts + AI | Medium | $2K-10K | IF sentiment is core alpha source |
+|  **Daloopa** | Fundamental data | Medium-High | $500-2K | IF building fundamental strategies |
+|  **Crypto.com** | Crypto data | Low | $0-100 | IF adding crypto to universe (unlikely) |
+|  **Scholar Gateway** | Academic papers | Medium | $0-50 | Phase 2, for KB quality |
+|  **MT Newswires** | Real-time news | Medium | $1K-5K | IF event-driven is core strategy |
+|  **Moody's Analytics** | Credit risk | Low | $10K-50K+ | Likely never (too expensive, wrong scope) |
+|  **S&P Aiera** | Transcripts + AI | Medium | $2K-10K | IF sentiment is core alpha source |
 
 ---
 
 ## Priority Tiers
 
-### 🔴 Tier 1: DO NOT ADD (Yet)
+###  Tier 1: DO NOT ADD (Yet)
 **All evaluated connectors are Tier 1 "Do Not Add" for now**
 
 Why? System needs to prove core strategies first before expanding data sources.
 
-### 🟡 Tier 2: EVALUATE Later (Phase 2-3)
+###  Tier 2: EVALUATE Later (Phase 2-3)
 
 **Add IF specific conditions met:**
 
@@ -65,7 +65,7 @@ Why? System needs to prove core strategies first before expanding data sources.
    - **Effort:** ~21 hours
    - **Value:** HIGH if sentiment works, overlaps with MT Newswires
 
-### 🔴 Tier 3: SKIP (Likely Never)
+###  Tier 3: SKIP (Likely Never)
 
 1. **Crypto.com**
    - **Reason:** Out of scope (equities/options focus)
@@ -81,11 +81,11 @@ Why? System needs to prove core strategies first before expanding data sources.
 
 **Before adding ANY connector, ask:**
 
-1. ✅ **Is there proven alpha?** Have we tested strategies that need this data?
-2. ✅ **Have we maxed out current data?** Can Polygon/IEX provide this?
-3. ✅ **Is cost justified?** Will this data generate >10x its cost in alpha?
-4. ✅ **Do we have capacity?** Can we integrate and maintain this?
-5. ✅ **Is there a free alternative?** Can we test with free data first?
+1.  **Is there proven alpha?** Have we tested strategies that need this data?
+2.  **Have we maxed out current data?** Can Polygon/IEX provide this?
+3.  **Is cost justified?** Will this data generate >10x its cost in alpha?
+4.  **Do we have capacity?** Can we integrate and maintain this?
+5.  **Is there a free alternative?** Can we test with free data first?
 
 **If ANY answer is NO → DEFER the connector**
 
@@ -154,11 +154,11 @@ Why? System needs to prove core strategies first before expanding data sources.
 
 **DO NOT add a connector if:**
 
-- ❌ No proven strategy needs this data
-- ❌ Cost >1% of expected monthly returns
-- ❌ Free alternative untested
-- ❌ Engineering team at capacity
-- ❌ Similar connector already integrated
+-  No proven strategy needs this data
+-  Cost >1% of expected monthly returns
+-  Free alternative untested
+-  Engineering team at capacity
+-  Similar connector already integrated
 
 ---
 
@@ -175,11 +175,11 @@ Why? System needs to prove core strategies first before expanding data sources.
 
 ## Next Steps
 
-1. ✅ **Focus on core system** (SignalCore, RiskGuard, ProofBench)
-2. ✅ **Prove technical strategies** (MA Crossover, breakouts, etc.)
-3. 🔲 **Re-evaluate in Phase 2** (Q2 2025)
-4. 🔲 **Request trials** when ready (Daloopa, MT Newswires, Aiera)
-5. 🔲 **Make data-driven decision** (measure alpha, calculate ROI)
+1.  **Focus on core system** (SignalCore, RiskGuard, ProofBench)
+2.  **Prove technical strategies** (MA Crossover, breakouts, etc.)
+3.  **Re-evaluate in Phase 2** (Q2 2025)
+4.  **Request trials** when ready (Daloopa, MT Newswires, Aiera)
+5.  **Make data-driven decision** (measure alpha, calculate ROI)
 
 ---
 

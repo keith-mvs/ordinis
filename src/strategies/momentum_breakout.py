@@ -8,7 +8,7 @@ from datetime import datetime
 
 import pandas as pd
 
-from engines.signalcore.core.signal import Direction, Signal, SignalType
+from src.engines.signalcore.core.signal import Direction, Signal, SignalType
 
 from .base import BaseStrategy
 

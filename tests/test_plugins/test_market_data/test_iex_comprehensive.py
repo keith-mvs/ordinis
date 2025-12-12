@@ -416,7 +416,6 @@ class TestIEXRequestMethods:
         # Mock the session.get response
         mock_response = AsyncMock()
         mock_response.json = AsyncMock(return_value={"test": "data"})
-        mock_response.raise_for_status = MagicMock()  # Non-async method
         mock_response.__aenter__ = AsyncMock(return_value=mock_response)
         mock_response.__aexit__ = AsyncMock()
 
@@ -437,7 +436,6 @@ class TestIEXRequestMethods:
 
         mock_response = AsyncMock()
         mock_response.json = AsyncMock(return_value={"test": "data"})
-        mock_response.raise_for_status = MagicMock()  # Non-async method
         mock_response.__aenter__ = AsyncMock(return_value=mock_response)
         mock_response.__aexit__ = AsyncMock()
 

@@ -1,0 +1,3430 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+
+        <meta name="description" content="Comprehensive documentation for the Ordinis algorithmic trading system">
+
+
+        <meta name="author" content="Ordinis Development Team">
+
+
+        <link rel="canonical" href="https://ordinis.local/analysis/MARKET_DATA_ENHANCEMENT_PLAN/">
+
+
+        <link rel="prev" href="../ANALYSIS_FRAMEWORK/">
+
+
+        <link rel="next" href="../BACKTEST_RESULTS_20251207/">
+
+
+
+
+
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+
+
+
+        <title>Market Data Enhancement - Ordinis Trading System Documentation</title>
+
+
+
+      <link rel="stylesheet" href="../../assets/stylesheets/main.618322db.min.css">
+
+
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+
+
+
+
+
+
+
+
+
+
+
+
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+
+
+
+      <link rel="stylesheet" href="../../css/print-site.css">
+
+      <link rel="stylesheet" href="../../css/print-site-material.css">
+
+      <link rel="stylesheet" href="../../css/timeago.css">
+
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+
+
+
+
+
+
+
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-XXXXXXXXXX"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-XXXXXXXXXX",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+
+
+
+
+  </head>
+
+
+
+
+
+
+
+
+
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="teal">
+
+
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+
+
+        <a href="#market-data-enhancement-plan" class="md-skip">
+          Skip to content
+        </a>
+
+    </div>
+    <div data-md-component="announce">
+
+    </div>
+
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+
+      </div>
+
+
+
+
+
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Ordinis Trading System Documentation" class="md-header__button md-logo" aria-label="Ordinis Trading System Documentation" data-md-component="logo">
+
+
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Ordinis Trading System Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+
+              Market Data Enhancement
+
+          </span>
+        </div>
+      </div>
+    </div>
+
+
+        <form class="md-header__option" data-md-component="palette">
+
+
+
+
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="teal"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+
+
+
+
+
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue-grey" data-md-color-accent="teal"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+
+
+</form>
+
+
+
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+
+
+
+
+
+        <label class="md-header__button md-icon" for="__search">
+
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+      <div class="md-header__source">
+        <a href="https://github.com/ordinis/ordinis-1" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ordinis-1
+  </div>
+</a>
+      </div>
+
+  </nav>
+
+
+
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+
+
+
+
+
+
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+
+
+
+
+
+  Home
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+    <li class="md-tabs__item">
+      <a href="../../project/" class="md-tabs__link">
+
+
+
+
+
+  Project
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+    <li class="md-tabs__item">
+      <a href="../../architecture/" class="md-tabs__link">
+
+
+
+
+
+  Architecture
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+    <li class="md-tabs__item">
+      <a href="../../knowledge-base/" class="md-tabs__link">
+
+
+
+
+
+  Knowledge Base
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+    <li class="md-tabs__item">
+      <a href="../../guides/" class="md-tabs__link">
+
+
+
+
+
+  Guides
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="../" class="md-tabs__link">
+
+
+
+
+
+  Analysis
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+    <li class="md-tabs__item">
+      <a href="../../testing/" class="md-tabs__link">
+
+
+
+
+
+  Testing
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+    <li class="md-tabs__item">
+      <a href="../../strategies/" class="md-tabs__link">
+
+
+
+
+
+  Strategies
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+    <li class="md-tabs__item">
+      <a href="../../session-exports/" class="md-tabs__link">
+
+
+
+
+
+  Session Exports
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+    <li class="md-tabs__item">
+      <a href="../../print_page/" class="md-tabs__link">
+
+
+
+
+
+  Complete Documentation (Print/PDF)
+
+      </a>
+    </li>
+
+
+
+    </ul>
+  </div>
+</nav>
+
+
+</header>
+
+    <div class="md-container" data-md-component="container">
+
+
+
+
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+
+
+
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+
+
+
+
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Ordinis Trading System Documentation" class="md-nav__button md-logo" aria-label="Ordinis Trading System Documentation" data-md-component="logo">
+
+
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Ordinis Trading System Documentation
+  </label>
+
+    <div class="md-nav__source">
+      <a href="https://github.com/ordinis/ordinis-1" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ordinis-1
+  </div>
+</a>
+    </div>
+
+  <ul class="md-nav__list" data-md-scrollfix>
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Home
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+
+
+
+
+
+    <a href="../../project/PROJECT_SCOPE/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Project
+
+
+
+  </span>
+
+
+
+
+        <span class="md-nav__icon md-icon"></span>
+
+    </a>
+
+
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+
+
+
+
+
+
+
+
+
+    <a href="../../architecture/SIGNALCORE_SYSTEM/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Architecture
+
+
+
+  </span>
+
+
+
+
+        <span class="md-nav__icon md-icon"></span>
+
+    </a>
+
+
+
+
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+
+
+
+
+
+    <a href="../../knowledge-base/00_KB_INDEX/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Knowledge Base
+
+
+
+  </span>
+
+
+
+
+        <span class="md-nav__icon md-icon"></span>
+
+    </a>
+
+
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+
+
+
+
+
+    <a href="../../guides/CLI_USAGE/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Guides
+
+
+
+  </span>
+
+
+
+
+        <span class="md-nav__icon md-icon"></span>
+
+    </a>
+
+
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+
+
+
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+
+
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Analysis
+
+
+
+  </span>
+
+
+
+            </a>
+
+
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+
+          </div>
+
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+
+
+    Analysis
+
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../ANALYSIS_FRAMEWORK/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Analysis Framework
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--active">
+
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+
+
+
+
+
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Market Data Enhancement
+
+
+
+  </span>
+
+
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+
+      <a href="./" class="md-nav__link md-nav__link--active">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Market Data Enhancement
+
+
+
+  </span>
+
+
+
+      </a>
+
+
+
+
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+
+
+
+
+
+
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+
+        <li class="md-nav__item">
+  <a href="#executive-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Executive Summary
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#problem-statement" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Problem Statement
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Problem Statement">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#current-limitations-web-search-approach" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Current Limitations (Web Search Approach)
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#evidence-from-recent-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Evidence from Recent Execution
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#proposed-solution" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Proposed Solution
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Proposed Solution">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#architecture-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Architecture Overview
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#component-design" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Component Design
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Component Design">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#1-market-data-aggregator" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        1. Market Data Aggregator
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#2-plugin-integration-layer" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        2. Plugin Integration Layer
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#3-fallback-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        3. Fallback Strategy
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#implementation-plan" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Implementation Plan
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Implementation Plan">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#phase-1-core-integration-day-1" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Phase 1: Core Integration (Day 1)
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Phase 1: Core Integration (Day 1)">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#task-11-create-market-data-aggregator" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Task 1.1: Create Market Data Aggregator
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#task-12-update-market-conditions-command" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Task 1.2: Update Market Conditions Command
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#phase-2-enhanced-features-day-2" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Phase 2: Enhanced Features (Day 2)
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Phase 2: Enhanced Features (Day 2)">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#task-21-add-vix-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Task 2.1: Add VIX Analysis
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#task-22-add-breadth-indicators" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Task 2.2: Add Breadth Indicators
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#task-23-add-sector-rotation" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Task 2.3: Add Sector Rotation
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#phase-3-economic-calendar-integration-day-3" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Phase 3: Economic Calendar Integration (Day 3)
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Phase 3: Economic Calendar Integration (Day 3)">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#task-31-fred-integration-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Task 3.1: FRED Integration (Optional)
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#task-32-trading-economics-api-alternative" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Task 3.2: Trading Economics API (Alternative)
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#data-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Data Mapping
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Data Mapping">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#index-snapshot" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Index Snapshot
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#volatility" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Volatility
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#sector-performance" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Sector Performance
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#testing-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Testing Strategy
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Testing Strategy">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#unit-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Unit Tests
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#integration-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Integration Tests
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#performance-comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Performance Comparison
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Performance Comparison">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#before-web-search" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Before (Web Search)
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#after-plugin-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        After (Plugin Integration)
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Configuration
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Configuration">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Environment Variables
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#plugin-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Plugin Configuration
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#migration-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Migration Strategy
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Migration Strategy">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#phase-1-dual-mode-operation" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Phase 1: Dual-Mode Operation
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#phase-2-plugin-first" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Phase 2: Plugin-First
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#phase-3-plugin-only" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Phase 3: Plugin-Only
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#risk-mitigation" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Risk Mitigation
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Risk Mitigation">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#risk-api-rate-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Risk: API Rate Limits
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#risk-api-costs" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Risk: API Costs
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#risk-plugin-failures" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Risk: Plugin Failures
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#success-criteria" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Success Criteria
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Success Criteria">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#functional-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Functional Requirements
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#technical-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Technical Requirements
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#user-experience" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        User Experience
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#timeline" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Timeline
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Next Steps
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        References
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="References">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#existing-code" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Existing Code
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#external-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        External Documentation
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#knowledge-base" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Knowledge Base
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+    </ul>
+
+</nav>
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../BACKTEST_RESULTS_20251207/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Backtest Results
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+
+          </ul>
+        </nav>
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+
+
+
+
+
+    <a href="../../testing/PHASE_1_TESTING_SETUP/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Testing
+
+
+
+  </span>
+
+
+
+
+        <span class="md-nav__icon md-icon"></span>
+
+    </a>
+
+
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+
+
+
+
+
+    <a href="../../strategies/STRATEGY_TEMPLATE/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Strategies
+
+
+
+  </span>
+
+
+
+
+        <span class="md-nav__icon md-icon"></span>
+
+    </a>
+
+
+
+    </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+
+
+
+
+
+    <a href="../../session-exports/SESSION_SUMMARY_KB_IMPLEMENTATION/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Session Exports
+
+
+
+  </span>
+
+
+
+
+        <span class="md-nav__icon md-icon"></span>
+
+    </a>
+
+
+
+    </li>
+
+
+
+
+
+
+
+
+
+    <li class="md-nav__item">
+      <a href="../../print_page/" class="md-nav__link">
+
+
+
+  <span class="md-ellipsis">
+
+
+    Complete Documentation (Print/PDF)
+
+
+
+  </span>
+
+
+
+      </a>
+    </li>
+
+
+
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+
+
+
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+
+
+
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+
+
+
+
+
+
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+
+        <li class="md-nav__item">
+  <a href="#executive-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Executive Summary
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#problem-statement" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Problem Statement
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Problem Statement">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#current-limitations-web-search-approach" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Current Limitations (Web Search Approach)
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#evidence-from-recent-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Evidence from Recent Execution
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#proposed-solution" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Proposed Solution
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Proposed Solution">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#architecture-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Architecture Overview
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#component-design" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Component Design
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Component Design">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#1-market-data-aggregator" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        1. Market Data Aggregator
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#2-plugin-integration-layer" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        2. Plugin Integration Layer
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#3-fallback-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        3. Fallback Strategy
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#implementation-plan" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Implementation Plan
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Implementation Plan">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#phase-1-core-integration-day-1" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Phase 1: Core Integration (Day 1)
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Phase 1: Core Integration (Day 1)">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#task-11-create-market-data-aggregator" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Task 1.1: Create Market Data Aggregator
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#task-12-update-market-conditions-command" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Task 1.2: Update Market Conditions Command
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#phase-2-enhanced-features-day-2" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Phase 2: Enhanced Features (Day 2)
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Phase 2: Enhanced Features (Day 2)">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#task-21-add-vix-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Task 2.1: Add VIX Analysis
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#task-22-add-breadth-indicators" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Task 2.2: Add Breadth Indicators
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#task-23-add-sector-rotation" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Task 2.3: Add Sector Rotation
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#phase-3-economic-calendar-integration-day-3" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Phase 3: Economic Calendar Integration (Day 3)
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Phase 3: Economic Calendar Integration (Day 3)">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#task-31-fred-integration-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Task 3.1: FRED Integration (Optional)
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#task-32-trading-economics-api-alternative" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Task 3.2: Trading Economics API (Alternative)
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#data-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Data Mapping
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Data Mapping">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#index-snapshot" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Index Snapshot
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#volatility" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Volatility
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#sector-performance" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Sector Performance
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#testing-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Testing Strategy
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Testing Strategy">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#unit-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Unit Tests
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#integration-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Integration Tests
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#performance-comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Performance Comparison
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Performance Comparison">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#before-web-search" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Before (Web Search)
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#after-plugin-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        After (Plugin Integration)
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Configuration
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Configuration">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Environment Variables
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#plugin-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Plugin Configuration
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#migration-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Migration Strategy
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Migration Strategy">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#phase-1-dual-mode-operation" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Phase 1: Dual-Mode Operation
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#phase-2-plugin-first" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Phase 2: Plugin-First
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#phase-3-plugin-only" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Phase 3: Plugin-Only
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#risk-mitigation" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Risk Mitigation
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Risk Mitigation">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#risk-api-rate-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Risk: API Rate Limits
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#risk-api-costs" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Risk: API Costs
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#risk-plugin-failures" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Risk: Plugin Failures
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#success-criteria" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Success Criteria
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="Success Criteria">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#functional-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Functional Requirements
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#technical-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Technical Requirements
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#user-experience" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        User Experience
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#timeline" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Timeline
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Next Steps
+
+    </span>
+  </a>
+
+</li>
+
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        References
+
+    </span>
+  </a>
+
+    <nav class="md-nav" aria-label="References">
+      <ul class="md-nav__list">
+
+          <li class="md-nav__item">
+  <a href="#existing-code" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Existing Code
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#external-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        External Documentation
+
+    </span>
+  </a>
+
+</li>
+
+          <li class="md-nav__item">
+  <a href="#knowledge-base" class="md-nav__link">
+    <span class="md-ellipsis">
+
+        Knowledge Base
+
+    </span>
+  </a>
+
+</li>
+
+      </ul>
+    </nav>
+
+</li>
+
+    </ul>
+
+</nav>
+                  </div>
+                </div>
+              </div>
+
+
+
+            <div class="md-content" data-md-component="content">
+
+
+
+
+
+
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+
+
+
+
+    <li class="md-path__item">
+      <a href="../.." class="md-path__link">
+
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+
+
+
+
+
+
+
+
+
+      <li class="md-path__item">
+        <a href="../ANALYSIS_FRAMEWORK/" class="md-path__link">
+
+  <span class="md-ellipsis">
+    Analysis
+  </span>
+
+        </a>
+      </li>
+
+
+
+
+    </ol>
+  </nav>
+
+
+              <article class="md-content__inner md-typeset">
+
+
+
+
+
+
+
+
+<h1 id="market-data-enhancement-plan">Market Data Enhancement Plan<a class="headerlink" href="#market-data-enhancement-plan" title="Permanent link">&para;</a></h1>
+<h2 id="executive-summary">Executive Summary<a class="headerlink" href="#executive-summary" title="Permanent link">&para;</a></h2>
+<p>Replace web search-based market condition analysis with direct API integration using existing Polygon.io and IEX Cloud plugins for real-time, accurate market data.</p>
+<p><strong>Status:</strong> Planning Phase
+<strong>Priority:</strong> High
+<strong>Estimated Effort:</strong> 2-3 days
+<strong>Branch:</strong> user/interface</p>
+<hr />
+<h2 id="problem-statement">Problem Statement<a class="headerlink" href="#problem-statement" title="Permanent link">&para;</a></h2>
+<h3 id="current-limitations-web-search-approach">Current Limitations (Web Search Approach)<a class="headerlink" href="#current-limitations-web-search-approach" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Data Quality Issues</strong></li>
+<li>Inconsistent formatting across sources</li>
+<li>Stale data from web crawlers (often 15min - 24hr delayed)</li>
+<li>Parsing errors from HTML/content changes</li>
+<li>
+<p>No guarantee of data accuracy</p>
+</li>
+<li>
+<p><strong>Performance Issues</strong></p>
+</li>
+<li>High latency (2-5 seconds per search)</li>
+<li>Rate limiting from search engines</li>
+<li>Multiple searches needed for complete picture</li>
+<li>
+<p>Token-heavy responses</p>
+</li>
+<li>
+<p><strong>Reliability Issues</strong></p>
+</li>
+<li>Source availability varies</li>
+<li>No SLA guarantees</li>
+<li>Difficult to validate data integrity</li>
+<li>Can't handle real-time requirements</li>
+</ol>
+<h3 id="evidence-from-recent-execution">Evidence from Recent Execution<a class="headerlink" href="#evidence-from-recent-execution" title="Permanent link">&para;</a></h3>
+<p>From <code>/market-conditions</code> execution (Nov 30, 2025):
+- Required 6 web searches for incomplete data
+- Missing real-time sector performance
+- Incomplete breadth data
+- ~30 seconds total execution time
+- Data was 1-2 days old in some cases</p>
+<hr />
+<h2 id="proposed-solution">Proposed Solution<a class="headerlink" href="#proposed-solution" title="Permanent link">&para;</a></h2>
+<h3 id="architecture-overview">Architecture Overview<a class="headerlink" href="#architecture-overview" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>┌─────────────────────────────────────────────────────────┐
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>│         /market-conditions Command                      │
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>├─────────────────────────────────────────────────────────┤
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>│                                                          │
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>│  ┌──────────────┐    ┌──────────────┐    ┌──────────┐  │
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>│  │ Market Data  │───▶│ Analysis     │───▶│ Report   │  │
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>│  │ Aggregator   │    │ Engine       │    │ Generator│  │
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>│  └──────────────┘    └──────────────┘    └──────────┘  │
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>│         │                                                │
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>│         ├─────────────┬─────────────┬──────────────┐    │
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>│         ▼             ▼             ▼              ▼    │
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌─────────┐│
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>│  │ Polygon  │  │   IEX    │  │  FRED    │  │ Fallback││
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>│  │ Plugin   │  │  Plugin  │  │  (Future)│  │Web Search│
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>│  └──────────┘  └──────────┘  └──────────┘  └─────────┘│
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>└─────────────────────────────────────────────────────────┘
+</span></code></pre></div>
+<h3 id="component-design">Component Design<a class="headerlink" href="#component-design" title="Permanent link">&para;</a></h3>
+<h4 id="1-market-data-aggregator">1. Market Data Aggregator<a class="headerlink" href="#1-market-data-aggregator" title="Permanent link">&para;</a></h4>
+<p><strong>Location:</strong> <code>src/analysis/market_conditions.py</code> (new)</p>
+<p><strong>Responsibilities:</strong>
+- Orchestrate data collection from multiple sources
+- Implement fallback logic (plugin → web search)
+- Cache results (15-minute TTL for real-time data)
+- Handle rate limiting across providers</p>
+<p><strong>Key Methods:</strong>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_index_snapshot</span><span class="p">(</span><span class="n">symbols</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">dict</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_volatility_metrics</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_sector_performance</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_breadth_indicators</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_economic_calendar</span><span class="p">(</span><span class="n">days_ahead</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span>
+</span></code></pre></div></p>
+<h4 id="2-plugin-integration-layer">2. Plugin Integration Layer<a class="headerlink" href="#2-plugin-integration-layer" title="Permanent link">&para;</a></h4>
+<p><strong>Polygon.io Plugin</strong> (Already exists: <code>src/plugins/market_data/polygon.py</code>)
+- <strong>Use for:</strong>
+  - Real-time quotes (SPY, QQQ, IWM, DIA)
+  - Sector ETF prices (XLK, XLF, XLE, etc.)
+  - Aggregated bars (daily/weekly performance)
+  - Market status</p>
+<p><strong>IEX Cloud Plugin</strong> (Already exists: <code>src/plugins/market_data/iex.py</code>)
+- <strong>Use for:</strong>
+  - Backup/fallback for quotes
+  - Fundamental data
+  - Economic calendar (if available)
+  - Company news</p>
+<p><strong>Future: FRED Plugin</strong> (To be created)
+- Economic indicators
+- VIX term structure
+- Treasury yields
+- Fed data</p>
+<h4 id="3-fallback-strategy">3. Fallback Strategy<a class="headerlink" href="#3-fallback-strategy" title="Permanent link">&para;</a></h4>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Priority cascade</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_data</span><span class="p">(</span><span class="n">data_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    <span class="k">try</span><span class="p">:</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>        <span class="k">return</span> <span class="k">await</span> <span class="n">polygon_plugin</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">data_type</span><span class="p">)</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>    <span class="k">except</span> <span class="p">(</span><span class="n">PluginError</span><span class="p">,</span> <span class="n">RateLimitError</span><span class="p">):</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>        <span class="k">try</span><span class="p">:</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>            <span class="k">return</span> <span class="k">await</span> <span class="n">iex_plugin</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">data_type</span><span class="p">)</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>        <span class="k">except</span> <span class="p">(</span><span class="n">PluginError</span><span class="p">,</span> <span class="n">RateLimitError</span><span class="p">):</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>            <span class="c1"># Last resort: web search</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>            <span class="k">return</span> <span class="k">await</span> <span class="n">web_search_fallback</span><span class="p">(</span><span class="n">data_type</span><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h2 id="implementation-plan">Implementation Plan<a class="headerlink" href="#implementation-plan" title="Permanent link">&para;</a></h2>
+<h3 id="phase-1-core-integration-day-1">Phase 1: Core Integration (Day 1)<a class="headerlink" href="#phase-1-core-integration-day-1" title="Permanent link">&para;</a></h3>
+<h4 id="task-11-create-market-data-aggregator">Task 1.1: Create Market Data Aggregator<a class="headerlink" href="#task-11-create-market-data-aggregator" title="Permanent link">&para;</a></h4>
+<p><strong>File:</strong> <code>src/analysis/market_conditions.py</code></p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="sd">&quot;&quot;&quot;Market conditions analysis using plugin-based data sources.&quot;&quot;&quot;</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="kn">from</span><span class="w"> </span><span class="nn">src.plugins.market_data.polygon</span><span class="w"> </span><span class="kn">import</span> <span class="n">PolygonDataPlugin</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="kn">from</span><span class="w"> </span><span class="nn">src.plugins.market_data.iex</span><span class="w"> </span><span class="kn">import</span> <span class="n">IEXDataPlugin</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="kn">from</span><span class="w"> </span><span class="nn">src.core.rate_limiter</span><span class="w"> </span><span class="kn">import</span> <span class="n">RateLimiter</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="k">class</span><span class="w"> </span><span class="nc">MarketConditionsAnalyzer</span><span class="p">:</span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Analyze current market conditions using real-time data.&quot;&quot;&quot;</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>        <span class="bp">self</span><span class="p">,</span>
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>        <span class="n">polygon_plugin</span><span class="p">:</span> <span class="n">PolygonDataPlugin</span><span class="p">,</span>
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>        <span class="n">iex_plugin</span><span class="p">:</span> <span class="n">IEXDataPlugin</span><span class="p">,</span>
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>        <span class="n">use_cache</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a>        <span class="n">cache_ttl_seconds</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">900</span><span class="p">,</span>  <span class="c1"># 15 minutes</span>
+</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>    <span class="p">):</span>
+</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">polygon</span> <span class="o">=</span> <span class="n">polygon_plugin</span>
+</span><span id="__span-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">iex</span> <span class="o">=</span> <span class="n">iex_plugin</span>
+</span><span id="__span-3-23"><a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">cache</span> <span class="o">=</span> <span class="p">{}</span> <span class="k">if</span> <span class="n">use_cache</span> <span class="k">else</span> <span class="kc">None</span>
+</span><span id="__span-3-24"><a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">cache_ttl</span> <span class="o">=</span> <span class="n">cache_ttl_seconds</span>
+</span><span id="__span-3-25"><a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a>
+</span><span id="__span-3-26"><a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_market_overview</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+</span><span id="__span-3-27"><a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get current state of major indices.&quot;&quot;&quot;</span>
+</span><span id="__span-3-28"><a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a>        <span class="n">symbols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;SPY&quot;</span><span class="p">,</span> <span class="s2">&quot;QQQ&quot;</span><span class="p">,</span> <span class="s2">&quot;IWM&quot;</span><span class="p">,</span> <span class="s2">&quot;DIA&quot;</span><span class="p">]</span>
+</span><span id="__span-3-29"><a id="__codelineno-3-29" name="__codelineno-3-29" href="#__codelineno-3-29"></a>
+</span><span id="__span-3-30"><a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a>        <span class="c1"># Try Polygon first</span>
+</span><span id="__span-3-31"><a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a>        <span class="k">try</span><span class="p">:</span>
+</span><span id="__span-3-32"><a id="__codelineno-3-32" name="__codelineno-3-32" href="#__codelineno-3-32"></a>            <span class="n">quotes</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">polygon</span><span class="o">.</span><span class="n">get_quotes</span><span class="p">(</span><span class="n">symbols</span><span class="p">)</span>
+</span><span id="__span-3-33"><a id="__codelineno-3-33" name="__codelineno-3-33" href="#__codelineno-3-33"></a>            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format_index_data</span><span class="p">(</span><span class="n">quotes</span><span class="p">)</span>
+</span><span id="__span-3-34"><a id="__codelineno-3-34" name="__codelineno-3-34" href="#__codelineno-3-34"></a>        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span id="__span-3-35"><a id="__codelineno-3-35" name="__codelineno-3-35" href="#__codelineno-3-35"></a>            <span class="c1"># Fallback to IEX</span>
+</span><span id="__span-3-36"><a id="__codelineno-3-36" name="__codelineno-3-36" href="#__codelineno-3-36"></a>            <span class="n">quotes</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">iex</span><span class="o">.</span><span class="n">get_batch_quotes</span><span class="p">(</span><span class="n">symbols</span><span class="p">)</span>
+</span><span id="__span-3-37"><a id="__codelineno-3-37" name="__codelineno-3-37" href="#__codelineno-3-37"></a>            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_format_index_data</span><span class="p">(</span><span class="n">quotes</span><span class="p">)</span>
+</span><span id="__span-3-38"><a id="__codelineno-3-38" name="__codelineno-3-38" href="#__codelineno-3-38"></a>
+</span><span id="__span-3-39"><a id="__codelineno-3-39" name="__codelineno-3-39" href="#__codelineno-3-39"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_volatility_regime</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+</span><span id="__span-3-40"><a id="__codelineno-3-40" name="__codelineno-3-40" href="#__codelineno-3-40"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get VIX and volatility metrics.&quot;&quot;&quot;</span>
+</span><span id="__span-3-41"><a id="__codelineno-3-41" name="__codelineno-3-41" href="#__codelineno-3-41"></a>        <span class="c1"># Implementation here</span>
+</span><span id="__span-3-42"><a id="__codelineno-3-42" name="__codelineno-3-42" href="#__codelineno-3-42"></a>        <span class="k">pass</span>
+</span><span id="__span-3-43"><a id="__codelineno-3-43" name="__codelineno-3-43" href="#__codelineno-3-43"></a>
+</span><span id="__span-3-44"><a id="__codelineno-3-44" name="__codelineno-3-44" href="#__codelineno-3-44"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_sector_rotation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+</span><span id="__span-3-45"><a id="__codelineno-3-45" name="__codelineno-3-45" href="#__codelineno-3-45"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get sector ETF performance.&quot;&quot;&quot;</span>
+</span><span id="__span-3-46"><a id="__codelineno-3-46" name="__codelineno-3-46" href="#__codelineno-3-46"></a>        <span class="n">sector_etfs</span> <span class="o">=</span> <span class="p">[</span>
+</span><span id="__span-3-47"><a id="__codelineno-3-47" name="__codelineno-3-47" href="#__codelineno-3-47"></a>            <span class="s2">&quot;XLK&quot;</span><span class="p">,</span> <span class="s2">&quot;XLF&quot;</span><span class="p">,</span> <span class="s2">&quot;XLE&quot;</span><span class="p">,</span> <span class="s2">&quot;XLV&quot;</span><span class="p">,</span> <span class="s2">&quot;XLY&quot;</span><span class="p">,</span>
+</span><span id="__span-3-48"><a id="__codelineno-3-48" name="__codelineno-3-48" href="#__codelineno-3-48"></a>            <span class="s2">&quot;XLP&quot;</span><span class="p">,</span> <span class="s2">&quot;XLI&quot;</span><span class="p">,</span> <span class="s2">&quot;XLB&quot;</span><span class="p">,</span> <span class="s2">&quot;XLU&quot;</span><span class="p">,</span> <span class="s2">&quot;XLRE&quot;</span>
+</span><span id="__span-3-49"><a id="__codelineno-3-49" name="__codelineno-3-49" href="#__codelineno-3-49"></a>        <span class="p">]</span>
+</span><span id="__span-3-50"><a id="__codelineno-3-50" name="__codelineno-3-50" href="#__codelineno-3-50"></a>        <span class="c1"># Implementation here</span>
+</span><span id="__span-3-51"><a id="__codelineno-3-51" name="__codelineno-3-51" href="#__codelineno-3-51"></a>        <span class="k">pass</span>
+</span><span id="__span-3-52"><a id="__codelineno-3-52" name="__codelineno-3-52" href="#__codelineno-3-52"></a>
+</span><span id="__span-3-53"><a id="__codelineno-3-53" name="__codelineno-3-53" href="#__codelineno-3-53"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_breadth_indicators</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+</span><span id="__span-3-54"><a id="__codelineno-3-54" name="__codelineno-3-54" href="#__codelineno-3-54"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get market breadth metrics.&quot;&quot;&quot;</span>
+</span><span id="__span-3-55"><a id="__codelineno-3-55" name="__codelineno-3-55" href="#__codelineno-3-55"></a>        <span class="c1"># Implementation here</span>
+</span><span id="__span-3-56"><a id="__codelineno-3-56" name="__codelineno-3-56" href="#__codelineno-3-56"></a>        <span class="k">pass</span>
+</span><span id="__span-3-57"><a id="__codelineno-3-57" name="__codelineno-3-57" href="#__codelineno-3-57"></a>
+</span><span id="__span-3-58"><a id="__codelineno-3-58" name="__codelineno-3-58" href="#__codelineno-3-58"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">classify_regime</span><span class="p">(</span>
+</span><span id="__span-3-59"><a id="__codelineno-3-59" name="__codelineno-3-59" href="#__codelineno-3-59"></a>        <span class="bp">self</span><span class="p">,</span>
+</span><span id="__span-3-60"><a id="__codelineno-3-60" name="__codelineno-3-60" href="#__codelineno-3-60"></a>        <span class="n">volatility</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+</span><span id="__span-3-61"><a id="__codelineno-3-61" name="__codelineno-3-61" href="#__codelineno-3-61"></a>        <span class="n">breadth</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+</span><span id="__span-3-62"><a id="__codelineno-3-62" name="__codelineno-3-62" href="#__codelineno-3-62"></a>        <span class="n">sector_rotation</span><span class="p">:</span> <span class="nb">dict</span>
+</span><span id="__span-3-63"><a id="__codelineno-3-63" name="__codelineno-3-63" href="#__codelineno-3-63"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span id="__span-3-64"><a id="__codelineno-3-64" name="__codelineno-3-64" href="#__codelineno-3-64"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Classify market regime based on indicators.&quot;&quot;&quot;</span>
+</span><span id="__span-3-65"><a id="__codelineno-3-65" name="__codelineno-3-65" href="#__codelineno-3-65"></a>        <span class="c1"># Logic from knowledge base</span>
+</span><span id="__span-3-66"><a id="__codelineno-3-66" name="__codelineno-3-66" href="#__codelineno-3-66"></a>        <span class="k">pass</span>
+</span></code></pre></div>
+<p><strong>Testing:</strong>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># tests/test_analysis/test_market_conditions.py</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">pytest</span> <span class="n">tests</span><span class="o">/</span><span class="n">test_analysis</span><span class="o">/</span><span class="n">test_market_conditions</span><span class="o">.</span><span class="n">py</span> <span class="o">-</span><span class="n">v</span>
+</span></code></pre></div></p>
+<h4 id="task-12-update-market-conditions-command">Task 1.2: Update Market Conditions Command<a class="headerlink" href="#task-12-update-market-conditions-command" title="Permanent link">&para;</a></h4>
+<p><strong>File:</strong> <code>.claude/commands/market-conditions.md</code></p>
+<p>Update to use <code>MarketConditionsAnalyzer</code> instead of web search.</p>
+<h3 id="phase-2-enhanced-features-day-2">Phase 2: Enhanced Features (Day 2)<a class="headerlink" href="#phase-2-enhanced-features-day-2" title="Permanent link">&para;</a></h3>
+<h4 id="task-21-add-vix-analysis">Task 2.1: Add VIX Analysis<a class="headerlink" href="#task-21-add-vix-analysis" title="Permanent link">&para;</a></h4>
+<ul>
+<li>VIX current level via Polygon</li>
+<li>VIX term structure (VIX, VIX3M, VIX6M)</li>
+<li>Historical percentile ranking</li>
+</ul>
+<h4 id="task-22-add-breadth-indicators">Task 2.2: Add Breadth Indicators<a class="headerlink" href="#task-22-add-breadth-indicators" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Advance/decline data from Polygon</li>
+<li>New highs/lows</li>
+<li>% stocks above 50-day/200-day MA</li>
+</ul>
+<h4 id="task-23-add-sector-rotation">Task 2.3: Add Sector Rotation<a class="headerlink" href="#task-23-add-sector-rotation" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Real-time sector ETF quotes</li>
+<li>Calculate relative performance</li>
+<li>Identify leaders/laggards</li>
+</ul>
+<h3 id="phase-3-economic-calendar-integration-day-3">Phase 3: Economic Calendar Integration (Day 3)<a class="headerlink" href="#phase-3-economic-calendar-integration-day-3" title="Permanent link">&para;</a></h3>
+<h4 id="task-31-fred-integration-optional">Task 3.1: FRED Integration (Optional)<a class="headerlink" href="#task-31-fred-integration-optional" title="Permanent link">&para;</a></h4>
+<p>Create new plugin: <code>src/plugins/economic/fred.py</code></p>
+<p><strong>Capabilities:</strong>
+- Economic calendar
+- Fed funds rate
+- CPI/PPI data
+- Treasury yields</p>
+<h4 id="task-32-trading-economics-api-alternative">Task 3.2: Trading Economics API (Alternative)<a class="headerlink" href="#task-32-trading-economics-api-alternative" title="Permanent link">&para;</a></h4>
+<p>If FRED doesn't provide calendar, use Trading Economics API.</p>
+<hr />
+<h2 id="data-mapping">Data Mapping<a class="headerlink" href="#data-mapping" title="Permanent link">&para;</a></h2>
+<h3 id="index-snapshot">Index Snapshot<a class="headerlink" href="#index-snapshot" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Data Point</th>
+<th>Polygon API</th>
+<th>IEX API</th>
+<th>Fallback</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Current Price</td>
+<td><code>/v2/snapshot/locale/us/markets/stocks/tickers/{symbol}</code></td>
+<td><code>/stock/{symbol}/quote</code></td>
+<td>Web search</td>
+</tr>
+<tr>
+<td>Daily Change</td>
+<td>Included in snapshot</td>
+<td><code>changePercent</code> field</td>
+<td>Web search</td>
+</tr>
+<tr>
+<td>52-week High/Low</td>
+<td>Previous day aggs</td>
+<td><code>week52High</code>/<code>week52Low</code></td>
+<td>Web search</td>
+</tr>
+<tr>
+<td>Volume</td>
+<td>Snapshot</td>
+<td><code>latestVolume</code></td>
+<td>Web search</td>
+</tr>
+</tbody>
+</table>
+<h3 id="volatility">Volatility<a class="headerlink" href="#volatility" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Data Point</th>
+<th>Source</th>
+<th>API Endpoint</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VIX Current</td>
+<td>Polygon</td>
+<td><code>/v2/snapshot/locale/us/markets/stocks/tickers/VIX</code></td>
+<td>Primary</td>
+</tr>
+<tr>
+<td>VIX Previous</td>
+<td>Polygon</td>
+<td><code>/v2/aggs/ticker/VIX/prev</code></td>
+<td>For change calc</td>
+</tr>
+<tr>
+<td>VIX 52-week range</td>
+<td>Polygon</td>
+<td>Historical aggs</td>
+<td>Cache daily</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sector-performance">Sector Performance<a class="headerlink" href="#sector-performance" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>ETF</th>
+<th>Sector</th>
+<th>Data Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>XLK</td>
+<td>Technology</td>
+<td>Polygon/IEX</td>
+</tr>
+<tr>
+<td>XLF</td>
+<td>Financials</td>
+<td>Polygon/IEX</td>
+</tr>
+<tr>
+<td>XLE</td>
+<td>Energy</td>
+<td>Polygon/IEX</td>
+</tr>
+<tr>
+<td>XLV</td>
+<td>Healthcare</td>
+<td>Polygon/IEX</td>
+</tr>
+<tr>
+<td>XLY</td>
+<td>Consumer Discretionary</td>
+<td>Polygon/IEX</td>
+</tr>
+<tr>
+<td>XLP</td>
+<td>Consumer Staples</td>
+<td>Polygon/IEX</td>
+</tr>
+<tr>
+<td>XLI</td>
+<td>Industrials</td>
+<td>Polygon/IEX</td>
+</tr>
+<tr>
+<td>XLB</td>
+<td>Materials</td>
+<td>Polygon/IEX</td>
+</tr>
+<tr>
+<td>XLU</td>
+<td>Utilities</td>
+<td>Polygon/IEX</td>
+</tr>
+<tr>
+<td>XLRE</td>
+<td>Real Estate</td>
+<td>Polygon/IEX</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="testing-strategy">Testing Strategy<a class="headerlink" href="#testing-strategy" title="Permanent link">&para;</a></h2>
+<h3 id="unit-tests">Unit Tests<a class="headerlink" href="#unit-tests" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># tests/test_analysis/test_market_conditions.py</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="k">class</span><span class="w"> </span><span class="nc">TestMarketConditionsAnalyzer</span><span class="p">:</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Test market conditions analysis.&quot;&quot;&quot;</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>    <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">asyncio</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">test_get_market_overview</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mock_polygon</span><span class="p">):</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Test index snapshot retrieval.&quot;&quot;&quot;</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>        <span class="n">analyzer</span> <span class="o">=</span> <span class="n">MarketConditionsAnalyzer</span><span class="p">(</span><span class="n">mock_polygon</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>        <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">get_market_overview</span><span class="p">()</span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>        <span class="k">assert</span> <span class="s2">&quot;SPY&quot;</span> <span class="ow">in</span> <span class="n">result</span>
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>        <span class="k">assert</span> <span class="s2">&quot;price&quot;</span> <span class="ow">in</span> <span class="n">result</span><span class="p">[</span><span class="s2">&quot;SPY&quot;</span><span class="p">]</span>
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>        <span class="k">assert</span> <span class="s2">&quot;change_pct&quot;</span> <span class="ow">in</span> <span class="n">result</span><span class="p">[</span><span class="s2">&quot;SPY&quot;</span><span class="p">]</span>
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>    <span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">asyncio</span>
+</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">test_fallback_to_iex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">failing_polygon</span><span class="p">,</span> <span class="n">mock_iex</span><span class="p">):</span>
+</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Test fallback when Polygon fails.&quot;&quot;&quot;</span>
+</span><span id="__span-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a>        <span class="n">analyzer</span> <span class="o">=</span> <span class="n">MarketConditionsAnalyzer</span><span class="p">(</span><span class="n">failing_polygon</span><span class="p">,</span> <span class="n">mock_iex</span><span class="p">)</span>
+</span><span id="__span-5-20"><a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a>        <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">get_market_overview</span><span class="p">()</span>
+</span><span id="__span-5-21"><a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a>
+</span><span id="__span-5-22"><a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a>        <span class="c1"># Should get data from IEX</span>
+</span><span id="__span-5-23"><a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a>        <span class="k">assert</span> <span class="n">result</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+</span><span id="__span-5-24"><a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a>
+</span><span id="__span-5-25"><a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">test_regime_classification_risk_on</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="__span-5-26"><a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Test risk-on regime detection.&quot;&quot;&quot;</span>
+</span><span id="__span-5-27"><a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a>        <span class="n">analyzer</span> <span class="o">=</span> <span class="n">MarketConditionsAnalyzer</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+</span><span id="__span-5-28"><a id="__codelineno-5-28" name="__codelineno-5-28" href="#__codelineno-5-28"></a>
+</span><span id="__span-5-29"><a id="__codelineno-5-29" name="__codelineno-5-29" href="#__codelineno-5-29"></a>        <span class="n">regime</span> <span class="o">=</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">classify_regime</span><span class="p">(</span>
+</span><span id="__span-5-30"><a id="__codelineno-5-30" name="__codelineno-5-30" href="#__codelineno-5-30"></a>            <span class="n">volatility</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;vix&quot;</span><span class="p">:</span> <span class="mf">14.5</span><span class="p">,</span> <span class="s2">&quot;trend&quot;</span><span class="p">:</span> <span class="s2">&quot;falling&quot;</span><span class="p">},</span>
+</span><span id="__span-5-31"><a id="__codelineno-5-31" name="__codelineno-5-31" href="#__codelineno-5-31"></a>            <span class="n">breadth</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;ad_ratio&quot;</span><span class="p">:</span> <span class="mf">1.5</span><span class="p">,</span> <span class="s2">&quot;pct_above_50ma&quot;</span><span class="p">:</span> <span class="mi">65</span><span class="p">},</span>
+</span><span id="__span-5-32"><a id="__codelineno-5-32" name="__codelineno-5-32" href="#__codelineno-5-32"></a>            <span class="n">sector_rotation</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;leaders&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;XLK&quot;</span><span class="p">,</span> <span class="s2">&quot;XLY&quot;</span><span class="p">,</span> <span class="s2">&quot;XLF&quot;</span><span class="p">]}</span>
+</span><span id="__span-5-33"><a id="__codelineno-5-33" name="__codelineno-5-33" href="#__codelineno-5-33"></a>        <span class="p">)</span>
+</span><span id="__span-5-34"><a id="__codelineno-5-34" name="__codelineno-5-34" href="#__codelineno-5-34"></a>
+</span><span id="__span-5-35"><a id="__codelineno-5-35" name="__codelineno-5-35" href="#__codelineno-5-35"></a>        <span class="k">assert</span> <span class="n">regime</span> <span class="o">==</span> <span class="s2">&quot;Risk-On&quot;</span>
+</span></code></pre></div>
+<h3 id="integration-tests">Integration Tests<a class="headerlink" href="#integration-tests" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># tests/integration/test_market_data_flow.py</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">integration</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">requires_api</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">test_end_to_end_market_conditions</span><span class="p">():</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Test complete market conditions workflow.&quot;&quot;&quot;</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>    <span class="c1"># Requires real API keys</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>    <span class="n">config</span> <span class="o">=</span> <span class="n">load_config</span><span class="p">()</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>    <span class="n">polygon</span> <span class="o">=</span> <span class="n">PolygonDataPlugin</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">polygon</span><span class="p">)</span>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>    <span class="k">await</span> <span class="n">polygon</span><span class="o">.</span><span class="n">initialize</span><span class="p">()</span>
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>    <span class="n">analyzer</span> <span class="o">=</span> <span class="n">MarketConditionsAnalyzer</span><span class="p">(</span><span class="n">polygon</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>    <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">analyzer</span><span class="o">.</span><span class="n">get_market_overview</span><span class="p">()</span>
+</span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>
+</span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a>    <span class="k">assert</span> <span class="n">result</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+</span><span id="__span-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a>    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">)</span> <span class="o">==</span> <span class="mi">4</span>  <span class="c1"># SPY, QQQ, IWM, DIA</span>
+</span></code></pre></div>
+<hr />
+<h2 id="performance-comparison">Performance Comparison<a class="headerlink" href="#performance-comparison" title="Permanent link">&para;</a></h2>
+<h3 id="before-web-search">Before (Web Search)<a class="headerlink" href="#before-web-search" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Total Execution Time</td>
+<td>~30 seconds</td>
+</tr>
+<tr>
+<td>API Calls</td>
+<td>6 web searches</td>
+</tr>
+<tr>
+<td>Data Freshness</td>
+<td>1-24 hours stale</td>
+</tr>
+<tr>
+<td>Success Rate</td>
+<td>~85% (source availability)</td>
+</tr>
+<tr>
+<td>Token Usage</td>
+<td>~3,000 tokens</td>
+</tr>
+</tbody>
+</table>
+<h3 id="after-plugin-integration">After (Plugin Integration)<a class="headerlink" href="#after-plugin-integration" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Value</th>
+<th>Improvement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Total Execution Time</td>
+<td>~2-3 seconds</td>
+<td><strong>10x faster</strong></td>
+</tr>
+<tr>
+<td>API Calls</td>
+<td>3-5 plugin calls</td>
+<td><strong>More efficient</strong></td>
+</tr>
+<tr>
+<td>Data Freshness</td>
+<td>Real-time (15min delayed max)</td>
+<td><strong>24x+ fresher</strong></td>
+</tr>
+<tr>
+<td>Success Rate</td>
+<td>~99% (with fallbacks)</td>
+<td><strong>+14%</strong></td>
+</tr>
+<tr>
+<td>Token Usage</td>
+<td>~500 tokens</td>
+<td><strong>6x reduction</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
+<h3 id="environment-variables">Environment Variables<a class="headerlink" href="#environment-variables" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># .env</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="nv">POLYGON_API_KEY</span><span class="o">=</span>your_polygon_key
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="nv">IEX_API_KEY</span><span class="o">=</span>your_iex_key
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="nv">MARKET_DATA_CACHE_TTL</span><span class="o">=</span><span class="m">900</span><span class="w">  </span><span class="c1"># 15 minutes</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="nv">MARKET_DATA_PRIMARY_PROVIDER</span><span class="o">=</span>polygon
+</span></code></pre></div>
+<h3 id="plugin-configuration">Plugin Configuration<a class="headerlink" href="#plugin-configuration" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># config/market_data.yaml</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="n">polygon</span><span class="p">:</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>  <span class="n">api_key</span><span class="p">:</span> <span class="err">$</span><span class="p">{</span><span class="n">POLYGON_API_KEY</span><span class="p">}</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>  <span class="n">rate_limit</span><span class="p">:</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>    <span class="n">requests_per_minute</span><span class="p">:</span> <span class="mi">5</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>    <span class="n">burst</span><span class="p">:</span> <span class="mi">10</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>  <span class="n">timeout_seconds</span><span class="p">:</span> <span class="mi">10</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="n">iex</span><span class="p">:</span>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>  <span class="n">api_key</span><span class="p">:</span> <span class="err">$</span><span class="p">{</span><span class="n">IEX_API_KEY</span><span class="p">}</span>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>  <span class="n">sandbox</span><span class="p">:</span> <span class="n">false</span>
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>  <span class="n">rate_limit</span><span class="p">:</span>
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>    <span class="n">requests_per_minute</span><span class="p">:</span> <span class="mi">100</span>
+</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>  <span class="n">timeout_seconds</span><span class="p">:</span> <span class="mi">5</span>
+</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>
+</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a><span class="n">cache</span><span class="p">:</span>
+</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>  <span class="n">enabled</span><span class="p">:</span> <span class="n">true</span>
+</span><span id="__span-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a>  <span class="n">ttl_seconds</span><span class="p">:</span> <span class="mi">900</span>  <span class="c1"># 15 minutes for real-time data</span>
+</span><span id="__span-8-19"><a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a>  <span class="n">max_size_mb</span><span class="p">:</span> <span class="mi">50</span>
+</span></code></pre></div>
+<hr />
+<h2 id="migration-strategy">Migration Strategy<a class="headerlink" href="#migration-strategy" title="Permanent link">&para;</a></h2>
+<h3 id="phase-1-dual-mode-operation">Phase 1: Dual-Mode Operation<a class="headerlink" href="#phase-1-dual-mode-operation" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Implement plugin-based approach</li>
+<li>Keep web search as fallback</li>
+<li>Compare results for validation</li>
+<li>Gradual rollout</li>
+</ul>
+<h3 id="phase-2-plugin-first">Phase 2: Plugin-First<a class="headerlink" href="#phase-2-plugin-first" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Switch to plugin as primary</li>
+<li>Web search only on failure</li>
+<li>Monitor error rates</li>
+</ul>
+<h3 id="phase-3-plugin-only">Phase 3: Plugin-Only<a class="headerlink" href="#phase-3-plugin-only" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Remove web search code</li>
+<li>Full plugin dependency</li>
+<li>Implement robust error handling</li>
+</ul>
+<hr />
+<h2 id="risk-mitigation">Risk Mitigation<a class="headerlink" href="#risk-mitigation" title="Permanent link">&para;</a></h2>
+<h3 id="risk-api-rate-limits">Risk: API Rate Limits<a class="headerlink" href="#risk-api-rate-limits" title="Permanent link">&para;</a></h3>
+<p><strong>Mitigation:</strong>
+1. Implement caching (15-minute TTL)
+2. Use rate limiter from <code>src/core/rate_limiter.py</code>
+3. Dual-provider fallback (Polygon → IEX)
+4. Batch requests where possible</p>
+<h3 id="risk-api-costs">Risk: API Costs<a class="headerlink" href="#risk-api-costs" title="Permanent link">&para;</a></h3>
+<p><strong>Mitigation:</strong>
+1. Cache aggressively
+2. Use free tier limits intelligently
+3. Monitor usage via plugin health metrics
+4. Implement circuit breakers</p>
+<h3 id="risk-plugin-failures">Risk: Plugin Failures<a class="headerlink" href="#risk-plugin-failures" title="Permanent link">&para;</a></h3>
+<p><strong>Mitigation:</strong>
+1. Health checks before requests
+2. Graceful degradation (IEX fallback)
+3. Web search last resort
+4. Comprehensive error logging</p>
+<hr />
+<h2 id="success-criteria">Success Criteria<a class="headerlink" href="#success-criteria" title="Permanent link">&para;</a></h2>
+<h3 id="functional-requirements">Functional Requirements<a class="headerlink" href="#functional-requirements" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Real-time data (&lt;1 minute delay)</li>
+<li>&lt;3 second response time</li>
+<li>99%+ success rate</li>
+<li>Accurate regime classification</li>
+</ul>
+<h3 id="technical-requirements">Technical Requirements<a class="headerlink" href="#technical-requirements" title="Permanent link">&para;</a></h3>
+<ul>
+<li>All tests passing (&gt;90% coverage)</li>
+<li>Proper error handling</li>
+<li>Rate limiting implemented</li>
+<li>Caching functional</li>
+</ul>
+<h3 id="user-experience">User Experience<a class="headerlink" href="#user-experience" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Faster command execution</li>
+<li>More reliable results</li>
+<li>Current (not stale) data</li>
+<li>Clear error messages</li>
+</ul>
+<hr />
+<h2 id="timeline">Timeline<a class="headerlink" href="#timeline" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>Duration</th>
+<th>Deliverables</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Phase 1</strong></td>
+<td>1 day</td>
+<td>MarketConditionsAnalyzer, core integration</td>
+</tr>
+<tr>
+<td><strong>Phase 2</strong></td>
+<td>1 day</td>
+<td>VIX, breadth, sector rotation</td>
+</tr>
+<tr>
+<td><strong>Phase 3</strong></td>
+<td>1 day</td>
+<td>Economic calendar, FRED integration</td>
+</tr>
+<tr>
+<td><strong>Testing</strong></td>
+<td>0.5 days</td>
+<td>Unit tests, integration tests</td>
+</tr>
+<tr>
+<td><strong>Documentation</strong></td>
+<td>0.5 days</td>
+<td>API docs, user guide</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td><strong>3 days</strong></td>
+<td>Full implementation</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Immediate (Today)</strong></li>
+<li>Document current limitations</li>
+<li>⬜ Review existing plugin architecture</li>
+<li>
+<p>⬜ Create skeleton for <code>MarketConditionsAnalyzer</code></p>
+</li>
+<li>
+<p><strong>Day 1</strong></p>
+</li>
+<li>Implement core aggregator</li>
+<li>Integrate Polygon/IEX plugins</li>
+<li>
+<p>Create unit tests</p>
+</li>
+<li>
+<p><strong>Day 2</strong></p>
+</li>
+<li>Add advanced features (VIX, breadth, sectors)</li>
+<li>Integration testing</li>
+<li>
+<p>Performance benchmarking</p>
+</li>
+<li>
+<p><strong>Day 3</strong></p>
+</li>
+<li>Economic calendar integration</li>
+<li>Documentation</li>
+<li>User testing</li>
+</ol>
+<hr />
+<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<h3 id="existing-code">Existing Code<a class="headerlink" href="#existing-code" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>src/plugins/market_data/polygon.py</code> - Polygon.io plugin (lines 1-386)</li>
+<li><code>src/plugins/market_data/iex.py</code> - IEX Cloud plugin (lines 1-307)</li>
+<li><code>src/plugins/base.py</code> - Plugin architecture (lines 1-343)</li>
+<li><code>src/core/rate_limiter.py</code> - Rate limiting (lines 1-376)</li>
+</ul>
+<h3 id="external-documentation">External Documentation<a class="headerlink" href="#external-documentation" title="Permanent link">&para;</a></h3>
+<ul>
+<li><a href="https://polygon.io/docs/stocks/getting-started">Polygon.io API Docs</a></li>
+<li><a href="https://iexcloud.io/docs/api/">IEX Cloud API Docs</a></li>
+<li><a href="https://fred.stlouisfed.org/docs/api/fred/">FRED API Docs</a></li>
+</ul>
+<h3 id="knowledge-base">Knowledge Base<a class="headerlink" href="#knowledge-base" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>docs/knowledge-base/07_risk_management/README.md</code> - Regime classification</li>
+<li><code>docs/knowledge-base/04_fundamental_analysis/README.md</code> - Macro indicators</li>
+<li><code>docs/CURRENT_STATUS_AND_NEXT_STEPS.md</code> - Project status</li>
+</ul>
+<hr />
+<p><strong>Document Version:</strong> 1.0
+<strong>Last Updated:</strong> 2025-11-30
+<strong>Author:</strong> Claude Code
+<strong>Status:</strong> Planning → Ready for Implementation</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <aside class="md-source-file">
+
+
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="December 9, 2025 02:20:27 UTC"><span class="timeago" datetime="2025-12-09T02:20:27+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="December 9, 2025 02:20:27 UTC">2025-12-09</span>
+  </span>
+
+
+
+
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Created">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="December 8, 2025 17:09:56 UTC"><span class="timeago" datetime="2025-12-08T17:09:56+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="December 8, 2025 17:09:56 UTC">2025-12-08</span>
+  </span>
+
+
+
+
+  </aside>
+
+
+
+
+
+
+
+
+              </article>
+            </div>
+
+
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+
+      </main>
+
+        <footer class="md-footer">
+
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024-2025 Ordinis Project
+    </div>
+
+
+</div>
+
+
+<div class="md-social">
+
+
+
+
+
+
+
+
+    <a href="https://github.com/ordinis" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+
+</div>
+
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+
+
+
+
+
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.indexes", "navigation.top", "navigation.path", "navigation.prune", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.annotate", "content.tabs.link", "toc.follow", "announce.dismiss"], "search": "../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
+
+
+      <script src="../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+
+        <script src="../../js/print-site.js"></script>
+
+        <script src="../../js/timeago.min.js"></script>
+
+        <script src="../../js/timeago_mkdocs_material.js"></script>
+
+        <script src="../../javascripts/mathjax.js"></script>
+
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
+  </body>
+</html>

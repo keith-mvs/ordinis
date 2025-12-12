@@ -8,9 +8,9 @@
 
 **Start with 3 essential MCP servers:**
 
-1. ✅ **Filesystem** - Read/write configs, logs, results
-2. ✅ **PostgreSQL/TimescaleDB** - Store market data, signals, trades
-3. ✅ **Git** - Version control and audit trail
+1.  **Filesystem** - Read/write configs, logs, results
+2.  **PostgreSQL/TimescaleDB** - Store market data, signals, trades
+3.  **Git** - Version control and audit trail
 
 **Skip connector tools (Daloopa, MT Newswires, etc.) until Phase 2-3**
 
@@ -181,7 +181,7 @@ CREATE TABLE portfolio_snapshots (
 
 ---
 
-### 3. Git Server 🟢 RECOMMENDED
+### 3. Git Server  RECOMMENDED
 
 **Install:**
 
@@ -572,12 +572,12 @@ await mcp.call_tool("write_file", {
 
 ## Key Takeaways
 
-1. ✅ **Start with 3 servers** - Filesystem, PostgreSQL, Git
-2. ✅ **Tools for data access** - NOT for calculations (use engines)
-3. ✅ **Restrict access** - Whitelist paths, tables, operations
-4. ✅ **Log everything** - Audit trail for all tool calls
-5. ❌ **Skip connector tools** - Until specific alpha proven
-6. ⚡ **Add one at a time** - Don't overwhelm the system
+1.  **Start with 3 servers** - Filesystem, PostgreSQL, Git
+2.  **Tools for data access** - NOT for calculations (use engines)
+3.  **Restrict access** - Whitelist paths, tables, operations
+4.  **Log everything** - Audit trail for all tool calls
+5.  **Skip connector tools** - Until specific alpha proven
+6.  **Add one at a time** - Don't overwhelm the system
 
 ---
 

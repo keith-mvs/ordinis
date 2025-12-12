@@ -8,8 +8,8 @@ Available Strategies:
 - RSIMeanReversionStrategy: Mean reversion using RSI indicator
 - MovingAverageCrossoverStrategy: Trend following with MA crossovers
 - MomentumBreakoutStrategy: Breakout trading with momentum confirmation
-- BollingerBandsStrategy: Mean reversion using Bollinger Bands
-- MACDStrategy: Momentum trading using MACD crossovers
+- BollingerBandsStrategy: Volatility-based mean reversion using Bollinger Bands
+- MACDStrategy: Momentum and trend identification using MACD
 """
 
 from .base import BaseStrategy

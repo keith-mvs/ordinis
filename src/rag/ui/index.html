@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intelligent Investor RAG - Query Interface</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .main-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            padding: 30px;
+            margin-bottom: 20px;
+        }
+
+        .query-section {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            resize: vertical;
+            min-height: 100px;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        select, input[type="range"] {
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            background: white;
+            cursor: pointer;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .slider-value {
+            display: inline-block;
+            margin-left: 10px;
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            width: 100%;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            color: #667eea;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .results {
+            display: none;
+        }
+
+        .results.active {
+            display: block;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .result-item {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            transition: transform 0.2s;
+        }
+
+        .result-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .result-score {
+            background: #667eea;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .result-content {
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 10px;
+            white-space: pre-wrap;
+        }
+
+        .result-metadata {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            font-size: 12px;
+        }
+
+        .metadata-tag {
+            background: #e0e0e0;
+            padding: 4px 10px;
+            border-radius: 4px;
+            color: #555;
+        }
+
+        .error {
+            background: #fee;
+            border-left: 4px solid #e53e3e;
+            color: #c53030;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .error.active {
+            display: block;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            font-size: 18px;
+        }
+
+        .domain-descriptions {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🧠 Intelligent Investor RAG</h1>
+            <p class="subtitle">Query trading knowledge base and codebase with AI-powered search</p>
+        </header>
+
+        <div class="main-card">
+            <div class="query-section">
+                <label for="query">Enter your query:</label>
+                <textarea
+                    id="query"
+                    placeholder="Examples:&#10;- What is RSI mean reversion?&#10;- Show me the code for strategy validation&#10;- How to implement risk limits in trading systems?"
+                ></textarea>
+            </div>
+
+            <div class="controls">
+                <div class="control-group">
+                    <label for="queryType">Query Type:</label>
+                    <select id="queryType">
+                        <option value="">Auto-detect</option>
+                        <option value="text">Text (Knowledge Base)</option>
+                        <option value="code">Code (Codebase)</option>
+                        <option value="hybrid">Hybrid (Both)</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label for="topK">
+                        Results to return: <span class="slider-value" id="topKValue">5</span>
+                    </label>
+                    <select id="topK" onchange="updateTopKValue()">
+                        <option value="3">3</option>
+                        <option value="5" selected>5</option>
+                        <option value="10">10</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label for="domain">Filter by Domain:</label>
+                    <select id="domain">
+                        <option value="">All Domains</option>
+                        <option value="1">Market Fundamentals</option>
+                        <option value="2">Technical Analysis</option>
+                        <option value="3">Risk Management</option>
+                        <option value="4">Portfolio Theory</option>
+                        <option value="5">Trading Psychology</option>
+                        <option value="6">Backtesting</option>
+                        <option value="7">Market Microstructure</option>
+                        <option value="8">Strategy Design</option>
+                        <option value="9">Quantitative Methods</option>
+                        <option value="10">Regulatory/Compliance</option>
+                    </select>
+                    <div class="domain-descriptions" id="domainDesc"></div>
+                </div>
+            </div>
+
+            <button onclick="executeQuery()" id="queryBtn">Execute Query</button>
+
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Searching knowledge base and codebase...</p>
+            </div>
+
+            <div class="error" id="error"></div>
+        </div>
+
+        <div class="main-card results" id="results">
+            <h2 style="margin-bottom: 20px;">Results</h2>
+
+            <div class="stats-grid" id="stats"></div>
+
+            <div id="resultsList"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8000';
+
+        function updateTopKValue() {
+            const topK = document.getElementById('topK').value;
+            document.getElementById('topKValue').textContent = topK;
+        }
+
+        async function executeQuery() {
+            const query = document.getElementById('query').value.trim();
+
+            if (!query) {
+                showError('Please enter a query');
+                return;
+            }
+
+            // Clear previous results
+            hideError();
+            hideResults();
+            showLoading();
+
+            const queryType = document.getElementById('queryType').value || null;
+            const topK = parseInt(document.getElementById('topK').value);
+            const domain = document.getElementById('domain').value;
+
+            const requestBody = {
+                query: query,
+                query_type: queryType,
+                top_k: topK
+            };
+
+            if (domain) {
+                requestBody.filters = {
+                    domain: parseInt(domain)
+                };
+            }
+
+            try {
+                const startTime = performance.now();
+
+                const response = await fetch(`${API_BASE}/api/v1/query`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(requestBody)
+                });
+
+                const endTime = performance.now();
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.detail || 'Query failed');
+                }
+
+                const data = await response.json();
+                displayResults(data, endTime - startTime);
+
+            } catch (error) {
+                showError(`Error: ${error.message}`);
+            } finally {
+                hideLoading();
+            }
+        }
+
+        function displayResults(data, clientLatency) {
+            const statsDiv = document.getElementById('stats');
+            const resultsDiv = document.getElementById('resultsList');
+
+            // Display stats
+            statsDiv.innerHTML = `
+                <div class="stat-item">
+                    <div class="stat-label">Results</div>
+                    <div class="stat-value">${data.results.length}</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Query Type</div>
+                    <div class="stat-value">${data.query_type}</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Candidates</div>
+                    <div class="stat-value">${data.total_candidates}</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Server Time</div>
+                    <div class="stat-value">${data.execution_time_ms.toFixed(0)}ms</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Total Time</div>
+                    <div class="stat-value">${clientLatency.toFixed(0)}ms</div>
+                </div>
+            `;
+
+            // Display results
+            if (data.results.length === 0) {
+                resultsDiv.innerHTML = '<div class="no-results">No results found. Try a different query or adjust filters.</div>';
+            } else {
+                resultsDiv.innerHTML = data.results.map((result, index) => `
+                    <div class="result-item">
+                        <div class="result-header">
+                            <strong>Result ${index + 1}</strong>
+                            <span class="result-score">Score: ${result.score.toFixed(4)}</span>
+                        </div>
+                        <div class="result-content">${escapeHtml(result.content)}</div>
+                        <div class="result-metadata">
+                            ${Object.entries(result.metadata).map(([key, value]) =>
+                                `<span class="metadata-tag">${key}: ${value}</span>`
+                            ).join('')}
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            showResults();
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function showLoading() {
+            document.getElementById('loading').classList.add('active');
+            document.getElementById('queryBtn').disabled = true;
+        }
+
+        function hideLoading() {
+            document.getElementById('loading').classList.remove('active');
+            document.getElementById('queryBtn').disabled = false;
+        }
+
+        function showResults() {
+            document.getElementById('results').classList.add('active');
+        }
+
+        function hideResults() {
+            document.getElementById('results').classList.remove('active');
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('error');
+            errorDiv.textContent = message;
+            errorDiv.classList.add('active');
+        }
+
+        function hideError() {
+            document.getElementById('error').classList.remove('active');
+        }
+
+        // Allow Enter key to submit (with Shift+Enter for new line)
+        document.getElementById('query').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                executeQuery();
+            }
+        });
+    </script>
+</body>
+</html>
