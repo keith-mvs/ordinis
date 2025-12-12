@@ -3,7 +3,7 @@
 **Branch:** master
 **Latest Commit:** fbbb9e07 - Add multi-model framework implementations
 
-> **Note:** This document captures historical development progress. For current architecture, see [LAYERED_SYSTEM_ARCHITECTURE.md](../architecture/LAYERED_SYSTEM_ARCHITECTURE.md).
+> **Note:** This document captures historical development progress. For current architecture, see [layered-system-architecture.md](../architecture/layered-system-architecture.md).
 
 ---
 

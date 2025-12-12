@@ -12,10 +12,10 @@ This section contains project management documentation including scope, status r
 
 | Document | Description |
 |----------|-------------|
-| [Project Scope](PROJECT_SCOPE.md) | System objectives and boundaries |
-| [Status Report](PROJECT_STATUS_REPORT.md) | Current project status |
-| [Current Status](CURRENT_STATUS_AND_NEXT_STEPS.md) | Immediate status and next steps |
-| [Branch Workflow](BRANCH_WORKFLOW.md) | Git branching strategy |
+| [Project Scope](project-scope.md) | System objectives and boundaries |
+| [Status Report](project-status-report.md) | Current project status |
+| [Current Status](current-status-next-steps.md) | Immediate status and next steps |
+| [Branch Workflow](branch-workflow.md) | Git branching strategy |
 
 ## 1.3 Project Timeline
 

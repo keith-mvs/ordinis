@@ -40,39 +40,42 @@ The Ordinis trading system is built on a modular architecture with clear separat
 ### 2.3.1 System Overview
 | Document | Description |
 |----------|-------------|
-| [SignalCore System](SIGNALCORE_SYSTEM.md) | Signal generation engine |
-| [Execution Path](EXECUTION_PATH.md) | Order flow and execution |
-| [Simulation Engine](SIMULATION_ENGINE.md) | Backtesting infrastructure |
-| [Monitoring](MONITORING.md) | System observability |
+| [SignalCore System](signalcore-system.md) | Signal generation engine |
+| [Execution Path](execution-path.md) | Order flow and execution |
+| [Simulation Engine](simulation-engine.md) | Backtesting infrastructure |
+| [Monitoring](monitoring.md) | System observability |
 
 ### 2.3.2 AI Integration
 | Document | Description |
 |----------|-------------|
-| [NVIDIA Integration](NVIDIA_INTEGRATION.md) | NVIDIA NIM model integration |
-| [RAG System](RAG_SYSTEM.md) | Knowledge retrieval architecture and implementation |
+| [NVIDIA Integration](nvidia-integration.md) | NVIDIA NIM model integration |
+| [RAG System](rag-system.md) | Knowledge retrieval architecture and implementation |
 
 ### 2.3.3 Tools & Connectors
 | Document | Description |
 |----------|-------------|
-| [MCP Tools Evaluation](MCP_TOOLS_EVALUATION.md) | Model Context Protocol tools |
-| [MCP Quick Start](MCP_TOOLS_QUICK_START.md) | Getting started with MCP |
-| [Claude Connectors](CLAUDE_CONNECTORS_EVALUATION.md) | Claude API integration |
-| [Connectors Reference](CONNECTORS_QUICK_REFERENCE.md) | Quick reference guide |
+| [MCP Tools Evaluation](mcp-tools-evaluation.md) | Model Context Protocol tools |
+| [MCP Quick Start](mcp-tools-quick-start.md) | Getting started with MCP |
+| [Claude Connectors](claude-connectors-evaluation.md) | Claude API integration |
+| [Connectors Reference](connectors-quick-reference.md) | Quick reference guide |
 
-### 2.3.4 Advanced Architecture
-| Document | Description |
-|----------|-------------|
-| [Layered System Architecture](LAYERED_SYSTEM_ARCHITECTURE.md) | **Master spec** - Orchestration and component integration |
-| [Model Alternatives Framework](MODEL_ALTERNATIVES_FRAMEWORK.md) | Multi-model selection and fallback strategy |
-| [NVIDIA Blueprint Integration](NVIDIA_BLUEPRINT_INTEGRATION.md) | PortOpt and Distillery infrastructure |
-| [TensorTrade-Alpaca Deployment](TENSORTRADE_ALPACA_DEPLOYMENT.md) | Production deployment specification |
+### 2.3.4 Production Architecture (Phase 1)
+| Document | Description | Status |
+|----------|-------------|--------|
+| [Production Architecture](production-architecture.md) | **Phase 1 Complete** - Comprehensive architecture documentation | ✅ Current |
+| [Phase 1 API Reference](phase1-api-reference.md) | **NEW** - Complete API documentation for persistence, safety, orchestration, alerting | ✅ Current |
+| [Architecture Review Response](architecture-review-response.md) | Phase 1 gap analysis - Maps external review feedback to implementation | ✅ Current |
+| [Layered System Architecture](layered-system-architecture.md) | **Master spec** - Orchestration and component integration | 🟡 Pre-Phase 1 |
+| [Model Alternatives Framework](model-alternatives-framework.md) | Multi-model selection and fallback strategy | 🟡 Planning |
+| [NVIDIA Blueprint Integration](nvidia-blueprint-integration.md) | PortOpt and Distillery infrastructure | 🟡 Planning |
+| [TensorTrade-Alpaca Deployment](tensortrade-alpaca-deployment.md) | Production deployment specification | 🟡 Planning |
 
 ### 2.3.5 Development & Analysis
 | Document | Description |
 |----------|-------------|
-| [System Capabilities](SYSTEM_CAPABILITIES_ASSESSMENT.md) | Feature assessment |
-| [Development TODO](DEVELOPMENT_TODO.md) | Development backlog |
-| [Additional Plugins](ADDITIONAL_PLUGINS_ANALYSIS.md) | Extended plugin analysis |
+| [System Capabilities](system-capabilities-assessment.md) | Feature assessment |
+| [Development TODO](development-todo.md) | Development backlog |
+| [Additional Plugins](additional-plugins-analysis.md) | Extended plugin analysis |
 
 ## 2.4 Technology Stack
 

@@ -5,9 +5,9 @@
 > This document was written during early Phase 1 development (pre-testing). Most information is now outdated.
 >
 > **Current references:**
-> - Architecture: [LAYERED_SYSTEM_ARCHITECTURE.md](../architecture/LAYERED_SYSTEM_ARCHITECTURE.md)
-> - Status: [PROJECT_STATUS_REPORT.md](PROJECT_STATUS_REPORT.md)
-> - Systems: [SIGNALCORE_SYSTEM.md](../architecture/SIGNALCORE_SYSTEM.md)
+> - Architecture: [layered-system-architecture.md](../architecture/layered-system-architecture.md)
+> - Status: [project-status-report.md](project-status-report.md)
+> - Systems: [signalcore-system.md](../architecture/signalcore-system.md)
 
 **Original Date:** 2025-11-30
 **Archived:** 2025-12-08

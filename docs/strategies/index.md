@@ -12,7 +12,7 @@ Trading strategy templates and implementation guides.
 
 | Document | Description |
 |----------|-------------|
-| [Strategy Template](STRATEGY_TEMPLATE.md) | Base template for new strategies |
+| [Strategy Template](strategy-template.md) | Base template for new strategies |
 
 ## 7.3 Strategy Development Process
 

@@ -119,7 +119,7 @@ Maps to existing SignalCore engines plus NVIDIA Blueprint extensions.
 id: cortex
 type: llm_orchestration
 gpu_required: false (API-based)
-reference: SIGNALCORE_SYSTEM.md#cortex
+reference: signalcore-system.md#cortex
 ```
 
 | Capability | Output Schema | Constraint |
@@ -135,7 +135,7 @@ reference: SIGNALCORE_SYSTEM.md#cortex
 id: signalcore
 type: ml_inference
 gpu_required: recommended
-reference: SIGNALCORE_SYSTEM.md#signalcore, MODEL_ALTERNATIVES_FRAMEWORK.md
+reference: signalcore-system.md#signalcore, model-alternatives-framework.md
 ```
 
 | Capability | Model Tier | Output Schema |
@@ -171,7 +171,7 @@ id: riskguard
 type: rule_engine
 gpu_required: false
 mode: deterministic
-reference: SIGNALCORE_SYSTEM.md#riskguard
+reference: signalcore-system.md#riskguard
 ```
 
 | Check | Rule ID | Threshold | Action |
@@ -206,7 +206,7 @@ interface RiskEvaluation {
 id: portopt
 type: gpu_optimization
 gpu_required: true (cuOpt) | fallback: scipy
-reference: NVIDIA_BLUEPRINT_INTEGRATION.md#portopt
+reference: nvidia-blueprint-integration.md#portopt
 ```
 
 | Capability | GPU Backend | CPU Fallback | Output |
@@ -221,7 +221,7 @@ reference: NVIDIA_BLUEPRINT_INTEGRATION.md#portopt
 id: proofbench
 type: validation
 gpu_required: false
-reference: SIGNALCORE_SYSTEM.md#proofbench
+reference: signalcore-system.md#proofbench
 ```
 
 | Capability | Output | Validation Criteria |
@@ -237,7 +237,7 @@ reference: SIGNALCORE_SYSTEM.md#proofbench
 id: execution
 type: execution_optimizer
 gpu_required: conditional
-reference: MODEL_ALTERNATIVES_FRAMEWORK.md#execution
+reference: model-alternatives-framework.md#execution
 ```
 
 | Capability | Agent Type | Output |
@@ -255,7 +255,7 @@ reference: MODEL_ALTERNATIVES_FRAMEWORK.md#execution
 ```yaml
 id: blueprints
 components: [distillery, portopt_training, observability]
-reference: NVIDIA_BLUEPRINT_INTEGRATION.md
+reference: nvidia-blueprint-integration.md
 ```
 
 | Blueprint | Trigger | Input | Output |
@@ -306,7 +306,7 @@ id: gpu_compute
 hardware:
   production: H100/A100 (datacenter)
   development: RTX 2080 Ti (consumer)
-reference: NVIDIA_BLUEPRINT_INTEGRATION.md#consumer-gpu
+reference: nvidia-blueprint-integration.md#consumer-gpu
 ```
 
 | Workload | Production | Development (Consumer GPU) |
@@ -326,7 +326,7 @@ reference: NVIDIA_BLUEPRINT_INTEGRATION.md#consumer-gpu
 ```yaml
 id: flowroute
 type: broker_adapter
-reference: SIGNALCORE_SYSTEM.md#flowroute
+reference: signalcore-system.md#flowroute
 ```
 
 | Operation | Endpoint | Protocol |
@@ -742,9 +742,9 @@ interface WorkflowResult {
 
 | Document | Purpose | Link |
 |----------|---------|------|
-| SIGNALCORE_SYSTEM.md | 5-engine architecture | architecture/SIGNALCORE_SYSTEM.md |
-| NVIDIA_BLUEPRINT_INTEGRATION.md | PortOpt, Distillery | architecture/NVIDIA_BLUEPRINT_INTEGRATION.md |
-| MODEL_ALTERNATIVES_FRAMEWORK.md | Model selection | architecture/MODEL_ALTERNATIVES_FRAMEWORK.md |
+| signalcore-system.md | 5-engine architecture | architecture/signalcore-system.md |
+| nvidia-blueprint-integration.md | PortOpt, Distillery | architecture/nvidia-blueprint-integration.md |
+| model-alternatives-framework.md | Model selection | architecture/model-alternatives-framework.md |
 | RISKGUARD enhanced rules | Kill switches | engines/riskguard/ |
 
 ---
@@ -754,7 +754,7 @@ interface WorkflowResult {
 ```yaml
 specification_version: "1.1.0"
 created: "2025-12-08"
-extends: ["SIGNALCORE_SYSTEM", "NVIDIA_BLUEPRINT_INTEGRATION", "MODEL_ALTERNATIVES_FRAMEWORK"]
+extends: ["signalcore-system", "nvidia-blueprint-integration", "model-alternatives-framework"]
 schema_format: "orchestration-ready"
 compatibility: ["automated_reasoning", "code_generation", "deployment_automation"]
 ```

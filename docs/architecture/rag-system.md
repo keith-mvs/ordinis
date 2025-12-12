@@ -406,10 +406,10 @@ pytest tests/test_rag/ -v -m integration
 
 | Document | Relationship |
 |----------|--------------|
-| [NVIDIA Integration](NVIDIA_INTEGRATION.md) | LLM model setup for Cortex |
-| [NVIDIA Blueprint Integration](NVIDIA_BLUEPRINT_INTEGRATION.md) | Distillery for model optimization |
-| [Layered System Architecture](LAYERED_SYSTEM_ARCHITECTURE.md) | RAG's role in orchestration |
-| [SignalCore System](SIGNALCORE_SYSTEM.md) | Engine integration targets |
+| [NVIDIA Integration](nvidia-integration.md) | LLM model setup for Cortex |
+| [NVIDIA Blueprint Integration](nvidia-blueprint-integration.md) | Distillery for model optimization |
+| [Layered System Architecture](layered-system-architecture.md) | RAG's role in orchestration |
+| [SignalCore System](signalcore-system.md) | Engine integration targets |
 
 ---
 

@@ -12,9 +12,9 @@ Testing procedures, benchmarks, and quality assurance documentation.
 
 | Document | Description |
 |----------|-------------|
-| [Phase 1 Testing Setup](PHASE_1_TESTING_SETUP.md) | Initial testing infrastructure |
-| [ProofBench Guide](PROOFBENCH_GUIDE.md) | Strategy validation framework |
-| [User Testing Guide](USER_TESTING_GUIDE.md) | End-user testing procedures |
+| [Phase 1 Testing Setup](phase1-testing-setup.md) | Initial testing infrastructure |
+| [ProofBench Guide](proofbench-guide.md) | Strategy validation framework |
+| [User Testing Guide](user-testing-guide.md) | End-user testing procedures |
 
 ## 6.3 Test Coverage
 

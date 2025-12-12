@@ -12,10 +12,10 @@ User guides and tutorials for working with the Ordinis trading system.
 
 | Guide | Description |
 |-------|-------------|
-| [CLI Usage](CLI_USAGE.md) | Command-line interface guide |
-| [Due Diligence Skill](DUE_DILIGENCE_SKILL.md) | Using the due diligence analysis skill |
-| [Recommended Skills](RECOMMENDED_SKILLS.md) | Recommended Claude Code skills |
-| [UI Improvement Proposal](UI_IMPROVEMENT_PROPOSAL.md) | Documentation UI/UX enhancement proposal |
+| [CLI Usage](cli-usage.md) | Command-line interface guide |
+| [Due Diligence Skill](due-diligence-skill.md) | Using the due diligence analysis skill |
+| [Recommended Skills](recommended-skills.md) | Recommended Claude Code skills |
+| [UI Improvement Proposal](ui-improvement-proposal.md) | Documentation UI/UX enhancement proposal |
 
 ## 4.3 Quick Start
 

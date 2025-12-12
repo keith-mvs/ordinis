@@ -12,9 +12,9 @@ Analysis documentation including market data frameworks and backtest results.
 
 | Document | Description |
 |----------|-------------|
-| [Analysis Framework](ANALYSIS_FRAMEWORK.md) | Market analysis methodology |
-| [Market Data Enhancement](MARKET_DATA_ENHANCEMENT_PLAN.md) | Data pipeline improvements |
-| [Backtest Results](BACKTEST_RESULTS_20251207.md) | Latest backtest analysis |
+| [Analysis Framework](analysis-framework.md) | Market analysis methodology |
+| [Market Data Enhancement](market-data-enhancement-plan.md) | Data pipeline improvements |
+| [Backtest Results](backtest-results-20251207.md) | Latest backtest analysis |
 
 ## 5.3 Analysis Workflow
 

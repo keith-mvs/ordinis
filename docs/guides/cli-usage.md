@@ -489,7 +489,7 @@ done
 
 - Review the strategy implementations in `src/strategies/` for detailed documentation
 - Check the examples in `scripts/` for Python API usage
-- Explore [NVIDIA Integration](../architecture/NVIDIA_INTEGRATION.md) for AI features
+- Explore [NVIDIA Integration](../architecture/nvidia-integration.md) for AI features
 
 ---
 
