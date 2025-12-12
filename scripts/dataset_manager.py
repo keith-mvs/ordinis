@@ -284,7 +284,7 @@ def fetch_historical_data(
             df = ticker.history(start=start_date, end=end_date)
 
             if df.empty:
-                print(f"  ⚠️  No data for {symbol}")
+                print(f"  [WARN] No data for {symbol}")
                 return None
 
             # Standardize column names
@@ -296,11 +296,11 @@ def fetch_historical_data(
 
             return df
 
-        print(f"  ⚠️  Source '{source}' not implemented")
+        print(f"  [WARN] Source '{source}' not implemented")
         return None
 
     except Exception as e:
-        print(f"  ❌ Error fetching {symbol}: {e}")
+        print(f"  [ERROR] Error fetching {symbol}: {e}")
         return None
 
 
@@ -340,7 +340,7 @@ def retrieve_historical_dataset(
             if df is not None:
                 df["sector"] = sector
                 datasets[symbol] = df
-                print(f"✓ {len(df)} bars")
+                print(f"[OK] {len(df)} bars")
 
                 # Save individual file
                 output_file = output_dir / f"{symbol}_historical.{config.output_format}"
@@ -362,7 +362,7 @@ def retrieve_historical_dataset(
             if df is not None:
                 df["sector"] = "MACRO"
                 datasets[symbol] = df
-                print(f"✓ {len(df)} bars")
+                print(f"[OK] {len(df)} bars")
 
                 output_file = (
                     output_dir / f"{symbol.replace('^', 'INDEX_')}_macro.{config.output_format}"
