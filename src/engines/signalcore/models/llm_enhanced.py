@@ -167,9 +167,9 @@ Keep it concise and actionable."""
         Returns:
             Formatted market context string
         """
-        # Use vectorized string formatting instead of iterrows() for better performance
+        # Use itertuples() instead of iterrows() for better performance (10-100x faster)
         lines = [
-            f"Close: ${row['close']:.2f}, Volume: {int(row['volume']):,}"
+            f"Close: ${row[0]:.2f}, Volume: {int(row[1]):,}"
             for row in data[["close", "volume"]].itertuples(index=False, name=None)
         ]
 

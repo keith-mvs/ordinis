@@ -4,6 +4,7 @@ Parallelized Dataset Fetch - Max CPU Utilization
 Fetches 101 symbols in parallel using all available CPU cores.
 """
 
+import math
 import multiprocessing as mp
 import sys
 from concurrent.futures import ProcessPoolExecutor, as_completed
@@ -18,8 +19,6 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from enhanced_dataset_config_v2 import (
     EXPANDED_SYMBOL_UNIVERSE as ENHANCED_SYMBOL_UNIVERSE,
-)
-from enhanced_dataset_config_v2 import (
     get_all_symbols_by_market_cap_v2 as get_all_symbols_by_market_cap,
 )
 
@@ -49,8 +48,8 @@ def add_volatility_features(df: pd.DataFrame) -> pd.DataFrame:
 
     # Parkinson Volatility (20-day, annualized) - fully vectorized
     high_low_ratio = df["high"] / df["low"]
-    # Vectorized calculation without apply
-    log_hl_sq = (high_low_ratio ** 2) * (1 / (4 * 0.6931471805599453))
+    # Use math.log(2) for clarity instead of magic number
+    log_hl_sq = (high_low_ratio ** 2) * (1 / (4 * math.log(2)))
     df["parkinson_vol_20"] = (
         (log_hl_sq.rolling(window=20).mean() ** 0.5) * (252 ** 0.5)
     )
