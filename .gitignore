@@ -95,3 +95,4 @@ reports/
 *.tmp
 *.log
 NUL
+.claude/settings.local.json
