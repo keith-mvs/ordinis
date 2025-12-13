@@ -4,11 +4,15 @@ Parallelized Dataset Fetch - Max CPU Utilization
 Fetches 101 symbols in parallel using all available CPU cores.
 """
 
+import multiprocessing as mp
+import sys
 from concurrent.futures import ProcessPoolExecutor, as_completed
 from datetime import datetime, timedelta
-import multiprocessing as mp
 from pathlib import Path
-import sys
+
+import numpy as np
+import pandas as pd
+import yfinance as yf
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
@@ -18,13 +22,11 @@ from enhanced_dataset_config_v2 import (
 from enhanced_dataset_config_v2 import (
     get_all_symbols_by_market_cap_v2 as get_all_symbols_by_market_cap,
 )
-import pandas as pd
-import yfinance as yf
 
 
 def add_volatility_features(df: pd.DataFrame) -> pd.DataFrame:
     """Add volatility features inline using vectorized operations for better performance."""
-    # True Range - vectorized calculation (much faster than apply with axis=1)
+    # True Range - fully vectorized calculation (much faster than apply with axis=1)
     prev_close = df["close"].shift(1)
 
     # Calculate all three components vectorized
@@ -32,8 +34,12 @@ def add_volatility_features(df: pd.DataFrame) -> pd.DataFrame:
     high_prev_close = (df["high"] - prev_close).abs()
     low_prev_close = (df["low"] - prev_close).abs()
 
-    # Stack and find max across columns (vectorized)
-    df["true_range"] = pd.concat([high_low, high_prev_close, low_prev_close], axis=1).max(axis=1)
+    # Use numpy maximum for better performance than pd.concat
+    df["true_range"] = np.maximum.reduce([
+        high_low.values,
+        high_prev_close.values,
+        low_prev_close.values
+    ])
 
     # ATR (14-day)
     df["atr_14"] = df["true_range"].rolling(window=14).mean()
@@ -41,11 +47,12 @@ def add_volatility_features(df: pd.DataFrame) -> pd.DataFrame:
     # Historical Volatility (20-day, annualized)
     df["hvol_20"] = df["close"].pct_change().rolling(window=20).std() * (252 ** 0.5)
 
-    # Parkinson Volatility (20-day, annualized) - vectorized calculation
+    # Parkinson Volatility (20-day, annualized) - fully vectorized
     high_low_ratio = df["high"] / df["low"]
-    log_hl_sq = (high_low_ratio.apply(lambda x: x ** 2)) * (1 / (4 * 0.6931471805599453))
+    # Vectorized calculation without apply
+    log_hl_sq = (high_low_ratio ** 2) * (1 / (4 * 0.6931471805599453))
     df["parkinson_vol_20"] = (
-        log_hl_sq.rolling(window=20).mean().apply(lambda x: x ** 0.5) * (252 ** 0.5)
+        (log_hl_sq.rolling(window=20).mean() ** 0.5) * (252 ** 0.5)
     )
 
     return df
