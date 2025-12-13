@@ -212,17 +212,17 @@ These rules are **non-negotiable** for maintaining clean architecture:
 ---
 
 ### Phase M6: Runtime/DI Setup (Non-Breaking)
-**Status**: Partial
-**Started**: 2025-12-12
+**Status**: Complete
+**Completed**: 2025-12-12
 
 **Tasks**:
-- [ ] Create `src/runtime/` structure
-- [ ] Implement `config.py` with Pydantic BaseSettings
+- [x] Create `src/runtime/` structure
+- [x] Implement `config.py` with Pydantic BaseSettings
 - [x] Implement `container.py` for dependency injection (in `src/core/`)
-- [ ] Implement `bootstrap.py` for application startup
-- [ ] Consolidate logging configuration
+- [x] Implement `bootstrap.py` for application startup
+- [x] Consolidate logging configuration (`runtime/logging.py`)
 
-**Note**: DI container exists in `src/core/container.py`. Consider moving to `src/runtime/` or keeping in core.
+**Result**: Runtime layer created with config, bootstrap, and logging modules. DI container remains in `src/core/container.py` and is re-used by bootstrap.
 
 ---
 
