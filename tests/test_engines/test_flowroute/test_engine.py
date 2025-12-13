@@ -181,7 +181,8 @@ async def test_get_active_orders(engine):
 
 
 @pytest.mark.unit
-def test_process_fill(engine):
+@pytest.mark.asyncio
+async def test_process_fill(engine):
     """Test processing fill notification."""
     from datetime import datetime
 
@@ -206,7 +207,7 @@ def test_process_fill(engine):
         timestamp=datetime.utcnow(),
     )
 
-    engine.process_fill(fill)
+    await engine.process_fill(fill)
 
     assert order.filled_quantity == 100
     assert order.status == OrderStatus.FILLED
@@ -225,7 +226,8 @@ def test_get_execution_stats_empty(engine):
 
 
 @pytest.mark.unit
-def test_get_execution_stats_with_orders(engine):
+@pytest.mark.asyncio
+async def test_get_execution_stats_with_orders(engine):
     """Test execution stats with filled orders."""
     from datetime import datetime
 
@@ -252,7 +254,7 @@ def test_get_execution_stats_with_orders(engine):
         slippage_bps=5.0,
     )
 
-    engine.process_fill(fill)
+    await engine.process_fill(fill)
 
     stats = engine.get_execution_stats()
 
