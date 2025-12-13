@@ -12,6 +12,7 @@ Development session summaries and exports for continuity and knowledge preservat
 
 | Session | Date | Focus |
 |---------|------|-------|
+| [Test Coverage](session-export-20251213-test-coverage.md) | 2025-12-13 | Test fixes, coverage improvements |
 | [M7 Package Restructure](session-export-20251213-m7-package-restructure.md) | 2025-12-13 | Clean Architecture M7 - final package restructure |
 | [Phase 1 Completion](session-export-20251212-phase1-completion.md) | 2025-12-12 | Docs standardization, protocol migration |
 | [Refactoring](session-export-20251212-refactoring.md) | 2025-12-12 | Branch consolidation, cleanup |
