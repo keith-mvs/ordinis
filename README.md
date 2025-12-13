@@ -1,7 +1,7 @@
 # Ordinis
 
-**Version:** 0.2.0-dev (Development Build - Phase 1 Complete)
-**Status:** ✅ Production-Ready Infrastructure
+**Version:** 0.2.0-dev (Development Build - Clean Architecture Complete)
+**Status:** ✅ Production-Ready Infrastructure | Clean Architecture Migration Complete
 
 An AI-driven quantitative trading system with production-grade persistence, safety controls, and multi-source market data integration.
 
@@ -82,7 +82,7 @@ python scripts/test_market_data_apis.py
 
 ### Launch Dashboard
 ```bash
-streamlit run src/dashboard/app.py
+streamlit run src/ordinis/interface/dashboard/app.py
 ```
 
 ## Documentation
@@ -107,41 +107,61 @@ ordinis/
 ├── pyproject.toml               # Project dependencies and configuration
 ├── docs/                        # Documentation and knowledge base
 │   ├── architecture/            # System design documents
-│   │   ├── PRODUCTION_ARCHITECTURE.md    # Phase 1 implementation
-│   │   └── ARCHITECTURE_REVIEW_RESPONSE.md # Gap analysis
-│   ├── knowledge-base/          # Trading knowledge base (10 domains)
+│   ├── decisions/               # Architecture Decision Records (ADRs)
+│   ├── knowledge-base/          # Trading knowledge base
 │   ├── strategies/              # Strategy specifications
 │   └── guides/                  # User guides
-├── src/                         # Source code
-│   ├── persistence/             # NEW: Database and repositories
-│   │   ├── database.py          # SQLite manager with WAL mode
-│   │   ├── models.py            # Pydantic data models
-│   │   ├── schema.py            # Database DDL
-│   │   └── repositories/        # Position, Order, Fill, Trade repos
-│   ├── safety/                  # NEW: Safety controls
-│   │   ├── kill_switch.py       # Emergency halt mechanism
-│   │   └── circuit_breaker.py   # API failure protection
-│   ├── orchestration/           # NEW: System coordination
-│   │   ├── orchestrator.py      # Lifecycle manager
-│   │   └── reconciliation.py    # Position sync
-│   ├── alerting/                # NEW: Multi-channel notifications
-│   │   └── manager.py           # Alert dispatcher
-│   ├── interfaces/              # NEW: Protocol definitions
-│   ├── engines/                 # Core engines
-│   │   ├── signalcore/          # Signal generation
-│   │   ├── riskguard/           # Risk management
-│   │   ├── flowroute/           # Order execution (enhanced)
+├── src/ordinis/                 # Source code (Clean Architecture)
+│   ├── core/                    # Domain: protocols, container, validation
+│   ├── application/             # Use cases: services, strategies
+│   ├── adapters/                # External integrations
+│   │   ├── storage/             # SQLite persistence layer
+│   │   ├── market_data/         # 4 API integrations
+│   │   ├── alerting/            # Multi-channel notifications
+│   │   └── telemetry/           # Health, KPI, metrics
+│   ├── engines/                 # Business logic engines
+│   │   ├── cortex/              # AI analysis
+│   │   ├── flowroute/           # Order execution
 │   │   ├── proofbench/          # Backtesting
-│   │   └── cortex/              # AI analysis
-│   ├── plugins/market_data/     # 4 API integrations
-│   ├── strategies/              # 5 implemented strategies
-│   └── dashboard/               # Streamlit monitoring dashboard
-├── tests/                       # Test suites
-├── data/                        # Persistent data
-│   ├── ordinis.db               # SQLite database
-│   ├── KILL_SWITCH              # Emergency trigger file
-│   └── backups/                 # Automatic database backups
-└── scripts/                     # Executable scripts and demos
+│   │   ├── riskguard/           # Risk management
+│   │   └── signalcore/          # Signal generation
+│   ├── interface/               # User interfaces
+│   │   ├── cli/                 # Command-line interface
+│   │   └── dashboard/           # Streamlit monitoring
+│   ├── runtime/                 # Configuration, bootstrap, logging
+│   ├── safety/                  # Kill switch, circuit breaker
+│   ├── plugins/                 # Plugin base classes
+│   ├── analysis/                # Market analysis tools
+│   ├── visualization/           # Charts, indicators
+│   └── rag/                     # RAG system for knowledge base
+├── tests/                       # Test suites (50%+ coverage)
+├── data/                        # Persistent data (gitignored)
+└── configs/                     # Environment-specific YAML configs
+```
+
+## Import Convention
+
+All imports use the `ordinis.` package prefix:
+
+```python
+# Core protocols and container
+from ordinis.core.protocols import BrokerProtocol, MarketDataProtocol
+from ordinis.core.container import Container
+
+# Application services and strategies
+from ordinis.application.services import OrderService
+from ordinis.application.strategies import BollingerBandsStrategy
+
+# Adapters for external systems
+from ordinis.adapters.storage import OrderRepository
+from ordinis.adapters.market_data import AlphaVantageAdapter
+
+# Engines for business logic
+from ordinis.engines.proofbench import SimulationEngine
+from ordinis.engines.flowroute import FlowRouteEngine
+
+# Runtime configuration
+from ordinis.runtime import bootstrap, get_settings
 ```
 
 ## Features
