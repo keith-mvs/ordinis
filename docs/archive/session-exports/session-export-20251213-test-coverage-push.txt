@@ -1,0 +1,139 @@
+# Session Export: Test Coverage Push 44% to 45%
+# Date: 2025-12-13
+# Duration: ~1 session
+
+## Summary
+Continued test coverage improvement work after M7 package restructure completion. Added 60+ new tests across runtime, safety, plugins, and core modules. Coverage improved from 43.84% to 44.97%.
+
+## Key Accomplishments
+
+### Tests Added (60+ new tests)
+1. **runtime/bootstrap.py** - 18 tests
+   - ApplicationContext init, container lazy creation, directory creation
+   - Initialize, shutdown, bootstrap function
+   - get_app_context, shutdown module functions
+
+2. **runtime/logging.py** - 16 tests
+   - StructuredFormatter JSON output
+   - SimpleFormatter format string
+   - configure_logging with various parameters
+   - File handler creation, third-party logger levels
+
+3. **core/rate_limiter.py** - 26 tests (added to existing 14)
+   - RateLimitStrategy enum, RateLimitState dataclass
+   - RateLimiter get_state(), reset()
+   - SlidingWindowRateLimiter full coverage
+   - MultiTierRateLimiter full coverage
+   - RateLimitedFunction decorator class
+   - rate_limited decorator function
+   - AdaptiveRateLimiter with header parsing
+
+4. **Previously committed tests** (from earlier in session):
+   - runtime/config.py - 25 tests
+   - safety/circuit_breaker.py - 19 tests
+   - safety/kill_switch.py - 19 tests
+   - plugins/base.py - 16 tests
+
+### Coverage Improvements
+| Module | Before | After |
+|--------|--------|-------|
+| runtime/bootstrap.py | 30% | 100% |
+| runtime/logging.py | 26% | 100% |
+| runtime/config.py | 73% | 100% |
+| core/rate_limiter.py | 39% | ~80% |
+| Overall | 43.84% | 44.97% |
+
+### Commits
+1. `134cbcba` - Add tests for runtime, safety, and plugins modules
+2. `7f5024c0` - Docs: Add session export for test coverage work
+3. `b51c4ddb` - Add comprehensive tests for runtime and rate limiter modules
+
+### Lint Fixes Applied
+- PT004: Renamed fixtures without return values to use underscore prefix
+- S108: Changed hardcoded /tmp paths to use tmp_path fixture
+- N806: Renamed MockContainer to mock_container_cls
+- I001: Fixed import sorting with ruff --fix
+- PLC0415: Moved inline imports to top of file
+- F401: Removed unused imports (Path, patch)
+
+## Files Created/Modified
+
+### New Test Files
+- tests/test_runtime/test_bootstrap.py (18 tests)
+- tests/test_runtime/test_logging.py (16 tests)
+
+### Modified Test Files
+- tests/test_core/test_rate_limiter.py (+26 tests)
+
+### Previously Created (earlier commits)
+- tests/test_runtime/__init__.py
+- tests/test_runtime/test_config.py
+- tests/test_safety/__init__.py
+- tests/test_safety/test_circuit_breaker.py
+- tests/test_safety/test_kill_switch.py
+- tests/test_plugins/test_base_comprehensive.py
+
+## Current Status
+
+### Test Suite
+- Total tests: 904 passed
+- Warnings: 2 (pre-existing)
+- Coverage: 44.97%
+- Target: 50%
+- Gap: ~5% (~700 statements)
+
+### High Coverage Modules (100%)
+- runtime/__init__.py
+- runtime/bootstrap.py
+- runtime/config.py
+- runtime/logging.py
+- safety/__init__.py
+- core/__init__.py
+- core/protocols/*
+
+### Partial Coverage (can improve)
+- core/rate_limiter.py: ~80%
+- safety/circuit_breaker.py: 83%
+- safety/kill_switch.py: 52%
+- core/container.py: 73%
+
+### Remaining 0% Coverage Modules (complex)
+- adapters/alerting/* - requires external mocking
+- analysis/technical/indicators/* - complex signal processing
+- application/strategies/regime_adaptive/* - complex ML code
+- visualization/* - UI/dashboard code
+
+## Technical Notes
+
+### Coverage Measurement Issue
+When running individual test files, coverage shows correct percentages. When running full test suite, some modules show 0% despite having passing tests. This appears to be a coverage source path configuration issue but doesn't affect actual test execution.
+
+### Test Patterns Used
+- pytest.fixture with autouse for cleanup (prefix with _ for no-return fixtures)
+- MagicMock for settings objects (removed spec= for nested attributes)
+- patch() for lazy imports in container
+- tmp_path fixture for file-based tests
+- @pytest.mark.asyncio for async tests
+- @pytest.mark.unit for unit test markers
+
+## Next Steps to Reach 50%
+1. Add tests for core/container.py uncovered methods (get_order_repository, get_alert_manager, create_alpaca_engine)
+2. Add tests for adapters/storage/repositories/* (partial coverage)
+3. Consider adding basic smoke tests for 0% modules
+4. Gap: ~700 statements needed
+
+## Commands Reference
+
+```bash
+# Run full test suite with coverage
+python -m pytest tests/ --ignore=tests/test_rag --ignore=tests/test_visualization -q --tb=no --cov=src --cov-report=term
+
+# Run specific test file with coverage
+python -m pytest tests/test_runtime/test_bootstrap.py -v --cov=src/ordinis/runtime --cov-report=term
+
+# Check lint errors
+ruff check tests/test_runtime/*.py tests/test_core/test_rate_limiter.py
+
+# Auto-fix lint errors
+ruff check tests/test_core/test_rate_limiter.py --fix
+```
