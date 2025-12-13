@@ -43,7 +43,7 @@ The Ordinis trading system is built on a modular architecture with clear separat
 | [SignalCore System](signalcore-system.md) | Signal generation engine |
 | [Execution Path](execution-path.md) | Order flow and execution |
 | [Simulation Engine](simulation-engine.md) | Backtesting infrastructure |
-| [Monitoring](monitoring.md) | System observability |
+| [Monitoring](../knowledge-base/engines/monitoring.md) | System observability (in Knowledge Base) |
 
 ### 2.3.2 AI Integration
 | Document | Description |
@@ -54,28 +54,26 @@ The Ordinis trading system is built on a modular architecture with clear separat
 ### 2.3.3 Tools & Connectors
 | Document | Description |
 |----------|-------------|
-| [MCP Tools Evaluation](mcp-tools-evaluation.md) | Model Context Protocol tools |
-| [MCP Quick Start](mcp-tools-quick-start.md) | Getting started with MCP |
-| [Claude Connectors](claude-connectors-evaluation.md) | Claude API integration |
-| [Connectors Reference](connectors-quick-reference.md) | Quick reference guide |
+| [Connectors Reference](../reference/connectors-quick-reference.md) | Quick reference for API connectors |
+
+*Note: Internal evaluation docs moved to [internal/](../internal/) section.*
 
 ### 2.3.4 Production Architecture (Phase 1)
 | Document | Description | Status |
 |----------|-------------|--------|
 | [Production Architecture](production-architecture.md) | **Phase 1 Complete** - Comprehensive architecture documentation | ✅ Current |
-| [Phase 1 API Reference](phase1-api-reference.md) | **NEW** - Complete API documentation for persistence, safety, orchestration, alerting | ✅ Current |
+| [Phase 1 API Reference](../reference/phase1-api-reference.md) | Complete API documentation for persistence, safety, orchestration, alerting | ✅ Current |
 | [Architecture Review Response](architecture-review-response.md) | Phase 1 gap analysis - Maps external review feedback to implementation | ✅ Current |
 | [Layered System Architecture](layered-system-architecture.md) | **Master spec** - Orchestration and component integration | 🟡 Pre-Phase 1 |
 | [Model Alternatives Framework](model-alternatives-framework.md) | Multi-model selection and fallback strategy | 🟡 Planning |
 | [NVIDIA Blueprint Integration](nvidia-blueprint-integration.md) | PortOpt and Distillery infrastructure | 🟡 Planning |
 | [TensorTrade-Alpaca Deployment](tensortrade-alpaca-deployment.md) | Production deployment specification | 🟡 Planning |
 
-### 2.3.5 Development & Analysis
+### 2.3.5 Supplementary
 | Document | Description |
 |----------|-------------|
-| [System Capabilities](system-capabilities-assessment.md) | Feature assessment |
-| [Development TODO](development-todo.md) | Development backlog |
 | [Additional Plugins](additional-plugins-analysis.md) | Extended plugin analysis |
+| [Clean Architecture ADR](../decisions/adr-clean-architecture-migration.md) | Architecture decision record |
 
 ## 2.4 Technology Stack
 

@@ -15,7 +15,8 @@ User guides and tutorials for working with the Ordinis trading system.
 | [CLI Usage](cli-usage.md) | Command-line interface guide |
 | [Due Diligence Skill](due-diligence-skill.md) | Using the due diligence analysis skill |
 | [Recommended Skills](recommended-skills.md) | Recommended Claude Code skills |
-| [UI Improvement Proposal](ui-improvement-proposal.md) | Documentation UI/UX enhancement proposal |
+| [Dataset Management](dataset-management-guide.md) | Dataset management procedures |
+| [Dataset Quick Reference](dataset-quick-reference.md) | Quick reference for data operations |
 
 ## 4.3 Quick Start
 

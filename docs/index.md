@@ -16,12 +16,12 @@ Ordinis is a professional algorithmic trading system built with transparency, et
 
 | Section | Description |
 |---------|-------------|
-| [Project](project/index.md) | Project scope, status, and roadmap |
 | [Architecture](architecture/index.md) | System design and technical architecture |
-| [Knowledge Base](knowledge-base/index.md) | Trading knowledge and research |
+| [Knowledge Base](knowledge-base/index.md) | Trading knowledge and domain expertise |
 | [Guides](guides/index.md) | User guides and tutorials |
-| [Analysis](analysis/index.md) | Market analysis and backtest results |
-| [Testing](testing/index.md) | Testing procedures and benchmarks |
+| [Reference](reference/) | API documentation and quick references |
+| [Decisions](decisions/) | Architecture Decision Records (ADRs) |
+| [Internal](internal/) | Developer documentation (not user-facing) |
 
 ## System Components
 
@@ -84,10 +84,10 @@ Ordinis Trading System (Phase 1 Complete)
 
 ## Getting Started
 
-1. **Read the [Project Scope](project/PROJECT_SCOPE.md)** to understand system objectives
-2. **Review [Architecture](architecture/index.md)** for technical details
-3. **Explore the [Knowledge Base](knowledge-base/index.md)** for trading fundamentals
-4. **Follow [Testing Guides](testing/index.md)** to run the system
+1. **Review [Architecture](architecture/index.md)** for system design and technical details
+2. **Explore the [Knowledge Base](knowledge-base/index.md)** for trading domain knowledge
+3. **Follow [Guides](guides/index.md)** to use CLI and configure the system
+4. **Check [Reference](reference/)** for API documentation
 
 ## Documentation Standards
 
