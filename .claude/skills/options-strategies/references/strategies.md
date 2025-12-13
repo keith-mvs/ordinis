@@ -29,7 +29,7 @@ Where:
 **Key Metrics:**
 - **Maximum Profit:** Unlimited (theoretically)
 - **Maximum Loss:** Total premium paid = (C_premium + P_premium) × 100
-- **Breakeven Points:** 
+- **Breakeven Points:**
   - Upper: K + Total Premium
   - Lower: K - Total Premium
 - **Best Entry:** IV Rank > 50, before earnings or major events
@@ -155,7 +155,7 @@ Max Loss: ($5.00 × 100) - $800 = $500 - $800... No.
 
 Actually: Wing Width = $5, Net Credit = $8
 If we bought wings for total $7.50 and sold middle for $15.50, net credit = $8
-Max Loss = (Wing Width - Net Credit) × 100 = ($5 - $8) × 100 
+Max Loss = (Wing Width - Net Credit) × 100 = ($5 - $8) × 100
 
 Wait, if net credit is $8 and wing width is $5, then:
 Max Loss should be = $5 (wing width) - $8 (credit) = -$3, which means profit.
@@ -196,7 +196,7 @@ At expiration:
 - If SPY = $450: All options expire worthless, keep $600 profit
 - If SPY = $455: Lose $5 on call spread, keep $4.50 on put side = -$0.50 total
   Plus initial credit of $6.00 = $5.50 profit still
-  
+
 Hmm, I need to recalculate more carefully.
 
 Actually for an iron butterfly:
@@ -251,7 +251,7 @@ Breakevens: $445 and $455
 
 **Payoff Formula:**
 ```
-P/L = Net_Premium 
+P/L = Net_Premium
       - max(max(S - K_call_short, 0) - (K_call_long - K_call_short), 0)
       - max(max(K_put_short - S, 0) - (K_put_short - K_put_long), 0)
 ```
@@ -296,7 +296,7 @@ Profit Range: $443 to $457 (14 points wide)
 
 **Payoff Formula:**
 ```
-P/L = (Long_Option_Value - Long_Premium_Paid) 
+P/L = (Long_Option_Value - Long_Premium_Paid)
       - (Short_Option_Value - Short_Premium_Received)
 
 Note: Short option theta > Long option theta

@@ -29,7 +29,6 @@ Python: 3.11+
 
 import numpy as np
 from scipy.stats import norm
-from typing import Dict, List, Optional
 
 
 class BlackScholes:
@@ -72,12 +71,14 @@ class BlackScholes:
         return K * np.exp(-r * T) * norm.cdf(-d2) - S * norm.cdf(-d1)
 
 
-def calculate_greeks(spot: float,
-                    strike: float,
-                    time: float,
-                    rate: float,
-                    volatility: float,
-                    option_type: str = 'call') -> Dict[str, float]:
+def calculate_greeks(
+    spot: float,
+    strike: float,
+    time: float,
+    rate: float,
+    volatility: float,
+    option_type: str = "call",
+) -> dict[str, float]:
     """
     Calculate all Greeks for a single option.
 
@@ -101,25 +102,19 @@ def calculate_greeks(spot: float,
     """
     if time <= 0:
         # At expiration
-        if option_type == 'call':
+        if option_type == "call":
             delta = 1.0 if spot > strike else 0.0
         else:
             delta = -1.0 if spot < strike else 0.0
 
-        return {
-            'delta': delta,
-            'gamma': 0.0,
-            'theta': 0.0,
-            'vega': 0.0,
-            'rho': 0.0
-        }
+        return {"delta": delta, "gamma": 0.0, "theta": 0.0, "vega": 0.0, "rho": 0.0}
 
     # Calculate d1, d2
     d1 = BlackScholes.d1(spot, strike, time, rate, volatility)
     d2 = BlackScholes.d2(spot, strike, time, rate, volatility)
 
     # Delta
-    if option_type == 'call':
+    if option_type == "call":
         delta = norm.cdf(d1)
     else:
         delta = norm.cdf(d1) - 1
@@ -131,29 +126,33 @@ def calculate_greeks(spot: float,
     vega = spot * norm.pdf(d1) * np.sqrt(time) / 100
 
     # Theta (per day, so divide by 365)
-    if option_type == 'call':
-        theta = (-(spot * norm.pdf(d1) * volatility) / (2 * np.sqrt(time))
-                 - rate * strike * np.exp(-rate * time) * norm.cdf(d2)) / 365
+    if option_type == "call":
+        theta = (
+            -(spot * norm.pdf(d1) * volatility) / (2 * np.sqrt(time))
+            - rate * strike * np.exp(-rate * time) * norm.cdf(d2)
+        ) / 365
     else:
-        theta = (-(spot * norm.pdf(d1) * volatility) / (2 * np.sqrt(time))
-                 + rate * strike * np.exp(-rate * time) * norm.cdf(-d2)) / 365
+        theta = (
+            -(spot * norm.pdf(d1) * volatility) / (2 * np.sqrt(time))
+            + rate * strike * np.exp(-rate * time) * norm.cdf(-d2)
+        ) / 365
 
     # Rho (divided by 100 for 1% change)
-    if option_type == 'call':
+    if option_type == "call":
         rho = strike * time * np.exp(-rate * time) * norm.cdf(d2) / 100
     else:
         rho = -strike * time * np.exp(-rate * time) * norm.cdf(-d2) / 100
 
     return {
-        'delta': float(delta),
-        'gamma': float(gamma),
-        'theta': float(theta),
-        'vega': float(vega),
-        'rho': float(rho)
+        "delta": float(delta),
+        "gamma": float(gamma),
+        "theta": float(theta),
+        "vega": float(vega),
+        "rho": float(rho),
     }
 
 
-def calculate_position_greeks(options: List[Dict]) -> Dict[str, float]:
+def calculate_position_greeks(options: list[dict]) -> dict[str, float]:
     """
     Calculate combined Greeks for a multi-leg options position.
 
@@ -180,24 +179,18 @@ def calculate_position_greeks(options: List[Dict]) -> Dict[str, float]:
         ... ]
         >>> position_greeks = calculate_position_greeks(options)
     """
-    total_greeks = {
-        'delta': 0.0,
-        'gamma': 0.0,
-        'theta': 0.0,
-        'vega': 0.0,
-        'rho': 0.0
-    }
+    total_greeks = {"delta": 0.0, "gamma": 0.0, "theta": 0.0, "vega": 0.0, "rho": 0.0}
 
     for option in options:
-        quantity = option.get('quantity', 1)
+        quantity = option.get("quantity", 1)
 
         greeks = calculate_greeks(
-            spot=option['spot'],
-            strike=option['strike'],
-            time=option['time'],
-            rate=option['rate'],
-            volatility=option['volatility'],
-            option_type=option['option_type']
+            spot=option["spot"],
+            strike=option["strike"],
+            time=option["time"],
+            rate=option["rate"],
+            volatility=option["volatility"],
+            option_type=option["option_type"],
         )
 
         # Aggregate Greeks (multiply by quantity and scale by 100 for contract)
@@ -215,12 +208,7 @@ if __name__ == "__main__":
     # Example 1: Single option
     print("\n1. Single Call Option Greeks:")
     greeks = calculate_greeks(
-        spot=450.0,
-        strike=445.0,
-        time=45/365,
-        rate=0.05,
-        volatility=0.20,
-        option_type='call'
+        spot=450.0, strike=445.0, time=45 / 365, rate=0.05, volatility=0.20, option_type="call"
     )
 
     print(f"   Delta: {greeks['delta']:.4f}")
@@ -233,15 +221,23 @@ if __name__ == "__main__":
     print("\n2. Bull Call Spread Position Greeks:")
     options = [
         {  # Long 445 call
-            'spot': 450, 'strike': 445, 'time': 45/365,
-            'rate': 0.05, 'volatility': 0.20,
-            'option_type': 'call', 'quantity': 1
+            "spot": 450,
+            "strike": 445,
+            "time": 45 / 365,
+            "rate": 0.05,
+            "volatility": 0.20,
+            "option_type": "call",
+            "quantity": 1,
         },
         {  # Short 455 call
-            'spot': 450, 'strike': 455, 'time': 45/365,
-            'rate': 0.05, 'volatility': 0.20,
-            'option_type': 'call', 'quantity': -1
-        }
+            "spot": 450,
+            "strike": 455,
+            "time": 45 / 365,
+            "rate": 0.05,
+            "volatility": 0.20,
+            "option_type": "call",
+            "quantity": -1,
+        },
     ]
 
     position_greeks = calculate_position_greeks(options)

@@ -13,7 +13,7 @@ from typing import Any
 
 import aiohttp
 
-from ..base import (
+from plugins.base import (
     DataPlugin,
     PluginCapability,
     PluginConfig,

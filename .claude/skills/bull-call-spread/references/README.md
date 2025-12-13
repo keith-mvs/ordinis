@@ -11,7 +11,7 @@ Perfect. I'll create an advanced, standalone bull-call-spread strategy skill pac
 * Type: Vertical debit spread (bullish directional strategy)
 
 * Legs:
-  
+
   * Long call at lower strike (ITM or ATM)
   * Short call at higher strike (OTM)
 
@@ -95,32 +95,32 @@ Individual option Greeks:
 ### Main Sections:
 
 1. **Strategy Overview** (## level)
-   
+
    * Definition and market outlook
    * When to deploy (bullish but capped upside acceptable)
    * Risk/reward profile summary
 
 2. **Position Construction** (## level)
-   
+
    * Step-by-step setup instructions
    * Strike selection guidelines
    * Expiration considerations
    * Code snippet: Position setup function
 
 3. **Profit/Loss Analysis** (## level)
-   
+
    * Breakeven calculation with code
    * Maximum profit/loss scenarios
    * P&L at various price points
    * Code snippet: P&L calculator function
 
 4. **Payoff Visualization** (## level)
-   
+
    * Payoff diagram explanation
    * Code snippet: Complete visualization with matplotlib
 
 5. **Greeks Profile** (## level)
-   
+
    * Delta: Net directional exposure
    * Gamma: Convexity risk
    * Theta: Time decay dynamics
@@ -128,14 +128,14 @@ Individual option Greeks:
    * Code snippet: Greeks calculation function
 
 6. **Risk Management** (## level)
-   
+
    * Position sizing guidelines
    * Exit strategies (profit targets, stop losses)
    * Adjustment techniques
    * Roll management
 
 7. **Complete Implementation Example** (## level)
-   
+
    * Full working example with real data
    * Code snippet: Comprehensive strategy class
 
@@ -144,37 +144,37 @@ Individual option Greeks:
 --------------------------
 
 1. **Position Setup Function** (~30 lines)
-   
+
    * Inputs: underlying_price, long_strike, short_strike, long_premium, short_premium, expiration_days
    * Outputs: Position dictionary with all parameters
    * Validates strikes, calculates net debit
 
 2. **P&L Calculator Function** (~25 lines)
-   
+
    * Inputs: position dict, stock_price_at_expiration
    * Outputs: P&L value, return percentage
    * Handles ITM/OTM logic for both legs
 
 3. **Breakeven Calculator** (~15 lines)
-   
+
    * Inputs: position dict
    * Outputs: Breakeven price
    * Simple formula application
 
 4. **Payoff Diagram Generator** (~40 lines)
-   
+
    * Inputs: position dict, price_range
    * Outputs: matplotlib figure
    * Shows P&L curve, breakeven, max profit/loss lines
 
 5. **Greeks Calculator Function** (~60 lines)
-   
+
    * Inputs: position dict, current_underlying_price, volatility, risk_free_rate
    * Outputs: All position Greeks
    * Implements Black-Scholes formulas
 
 6. **Complete Strategy Class** (~150 lines)
-   
+
    * Encapsulates all functionality
    * Methods for setup, analysis, visualization
    * Properties for key metrics
@@ -205,13 +205,13 @@ Individual option Greeks:
 **Sections**:
 
 1. **Mathematical Foundations**
-   
+
    * Complete Black-Scholes derivation for calls
    * Greeks formulas with detailed explanations
    * Sensitivity analysis mathematics
 
 2. **Greeks Deep Dive**
-   
+
    * **Delta**:
      * Individual leg deltas
      * Net position delta (typically 0.30-0.40 for balanced spreads)
@@ -230,7 +230,7 @@ Individual option Greeks:
      * Volatility smile effects
 
 3. **Advanced Scenarios**
-   
+
    * **Early Assignment Risk**: ITM short calls before dividends
    * **Dividend Impact**: Ex-dividend date considerations
    * **Volatility Skew**: How skew affects strike selection
@@ -241,13 +241,13 @@ Individual option Greeks:
      * Closing early for profit
 
 4. **Comparative Analysis**
-   
+
    * Bull call spread vs. naked long call
    * Bull call spread vs. bull put spread
    * Cost-benefit analysis with examples
 
 5. **External Resources**
-   
+
    * CBOE options strategy guides
    * Academic papers on spread effectiveness
    * Risk management frameworks (MIL-STD references where applicable)
@@ -282,12 +282,12 @@ Individual option Greeks:
 * Position lifecycle management
 
 * Classes:
-  
+
   * `BullCallSpread`: Main strategy class
   * `PositionAnalyzer`: Risk analysis utilities
 
 * Methods:
-  
+
   * Track P&L over time
   * Adjustment recommendations
   * Exit signal generation
@@ -384,7 +384,7 @@ Position Construction
     from typing import Dict, Optional
     from dataclasses import dataclass
     from datetime import datetime, timedelta
-    
+
     @dataclass
     class BullCallSpread:
         """Bull call spread position parameters."""
@@ -396,7 +396,7 @@ Position Construction
         short_premium: float
         expiration_date: datetime
         contracts: int = 1
-    
+
         def __post_init__(self):
             """Validate position parameters."""
             if self.long_strike >= self.short_strike:
@@ -405,27 +405,27 @@ Position Construction
                 raise ValueError("Long premium should exceed short premium for debit spread")
             if self.underlying_price <= 0:
                 raise ValueError("Underlying price must be positive")
-    
+
         @property
         def net_debit(self) -> float:
             """Calculate net debit per share."""
             return self.long_premium - self.short_premium
-    
+
         @property
         def spread_width(self) -> float:
             """Calculate spread width."""
             return self.short_strike - self.long_strike
-    
+
         @property
         def days_to_expiration(self) -> int:
             """Calculate days until expiration."""
             return (self.expiration_date - datetime.now()).days
-    
+
         @property
         def position_cost(self) -> float:
             """Calculate total position cost."""
             return self.net_debit * 100 * self.contracts
-    
+
     # Example: SPY bull call spread
     position = BullCallSpread(
         underlying_symbol="SPY",
@@ -437,7 +437,7 @@ Position Construction
         expiration_date=datetime.now() + timedelta(days=45),
         contracts=1
     )
-    
+
     print(f"Net Debit: ${position.net_debit:.2f} per share")
     print(f"Position Cost: ${position.position_cost:.2f}")
     print(f"Spread Width: ${position.spread_width:.2f}")
@@ -472,29 +472,29 @@ The breakeven point occurs when the intrinsic value of the long call equals the 
     def calculate_max_profit(position: BullCallSpread) -> Dict[str, float]:
         """
         Calculate maximum profit and required underlying price.
-    
+
         Args:
             position: BullCallSpread instance
-    
+
         Returns:
             Dictionary with max profit and price
         """
         max_profit_per_share = position.spread_width - position.net_debit
         max_profit_total = max_profit_per_share * 100 * position.contracts
-    
+
         return {
             'max_profit_per_share': max_profit_per_share,
             'max_profit_total': max_profit_total,
             'required_price': position.short_strike
         }
-    
+
     def calculate_max_loss(position: BullCallSpread) -> Dict[str, float]:
         """
         Calculate maximum loss.
-    
+
         Args:
             position: BullCallSpread instance
-    
+
         Returns:
             Dictionary with max loss information
         """
@@ -503,48 +503,48 @@ The breakeven point occurs when the intrinsic value of the long call equals the 
             'max_loss_total': position.position_cost,
             'occurs_below': position.long_strike
         }
-    
+
     # Calculate for our position
     max_profit = calculate_max_profit(position)
     max_loss = calculate_max_loss(position)
-    
+
     print(f"Max Profit: ${max_profit['max_profit_total']:.2f} at ${max_profit['required_price']:.2f}")
     print(f"Max Loss: ${max_loss['max_loss_total']:.2f} below ${max_loss['occurs_below']:.2f}")
 
 ### P&L at Expiration
 
     import numpy as np
-    
+
     def calculate_pnl_at_expiration(
         position: BullCallSpread,
         stock_price: float
     ) -> Dict[str, float]:
         """
         Calculate profit/loss at expiration for a given stock price.
-    
+
         Args:
             position: BullCallSpread instance
             stock_price: Stock price at expiration
-    
+
         Returns:
             Dictionary with P&L metrics
         """
         # Long call value at expiration
         long_call_value = max(stock_price - position.long_strike, 0)
-    
+
         # Short call value at expiration
         short_call_value = max(stock_price - position.short_strike, 0)
-    
+
         # Net position value
         position_value = long_call_value - short_call_value
-    
+
         # P&L calculation
         pnl_per_share = position_value - position.net_debit
         pnl_total = pnl_per_share * 100 * position.contracts
-    
+
         # Return percentage
         return_pct = (pnl_per_share / position.net_debit) * 100
-    
+
         return {
             'stock_price': stock_price,
             'position_value': position_value,
@@ -552,14 +552,14 @@ The breakeven point occurs when the intrinsic value of the long call equals the 
             'pnl_total': pnl_total,
             'return_pct': return_pct
         }
-    
+
     # Test at various prices
     test_prices = [440, 445, 450, 452, 455, 460]
     print("\nP&L at Various Stock Prices:")
     print("-" * 70)
     print(f"{'Price':<10} {'Position Value':<15} {'P&L':<15} {'Return %':<10}")
     print("-" * 70)
-    
+
     for price in test_prices:
         result = calculate_pnl_at_expiration(position, price)
         print(f"${price:<9.2f} ${result['position_value']:<14.2f} "
@@ -569,18 +569,18 @@ Payoff Visualization
 --------------------
 
     import matplotlib.pyplot as plt
-    
+
     def plot_payoff_diagram(
         position: BullCallSpread,
         price_range: Optional[tuple] = None
     ) -> plt.Figure:
         """
         Generate payoff diagram for bull call spread.
-    
+
         Args:
             position: BullCallSpread instance
             price_range: Optional (min_price, max_price) tuple
-    
+
         Returns:
             matplotlib Figure object
         """
@@ -588,48 +588,48 @@ Payoff Visualization
         if price_range is None:
             center = position.underlying_price
             price_range = (center * 0.85, center * 1.15)
-    
+
         # Generate price points
         prices = np.linspace(price_range[0], price_range[1], 200)
-    
+
         # Calculate P&L for each price
         pnl_values = []
         for price in prices:
             result = calculate_pnl_at_expiration(position, price)
             pnl_values.append(result['pnl_total'])
-    
+
         pnl_values = np.array(pnl_values)
-    
+
         # Create figure
         fig, ax = plt.subplots(figsize=(12, 7))
-    
+
         # Plot P&L line
         ax.plot(prices, pnl_values, 'b-', linewidth=2, label='Bull Call Spread P&L')
-    
+
         # Add breakeven line
         breakeven = calculate_breakeven(position)
-        ax.axvline(breakeven, color='gray', linestyle='--', linewidth=1.5, 
+        ax.axvline(breakeven, color='gray', linestyle='--', linewidth=1.5,
                    label=f'Breakeven: ${breakeven:.2f}')
-    
+
         # Add current price line
-        ax.axvline(position.underlying_price, color='green', linestyle='--', 
+        ax.axvline(position.underlying_price, color='green', linestyle='--',
                    linewidth=1.5, label=f'Current: ${position.underlying_price:.2f}')
-    
+
         # Add zero line
         ax.axhline(0, color='black', linestyle='-', linewidth=0.8, alpha=0.5)
-    
+
         # Shade profit/loss regions
-        ax.fill_between(prices, 0, pnl_values, where=(pnl_values >= 0), 
+        ax.fill_between(prices, 0, pnl_values, where=(pnl_values >= 0),
                          alpha=0.2, color='green', label='Profit Region')
-        ax.fill_between(prices, 0, pnl_values, where=(pnl_values < 0), 
+        ax.fill_between(prices, 0, pnl_values, where=(pnl_values < 0),
                          alpha=0.2, color='red', label='Loss Region')
-    
+
         # Add strike price annotations
         ax.axvline(position.long_strike, color='blue', linestyle=':', alpha=0.7,
                    label=f'Long Strike: ${position.long_strike:.2f}')
         ax.axvline(position.short_strike, color='red', linestyle=':', alpha=0.7,
                    label=f'Short Strike: ${position.short_strike:.2f}')
-    
+
         # Labels and formatting
         ax.set_xlabel('Stock Price at Expiration ($)', fontsize=12, fontweight='bold')
         ax.set_ylabel('Profit/Loss ($)', fontsize=12, fontweight='bold')
@@ -639,14 +639,14 @@ Payoff Visualization
                      fontsize=14, fontweight='bold')
         ax.grid(True, alpha=0.3)
         ax.legend(loc='best', fontsize=10)
-    
+
         # Format y-axis as currency
         ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda x, p: f'${x:,.0f}'))
         ax.xaxis.set_major_formatter(plt.FuncFormatter(lambda x, p: f'${x:.0f}'))
-    
+
         plt.tight_layout()
         return fig
-    
+
     # Generate and display payoff diagram
     fig = plot_payoff_diagram(position)
     plt.show()
@@ -660,7 +660,7 @@ The Greeks measure how the position value changes with respect to various factor
 
     from scipy.stats import norm
     import math
-    
+
     def calculate_position_greeks(
         position: BullCallSpread,
         current_price: float,
@@ -669,36 +669,36 @@ The Greeks measure how the position value changes with respect to various factor
     ) -> Dict[str, float]:
         """
         Calculate position-level Greeks for bull call spread.
-    
+
         Args:
             position: BullCallSpread instance
             current_price: Current underlying price
             volatility: Implied volatility (annualized)
             risk_free_rate: Risk-free rate (annualized)
-    
+
         Returns:
             Dictionary with all Greeks
         """
         # Time to expiration in years
         T = position.days_to_expiration / 365.0
-    
+
         if T <= 0:
             return {
-                'delta': 0.0, 'gamma': 0.0, 'theta': 0.0, 
+                'delta': 0.0, 'gamma': 0.0, 'theta': 0.0,
                 'vega': 0.0, 'rho': 0.0
             }
-    
+
         # Helper function for Black-Scholes d1 and d2
         def calculate_d1_d2(S, K, T, r, sigma):
             d1 = (np.log(S / K) + (r + 0.5 * sigma**2) * T) / (sigma * np.sqrt(T))
             d2 = d1 - sigma * np.sqrt(T)
             return d1, d2
-    
+
         # Calculate Greeks for long call (lower strike)
         d1_long, d2_long = calculate_d1_d2(
             current_price, position.long_strike, T, risk_free_rate, volatility
         )
-    
+
         delta_long = norm.cdf(d1_long)
         gamma_long = norm.pdf(d1_long) / (current_price * volatility * np.sqrt(T))
         theta_long = (
@@ -709,12 +709,12 @@ The Greeks measure how the position value changes with respect to various factor
         rho_long = (
             position.long_strike * T * np.exp(-risk_free_rate * T) * norm.cdf(d2_long)
         ) / 100  # Per 1% rate change
-    
+
         # Calculate Greeks for short call (higher strike)
         d1_short, d2_short = calculate_d1_d2(
             current_price, position.short_strike, T, risk_free_rate, volatility
         )
-    
+
         delta_short = norm.cdf(d1_short)
         gamma_short = norm.pdf(d1_short) / (current_price * volatility * np.sqrt(T))
         theta_short = (
@@ -725,14 +725,14 @@ The Greeks measure how the position value changes with respect to various factor
         rho_short = (
             position.short_strike * T * np.exp(-risk_free_rate * T) * norm.cdf(d2_short)
         ) / 100
-    
+
         # Net position Greeks (long - short)
         position_delta = (delta_long - delta_short) * 100 * position.contracts
         position_gamma = (gamma_long - gamma_short) * 100 * position.contracts
         position_theta = (theta_long - theta_short) * 100 * position.contracts
         position_vega = (vega_long - vega_short) * 100 * position.contracts
         position_rho = (rho_long - rho_short) * 100 * position.contracts
-    
+
         return {
             'delta': position_delta,
             'gamma': position_gamma,
@@ -740,7 +740,7 @@ The Greeks measure how the position value changes with respect to various factor
             'vega': position_vega,
             'rho': position_rho
         }
-    
+
     # Calculate Greeks for our example
     greeks = calculate_position_greeks(
         position=position,
@@ -748,7 +748,7 @@ The Greeks measure how the position value changes with respect to various factor
         volatility=0.18,  # 18% implied volatility
         risk_free_rate=0.05  # 5% risk-free rate
     )
-    
+
     print("\nPosition Greeks:")
     print("-" * 50)
     print(f"Delta: {greeks['delta']:>10.2f}  (Expected move per $1 increase)")
@@ -870,12 +870,12 @@ Complete Implementation Example
     import matplotlib.pyplot as plt
     from scipy.stats import norm
     from dataclasses import dataclass
-    
+
     @dataclass
     class BullCallSpreadComplete:
         """
         Complete bull call spread strategy implementation.
-    
+
         Attributes:
             All position parameters plus analysis methods
         """
@@ -887,7 +887,7 @@ Complete Implementation Example
         short_premium: float
         expiration_date: datetime
         contracts: int = 1
-    
+
         def analyze_position(
             self,
             volatility: float = 0.20,
@@ -895,7 +895,7 @@ Complete Implementation Example
         ) -> Dict:
             """
             Comprehensive position analysis.
-    
+
             Returns complete risk metrics, Greeks, and scenarios.
             """
             # Basic metrics
@@ -905,40 +905,40 @@ Complete Implementation Example
                 'position_cost': (self.long_premium - self.short_premium) * 100 * self.contracts,
                 'days_to_expiration': (self.expiration_date - datetime.now()).days
             }
-    
+
             # Risk metrics
             metrics['max_profit'] = (metrics['spread_width'] - metrics['net_debit']) * 100 * self.contracts
             metrics['max_loss'] = metrics['position_cost']
             metrics['breakeven'] = self.long_strike + metrics['net_debit']
             metrics['risk_reward_ratio'] = metrics['max_profit'] / metrics['max_loss']
-    
+
             # Greeks
             T = metrics['days_to_expiration'] / 365.0
-    
+
             def calc_greeks(S, K):
                 d1 = (np.log(S/K) + (risk_free_rate + 0.5*volatility**2)*T) / (volatility*np.sqrt(T))
                 d2 = d1 - volatility*np.sqrt(T)
                 delta = norm.cdf(d1)
                 gamma = norm.pdf(d1) / (S * volatility * np.sqrt(T))
-                theta = (-(S * norm.pdf(d1) * volatility)/(2*np.sqrt(T)) - 
+                theta = (-(S * norm.pdf(d1) * volatility)/(2*np.sqrt(T)) -
                          risk_free_rate*K*np.exp(-risk_free_rate*T)*norm.cdf(d2)) / 365
                 vega = S * norm.pdf(d1) * np.sqrt(T) / 100
                 return delta, gamma, theta, vega
-    
+
             d_long, g_long, t_long, v_long = calc_greeks(self.underlying_price, self.long_strike)
             d_short, g_short, t_short, v_short = calc_greeks(self.underlying_price, self.short_strike)
-    
+
             metrics['delta'] = (d_long - d_short) * 100 * self.contracts
             metrics['gamma'] = (g_long - g_short) * 100 * self.contracts
             metrics['theta'] = (t_long - t_short) * 100 * self.contracts
             metrics['vega'] = (v_long - v_short) * 100 * self.contracts
-    
+
             return metrics
-    
+
         def scenario_analysis(self) -> pd.DataFrame:
             """
             Generate scenario analysis across price range.
-    
+
             Returns DataFrame with P&L at various prices.
             """
             price_range = np.linspace(
@@ -946,14 +946,14 @@ Complete Implementation Example
                 self.underlying_price * 1.10,
                 21
             )
-    
+
             scenarios = []
             for price in price_range:
                 long_value = max(price - self.long_strike, 0)
                 short_value = max(price - self.short_strike, 0)
                 position_value = long_value - short_value
                 pnl = (position_value - (self.long_premium - self.short_premium)) * 100 * self.contracts
-    
+
                 scenarios.append({
                     'Price': price,
                     'Long Call': long_value,
@@ -962,13 +962,13 @@ Complete Implementation Example
                     'P&L': pnl,
                     'Return %': (pnl / self.position_cost) * 100 if hasattr(self, 'position_cost') else 0
                 })
-    
+
             return pd.DataFrame(scenarios)
-    
+
         @property
         def position_cost(self) -> float:
             return (self.long_premium - self.short_premium) * 100 * self.contracts
-    
+
     # Create and analyze position
     strategy = BullCallSpreadComplete(
         underlying_symbol="SPY",
@@ -980,10 +980,10 @@ Complete Implementation Example
         expiration_date=datetime.now() + timedelta(days=45),
         contracts=2
     )
-    
+
     # Run comprehensive analysis
     analysis = strategy.analyze_position(volatility=0.18, risk_free_rate=0.05)
-    
+
     print("\n" + "="*60)
     print("BULL CALL SPREAD ANALYSIS")
     print("="*60)
@@ -996,19 +996,19 @@ Complete Implementation Example
     print(f"  Contracts: {strategy.contracts}")
     print(f"  Position Cost: ${analysis['position_cost']:.2f}")
     print(f"  Days to Expiration: {analysis['days_to_expiration']}")
-    
+
     print(f"\nRisk Metrics:")
     print(f"  Maximum Profit: ${analysis['max_profit']:.2f}")
     print(f"  Maximum Loss: ${analysis['max_loss']:.2f}")
     print(f"  Breakeven: ${analysis['breakeven']:.2f}")
     print(f"  Risk/Reward Ratio: {analysis['risk_reward_ratio']:.2f}")
-    
+
     print(f"\nGreeks:")
     print(f"  Delta: {analysis['delta']:.2f}")
     print(f"  Gamma: {analysis['gamma']:.4f}")
     print(f"  Theta: {analysis['theta']:.2f}")
     print(f"  Vega: {analysis['vega']:.2f}")
-    
+
     # Scenario analysis
     scenarios_df = strategy.scenario_analysis()
     print(f"\nScenario Analysis:")
@@ -1190,19 +1190,19 @@ Greeks: Complete Derivations
 **Theta Decay Patterns**:
 
 1. **Early in Trade** (>30 DTE):
-   
+
    * Slow, steady decay
    * Theta impact relatively small
    * Focus on directional movement
 
 2. **Mid-Life** (15-30 DTE):
-   
+
    * Accelerating decay
    * Theta becomes significant factor
    * Balance time decay vs. directional edge
 
 3. **Near Expiration** (<15 DTE):
-   
+
    * Rapid decay, especially for ATM options
    * Critical period for position management
    * Consider closing or rolling
@@ -1256,7 +1256,7 @@ Greeks: Complete Derivations
             # Simplified vega impact (for illustration)
             # In practice, would recalculate full position value
             greeks = calculate_position_greeks(
-                position, 
+                position,
                 position.underlying_price,
                 new_vol,
                 0.05
@@ -1335,8 +1335,8 @@ Advanced Scenarios and Edge Cases
         intrinsic_value = max(current_price - short_strike, 0)
 
         # Assignment typically occurs if time value < dividend
-        assignment_likely = (time_value < upcoming_dividend and 
-                            days_to_ex_div <= 3 and 
+        assignment_likely = (time_value < upcoming_dividend and
+                            days_to_ex_div <= 3 and
                             intrinsic_value > 0)
 
         # Financial impact of assignment
@@ -1407,7 +1407,7 @@ Advanced Scenarios and Edge Cases
         moneyness = [(k / current_price - 1) * 100 for k in strikes]
 
         # Find ATM implied vol
-        atm_idx = min(range(len(strikes)), 
+        atm_idx = min(range(len(strikes)),
                       key=lambda i: abs(strikes[i] - current_price))
         atm_vol = implied_vols[atm_idx]
 
@@ -1426,15 +1426,15 @@ Advanced Scenarios and Edge Cases
             'otm_avg_volatility': avg_otm_vol if otm_vols else None,
             'skew': skew,
             'skew_pct': (skew / atm_vol * 100) if atm_vol > 0 else 0,
-            'interpretation': 'STEEP SKEW' if skew > 0.03 else 
-                             'FLAT SKEW' if abs(skew) < 0.01 else 
+            'interpretation': 'STEEP SKEW' if skew > 0.03 else
+                             'FLAT SKEW' if abs(skew) < 0.01 else
                              'NEGATIVE SKEW'
         }
 
 **Implications for Bull Call Spreads**:
 
 * **Positive skew** (OTM > ATM): Short call has higher IV
-  
+
   * Benefit: Collect more premium on short call
   * Trade-off: Long call has lower IV (costs less)
   * Net effect: Generally favorable for spread
@@ -1442,7 +1442,7 @@ Advanced Scenarios and Edge Cases
 * **Flat skew**: Neutral impact
 
 * **Negative skew** (rare): OTM < ATM
-  
+
   * Less favorable for bull call spreads
   * Consider alternative strategies
 
@@ -1533,7 +1533,7 @@ Advanced Scenarios and Edge Cases
             'combined_capital': total_capital,
             'combined_roi': combined_roi,
             'recommend_roll': recommend_roll,
-            'reason': 'ROLL: Good profit capture + attractive new position' if recommend_roll 
+            'reason': 'ROLL: Good profit capture + attractive new position' if recommend_roll
                      else 'HOLD: Insufficient profit or unfavorable roll terms'
         }
 
@@ -2419,7 +2419,7 @@ class BlackScholes:"""Black-Scholes options pricing and Greeks calculator.
             raise ValueError("Volatility must be positive")
 
         if T == 0:
-            return (float('inf') if S > K else float('-inf'), 
+            return (float('inf') if S > K else float('-inf'),
                     float('inf') if S > K else float('-inf'))
 
         d1 = (np.log(S / K) + (r + 0.5 * sigma**2) * T) / (sigma * np.sqrt(T))
@@ -2935,10 +2935,10 @@ Installation
 * Python 3.8 or higher
 
 * Required packages:
-  
+
       pip install numpy pandas matplotlib scipy
-  
-  
+
+
 
 ### Package Structure
 
@@ -2964,7 +2964,7 @@ Quick Start
         --short-strike 455 \
         --long-premium 8.50 \
         --short-premium 3.20
-    
+
     # With custom parameters
     python scripts/strategy_calculator.py \
         --underlying AAPL \
@@ -2982,7 +2982,7 @@ Quick Start
 
     from datetime import datetime, timedelta
     from scripts.strategy_calculator import BullCallSpread, StrategyAnalyzer
-    
+
     # Create position
     position = BullCallSpread(
         underlying_symbol="SPY",
@@ -2996,12 +2996,12 @@ Quick Start
         volatility=0.18,
         risk_free_rate=0.05
     )
-    
+
     # Analyze position
     analyzer = StrategyAnalyzer(position)
     analyzer.print_comprehensive_analysis()
     analyzer.plot_payoff_diagram()
-    
+
     # Calculate specific metrics
     breakeven = analyzer.calculate_breakeven()
     max_profit = analyzer.calculate_max_profit()
@@ -3053,7 +3053,7 @@ Examples
     Current: $450.00
     Net Debit: $5.30 ($530 position cost)
     Days: 45 DTE
-    
+
     Results:
     - Max Profit: $470 (88.7% ROI) at $455+
     - Max Loss: $530 (100% of cost) below $445
@@ -3063,11 +3063,11 @@ Examples
 ### Example 2: Roll Analysis
 
     from scripts.strategy_calculator import BullCallSpread, StrategyAnalyzer
-    
+
     # Current position
     current = BullCallSpread(...)
     analyzer = StrategyAnalyzer(current)
-    
+
     # Evaluate roll to higher strikes
     roll_analysis = evaluate_roll_opportunity(
         current_position=current,
@@ -3077,7 +3077,7 @@ Examples
         new_expiration_dte=60,
         new_premiums=(7.80, 3.50)
     )
-    
+
     print(roll_analysis['recommend_roll'])  # True/False
     print(roll_analysis['combined_roi'])     # Expected ROI
 
@@ -3113,7 +3113,7 @@ Advanced Usage
 ### Custom Greeks Analysis
 
     from scripts.black_scholes import BlackScholes
-    
+
     # Calculate individual option Greeks
     call_greeks = BlackScholes.calculate_all_greeks(
         S=450,      # Stock price
@@ -3123,7 +3123,7 @@ Advanced Usage
         sigma=0.18, # Volatility
         option_type='call'
     )
-    
+
     print(f"Call Delta: {call_greeks['delta']:.4f}")
     print(f"Call Theta: {call_greeks['theta']:.2f}")
 
@@ -3131,10 +3131,10 @@ Advanced Usage
 
     analyzer = StrategyAnalyzer(position)
     scenarios_df = analyzer.generate_scenario_analysis(num_points=100)
-    
+
     # Export to CSV
     scenarios_df.to_csv('scenarios.csv', index=False)
-    
+
     # Analyze specific price
     result = analyzer.calculate_pnl(stock_price=455)
     print(f"P&L at $455: ${result['pnl_total']:.2f}")
@@ -3231,7 +3231,7 @@ Step 4: Create ZIP Archive
 
     # Navigate to parent directory
     cd /path/to/parent
-    
+
     # Create ZIP (excluding hidden files and __pycache__)
     zip -r bull-call-spread.zip bull-call-spread/ \
         -x "*.DS_Store" \
@@ -3243,7 +3243,7 @@ Step 4: Create ZIP Archive
 
     # Navigate to parent directory
     cd C:\path\to\parent
-    
+
     # Create ZIP
     Compress-Archive -Path bull-call-spread\* -DestinationPath bull-call-spread.zip
 
@@ -3252,30 +3252,30 @@ Step 4: Create ZIP Archive
     import zipfile
     import os
     from pathlib import Path
-    
+
     def create_skill_zip(source_dir, output_filename):
         """Create ZIP archive excluding unnecessary files."""
         exclude_patterns = {
             '__pycache__', '.pyc', '.DS_Store', '.git',
             '.pytest_cache', '.coverage', '*.egg-info'
         }
-    
+
         with zipfile.ZipFile(output_filename, 'w', zipfile.ZIP_DEFLATED) as zipf:
             for root, dirs, files in os.walk(source_dir):
                 # Filter out excluded directories
                 dirs[:] = [d for d in dirs if d not in exclude_patterns]
-    
+
                 for file in files:
                     if any(pattern in file for pattern in exclude_patterns):
                         continue
-    
+
                     file_path = os.path.join(root, file)
                     arcname = os.path.relpath(file_path, source_dir)
                     arcname = os.path.join('bull-call-spread', arcname)
                     zipf.write(file_path, arcname)
-    
+
         print(f"Created: {output_filename}")
-    
+
     # Execute
     create_skill_zip('bull-call-spread', 'bull-call-spread.zip')
 
@@ -3317,7 +3317,7 @@ Step 6: Upload to Claude
 
     # Copy to skills directory
     cp -r bull-call-spread ~/.claude/skills/
-    
+
     # Or for project-specific:
     cp -r bull-call-spread /path/to/project/.claude/skills/
 
@@ -3328,20 +3328,20 @@ After deployment, test that Claude can use the skill:
 
 ### Test Query 1 (Basic):
 
-    I want to analyze a bull call spread on SPY. The stock is at $450, 
-    I'm considering the $445/$455 spread with 45 days to expiration. 
-    The long call costs $8.50 and the short call pays $3.20. 
+    I want to analyze a bull call spread on SPY. The stock is at $450,
+    I'm considering the $445/$455 spread with 45 days to expiration.
+    The long call costs $8.50 and the short call pays $3.20.
     What's the breakeven and max profit?
 
 ### Test Query 2 (Greeks):
 
-    Calculate the Greeks for the SPY $445/$455 bull call spread. 
+    Calculate the Greeks for the SPY $445/$455 bull call spread.
     Current price is $450, 45 DTE, 18% IV, 5% risk-free rate.
 
 ### Test Query 3 (Visualization):
 
-    Create a payoff diagram for a bull call spread on AAPL. 
-    Long $175 call at $7.20, short $185 call at $2.80, 
+    Create a payoff diagram for a bull call spread on AAPL.
+    Long $175 call at $7.20, short $185 call at $2.80,
     current price $180, 60 days to expiration.
 
 File Size Limits

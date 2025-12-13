@@ -21,7 +21,7 @@ Choose strike based on your outlook:
 - Use when moderately bullish
 
 **Moderate (2-5% OTM)**:
-- Select strike 2-5% above current price  
+- Select strike 2-5% above current price
 - Target delta: 0.25-0.35
 - Use when neutral outlook
 
@@ -174,11 +174,11 @@ if manager.should_roll(position, market_data, options_chain):
     # Roll to next month, same strike
     roll = manager.execute_roll(
         position,
-        market_data, 
+        market_data,
         options_chain,
         roll_type='out'  # Same strike, later expiration
     )
-    
+
     # Result: Close current call, open new 35-day call at $190
     # Collect additional premium to continue strategy
 ```
@@ -255,7 +255,7 @@ if all([holding_period_days > 365, expiration_days > 30, strike_appropriate]):
 
 **Mitigation strategies**:
 1. Use stop-loss on stock (10-15% below entry)
-2. Roll calls up if stock rallies significantly  
+2. Roll calls up if stock rallies significantly
 3. Monitor ex-dividend dates, close ITM calls before
 4. Diversify across 10+ positions
 5. Size positions appropriately (max 10% per stock)

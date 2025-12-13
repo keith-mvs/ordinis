@@ -70,5 +70,5 @@ Use Fabozzi's worked examples to validate Python implementations:
 
 ---
 
-**Status**: Reference placeholder - add specific edition and page numbers  
+**Status**: Reference placeholder - add specific edition and page numbers
 **Last Updated**: 2025-12-07

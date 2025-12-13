@@ -12,7 +12,7 @@ Channels:
 - Email (optional SMTP)
 """
 
-from alerting.manager import Alert, AlertManager, AlertSeverity
+from adapters.alerting.manager import Alert, AlertManager, AlertSeverity
 
 __all__ = [
     "Alert",

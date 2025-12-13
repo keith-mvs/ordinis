@@ -1,14 +1,13 @@
 #!/usr/bin/env python3
 """Check SKILL.md files for compliance with template standards."""
 
-import re
 from pathlib import Path
-from typing import Dict, List, Optional
+import re
 
 SKILLS_DIR = Path(r"C:\Users\kjfle\Workspace\ordinis\.claude\skills")
 
 
-def check_frontmatter(content: str) -> Dict[str, any]:
+def check_frontmatter(content: str) -> dict[str, any]:
     """Check YAML frontmatter for required fields."""
     result = {
         "has_frontmatter": False,
@@ -16,7 +15,7 @@ def check_frontmatter(content: str) -> Dict[str, any]:
         "has_description": False,
         "name_value": None,
         "description_value": None,
-        "errors": []
+        "errors": [],
     }
 
     # Check for frontmatter delimiters
@@ -79,24 +78,22 @@ def check_frontmatter(content: str) -> Dict[str, any]:
     return result
 
 
-def check_file_size(file_path: Path) -> Dict[str, any]:
+def check_file_size(file_path: Path) -> dict[str, any]:
     """Check if SKILL.md file is under 500 lines."""
     result = {"line_count": 0, "compliant": True, "errors": []}
 
-    with open(file_path, "r", encoding="utf-8") as f:
+    with open(file_path, encoding="utf-8") as f:
         lines = f.readlines()
         result["line_count"] = len(lines)
 
     if result["line_count"] > 500:
         result["compliant"] = False
-        result["errors"].append(
-            f"File exceeds 500 lines ({result['line_count']} lines)"
-        )
+        result["errors"].append(f"File exceeds 500 lines ({result['line_count']} lines)")
 
     return result
 
 
-def check_structure(content: str) -> Dict[str, any]:
+def check_structure(content: str) -> dict[str, any]:
     """Check for recommended sections."""
     result = {
         "has_overview": False,
@@ -104,17 +101,25 @@ def check_structure(content: str) -> Dict[str, any]:
         "has_scripts": False,
         "has_references": False,
         "has_dependencies": False,
-        "warnings": []
+        "warnings": [],
     }
 
     content_lower = content.lower()
 
     # Check for key sections (case-insensitive)
-    result["has_overview"] = bool(re.search(r"^#+\s*overview", content, re.MULTILINE | re.IGNORECASE))
-    result["has_workflow"] = bool(re.search(r"^#+\s*(workflow|usage|core workflow)", content, re.MULTILINE | re.IGNORECASE))
+    result["has_overview"] = bool(
+        re.search(r"^#+\s*overview", content, re.MULTILINE | re.IGNORECASE)
+    )
+    result["has_workflow"] = bool(
+        re.search(r"^#+\s*(workflow|usage|core workflow)", content, re.MULTILINE | re.IGNORECASE)
+    )
     result["has_scripts"] = bool(re.search(r"^#+\s*scripts", content, re.MULTILINE | re.IGNORECASE))
-    result["has_references"] = bool(re.search(r"^#+\s*references", content, re.MULTILINE | re.IGNORECASE))
-    result["has_dependencies"] = bool(re.search(r"^#+\s*dependencies", content, re.MULTILINE | re.IGNORECASE))
+    result["has_references"] = bool(
+        re.search(r"^#+\s*references", content, re.MULTILINE | re.IGNORECASE)
+    )
+    result["has_dependencies"] = bool(
+        re.search(r"^#+\s*dependencies", content, re.MULTILINE | re.IGNORECASE)
+    )
 
     # Generate warnings for missing recommended sections
     if not result["has_overview"]:
@@ -127,7 +132,7 @@ def check_structure(content: str) -> Dict[str, any]:
     return result
 
 
-def check_skill(skill_dir: Path) -> Dict[str, any]:
+def check_skill(skill_dir: Path) -> dict[str, any]:
     """Check a single skill package for compliance."""
     skill_file = skill_dir / "SKILL.md"
 
@@ -136,7 +141,7 @@ def check_skill(skill_dir: Path) -> Dict[str, any]:
         "exists": skill_file.exists(),
         "compliant": True,
         "errors": [],
-        "warnings": []
+        "warnings": [],
     }
 
     if not result["exists"]:
@@ -145,7 +150,7 @@ def check_skill(skill_dir: Path) -> Dict[str, any]:
         return result
 
     # Read file content
-    with open(skill_file, "r", encoding="utf-8") as f:
+    with open(skill_file, encoding="utf-8") as f:
         content = f.read()
 
     # Run checks
@@ -210,18 +215,24 @@ def main():
         if fm["has_name"]:
             print(f"    name: {fm['name_value']}")
         if fm["has_description"]:
-            desc_preview = fm["description_value"][:60] + "..." if len(fm["description_value"]) > 60 else fm["description_value"]
+            desc_preview = (
+                fm["description_value"][:60] + "..."
+                if len(fm["description_value"]) > 60
+                else fm["description_value"]
+            )
             print(f"    description: {desc_preview}")
 
         # Structure
         struct = result["structure"]
-        sections = sum([
-            struct["has_overview"],
-            struct["has_workflow"],
-            struct["has_scripts"],
-            struct["has_references"],
-            struct["has_dependencies"]
-        ])
+        sections = sum(
+            [
+                struct["has_overview"],
+                struct["has_workflow"],
+                struct["has_scripts"],
+                struct["has_references"],
+                struct["has_dependencies"],
+            ]
+        )
         print(f"  Sections: {sections}/5 recommended")
 
         # Errors and warnings
@@ -251,7 +262,7 @@ def main():
     print(f"Non-compliant: {len(non_compliant)}")
 
     if non_compliant:
-        print(f"\nSkills needing fixes:")
+        print("\nSkills needing fixes:")
         for result in non_compliant:
             error_count = len(result.get("errors", []))
             print(f"  - {result['name']} ({error_count} errors)")

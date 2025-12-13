@@ -6,19 +6,16 @@ KPI visualization, and system health status.
 """
 
 from datetime import datetime, timedelta
-from typing import Any
 
 import pandas as pd
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
-from monitoring.kpi import (
-    Alert,
+from adapters.telemetry.kpi import (
     AlertSeverity,
     KPIStatus,
     KPITracker,
     KPIValue,
-    TradingKPIs,
 )
 
 
@@ -89,9 +86,21 @@ class PerformanceDashboard:
                     "borderwidth": 2,
                     "bordercolor": "gray",
                     "steps": [
-                        {"range": [min_val, (max_val - min_val) * 0.3 + min_val], "color": "#ffcccc"},
-                        {"range": [(max_val - min_val) * 0.3 + min_val, (max_val - min_val) * 0.7 + min_val], "color": "#ffffcc"},
-                        {"range": [(max_val - min_val) * 0.7 + min_val, max_val], "color": "#ccffcc"},
+                        {
+                            "range": [min_val, (max_val - min_val) * 0.3 + min_val],
+                            "color": "#ffcccc",
+                        },
+                        {
+                            "range": [
+                                (max_val - min_val) * 0.3 + min_val,
+                                (max_val - min_val) * 0.7 + min_val,
+                            ],
+                            "color": "#ffffcc",
+                        },
+                        {
+                            "range": [(max_val - min_val) * 0.7 + min_val, max_val],
+                            "color": "#ccffcc",
+                        },
                     ],
                 },
             )
@@ -183,10 +192,15 @@ class PerformanceDashboard:
             go.Indicator(
                 mode="number+delta",
                 value=status["healthy_count"],
-                title={"text": f"System Status: {overall.upper()}", "font": {"size": 20, "color": color}},
+                title={
+                    "text": f"System Status: {overall.upper()}",
+                    "font": {"size": 20, "color": color},
+                },
                 number={"suffix": " healthy KPIs", "font": {"size": 16}},
                 delta={
-                    "reference": status["healthy_count"] + status["warning_count"] + status["critical_count"],
+                    "reference": status["healthy_count"]
+                    + status["warning_count"]
+                    + status["critical_count"],
                     "position": "bottom",
                 },
             )
@@ -436,7 +450,13 @@ class PerformanceDashboard:
         )
 
         # Sharpe Ratio
-        sharpe_color = "#00cc00" if kpis.sharpe_ratio >= 1.0 else "#ff9900" if kpis.sharpe_ratio >= 0 else "#ff0000"
+        sharpe_color = (
+            "#00cc00"
+            if kpis.sharpe_ratio >= 1.0
+            else "#ff9900"
+            if kpis.sharpe_ratio >= 0
+            else "#ff0000"
+        )
         fig.add_trace(
             go.Indicator(
                 mode="number",
@@ -448,7 +468,13 @@ class PerformanceDashboard:
         )
 
         # Max Drawdown
-        dd_color = "#00cc00" if kpis.max_drawdown >= -0.10 else "#ff9900" if kpis.max_drawdown >= -0.20 else "#ff0000"
+        dd_color = (
+            "#00cc00"
+            if kpis.max_drawdown >= -0.10
+            else "#ff9900"
+            if kpis.max_drawdown >= -0.20
+            else "#ff0000"
+        )
         fig.add_trace(
             go.Indicator(
                 mode="number",
@@ -490,7 +516,9 @@ class PerformanceDashboard:
         ]
 
         names = [m[0] for m in metrics]
-        values = [f"{m[1]:.2f}{m[2]}" if isinstance(m[1], float) else f"{m[1]}{m[2]}" for m in metrics]
+        values = [
+            f"{m[1]:.2f}{m[2]}" if isinstance(m[1], float) else f"{m[1]}{m[2]}" for m in metrics
+        ]
 
         fig = go.Figure(
             data=[
@@ -541,7 +569,9 @@ class PerformanceDashboard:
         ]
 
         names = [m[0] for m in metrics]
-        values = [f"{m[1]:.2f}{m[2]}" if isinstance(m[1], float) else f"{m[1]}{m[2]}" for m in metrics]
+        values = [
+            f"{m[1]:.2f}{m[2]}" if isinstance(m[1], float) else f"{m[1]}{m[2]}" for m in metrics
+        ]
 
         # Color based on risk level
         colors = []
@@ -607,7 +637,9 @@ class PerformanceDashboard:
         ]
 
         names = [m[0] for m in metrics]
-        values = [f"{m[1]:.2f}{m[2]}" if isinstance(m[1], float) else f"{m[1]}{m[2]}" for m in metrics]
+        values = [
+            f"{m[1]:.2f}{m[2]}" if isinstance(m[1], float) else f"{m[1]}{m[2]}" for m in metrics
+        ]
 
         # Status colors
         colors = []
@@ -705,7 +737,10 @@ class PerformanceDashboard:
                 value=kpis.total_return * 100,
                 number={
                     "suffix": "%",
-                    "font": {"size": 24, "color": "#00cc00" if kpis.total_return >= 0 else "#ff0000"},
+                    "font": {
+                        "size": 24,
+                        "color": "#00cc00" if kpis.total_return >= 0 else "#ff0000",
+                    },
                 },
             ),
             row=1,
@@ -727,7 +762,13 @@ class PerformanceDashboard:
         )
 
         # Sharpe Ratio
-        sharpe_color = "#00cc00" if kpis.sharpe_ratio >= 1.0 else "#ff9900" if kpis.sharpe_ratio >= 0 else "#ff0000"
+        sharpe_color = (
+            "#00cc00"
+            if kpis.sharpe_ratio >= 1.0
+            else "#ff9900"
+            if kpis.sharpe_ratio >= 0
+            else "#ff0000"
+        )
         fig.add_trace(
             go.Indicator(
                 mode="number",
@@ -740,7 +781,13 @@ class PerformanceDashboard:
 
         # Row 2: More KPIs
         # Max Drawdown
-        dd_color = "#00cc00" if kpis.max_drawdown >= -0.10 else "#ff9900" if kpis.max_drawdown >= -0.20 else "#ff0000"
+        dd_color = (
+            "#00cc00"
+            if kpis.max_drawdown >= -0.10
+            else "#ff9900"
+            if kpis.max_drawdown >= -0.20
+            else "#ff0000"
+        )
         fig.add_trace(
             go.Indicator(
                 mode="number",
@@ -752,7 +799,13 @@ class PerformanceDashboard:
         )
 
         # Profit Factor
-        pf_color = "#00cc00" if kpis.profit_factor >= 1.5 else "#ff9900" if kpis.profit_factor >= 1.0 else "#ff0000"
+        pf_color = (
+            "#00cc00"
+            if kpis.profit_factor >= 1.5
+            else "#ff9900"
+            if kpis.profit_factor >= 1.0
+            else "#ff0000"
+        )
         fig.add_trace(
             go.Indicator(
                 mode="number",
@@ -764,7 +817,13 @@ class PerformanceDashboard:
         )
 
         # System Health
-        health_color = "#00cc00" if status["overall_status"] == "healthy" else "#ff9900" if status["overall_status"] == "warning" else "#ff0000"
+        health_color = (
+            "#00cc00"
+            if status["overall_status"] == "healthy"
+            else "#ff9900"
+            if status["overall_status"] == "warning"
+            else "#ff0000"
+        )
         fig.add_trace(
             go.Indicator(
                 mode="number",
@@ -837,9 +896,7 @@ class PerformanceDashboard:
 
         # Row 4: Alerts or Equity
         if show_alerts:
-            alerts = self.kpi_tracker.get_alert_history(
-                since=datetime.now() - timedelta(hours=24)
-            )
+            alerts = self.kpi_tracker.get_alert_history(since=datetime.now() - timedelta(hours=24))
             if alerts:
                 timestamps = [a.timestamp for a in alerts]
                 severities = [a.severity.value for a in alerts]

@@ -11,14 +11,11 @@ Usage:
 """
 
 import argparse
-import sys
-from datetime import datetime, timedelta
-from typing import Dict, List, Tuple, Optional
 from dataclasses import dataclass
+from datetime import datetime, timedelta
+import sys
 
 import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
 from scipy.stats import norm
 
 
@@ -38,6 +35,7 @@ class BullCallSpread:
         volatility: Implied volatility (default 0.20)
         risk_free_rate: Risk-free interest rate (default 0.05)
     """
+
     underlying_symbol: str
     underlying_price: float
     long_strike: float
@@ -107,37 +105,35 @@ class StrategyAnalyzer:
         """
         return self.position.long_strike + self.position.net_debit
 
-    def calculate_max_profit(self) -> Dict[str, float]:
+    def calculate_max_profit(self) -> dict[str, float]:
         """Calculate maximum profit metrics.
 
         Returns:
             Dictionary with max profit information
         """
-        max_profit_per_share = (
-            self.position.spread_width - self.position.net_debit
-        )
+        max_profit_per_share = self.position.spread_width - self.position.net_debit
         max_profit_total = max_profit_per_share * 100 * self.position.contracts
 
         return {
-            'max_profit_per_share': max_profit_per_share,
-            'max_profit_total': max_profit_total,
-            'max_profit_price': self.position.short_strike,
-            'max_roi': (max_profit_per_share / self.position.net_debit) * 100
+            "max_profit_per_share": max_profit_per_share,
+            "max_profit_total": max_profit_total,
+            "max_profit_price": self.position.short_strike,
+            "max_roi": (max_profit_per_share / self.position.net_debit) * 100,
         }
 
-    def calculate_max_loss(self) -> Dict[str, float]:
+    def calculate_max_loss(self) -> dict[str, float]:
         """Calculate maximum loss metrics.
 
         Returns:
             Dictionary with max loss information
         """
         return {
-            'max_loss_per_share': self.position.net_debit,
-            'max_loss_total': self.position.position_cost,
-            'max_loss_price': self.position.long_strike
+            "max_loss_per_share": self.position.net_debit,
+            "max_loss_total": self.position.position_cost,
+            "max_loss_price": self.position.long_strike,
         }
 
-    def calculate_pnl(self, stock_price: float) -> Dict[str, float]:
+    def calculate_pnl(self, stock_price: float) -> dict[str, float]:
         """Calculate P&L at given stock price (at expiration).
 
         Args:
@@ -163,16 +159,16 @@ class StrategyAnalyzer:
         return_pct = (pnl_per_share / self.position.net_debit) * 100
 
         return {
-            'stock_price': stock_price,
-            'long_call_value': long_value,
-            'short_call_value': short_value,
-            'position_value': position_value,
-            'pnl_per_share': pnl_per_share,
-            'pnl_total': pnl_total,
-            'return_pct': return_pct
+            "stock_price": stock_price,
+            "long_call_value": long_value,
+            "short_call_value": short_value,
+            "position_value": position_value,
+            "pnl_per_share": pnl_per_share,
+            "pnl_total": pnl_total,
+            "return_pct": return_pct,
         }
 
-    def calculate_greeks(self) -> Dict[str, float]:
+    def calculate_greeks(self) -> dict[str, float]:
         """Calculate all position Greeks using Black-Scholes.
 
         Returns:
@@ -181,40 +177,33 @@ class StrategyAnalyzer:
         T = self.position.time_to_expiration
 
         if T <= 0:
-            return {
-                'delta': 0.0, 'gamma': 0.0, 'theta': 0.0,
-                'vega': 0.0, 'rho': 0.0
-            }
+            return {"delta": 0.0, "gamma": 0.0, "theta": 0.0, "vega": 0.0, "rho": 0.0}
 
         S = self.position.underlying_price
         r = self.position.risk_free_rate
         sigma = self.position.volatility
 
         # Calculate Greeks for long call
-        long_greeks = self._calculate_call_greeks(
-            S, self.position.long_strike, T, r, sigma
-        )
+        long_greeks = self._calculate_call_greeks(S, self.position.long_strike, T, r, sigma)
 
         # Calculate Greeks for short call
-        short_greeks = self._calculate_call_greeks(
-            S, self.position.short_strike, T, r, sigma
-        )
+        short_greeks = self._calculate_call_greeks(S, self.position.short_strike, T, r, sigma)
 
         # Net position Greeks
         multiplier = 100 * self.position.contracts
 
         return {
-            'delta': (long_greeks['delta'] - short_greeks['delta']) * multiplier,
-            'gamma': (long_greeks['gamma'] - short_greeks['gamma']) * multiplier,
-            'theta': (long_greeks['theta'] - short_greeks['theta']) * multiplier,
-            'vega': (long_greeks['vega'] - short_greeks['vega']) * multiplier,
-            'rho': (long_greeks['rho'] - short_greeks['rho']) * multiplier
+            "delta": (long_greeks["delta"] - short_greeks["delta"]) * multiplier,
+            "gamma": (long_greeks["gamma"] - short_greeks["gamma"]) * multiplier,
+            "theta": (long_greeks["theta"] - short_greeks["theta"]) * multiplier,
+            "vega": (long_greeks["vega"] - short_greeks["vega"]) * multiplier,
+            "rho": (long_greeks["rho"] - short_greeks["rho"]) * multiplier,
         }
 
     @staticmethod
     def _calculate_call_greeks(
         S: float, K: float, T: float, r: float, sigma: float
-    ) -> Dict[str, float]:
+    ) -> dict[str, float]:
         """Calculate Greeks for a single call option.
 
         Args:
@@ -240,19 +229,12 @@ class StrategyAnalyzer:
         delta = cdf_d1
         gamma = pdf_d1 / (S * sigma * np.sqrt(T))
         theta = (
-            -(S * pdf_d1 * sigma) / (2 * np.sqrt(T))
-            - r * K * np.exp(-r * T) * cdf_d2
+            -(S * pdf_d1 * sigma) / (2 * np.sqrt(T)) - r * K * np.exp(-r * T) * cdf_d2
         ) / 365  # Per day
         vega = S * pdf_d1 * np.sqrt(T) / 100  # Per 1% volatility
         rho = K * T * np.exp(-r * T) * cdf_d2 / 100  # Per 1% rate
 
-        return {
-            'delta': delta,
-            'gamma': gamma,
-            'theta': theta,
-            'vega': vega,
-            'rho': rho
-        }
+        return {"delta": delta, "gamma": gamma, "theta": theta, "vega": vega, "rho": rho}
 
     def print_comprehensive_analysis(self):
         """Print complete position analysis to console."""
@@ -281,10 +263,14 @@ class StrategyAnalyzer:
         max_loss = self.calculate_max_loss()
         breakeven = self.calculate_breakeven()
 
-        print(f"  Maximum Profit:       ${max_profit['max_profit_total']:,.2f} "
-              f"(at ${max_profit['max_profit_price']:.2f}+)")
-        print(f"  Maximum Loss:         ${max_loss['max_loss_total']:,.2f} "
-              f"(below ${max_loss['max_loss_price']:.2f})")
+        print(
+            f"  Maximum Profit:       ${max_profit['max_profit_total']:,.2f} "
+            f"(at ${max_profit['max_profit_price']:.2f}+)"
+        )
+        print(
+            f"  Maximum Loss:         ${max_loss['max_loss_total']:,.2f} "
+            f"(below ${max_loss['max_loss_price']:.2f})"
+        )
         print(f"  Breakeven Price:      ${breakeven:.2f}")
         print(f"  Risk/Reward Ratio:    1:{max_profit['max_roi']/100:.2f}")
         print(f"  Max ROI:              {max_profit['max_roi']:.1f}%")
@@ -292,16 +278,11 @@ class StrategyAnalyzer:
         # Greeks
         print(f"\n{'GREEKS':-^70}")
         greeks = self.calculate_greeks()
-        print(f"  Delta:    {greeks['delta']:>10.2f}  "
-              f"(Position move per $1 underlying)")
-        print(f"  Gamma:    {greeks['gamma']:>10.4f}  "
-              f"(Delta change per $1 move)")
-        print(f"  Theta:    {greeks['theta']:>10.2f}  "
-              f"(Daily time decay)")
-        print(f"  Vega:     {greeks['vega']:>10.2f}  "
-              f"(Value per 1% IV change)")
-        print(f"  Rho:      {greeks['rho']:>10.2f}  "
-              f"(Value per 1% rate change)")
+        print(f"  Delta:    {greeks['delta']:>10.2f}  " f"(Position move per $1 underlying)")
+        print(f"  Gamma:    {greeks['gamma']:>10.4f}  " f"(Delta change per $1 move)")
+        print(f"  Theta:    {greeks['theta']:>10.2f}  " f"(Daily time decay)")
+        print(f"  Vega:     {greeks['vega']:>10.2f}  " f"(Value per 1% IV change)")
+        print(f"  Rho:      {greeks['rho']:>10.2f}  " f"(Value per 1% rate change)")
 
         # Scenario analysis at key prices
         print(f"\n{'SCENARIO ANALYSIS':-^70}")
@@ -315,13 +296,15 @@ class StrategyAnalyzer:
             self.position.underlying_price,
             (self.position.long_strike + self.position.short_strike) / 2,
             self.position.short_strike,
-            self.position.short_strike + 5
+            self.position.short_strike + 5,
         ]
 
         for price in key_prices:
             result = self.calculate_pnl(price)
-            print(f"${price:<11.2f} ${result['position_value']:<15.2f} "
-                  f"${result['pnl_total']:<15.2f} {result['return_pct']:<9.1f}%")
+            print(
+                f"${price:<11.2f} ${result['position_value']:<15.2f} "
+                f"${result['pnl_total']:<15.2f} {result['return_pct']:<9.1f}%"
+            )
 
         print("\n" + "=" * 70)
 
@@ -329,7 +312,7 @@ class StrategyAnalyzer:
 def parse_arguments():
     """Parse command line arguments."""
     parser = argparse.ArgumentParser(
-        description='Bull Call Spread Strategy Calculator',
+        description="Bull Call Spread Strategy Calculator",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""Examples:
 
@@ -343,31 +326,26 @@ With volatility and custom parameters:
       --long-strike 175 --short-strike 185 \\
       --long-premium 7.20 --short-premium 2.80 \\
       --contracts 5 --volatility 0.25 --dte 60
-"""
+""",
     )
 
-    parser.add_argument('--underlying', type=str, required=True,
-                        help='Underlying symbol (e.g., SPY, AAPL)')
-    parser.add_argument('--price', type=float, required=True,
-                        help='Current underlying price')
-    parser.add_argument('--long-strike', type=float, required=True,
-                        help='Long call strike price')
-    parser.add_argument('--short-strike', type=float, required=True,
-                        help='Short call strike price')
-    parser.add_argument('--long-premium', type=float, required=True,
-                        help='Long call premium')
-    parser.add_argument('--short-premium', type=float, required=True,
-                        help='Short call premium')
-    parser.add_argument('--dte', type=int, default=45,
-                        help='Days to expiration (default: 45)')
-    parser.add_argument('--contracts', type=int, default=1,
-                        help='Number of contracts (default: 1)')
-    parser.add_argument('--volatility', type=float, default=0.20,
-                        help='Implied volatility (default: 0.20)')
-    parser.add_argument('--risk-free-rate', type=float, default=0.05,
-                        help='Risk-free rate (default: 0.05)')
-    parser.add_argument('--no-plot', action='store_true',
-                        help='Skip displaying plot')
+    parser.add_argument(
+        "--underlying", type=str, required=True, help="Underlying symbol (e.g., SPY, AAPL)"
+    )
+    parser.add_argument("--price", type=float, required=True, help="Current underlying price")
+    parser.add_argument("--long-strike", type=float, required=True, help="Long call strike price")
+    parser.add_argument("--short-strike", type=float, required=True, help="Short call strike price")
+    parser.add_argument("--long-premium", type=float, required=True, help="Long call premium")
+    parser.add_argument("--short-premium", type=float, required=True, help="Short call premium")
+    parser.add_argument("--dte", type=int, default=45, help="Days to expiration (default: 45)")
+    parser.add_argument("--contracts", type=int, default=1, help="Number of contracts (default: 1)")
+    parser.add_argument(
+        "--volatility", type=float, default=0.20, help="Implied volatility (default: 0.20)"
+    )
+    parser.add_argument(
+        "--risk-free-rate", type=float, default=0.05, help="Risk-free rate (default: 0.05)"
+    )
+    parser.add_argument("--no-plot", action="store_true", help="Skip displaying plot")
 
     return parser.parse_args()
 
@@ -390,7 +368,7 @@ def main():
             expiration_date=expiration,
             contracts=args.contracts,
             volatility=args.volatility,
-            risk_free_rate=args.risk_free_rate
+            risk_free_rate=args.risk_free_rate,
         )
 
         # Create analyzer
@@ -402,9 +380,9 @@ def main():
         return 0
 
     except Exception as e:
-        print(f"\nError: {str(e)}", file=sys.stderr)
+        print(f"\nError: {e!s}", file=sys.stderr)
         return 1
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     sys.exit(main())

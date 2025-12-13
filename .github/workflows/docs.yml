@@ -50,7 +50,7 @@ jobs:
           pip install --upgrade pip
           pip install mkdocs mkdocs-material mkdocs-awesome-pages-plugin \
                       mkdocs-section-index mkdocs-git-revision-date-localized-plugin \
-                      mkdocs-macros-plugin
+                      mkdocs-macros-plugin mkdocs-print-site-plugin
 
       - name: Build documentation
         run: mkdocs build --verbose
@@ -98,7 +98,8 @@ jobs:
       - name: Install dependencies
         run: |
           pip install mkdocs mkdocs-material mkdocs-section-index \
-                      mkdocs-git-revision-date-localized-plugin mkdocs-macros-plugin
+                      mkdocs-git-revision-date-localized-plugin mkdocs-macros-plugin \
+                      mkdocs-print-site-plugin
           # Install weasyprint for PDF generation
           sudo apt-get update
           sudo apt-get install -y libpango-1.0-0 libpangocairo-1.0-0 libgdk-pixbuf2.0-0 \

@@ -1,20 +1,19 @@
 #!/usr/bin/env python3
 """Consolidate package dependencies from all skills to root requirements.txt."""
 
-import re
-from pathlib import Path
 from collections import defaultdict
-from typing import Dict, Set, Tuple
+from pathlib import Path
+import re
 
 ORDINIS_ROOT = Path(__file__).parent.parent
 SKILLS_DIR = ORDINIS_ROOT / ".claude" / "skills"
 
 
-def extract_deps_from_skill_md(skill_md_path: Path) -> Set[Tuple[str, str]]:
+def extract_deps_from_skill_md(skill_md_path: Path) -> set[tuple[str, str]]:
     """Extract dependencies from SKILL.md frontmatter description."""
     deps = set()
 
-    with open(skill_md_path, "r", encoding="utf-8") as f:
+    with open(skill_md_path, encoding="utf-8") as f:
         content = f.read()
 
     # Look for "Requires package>=version" in description
@@ -33,11 +32,11 @@ def extract_deps_from_skill_md(skill_md_path: Path) -> Set[Tuple[str, str]]:
     return deps
 
 
-def extract_deps_from_requirements_txt(req_file: Path) -> Set[Tuple[str, str]]:
+def extract_deps_from_requirements_txt(req_file: Path) -> set[tuple[str, str]]:
     """Extract dependencies from requirements.txt."""
     deps = set()
 
-    with open(req_file, "r", encoding="utf-8") as f:
+    with open(req_file, encoding="utf-8") as f:
         for line in f:
             line = line.strip()
             if line and not line.startswith("#"):
@@ -167,9 +166,7 @@ def main():
     print(f"Requirements written to: {output_path}")
     print(f"Total packages: {len(consolidated)}")
     print(f"Core packages: {len([p for p in consolidated if p in core_pkgs])}")
-    print(
-        f"Specialized packages: {len([p for p in consolidated if p not in core_pkgs])}"
-    )
+    print(f"Specialized packages: {len([p for p in consolidated if p not in core_pkgs])}")
 
 
 if __name__ == "__main__":

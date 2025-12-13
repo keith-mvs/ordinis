@@ -1,9 +1,9 @@
 # [PROJECT NAME] Due Diligence Report
 
-**Date:** [Report Date]  
-**Analyst:** Claude  
-**Decision Deadline:** [If applicable]  
-**Recommendation:** [PROCEED / PROCEED WITH CONDITIONS / DO NOT PROCEED]  
+**Date:** [Report Date]
+**Analyst:** Claude
+**Decision Deadline:** [If applicable]
+**Recommendation:** [PROCEED / PROCEED WITH CONDITIONS / DO NOT PROCEED]
 **Confidence Level:** [HIGH / MEDIUM / LOW]
 
 ---
@@ -61,7 +61,7 @@
 #### Key Finding: [Specific Finding Title]
 **Finding:** [Detailed description of what was discovered]
 
-**Evidence:** 
+**Evidence:**
 - [Source 1 with citation]
 - [Source 2 with citation]
 - [Source 3 with citation]
@@ -75,7 +75,7 @@
 #### Key Finding: [Another Finding in This Category]
 **Finding:** [Detailed description]
 
-**Evidence:** 
+**Evidence:**
 - [Source citations]
 
 **Implications:** [Impact analysis]
@@ -124,10 +124,10 @@
 - **Category:** [Technical / Financial / Market / Operational / Legal / Reputational]
 - **Probability:** High [90%+ likelihood]
 - **Impact:** Critical [Business-threatening]
-- **Evidence:** 
+- **Evidence:**
   - [Supporting data point 1]
   - [Supporting data point 2]
-- **Mitigation:** 
+- **Mitigation:**
   - [Action 1 to reduce probability or impact]
   - [Action 2]
 - **Residual Risk:** [What risk remains after mitigation]
@@ -187,14 +187,14 @@
 ## Source Attribution
 
 ### Primary Sources
-1. **[Source Name 1]**  
+1. **[Source Name 1]**
    - Type: [Document / Website / Interview / Database]
    - Accessed: [Date]
    - Relevance: Critical
    - URL: [If applicable]
    - Notes: [Any important context]
 
-2. **[Source Name 2]**  
+2. **[Source Name 2]**
    - [Details as above]
 
 ### Secondary Sources
@@ -280,20 +280,20 @@
 
 ## Approval & Sign-Off
 
-**Prepared by:** Claude  
+**Prepared by:** Claude
 **Date:** [Date]
 
-**Reviewed by:** [Name, Title]  
-**Date:** [Date]  
+**Reviewed by:** [Name, Title]
+**Date:** [Date]
 **Comments:** [Any reviewer feedback]
 
-**Approved by:** [Decision Maker Name, Title]  
-**Date:** [Date]  
+**Approved by:** [Decision Maker Name, Title]
+**Date:** [Date]
 **Decision:** [Final decision made]
 
 ---
 
-**Document Classification:** [Confidential / Internal / Public]  
-**Distribution:** [List of authorized recipients]  
-**Version:** 1.0  
+**Document Classification:** [Confidential / Internal / Public]
+**Distribution:** [List of authorized recipients]
+**Version:** 1.0
 **Last Updated:** [Date]

@@ -15,10 +15,9 @@ Customize this template by:
 """
 
 import argparse
-import sys
-from datetime import datetime, timedelta
-from typing import Dict, List, Optional, Tuple
 from dataclasses import dataclass
+from datetime import datetime, timedelta
+import sys
 
 try:
     import numpy as np
@@ -73,9 +72,7 @@ class StrategyTemplate:
     def __post_init__(self):
         """Validate position parameters after initialization."""
         if self.underlying_price <= 0:
-            raise ValueError(
-                f"Underlying price must be positive, got {self.underlying_price}"
-            )
+            raise ValueError(f"Underlying price must be positive, got {self.underlying_price}")
 
         if self.contracts <= 0:
             raise ValueError(f"Contracts must be positive, got {self.contracts}")
@@ -84,9 +81,7 @@ class StrategyTemplate:
             raise ValueError(f"Volatility cannot be negative, got {self.volatility}")
 
         if self.expiration_date < datetime.now():
-            raise ValueError(
-                f"Expiration date {self.expiration_date} is in the past"
-            )
+            raise ValueError(f"Expiration date {self.expiration_date} is in the past")
 
         # Add strategy-specific validation
         # TODO: Validate strategy parameters (e.g., strikes in correct order)
@@ -144,7 +139,7 @@ class StrategyTemplate:
         # TODO: Replace with actual calculation
         raise NotImplementedError("Implement breakeven_price for your strategy")
 
-    def calculate_greeks(self) -> Dict[str, float]:
+    def calculate_greeks(self) -> dict[str, float]:
         """Calculate Greeks for this position.
 
         Returns:
@@ -161,7 +156,7 @@ class StrategyTemplate:
             "rho": 0.0,
         }
 
-    def get_analysis(self) -> Dict:
+    def get_analysis(self) -> dict:
         """Generate comprehensive position analysis.
 
         Returns:
@@ -179,9 +174,7 @@ class StrategyTemplate:
                 "max_profit": self.max_profit,
                 "max_loss": self.max_loss,
                 "breakeven": self.breakeven_price,
-                "risk_reward_ratio": (
-                    self.max_profit / self.max_loss if self.max_loss != 0 else 0
-                ),
+                "risk_reward_ratio": (self.max_profit / self.max_loss if self.max_loss != 0 else 0),
             },
             "greeks": self.calculate_greeks(),
         }
@@ -191,9 +184,7 @@ class StrategyTemplate:
         analysis = self.get_analysis()
 
         print(f"\n{'=' * 60}")
-        print(
-            f"  {self.underlying_symbol} {self.__class__.__name__} Analysis"
-        )
+        print(f"  {self.underlying_symbol} {self.__class__.__name__} Analysis")
         print(f"{'=' * 60}\n")
 
         # Position details
@@ -202,9 +193,7 @@ class StrategyTemplate:
         print(f"  Current Price: ${analysis['position']['current_price']:.2f}")
         print(f"  Contracts: {analysis['position']['contracts']}")
         print(f"  Expiration: {analysis['position']['expiration']}")
-        print(
-            f"  Days to Expiration: {analysis['position']['days_to_expiration']}"
-        )
+        print(f"  Days to Expiration: {analysis['position']['days_to_expiration']}")
         print()
 
         # Metrics
@@ -212,9 +201,7 @@ class StrategyTemplate:
         print(f"  Max Profit: ${analysis['metrics']['max_profit']:.2f}")
         print(f"  Max Loss: ${analysis['metrics']['max_loss']:.2f}")
         print(f"  Breakeven: ${analysis['metrics']['breakeven']:.2f}")
-        print(
-            f"  Risk/Reward Ratio: {analysis['metrics']['risk_reward_ratio']:.2f}"
-        )
+        print(f"  Risk/Reward Ratio: {analysis['metrics']['risk_reward_ratio']:.2f}")
         print()
 
         # Greeks
@@ -237,9 +224,7 @@ Examples:
     )
 
     # Required arguments
-    parser.add_argument(
-        "--underlying", required=True, help="Underlying ticker symbol (e.g., SPY)"
-    )
+    parser.add_argument("--underlying", required=True, help="Underlying ticker symbol (e.g., SPY)")
     parser.add_argument(
         "--price",
         type=float,
@@ -248,9 +233,7 @@ Examples:
     )
 
     # Optional common arguments
-    parser.add_argument(
-        "--contracts", type=int, default=1, help="Number of contracts (default: 1)"
-    )
+    parser.add_argument("--contracts", type=int, default=1, help="Number of contracts (default: 1)")
     parser.add_argument(
         "--dte",
         type=int,

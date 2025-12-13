@@ -4,27 +4,27 @@ Test market data API integrations.
 Verifies that all configured market data APIs are working correctly.
 """
 
-import sys
 from pathlib import Path
+import sys
 
 # Add project root to path FIRST
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
 import asyncio  # noqa: E402
+from datetime import UTC, datetime, timedelta  # noqa: E402
 import os  # noqa: E402
 import traceback  # noqa: E402
-from datetime import UTC, datetime, timedelta  # noqa: E402
 
 from dotenv import load_dotenv  # noqa: E402
 
-from src.plugins.base import PluginConfig  # noqa: E402
-from src.plugins.market_data import (  # noqa: E402
+from adapters.market_data import (  # noqa: E402
     AlphaVantageDataPlugin,
     FinnhubDataPlugin,
     PolygonDataPlugin,
     TwelveDataPlugin,
 )
+from plugins.base import PluginConfig  # noqa: E402
 
 
 async def test_alphavantage():

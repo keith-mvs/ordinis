@@ -12,10 +12,10 @@ import logging
 from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
-    from alerting import AlertManager
+    from adapters.alerting import AlertManager
+    from adapters.storage.repositories.order import OrderRepository
     from core.protocols import BrokerAdapter
     from engines.flowroute.core.engine import FlowRouteEngine
-    from persistence.repositories.order import OrderRepository
     from safety.kill_switch import KillSwitch
 
 logger = logging.getLogger(__name__)
@@ -136,7 +136,7 @@ class Container:
             logger.warning("Persistence enabled but no db_path configured")
             return None
 
-        from persistence.repositories.order import OrderRepository
+        from adapters.storage.repositories.order import OrderRepository
 
         repo = OrderRepository(db_path=self.config.db_path)
         self._instances["order_repository"] = repo
@@ -156,7 +156,7 @@ class Container:
         if "alert_manager" in self._instances:
             return self._instances["alert_manager"]
 
-        from alerting import AlertManager
+        from adapters.alerting import AlertManager
 
         manager = AlertManager(**self.config.alert_config)
         self._instances["alert_manager"] = manager

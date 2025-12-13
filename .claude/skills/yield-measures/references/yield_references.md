@@ -59,5 +59,5 @@ pip install pandas-datareader
 
 ---
 
-**Status**: Reference placeholder  
+**Status**: Reference placeholder
 **Last Updated**: 2025-12-07

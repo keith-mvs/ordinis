@@ -29,14 +29,13 @@ Version: 1.0.0
 Python: 3.11+
 """
 
-from typing import Dict, Optional
-import numpy as np
 
-
-def calculate_position_size(portfolio_value: float,
-                           risk_per_trade: float,
-                           max_loss_per_contract: float,
-                           max_position_pct: float = 0.40) -> int:
+def calculate_position_size(
+    portfolio_value: float,
+    risk_per_trade: float,
+    max_loss_per_contract: float,
+    max_position_pct: float = 0.40,
+) -> int:
     """
     Calculate number of contracts based on risk management rules.
 
@@ -83,11 +82,13 @@ def calculate_position_size(portfolio_value: float,
     return contracts
 
 
-def calculate_detailed_position_size(portfolio_value: float,
-                                    max_loss_per_contract: float,
-                                    risk_per_trade: float = 0.02,
-                                    max_position_pct: float = 0.40,
-                                    **strategy_params) -> Dict:
+def calculate_detailed_position_size(
+    portfolio_value: float,
+    max_loss_per_contract: float,
+    risk_per_trade: float = 0.02,
+    max_position_pct: float = 0.40,
+    **strategy_params,
+) -> dict:
     """
     Calculate position size with detailed breakdown.
 
@@ -137,24 +138,24 @@ def calculate_detailed_position_size(portfolio_value: float,
     # max_risk = max_loss_per_contract * contracts
 
     return {
-        'contracts': contracts,
-        'contracts_by_risk': contracts_by_risk,
-        'contracts_by_position_limit': contracts_by_position_limit,
-        'max_risk_dollars': max_risk_dollars,
-        'actual_risk_dollars': max_loss_per_contract * contracts,
-        'risk_percent': (max_loss_per_contract * contracts / portfolio_value) * 100,
+        "contracts": contracts,
+        "contracts_by_risk": contracts_by_risk,
+        "contracts_by_position_limit": contracts_by_position_limit,
+        "max_risk_dollars": max_risk_dollars,
+        "actual_risk_dollars": max_loss_per_contract * contracts,
+        "risk_percent": (max_loss_per_contract * contracts / portfolio_value) * 100,
         # TODO: Add strategy-specific metrics
         # 'total_cost': total_cost,
         # 'position_percent': (total_cost / portfolio_value) * 100,
-        'recommendation': f"Trade {contracts} contract{'s' if contracts != 1 else ''} "
-                         f"(${max_loss_per_contract * contracts:,.0f} max risk, "
-                         f"{(max_loss_per_contract * contracts / portfolio_value) * 100:.1f}% of portfolio)"
+        "recommendation": f"Trade {contracts} contract{'s' if contracts != 1 else ''} "
+        f"(${max_loss_per_contract * contracts:,.0f} max risk, "
+        f"{(max_loss_per_contract * contracts / portfolio_value) * 100:.1f}% of portfolio)",
     }
 
 
-def calculate_kelly_criterion(win_probability: float,
-                              win_loss_ratio: float,
-                              max_kelly: float = 0.25) -> float:
+def calculate_kelly_criterion(
+    win_probability: float, win_loss_ratio: float, max_kelly: float = 0.25
+) -> float:
     """
     Calculate position size using Kelly Criterion.
 
@@ -214,10 +215,12 @@ class RiskBasedSizer:
         default_max_position_pct: Default max position size (decimal)
     """
 
-    def __init__(self,
-                 portfolio_value: float,
-                 default_risk_pct: float = 0.02,
-                 default_max_position_pct: float = 0.40):
+    def __init__(
+        self,
+        portfolio_value: float,
+        default_risk_pct: float = 0.02,
+        default_max_position_pct: float = 0.40,
+    ):
         """
         Initialize risk-based sizer.
 
@@ -230,9 +233,7 @@ class RiskBasedSizer:
         self.default_risk_pct = default_risk_pct
         self.default_max_position_pct = default_max_position_pct
 
-    def size_by_risk(self,
-                     max_loss: float,
-                     risk_percent: Optional[float] = None) -> int:
+    def size_by_risk(self, max_loss: float, risk_percent: float | None = None) -> int:
         """
         Size position based on maximum acceptable loss.
 
@@ -248,12 +249,10 @@ class RiskBasedSizer:
             portfolio_value=self.portfolio_value,
             risk_per_trade=risk_pct,
             max_loss_per_contract=max_loss,
-            max_position_pct=self.default_max_position_pct
+            max_position_pct=self.default_max_position_pct,
         )
 
-    def size_by_volatility(self,
-                          volatility: float,
-                          target_volatility: float = 0.15) -> float:
+    def size_by_volatility(self, volatility: float, target_volatility: float = 0.15) -> float:
         """
         Size position based on volatility targeting.
 
@@ -283,10 +282,9 @@ class RiskBasedSizer:
 
         return position_fraction
 
-    def size_by_kelly(self,
-                     win_prob: float,
-                     win_loss_ratio: float,
-                     max_kelly: float = 0.25) -> float:
+    def size_by_kelly(
+        self, win_prob: float, win_loss_ratio: float, max_kelly: float = 0.25
+    ) -> float:
         """
         Size position using Kelly Criterion.
 
@@ -301,9 +299,9 @@ class RiskBasedSizer:
         return calculate_kelly_criterion(win_prob, win_loss_ratio, max_kelly)
 
 
-def scale_position_for_correlation(base_contracts: int,
-                                   correlation: float,
-                                   scale_factor: float = 0.5) -> int:
+def scale_position_for_correlation(
+    base_contracts: int, correlation: float, scale_factor: float = 0.5
+) -> int:
     """
     Reduce position size for correlated trades.
 

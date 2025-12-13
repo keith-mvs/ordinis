@@ -29,9 +29,9 @@ import sys
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
-from src.engines.optionscore import OptionsCoreEngine, OptionsEngineConfig
-from src.plugins.base import PluginConfig
-from src.plugins.market_data.polygon import PolygonDataPlugin
+from adapters.market_data.polygon import PolygonDataPlugin
+from engines.optionscore import OptionsCoreEngine, OptionsEngineConfig
+from plugins.base import PluginConfig
 
 
 async def demo_with_mock_data():

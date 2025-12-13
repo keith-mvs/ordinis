@@ -71,7 +71,7 @@ Risk-adjusted excess return
 def percentile_ranking(bond_metric, peer_metrics):
     """
     Calculate percentile ranking within peer group.
-    
+
     Returns:
         Percentile (0-100) where higher is better for yield
     """
@@ -128,26 +128,26 @@ from fredapi import Fred
 def spread_to_treasury(bond_ytm, maturity_years, treasury_curve):
     """
     Calculate spread to interpolated Treasury yield.
-    
+
     Parameters:
         bond_ytm: Bond yield to maturity
         maturity_years: Bond maturity
         treasury_curve: DataFrame with maturities and yields
-    
+
     Returns:
         Spread in basis points
     """
     # Interpolate Treasury yield at bond's maturity
     from scipy.interpolate import interp1d
-    
+
     f = interp1d(treasury_curve['maturity'], treasury_curve['yield'])
     treasury_ytm = f(maturity_years)
-    
+
     spread_bps = (bond_ytm - treasury_ytm) * 10000
     return spread_bps
 ```
 
 ---
 
-**Status**: Reference placeholder  
+**Status**: Reference placeholder
 **Last Updated**: 2025-12-07

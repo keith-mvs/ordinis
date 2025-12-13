@@ -91,5 +91,5 @@ Price change per $100 face for 1bp yield change
 
 ---
 
-**Status**: Reference placeholder  
+**Status**: Reference placeholder
 **Last Updated**: 2025-12-07

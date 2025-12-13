@@ -4,8 +4,8 @@
 
 ## Quick Reference
 
-**Skill Level**: Advanced  
-**Time Commitment**: 15-18 hours  
+**Skill Level**: Advanced
+**Time Commitment**: 15-18 hours
 **Prerequisites**: Bond Pricing, Yield Measures
 
 ## Core Capabilities
@@ -34,14 +34,14 @@ def modified_duration(face_value, coupon_rate, yield_rate, years, freq=2):
     periods = int(years * freq)
     coupon = (face_value * coupon_rate) / freq
     py = yield_rate / freq
-    
-    weighted_pv = sum(t * (coupon/(1+py)**t) 
+
+    weighted_pv = sum(t * (coupon/(1+py)**t)
                       for t in range(1, periods))
     weighted_pv += periods * (coupon + face_value) / (1+py)**periods
-    
+
     price = sum(coupon/(1+py)**t for t in range(1, periods+1))
     price += face_value / (1+py)**periods
-    
+
     mac_dur = (weighted_pv / price) / freq
     return mac_dur / (1 + yield_rate / freq)
 ```
@@ -59,7 +59,7 @@ def modified_duration(face_value, coupon_rate, yield_rate, years, freq=2):
 
 ## Validation Checkpoint
 
-For a 10-year, 5% coupon bond with 4% YTM:  
+For a 10-year, 5% coupon bond with 4% YTM:
 **Expected Modified Duration**: ~8.11 years
 
 ---

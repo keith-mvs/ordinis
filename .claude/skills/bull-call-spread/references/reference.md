@@ -153,19 +153,19 @@ Greeks: Complete Derivations
 **Theta Decay Patterns**:
 
 1. **Early in Trade** (>30 DTE):
-   
+
    * Slow, steady decay
    * Theta impact relatively small
    * Focus on directional movement
 
 2. **Mid-Life** (15-30 DTE):
-   
+
    * Accelerating decay
    * Theta becomes significant factor
    * Balance time decay vs. directional edge
 
 3. **Near Expiration** (<15 DTE):
-   
+
    * Rapid decay, especially for ATM options
    * Critical period for position management
    * Consider closing or rolling
@@ -219,7 +219,7 @@ Greeks: Complete Derivations
             # Simplified vega impact (for illustration)
             # In practice, would recalculate full position value
             greeks = calculate_position_greeks(
-                position, 
+                position,
                 position.underlying_price,
                 new_vol,
                 0.05
@@ -298,8 +298,8 @@ Advanced Scenarios and Edge Cases
         intrinsic_value = max(current_price - short_strike, 0)
 
         # Assignment typically occurs if time value < dividend
-        assignment_likely = (time_value < upcoming_dividend and 
-                            days_to_ex_div <= 3 and 
+        assignment_likely = (time_value < upcoming_dividend and
+                            days_to_ex_div <= 3 and
                             intrinsic_value > 0)
 
         # Financial impact of assignment
@@ -370,7 +370,7 @@ Advanced Scenarios and Edge Cases
         moneyness = [(k / current_price - 1) * 100 for k in strikes]
 
         # Find ATM implied vol
-        atm_idx = min(range(len(strikes)), 
+        atm_idx = min(range(len(strikes)),
                       key=lambda i: abs(strikes[i] - current_price))
         atm_vol = implied_vols[atm_idx]
 
@@ -389,15 +389,15 @@ Advanced Scenarios and Edge Cases
             'otm_avg_volatility': avg_otm_vol if otm_vols else None,
             'skew': skew,
             'skew_pct': (skew / atm_vol * 100) if atm_vol > 0 else 0,
-            'interpretation': 'STEEP SKEW' if skew > 0.03 else 
-                             'FLAT SKEW' if abs(skew) < 0.01 else 
+            'interpretation': 'STEEP SKEW' if skew > 0.03 else
+                             'FLAT SKEW' if abs(skew) < 0.01 else
                              'NEGATIVE SKEW'
         }
 
 **Implications for Bull Call Spreads**:
 
 * **Positive skew** (OTM > ATM): Short call has higher IV
-  
+
   * Benefit: Collect more premium on short call
   * Trade-off: Long call has lower IV (costs less)
   * Net effect: Generally favorable for spread
@@ -405,7 +405,7 @@ Advanced Scenarios and Edge Cases
 * **Flat skew**: Neutral impact
 
 * **Negative skew** (rare): OTM < ATM
-  
+
   * Less favorable for bull call spreads
   * Consider alternative strategies
 
@@ -496,7 +496,7 @@ Advanced Scenarios and Edge Cases
             'combined_capital': total_capital,
             'combined_roi': combined_roi,
             'recommend_roll': recommend_roll,
-            'reason': 'ROLL: Good profit capture + attractive new position' if recommend_roll 
+            'reason': 'ROLL: Good profit capture + attractive new position' if recommend_roll
                      else 'HOLD: Insufficient profit or unfavorable roll terms'
         }
 
@@ -793,4 +793,3 @@ The bull call spread offers sophisticated traders a mathematically sound approac
 5. **Adjustment flexibility**: Know when to roll, close, or modify
 
 For implementation code and utilities, see [scripts/](https://claude.ai/chat/scripts/) directory.
-

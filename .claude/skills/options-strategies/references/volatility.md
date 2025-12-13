@@ -16,23 +16,23 @@ import pandas as pd
 def calculate_historical_volatility(prices, window=20):
     """
     Calculate historical volatility from price series.
-    
+
     Args:
         prices: pandas Series of closing prices
         window: number of periods (typically 20 for 20-day HV)
-    
+
     Returns:
         Annualized volatility as percentage
     """
     # Calculate log returns
     log_returns = np.log(prices / prices.shift(1))
-    
+
     # Calculate standard deviation
     volatility = log_returns.rolling(window=window).std()
-    
+
     # Annualize (assuming 252 trading days)
     annualized_vol = volatility * np.sqrt(252) * 100
-    
+
     return annualized_vol
 
 # Example usage
@@ -90,7 +90,7 @@ def black_scholes_put(S, K, T, r, sigma):
 def implied_volatility(option_price, S, K, T, r, option_type='call'):
     """
     Calculate implied volatility from market price.
-    
+
     Args:
         option_price: Market price of the option
         S: Current stock price
@@ -98,7 +98,7 @@ def implied_volatility(option_price, S, K, T, r, option_type='call'):
         T: Time to expiration (years)
         r: Risk-free rate
         option_type: 'call' or 'put'
-    
+
     Returns:
         Implied volatility as decimal (e.g., 0.25 for 25%)
     """
@@ -107,7 +107,7 @@ def implied_volatility(option_price, S, K, T, r, option_type='call'):
             return black_scholes_call(S, K, T, r, sigma) - option_price
         else:
             return black_scholes_put(S, K, T, r, sigma) - option_price
-    
+
     try:
         iv = brentq(objective, 0.001, 5.0)  # Search between 0.1% and 500%
         return iv
@@ -144,37 +144,37 @@ Percentage of days in the past year where IV was lower than current IV.
 def calculate_iv_rank(current_iv, iv_series):
     """
     Calculate IV Rank from historical IV data.
-    
+
     Args:
         current_iv: Current implied volatility (%)
         iv_series: pandas Series of historical IV values
-    
+
     Returns:
         IV Rank (0-100)
     """
     iv_min = iv_series.min()
     iv_max = iv_series.max()
-    
+
     if iv_max == iv_min:
         return 50.0
-    
+
     iv_rank = (current_iv - iv_min) / (iv_max - iv_min) * 100
     return iv_rank
 
 def calculate_iv_percentile(current_iv, iv_series):
     """
     Calculate IV Percentile from historical IV data.
-    
+
     Args:
         current_iv: Current implied volatility (%)
         iv_series: pandas Series of historical IV values
-    
+
     Returns:
         IV Percentile (0-100)
     """
     days_below = (iv_series < current_iv).sum()
     total_days = len(iv_series)
-    
+
     iv_percentile = (days_below / total_days) * 100
     return iv_percentile
 
@@ -210,40 +210,40 @@ def calculate_iv_percentile(current_iv, iv_series):
 def analyze_term_structure(options_chain):
     """
     Analyze IV term structure across expirations.
-    
+
     Args:
         options_chain: dict with expirations as keys, IV data as values
-    
+
     Returns:
         DataFrame with term structure analysis
     """
     import pandas as pd
-    
+
     term_structure = []
-    
+
     for expiration, chain_data in sorted(options_chain.items()):
         # Get ATM options for consistent comparison
         atm_iv = chain_data['atm_iv']
         days_to_exp = chain_data['days_to_expiration']
-        
+
         term_structure.append({
             'expiration': expiration,
             'days': days_to_exp,
             'atm_iv': atm_iv
         })
-    
+
     df = pd.DataFrame(term_structure)
-    
+
     # Calculate slope
     if len(df) >= 2:
         slope = (df.iloc[-1]['atm_iv'] - df.iloc[0]['atm_iv']) / \
                 (df.iloc[-1]['days'] - df.iloc[0]['days'])
-        
+
         structure_type = 'UPWARD' if slope > 0.01 else \
                         'INVERTED' if slope < -0.01 else 'FLAT'
     else:
         structure_type = 'INSUFFICIENT_DATA'
-    
+
     return df, structure_type
 ```
 
@@ -273,35 +273,35 @@ def analyze_term_structure(options_chain):
 def calculate_skew(options_chain, spot_price):
     """
     Calculate volatility skew metrics.
-    
+
     Args:
         options_chain: DataFrame with strikes and IVs
         spot_price: Current underlying price
-    
+
     Returns:
         Skew metrics dictionary
     """
     # Separate calls and puts
     calls = options_chain[options_chain['type'] == 'call']
     puts = options_chain[options_chain['type'] == 'put']
-    
+
     # Find ATM strike
     atm_strike = calls.iloc[(calls['strike'] - spot_price).abs().argsort()[:1]]['strike'].values[0]
-    
+
     # Get ATM IV
     atm_iv = calls[calls['strike'] == atm_strike]['iv'].values[0]
-    
+
     # Get 25-delta put IV (typically ~5-10% OTM)
     put_25delta = puts[puts['delta'].abs().between(0.20, 0.30)].iloc[0]
-    
+
     # Get 25-delta call IV
     call_25delta = calls[calls['delta'].between(0.20, 0.30)].iloc[0]
-    
+
     # Calculate skew
     put_skew = put_25delta['iv'] - atm_iv
     call_skew = call_25delta['iv'] - atm_iv
     butterfly_skew = ((put_25delta['iv'] + call_25delta['iv']) / 2) - atm_iv
-    
+
     return {
         'atm_iv': atm_iv,
         'put_25d_iv': put_25delta['iv'],
@@ -333,21 +333,21 @@ Expected Move = Stock Price × IV × √(Days to Expiration / 365)
 def calculate_expected_move(stock_price, iv, days_to_expiration):
     """
     Calculate expected move based on IV.
-    
+
     Args:
         stock_price: Current stock price
         iv: Implied volatility (as decimal, e.g., 0.25 for 25%)
         days_to_expiration: Days until expiration
-    
+
     Returns:
         Dictionary with expected moves
     """
     import math
-    
+
     # Calculate 1 standard deviation move
     time_fraction = math.sqrt(days_to_expiration / 365)
     one_sd_move = stock_price * iv * time_fraction
-    
+
     # Calculate ranges
     return {
         'current_price': stock_price,
@@ -380,19 +380,19 @@ def calculate_expected_move(stock_price, iv, days_to_expiration):
 def analyze_straddle_breakevens(stock_price, iv, days_to_exp, total_premium):
     """
     Compare straddle breakevens with expected move.
-    
+
     Returns assessment of whether breakevens are within expected range.
     """
     expected = calculate_expected_move(stock_price, iv, days_to_exp)
-    
+
     # Straddle breakevens
     upper_breakeven = stock_price + total_premium
     lower_breakeven = stock_price - total_premium
-    
+
     # Compare with 1 SD
     one_sd_upper = expected['one_sd_range'][1]
     one_sd_lower = expected['one_sd_range'][0]
-    
+
     analysis = {
         'breakevens': (lower_breakeven, upper_breakeven),
         'expected_range_1sd': expected['one_sd_range'],
@@ -400,7 +400,7 @@ def analyze_straddle_breakevens(stock_price, iv, days_to_exp, total_premium):
         'expected_move_1sd': expected['one_sd_move'] * 2,
         'premium_to_move_ratio': (total_premium * 2) / (expected['one_sd_move'] * 2)
     }
-    
+
     # Assessment
     if total_premium < expected['one_sd_move']:
         analysis['assessment'] = 'FAVORABLE - Breakevens within 1 SD'
@@ -408,7 +408,7 @@ def analyze_straddle_breakevens(stock_price, iv, days_to_exp, total_premium):
         analysis['assessment'] = 'MODERATE - Breakevens within 2 SD'
     else:
         analysis['assessment'] = 'UNFAVORABLE - Breakevens beyond 2 SD'
-    
+
     return analysis
 ```
 
@@ -427,25 +427,25 @@ from arch import arch_model
 def forecast_volatility_garch(returns, horizon=30):
     """
     Forecast volatility using GARCH(1,1) model.
-    
+
     Args:
         returns: pandas Series of daily returns
         horizon: forecast horizon in days
-    
+
     Returns:
         Forecasted volatility (annualized %)
     """
     # Fit GARCH(1,1) model
     model = arch_model(returns*100, vol='Garch', p=1, q=1)
     fitted_model = model.fit(disp='off')
-    
+
     # Forecast
     forecast = fitted_model.forecast(horizon=horizon)
     forecasted_var = forecast.variance.values[-1, :]
-    
+
     # Convert to annualized volatility
     forecasted_vol = np.sqrt(forecasted_var.mean()) * np.sqrt(252) / 100
-    
+
     return forecasted_vol
 ```
 
@@ -455,11 +455,11 @@ def forecast_volatility_garch(returns, horizon=30):
 def forecast_volatility_sma(historical_vol, window=20):
     """
     Simple moving average forecast.
-    
+
     Args:
         historical_vol: pandas Series of historical volatility
         window: lookback window
-    
+
     Returns:
         Forecasted volatility
     """
@@ -472,23 +472,23 @@ def forecast_volatility_sma(historical_vol, window=20):
 def forecast_volatility_ewma(returns, lambda_param=0.94):
     """
     EWMA volatility forecast (RiskMetrics approach).
-    
+
     Args:
         returns: pandas Series of daily returns
         lambda_param: decay factor (0.94 standard for daily data)
-    
+
     Returns:
         Forecasted volatility (annualized %)
     """
     # Calculate squared returns
     squared_returns = returns**2
-    
+
     # Apply EWMA
     ewma_var = squared_returns.ewm(alpha=1-lambda_param, adjust=False).mean()
-    
+
     # Convert to annualized volatility
     forecasted_vol = np.sqrt(ewma_var.iloc[-1] * 252) * 100
-    
+
     return forecasted_vol
 ```
 
@@ -508,21 +508,21 @@ def forecast_volatility_ewma(returns, lambda_param=0.94):
 def analyze_earnings_iv_pattern(ticker, earnings_dates):
     """
     Analyze IV behavior around earnings dates.
-    
+
     Returns average IV change pre/post earnings.
     """
     iv_changes = []
-    
+
     for earnings_date in earnings_dates:
         # Get IV 7 days before
         pre_iv = get_iv_at_date(ticker, earnings_date - timedelta(days=7))
-        
+
         # Get IV 1 day after
         post_iv = get_iv_at_date(ticker, earnings_date + timedelta(days=1))
-        
+
         iv_change = (post_iv - pre_iv) / pre_iv * 100
         iv_changes.append(iv_change)
-    
+
     return {
         'avg_iv_drop': np.mean(iv_changes),
         'median_iv_drop': np.median(iv_changes),
@@ -543,11 +543,11 @@ def analyze_earnings_iv_pattern(ticker, earnings_dates):
 def analyze_vix_correlation(ticker_ivs, vix_values):
     """
     Analyze correlation between ticker IV and VIX.
-    
+
     High correlation means ticker moves with market volatility.
     """
     correlation = ticker_ivs.corr(vix_values)
-    
+
     return {
         'correlation': correlation,
         'interpretation': 'HIGH MARKET BETA' if correlation > 0.7 else

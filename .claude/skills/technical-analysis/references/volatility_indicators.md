@@ -24,10 +24,10 @@ def calculate_atr(high: pd.Series, low: pd.Series, close: pd.Series, period: int
     tr1 = high - low
     tr2 = abs(high - close.shift(1))
     tr3 = abs(low - close.shift(1))
-    
+
     tr = pd.concat([tr1, tr2, tr3], axis=1).max(axis=1)
     atr = tr.rolling(window=period).mean()
-    
+
     return atr
 ```
 
@@ -90,8 +90,8 @@ Dynamic volatility bands that expand and contract with market volatility. Identi
 
 ### Components
 
-**Middle Band**: 20-period Simple Moving Average  
-**Upper Band**: Middle Band + (2 × 20-period Standard Deviation)  
+**Middle Band**: 20-period Simple Moving Average
+**Upper Band**: Middle Band + (2 × 20-period Standard Deviation)
 **Lower Band**: Middle Band - (2 × 20-period Standard Deviation)
 
 Standard settings: 20-period SMA, 2 standard deviations
@@ -105,13 +105,13 @@ def calculate_bollinger_bands(close: pd.Series, period: int = 20, std_dev: float
     std = close.rolling(window=period).std()
     upper_band = middle_band + (std_dev * std)
     lower_band = middle_band - (std_dev * std)
-    
+
     # Calculate %B (position within bands)
     percent_b = (close - lower_band) / (upper_band - lower_band)
-    
+
     # Calculate bandwidth (band width as % of middle band)
     bandwidth = (upper_band - lower_band) / middle_band
-    
+
     return pd.DataFrame({
         'Upper': upper_band,
         'Middle': middle_band,
@@ -228,9 +228,9 @@ Monitor volatility duration:
 
 ### ATR-based position sizing example
 
-Account: $100,000  
-Risk per trade: 1% = $1,000  
-ATR: $2.50  
+Account: $100,000
+Risk per trade: 1% = $1,000
+ATR: $2.50
 ATR multiplier for stop: 2× = $5.00
 
 ```
@@ -292,8 +292,8 @@ Maintain consistent dollar risk despite volatility changes.
 
 ### Multi-time frame volatility analysis
 
-**Daily ATR**: Primary volatility gauge for swing trades  
-**4-hour ATR**: Intermediate volatility for day trades  
+**Daily ATR**: Primary volatility gauge for swing trades
+**4-hour ATR**: Intermediate volatility for day trades
 **1-hour ATR**: Short-term volatility for scalping
 
 Ensure time frame consistency: Use daily ATR for daily charts, hourly ATR for hourly charts.

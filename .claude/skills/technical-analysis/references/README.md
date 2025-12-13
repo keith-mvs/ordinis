@@ -191,7 +191,7 @@ Improvements welcome:
 
 ## License
 
-Educational and research use. Not financial advice. 
+Educational and research use. Not financial advice.
 
 ## Version
 

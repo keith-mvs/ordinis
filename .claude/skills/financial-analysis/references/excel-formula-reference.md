@@ -476,7 +476,7 @@ If you need circular logic (e.g., interest calculated on debt, but debt includes
 3. **Break the circle** with helper columns:
 ```excel
 // Instead of circular: Debt = PriorDebt + Interest (where Interest = Debt * Rate)
-// Use: 
+// Use:
 DebtBefore = PriorDebt
 Interest = DebtBefore * Rate
 DebtAfter = DebtBefore + Interest
@@ -562,7 +562,7 @@ Or create a dynamic range:
 
 ### Working Capital Change
 ```excel
-=((Current_Assets_End - Current_Liabilities_End) - 
+=((Current_Assets_End - Current_Liabilities_End) -
   (Current_Assets_Begin - Current_Liabilities_Begin))
 ```
 

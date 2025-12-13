@@ -164,7 +164,7 @@ def estimate_put_premium(S, K, T, r, sigma):
     """
     d1 = (np.log(S/K) + (r + sigma**2/2)*T) / (sigma*np.sqrt(T))
     d2 = d1 - sigma*np.sqrt(T)
-    
+
     put_price = K*np.exp(-r*T)*norm.cdf(-d2) - S*norm.cdf(-d1)
     return put_price
 
@@ -203,7 +203,7 @@ def calculate_roll_cost(current_put_value, new_put_premium):
     sell_proceeds = current_put_value
     buy_cost = new_put_premium
     transaction_costs = 2 * 0.65  # Sell old + buy new
-    
+
     net_roll_cost = buy_cost - sell_proceeds + transaction_costs
     return net_roll_cost
 

@@ -21,10 +21,10 @@ Python: 3.11+
 """
 
 import argparse
-import sys
-from datetime import datetime, timedelta
-from typing import Dict, List, Tuple, Optional
 from dataclasses import dataclass
+from datetime import datetime, timedelta
+import sys
+
 import numpy as np
 
 try:
@@ -96,9 +96,7 @@ class StrategyTemplate:
         """Validate position parameters after initialization."""
         # Core validations
         if self.underlying_price <= 0:
-            raise ValueError(
-                f"Underlying price must be positive, got {self.underlying_price}"
-            )
+            raise ValueError(f"Underlying price must be positive, got {self.underlying_price}")
 
         if self.contracts <= 0:
             raise ValueError(f"Contracts must be positive, got {self.contracts}")
@@ -107,9 +105,7 @@ class StrategyTemplate:
             raise ValueError(f"Volatility cannot be negative, got {self.volatility}")
 
         if self.expiration_date < datetime.now():
-            raise ValueError(
-                f"Expiration date {self.expiration_date} is in the past"
-            )
+            raise ValueError(f"Expiration date {self.expiration_date} is in the past")
 
         # TODO: Add strategy-specific validation here
         # Examples:
@@ -216,7 +212,7 @@ class StrategyTemplate:
         raise NotImplementedError("Implement breakeven_price for your strategy")
 
     @property
-    def breakeven_prices(self) -> List[float]:
+    def breakeven_prices(self) -> list[float]:
         """
         Calculate ALL breakeven prices (for strategies with multiple breakevens).
 
@@ -230,7 +226,9 @@ class StrategyTemplate:
             return [self.breakeven_price]
         except NotImplementedError:
             # For complex strategies, calculate multiple breakevens
-            raise NotImplementedError("Implement breakeven_prices for strategies with multiple breakevens")
+            raise NotImplementedError(
+                "Implement breakeven_prices for strategies with multiple breakevens"
+            )
 
     @property
     def risk_reward_ratio(self) -> float:
@@ -243,7 +241,7 @@ class StrategyTemplate:
         """
         try:
             if self.max_loss == 0:
-                return float('inf')
+                return float("inf")
             return self.max_profit / self.max_loss
         except NotImplementedError:
             return None
@@ -288,9 +286,9 @@ class StrategyTemplate:
         # TODO: Implement P/L calculation
         raise NotImplementedError("Implement calculate_pl_at_price for your strategy")
 
-    def calculate_pl_table(self,
-                          price_range: Optional[Tuple[float, float]] = None,
-                          num_points: int = 20) -> List[Dict[str, float]]:
+    def calculate_pl_table(
+        self, price_range: tuple[float, float] | None = None, num_points: int = 20
+    ) -> list[dict[str, float]]:
         """
         Generate profit/loss table across range of stock prices.
 
@@ -316,19 +314,21 @@ class StrategyTemplate:
                 pl_percent = (pl_dollars / abs(self.total_cost)) * 100
                 pl_per_contract = pl_dollars / self.contracts
 
-                table.append({
-                    'stock_price': float(price),
-                    'pl_dollars': float(pl_dollars),
-                    'pl_percent': float(pl_percent),
-                    'pl_per_contract': float(pl_per_contract)
-                })
+                table.append(
+                    {
+                        "stock_price": float(price),
+                        "pl_dollars": float(pl_dollars),
+                        "pl_percent": float(pl_percent),
+                        "pl_per_contract": float(pl_per_contract),
+                    }
+                )
             except NotImplementedError:
                 # If calculate_pl_at_price not implemented, skip
                 break
 
         return table
 
-    def get_metrics_summary(self) -> Dict[str, float]:
+    def get_metrics_summary(self) -> dict[str, float]:
         """
         Get comprehensive summary of position metrics.
 
@@ -336,44 +336,44 @@ class StrategyTemplate:
             Dictionary containing all key metrics
         """
         metrics = {
-            'underlying_symbol': self.underlying_symbol,
-            'underlying_price': self.underlying_price,
-            'contracts': self.contracts,
-            'days_to_expiration': self.days_to_expiration,
-            'volatility': self.volatility,
+            "underlying_symbol": self.underlying_symbol,
+            "underlying_price": self.underlying_price,
+            "contracts": self.contracts,
+            "days_to_expiration": self.days_to_expiration,
+            "volatility": self.volatility,
         }
 
         # Add calculated metrics (with error handling for NotImplementedError)
         try:
-            metrics['total_cost'] = self.total_cost
+            metrics["total_cost"] = self.total_cost
         except NotImplementedError:
             pass
 
         try:
-            metrics['max_profit'] = self.max_profit
+            metrics["max_profit"] = self.max_profit
         except NotImplementedError:
             pass
 
         try:
-            metrics['max_loss'] = self.max_loss
+            metrics["max_loss"] = self.max_loss
         except NotImplementedError:
             pass
 
         try:
-            metrics['breakeven_price'] = self.breakeven_price
+            metrics["breakeven_price"] = self.breakeven_price
         except NotImplementedError:
             pass
 
         try:
-            metrics['breakeven_prices'] = self.breakeven_prices
+            metrics["breakeven_prices"] = self.breakeven_prices
         except NotImplementedError:
             pass
 
         if self.risk_reward_ratio is not None:
-            metrics['risk_reward_ratio'] = self.risk_reward_ratio
+            metrics["risk_reward_ratio"] = self.risk_reward_ratio
 
         if self.max_loss_percentage is not None:
-            metrics['max_loss_percentage'] = self.max_loss_percentage
+            metrics["max_loss_percentage"] = self.max_loss_percentage
 
         # TODO: Add strategy-specific metrics here
         # Examples:
@@ -402,40 +402,42 @@ class StrategyTemplate:
 
         # Metrics
         print("Metrics:")
-        if 'total_cost' in metrics:
-            cost_label = "Net Debit" if metrics['total_cost'] > 0 else "Net Credit"
+        if "total_cost" in metrics:
+            cost_label = "Net Debit" if metrics["total_cost"] > 0 else "Net Credit"
             print(f"  {cost_label}: ${abs(metrics['total_cost']):.2f}")
 
-        if 'max_profit' in metrics:
+        if "max_profit" in metrics:
             print(f"  Max Profit: ${metrics['max_profit']:.2f}")
 
-        if 'max_loss' in metrics:
+        if "max_loss" in metrics:
             print(f"  Max Loss: ${metrics['max_loss']:.2f}")
 
-        if 'breakeven_price' in metrics:
+        if "breakeven_price" in metrics:
             print(f"  Breakeven: ${metrics['breakeven_price']:.2f}")
-        elif 'breakeven_prices' in metrics:
-            breakevens = metrics['breakeven_prices']
+        elif "breakeven_prices" in metrics:
+            breakevens = metrics["breakeven_prices"]
             print(f"  Breakevens: ${breakevens[0]:.2f} - ${breakevens[-1]:.2f}")
 
-        if 'risk_reward_ratio' in metrics:
+        if "risk_reward_ratio" in metrics:
             print(f"  Risk/Reward Ratio: {metrics['risk_reward_ratio']:.2f}")
 
         print()
 
     def __str__(self) -> str:
         """String representation of position."""
-        return (f"{self.__class__.__name__}("
-                f"symbol={self.underlying_symbol}, "
-                f"price=${self.underlying_price:.2f}, "
-                f"contracts={self.contracts})")
+        return (
+            f"{self.__class__.__name__}("
+            f"symbol={self.underlying_symbol}, "
+            f"price=${self.underlying_price:.2f}, "
+            f"contracts={self.contracts})"
+        )
 
     def __repr__(self) -> str:
         """Detailed representation."""
         return self.__str__()
 
 
-def compare_positions(positions: List[StrategyTemplate]) -> Dict:
+def compare_positions(positions: list[StrategyTemplate]) -> dict:
     """
     Compare multiple strategy positions side by side.
 
@@ -453,15 +455,12 @@ def compare_positions(positions: List[StrategyTemplate]) -> Dict:
     if not positions:
         raise ValueError("Must provide at least one position")
 
-    comparison = {
-        'positions': len(positions),
-        'metrics': []
-    }
+    comparison = {"positions": len(positions), "metrics": []}
 
     for i, pos in enumerate(positions, 1):
         metrics = pos.get_metrics_summary()
-        metrics['position_number'] = i
-        comparison['metrics'].append(metrics)
+        metrics["position_number"] = i
+        comparison["metrics"].append(metrics)
 
     return comparison
 
@@ -481,11 +480,7 @@ TODO: Add strategy-specific examples
     )
 
     # Required arguments
-    parser.add_argument(
-        "--underlying",
-        required=True,
-        help="Underlying ticker symbol (e.g., SPY)"
-    )
+    parser.add_argument("--underlying", required=True, help="Underlying ticker symbol (e.g., SPY)")
     parser.add_argument(
         "--price",
         type=float,
@@ -494,12 +489,7 @@ TODO: Add strategy-specific examples
     )
 
     # Optional common arguments
-    parser.add_argument(
-        "--contracts",
-        type=int,
-        default=1,
-        help="Number of contracts (default: 1)"
-    )
+    parser.add_argument("--contracts", type=int, default=1, help="Number of contracts (default: 1)")
     parser.add_argument(
         "--dte",
         type=int,
@@ -556,9 +546,11 @@ TODO: Add strategy-specific examples
             print(f"{'Price':<10} {'P/L ($)':<12} {'P/L (%)':<10}")
             print("-" * 32)
             for row in pl_table[::4]:  # Show every 4th row
-                print(f"${row['stock_price']:<9.2f} "
-                      f"${row['pl_dollars']:<11.2f} "
-                      f"{row['pl_percent']:<9.1f}%")
+                print(
+                    f"${row['stock_price']:<9.2f} "
+                    f"${row['pl_dollars']:<11.2f} "
+                    f"{row['pl_percent']:<9.1f}%"
+                )
 
     except ValueError as e:
         print(f"\nError: {e}", file=sys.stderr)

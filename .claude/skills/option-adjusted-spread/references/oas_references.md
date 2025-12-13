@@ -58,7 +58,7 @@ For puttable bonds: OAS > Z-Spread
 ```
 Option Cost (callable) = Z-Spread - OAS
                        = Value of call option to issuer
-                       
+
 Price_Straight = Price_Callable + Call_Option_Value
 ```
 
@@ -130,21 +130,21 @@ class BinomialTree:
         self.volatility = volatility
         self.periods = periods
         self.tree = self.build_tree()
-    
+
     def build_tree(self):
         """Construct calibrated binomial tree."""
         # TODO: Implement tree calibration
         pass
-    
+
     def value_bond(self, cashflows, call_schedule, oas=0):
         """
         Value callable bond using backward induction.
-        
+
         Parameters:
             cashflows: Array of coupon payments
             call_schedule: Dict of {period: call_price}
             oas: Option-adjusted spread (bps)
-        
+
         Returns:
             Bond value at time 0
         """
@@ -157,15 +157,15 @@ class BinomialTree:
 def calculate_oas(market_price, bond_params, rate_tree, call_schedule):
     """
     Calculate OAS using binary search.
-    
+
     Finds OAS where model price equals market price.
-    
+
     Parameters:
         market_price: Observed market price
         bond_params: Coupon, maturity, etc.
         rate_tree: Calibrated interest rate tree
         call_schedule: Call dates and prices
-    
+
     Returns:
         OAS in basis points
     """
@@ -176,7 +176,7 @@ def calculate_oas(market_price, bond_params, rate_tree, call_schedule):
             oas
         )
         return model_price - market_price
-    
+
     # Binary search for OAS
     oas = brentq(price_diff, -500, 500)  # Search -500 to +500 bps
     return oas
@@ -189,10 +189,10 @@ def calculate_oas(market_price, bond_params, rate_tree, call_schedule):
 def calculate_rate_volatility(yield_changes):
     """
     Calculate historical interest rate volatility.
-    
+
     Parameters:
         yield_changes: Time series of yield changes
-    
+
     Returns:
         Annualized volatility
     """
@@ -239,5 +239,5 @@ Where:
 
 ---
 
-**Status**: Reference placeholder  
+**Status**: Reference placeholder
 **Last Updated**: 2025-12-07

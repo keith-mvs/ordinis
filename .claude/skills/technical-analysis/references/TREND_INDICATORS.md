@@ -7,8 +7,8 @@ Quantifies trend strength without indicating direction. Values above 25 indicate
 
 ### Components
 
-**ADX Line**: Measures trend strength (0-100 scale)  
-**+DI (Positive Directional Indicator)**: Measures upward price movement  
+**ADX Line**: Measures trend strength (0-100 scale)
+**+DI (Positive Directional Indicator)**: Measures upward price movement
 **-DI (Negative Directional Indicator)**: Measures downward price movement
 
 ### Calculation
@@ -67,22 +67,22 @@ def calculate_adx(high: pd.Series, low: pd.Series, close: pd.Series, period: int
     tr2 = abs(high - close.shift(1))
     tr3 = abs(low - close.shift(1))
     tr = pd.concat([tr1, tr2, tr3], axis=1).max(axis=1)
-    
+
     # Directional Movement
     plus_dm = high.diff()
     minus_dm = -low.diff()
     plus_dm[plus_dm < 0] = 0
     minus_dm[minus_dm < 0] = 0
-    
+
     # Smooth components
     atr = tr.rolling(window=period).mean()
     plus_di = 100 * (plus_dm.rolling(window=period).mean() / atr)
     minus_di = 100 * (minus_dm.rolling(window=period).mean() / atr)
-    
+
     # ADX calculation
     dx = 100 * abs(plus_di - minus_di) / (plus_di + minus_di)
     adx = dx.rolling(window=period).mean()
-    
+
     return pd.DataFrame({
         'ADX': adx,
         '+DI': plus_di,
@@ -107,11 +107,11 @@ Comprehensive trend indicator providing support/resistance levels, trend directi
 
 ### Components
 
-**Tenkan-sen (Conversion Line)**: (9-period high + 9-period low) / 2  
-**Kijun-sen (Base Line)**: (26-period high + 26-period low) / 2  
-**Senkou Span A (Leading Span A)**: (Tenkan-sen + Kijun-sen) / 2, plotted 26 periods ahead  
-**Senkou Span B (Leading Span B)**: (52-period high + 52-period low) / 2, plotted 26 periods ahead  
-**Chikou Span (Lagging Span)**: Current close plotted 26 periods behind  
+**Tenkan-sen (Conversion Line)**: (9-period high + 9-period low) / 2
+**Kijun-sen (Base Line)**: (26-period high + 26-period low) / 2
+**Senkou Span A (Leading Span A)**: (Tenkan-sen + Kijun-sen) / 2, plotted 26 periods ahead
+**Senkou Span B (Leading Span B)**: (52-period high + 52-period low) / 2, plotted 26 periods ahead
+**Chikou Span (Lagging Span)**: Current close plotted 26 periods behind
 **Kumo (Cloud)**: Area between Senkou Span A and Senkou Span B
 
 ### Calculation
@@ -123,23 +123,23 @@ def calculate_ichimoku(high: pd.Series, low: pd.Series, close: pd.Series) -> pd.
     period9_high = high.rolling(window=9).max()
     period9_low = low.rolling(window=9).min()
     tenkan_sen = (period9_high + period9_low) / 2
-    
+
     # Kijun-sen (Base Line): (26-period high + 26-period low)/2
     period26_high = high.rolling(window=26).max()
     period26_low = low.rolling(window=26).min()
     kijun_sen = (period26_high + period26_low) / 2
-    
+
     # Senkou Span A (Leading Span A): (Tenkan-sen + Kijun-sen)/2
     senkou_span_a = ((tenkan_sen + kijun_sen) / 2).shift(26)
-    
+
     # Senkou Span B (Leading Span B): (52-period high + 52-period low)/2
     period52_high = high.rolling(window=52).max()
     period52_low = low.rolling(window=52).min()
     senkou_span_b = ((period52_high + period52_low) / 2).shift(26)
-    
+
     # Chikou Span (Lagging Span): Current close shifted back 26 periods
     chikou_span = close.shift(-26)
-    
+
     return pd.DataFrame({
         'tenkan_sen': tenkan_sen,
         'kijun_sen': kijun_sen,
@@ -185,8 +185,8 @@ Smooth price data to identify trend direction and filter market noise. Foundatio
 
 ### Types
 
-**Simple Moving Average (SMA)**: Arithmetic mean of prices over N periods  
-**Exponential Moving Average (EMA)**: Weighted average giving more weight to recent prices  
+**Simple Moving Average (SMA)**: Arithmetic mean of prices over N periods
+**Exponential Moving Average (EMA)**: Weighted average giving more weight to recent prices
 **Weighted Moving Average (WMA)**: Linear weighting of prices, most recent weighted highest
 
 ### Calculation
@@ -213,11 +213,11 @@ WMA = (P1×n + P2×(n-1) + ... + Pn×1) / (n + (n-1) + ... + 1)
 def calculate_moving_averages(close: pd.Series, periods: list = [20, 50, 200]) -> pd.DataFrame:
     """Calculate SMA and EMA for multiple periods."""
     result = pd.DataFrame(index=close.index)
-    
+
     for period in periods:
         result[f'SMA_{period}'] = close.rolling(window=period).mean()
         result[f'EMA_{period}'] = close.ewm(span=period, adjust=False).mean()
-    
+
     return result
 ```
 
@@ -239,8 +239,8 @@ def calculate_moving_averages(close: pd.Series, periods: list = [20, 50, 200]) -
 
 ### Common Periods
 
-**Short-term**: 10, 20-day (weeks)  
-**Medium-term**: 50-day (2.5 months)  
+**Short-term**: 10, 20-day (weeks)
+**Medium-term**: 50-day (2.5 months)
 **Long-term**: 100, 200-day (major trend)
 
 ### Trading Applications
@@ -285,8 +285,8 @@ Reversal occurs when price crosses SAR.
 ### Python Implementation
 
 ```python
-def calculate_parabolic_sar(high: pd.Series, low: pd.Series, 
-                           af_start: float = 0.02, af_increment: float = 0.02, 
+def calculate_parabolic_sar(high: pd.Series, low: pd.Series,
+                           af_start: float = 0.02, af_increment: float = 0.02,
                            af_max: float = 0.20) -> pd.Series:
     """Calculate Parabolic SAR."""
     length = len(high)
@@ -294,17 +294,17 @@ def calculate_parabolic_sar(high: pd.Series, low: pd.Series,
     ep = np.zeros(length)
     af = np.zeros(length)
     trend = np.zeros(length, dtype=int)
-    
+
     # Initialize
     sar[0] = low[0]
     ep[0] = high[0]
     af[0] = af_start
     trend[0] = 1  # 1 for uptrend, -1 for downtrend
-    
+
     for i in range(1, length):
         # Calculate SAR
         sar[i] = sar[i-1] + af[i-1] * (ep[i-1] - sar[i-1])
-        
+
         # Check for reversal
         if trend[i-1] == 1:  # Uptrend
             if low[i] < sar[i]:
@@ -336,7 +336,7 @@ def calculate_parabolic_sar(high: pd.Series, low: pd.Series,
                 else:
                     ep[i] = ep[i-1]
                     af[i] = af[i-1]
-    
+
     return pd.Series(sar, index=high.index)
 ```
 

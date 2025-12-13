@@ -52,14 +52,14 @@
 def full_price_cfa(PV, AI):
     """
     Calculate full price per CFA standards.
-    
+
     Parameters:
     -----------
     PV : float
         Present value of bond (flat price)
     AI : float
         Accrued interest
-    
+
     Returns:
     --------
     float : Full price (dirty price)
@@ -114,5 +114,5 @@ Where:
 
 ---
 
-**Status**: Reference placeholder - specify CFA curriculum year  
+**Status**: Reference placeholder - specify CFA curriculum year
 **Last Updated**: 2025-12-07

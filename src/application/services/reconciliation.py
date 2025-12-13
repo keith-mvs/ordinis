@@ -18,7 +18,7 @@ import logging
 from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
-    from persistence.repositories.position import PositionRepository
+    from adapters.storage.repositories.position import PositionRepository
 
 logger = logging.getLogger(__name__)
 
@@ -308,7 +308,7 @@ class PositionReconciliation:
         corrections = 0
 
         try:
-            from persistence.models import PositionRow
+            from adapters.storage.models import PositionRow
 
             for bp in broker_positions:
                 symbol = bp.get("symbol")

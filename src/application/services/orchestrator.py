@@ -19,15 +19,15 @@ from pathlib import Path
 import signal
 from typing import TYPE_CHECKING, Any
 
-from persistence.database import DatabaseManager, get_database
-from persistence.repositories.order import OrderRepository
-from persistence.repositories.position import PositionRepository
-from persistence.repositories.system_state import SystemStateRepository
-from persistence.repositories.trade import TradeRepository
+from adapters.storage.database import DatabaseManager, get_database
+from adapters.storage.repositories.order import OrderRepository
+from adapters.storage.repositories.position import PositionRepository
+from adapters.storage.repositories.system_state import SystemStateRepository
+from adapters.storage.repositories.trade import TradeRepository
 from safety.kill_switch import KillSwitch
 
 if TYPE_CHECKING:
-    from alerting.manager import AlertManager
+    from adapters.alerting.manager import AlertManager
 
 logger = logging.getLogger(__name__)
 

@@ -19,10 +19,9 @@ Usage:
 """
 
 import argparse
-import sys
-from datetime import datetime, timedelta
-from typing import Dict, List, Optional
 from dataclasses import dataclass
+from datetime import datetime, timedelta
+import sys
 
 try:
     import numpy as np
@@ -180,7 +179,11 @@ class IronButterfly:
         Assumes underlying follows normal distribution with given volatility.
         """
         if self.time_to_expiration <= 0:
-            return 100.0 if self.breakeven_lower <= self.underlying_price <= self.breakeven_upper else 0.0
+            return (
+                100.0
+                if self.breakeven_lower <= self.underlying_price <= self.breakeven_upper
+                else 0.0
+            )
 
         # Standard deviation of price movement
         std_dev = self.underlying_price * self.volatility * np.sqrt(self.time_to_expiration)
@@ -193,7 +196,7 @@ class IronButterfly:
         prob = norm.cdf(z_upper) - norm.cdf(z_lower)
         return prob * 100
 
-    def calculate_pnl(self, stock_price: float) -> Dict[str, float]:
+    def calculate_pnl(self, stock_price: float) -> dict[str, float]:
         """Calculate P&L at given stock price (at expiration).
 
         Args:
@@ -215,8 +218,7 @@ class IronButterfly:
         long_put_value = max(self.lower_put_strike - stock_price, 0)
 
         # Net position value at expiration
-        position_value = (short_call_value + short_put_value +
-                         long_call_value + long_put_value)
+        position_value = short_call_value + short_put_value + long_call_value + long_put_value
 
         # P&L calculation (position value + initial credit)
         pnl_per_share = position_value + self.net_credit
@@ -226,18 +228,18 @@ class IronButterfly:
         return_pct = (pnl_per_share / (self.wing_width - self.net_credit)) * 100
 
         return {
-            'stock_price': stock_price,
-            'short_call_value': short_call_value,
-            'short_put_value': short_put_value,
-            'long_call_value': long_call_value,
-            'long_put_value': long_put_value,
-            'position_value': position_value,
-            'pnl_per_share': pnl_per_share,
-            'pnl_total': pnl_total,
-            'return_pct': return_pct
+            "stock_price": stock_price,
+            "short_call_value": short_call_value,
+            "short_put_value": short_put_value,
+            "long_call_value": long_call_value,
+            "long_put_value": long_put_value,
+            "position_value": position_value,
+            "pnl_per_share": pnl_per_share,
+            "pnl_total": pnl_total,
+            "return_pct": return_pct,
         }
 
-    def calculate_greeks(self) -> Dict[str, float]:
+    def calculate_greeks(self) -> dict[str, float]:
         """Calculate all position Greeks using Black-Scholes.
 
         Returns:
@@ -246,10 +248,7 @@ class IronButterfly:
         T = self.time_to_expiration
 
         if T <= 0:
-            return {
-                'delta': 0.0, 'gamma': 0.0, 'theta': 0.0,
-                'vega': 0.0, 'rho': 0.0
-            }
+            return {"delta": 0.0, "gamma": 0.0, "theta": 0.0, "vega": 0.0, "rho": 0.0}
 
         S = self.underlying_price
         r = self.risk_free_rate
@@ -271,23 +270,41 @@ class IronButterfly:
         multiplier = 100 * self.contracts
 
         return {
-            'delta': ((-short_call['delta'] - short_put['delta'] +
-                      long_call['delta'] + long_put['delta']) * multiplier),
-            'gamma': ((-short_call['gamma'] - short_put['gamma'] +
-                      long_call['gamma'] + long_put['gamma']) * multiplier),
-            'theta': ((-short_call['theta'] - short_put['theta'] +
-                      long_call['theta'] + long_put['theta']) * multiplier),
-            'vega': ((-short_call['vega'] - short_put['vega'] +
-                     long_call['vega'] + long_put['vega']) * multiplier),
-            'rho': ((-short_call['rho'] - short_put['rho'] +
-                    long_call['rho'] + long_put['rho']) * multiplier)
+            "delta": (
+                (-short_call["delta"] - short_put["delta"] + long_call["delta"] + long_put["delta"])
+                * multiplier
+            ),
+            "gamma": (
+                (-short_call["gamma"] - short_put["gamma"] + long_call["gamma"] + long_put["gamma"])
+                * multiplier
+            ),
+            "theta": (
+                (-short_call["theta"] - short_put["theta"] + long_call["theta"] + long_put["theta"])
+                * multiplier
+            ),
+            "vega": (
+                (-short_call["vega"] - short_put["vega"] + long_call["vega"] + long_put["vega"])
+                * multiplier
+            ),
+            "rho": (
+                (-short_call["rho"] - short_put["rho"] + long_call["rho"] + long_put["rho"])
+                * multiplier
+            ),
         }
 
     @staticmethod
-    def _calculate_call_greeks(S: float, K: float, T: float, r: float, sigma: float) -> Dict[str, float]:
+    def _calculate_call_greeks(
+        S: float, K: float, T: float, r: float, sigma: float
+    ) -> dict[str, float]:
         """Calculate Greeks for a single call option."""
         if T == 0:
-            return {'delta': 1.0 if S > K else 0.0, 'gamma': 0.0, 'theta': 0.0, 'vega': 0.0, 'rho': 0.0}
+            return {
+                "delta": 1.0 if S > K else 0.0,
+                "gamma": 0.0,
+                "theta": 0.0,
+                "vega": 0.0,
+                "rho": 0.0,
+            }
 
         d1 = (np.log(S / K) + (r + 0.5 * sigma**2) * T) / (sigma * np.sqrt(T))
         d2 = d1 - sigma * np.sqrt(T)
@@ -296,18 +313,27 @@ class IronButterfly:
         cdf_d2 = norm.cdf(d2)
 
         return {
-            'delta': cdf_d1,
-            'gamma': pdf_d1 / (S * sigma * np.sqrt(T)),
-            'theta': (-(S * pdf_d1 * sigma) / (2 * np.sqrt(T)) - r * K * np.exp(-r * T) * cdf_d2) / 365,
-            'vega': S * pdf_d1 * np.sqrt(T) / 100,
-            'rho': K * T * np.exp(-r * T) * cdf_d2 / 100
+            "delta": cdf_d1,
+            "gamma": pdf_d1 / (S * sigma * np.sqrt(T)),
+            "theta": (-(S * pdf_d1 * sigma) / (2 * np.sqrt(T)) - r * K * np.exp(-r * T) * cdf_d2)
+            / 365,
+            "vega": S * pdf_d1 * np.sqrt(T) / 100,
+            "rho": K * T * np.exp(-r * T) * cdf_d2 / 100,
         }
 
     @staticmethod
-    def _calculate_put_greeks(S: float, K: float, T: float, r: float, sigma: float) -> Dict[str, float]:
+    def _calculate_put_greeks(
+        S: float, K: float, T: float, r: float, sigma: float
+    ) -> dict[str, float]:
         """Calculate Greeks for a single put option."""
         if T == 0:
-            return {'delta': -1.0 if S < K else 0.0, 'gamma': 0.0, 'theta': 0.0, 'vega': 0.0, 'rho': 0.0}
+            return {
+                "delta": -1.0 if S < K else 0.0,
+                "gamma": 0.0,
+                "theta": 0.0,
+                "vega": 0.0,
+                "rho": 0.0,
+            }
 
         d1 = (np.log(S / K) + (r + 0.5 * sigma**2) * T) / (sigma * np.sqrt(T))
         d2 = d1 - sigma * np.sqrt(T)
@@ -316,14 +342,17 @@ class IronButterfly:
         cdf_neg_d2 = norm.cdf(-d2)
 
         return {
-            'delta': cdf_neg_d1 - 1,
-            'gamma': pdf_d1 / (S * sigma * np.sqrt(T)),
-            'theta': (-(S * pdf_d1 * sigma) / (2 * np.sqrt(T)) + r * K * np.exp(-r * T) * cdf_neg_d2) / 365,
-            'vega': S * pdf_d1 * np.sqrt(T) / 100,
-            'rho': -K * T * np.exp(-r * T) * cdf_neg_d2 / 100
+            "delta": cdf_neg_d1 - 1,
+            "gamma": pdf_d1 / (S * sigma * np.sqrt(T)),
+            "theta": (
+                -(S * pdf_d1 * sigma) / (2 * np.sqrt(T)) + r * K * np.exp(-r * T) * cdf_neg_d2
+            )
+            / 365,
+            "vega": S * pdf_d1 * np.sqrt(T) / 100,
+            "rho": -K * T * np.exp(-r * T) * cdf_neg_d2 / 100,
         }
 
-    def get_analysis(self) -> Dict:
+    def get_analysis(self) -> dict:
         """Generate comprehensive position analysis."""
         greeks = self.calculate_greeks()
 
@@ -378,10 +407,11 @@ class IronButterfly:
 
         # Metrics
         print("Risk Metrics:")
-        print(f"  Max Profit:           ${analysis['metrics']['max_profit']:,.2f} "
-              f"(at ${self.center_strike:.2f})")
-        print(f"  Max Loss:             ${analysis['metrics']['max_loss']:,.2f} "
-              f"(beyond wings)")
+        print(
+            f"  Max Profit:           ${analysis['metrics']['max_profit']:,.2f} "
+            f"(at ${self.center_strike:.2f})"
+        )
+        print(f"  Max Loss:             ${analysis['metrics']['max_loss']:,.2f} " f"(beyond wings)")
         print(f"  Lower Breakeven:      ${analysis['metrics']['breakeven_lower']:.2f}")
         print(f"  Upper Breakeven:      ${analysis['metrics']['breakeven_upper']:.2f}")
         print(f"  Max ROI:              {analysis['metrics']['max_roi']:.1f}%")
@@ -409,13 +439,15 @@ class IronButterfly:
             self.center_strike,
             (self.center_strike + self.breakeven_upper) / 2,
             self.breakeven_upper,
-            self.upper_call_strike
+            self.upper_call_strike,
         ]
 
         for price in key_prices:
             result = self.calculate_pnl(price)
-            print(f"${price:<11.2f} ${result['position_value']:<15.2f} "
-                  f"${result['pnl_total']:<15.2f} {result['return_pct']:<9.1f}%")
+            print(
+                f"${price:<11.2f} ${result['position_value']:<15.2f} "
+                f"${result['pnl_total']:<15.2f} {result['return_pct']:<9.1f}%"
+            )
 
         print(f"\n{'=' * 70}\n")
 
@@ -444,28 +476,38 @@ Examples:
     # Required arguments
     parser.add_argument("--underlying", required=True, help="Underlying ticker symbol")
     parser.add_argument("--price", type=float, required=True, help="Current stock price")
-    parser.add_argument("--center-strike", type=float, required=True,
-                       help="Center strike (short straddle)")
+    parser.add_argument(
+        "--center-strike", type=float, required=True, help="Center strike (short straddle)"
+    )
 
     # Wing strikes (either symmetric or explicit)
     wing_group = parser.add_mutually_exclusive_group(required=True)
-    wing_group.add_argument("--wing-width", type=float,
-                           help="Symmetric wing width from center")
-    wing_group.add_argument("--lower-put", type=float, dest="lower_put_strike",
-                           help="Lower put strike (use with --upper-call)")
+    wing_group.add_argument("--wing-width", type=float, help="Symmetric wing width from center")
+    wing_group.add_argument(
+        "--lower-put",
+        type=float,
+        dest="lower_put_strike",
+        help="Lower put strike (use with --upper-call)",
+    )
 
-    parser.add_argument("--upper-call", type=float, dest="upper_call_strike",
-                       help="Upper call strike (use with --lower-put)")
+    parser.add_argument(
+        "--upper-call",
+        type=float,
+        dest="upper_call_strike",
+        help="Upper call strike (use with --lower-put)",
+    )
 
     # Premiums
-    parser.add_argument("--call-credit", type=float, required=True,
-                       help="Short call premium received")
-    parser.add_argument("--put-credit", type=float, required=True,
-                       help="Short put premium received")
-    parser.add_argument("--call-protection", type=float, required=True,
-                       help="Long call premium paid")
-    parser.add_argument("--put-protection", type=float, required=True,
-                       help="Long put premium paid")
+    parser.add_argument(
+        "--call-credit", type=float, required=True, help="Short call premium received"
+    )
+    parser.add_argument(
+        "--put-credit", type=float, required=True, help="Short put premium received"
+    )
+    parser.add_argument(
+        "--call-protection", type=float, required=True, help="Long call premium paid"
+    )
+    parser.add_argument("--put-protection", type=float, required=True, help="Long put premium paid")
 
     # Optional arguments
     parser.add_argument("--contracts", type=int, default=1, help="Number of contracts")

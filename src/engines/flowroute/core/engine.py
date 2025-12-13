@@ -21,9 +21,9 @@ from .orders import (
 )
 
 if TYPE_CHECKING:
-    from alerting import AlertManager
+    from adapters.alerting import AlertManager
+    from adapters.storage.repositories.order import OrderRepository
     from core.protocols import BrokerAdapter
-    from persistence.repositories.order import OrderRepository
     from safety.kill_switch import KillSwitch
 
 logger = logging.getLogger(__name__)
@@ -393,8 +393,8 @@ class FlowRouteEngine:
             return
 
         try:
-            from alerting import AlertSeverity
-            from alerting.manager import AlertType
+            from adapters.alerting import AlertSeverity
+            from adapters.alerting.manager import AlertType
 
             severity_map = {
                 "info": AlertSeverity.INFO,

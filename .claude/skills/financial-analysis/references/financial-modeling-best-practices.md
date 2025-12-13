@@ -166,8 +166,8 @@ Bad: Some use compound growth, others use simple multiplication
 **Probability-Weighted Scenarios**
 ```excel
 # Expected value calculation
-=Base_Case_Value*Base_Probability + 
- Upside_Value*Upside_Probability + 
+=Base_Case_Value*Base_Probability +
+ Upside_Value*Upside_Probability +
  Downside_Value*Downside_Probability
 
 # Typical probability distribution
@@ -323,7 +323,7 @@ Downside: 20-25%
 
 ### Pitfall 1: Circular References
 **Problem**: Formulas that reference themselves directly or indirectly
-**Solution**: 
+**Solution**:
 - Break circular logic with helper columns
 - Use iterative calculation only when necessary
 - Document circular references clearly
@@ -336,7 +336,7 @@ Downside: 20-25%
 
 ### Pitfall 3: Inconsistent Time Periods
 **Problem**: Mixing monthly, quarterly, and annual figures
-**Solution**: 
+**Solution**:
 - Standardize on single time unit
 - Clearly label all time-based columns
 - Use conversion factors when necessary

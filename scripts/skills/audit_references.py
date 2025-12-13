@@ -2,19 +2,18 @@
 """Audit all references folders in skill packages."""
 
 from pathlib import Path
-from typing import Dict, List
 
 SKILLS_DIR = Path(r"C:\Users\kjfle\Workspace\ordinis\.claude\skills")
 
 
-def audit_references(skill_dir: Path) -> Dict:
+def audit_references(skill_dir: Path) -> dict:
     """Audit references folder for a skill."""
     result = {
         "name": skill_dir.name,
         "has_references_dir": False,
         "reference_count": 0,
         "reference_files": [],
-        "total_size": 0
+        "total_size": 0,
     }
 
     refs_dir = skill_dir / "references"
@@ -25,11 +24,9 @@ def audit_references(skill_dir: Path) -> Dict:
 
     for ref_file in refs_dir.glob("*.md"):
         size = ref_file.stat().st_size
-        result["reference_files"].append({
-            "name": ref_file.name,
-            "size": size,
-            "size_kb": size / 1024
-        })
+        result["reference_files"].append(
+            {"name": ref_file.name, "size": size, "size_kb": size / 1024}
+        )
         result["total_size"] += size
 
     result["reference_count"] = len(result["reference_files"])
@@ -37,22 +34,39 @@ def audit_references(skill_dir: Path) -> Dict:
     return result
 
 
-def categorize_skills(skills: List[Path]) -> Dict[str, List[str]]:
+def categorize_skills(skills: list[Path]) -> dict[str, list[str]]:
     """Categorize skills by type."""
     categories = {
         "options_strategies": [],
         "bond_analysis": [],
         "financial": [],
         "technical": [],
-        "other": []
+        "other": [],
     }
 
     for skill in skills:
         name = skill.name
-        if any(x in name for x in ["put", "call", "straddle", "strangle", "butterfly",
-                                    "condor", "collar", "spread"]):
+        if any(
+            x in name
+            for x in [
+                "put",
+                "call",
+                "straddle",
+                "strangle",
+                "butterfly",
+                "condor",
+                "collar",
+                "spread",
+            ]
+        ):
             categories["options_strategies"].append(name)
-        elif "bond" in name or "yield" in name or "duration" in name or "credit-risk" in name or "oas" in name:
+        elif (
+            "bond" in name
+            or "yield" in name
+            or "duration" in name
+            or "credit-risk" in name
+            or "oas" in name
+        ):
             categories["bond_analysis"].append(name)
         elif "financial" in name or "benchmarking" in name:
             categories["financial"].append(name)
@@ -106,7 +120,7 @@ def main():
 
             print(f"  Files: {audit['reference_count']}")
             print(f"  Total Size: {audit['total_size']/1024:.1f} KB")
-            print(f"  Reference files:")
+            print("  Reference files:")
             for ref in sorted(audit["reference_files"], key=lambda x: x["name"]):
                 print(f"    - {ref['name']} ({ref['size_kb']:.1f} KB)")
 

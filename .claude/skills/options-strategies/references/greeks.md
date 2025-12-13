@@ -225,20 +225,20 @@ def calculate_theta_call(S, K, T, r, sigma):
     """Calculate theta for call option (annualized)."""
     d1 = (np.log(S/K) + (r + sigma**2/2)*T) / (sigma*np.sqrt(T))
     d2 = d1 - sigma*np.sqrt(T)
-    
+
     term1 = -(S * norm.pdf(d1) * sigma) / (2 * np.sqrt(T))
     term2 = -r * K * np.exp(-r*T) * norm.cdf(d2)
-    
+
     return (term1 + term2) / 365  # Convert to daily
 
 def calculate_theta_put(S, K, T, r, sigma):
     """Calculate theta for put option (annualized)."""
     d1 = (np.log(S/K) + (r + sigma**2/2)*T) / (sigma*np.sqrt(T))
     d2 = d1 - sigma*np.sqrt(T)
-    
+
     term1 = -(S * norm.pdf(d1) * sigma) / (2 * np.sqrt(T))
     term2 = r * K * np.exp(-r*T) * norm.cdf(-d2)
-    
+
     return (term1 + term2) / 365  # Convert to daily
 ```
 
@@ -433,7 +433,7 @@ Portfolio Greeks:
 ```python
 class OptionGreeks:
     """Complete options Greeks calculator."""
-    
+
     def __init__(self, S, K, T, r, sigma, option_type='call'):
         self.S = S  # Spot price
         self.K = K  # Strike price
@@ -441,44 +441,44 @@ class OptionGreeks:
         self.r = r  # Risk-free rate
         self.sigma = sigma  # Volatility
         self.option_type = option_type.lower()
-        
+
         # Calculate d1 and d2
         self.d1 = (np.log(S/K) + (r + sigma**2/2)*T) / (sigma*np.sqrt(T))
         self.d2 = self.d1 - sigma*np.sqrt(T)
-    
+
     def delta(self):
         """Calculate delta."""
         if self.option_type == 'call':
             return norm.cdf(self.d1)
         else:
             return norm.cdf(self.d1) - 1
-    
+
     def gamma(self):
         """Calculate gamma."""
         return norm.pdf(self.d1) / (self.S * self.sigma * np.sqrt(self.T))
-    
+
     def theta(self):
         """Calculate theta (daily)."""
         term1 = -(self.S * norm.pdf(self.d1) * self.sigma) / (2 * np.sqrt(self.T))
-        
+
         if self.option_type == 'call':
             term2 = -self.r * self.K * np.exp(-self.r*self.T) * norm.cdf(self.d2)
         else:
             term2 = self.r * self.K * np.exp(-self.r*self.T) * norm.cdf(-self.d2)
-        
+
         return (term1 + term2) / 365
-    
+
     def vega(self):
         """Calculate vega."""
         return self.S * np.sqrt(self.T) * norm.pdf(self.d1) / 100
-    
+
     def rho(self):
         """Calculate rho."""
         if self.option_type == 'call':
             return self.K * self.T * np.exp(-self.r*self.T) * norm.cdf(self.d2) / 100
         else:
             return -self.K * self.T * np.exp(-self.r*self.T) * norm.cdf(-self.d2) / 100
-    
+
     def all_greeks(self):
         """Return all Greeks as dictionary."""
         return {

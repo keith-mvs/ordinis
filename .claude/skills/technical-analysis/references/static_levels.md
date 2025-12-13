@@ -46,21 +46,21 @@ Retracement Level = Low + (High - Low) × Ratio
 ### Python Implementation
 
 ```python
-def calculate_fibonacci_retracement(high: float, low: float, 
+def calculate_fibonacci_retracement(high: float, low: float,
                                    trend_direction: str = 'up') -> dict:
     """
     Calculate Fibonacci retracement levels.
-    
+
     Args:
         high: Swing high price
         low: Swing low price
         trend_direction: 'up' for uptrend, 'down' for downtrend
-    
+
     Returns:
         Dictionary of retracement levels
     """
     diff = high - low
-    
+
     levels = {
         '0.0%': high if trend_direction == 'up' else low,
         '23.6%': high - (diff * 0.236) if trend_direction == 'up' else low + (diff * 0.236),
@@ -70,7 +70,7 @@ def calculate_fibonacci_retracement(high: float, low: float,
         '78.6%': high - (diff * 0.786) if trend_direction == 'up' else low + (diff * 0.786),
         '100.0%': low if trend_direction == 'up' else high
     }
-    
+
     return levels
 ```
 
@@ -134,21 +134,21 @@ Extension Level = Low - (High - Low) × Ratio
 ### Python Implementation
 
 ```python
-def calculate_fibonacci_extension(high: float, low: float, 
+def calculate_fibonacci_extension(high: float, low: float,
                                   trend_direction: str = 'up') -> dict:
     """
     Calculate Fibonacci extension levels.
-    
+
     Args:
         high: Swing high price
-        low: Swing low price  
+        low: Swing low price
         trend_direction: 'up' for uptrend, 'down' for downtrend
-    
+
     Returns:
         Dictionary of extension levels
     """
     diff = high - low
-    
+
     if trend_direction == 'up':
         levels = {
             '127.2%': high + (diff * 0.272),
@@ -165,7 +165,7 @@ def calculate_fibonacci_extension(high: float, low: float,
             '261.8%': low - (diff * 1.618),
             '423.6%': low - (diff * 3.236)
         }
-    
+
     return levels
 ```
 
@@ -215,20 +215,20 @@ def calculate_fibonacci_extension(high: float, low: float,
 def find_fibonacci_clusters(swings: list, tolerance: float = 0.02) -> dict:
     """
     Find Fibonacci cluster zones from multiple swings.
-    
+
     Args:
         swings: List of (high, low, trend_direction) tuples
         tolerance: Price tolerance for clustering (default 2%)
-    
+
     Returns:
         Dictionary of cluster zones with strength scores
     """
     all_levels = []
-    
+
     for high, low, direction in swings:
         levels = calculate_fibonacci_retracement(high, low, direction)
         all_levels.extend(levels.values())
-    
+
     # Find clusters
     clusters = {}
     for level in all_levels:
@@ -239,10 +239,10 @@ def find_fibonacci_clusters(swings: list, tolerance: float = 0.02) -> dict:
                 clusters[cluster_price] += 1
                 found_cluster = True
                 break
-        
+
         if not found_cluster:
             clusters[level] = 1
-    
+
     # Return clusters with 2+ overlapping levels
     return {price: count for price, count in clusters.items() if count >= 2}
 ```
@@ -333,7 +333,7 @@ def find_fibonacci_clusters(swings: list, tolerance: float = 0.02) -> dict:
 **Conservative**: Place stop just beyond next Fibonacci level
 - Buying at 50.0%, stop below 61.8%
 
-**Aggressive**: Place stop just beyond entry Fibonacci level  
+**Aggressive**: Place stop just beyond entry Fibonacci level
 - Buying at 50.0%, stop below 50.0%
 
 **Optimal**: Place stop at logical invalidation point, typically below major support or above major resistance regardless of Fibonacci level.

@@ -11,9 +11,9 @@ Analyze and adjust for embedded options (calls, puts, convertibles) to determine
 
 ## Skill Classification
 
-**Domain**: Advanced Fixed Income Derivatives  
-**Level**: Expert  
-**Prerequisites**: All previous bond analysis skills  
+**Domain**: Advanced Fixed Income Derivatives
+**Level**: Expert
+**Prerequisites**: All previous bond analysis skills
 **Estimated Time**: 20-25 hours
 
 ## Focus Areas
@@ -34,7 +34,7 @@ Value_puttable = Value_straight + Value_put_option
 ```python
 class EmbeddedOptionBond:
     """Bond with embedded options."""
-    
+
     def __init__(self, face_value, coupon_rate, maturity_years,
                  option_type, option_dates, option_prices):
         """Initialize bond. option_type: 'call'/'put', option_dates: exercise years, option_prices: strike prices."""
@@ -44,17 +44,17 @@ class EmbeddedOptionBond:
         self.option_type = option_type
         self.option_dates = option_dates
         self.option_prices = option_prices
-    
+
     def straight_bond_value(self, yield_rate, frequency=2):
         """Price without embedded option."""
         periods = int(self.maturity_years * frequency)
         coupon = (self.face_value * self.coupon_rate) / frequency
         periodic_yield = yield_rate / frequency
-        
-        pv_coupons = sum(coupon / (1 + periodic_yield)**t 
+
+        pv_coupons = sum(coupon / (1 + periodic_yield)**t
                         for t in range(1, periods + 1))
         pv_principal = self.face_value / (1 + periodic_yield)**periods
-        
+
         return pv_coupons + pv_principal
 ```
 
@@ -85,41 +85,41 @@ class VasicekModel:
         self.a = a
         self.b = b
         self.sigma = sigma
-    
+
     def simulate_paths(self, T, num_paths, num_steps):
         """Simulate rate paths. Returns array (num_paths, num_steps+1)."""
         dt = T / num_steps
         paths = np.zeros((num_paths, num_steps + 1))
         paths[:, 0] = self.r0
-        
+
         for t in range(1, num_steps + 1):
             dW = np.random.normal(0, np.sqrt(dt), num_paths)
             dr = self.a * (self.b - paths[:, t-1]) * dt + \
                  self.sigma * dW
             paths[:, t] = paths[:, t-1] + dr
-        
+
         return paths
-    
+
     def bond_price_path(self, rate_path, cash_flows, times):
         """Price bond along single rate path. Returns array of prices at each time step."""
         prices = []
-        
+
         for t_idx, (cf, t) in enumerate(zip(cash_flows, times)):
             # Discount using rate path
-            discount_factor = np.exp(-np.sum(rate_path[:t_idx]) * 
+            discount_factor = np.exp(-np.sum(rate_path[:t_idx]) *
                                     (times[1] - times[0]))
             prices.append(cf * discount_factor)
-        
+
         return np.array(prices)
 
 def monte_carlo_oas(bond, num_simulations=10000):
     """Calculate OAS via Monte Carlo simulation. Returns option-adjusted spread."""
     # Simplified implementation
     model = VasicekModel(r0=0.03, a=0.1, b=0.05, sigma=0.01)
-    paths = model.simulate_paths(T=bond.maturity_years, 
+    paths = model.simulate_paths(T=bond.maturity_years,
                                   num_paths=num_simulations,
                                   num_steps=100)
-    
+
     # Price bond along each path with and without option
     # This is a placeholder for full implementation
     pass
@@ -138,11 +138,11 @@ class BinomialRateTree:
         self.u = u
         self.d = d
         self.q = q
-    
+
     def build_tree(self, periods):
         """Build interest rate tree. Returns list of lists (tree structure)."""
         tree = [[self.r0]]
-        
+
         for t in range(1, periods + 1):
             level = []
             for i in range(t + 1):
@@ -150,78 +150,78 @@ class BinomialRateTree:
                 rate = self.r0 * (self.u ** (t - i)) * (self.d ** i)
                 level.append(rate)
             tree.append(level)
-        
+
         return tree
-    
+
     def price_callable_bond(self, face_value, coupon_rate, periods,
                            call_schedule, frequency=2):
         """Price callable bond via backward induction. call_schedule: {period: call_price}. Returns bond price."""
         # Build rate tree
         rate_tree = self.build_tree(periods)
-        
+
         # Initialize value tree at maturity
-        value_tree = [[face_value + face_value * coupon_rate / frequency] 
+        value_tree = [[face_value + face_value * coupon_rate / frequency]
                       * (periods + 1)]
-        
+
         # Backward induction
         for t in range(periods - 1, -1, -1):
             level = []
             for i in range(t + 1):
                 r = rate_tree[t][i]
-                
+
                 # Expected value from next period
                 up_value = value_tree[0][i]
                 down_value = value_tree[0][i + 1]
-                
+
                 expected = (self.q * up_value + (1 - self.q) * down_value)
                 discounted = expected / (1 + r / frequency)
-                
+
                 # Add coupon
                 value = discounted + face_value * coupon_rate / frequency
-                
+
                 # Check if callable
                 if t in call_schedule:
                     value = min(value, call_schedule[t])
-                
+
                 level.append(value)
-            
+
             value_tree.insert(0, level)
-        
+
         return value_tree[0][0]
 ```
 
 **Calibration to Market Prices**:
 ```python
-def calibrate_tree(market_bond_prices, face_values, coupon_rates, 
+def calibrate_tree(market_bond_prices, face_values, coupon_rates,
                    maturities):
     """
     Calibrate binomial tree to match market prices.
-    
+
     Uses optimization to find tree parameters.
     """
     from scipy.optimize import minimize
-    
+
     def objective(params):
         r0, u, d, q = params
         tree = BinomialRateTree(r0, u, d, q)
-        
+
         # Calculate model prices
         errors = []
         for market_price, fv, coupon, maturity in \
             zip(market_bond_prices, face_values, coupon_rates, maturities):
-            
-            model_price = tree.price_callable_bond(fv, coupon, 
+
+            model_price = tree.price_callable_bond(fv, coupon,
                                                    int(maturity * 2), {})
             errors.append((model_price - market_price) ** 2)
-        
+
         return sum(errors)
-    
+
     # Initial guess
     initial_params = [0.03, 1.1, 0.9, 0.5]
-    
-    result = minimize(objective, initial_params, 
+
+    result = minimize(objective, initial_params,
                      bounds=[(0.01, 0.10), (1.0, 1.5), (0.5, 1.0), (0.3, 0.7)])
-    
+
     return result.x
 ```
 
@@ -255,7 +255,7 @@ def spread_comparison(bond_price, straight_price, option_value,
                      treasury_ytm, corporate_ytm):
     """
     Compare spread measures.
-    
+
     Parameters:
     -----------
     bond_price : float
@@ -268,22 +268,22 @@ def spread_comparison(bond_price, straight_price, option_value,
         Treasury yield
     corporate_ytm : float
         Corporate bond YTM
-    
+
     Returns:
     --------
     dict : Spread comparison
     """
     nominal_spread = (corporate_ytm - treasury_ytm) * 10000  # bps
-    
+
     # Z-spread approximation (simplified)
     z_spread = nominal_spread  # Placeholder
-    
+
     # OAS calculation
     if option_value > 0:  # Call option (issuer option)
         oas = z_spread - (option_value / straight_price) * 10000
     else:  # Put option (investor option)
         oas = z_spread + abs(option_value / straight_price) * 10000
-    
+
     return {
         'nominal_spread_bps': nominal_spread,
         'z_spread_bps': z_spread,
@@ -300,7 +300,7 @@ def spread_comparison(bond_price, straight_price, option_value,
 def option_vega(bond_price_func, base_volatility, vol_shock=0.01):
     """
     Calculate sensitivity to volatility changes.
-    
+
     Parameters:
     -----------
     bond_price_func : callable
@@ -309,41 +309,41 @@ def option_vega(bond_price_func, base_volatility, vol_shock=0.01):
         Current volatility assumption
     vol_shock : float
         Volatility change for numerical derivative
-    
+
     Returns:
     --------
     float : Vega (price change per 1% volatility change)
     """
     price_base = bond_price_func(base_volatility)
     price_up = bond_price_func(base_volatility + vol_shock)
-    
+
     vega = (price_up - price_base) / vol_shock
     return vega
 
 def oas_volatility_sensitivity(oas_calc_func, volatilities):
     """
     Analyze OAS across volatility scenarios.
-    
+
     Returns:
     --------
     dict : {volatility: oas} mapping
     """
     oas_scenarios = {}
-    
+
     for vol in volatilities:
         oas = oas_calc_func(vol)
         oas_scenarios[vol] = oas
-    
+
     return oas_scenarios
 ```
 
 **Convexity of Embedded Options**:
 ```python
-def effective_convexity_with_options(bond_price, bond_price_up, 
+def effective_convexity_with_options(bond_price, bond_price_up,
                                      bond_price_down, yield_change):
     """
     Calculate effective convexity accounting for options.
-    
+
     Parameters:
     -----------
     bond_price : float
@@ -354,14 +354,14 @@ def effective_convexity_with_options(bond_price, bond_price_up,
         Price after yield increase
     yield_change : float
         Yield shift size (e.g., 0.01 for 1%)
-    
+
     Returns:
     --------
     float : Effective convexity
     """
     numerator = bond_price_up + bond_price_down - 2 * bond_price
     denominator = bond_price * yield_change ** 2
-    
+
     return numerator / denominator
 ```
 
@@ -377,7 +377,7 @@ Convertible Value = max(Straight Debt Value, Conversion Value)
 ```python
 class ConvertibleBond:
     """Convertible bond pricing."""
-    
+
     def __init__(self, face_value, coupon_rate, maturity,
                  conversion_ratio, stock_price, stock_volatility):
         """
@@ -396,23 +396,23 @@ class ConvertibleBond:
         self.conversion_ratio = conversion_ratio
         self.stock_price = stock_price
         self.stock_volatility = stock_volatility
-    
+
     def conversion_value(self):
         """Value if converted immediately."""
         return self.conversion_ratio * self.stock_price
-    
+
     def straight_bond_value(self, yield_rate):
         """Value as straight debt."""
         periods = int(self.maturity * 2)
         coupon = self.face_value * self.coupon_rate / 2
         periodic_yield = yield_rate / 2
-        
-        pv = sum(coupon / (1 + periodic_yield)**t 
+
+        pv = sum(coupon / (1 + periodic_yield)**t
                 for t in range(1, periods + 1))
         pv += self.face_value / (1 + periodic_yield)**periods
-        
+
         return pv
-    
+
     def conversion_premium(self, market_price):
         """Premium over conversion value."""
         conv_value = self.conversion_value()

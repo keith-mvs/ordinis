@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 """Refactor skill packages to comply with template structure."""
 
-import shutil
 from pathlib import Path
-from typing import List
+import shutil
 
 SKILLS_DIR = Path(r"C:\Users\kjfle\Workspace\ordinis\.claude\skills")
 
@@ -12,12 +11,22 @@ ROOT_ALLOWED = {"SKILL.md", "SKILL-CARD.md"}
 
 # Documentation files to move to references/
 DOC_FILES = {
-    "README.md", "reference.md", "INSTALLATION.md", "QUICKSTART.md",
-    "STATUS.md", "UPDATE_SUMMARY.md", "IMPLEMENTATION_SUMMARY.md",
-    "CASE_STUDIES.md", "FIBONACCI.md", "MOMENTUM_INDICATORS.md",
-    "VOLATILITY_VOLUME.md", "TREND_INDICATORS.md",
-    "static_levels.md", "trend_following_cases.md",
-    "volatility_indicators.md", "volume_indicators.md"
+    "README.md",
+    "reference.md",
+    "INSTALLATION.md",
+    "QUICKSTART.md",
+    "STATUS.md",
+    "UPDATE_SUMMARY.md",
+    "IMPLEMENTATION_SUMMARY.md",
+    "CASE_STUDIES.md",
+    "FIBONACCI.md",
+    "MOMENTUM_INDICATORS.md",
+    "VOLATILITY_VOLUME.md",
+    "TREND_INDICATORS.md",
+    "static_levels.md",
+    "trend_following_cases.md",
+    "volatility_indicators.md",
+    "volume_indicators.md",
 }
 
 # Data files to move to assets/
@@ -26,12 +35,7 @@ DATA_FILES = {".csv", ".json", ".xlsx", ".txt"}
 
 def refactor_skill(skill_dir: Path, dry_run: bool = True) -> dict:
     """Refactor a single skill package to match template structure."""
-    result = {
-        "name": skill_dir.name,
-        "created_dirs": [],
-        "moved_files": [],
-        "errors": []
-    }
+    result = {"name": skill_dir.name, "created_dirs": [], "moved_files": [], "errors": []}
 
     if skill_dir.name.startswith("_"):
         return result  # Skip template and special dirs
@@ -96,8 +100,12 @@ def main():
     import argparse
 
     parser = argparse.ArgumentParser(description="Refactor skill packages to template structure")
-    parser.add_argument("--execute", action="store_true", help="Actually perform refactoring (default is dry-run)")
-    parser.add_argument("--skill", type=str, help="Refactor only this skill (default is all skills)")
+    parser.add_argument(
+        "--execute", action="store_true", help="Actually perform refactoring (default is dry-run)"
+    )
+    parser.add_argument(
+        "--skill", type=str, help="Refactor only this skill (default is all skills)"
+    )
     args = parser.parse_args()
 
     if not SKILLS_DIR.exists():
@@ -140,11 +148,11 @@ def main():
     print(f"Errors: {total_errors}")
 
     if not args.execute:
-        print(f"\n[!] This was a DRY RUN - no changes were made")
-        print(f"Run with --execute to perform actual refactoring")
+        print("\n[!] This was a DRY RUN - no changes were made")
+        print("Run with --execute to perform actual refactoring")
 
     if total_errors > 0:
-        print(f"\nSkills with errors:")
+        print("\nSkills with errors:")
         for result in all_results:
             if result["errors"]:
                 print(f"  - {result['name']}: {len(result['errors'])} errors")

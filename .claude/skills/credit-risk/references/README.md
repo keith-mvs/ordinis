@@ -4,8 +4,8 @@
 
 ## Quick Reference
 
-**Skill Level**: Advanced  
-**Time Commitment**: 20-25 hours  
+**Skill Level**: Advanced
+**Time Commitment**: 20-25 hours
 **Prerequisites**: Bond Pricing, Yield Measures
 
 ## Core Capabilities
@@ -55,7 +55,7 @@ def interest_coverage(ebit, interest_expense):
 
 ## Validation Checkpoint
 
-For a BB bond with 300 bps spread and 40% recovery rate:  
+For a BB bond with 300 bps spread and 40% recovery rate:
 **Expected Implied Annual PD**: 5.0%
 
 ---

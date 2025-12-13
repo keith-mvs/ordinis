@@ -11,9 +11,9 @@ Evaluate and model issuer default risk, downgrade probability, and credit spread
 
 ## Skill Classification
 
-**Domain**: Fixed Income Credit Analysis  
-**Level**: Advanced  
-**Prerequisites**: Bond Pricing, Yield Measures  
+**Domain**: Fixed Income Credit Analysis
+**Level**: Advanced
+**Prerequisites**: Bond Pricing, Yield Measures
 **Estimated Time**: 20-25 hours
 
 ## Focus Areas
@@ -27,27 +27,27 @@ Evaluate and model issuer default risk, downgrade probability, and credit spread
 ```python
 class CreditMetrics:
     """Fundamental credit analysis metrics."""
-    
+
     @staticmethod
     def interest_coverage(ebit, interest_expense):
         """Times Interest Earned (TIE) ratio."""
         return ebit / interest_expense
-    
+
     @staticmethod
     def debt_to_ebitda(total_debt, ebitda):
         """Leverage ratio."""
         return total_debt / ebitda
-    
+
     @staticmethod
     def debt_to_equity(total_debt, total_equity):
         """Capital structure ratio."""
         return total_debt / total_equity
-    
+
     @staticmethod
     def current_ratio(current_assets, current_liabilities):
         """Liquidity ratio."""
         return current_assets / current_liabilities
-    
+
     @staticmethod
     def free_cash_flow_to_debt(fcf, total_debt):
         """Debt service capacity."""
@@ -67,7 +67,7 @@ Credit Spread = YTM_Corporate - YTM_Treasury
 def implied_default_probability(credit_spread, recovery_rate, years):
     """
     Calculate market-implied annual default probability.
-    
+
     Parameters:
     -----------
     credit_spread : float
@@ -76,7 +76,7 @@ def implied_default_probability(credit_spread, recovery_rate, years):
         Expected recovery in default (decimal, e.g., 0.40 for 40%)
     years : float
         Time horizon
-    
+
     Returns:
     --------
     float : Implied annual default probability
@@ -88,7 +88,7 @@ def implied_default_probability(credit_spread, recovery_rate, years):
 def cumulative_default_prob(annual_pd, years):
     """
     Calculate cumulative default probability.
-    
+
     Returns:
     --------
     float : Probability of default within 'years' horizon
@@ -111,7 +111,7 @@ def cumulative_default_prob(annual_pd, years):
 **Rating Equivalence**:
 ```python
 RATING_SCALE = {
-    'Moody\'s': ['Aaa', 'Aa1', 'Aa2', 'Aa3', 'A1', 'A2', 'A3', 
+    'Moody\'s': ['Aaa', 'Aa1', 'Aa2', 'Aa3', 'A1', 'A2', 'A3',
                  'Baa1', 'Baa2', 'Baa3', 'Ba1', 'Ba2', 'Ba3',
                  'B1', 'B2', 'B3', 'Caa1', 'Caa2', 'Caa3', 'Ca', 'C'],
     'S&P': ['AAA', 'AA+', 'AA', 'AA-', 'A+', 'A', 'A-',
@@ -163,13 +163,13 @@ Expected Loss = PD × LGD × Exposure at Default
 ```python
 from scipy.stats import norm
 
-def merton_default_probability(firm_value, debt_face_value, 
+def merton_default_probability(firm_value, debt_face_value,
                                volatility, risk_free_rate, time_horizon):
     """
     Calculate default probability using Merton structural model.
-    
+
     Based on Black-Scholes option pricing framework.
-    
+
     Parameters:
     -----------
     firm_value : float
@@ -182,15 +182,15 @@ def merton_default_probability(firm_value, debt_face_value,
         Risk-free rate
     time_horizon : float
         Time to debt maturity (years)
-    
+
     Returns:
     --------
     float : Probability of default
     """
-    d2 = (np.log(firm_value / debt_face_value) + 
+    d2 = (np.log(firm_value / debt_face_value) +
           (risk_free_rate - 0.5 * volatility**2) * time_horizon) / \
          (volatility * np.sqrt(time_horizon))
-    
+
     return norm.cdf(-d2)
 ```
 
@@ -199,14 +199,14 @@ def merton_default_probability(firm_value, debt_face_value,
 def hazard_rate_pd(hazard_rate, time_horizon):
     """
     Calculate default probability from constant hazard rate.
-    
+
     Parameters:
     -----------
     hazard_rate : float
         Instantaneous default intensity (annual)
     time_horizon : float
         Time period (years)
-    
+
     Returns:
     --------
     float : Cumulative default probability
@@ -218,7 +218,7 @@ def hazard_rate_pd(hazard_rate, time_horizon):
 ```python
 class LGDEstimator:
     """Loss Given Default estimation."""
-    
+
     # Historical average recovery rates by seniority
     RECOVERY_RATES = {
         'Senior Secured': 0.65,
@@ -227,19 +227,19 @@ class LGDEstimator:
         'Subordinated': 0.25,
         'Junior Subordinated': 0.15
     }
-    
+
     @classmethod
     def lgd_from_seniority(cls, seniority):
         """Estimate LGD based on debt seniority."""
         recovery = cls.RECOVERY_RATES.get(seniority, 0.40)
         return 1 - recovery
-    
+
     @staticmethod
-    def lgd_from_collateral(debt_value, collateral_value, 
+    def lgd_from_collateral(debt_value, collateral_value,
                            liquidation_costs=0.20):
         """
         Calculate LGD considering collateral.
-        
+
         Parameters:
         -----------
         debt_value : float
@@ -248,7 +248,7 @@ class LGDEstimator:
             Market value of collateral
         liquidation_costs : float
             Costs of liquidating collateral (as fraction)
-        
+
         Returns:
         --------
         float : Loss given default
@@ -271,7 +271,7 @@ def credit_spread_decomposition(corporate_yield, treasury_yield,
                                expected_loss_component):
     """
     Decompose credit spread into components.
-    
+
     Parameters:
     -----------
     corporate_yield : float
@@ -280,14 +280,14 @@ def credit_spread_decomposition(corporate_yield, treasury_yield,
         YTM of comparable Treasury
     expected_loss_component : float
         Expected loss (PD × LGD)
-    
+
     Returns:
     --------
     dict : Spread decomposition
     """
     total_spread = corporate_yield - treasury_yield
     risk_liquidity_premium = total_spread - expected_loss_component
-    
+
     return {
         'total_spread': total_spread,
         'expected_loss': expected_loss_component,
@@ -298,14 +298,14 @@ def credit_spread_decomposition(corporate_yield, treasury_yield,
 def option_adjusted_spread_credit(z_spread, option_cost):
     """
     Calculate credit-adjusted OAS.
-    
+
     Parameters:
     -----------
     z_spread : float
         Zero-volatility spread
     option_cost : float
         Value of embedded options
-    
+
     Returns:
     --------
     float : Option-adjusted spread
@@ -320,7 +320,7 @@ import matplotlib.pyplot as plt
 def plot_credit_spread_curve(maturities, spreads, rating, date):
     """
     Visualize credit spread term structure.
-    
+
     Parameters:
     -----------
     maturities : array-like
@@ -365,7 +365,7 @@ TRANSITION_MATRIX = {
 def expected_rating_migration(current_rating, years=1):
     """
     Calculate probability distribution of future ratings.
-    
+
     Returns:
     --------
     dict : Probabilities for each rating category
@@ -377,15 +377,15 @@ def downgrade_probability(current_rating, years=1):
     Calculate probability of downgrade within time horizon.
     """
     transitions = TRANSITION_MATRIX.get(current_rating, {})
-    
+
     # Sum probabilities of lower ratings
     ratings_order = ['AAA', 'AA', 'A', 'BBB', 'BB', 'B', 'CCC']
     current_index = ratings_order.index(current_rating)
-    
-    downgrade_prob = sum(transitions.get(r, 0) 
+
+    downgrade_prob = sum(transitions.get(r, 0)
                         for r in ratings_order[current_index+1:])
     downgrade_prob += transitions.get('Default', 0)
-    
+
     return downgrade_prob / 100  # Convert to decimal
 ```
 
@@ -474,12 +474,12 @@ All credit analysis must document:
 
 ## Version Control
 
-**Version**: 1.0.0  
-**Last Updated**: 2025-12-07  
-**Author**: Ordinis-1 Bond Analysis Framework  
+**Version**: 1.0.0
+**Last Updated**: 2025-12-07
+**Author**: Ordinis-1 Bond Analysis Framework
 **Status**: Production Ready
 
 ---
 
-**Previous Skill**: `duration-convexity/`  
+**Previous Skill**: `duration-convexity/`
 **Next Skill**: `bond-benchmarking/`

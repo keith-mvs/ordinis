@@ -16,10 +16,9 @@ Usage:
 """
 
 import argparse
-import sys
-from datetime import datetime, timedelta
-from typing import Dict, List, Optional
 from dataclasses import dataclass
+from datetime import datetime, timedelta
+import sys
 
 try:
     import numpy as np
@@ -82,13 +81,9 @@ class BearPutSpread:
                 f"short strike ({self.short_strike}) for bear put spread"
             )
         if self.long_premium <= self.short_premium:
-            raise ValueError(
-                "Long premium should exceed short premium for debit spread"
-            )
+            raise ValueError("Long premium should exceed short premium for debit spread")
         if self.underlying_price <= 0:
-            raise ValueError(
-                f"Underlying price must be positive, got {self.underlying_price}"
-            )
+            raise ValueError(f"Underlying price must be positive, got {self.underlying_price}")
         if self.contracts <= 0:
             raise ValueError(f"Contracts must be positive, got {self.contracts}")
         if not (0 < self.volatility <= 2.0):
@@ -154,7 +149,7 @@ class BearPutSpread:
         """Maximum return on investment as percentage."""
         return (self.max_profit / self.max_loss) * 100 if self.max_loss > 0 else 0
 
-    def calculate_pnl(self, stock_price: float) -> Dict[str, float]:
+    def calculate_pnl(self, stock_price: float) -> dict[str, float]:
         """Calculate P&L at given stock price (at expiration).
 
         Args:
@@ -185,16 +180,16 @@ class BearPutSpread:
         return_pct = (pnl_per_share / self.net_debit) * 100 if self.net_debit > 0 else 0
 
         return {
-            'stock_price': stock_price,
-            'long_put_value': long_value,
-            'short_put_value': short_value,
-            'position_value': position_value,
-            'pnl_per_share': pnl_per_share,
-            'pnl_total': pnl_total,
-            'return_pct': return_pct
+            "stock_price": stock_price,
+            "long_put_value": long_value,
+            "short_put_value": short_value,
+            "position_value": position_value,
+            "pnl_per_share": pnl_per_share,
+            "pnl_total": pnl_total,
+            "return_pct": return_pct,
         }
 
-    def calculate_greeks(self) -> Dict[str, float]:
+    def calculate_greeks(self) -> dict[str, float]:
         """Calculate all position Greeks using Black-Scholes.
 
         Returns:
@@ -203,40 +198,33 @@ class BearPutSpread:
         T = self.time_to_expiration
 
         if T <= 0:
-            return {
-                'delta': 0.0, 'gamma': 0.0, 'theta': 0.0,
-                'vega': 0.0, 'rho': 0.0
-            }
+            return {"delta": 0.0, "gamma": 0.0, "theta": 0.0, "vega": 0.0, "rho": 0.0}
 
         S = self.underlying_price
         r = self.risk_free_rate
         sigma = self.volatility
 
         # Calculate Greeks for long put (higher strike)
-        long_greeks = self._calculate_put_greeks(
-            S, self.long_strike, T, r, sigma
-        )
+        long_greeks = self._calculate_put_greeks(S, self.long_strike, T, r, sigma)
 
         # Calculate Greeks for short put (lower strike)
-        short_greeks = self._calculate_put_greeks(
-            S, self.short_strike, T, r, sigma
-        )
+        short_greeks = self._calculate_put_greeks(S, self.short_strike, T, r, sigma)
 
         # Net position Greeks
         multiplier = 100 * self.contracts
 
         return {
-            'delta': (long_greeks['delta'] - short_greeks['delta']) * multiplier,
-            'gamma': (long_greeks['gamma'] - short_greeks['gamma']) * multiplier,
-            'theta': (long_greeks['theta'] - short_greeks['theta']) * multiplier,
-            'vega': (long_greeks['vega'] - short_greeks['vega']) * multiplier,
-            'rho': (long_greeks['rho'] - short_greeks['rho']) * multiplier
+            "delta": (long_greeks["delta"] - short_greeks["delta"]) * multiplier,
+            "gamma": (long_greeks["gamma"] - short_greeks["gamma"]) * multiplier,
+            "theta": (long_greeks["theta"] - short_greeks["theta"]) * multiplier,
+            "vega": (long_greeks["vega"] - short_greeks["vega"]) * multiplier,
+            "rho": (long_greeks["rho"] - short_greeks["rho"]) * multiplier,
         }
 
     @staticmethod
     def _calculate_put_greeks(
         S: float, K: float, T: float, r: float, sigma: float
-    ) -> Dict[str, float]:
+    ) -> dict[str, float]:
         """Calculate Greeks for a single put option.
 
         Args:
@@ -251,11 +239,11 @@ class BearPutSpread:
         """
         if T == 0:
             return {
-                'delta': -1.0 if S < K else 0.0,
-                'gamma': 0.0,
-                'theta': 0.0,
-                'vega': 0.0,
-                'rho': 0.0
+                "delta": -1.0 if S < K else 0.0,
+                "gamma": 0.0,
+                "theta": 0.0,
+                "vega": 0.0,
+                "rho": 0.0,
             }
 
         # Calculate d1 and d2
@@ -271,21 +259,14 @@ class BearPutSpread:
         delta = cdf_neg_d1 - 1  # Put delta is negative
         gamma = pdf_d1 / (S * sigma * np.sqrt(T))
         theta = (
-            -(S * pdf_d1 * sigma) / (2 * np.sqrt(T))
-            + r * K * np.exp(-r * T) * cdf_neg_d2
+            -(S * pdf_d1 * sigma) / (2 * np.sqrt(T)) + r * K * np.exp(-r * T) * cdf_neg_d2
         ) / 365  # Per day
         vega = S * pdf_d1 * np.sqrt(T) / 100  # Per 1% volatility
         rho = -K * T * np.exp(-r * T) * cdf_neg_d2 / 100  # Per 1% rate
 
-        return {
-            'delta': delta,
-            'gamma': gamma,
-            'theta': theta,
-            'vega': vega,
-            'rho': rho
-        }
+        return {"delta": delta, "gamma": gamma, "theta": theta, "vega": vega, "rho": rho}
 
-    def get_analysis(self) -> Dict:
+    def get_analysis(self) -> dict:
         """Generate comprehensive position analysis.
 
         Returns:
@@ -345,10 +326,14 @@ class BearPutSpread:
 
         # Metrics
         print("Risk Metrics:")
-        print(f"  Max Profit:           ${analysis['metrics']['max_profit']:,.2f} "
-              f"(below ${self.short_strike:.2f})")
-        print(f"  Max Loss:             ${analysis['metrics']['max_loss']:,.2f} "
-              f"(above ${self.long_strike:.2f})")
+        print(
+            f"  Max Profit:           ${analysis['metrics']['max_profit']:,.2f} "
+            f"(below ${self.short_strike:.2f})"
+        )
+        print(
+            f"  Max Loss:             ${analysis['metrics']['max_loss']:,.2f} "
+            f"(above ${self.long_strike:.2f})"
+        )
         print(f"  Breakeven:            ${analysis['metrics']['breakeven']:.2f}")
         print(f"  Max ROI:              {analysis['metrics']['max_roi']:.1f}%")
         print(f"  Risk/Reward Ratio:    1:{analysis['metrics']['risk_reward_ratio']:.2f}")
@@ -356,16 +341,14 @@ class BearPutSpread:
 
         # Greeks
         print("Greeks:")
-        print(f"  Delta:    {analysis['greeks']['delta']:>10.2f}  "
-              f"(Position move per $1 underlying)")
-        print(f"  Gamma:    {analysis['greeks']['gamma']:>10.4f}  "
-              f"(Delta change per $1 move)")
-        print(f"  Theta:    {analysis['greeks']['theta']:>10.2f}  "
-              f"(Daily time decay)")
-        print(f"  Vega:     {analysis['greeks']['vega']:>10.2f}  "
-              f"(Value per 1% IV change)")
-        print(f"  Rho:      {analysis['greeks']['rho']:>10.2f}  "
-              f"(Value per 1% rate change)")
+        print(
+            f"  Delta:    {analysis['greeks']['delta']:>10.2f}  "
+            f"(Position move per $1 underlying)"
+        )
+        print(f"  Gamma:    {analysis['greeks']['gamma']:>10.4f}  " f"(Delta change per $1 move)")
+        print(f"  Theta:    {analysis['greeks']['theta']:>10.2f}  " f"(Daily time decay)")
+        print(f"  Vega:     {analysis['greeks']['vega']:>10.2f}  " f"(Value per 1% IV change)")
+        print(f"  Rho:      {analysis['greeks']['rho']:>10.2f}  " f"(Value per 1% rate change)")
         print()
 
         # Scenario analysis
@@ -380,13 +363,15 @@ class BearPutSpread:
             (self.short_strike + self.long_strike) / 2,
             self.underlying_price,
             self.long_strike,
-            self.long_strike + 10
+            self.long_strike + 10,
         ]
 
         for price in key_prices:
             result = self.calculate_pnl(price)
-            print(f"${price:<11.2f} ${result['position_value']:<15.2f} "
-                  f"${result['pnl_total']:<15.2f} {result['return_pct']:<9.1f}%")
+            print(
+                f"${price:<11.2f} ${result['position_value']:<15.2f} "
+                f"${result['pnl_total']:<15.2f} {result['return_pct']:<9.1f}%"
+            )
 
         print(f"\n{'=' * 70}\n")
 
@@ -412,39 +397,23 @@ Examples:
     )
 
     # Required arguments
-    parser.add_argument(
-        "--underlying", required=True, help="Underlying ticker symbol (e.g., SPY)"
-    )
-    parser.add_argument(
-        "--price", type=float, required=True, help="Current underlying stock price"
-    )
-    parser.add_argument(
-        "--long-strike", type=float, required=True, help="Long put strike (higher)"
-    )
+    parser.add_argument("--underlying", required=True, help="Underlying ticker symbol (e.g., SPY)")
+    parser.add_argument("--price", type=float, required=True, help="Current underlying stock price")
+    parser.add_argument("--long-strike", type=float, required=True, help="Long put strike (higher)")
     parser.add_argument(
         "--short-strike", type=float, required=True, help="Short put strike (lower)"
     )
-    parser.add_argument(
-        "--long-premium", type=float, required=True, help="Long put premium"
-    )
-    parser.add_argument(
-        "--short-premium", type=float, required=True, help="Short put premium"
-    )
+    parser.add_argument("--long-premium", type=float, required=True, help="Long put premium")
+    parser.add_argument("--short-premium", type=float, required=True, help="Short put premium")
 
     # Optional arguments
+    parser.add_argument("--contracts", type=int, default=1, help="Number of contracts (default: 1)")
+    parser.add_argument("--dte", type=int, default=45, help="Days to expiration (default: 45)")
     parser.add_argument(
-        "--contracts", type=int, default=1, help="Number of contracts (default: 1)"
+        "--volatility", type=float, default=0.20, help="Implied volatility (default: 0.20)"
     )
     parser.add_argument(
-        "--dte", type=int, default=45, help="Days to expiration (default: 45)"
-    )
-    parser.add_argument(
-        "--volatility", type=float, default=0.20,
-        help="Implied volatility (default: 0.20)"
-    )
-    parser.add_argument(
-        "--risk-free-rate", type=float, default=0.05,
-        help="Risk-free rate (default: 0.05)"
+        "--risk-free-rate", type=float, default=0.05, help="Risk-free rate (default: 0.05)"
     )
 
     args = parser.parse_args()

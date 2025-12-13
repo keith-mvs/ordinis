@@ -65,8 +65,8 @@ Identifies momentum shifts, trend direction changes, and potential entry/exit po
 
 ### Components
 
-**MACD Line**: 12-period EMA - 26-period EMA  
-**Signal Line**: 9-period EMA of MACD Line  
+**MACD Line**: 12-period EMA - 26-period EMA
+**Signal Line**: 9-period EMA of MACD Line
 **Histogram**: MACD Line - Signal Line
 
 ### Calculation
@@ -79,7 +79,7 @@ def calculate_macd(close: pd.Series, fast: int = 12, slow: int = 26, signal: int
     macd_line = ema_fast - ema_slow
     signal_line = macd_line.ewm(span=signal, adjust=False).mean()
     histogram = macd_line - signal_line
-    
+
     return pd.DataFrame({
         'MACD': macd_line,
         'Signal': signal_line,
@@ -204,7 +204,7 @@ Compares closing price to price range over given period. Measures momentum and i
 
 ### Components
 
-**%K (Fast Stochastic)**: Raw stochastic value  
+**%K (Fast Stochastic)**: Raw stochastic value
 **%D (Slow Stochastic)**: 3-period SMA of %K
 
 ### Calculation
@@ -219,15 +219,15 @@ Standard period: 14
 ### Python Implementation
 
 ```python
-def calculate_stochastic(high: pd.Series, low: pd.Series, close: pd.Series, 
+def calculate_stochastic(high: pd.Series, low: pd.Series, close: pd.Series,
                         k_period: int = 14, d_period: int = 3) -> pd.DataFrame:
     """Calculate Stochastic Oscillator."""
     lowest_low = low.rolling(window=k_period).min()
     highest_high = high.rolling(window=k_period).max()
-    
+
     percent_k = 100 * (close - lowest_low) / (highest_high - lowest_low)
     percent_d = percent_k.rolling(window=d_period).mean()
-    
+
     return pd.DataFrame({
         '%K': percent_k,
         '%D': percent_d
@@ -264,8 +264,8 @@ def calculate_stochastic(high: pd.Series, low: pd.Series, close: pd.Series,
 
 ### Stochastic Settings
 
-**Fast Stochastic (5,3,3)**: Highly sensitive, many signals  
-**Slow Stochastic (14,3,3)**: Standard, balanced sensitivity  
+**Fast Stochastic (5,3,3)**: Highly sensitive, many signals
+**Slow Stochastic (14,3,3)**: Standard, balanced sensitivity
 **Full Stochastic (14,3,1)**: Most responsive variation
 
 ### Limitations
@@ -282,20 +282,20 @@ def calculate_stochastic(high: pd.Series, low: pd.Series, close: pd.Series,
 
 ### Response Speed
 
-**Fastest**: Stochastic Oscillator, CCI  
-**Moderate**: RSI, MACD  
+**Fastest**: Stochastic Oscillator, CCI
+**Moderate**: RSI, MACD
 **Slower**: MACD histogram turns
 
 ### Best Time Frames
 
-**Intraday/Short-term**: Stochastic (5-minute to daily)  
-**Swing trading**: RSI, CCI (daily to weekly)  
+**Intraday/Short-term**: Stochastic (5-minute to daily)
+**Swing trading**: RSI, CCI (daily to weekly)
 **Position trading**: MACD (daily to monthly)
 
 ### Market Conditions
 
-**Trending markets**: MACD, RSI with adjusted levels  
-**Range-bound markets**: Stochastic, CCI with traditional overbought/oversold  
+**Trending markets**: MACD, RSI with adjusted levels
+**Range-bound markets**: Stochastic, CCI with traditional overbought/oversold
 **Volatile markets**: CCI (wider range accommodates volatility)
 
 ---

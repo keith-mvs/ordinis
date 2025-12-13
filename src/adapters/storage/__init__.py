@@ -1,5 +1,5 @@
 """
-Persistence layer for Ordinis live trading.
+Storage adapter for Ordinis live trading.
 
 Provides SQLite-based state persistence for:
 - Portfolio positions
@@ -10,17 +10,17 @@ Provides SQLite-based state persistence for:
 Uses aiosqlite for async operations with WAL mode for concurrent reads.
 """
 
-from persistence.database import DatabaseManager, get_database
-from persistence.models import (
+from adapters.storage.database import DatabaseManager, get_database
+from adapters.storage.models import (
     OrderRow,
     PositionRow,
     SystemStateRow,
     TradeRow,
 )
-from persistence.repositories.order import OrderRepository
-from persistence.repositories.position import PositionRepository
-from persistence.repositories.system_state import SystemStateRepository
-from persistence.repositories.trade import TradeRepository
+from adapters.storage.repositories.order import OrderRepository
+from adapters.storage.repositories.position import PositionRepository
+from adapters.storage.repositories.system_state import SystemStateRepository
+from adapters.storage.repositories.trade import TradeRepository
 
 __all__ = [
     "DatabaseManager",

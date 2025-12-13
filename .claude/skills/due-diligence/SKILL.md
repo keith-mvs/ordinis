@@ -134,7 +134,7 @@ Residual Risk: [Remaining exposure after mitigation]
 ### Critical Risks
 [High probability + High impact risks]
 
-### Significant Risks  
+### Significant Risks
 [Other material risks requiring mitigation]
 
 ### Minor Risks

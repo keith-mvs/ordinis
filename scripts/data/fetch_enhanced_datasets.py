@@ -10,25 +10,21 @@ Fetches 100 stocks across all market caps and performance characteristics:
 Organized by bull/bear market performance characteristics.
 """
 
-import sys
-from pathlib import Path
 from datetime import datetime, timedelta
+from pathlib import Path
+import sys
 
 # Add src to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from enhanced_dataset_config import (
-    get_all_symbols_by_market_cap,
-    get_symbols_by_performance_characteristic,
-    get_symbols_by_sector,
-    ENHANCED_SYMBOL_UNIVERSE,
-)
 from dataset_manager import (
-    DatasetConfig,
-    fetch_historical_data,
     enrich_dataset,
+    fetch_historical_data,
 )
-
+from enhanced_dataset_config import (
+    ENHANCED_SYMBOL_UNIVERSE,
+    get_all_symbols_by_market_cap,
+)
 import pandas as pd
 
 
@@ -120,7 +116,7 @@ def fetch_enhanced_datasets(
                 stats["total_successful"] += 1
                 cap_stats["successful"] += 1
             else:
-                print(f"[FAILED] No data")
+                print("[FAILED] No data")
                 stats["total_failed"] += 1
                 cap_stats["failed"] += 1
 
@@ -139,8 +135,14 @@ def fetch_enhanced_datasets(
 
     print("\nBy Market Cap:")
     for cap_type, cap_stats in stats["by_market_cap"].items():
-        success_rate = cap_stats["successful"] / cap_stats["attempted"] * 100 if cap_stats["attempted"] > 0 else 0
-        print(f"  {cap_type}: {cap_stats['successful']}/{cap_stats['attempted']} ({success_rate:.1f}%)")
+        success_rate = (
+            cap_stats["successful"] / cap_stats["attempted"] * 100
+            if cap_stats["attempted"] > 0
+            else 0
+        )
+        print(
+            f"  {cap_type}: {cap_stats['successful']}/{cap_stats['attempted']} ({success_rate:.1f}%)"
+        )
 
     # Save metadata
     metadata_file = output_dir / "enhanced_dataset_metadata.csv"
@@ -178,21 +180,25 @@ def fetch_enhanced_datasets(
                         bull_performer = group_data.get("bull_performer")
                         break
 
-                metadata_rows.append({
-                    "symbol": symbol,
-                    "market_cap": cap_type,
-                    "sector": sector,
-                    "bull_performer": bull_performer,
-                    "target_volatility": volatility,
-                    "start_date": df.index[0] if len(df) > 0 else None,
-                    "end_date": df.index[-1] if len(df) > 0 else None,
-                    "num_bars": len(df),
-                    "num_features": len(df.columns),
-                    "avg_price": df["close"].mean() if "close" in df.columns else None,
-                    "avg_volume": df["volume"].mean() if "volume" in df.columns else None,
-                    "realized_volatility": df["close"].pct_change().std() * (252 ** 0.5) if "close" in df.columns else None,
-                    "file_path": str(file_path.relative_to(output_dir)),
-                })
+                metadata_rows.append(
+                    {
+                        "symbol": symbol,
+                        "market_cap": cap_type,
+                        "sector": sector,
+                        "bull_performer": bull_performer,
+                        "target_volatility": volatility,
+                        "start_date": df.index[0] if len(df) > 0 else None,
+                        "end_date": df.index[-1] if len(df) > 0 else None,
+                        "num_bars": len(df),
+                        "num_features": len(df.columns),
+                        "avg_price": df["close"].mean() if "close" in df.columns else None,
+                        "avg_volume": df["volume"].mean() if "volume" in df.columns else None,
+                        "realized_volatility": df["close"].pct_change().std() * (252**0.5)
+                        if "close" in df.columns
+                        else None,
+                        "file_path": str(file_path.relative_to(output_dir)),
+                    }
+                )
 
     metadata_df = pd.DataFrame(metadata_rows)
     metadata_df.to_csv(metadata_file, index=False)
@@ -209,7 +215,9 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Fetch enhanced dataset collection")
     parser.add_argument("--years", type=int, default=20, help="Years of historical data")
     parser.add_argument("--output", type=str, default="data", help="Output directory")
-    parser.add_argument("--format", type=str, default="csv", choices=["csv", "parquet"], help="Output format")
+    parser.add_argument(
+        "--format", type=str, default="csv", choices=["csv", "parquet"], help="Output format"
+    )
 
     args = parser.parse_args()
 

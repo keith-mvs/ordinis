@@ -411,10 +411,10 @@ When extending scripts:
 def create_custom_model(params):
     """
     Brief description of what this creates.
-    
+
     Args:
         params: Description of parameters
-        
+
     Returns:
         Path to created model
     """
@@ -443,17 +443,17 @@ class ModelInputs:
 
 class CustomModel:
     """Model generator."""
-    
+
     def __init__(self, inputs: ModelInputs):
         self.inputs = inputs
         self.wb = Workbook()
-    
+
     def create_model(self, output_path: str) -> str:
         self._create_cover_sheet()
         self._create_calculations()
         self.wb.save(output_path)
         return output_path
-    
+
     def _create_cover_sheet(self):
         # Implementation
         pass
@@ -502,7 +502,7 @@ if __name__ == '__main__':
     # Test model creation
     output = create_dcf_model('Test Company', 3)
     print(f'Model created: {output}')
-    
+
     # Validate it
     passed, report = validate_model(output)
     print('Validation:', 'PASSED' if passed else 'FAILED')
@@ -515,7 +515,7 @@ def test_dcf_model_creation():
     """Test DCF model generates successfully."""
     output = create_dcf_model('Test', 3, output_path='/tmp/test.xlsx')
     assert os.path.exists(output)
-    
+
     wb = load_workbook(output)
     assert 'Cover' in wb.sheetnames
     assert 'Assumptions' in wb.sheetnames

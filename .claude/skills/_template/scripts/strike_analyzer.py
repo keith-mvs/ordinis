@@ -22,9 +22,9 @@ Version: 1.0.0
 Python: 3.11+
 """
 
-from typing import List, Dict, Optional, Any
+from typing import Any
+
 import pandas as pd
-import numpy as np
 
 # TODO: Import your strategy calculator
 # from strategy_calculator import StrategyTemplate
@@ -61,12 +61,10 @@ class StrikeAnalyzer:
         """
         self.underlying_price = underlying_price
         self.strategy_type = strategy_type
-        self.configurations: List[Dict] = []
-        self.positions: List[Any] = []  # TODO: Type hint with your strategy class
+        self.configurations: list[dict] = []
+        self.positions: list[Any] = []  # TODO: Type hint with your strategy class
 
-    def add_configuration(self,
-                         label: Optional[str] = None,
-                         **kwargs) -> None:
+    def add_configuration(self, label: str | None = None, **kwargs) -> None:
         """
         Add a strike configuration to compare.
 
@@ -117,7 +115,7 @@ class StrikeAnalyzer:
         # self.positions.append(position)
 
         # Store configuration data
-        config_data = {'label': label}
+        config_data = {"label": label}
         config_data.update(kwargs)
         self.configurations.append(config_data)
 
@@ -153,7 +151,7 @@ class StrikeAnalyzer:
             # metrics = position.get_metrics_summary()
 
             metrics = {
-                'Label': config['label'],
+                "Label": config["label"],
                 # TODO: Add strategy-specific metrics
                 # Examples:
                 # 'Long Strike': config.get('long_strike'),
@@ -181,8 +179,7 @@ class StrikeAnalyzer:
 
         return pd.DataFrame(results)
 
-    def compare(self, sort_by: Optional[str] = None,
-                ascending: bool = False) -> pd.DataFrame:
+    def compare(self, sort_by: str | None = None, ascending: bool = False) -> pd.DataFrame:
         """
         Compare all configurations with optional sorting.
 
@@ -200,7 +197,7 @@ class StrikeAnalyzer:
 
         return df
 
-    def find_optimal(self, optimization_criteria: str = 'risk_reward') -> Dict:
+    def find_optimal(self, optimization_criteria: str = "risk_reward") -> dict:
         """
         Find optimal configuration based on specified criteria.
 
@@ -238,15 +235,15 @@ class StrikeAnalyzer:
         best_row = df.iloc[best_idx]
 
         return {
-            'index': int(best_idx),
-            'label': best_row['Label'],
-            'criteria': optimization_criteria,
-            'metrics': best_row.to_dict(),
+            "index": int(best_idx),
+            "label": best_row["Label"],
+            "criteria": optimization_criteria,
+            "metrics": best_row.to_dict(),
             # TODO: Add formatted recommendation
             # 'recommendation': f"{best_row['Label']} offers best {optimization_criteria} ..."
         }
 
-    def analyze_tradeoffs(self) -> Dict[str, Any]:
+    def analyze_tradeoffs(self) -> dict[str, Any]:
         """
         Analyze cost-benefit tradeoffs across configurations.
 
@@ -271,14 +268,14 @@ class StrikeAnalyzer:
         # - Diminishing returns analysis
 
         return {
-            'num_configurations': len(df),
+            "num_configurations": len(df),
             # TODO: Add strategy-specific tradeoff metrics
             # 'cost_protection_correlation': correlation,
             # 'efficiency_range': (min_efficiency, max_efficiency),
             # 'sweet_spot': optimal_configuration_label,
         }
 
-    def export_comparison(self, filename: str, format: str = 'csv') -> None:
+    def export_comparison(self, filename: str, format: str = "csv") -> None:
         """
         Export comparison results to file.
 
@@ -288,12 +285,12 @@ class StrikeAnalyzer:
         """
         df = self.calculate_metrics()
 
-        if format == 'csv':
+        if format == "csv":
             df.to_csv(filename, index=False)
-        elif format == 'excel':
+        elif format == "excel":
             df.to_excel(filename, index=False)
-        elif format == 'json':
-            df.to_json(filename, orient='records', indent=2)
+        elif format == "json":
+            df.to_json(filename, orient="records", indent=2)
         else:
             raise ValueError(f"Unsupported format: {format}")
 
@@ -310,7 +307,7 @@ class StrikeAnalyzer:
         print(f"{'=' * 70}\n")
 
         # Display DataFrame with formatting
-        pd.options.display.float_format = '{:,.2f}'.format
+        pd.options.display.float_format = "{:,.2f}".format
         print(df.to_string(index=False))
         print()
 
@@ -321,9 +318,9 @@ class StrikeAnalyzer:
         # print(f"  Best R:R Ratio: {df['R:R Ratio'].max():.2f}")
 
 
-def compare_strikes_quick(underlying_price: float,
-                          strike_configs: List[Dict],
-                          sort_by: str = 'risk_reward') -> pd.DataFrame:
+def compare_strikes_quick(
+    underlying_price: float, strike_configs: list[dict], sort_by: str = "risk_reward"
+) -> pd.DataFrame:
     """
     Quick comparison function for strike configurations.
 

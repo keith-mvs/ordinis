@@ -336,7 +336,7 @@ All examples use Alpaca's paper trading environment. Live trading requires appro
 
 ---
 
-**Version**: 1.0.0  
-**Last Updated**: December 2024  
-**Maintainer**: Ordinis-1 Project  
+**Version**: 1.0.0
+**Last Updated**: December 2024
+**Maintainer**: Ordinis-1 Project
 **License**: Educational Use

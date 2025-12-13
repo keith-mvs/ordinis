@@ -13,10 +13,10 @@ import json
 import logging
 from typing import TYPE_CHECKING, Any
 
-from persistence.models import SystemStateRow
+from adapters.storage.models import SystemStateRow
 
 if TYPE_CHECKING:
-    from persistence.database import DatabaseManager
+    from adapters.storage.database import DatabaseManager
 
 logger = logging.getLogger(__name__)
 

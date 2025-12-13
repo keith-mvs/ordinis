@@ -11,9 +11,9 @@ Master the theoretical and quantitative foundations of bond pricing and valuatio
 
 ## Skill Classification
 
-**Domain**: Fixed Income Analytics  
-**Level**: Foundation  
-**Prerequisites**: Basic financial mathematics, time value of money concepts  
+**Domain**: Fixed Income Analytics
+**Level**: Foundation
+**Prerequisites**: Basic financial mathematics, time value of money concepts
 **Estimated Time**: 15-20 hours
 
 ## Focus Areas
@@ -57,7 +57,7 @@ import numpy as np
 def bond_price_pv(face_value, coupon_rate, yield_rate, periods):
     """
     Calculate bond price using present value approach.
-    
+
     Parameters:
     -----------
     face_value : float
@@ -68,20 +68,20 @@ def bond_price_pv(face_value, coupon_rate, yield_rate, periods):
         Yield to maturity (as decimal)
     periods : int
         Number of periods to maturity
-    
+
     Returns:
     --------
     float : Bond price
     """
     coupon = face_value * coupon_rate
-    
+
     # PV of coupon payments
-    pv_coupons = sum(coupon / (1 + yield_rate)**t 
+    pv_coupons = sum(coupon / (1 + yield_rate)**t
                      for t in range(1, periods + 1))
-    
+
     # PV of principal
     pv_principal = face_value / (1 + yield_rate)**periods
-    
+
     return pv_coupons + pv_principal
 ```
 
@@ -105,12 +105,12 @@ def ytm_calculator(price, face_value, coupon_rate, periods):
     Calculate yield to maturity using numerical methods.
     """
     coupon = face_value * coupon_rate
-    
+
     def price_diff(y):
-        return price - sum(coupon / (1 + y)**t 
+        return price - sum(coupon / (1 + y)**t
                           for t in range(1, periods + 1)) \
                      - face_value / (1 + y)**periods
-    
+
     return newton(price_diff, 0.05)  # Initial guess 5%
 ```
 
@@ -171,19 +171,19 @@ Accrued Interest = (Coupon × Days Since Last Payment) / Days in Coupon Period
 def discount_factors(yield_curve, periods):
     """
     Calculate discount factors from yield curve.
-    
+
     Parameters:
     -----------
     yield_curve : array-like
         Spot rates for each period
     periods : int
         Number of periods
-    
+
     Returns:
     --------
     array : Discount factors
     """
-    return np.array([1 / (1 + yield_curve[t])**t 
+    return np.array([1 / (1 + yield_curve[t])**t
                      for t in range(1, periods + 1)])
 
 def bond_price_df(cash_flows, discount_factors):
@@ -200,14 +200,14 @@ from scipy.interpolate import CubicSpline
 def fit_spot_curve(maturities, yields):
     """
     Fit smooth spot curve using cubic spline interpolation.
-    
+
     Parameters:
     -----------
     maturities : array-like
         Bond maturities
     yields : array-like
         Corresponding yields
-    
+
     Returns:
     --------
     callable : Interpolation function
@@ -249,7 +249,7 @@ Case study documentation including:
 ### Foundational Texts
 1. Fabozzi, F. (Latest Edition). *Bond Markets, Analysis, and Strategies*. Pearson.
    - Chapters 5-7: Bond pricing and yield measures
-   
+
 2. CFA Institute. *Fixed Income* (CFA Program Curriculum).
    - Reading: Introduction to Fixed-Income Valuation
 
@@ -309,7 +309,7 @@ Case study documentation including:
   - Calculation methodology
   - Date/time of calculation
   - Data sources
-  
+
 - Python implementations must include:
   - Type hints for all functions
   - Comprehensive docstrings
@@ -318,9 +318,9 @@ Case study documentation including:
 
 ## Version Control
 
-**Version**: 1.0.0  
-**Last Updated**: 2025-12-07  
-**Author**: Ordinis-1 Bond Analysis Framework  
+**Version**: 1.0.0
+**Last Updated**: 2025-12-07
+**Author**: Ordinis-1 Bond Analysis Framework
 **Status**: Production Ready
 
 ## Notes

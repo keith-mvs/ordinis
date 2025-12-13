@@ -56,7 +56,7 @@ High = 100, Low = 50
 def calculate_fibonacci_levels(high, low, direction='up'):
     """
     Calculate Fibonacci retracement and extension levels.
-    
+
     Parameters:
     -----------
     high : float
@@ -65,13 +65,13 @@ def calculate_fibonacci_levels(high, low, direction='up'):
         Swing low price
     direction : str
         'up' for uptrend retracement, 'down' for downtrend
-    
+
     Returns:
     --------
     dict with all Fibonacci levels
     """
     diff = high - low
-    
+
     # Retracement levels
     levels = {
         '0.0%': high if direction == 'up' else low,
@@ -82,7 +82,7 @@ def calculate_fibonacci_levels(high, low, direction='up'):
         '78.6%': None,
         '100.0%': low if direction == 'up' else high
     }
-    
+
     # Extensions
     extensions = {
         '127.2%': None,
@@ -90,7 +90,7 @@ def calculate_fibonacci_levels(high, low, direction='up'):
         '200.0%': None,
         '261.8%': None
     }
-    
+
     if direction == 'up':
         # Retracements from high
         levels['23.6%'] = high - diff * 0.236
@@ -98,7 +98,7 @@ def calculate_fibonacci_levels(high, low, direction='up'):
         levels['50.0%'] = high - diff * 0.500
         levels['61.8%'] = high - diff * 0.618
         levels['78.6%'] = high - diff * 0.786
-        
+
         # Extensions beyond high
         extensions['127.2%'] = high + diff * 0.272
         extensions['161.8%'] = high + diff * 0.618
@@ -111,41 +111,41 @@ def calculate_fibonacci_levels(high, low, direction='up'):
         levels['50.0%'] = low + diff * 0.500
         levels['61.8%'] = low + diff * 0.618
         levels['78.6%'] = low + diff * 0.786
-        
+
         # Extensions beyond low
         extensions['127.2%'] = low - diff * 0.272
         extensions['161.8%'] = low - diff * 0.618
         extensions['200.0%'] = low - diff * 1.000
         extensions['261.8%'] = low - diff * 1.618
-    
+
     return {'retracements': levels, 'extensions': extensions}
 
 
 def identify_swing_points(high, low, close, window=20):
     """
     Identify swing high and swing low for Fibonacci calculation.
-    
+
     Parameters:
     -----------
     high, low, close : pd.Series
         Price data
     window : int
         Lookback window for swing identification
-    
+
     Returns:
     --------
     tuple of (swing_high, swing_low, swing_high_idx, swing_low_idx)
     """
     import pandas as pd
-    
+
     # Find highest high and lowest low in window
     swing_high = high.rolling(window).max().iloc[-1]
     swing_low = low.rolling(window).min().iloc[-1]
-    
+
     # Find indices
     swing_high_idx = high[high == swing_high].index[-1]
     swing_low_idx = low[low == swing_low].index[-1]
-    
+
     return swing_high, swing_low, swing_high_idx, swing_low_idx
 ```
 
@@ -246,7 +246,7 @@ Target 3: 161.8% extension (Golden Ratio)
 def calculate_profit_targets(entry, swing_high, swing_low, direction='long'):
     """
     Calculate Fibonacci extension profit targets.
-    
+
     Parameters:
     -----------
     entry : float
@@ -257,13 +257,13 @@ def calculate_profit_targets(entry, swing_high, swing_low, direction='long'):
         Recent swing low
     direction : str
         'long' or 'short'
-    
+
     Returns:
     --------
     dict with profit targets
     """
     diff = swing_high - swing_low
-    
+
     if direction == 'long':
         targets = {
             'T1': swing_high,
@@ -280,7 +280,7 @@ def calculate_profit_targets(entry, swing_high, swing_low, direction='long'):
             'T4': swing_low - diff * 1.000,
             'T5': swing_low - diff * 1.618
         }
-    
+
     return targets
 ```
 
@@ -311,7 +311,7 @@ Structure:
 Drive 1: Initial move
 Correction 1: 61.8% retracement
 Drive 2: 127.2% extension
-Correction 2: 61.8% retracement  
+Correction 2: 61.8% retracement
 Drive 3: 127.2% extension
 
 Trade:
@@ -325,14 +325,14 @@ Reversal likely
 def auto_fibonacci_analysis(data, lookback=100):
     """
     Automatically identify swing points and calculate Fibonacci levels.
-    
+
     Parameters:
     -----------
     data : pd.DataFrame
         OHLC data
     lookback : int
         Periods to search for swings
-    
+
     Returns:
     --------
     Analysis with identified levels and current price position
@@ -341,27 +341,27 @@ def auto_fibonacci_analysis(data, lookback=100):
     swing_high, swing_low, high_idx, low_idx = identify_swing_points(
         data['High'], data['Low'], data['Close'], lookback
     )
-    
+
     # Determine direction
     direction = 'up' if high_idx > low_idx else 'down'
-    
+
     # Calculate levels
     fib = calculate_fibonacci_levels(swing_high, swing_low, direction)
-    
+
     # Current price
     current_price = data['Close'].iloc[-1]
-    
+
     # Find nearest level
     nearest_level = None
     min_distance = float('inf')
-    
+
     for level_name, level_price in fib['retracements'].items():
         if level_price is not None:
             distance = abs(current_price - level_price)
             if distance < min_distance:
                 min_distance = distance
                 nearest_level = (level_name, level_price)
-    
+
     return {
         'swing_high': swing_high,
         'swing_low': swing_low,

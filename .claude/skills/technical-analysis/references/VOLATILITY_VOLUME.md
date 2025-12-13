@@ -17,18 +17,18 @@ ATR = Smoothed average of True Range (typically 14 periods)
 def calculate_atr(high, low, close, period=14):
     """Calculate Average True Range."""
     import pandas as pd
-    
+
     # True Range components
     high_low = high - low
     high_close = abs(high - close.shift(1))
     low_close = abs(low - close.shift(1))
-    
+
     # True Range
     tr = pd.concat([high_low, high_close, low_close], axis=1).max(axis=1)
-    
+
     # ATR using Wilder's smoothing
     atr = tr.ewm(alpha=1/period, adjust=False).mean()
-    
+
     return atr
 ```
 
@@ -64,23 +64,23 @@ Lower Band = Middle Band - (2 × Standard Deviation)
 def calculate_bollinger_bands(close, period=20, std_dev=2.0):
     """Calculate Bollinger Bands."""
     import pandas as pd
-    
+
     # Middle band (SMA)
     middle = close.rolling(period).mean()
-    
+
     # Standard deviation
     std = close.rolling(period).std()
-    
+
     # Upper and lower bands
     upper = middle + (std_dev * std)
     lower = middle - (std_dev * std)
-    
+
     # Bandwidth
     bandwidth = (upper - lower) / middle
-    
+
     # %B (position within bands)
     percent_b = (close - lower) / (upper - lower)
-    
+
     return {
         'upper': upper,
         'middle': middle,
@@ -114,7 +114,7 @@ def calculate_bollinger_bands(close, period=20, std_dev=2.0):
 Entry Long: Price touches lower band
 Exit: Price reaches middle or upper band
 
-Entry Short: Price touches upper band  
+Entry Short: Price touches upper band
 Exit: Price reaches middle or lower band
 ```
 
@@ -152,13 +152,13 @@ def calculate_obv(close, volume):
     """Calculate On-Balance Volume."""
     import pandas as pd
     import numpy as np
-    
+
     # Determine price direction
     direction = np.sign(close.diff())
-    
+
     # Calculate OBV
     obv = (direction * volume).cumsum()
-    
+
     return obv
 ```
 
@@ -210,7 +210,7 @@ Divergence:
 def calculate_position_size(capital, atr, risk_per_trade=0.02):
     """
     Calculate position size based on ATR volatility.
-    
+
     Parameters:
     -----------
     capital : float
@@ -219,7 +219,7 @@ def calculate_position_size(capital, atr, risk_per_trade=0.02):
         Current ATR value
     risk_per_trade : float
         Risk as fraction of capital (default: 2%)
-    
+
     Returns:
     --------
     Number of shares/contracts
@@ -227,7 +227,7 @@ def calculate_position_size(capital, atr, risk_per_trade=0.02):
     risk_amount = capital * risk_per_trade
     stop_distance = 2 * atr  # 2 ATR stop loss
     position_size = risk_amount / stop_distance
-    
+
     return int(position_size)
 ```
 
@@ -237,13 +237,13 @@ def calculate_position_size(capital, atr, risk_per_trade=0.02):
 def confirm_breakout(price, resistance, obv, avg_volume, volume):
     """
     Confirm breakout using price, volume, and OBV.
-    
+
     Returns True if breakout is confirmed.
     """
     price_breakout = price > resistance
     volume_surge = volume > avg_volume * 1.5
     obv_confirm = obv > obv.rolling(20).max()
-    
+
     return price_breakout and volume_surge and obv_confirm
 ```
 
@@ -253,12 +253,12 @@ def confirm_breakout(price, resistance, obv, avg_volume, volume):
 def get_volatility_regime(atr, period=20):
     """
     Classify current volatility regime.
-    
+
     Returns: LOW, NORMAL, or HIGH
     """
     atr_ma = atr.rolling(period).mean()
     atr_std = atr.rolling(period).std()
-    
+
     if atr.iloc[-1] < atr_ma.iloc[-1] - atr_std.iloc[-1]:
         return 'LOW'
     elif atr.iloc[-1] > atr_ma.iloc[-1] + atr_std.iloc[-1]:

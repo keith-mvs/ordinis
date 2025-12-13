@@ -7,7 +7,6 @@ following the established taxonomy and cross-linking scheme.
 """
 
 from pathlib import Path
-from typing import Dict, List
 import sys
 
 ORDINIS_ROOT = Path(__file__).parent.parent
@@ -19,61 +18,106 @@ STRATEGIES = {
         "display_name": "Bear Put Spread",
         "direction": "bearish",
         "type": "vertical debit spread",
-        "files": ["quickstart", "strategy-mechanics", "strike-selection",
-                 "position-management", "greeks-analysis", "examples"],
+        "files": [
+            "quickstart",
+            "strategy-mechanics",
+            "strike-selection",
+            "position-management",
+            "greeks-analysis",
+            "examples",
+        ],
     },
     "protective-collar": {
         "display_name": "Protective Collar",
         "direction": "protective",
         "type": "stock + options",
-        "files": ["quickstart", "strategy-mechanics", "strike-selection",
-                 "position-management", "greeks-analysis", "examples",
-                 "portfolio-integration", "dividend-considerations"],
+        "files": [
+            "quickstart",
+            "strategy-mechanics",
+            "strike-selection",
+            "position-management",
+            "greeks-analysis",
+            "examples",
+            "portfolio-integration",
+            "dividend-considerations",
+        ],
     },
     "iron-butterfly": {
         "display_name": "Iron Butterfly",
         "direction": "neutral",
         "type": "multi-leg credit spread",
-        "files": ["quickstart", "strategy-mechanics", "strike-selection",
-                 "position-management", "greeks-analysis", "examples",
-                 "spread-width-optimization"],
+        "files": [
+            "quickstart",
+            "strategy-mechanics",
+            "strike-selection",
+            "position-management",
+            "greeks-analysis",
+            "examples",
+            "spread-width-optimization",
+        ],
     },
     "iron-condor": {
         "display_name": "Iron Condor",
         "direction": "neutral",
         "type": "multi-leg credit spread",
-        "files": ["quickstart", "strategy-mechanics", "strike-selection",
-                 "position-management", "greeks-analysis", "examples",
-                 "spread-width-optimization"],
+        "files": [
+            "quickstart",
+            "strategy-mechanics",
+            "strike-selection",
+            "position-management",
+            "greeks-analysis",
+            "examples",
+            "spread-width-optimization",
+        ],
     },
     "long-call-butterfly": {
         "display_name": "Long Call Butterfly",
         "direction": "neutral",
         "type": "multi-leg debit spread",
-        "files": ["quickstart", "strategy-mechanics", "strike-selection",
-                 "position-management", "greeks-analysis", "examples",
-                 "spread-width-optimization"],
+        "files": [
+            "quickstart",
+            "strategy-mechanics",
+            "strike-selection",
+            "position-management",
+            "greeks-analysis",
+            "examples",
+            "spread-width-optimization",
+        ],
     },
     "long-straddle": {
         "display_name": "Long Straddle",
         "direction": "volatility",
         "type": "volatility play",
-        "files": ["quickstart", "strategy-mechanics", "strike-selection",
-                 "position-management", "greeks-analysis", "examples",
-                 "iv-analysis", "earnings-plays"],
+        "files": [
+            "quickstart",
+            "strategy-mechanics",
+            "strike-selection",
+            "position-management",
+            "greeks-analysis",
+            "examples",
+            "iv-analysis",
+            "earnings-plays",
+        ],
     },
     "long-strangle": {
         "display_name": "Long Strangle",
         "direction": "volatility",
         "type": "volatility play",
-        "files": ["quickstart", "strategy-mechanics", "strike-selection",
-                 "position-management", "greeks-analysis", "examples",
-                 "iv-analysis", "earnings-plays"],
+        "files": [
+            "quickstart",
+            "strategy-mechanics",
+            "strike-selection",
+            "position-management",
+            "greeks-analysis",
+            "examples",
+            "iv-analysis",
+            "earnings-plays",
+        ],
     },
 }
 
 
-def generate_header(strategy_key: str, file_type: str, related_files: List[str]) -> str:
+def generate_header(strategy_key: str, file_type: str, related_files: list[str]) -> str:
     """Generate standard header with cross-links."""
     display_name = STRATEGIES[strategy_key]["display_name"]
 
@@ -530,7 +574,9 @@ def generate_position_management(strategy_key: str) -> str:
     """Generate position-management.md."""
     display_name = STRATEGIES[strategy_key]["display_name"]
 
-    content = generate_header(strategy_key, "position-management", ["strategy-mechanics", "greeks-analysis"])
+    content = generate_header(
+        strategy_key, "position-management", ["strategy-mechanics", "greeks-analysis"]
+    )
 
     content += f"""## Management Philosophy
 
@@ -781,7 +827,9 @@ def generate_greeks_analysis(strategy_key: str) -> str:
     """Generate greeks-analysis.md."""
     display_name = STRATEGIES[strategy_key]["display_name"]
 
-    content = generate_header(strategy_key, "greeks-analysis", ["strategy-mechanics", "position-management"])
+    content = generate_header(
+        strategy_key, "greeks-analysis", ["strategy-mechanics", "position-management"]
+    )
 
     content += f"""## Overview
 
@@ -1359,11 +1407,14 @@ This aligns with realistic trading:
 
 # Generate strategy-specific files
 
+
 def generate_portfolio_integration(strategy_key: str) -> str:
     """Generate portfolio-integration.md (for protective strategies)."""
     display_name = STRATEGIES[strategy_key]["display_name"]
 
-    content = generate_header(strategy_key, "portfolio-integration", ["position-management", "examples"])
+    content = generate_header(
+        strategy_key, "portfolio-integration", ["position-management", "examples"]
+    )
 
     content += f"""## Portfolio Integration for {display_name}
 
@@ -1683,7 +1734,9 @@ def generate_dividend_considerations(strategy_key: str) -> str:
     """Generate dividend-considerations.md (for stock + option strategies)."""
     display_name = STRATEGIES[strategy_key]["display_name"]
 
-    content = generate_header(strategy_key, "dividend-considerations", ["position-management", "examples"])
+    content = generate_header(
+        strategy_key, "dividend-considerations", ["position-management", "examples"]
+    )
 
     content += f"""## Dividend Considerations for {display_name}
 
@@ -2028,7 +2081,9 @@ def generate_spread_width_optimization(strategy_key: str) -> str:
     """Generate spread-width-optimization.md (for spreads and multi-leg strategies)."""
     display_name = STRATEGIES[strategy_key]["display_name"]
 
-    content = generate_header(strategy_key, "spread-width-optimization", ["strike-selection", "examples"])
+    content = generate_header(
+        strategy_key, "spread-width-optimization", ["strike-selection", "examples"]
+    )
 
     content += f"""## Spread Width Optimization for {display_name}
 
@@ -3427,6 +3482,7 @@ Avoid: IV crush risk
 
 # Main execution
 
+
 def main():
     """Generate all reference files."""
     import argparse
@@ -3460,7 +3516,9 @@ def main():
 
     # Generate files for each strategy
     for strategy_key, strategy_info in strategies_to_process.items():
-        print(f"\n--- {strategy_info['display_name'].upper()} ({len(strategy_info['files'])} files) ---\n")
+        print(
+            f"\n--- {strategy_info['display_name'].upper()} ({len(strategy_info['files'])} files) ---\n"
+        )
 
         strategy_dir = SKILLS_DIR / strategy_key / "references"
         if not args.dry_run:

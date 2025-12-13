@@ -69,11 +69,11 @@ print(results.to_dataframe())
 - **OTM Puts** (strike < stock price): Lower cost, reduced protection
   - Best for: High-conviction positions, cost-conscious protection
   - Typical protection: 5-10% below current price
-  
+
 - **ATM Puts** (strike ≈ stock price): Balanced cost and protection
   - Best for: Standard hedging, moderate risk tolerance
   - Typical protection: Current price level
-  
+
 - **ITM Puts** (strike > stock price): Higher cost, maximum protection
   - Best for: Maximum downside protection, risk-averse strategies
   - Typical protection: Locks in guaranteed minimum exit price
@@ -132,7 +132,7 @@ Calculate P/L at various stock prices:
 
 ```python
 # Generate P/L table
-position = MarriedPut(stock_price=45.00, shares=100, 
+position = MarriedPut(stock_price=45.00, shares=100,
                       put_strike=43.00, put_premium=2.10)
 
 # Calculate P/L at different price points

@@ -19,12 +19,12 @@ import streamlit as st
 sys.path.insert(0, "src")
 load_dotenv()
 
+from adapters.market_data.twelvedata import TwelveDataPlugin
 from engines.flowroute.adapters.paper import PaperBrokerAdapter
 from engines.flowroute.core.orders import Order, OrderType
 from engines.riskguard.core.engine import PortfolioState, Position, RiskGuardEngine
 from engines.riskguard.rules.standard import STANDARD_RISK_RULES
 from plugins.base import PluginConfig
-from plugins.market_data.twelvedata import TwelveDataPlugin
 
 # Default watchlist
 DEFAULT_WATCHLIST = ["AAPL", "MSFT", "GOOGL", "AMZN", "NVDA", "SPY", "QQQ"]
@@ -460,9 +460,7 @@ def main() -> None:
 
     with tab3:
         st.header("Analysis")
-        st.info(
-            "Coming soon: Technical indicators, strategy backtesting, " "and portfolio analytics."
-        )
+        st.info("Coming soon: Technical indicators, strategy backtesting, and portfolio analytics.")
 
 
 if __name__ == "__main__":

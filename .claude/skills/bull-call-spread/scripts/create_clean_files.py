@@ -416,9 +416,9 @@ if __name__ == '__main__':
 '''
 
 # Write the file
-with open('strategy_calculator.py', 'w', encoding='utf-8', newline='\n') as f:
+with open("strategy_calculator.py", "w", encoding="utf-8", newline="\n") as f:
     f.write(strategy_calc_content)
 
-print('Created strategy_calculator.py')
-print(f'File size: {len(strategy_calc_content)} bytes')
-print(f'Lines: {strategy_calc_content.count(chr(10))}')
+print("Created strategy_calculator.py")
+print(f"File size: {len(strategy_calc_content)} bytes")
+print(f"Lines: {strategy_calc_content.count(chr(10))}")

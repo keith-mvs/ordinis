@@ -48,7 +48,7 @@ day_count_actual_360 = ql.Actual360()
 
 # Interest rate
 rate = 0.05  # 5%
-annual_rate = ql.InterestRate(rate, day_count_actual_actual, 
+annual_rate = ql.InterestRate(rate, day_count_actual_actual,
                               ql.Compounded, ql.Annual)
 ```
 
@@ -122,7 +122,7 @@ print(f"YTM: {ytm:.4%}")
 
 # Calculate price from YTM
 ytm_given = 0.04
-price_from_ytm = bond.cleanPrice(ytm_given, day_count_actual_actual, 
+price_from_ytm = bond.cleanPrice(ytm_given, day_count_actual_actual,
                                   ql.Compounded, ql.Semiannual)
 print(f"Price at {ytm_given:.2%} YTM: ${price_from_ytm:.2f}")
 ```
@@ -259,7 +259,7 @@ def bond_cashflows_to_df(bond):
         date = cf.date()
         amount = cf.amount()
         cashflows.append({'Date': date, 'Amount': amount})
-    
+
     return pd.DataFrame(cashflows)
 
 # Use it
@@ -293,6 +293,6 @@ ql.Settings.instance().evaluationDate = settlement_date
 
 ---
 
-**Status**: Reference complete  
-**Last Updated**: 2025-12-07  
+**Status**: Reference complete
+**Last Updated**: 2025-12-07
 **QuantLib Version**: 1.31+

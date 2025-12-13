@@ -104,11 +104,11 @@ Systematic framework for designing, modeling, and executing advanced options str
 
 **Automated Deployment**: AutomatedStrategyRunner class for daily scans, entry/exit signals, position management
            opportunities = []
-           
+
            for symbol in self.config['watchlist']:
                # Fetch market data
                market_data = self._fetch_market_data(symbol)
-               
+
                # Check entry conditions for each strategy type
                for strategy_type in self.config['strategies']:
                    if self._check_entry_conditions(strategy_type, market_data):
@@ -117,23 +117,23 @@ Systematic framework for designing, modeling, and executing advanced options str
                            'strategy': strategy_type,
                            'market_data': market_data
                        })
-           
+
            return opportunities
-       
+
        def execute_strategies(self, opportunities):
            """Execute identified strategy opportunities."""
            for opp in opportunities:
                try:
                    # Build strategy order
                    order = self._build_strategy_order(
-                       opp['strategy'], 
+                       opp['strategy'],
                        opp['symbol'],
                        opp['market_data']
                    )
-                   
+
                    # Submit to Alpaca
                    submitted = self.api.submit_order(**order)
-                   
+
                    # Track active strategy
                    self.active_strategies.append({
                        'order_id': submitted.id,
@@ -141,18 +141,18 @@ Systematic framework for designing, modeling, and executing advanced options str
                        'entry_date': datetime.now(),
                        'symbol': opp['symbol']
                    })
-                   
+
                except Exception as e:
                    print(f"Error executing {opp['strategy']} on "
                          f"{opp['symbol']}: {e}")
-       
+
        def manage_positions(self):
            """Monitor and adjust active positions."""
            for strategy in self.active_strategies:
                # Check exit conditions
                if self._check_exit_conditions(strategy):
                    self._close_strategy(strategy)
-               
+
                # Check adjustment conditions (e.g., delta hedging)
                elif self._check_adjustment_conditions(strategy):
                    self._adjust_strategy(strategy)
@@ -177,13 +177,13 @@ Automate strategy research, backtest performance systematically, optimize parame
    # Store credentials in environment variables, never in code
    import os
    from dotenv import load_dotenv
-   
+
    load_dotenv()
-   
+
    API_KEY_ID = os.getenv('ALPACA_API_KEY')
    API_SECRET_KEY = os.getenv('ALPACA_SECRET_KEY')
    BASE_URL = os.getenv('ALPACA_BASE_URL', 'https://paper-api.alpaca.markets')
-   
+
    # Validate credentials are present
    if not API_KEY_ID or not API_SECRET_KEY:
        raise ValueError("Alpaca API credentials not found in environment")
@@ -206,7 +206,7 @@ Automate strategy research, backtest performance systematically, optimize parame
            'expected_profit': entry_data['expected_profit'],
            'rationale': entry_data['rationale']
        }
-       
+
        if exit_data:
            trade_record.update({
                'exit_date': exit_data['timestamp'],
@@ -215,10 +215,10 @@ Automate strategy research, backtest performance systematically, optimize parame
                'hold_period': exit_data['hold_days'],
                'exit_reason': exit_data['reason']
            })
-       
+
        # Save to database or CSV
        save_trade_record(trade_record)
-       
+
        return trade_record
    ```
 
@@ -234,7 +234,7 @@ Automate strategy research, backtest performance systematically, optimize parame
    def generate_monthly_report(trades, positions):
        """Generate comprehensive monthly performance report."""
        df = pd.DataFrame(trades)
-       
+
        report = {
            'period': datetime.now().strftime('%Y-%m'),
            'summary': {
@@ -256,7 +256,7 @@ Automate strategy research, backtest performance systematically, optimize parame
                'profit_factor': calculate_profit_factor(df)
            }
        }
-       
+
        return report
    ```
 

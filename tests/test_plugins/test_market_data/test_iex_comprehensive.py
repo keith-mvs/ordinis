@@ -7,8 +7,8 @@ from unittest.mock import AsyncMock, MagicMock, patch
 import aiohttp
 import pytest
 
+from adapters.market_data.iex import IEXDataPlugin
 from plugins.base import PluginConfig, PluginStatus
-from plugins.market_data.iex import IEXDataPlugin
 
 
 @pytest.fixture

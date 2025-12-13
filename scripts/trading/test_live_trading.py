@@ -4,23 +4,23 @@ Test paper trading with live market data.
 Integrates paper broker with real market data APIs to test end-to-end workflow.
 """
 
-import sys
 from pathlib import Path
+import sys
 
 # Add project root to path FIRST
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
 import asyncio  # noqa: E402
-import os  # noqa: E402
 from datetime import UTC, datetime  # noqa: E402
+import os  # noqa: E402
 
 from dotenv import load_dotenv  # noqa: E402
 
-from src.engines.flowroute.adapters.paper import PaperBrokerAdapter  # noqa: E402
-from src.engines.flowroute.core.orders import Order, OrderType  # noqa: E402
-from src.plugins.base import PluginConfig  # noqa: E402
-from src.plugins.market_data import AlphaVantageDataPlugin  # noqa: E402
+from adapters.market_data import AlphaVantageDataPlugin  # noqa: E402
+from engines.flowroute.adapters.paper import PaperBrokerAdapter  # noqa: E402
+from engines.flowroute.core.orders import Order, OrderType  # noqa: E402
+from plugins.base import PluginConfig  # noqa: E402
 
 
 async def test_paper_trading_with_live_data():

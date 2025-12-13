@@ -8,10 +8,10 @@ Provides typed CRUD operations for each entity type:
 - SystemStateRepository: System state and kill switch
 """
 
-from persistence.repositories.order import OrderRepository
-from persistence.repositories.position import PositionRepository
-from persistence.repositories.system_state import SystemStateRepository
-from persistence.repositories.trade import TradeRepository
+from adapters.storage.repositories.order import OrderRepository
+from adapters.storage.repositories.position import PositionRepository
+from adapters.storage.repositories.system_state import SystemStateRepository
+from adapters.storage.repositories.trade import TradeRepository
 
 __all__ = [
     "OrderRepository",

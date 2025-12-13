@@ -19,7 +19,7 @@ import smtplib
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from alerting.manager import Alert
+    from adapters.alerting.manager import Alert
 
 logger = logging.getLogger(__name__)
 

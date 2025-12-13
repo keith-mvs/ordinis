@@ -37,7 +37,7 @@ You should see **married-put-strategy** in the list.
 
 ### Example 1: Simple Position Analysis
 ```
-I own 100 shares of a stock trading at $45. 
+I own 100 shares of a stock trading at $45.
 Analyze a married-put with a $43 strike and $2.10 premium.
 ```
 
@@ -51,7 +51,7 @@ Analyze a married-put with a $43 strike and $2.10 premium.
 ```
 Stock at $50, 100 shares. Compare these puts:
 - $45 strike, $0.85 premium
-- $48 strike, $1.75 premium  
+- $48 strike, $1.75 premium
 - $50 strike, $2.90 premium
 - $52 strike, $4.30 premium
 
@@ -155,7 +155,7 @@ Capital: $18,000
 
 **Step 2**: Research strikes (ask Claude)
 ```
-AAPL at $175.50. Show me OTM, ATM, and ITM put options 
+AAPL at $175.50. Show me OTM, ATM, and ITM put options
 for 60-day expiration. What's the trade-off?
 ```
 
@@ -170,7 +170,7 @@ Using the $170 strike at $6.25 premium, calculate:
 
 **Step 4**: Visualize payoff (ask Claude)
 ```
-Create a payoff diagram for this position showing 
+Create a payoff diagram for this position showing
 profit/loss from $150 to $200 stock prices.
 ```
 

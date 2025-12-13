@@ -134,7 +134,7 @@ Example:
 ```python
 def calculate_pnl_scenarios(entry, strike, premium):
     scenarios = []
-    
+
     for exit_price in range(int(entry * 0.80), int(entry * 1.20), 5):
         if exit_price >= strike:
             # Stock called away
@@ -142,13 +142,13 @@ def calculate_pnl_scenarios(entry, strike, premium):
         else:
             # Keep stock
             pnl = (exit_price - entry) + premium
-        
+
         scenarios.append({
             'exit_price': exit_price,
             'pnl': pnl,
             'return_pct': pnl / entry
         })
-    
+
     return scenarios
 ```
 
@@ -178,7 +178,7 @@ import numpy as np
 def calculate_sharpe(monthly_returns, risk_free_rate=0.04):
     """
     Calculate Sharpe ratio for covered call strategy.
-    
+
     Covered calls typically have:
     - Higher Sharpe than buy-and-hold in flat/down markets
     - Lower Sharpe in strong bull markets
@@ -205,12 +205,12 @@ def calculate_sharpe(monthly_returns, risk_free_rate=0.04):
 def tax_treatment(stock_basis, stock_sale, call_premium, holding_period, is_qualified):
     """
     Calculate tax on covered call assignment.
-    
+
     Qualified call: Preserves long-term capital gains on stock
     Unqualified call: May reset to short-term gains
     """
     capital_gain = stock_sale - stock_basis
-    
+
     if is_qualified and holding_period > 365:
         # Long-term capital gains rate (0%, 15%, or 20%)
         ltcg_rate = 0.15  # Example
@@ -221,7 +221,7 @@ def tax_treatment(stock_basis, stock_sale, call_premium, holding_period, is_qual
         total_gain = capital_gain + call_premium
         stock_tax = total_gain * 0.37
         premium_tax = 0
-    
+
     return {
         'stock_tax': stock_tax,
         'premium_tax': premium_tax,
@@ -251,22 +251,22 @@ def tax_treatment(stock_basis, stock_sale, call_premium, holding_period, is_qual
 def benchmark_performance(cc_returns, buy_hold_returns, market_returns):
     """
     Compare covered call to alternatives.
-    
+
     Best practice: Compare over multiple market cycles
     """
     # Cumulative returns
     cc_cumulative = (1 + np.array(cc_returns)).prod() - 1
     bh_cumulative = (1 + np.array(buy_hold_returns)).prod() - 1
     market_cumulative = (1 + np.array(market_returns)).prod() - 1
-    
+
     # Volatility
     cc_volatility = np.std(cc_returns) * np.sqrt(12)
     bh_volatility = np.std(buy_hold_returns) * np.sqrt(12)
-    
+
     # Sharpe ratios
     cc_sharpe = calculate_sharpe(cc_returns)
     bh_sharpe = calculate_sharpe(buy_hold_returns)
-    
+
     return {
         'covered_call_return': cc_cumulative,
         'buy_hold_return': bh_cumulative,
@@ -302,20 +302,20 @@ def benchmark_performance(cc_returns, buy_hold_returns, market_returns):
 def intelligent_limit_pricing(bid, ask, market_conditions):
     """
     Dynamic limit pricing based on market conditions.
-    
+
     Tight market: Start at mid, walk toward bid
     Wide market: Start above mid, be patient
     """
     mid = (bid + ask) / 2
     spread_pct = (ask - bid) / bid
-    
+
     if spread_pct < 0.05:  # Tight market
         initial_limit = mid
         walk_increment = 0.01  # Walk down $0.01
     else:  # Wide market
         initial_limit = mid + (ask - mid) * 0.5
         walk_increment = 0.05  # Walk down $0.05
-    
+
     return {
         'initial_limit': initial_limit,
         'walk_increment': walk_increment,
@@ -345,19 +345,19 @@ def intelligent_limit_pricing(bid, ask, market_conditions):
 def covered_call_repair(current_price, entry_price, underwater_amount):
     """
     Use covered calls to lower break-even on losing positions.
-    
+
     Strategy: Write multiple shorter-term calls to collect premium
     faster and reduce effective break-even.
     """
     # Calculate premium needed to break even
     premium_needed = entry_price - current_price
-    
+
     # Aggressive repair: Weekly calls for 4 weeks
     weekly_premium_target = premium_needed / 4
-    
+
     # Conservative repair: Monthly calls for 3 months
     monthly_premium_target = premium_needed / 3
-    
+
     return {
         'aggressive_weekly_target': weekly_premium_target,
         'conservative_monthly_target': monthly_premium_target,
@@ -373,7 +373,7 @@ def covered_call_repair(current_price, entry_price, underwater_amount):
 def construct_cc_portfolio(account_value, positions_target=10):
     """
     Build diversified covered call portfolio.
-    
+
     Best practices:
     - 10+ positions across sectors
     - No single position >10% of account
@@ -381,7 +381,7 @@ def construct_cc_portfolio(account_value, positions_target=10):
     - Stagger expirations (avoid all expiring same week)
     """
     position_size = account_value / positions_target
-    
+
     portfolio = {
         'total_value': account_value,
         'num_positions': positions_target,
@@ -400,7 +400,7 @@ def construct_cc_portfolio(account_value, positions_target=10):
             {'week': 4, 'pct': 0.20}
         ]
     }
-    
+
     return portfolio
 ```
 
@@ -411,25 +411,25 @@ def construct_cc_portfolio(account_value, positions_target=10):
 def auto_roll_decision(position, market_data, rules):
     """
     Automated decision system for rolling calls.
-    
+
     Rules-based approach removes emotion, ensures consistency.
     """
     days_remaining = position['days_to_exp']
     delta = position['call_delta']
     profit_pct = position['profit_captured_pct']
-    
+
     # Rule 1: Always roll at 7 DTE
     if days_remaining <= 7:
         return {'action': 'roll', 'reason': 'expiration_threshold'}
-    
+
     # Rule 2: Roll if captured 80% of max profit
     if profit_pct >= 0.80:
         return {'action': 'roll', 'reason': 'profit_target_achieved'}
-    
+
     # Rule 3: Roll if deep ITM (delta > 0.70)
     if abs(delta) > 0.70:
         return {'action': 'roll', 'reason': 'deep_itm'}
-    
+
     # Otherwise hold
     return {'action': 'hold', 'reason': 'criteria_not_met'}
 ```

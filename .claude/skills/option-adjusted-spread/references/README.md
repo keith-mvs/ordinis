@@ -4,8 +4,8 @@
 
 ## Quick Reference
 
-**Skill Level**: Advanced  
-**Time Commitment**: 20-25 hours  
+**Skill Level**: Advanced
+**Time Commitment**: 20-25 hours
 **Prerequisites**: Bond Pricing, Yield Measures, Duration/Convexity
 
 ## Core Capabilities
@@ -34,11 +34,11 @@ Value of Put Option = P_puttable - P_straight
 ## Python Quick Start
 
 ```python
-def oas_binomial(market_price, face_value, coupon_rate, 
+def oas_binomial(market_price, face_value, coupon_rate,
                  maturity, rate_vol, call_price=None):
     """
     Calculate OAS using binomial lattice for callable bond.
-    
+
     Returns spread that equates model price to market price.
     """
     # Implementation uses iterative search over spread values
@@ -60,11 +60,11 @@ def oas_binomial(market_price, face_value, coupon_rate,
 
 ## Validation Checkpoint
 
-Can you explain why OAS is typically lower than nominal spread for callable bonds?  
+Can you explain why OAS is typically lower than nominal spread for callable bonds?
 **Expected Answer**: Because the call option has value to the issuer, reducing the effective spread investor receives after adjusting for optionality.
 
 ---
 
-**Full Documentation**: See `SKILL.md`  
-**Scripts**: See `scripts/` directory  
+**Full Documentation**: See `SKILL.md`
+**Scripts**: See `scripts/` directory
 **References**: See `references/` directory

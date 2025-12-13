@@ -344,8 +344,8 @@ For complex formulas, add cell comments explaining:
 **Example:**
 ```
 Formula: =NPV(WACC, B10:F10) + B10
-Comment: "Calculates NPV of cash flows. Uses explicit NPV function for 
-         years 1-5, then adds year 0 separately per standard DCF 
+Comment: "Calculates NPV of cash flows. Uses explicit NPV function for
+         years 1-5, then adds year 0 separately per standard DCF
          methodology. WACC sourced from Capital Markets team (2024-01-15)."
 ```
 
@@ -377,7 +377,7 @@ Every model should support minimum three scenarios:
 ScenarioSelector = Dropdown: "Base", "Upside", "Downside"
 
 // Calculation sheet
-Growth_Rate = IF(ScenarioSelector="Base", 15%, 
+Growth_Rate = IF(ScenarioSelector="Base", 15%,
               IF(ScenarioSelector="Upside", 20%, 10%))
 ```
 
@@ -543,7 +543,7 @@ Beta_BudgetVsActual_v2.1_2024-02-01.xlsx
 
 ### Pitfall 1: Circular References
 **Problem:** Formula references create a loop.
-**Solution:** 
+**Solution:**
 - Enable iterative calculation only if intentional
 - Break circular logic with helper columns
 - Use Goal Seek for one-time calculations

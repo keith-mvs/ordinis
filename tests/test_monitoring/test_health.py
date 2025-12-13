@@ -1,6 +1,6 @@
 """Tests for monitoring.health module."""
 
-from monitoring.health import (
+from adapters.telemetry.health import (
     HealthCheck,
     HealthCheckResult,
     HealthStatus,

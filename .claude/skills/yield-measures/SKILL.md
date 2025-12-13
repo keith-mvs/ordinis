@@ -11,9 +11,9 @@ Develop comprehensive understanding of yield metrics and their application to ri
 
 ## Skill Classification
 
-**Domain**: Fixed Income Analytics  
-**Level**: Intermediate  
-**Prerequisites**: Bond Pricing and Valuation  
+**Domain**: Fixed Income Analytics
+**Level**: Intermediate
+**Prerequisites**: Bond Pricing and Valuation
 **Estimated Time**: 12-15 hours
 
 ## Focus Areas
@@ -38,14 +38,14 @@ Current Yield = (Annual Coupon Payment / Current Market Price) × 100
 def current_yield(coupon_payment, market_price):
     """
     Calculate current yield.
-    
+
     Parameters:
     -----------
     coupon_payment : float
         Annual coupon payment
     market_price : float
         Current market price of bond
-    
+
     Returns:
     --------
     float : Current yield as decimal
@@ -70,7 +70,7 @@ from scipy.optimize import newton
 def ytm_calculate(price, face_value, coupon_rate, years_to_maturity, frequency=2):
     """
     Calculate Yield to Maturity using Newton-Raphson method.
-    
+
     Parameters:
     -----------
     price : float
@@ -83,21 +83,21 @@ def ytm_calculate(price, face_value, coupon_rate, years_to_maturity, frequency=2
         Years until maturity
     frequency : int
         Coupon payments per year (default: 2 for semi-annual)
-    
+
     Returns:
     --------
     float : YTM as annual rate (decimal)
     """
     periods = int(years_to_maturity * frequency)
     coupon = (face_value * coupon_rate) / frequency
-    
+
     def price_function(y):
         periodic_yield = y / frequency
-        pv_coupons = sum(coupon / (1 + periodic_yield)**t 
+        pv_coupons = sum(coupon / (1 + periodic_yield)**t
                         for t in range(1, periods + 1))
         pv_principal = face_value / (1 + periodic_yield)**periods
         return pv_coupons + pv_principal - price
-    
+
     # Initial guess: coupon rate
     ytm = newton(price_function, coupon_rate, maxiter=100)
     return ytm
@@ -118,7 +118,7 @@ def ytm_calculate(price, face_value, coupon_rate, years_to_maturity, frequency=2
 def ytc_calculate(price, call_price, coupon_rate, years_to_call, frequency=2):
     """
     Calculate Yield to Call.
-    
+
     Parameters:
     -----------
     price : float
@@ -131,21 +131,21 @@ def ytc_calculate(price, call_price, coupon_rate, years_to_call, frequency=2):
         Years until first call date
     frequency : int
         Coupon payments per year
-    
+
     Returns:
     --------
     float : YTC as annual rate (decimal)
     """
     periods = int(years_to_call * frequency)
     coupon = (call_price * coupon_rate) / frequency
-    
+
     def price_function(y):
         periodic_yield = y / frequency
-        pv_coupons = sum(coupon / (1 + periodic_yield)**t 
+        pv_coupons = sum(coupon / (1 + periodic_yield)**t
                         for t in range(1, periods + 1))
         pv_call = call_price / (1 + periodic_yield)**periods
         return pv_coupons + pv_call - price
-    
+
     ytc = newton(price_function, coupon_rate, maxiter=100)
     return ytc
 ```
@@ -156,11 +156,11 @@ def ytc_calculate(price, call_price, coupon_rate, years_to_call, frequency=2):
 
 **Methodology**:
 ```python
-def ytw_calculate(price, face_value, coupon_rate, years_to_maturity, 
+def ytw_calculate(price, face_value, coupon_rate, years_to_maturity,
                   call_schedule, frequency=2):
     """
     Calculate Yield to Worst.
-    
+
     Parameters:
     -----------
     price : float
@@ -175,24 +175,24 @@ def ytw_calculate(price, face_value, coupon_rate, years_to_maturity,
         [(years_to_call, call_price), ...]
     frequency : int
         Coupon frequency
-    
+
     Returns:
     --------
     float : YTW (minimum yield across all scenarios)
     """
     yields = []
-    
+
     # Calculate YTM
-    ytm = ytm_calculate(price, face_value, coupon_rate, 
+    ytm = ytm_calculate(price, face_value, coupon_rate,
                        years_to_maturity, frequency)
     yields.append(ytm)
-    
+
     # Calculate YTC for each call date
     for years_to_call, call_price in call_schedule:
-        ytc = ytc_calculate(price, call_price, coupon_rate, 
+        ytc = ytc_calculate(price, call_price, coupon_rate,
                            years_to_call, frequency)
         yields.append(ytc)
-    
+
     return min(yields)
 ```
 
@@ -219,14 +219,14 @@ f_t = [(1 + S_(t+1))^(t+1) / (1 + S_t)^t] - 1
 def calculate_forward_rates(spot_rates, maturities):
     """
     Calculate implied forward rates from spot curve.
-    
+
     Parameters:
     -----------
     spot_rates : array-like
         Spot rates for each maturity
     maturities : array-like
         Corresponding maturities (years)
-    
+
     Returns:
     --------
     array : Forward rates
@@ -235,10 +235,10 @@ def calculate_forward_rates(spot_rates, maturities):
     for i in range(len(spot_rates) - 1):
         t1, s1 = maturities[i], spot_rates[i]
         t2, s2 = maturities[i + 1], spot_rates[i + 1]
-        
+
         forward = ((1 + s2)**(t2) / (1 + s1)**(t1))**(1/(t2-t1)) - 1
         forward_rates.append(forward)
-    
+
     return np.array(forward_rates)
 ```
 
@@ -248,11 +248,11 @@ def calculate_forward_rates(spot_rates, maturities):
 
 **Realized Compound Yield**:
 ```python
-def realized_compound_yield(coupon, periods, reinvestment_rates, 
+def realized_compound_yield(coupon, periods, reinvestment_rates,
                            principal_gain):
     """
     Calculate actual realized yield accounting for reinvestment.
-    
+
     Parameters:
     -----------
     coupon : float
@@ -263,7 +263,7 @@ def realized_compound_yield(coupon, periods, reinvestment_rates,
         Actual reinvestment rates for each coupon
     principal_gain : float
         Capital gain/loss at sale or maturity
-    
+
     Returns:
     --------
     float : Realized compound yield
@@ -272,9 +272,9 @@ def realized_compound_yield(coupon, periods, reinvestment_rates,
     for i, rate in enumerate(reinvestment_rates):
         periods_to_compound = periods - i - 1
         future_value += coupon * (1 + rate)**periods_to_compound
-    
+
     future_value += principal_gain
-    
+
     # Calculate annualized yield
     total_return = future_value / (coupon * periods)
     return (total_return)**(1/periods) - 1
@@ -303,7 +303,7 @@ import matplotlib.pyplot as plt
 def plot_yield_curve(maturities, yields, curve_date):
     """
     Visualize yield curve.
-    
+
     Parameters:
     -----------
     maturities : array-like
@@ -347,14 +347,14 @@ Approximation: real_rate ≈ nominal_rate - inflation_rate
 def real_yield_calculator(nominal_yield, inflation_rate):
     """
     Calculate real yield from nominal yield and inflation.
-    
+
     Parameters:
     -----------
     nominal_yield : float
         Nominal yield (decimal)
     inflation_rate : float
         Expected inflation rate (decimal)
-    
+
     Returns:
     --------
     float : Real yield (exact calculation)
@@ -364,14 +364,14 @@ def real_yield_calculator(nominal_yield, inflation_rate):
 def tips_breakeven_inflation(nominal_yield, tips_yield):
     """
     Calculate breakeven inflation rate.
-    
+
     Parameters:
     -----------
     nominal_yield : float
         Yield on nominal Treasury
     tips_yield : float
         Yield on comparable TIPS
-    
+
     Returns:
     --------
     float : Implied inflation expectation
@@ -477,9 +477,9 @@ pip install numpy scipy pandas matplotlib plotly yfinance
 
 ## Version Control
 
-**Version**: 1.0.0  
-**Last Updated**: 2025-12-07  
-**Author**: Ordinis-1 Bond Analysis Framework  
+**Version**: 1.0.0
+**Last Updated**: 2025-12-07
+**Author**: Ordinis-1 Bond Analysis Framework
 **Status**: Production Ready
 
 ## Notes
@@ -488,5 +488,5 @@ Yield measures are central to fixed-income analysis. Understanding the differenc
 
 ---
 
-**Previous Skill**: `bond-pricing/`  
+**Previous Skill**: `bond-pricing/`
 **Next Skill**: `duration-convexity/`

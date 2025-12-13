@@ -5,10 +5,11 @@ Provides comprehensive KPI tracking, thresholds, and alerting
 for trading system performance monitoring.
 """
 
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Any, Callable
+from typing import Any
 
 
 class KPIStatus(Enum):
@@ -556,8 +557,7 @@ class KPITracker:
         # Only trigger handlers for new or escalated alerts
         existing = self._active_alerts.get(kpi_name)
         should_notify = existing is None or (
-            existing.severity != AlertSeverity.CRITICAL
-            and severity == AlertSeverity.CRITICAL
+            existing.severity != AlertSeverity.CRITICAL and severity == AlertSeverity.CRITICAL
         )
 
         self._active_alerts[kpi_name] = alert

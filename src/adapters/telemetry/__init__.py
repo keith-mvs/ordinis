@@ -1,8 +1,8 @@
 """
-Monitoring and Logging Utilities.
+Telemetry adapters for Ordinis trading system.
 
-Provides comprehensive monitoring, logging, and observability for the
-Intelligent Investor trading system.
+Provides comprehensive monitoring, logging, health checks, KPI tracking,
+and metrics collection for observability.
 """
 
 from .health import HealthCheck, HealthStatus

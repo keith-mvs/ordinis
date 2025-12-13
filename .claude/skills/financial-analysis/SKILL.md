@@ -72,28 +72,28 @@ def create_cover_sheet(ws, model_details):
     """Create cover sheet. model_details dict: title, purpose, version, author, created_date, modified_date, reviewer, assumptions_source."""
     ws['A1'] = model_details['title']
     ws['A1'].font = Font(size=18, bold=True)
-    
+
     ws['A3'] = "Model Purpose:"
     ws['B3'] = model_details['purpose']
-    
+
     ws['A4'] = "Version:"
     ws['B4'] = model_details['version']
-    
+
     ws['A5'] = "Author:"
     ws['B5'] = model_details['author']
-    
+
     ws['A6'] = "Created Date:"
     ws['B6'] = model_details['created_date']
-    
+
     ws['A7'] = "Last Modified:"
     ws['B7'] = model_details['modified_date']
-    
+
     ws['A8'] = "Reviewed By:"
     ws['B8'] = model_details.get('reviewer', 'Pending Review')
-    
+
     ws['A10'] = "Assumptions Source:"
     ws['B10'] = model_details['assumptions_source']
-    
+
     # Add audit note
     ws['A12'] = "Audit Trail:"
     ws['B12'] = "All assumptions, calculations, and validations are documented within this model."
@@ -105,9 +105,9 @@ The Assumptions sheet is the foundation of model credibility:
 ```python
 def create_assumptions_sheet(ws, assumptions_data):
     """Create assumptions sheet. assumptions_data: list of dicts with category, parameter, value, unit, source, date, sensitivity, notes."""
-    headers = ['Category', 'Parameter', 'Value', 'Unit', 'Source', 
+    headers = ['Category', 'Parameter', 'Value', 'Unit', 'Source',
                'Date', 'Sensitivity', 'Notes']
-    
+
     # Create header row with formatting
     for col_num, header in enumerate(headers, 1):
         cell = ws.cell(row=1, column=col_num)
@@ -115,27 +115,27 @@ def create_assumptions_sheet(ws, assumptions_data):
         cell.font = Font(bold=True, color='FFFFFF')
         cell.fill = PatternFill(start_color='4472C4', end_color='4472C4', fill_type='solid')
         cell.alignment = Alignment(horizontal='center')
-    
+
     # Add assumptions with color coding
     for row_num, assumption in enumerate(assumptions_data, 2):
         ws.cell(row=row_num, column=1, value=assumption['category'])
         ws.cell(row=row_num, column=2, value=assumption['parameter'])
-        
+
         # Value cell - marked as input
         value_cell = ws.cell(row=row_num, column=3, value=assumption['value'])
         value_cell.fill = PatternFill(start_color='FFFF00', end_color='FFFF00', fill_type='solid')
-        
+
         ws.cell(row=row_num, column=4, value=assumption['unit'])
         ws.cell(row=row_num, column=5, value=assumption['source'])
         ws.cell(row=row_num, column=6, value=assumption['date'])
-        
+
         # Sensitivity indicator
         sensitivity_cell = ws.cell(row=row_num, column=7, value=assumption['sensitivity'])
         if assumption['sensitivity'] == 'High':
             sensitivity_cell.fill = PatternFill(start_color='FF6B6B', end_color='FF6B6B', fill_type='solid')
-        
+
         ws.cell(row=row_num, column=8, value=assumption['notes'])
-    
+
     # Add named ranges for key assumptions
     for row_num, assumption in enumerate(assumptions_data, 2):
         param_name = assumption['parameter'].replace(' ', '_').replace('%', 'pct')
@@ -148,27 +148,27 @@ Every model must include comprehensive validation checks:
 ```python
 def create_validation_sheet(ws):
     """Create validation with automated checks: balance, reconciliation, logical, completeness, formula, sensitivity."""
-    headers = ['Check ID', 'Check Description', 'Expected Result', 
+    headers = ['Check ID', 'Check Description', 'Expected Result',
                'Actual Result', 'Status', 'Tolerance', 'Notes']
-    
+
     for col_num, header in enumerate(headers, 1):
         cell = ws.cell(row=1, column=col_num)
         cell.value = header
         cell.font = Font(bold=True, color='FFFFFF')
         cell.fill = PatternFill(start_color='4472C4', end_color='4472C4', fill_type='solid')
-    
+
     # Example validation check row
     ws['A2'] = 'CHK-001'
     ws['B2'] = 'Balance Sheet Balance: Total Assets = Total Liabilities + Equity'
     ws['C2'] = '=Calculations!TotalAssets'  # Reference to expected
     ws['D2'] = '=Calculations!TotalLiabilitiesEquity'  # Reference to actual
-    
+
     # Status formula with color coding
     ws['E2'] = '=IF(ABS(C2-D2)<=F2, "PASS", "FAIL")'
-    
+
     # Conditional formatting for status
     ws['E2'].style = 'Good' if ws['E2'].value == 'PASS' else 'Bad'
-    
+
     ws['F2'] = 0.01  # Tolerance threshold
     ws['G2'] = 'Critical balance check for accounting integrity'
 ```
@@ -180,7 +180,7 @@ def create_validation_sheet(ws):
 def create_projection_formulas(ws, start_row, periods):
     """
     Create time-series projection formulas with growth rates.
-    
+
     Pattern: Next Period = Previous Period * (1 + Growth Rate)
     Includes error handling and circular reference prevention.
     """
@@ -199,7 +199,7 @@ def create_projection_formulas(ws, start_row, periods):
 def create_npv_irr_section(ws, cash_flow_range, discount_rate_cell):
     """
     Create NPV and IRR calculations with proper documentation.
-    
+
     Args:
         cash_flow_range: Range of cash flow cells (e.g., 'C10:C20')
         discount_rate_cell: Cell reference for discount rate
@@ -208,12 +208,12 @@ def create_npv_irr_section(ws, cash_flow_range, discount_rate_cell):
     ws['C25'] = f'=NPV({discount_rate_cell}, {cash_flow_range})'
     ws['C25'].number_format = '$#,##0'
     ws['D25'] = 'Discount rate from Assumptions sheet'
-    
+
     ws['B26'] = 'Internal Rate of Return (IRR):'
     ws['C26'] = f'=IRR({cash_flow_range})'
     ws['C26'].number_format = '0.00%'
     ws['D26'] = 'Iterative calculation'
-    
+
     # Color code as output
     ws['C25'].fill = PatternFill(start_color='90EE90', end_color='90EE90', fill_type='solid')
     ws['C26'].fill = PatternFill(start_color='90EE90', end_color='90EE90', fill_type='solid')
@@ -226,14 +226,14 @@ def create_scenario_section(ws, base_case_range):
     Create scenario analysis with base, upside, and downside cases.
     """
     scenarios = ['Base Case', 'Upside (+20%)', 'Downside (-20%)']
-    
+
     ws['A1'] = 'Scenario Analysis'
     ws['A1'].font = Font(size=14, bold=True)
-    
+
     for col, scenario in enumerate(scenarios, 2):
         ws.cell(row=2, column=col, value=scenario)
         ws.cell(row=2, column=col).font = Font(bold=True)
-    
+
     # Link calculations with scenario multipliers
     ws['B3'] = f'={base_case_range}'
     ws['C3'] = f'={base_case_range}*1.2'
@@ -245,7 +245,7 @@ def create_scenario_section(ws, base_case_range):
 def create_professional_chart(ws, data_range, chart_title, chart_type='line'):
     """
     Create professional chart with proper formatting.
-    
+
     Args:
         ws: worksheet object
         data_range: Range containing data for chart
@@ -256,18 +256,18 @@ def create_professional_chart(ws, data_range, chart_title, chart_type='line'):
         chart = LineChart()
     else:
         chart = BarChart()
-    
+
     chart.title = chart_title
     chart.style = 10  # Professional style
     chart.y_axis.title = 'Value ($)'
     chart.x_axis.title = 'Period'
-    
+
     # Add data
     data = Reference(ws, min_col=2, min_row=1, max_row=20, max_col=4)
     cats = Reference(ws, min_col=1, min_row=2, max_row=20)
     chart.add_data(data, titles_from_data=True)
     chart.set_categories(cats)
-    
+
     # Place chart
     ws.add_chart(chart, 'F2')
 ```
@@ -309,14 +309,14 @@ Every change should be logged:
 ```python
 def create_change_log(ws):
     """Create a change log sheet for model modifications."""
-    headers = ['Version', 'Date', 'Author', 'Section Modified', 
+    headers = ['Version', 'Date', 'Author', 'Section Modified',
                'Change Description', 'Rationale', 'Reviewed By']
-    
+
     for col, header in enumerate(headers, 1):
         cell = ws.cell(row=1, column=col)
         cell.value = header
         cell.font = Font(bold=True)
-        cell.fill = PatternFill(start_color='4472C4', 
+        cell.fill = PatternFill(start_color='4472C4',
                                 end_color='4472C4', fill_type='solid')
 ```
 
@@ -381,15 +381,15 @@ def create_sensitivity_table(ws, output_cell, variable_cells):
     # Create table structure
     ws['A1'] = 'Sensitivity Analysis'
     ws['B1'] = output_cell
-    
+
     # Column headers (first variable values)
     for i, val in enumerate([-20, -10, 0, 10, 20], 2):
         ws.cell(row=1, column=i, value=f'{val}%')
-    
+
     # Row headers (second variable values)
     for i, val in enumerate([-20, -10, 0, 10, 20], 2):
         ws.cell(row=i, column=1, value=f'{val}%')
-    
+
     # Excel data table will populate the interior cells automatically
     # User must manually: Select range → Data → What-If Analysis → Data Table
 ```
@@ -406,7 +406,7 @@ def monte_carlo_simulation(base_value, volatility, simulations=10000):
     np.random.seed(42)  # For reproducibility
     std_dev = base_value * volatility
     simulated_values = np.random.normal(base_value, std_dev, simulations)
-    
+
     # Calculate statistics
     results = {
         'mean': np.mean(simulated_values),
@@ -415,7 +415,7 @@ def monte_carlo_simulation(base_value, volatility, simulations=10000):
         'p10': np.percentile(simulated_values, 10),
         'p90': np.percentile(simulated_values, 90),
     }
-    
+
     return simulated_values, results
 ```
 
@@ -427,14 +427,14 @@ Function PV_Custom(rate As Double, nper As Integer, cashFlows As Range) As Doubl
     'Custom present value function with detailed audit trail
     Dim i As Integer
     Dim pv_sum As Double
-    
+
     pv_sum = 0
     For i = 1 To nper
         pv_sum = pv_sum + cashFlows.Cells(i) / ((1 + rate) ^ i)
     Next i
-    
+
     PV_Custom = pv_sum
-    
+
     'Log calculation for audit trail
     ThisWorkbook.Sheets("Audit").Range("A1").Value = _
         "PV calculated: " & Format(Now, "yyyy-mm-dd hh:mm:ss")
@@ -451,7 +451,7 @@ Export key model outputs to Power BI for executive dashboards:
 def export_for_powerbi(workbook, output_path):
     """
     Export model outputs in Power BI friendly format.
-    
+
     Creates a structured table with:
     - Metric name
     - Value
@@ -460,7 +460,7 @@ def export_for_powerbi(workbook, output_path):
     - Timestamp
     """
     import pandas as pd
-    
+
     # Extract key metrics from model
     # (Implementation would read from Excel and create structured DataFrame)
     pass
@@ -474,7 +474,7 @@ Link Excel models with Python for advanced analytics:
 def analyze_model_outputs(excel_path):
     """
     Read Excel model outputs and perform statistical analysis.
-    
+
     Can perform:
     - Regression analysis
     - Time series forecasting
@@ -482,10 +482,10 @@ def analyze_model_outputs(excel_path):
     - Risk metrics calculation
     """
     import pandas as pd
-    
+
     # Read outputs
     df = pd.read_excel(excel_path, sheet_name='Outputs')
-    
+
     # Perform analysis
     # (Implementation would include statistical tests, visualizations)
     pass

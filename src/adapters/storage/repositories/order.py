@@ -12,10 +12,10 @@ import json
 import logging
 from typing import TYPE_CHECKING
 
-from persistence.models import FillRow, OrderRow
+from adapters.storage.models import FillRow, OrderRow
 
 if TYPE_CHECKING:
-    from persistence.database import DatabaseManager
+    from adapters.storage.database import DatabaseManager
 
 logger = logging.getLogger(__name__)
 

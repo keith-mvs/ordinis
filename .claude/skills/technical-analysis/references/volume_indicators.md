@@ -22,7 +22,7 @@ def calculate_obv(close: pd.Series, volume: pd.Series) -> pd.Series:
     """Calculate On-Balance Volume."""
     obv = pd.Series(index=close.index, dtype=float)
     obv.iloc[0] = volume.iloc[0]
-    
+
     for i in range(1, len(close)):
         if close.iloc[i] > close.iloc[i-1]:
             obv.iloc[i] = obv.iloc[i-1] + volume.iloc[i]
@@ -30,7 +30,7 @@ def calculate_obv(close: pd.Series, volume: pd.Series) -> pd.Series:
             obv.iloc[i] = obv.iloc[i-1] - volume.iloc[i]
         else:
             obv.iloc[i] = obv.iloc[i-1]
-    
+
     return obv
 ```
 
@@ -88,7 +88,7 @@ def obv_with_ma(close: pd.Series, volume: pd.Series, ma_period: int = 20) -> pd.
     """Calculate OBV with moving average."""
     obv = calculate_obv(close, volume)
     obv_ma = obv.rolling(window=ma_period).mean()
-    
+
     return pd.DataFrame({
         'OBV': obv,
         'OBV_MA': obv_ma
@@ -162,9 +162,9 @@ Before entering trade, verify:
 
 ### Volume-price relationships
 
-**Price up, volume up**: Healthy uptrend, buyers in control  
-**Price up, volume down**: Weak rally, potential reversal  
-**Price down, volume up**: Healthy downtrend, sellers in control  
+**Price up, volume up**: Healthy uptrend, buyers in control
+**Price up, volume down**: Weak rally, potential reversal
+**Price down, volume up**: Healthy downtrend, sellers in control
 **Price down, volume down**: Weak decline, potential reversal
 
 ---
@@ -192,9 +192,9 @@ def calculate_relative_volume(volume: pd.Series, period: int = 20) -> pd.Series:
 
 ### Interpretation
 
-**RVOL = 1.0**: Volume at average  
-**RVOL > 1.5**: Above-average volume, increased interest  
-**RVOL > 2.0**: High volume, significant activity  
+**RVOL = 1.0**: Volume at average
+**RVOL > 1.5**: Above-average volume, increased interest
+**RVOL > 2.0**: High volume, significant activity
 **RVOL < 0.5**: Below-average volume, low interest
 
 ### Applications
@@ -264,7 +264,7 @@ A/D Line = Previous A/D Line + Money Flow Volume
 ### Python Implementation
 
 ```python
-def calculate_accumulation_distribution(high: pd.Series, low: pd.Series, 
+def calculate_accumulation_distribution(high: pd.Series, low: pd.Series,
                                        close: pd.Series, volume: pd.Series) -> pd.Series:
     """Calculate Accumulation/Distribution Line."""
     mfm = ((close - low) - (high - close)) / (high - low)

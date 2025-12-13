@@ -1,5 +1,12 @@
 """
-Market data plugins.
+Market data adapters for various data providers.
+
+Provides adapters for:
+- AlphaVantage
+- Finnhub
+- IEX Cloud
+- Polygon.io
+- Twelve Data
 """
 
 from .alphavantage import AlphaVantageDataPlugin

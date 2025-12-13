@@ -2,7 +2,6 @@
 """Generate appropriate assets for all skill packages."""
 
 from pathlib import Path
-from typing import Dict, List
 
 ORDINIS_ROOT = Path(__file__).parent.parent
 SKILLS_DIR = ORDINIS_ROOT / ".claude" / "skills"
@@ -43,7 +42,7 @@ TDOC,38.50,300,11550,37.00,2.15,60,medium,32,Mid-cap telemedicine stock with mod
 PLTR,28.40,500,14200,27.00,2.40,45,medium,38,Mid-cap data analytics with elevated volatility around earnings
 MRNA,175.50,100,17550,170.00,8.25,90,high,52,Biotech large-cap with significant volatility and binary events"""
 
-    elif strategy in ["bear-put-spread", "bull-call-spread"]:
+    if strategy in ["bear-put-spread", "bull-call-spread"]:
         # Vertical spreads
         direction = "bearish" if "bear" in strategy else "bullish"
         return f"""ticker,entry_price,long_strike,short_strike,long_premium,short_premium,net_debit,expiration_days,iv_rank,scenario
@@ -53,7 +52,7 @@ IWM,195.00,195.00,190.00,4.50,2.00,2.50,30,55,aggressive_{direction}_short_term
 AAPL,175.00,175.00,170.00,5.75,2.50,3.25,45,42,tech_sector_{direction}_play
 TSLA,250.00,245.00,235.00,12.50,5.00,7.50,60,68,high_volatility_{direction}_position"""
 
-    elif strategy in ["iron-butterfly", "iron-condor"]:
+    if strategy in ["iron-butterfly", "iron-condor"]:
         # Neutral multi-leg strategies
         return """ticker,entry_price,call_spread_strikes,put_spread_strikes,net_credit,expiration_days,iv_rank,expected_range,scenario
 SPY,450.00,455-460,445-440,2.50,45,55,445-455,earnings_quiet_period_range_bound
@@ -62,7 +61,7 @@ DIA,350.00,355-360,345-340,2.75,45,42,345-355,blue_chip_low_volatility_grind
 IWM,195.00,200-205,190-185,3.00,30,60,190-200,small_cap_choppy_action
 XLE,85.00,88-91,82-79,1.75,45,38,82-88,energy_sector_sideways_trading"""
 
-    elif strategy in ["long-straddle", "long-strangle"]:
+    if strategy in ["long-straddle", "long-strangle"]:
         # Volatility strategies
         spread_type = "same strike" if "straddle" in strategy else "different strikes"
         return f"""ticker,entry_price,call_strike,put_strike,call_premium,put_premium,net_debit,expiration_days,iv_rank,catalyst,scenario
@@ -71,7 +70,7 @@ TSLA,250.00,250.00,{250 if 'straddle' in strategy else 240},18.00,{18.00 if 'str
 META,320.00,320.00,{320 if 'straddle' in strategy else 310},14.25,{14.25 if 'straddle' in strategy else 9.75},{'28.50' if 'straddle' in strategy else '24.00'},10,58,earnings,tech_earnings_high_implied_move
 AMZN,145.00,145.00,{145 if 'straddle' in strategy else 140},7.50,{7.50 if 'straddle' in strategy else 5.25},{'15.00' if 'straddle' in strategy else '12.75'},20,48,fed_decision,macro_event_breakout_potential"""
 
-    elif strategy == "protective-collar":
+    if strategy == "protective-collar":
         # Stock + options protection
         return """ticker,stock_price,shares,cost_basis,put_strike,put_premium,call_strike,call_premium,net_cost,expiration_days,scenario
 AAPL,175.00,100,16800,170.00,4.50,185.00,3.25,125,90,protect_gains_in_concentrated_position
@@ -80,7 +79,7 @@ NVDA,485.00,30,14000,470.00,18.00,510.00,12.00,600,60,volatility_protection_with
 GOOGL,140.00,100,13200,135.00,3.75,150.00,2.50,125,90,earnings_season_downside_insurance
 META,320.00,50,15500,310.00,11.00,340.00,7.50,350,60,protect_unrealized_gains_tech_position"""
 
-    elif strategy == "covered-call":
+    if strategy == "covered-call":
         # Income generation
         return """ticker,stock_price,shares,cost_basis,call_strike,call_premium,expiration_days,annualized_return,scenario
 AAPL,175.00,100,17000,180.00,2.25,30,15.8,monthly_income_above_cost_basis
@@ -89,7 +88,7 @@ F,12.25,800,9600,13.00,0.28,30,11.2,deep_value_income_generation
 INTC,44.00,200,8400,46.00,1.10,45,11.8,turnaround_story_income_while_waiting
 XOM,110.00,100,10500,115.00,1.85,30,21.1,energy_covered_call_high_premium"""
 
-    elif strategy == "long-call-butterfly":
+    if strategy == "long-call-butterfly":
         # Low-cost neutral strategy
         return """ticker,entry_price,lower_strike,middle_strike,upper_strike,max_profit,max_loss,expiration_days,iv_rank,scenario
 SPY,450.00,445.00,450.00,455.00,3.75,1.25,45,42,pinning_at_major_resistance
@@ -318,9 +317,7 @@ def main():
 06051GJN6,Bank_of_America,4.000,2026-01-22,100000,2025-12-12,99.75,4.125,A-
 037833BH5,Apple_Inc,2.400,2030-08-20,100000,2025-12-12,95.00,2.895,AA+
 02079K107,Alphabet_Inc,1.900,2029-08-15,100000,2025-12-12,92.50,2.650,AA"""
-            (assets_dir / "sample_bonds.csv").write_text(
-                sample_bonds_csv, encoding="utf-8"
-            )
+            (assets_dir / "sample_bonds.csv").write_text(sample_bonds_csv, encoding="utf-8")
             files_created += 1
             print(f"  [CREATED] {strategy}/assets/sample_bonds.csv")
 

@@ -14,29 +14,21 @@ __author__ = "Ordinis-1 Project"
 from .option_pricing import (
     BlackScholesCalculator,
     OptionParameters,
+    calculate_expected_move,
     calculate_implied_volatility,
-    calculate_expected_move
 )
-
-from .strategy_builder import (
-    StrategyBuilder,
-    MultiLegStrategy,
-    OptionLeg,
-    OptionType,
-    PositionSide
-)
+from .strategy_builder import MultiLegStrategy, OptionLeg, OptionType, PositionSide, StrategyBuilder
 
 __all__ = [
     # Pricing
-    'BlackScholesCalculator',
-    'OptionParameters',
-    'calculate_implied_volatility',
-    'calculate_expected_move',
-    
+    "BlackScholesCalculator",
+    "OptionParameters",
+    "calculate_implied_volatility",
+    "calculate_expected_move",
     # Strategy Building
-    'StrategyBuilder',
-    'MultiLegStrategy',
-    'OptionLeg',
-    'OptionType',
-    'PositionSide',
+    "StrategyBuilder",
+    "MultiLegStrategy",
+    "OptionLeg",
+    "OptionType",
+    "PositionSide",
 ]

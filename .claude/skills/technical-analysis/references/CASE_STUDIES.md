@@ -192,7 +192,7 @@ daily_data = yf.Ticker("SPY").history(period="1y", interval="1d")
 daily_ti = TechnicalIndicators(daily_data)
 daily_signals = daily_ti.generate_signals()
 
-# Weekly analysis  
+# Weekly analysis
 weekly_data = yf.Ticker("SPY").history(period="2y", interval="1wk")
 weekly_ti = TechnicalIndicators(weekly_data)
 weekly_signals = weekly_ti.generate_signals()
@@ -257,19 +257,19 @@ Select appropriate indicators based on detected market regime.
 def detect_market_regime(data):
     """Classify market regime."""
     ti = TechnicalIndicators(data)
-    
+
     # Calculate indicators
     adx = ti.calculate_adx()
     atr = ti.calculate_atr()
     bb = ti.calculate_bollinger_bands()
-    
+
     # Get current values
     current_adx = adx['ADX'].iloc[-1]
     current_atr = atr.iloc[-1]
     avg_atr = atr.rolling(20).mean().iloc[-1]
     bandwidth = bb['bandwidth'].iloc[-1]
     avg_bandwidth = bb['bandwidth'].rolling(60).mean().iloc[-1]
-    
+
     # Classify regime
     if current_adx > 25 and bandwidth > avg_bandwidth:
         return 'TRENDING'

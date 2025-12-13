@@ -2,12 +2,11 @@
 """Audit assets folders across all skill packages."""
 
 from pathlib import Path
-from typing import Dict, List
 
 SKILLS_DIR = Path(r"C:\Users\kjfle\Workspace\ordinis\.claude\skills")
 
 
-def audit_assets_folder(skill_dir: Path) -> Dict:
+def audit_assets_folder(skill_dir: Path) -> dict:
     """Audit assets folder for a skill."""
     result = {
         "name": skill_dir.name,
@@ -48,11 +47,7 @@ def main():
         print(f"Error: Skills directory not found: {SKILLS_DIR}")
         return
 
-    skills = [
-        d
-        for d in SKILLS_DIR.iterdir()
-        if d.is_dir() and not d.name.startswith("_")
-    ]
+    skills = [d for d in SKILLS_DIR.iterdir() if d.is_dir() and not d.name.startswith("_")]
 
     print("=" * 80)
     print("ASSETS FOLDER AUDIT")
@@ -70,7 +65,7 @@ def main():
             print("-" * 60)
             print(f"  Files: {audit['file_count']}")
             print(f"  Total Size: {audit['total_size']/1024:.1f} KB")
-            print(f"  Asset files:")
+            print("  Asset files:")
             for f in sorted(audit["files"], key=lambda x: x["name"]):
                 print(
                     f"    - {f['relative_path']} ({f['size_kb']:.1f} KB, {f['extension'] or 'no ext'})"

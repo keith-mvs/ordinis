@@ -4,17 +4,19 @@ Parallelized Dataset Fetch - Max CPU Utilization
 Fetches 101 symbols in parallel using all available CPU cores.
 """
 
-import sys
-from pathlib import Path
-from datetime import datetime, timedelta
 from concurrent.futures import ProcessPoolExecutor, as_completed
+from datetime import datetime, timedelta
 import multiprocessing as mp
+from pathlib import Path
+import sys
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from enhanced_dataset_config_v2 import (
-    get_all_symbols_by_market_cap_v2 as get_all_symbols_by_market_cap,
     EXPANDED_SYMBOL_UNIVERSE as ENHANCED_SYMBOL_UNIVERSE,
+)
+from enhanced_dataset_config_v2 import (
+    get_all_symbols_by_market_cap_v2 as get_all_symbols_by_market_cap,
 )
 import pandas as pd
 import yfinance as yf
@@ -24,23 +26,22 @@ def add_volatility_features(df: pd.DataFrame) -> pd.DataFrame:
     """Add volatility features inline."""
     # True Range
     df["true_range"] = df[["high", "low", "close"]].apply(
-        lambda x: max(x["high"] - x["low"],
-                     abs(x["high"] - x["close"]),
-                     abs(x["low"] - x["close"])),
-        axis=1
+        lambda x: max(
+            x["high"] - x["low"], abs(x["high"] - x["close"]), abs(x["low"] - x["close"])
+        ),
+        axis=1,
     )
 
     # ATR (14-day)
     df["atr_14"] = df["true_range"].rolling(window=14).mean()
 
     # Historical Volatility (20-day, annualized)
-    df["hvol_20"] = df["close"].pct_change().rolling(window=20).std() * (252 ** 0.5)
+    df["hvol_20"] = df["close"].pct_change().rolling(window=20).std() * (252**0.5)
 
     # Parkinson Volatility (20-day, annualized)
-    df["parkinson_vol_20"] = (
-        (df["high"] / df["low"]).apply(lambda x: (1 / (4 * 0.6931471805599453)) * (x ** 2))
-        .rolling(window=20).mean().apply(lambda x: x ** 0.5) * (252 ** 0.5)
-    )
+    df["parkinson_vol_20"] = (df["high"] / df["low"]).apply(
+        lambda x: (1 / (4 * 0.6931471805599453)) * (x**2)
+    ).rolling(window=20).mean().apply(lambda x: x**0.5) * (252**0.5)
 
     return df
 
@@ -137,21 +138,25 @@ def fetch_parallel(years=20, output_dir=Path("data"), format="csv", max_workers=
             if error is None:
                 successful += 1
                 print(f"[{completed}/{len(tasks)}] {symbol}: OK ({bars} bars)")
-                results.append({
-                    "symbol": symbol,
-                    "status": "SUCCESS",
-                    "bars": bars,
-                    "market_cap": futures[future][1],
-                })
+                results.append(
+                    {
+                        "symbol": symbol,
+                        "status": "SUCCESS",
+                        "bars": bars,
+                        "market_cap": futures[future][1],
+                    }
+                )
             else:
                 failed += 1
                 print(f"[{completed}/{len(tasks)}] {symbol}: FAILED ({error})")
-                results.append({
-                    "symbol": symbol,
-                    "status": "FAILED",
-                    "error": error,
-                    "market_cap": futures[future][1],
-                })
+                results.append(
+                    {
+                        "symbol": symbol,
+                        "status": "FAILED",
+                        "error": error,
+                        "market_cap": futures[future][1],
+                    }
+                )
 
     print("=" * 80)
     print("SUMMARY")
@@ -178,11 +183,15 @@ def fetch_parallel(years=20, output_dir=Path("data"), format="csv", max_workers=
 
             # Find file
             if market_cap == "LARGE":
-                file_path = output_dir / "historical" / "large_cap" / f"{symbol}_historical.{format}"
+                file_path = (
+                    output_dir / "historical" / "large_cap" / f"{symbol}_historical.{format}"
+                )
             elif market_cap == "MID":
                 file_path = output_dir / "historical" / "mid_cap" / f"{symbol}_historical.{format}"
             elif market_cap == "SMALL":
-                file_path = output_dir / "historical" / "small_cap" / f"{symbol}_historical.{format}"
+                file_path = (
+                    output_dir / "historical" / "small_cap" / f"{symbol}_historical.{format}"
+                )
             elif market_cap == "ETF":
                 file_path = output_dir / "historical" / "etfs" / f"{symbol}_historical.{format}"
             else:
@@ -203,21 +212,25 @@ def fetch_parallel(years=20, output_dir=Path("data"), format="csv", max_workers=
                         bull_performer = group_data.get("bull_performer")
                         break
 
-                metadata_rows.append({
-                    "symbol": symbol,
-                    "market_cap": market_cap,
-                    "sector": sector,
-                    "bull_performer": bull_performer,
-                    "target_volatility": volatility,
-                    "start_date": df.index[0] if len(df) > 0 else None,
-                    "end_date": df.index[-1] if len(df) > 0 else None,
-                    "num_bars": len(df),
-                    "num_features": len(df.columns),
-                    "avg_price": df["close"].mean() if "close" in df.columns else None,
-                    "avg_volume": df["volume"].mean() if "volume" in df.columns else None,
-                    "realized_volatility": df["close"].pct_change().std() * (252 ** 0.5) if "close" in df.columns else None,
-                    "file_path": str(file_path.relative_to(output_dir)),
-                })
+                metadata_rows.append(
+                    {
+                        "symbol": symbol,
+                        "market_cap": market_cap,
+                        "sector": sector,
+                        "bull_performer": bull_performer,
+                        "target_volatility": volatility,
+                        "start_date": df.index[0] if len(df) > 0 else None,
+                        "end_date": df.index[-1] if len(df) > 0 else None,
+                        "num_bars": len(df),
+                        "num_features": len(df.columns),
+                        "avg_price": df["close"].mean() if "close" in df.columns else None,
+                        "avg_volume": df["volume"].mean() if "volume" in df.columns else None,
+                        "realized_volatility": df["close"].pct_change().std() * (252**0.5)
+                        if "close" in df.columns
+                        else None,
+                        "file_path": str(file_path.relative_to(output_dir)),
+                    }
+                )
 
     metadata_df = pd.DataFrame(metadata_rows)
     metadata_file = output_dir / "enhanced_dataset_metadata.csv"
@@ -236,7 +249,12 @@ if __name__ == "__main__":
     parser.add_argument("--years", type=int, default=20)
     parser.add_argument("--output", type=str, default="data")
     parser.add_argument("--format", type=str, default="csv", choices=["csv", "parquet"])
-    parser.add_argument("--workers", type=int, default=None, help="Number of parallel workers (default: all CPU cores)")
+    parser.add_argument(
+        "--workers",
+        type=int,
+        default=None,
+        help="Number of parallel workers (default: all CPU cores)",
+    )
 
     args = parser.parse_args()
 

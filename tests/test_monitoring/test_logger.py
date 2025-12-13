@@ -6,7 +6,7 @@ import tempfile
 from loguru import logger
 import pytest
 
-from monitoring.logger import (
+from adapters.telemetry.logger import (
     get_logger,
     log_exception,
     log_execution_time,

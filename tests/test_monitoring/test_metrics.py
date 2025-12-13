@@ -4,7 +4,7 @@ from datetime import datetime
 
 import pytest
 
-from monitoring.metrics import (
+from adapters.telemetry.metrics import (
     MetricsCollector,
     PerformanceMetrics,
     get_metrics_collector,

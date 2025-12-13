@@ -4,8 +4,8 @@
 
 ## Quick Reference
 
-**Skill Level**: Advanced  
-**Time Commitment**: 12-15 hours  
+**Skill Level**: Advanced
+**Time Commitment**: 12-15 hours
 **Prerequisites**: Bond Pricing, Yield Measures, Duration, Credit Risk
 
 ## Core Capabilities
@@ -59,7 +59,7 @@ def information_ratio(excess_return_annual, tracking_error):
 
 ## Validation Checkpoint
 
-Portfolio return 6%, Benchmark 5.2%, TE 1.5%:  
+Portfolio return 6%, Benchmark 5.2%, TE 1.5%:
 **Expected IR**: 0.53
 
 ---

@@ -1,10 +1,8 @@
 """Tests for KPI Tracking System."""
 
-from datetime import datetime, timedelta
+from datetime import timedelta
 
-import pytest
-
-from monitoring.kpi import (
+from adapters.telemetry.kpi import (
     Alert,
     AlertSeverity,
     KPIStatus,
@@ -399,7 +397,9 @@ class TestKPIIntegration:
 
         status = tracker.get_health_status()
         # Should have no critical alerts with healthy initial values
-        assert status["critical_count"] == 0, f"Unexpected critical alerts: {tracker.get_active_alerts()}"
+        assert (
+            status["critical_count"] == 0
+        ), f"Unexpected critical alerts: {tracker.get_active_alerts()}"
 
         # Deteriorating performance
         tracker.update_kpi("win_rate", 0.35)  # Warning

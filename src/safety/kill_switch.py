@@ -24,8 +24,8 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
-    from persistence.database import DatabaseManager
-    from persistence.repositories.system_state import SystemStateRepository
+    from adapters.storage.database import DatabaseManager
+    from adapters.storage.repositories.system_state import SystemStateRepository
 
 logger = logging.getLogger(__name__)
 

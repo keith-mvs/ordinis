@@ -108,16 +108,16 @@ The skill will be available in all your projects.
 2. **Upload via API**:
    ```python
    import anthropic
-   
+
    client = anthropic.Anthropic(api_key="your-api-key")
-   
+
    # Upload skill
    with open("married-put-strategy.zip", "rb") as f:
        skill = client.skills.create(
            name="married-put-strategy",
            file=f
        )
-   
+
    print(f"Skill uploaded: {skill.id}")
    ```
 
@@ -180,7 +180,7 @@ pip install -r married-put-strategy/requirements.txt
 ```
 Ask Claude:
 
-"I own 100 shares of a stock trading at $50. 
+"I own 100 shares of a stock trading at $50.
 Analyze a married-put with a $48 strike and $2.50 premium."
 ```
 

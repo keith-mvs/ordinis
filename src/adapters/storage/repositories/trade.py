@@ -11,10 +11,10 @@ from datetime import datetime, timedelta
 import logging
 from typing import TYPE_CHECKING
 
-from persistence.models import TradeRow
+from adapters.storage.models import TradeRow
 
 if TYPE_CHECKING:
-    from persistence.database import DatabaseManager
+    from adapters.storage.database import DatabaseManager
 
 logger = logging.getLogger(__name__)
 

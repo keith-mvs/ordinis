@@ -19,7 +19,7 @@ from typing import Any
 
 import aiosqlite
 
-from persistence.schema import (
+from adapters.storage.schema import (
     SCHEMA_VERSION,
     get_create_schema_sql,
     get_initial_state_sql,

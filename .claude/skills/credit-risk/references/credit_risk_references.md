@@ -124,14 +124,14 @@ from scipy.stats import norm
 def merton_probability_default(V, D, sigma, r, T):
     """
     Calculate default probability using Merton model.
-    
+
     Parameters:
         V: Firm value
         D: Debt face value
         sigma: Asset volatility
         r: Risk-free rate
         T: Time to maturity
-    
+
     Returns:
         Probability of default
     """
@@ -142,5 +142,5 @@ def merton_probability_default(V, D, sigma, r, T):
 
 ---
 
-**Status**: Reference placeholder  
+**Status**: Reference placeholder
 **Last Updated**: 2025-12-07

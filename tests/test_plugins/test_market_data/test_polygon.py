@@ -12,8 +12,8 @@ from unittest.mock import AsyncMock, patch
 
 import pytest
 
-from src.plugins.base import PluginConfig
-from src.plugins.market_data.polygon import PolygonDataPlugin
+from adapters.market_data.polygon import PolygonDataPlugin
+from plugins.base import PluginConfig
 
 
 @pytest.fixture

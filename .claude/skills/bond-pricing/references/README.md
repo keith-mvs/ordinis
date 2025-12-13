@@ -4,8 +4,8 @@
 
 ## Quick Reference
 
-**Skill Level**: Foundation  
-**Time Commitment**: 15-20 hours  
+**Skill Level**: Foundation
+**Time Commitment**: 15-20 hours
 **Prerequisites**: Basic financial mathematics
 
 ## Core Capabilities
@@ -27,7 +27,7 @@ Bond Price = Σ [Coupon / (1+y)^t] + [Face Value / (1+y)^n]
 ```python
 def bond_price(face_value, coupon_rate, yield_rate, periods):
     coupon = face_value * coupon_rate
-    pv_coupons = sum(coupon / (1 + yield_rate)**t 
+    pv_coupons = sum(coupon / (1 + yield_rate)**t
                      for t in range(1, periods + 1))
     pv_principal = face_value / (1 + yield_rate)**periods
     return pv_coupons + pv_principal
@@ -46,11 +46,11 @@ def bond_price(face_value, coupon_rate, yield_rate, periods):
 
 ## Validation Checkpoint
 
-Can you price a 10-year, 5% coupon bond with 4.5% YTM?  
+Can you price a 10-year, 5% coupon bond with 4.5% YTM?
 **Expected Answer**: $1,038.40 (approximately)
 
 ---
 
-**Full Documentation**: See `SKILL.md`  
-**Scripts**: See `scripts/` directory  
+**Full Documentation**: See `SKILL.md`
+**Scripts**: See `scripts/` directory
 **References**: See `references/` directory

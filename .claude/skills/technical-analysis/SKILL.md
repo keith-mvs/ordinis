@@ -13,10 +13,10 @@ This skill provides expert-level capabilities in technical analysis through mast
 
 Technical indicators are organized by analytical purpose:
 
-**Trend Indicators**: ADX, Ichimoku Cloud, Moving Averages, Parabolic SAR  
-**Momentum Indicators**: CCI, MACD, RSI, Stochastic Oscillator  
-**Volatility Indicators**: ATR, Bollinger Bands  
-**Volume Indicators**: OBV  
+**Trend Indicators**: ADX, Ichimoku Cloud, Moving Averages, Parabolic SAR
+**Momentum Indicators**: CCI, MACD, RSI, Stochastic Oscillator
+**Volatility Indicators**: ATR, Bollinger Bands
+**Volume Indicators**: OBV
 **Static Levels**: Fibonacci Retracement
 
 ## Quick Reference
@@ -59,10 +59,10 @@ Technical indicators are organized by analytical purpose:
 
 For comprehensive methodology, calculation formulas, and interpretation guidelines:
 
-**Trend Indicators**: See [references/trend_indicators.md](references/trend_indicators.md)  
-**Momentum Indicators**: See [references/momentum_indicators.md](references/momentum_indicators.md)  
-**Volatility Indicators**: See [references/volatility_indicators.md](references/volatility_indicators.md)  
-**Volume Indicators**: See [references/volume_indicators.md](references/volume_indicators.md)  
+**Trend Indicators**: See [references/trend_indicators.md](references/trend_indicators.md)
+**Momentum Indicators**: See [references/momentum_indicators.md](references/momentum_indicators.md)
+**Volatility Indicators**: See [references/volatility_indicators.md](references/volatility_indicators.md)
+**Volume Indicators**: See [references/volume_indicators.md](references/volume_indicators.md)
 **Static Levels**: See [references/static_levels.md](references/static_levels.md)
 
 ## Python Implementation
@@ -161,9 +161,9 @@ Low volatility (ATR contracting, Bollinger Bands narrowing):
 
 Real-world application examples across various market conditions:
 
-**Trend-following scenarios**: See [examples/trend_following_cases.md](examples/trend_following_cases.md)  
-**Mean-reversion scenarios**: See [examples/mean_reversion_cases.md](examples/mean_reversion_cases.md)  
-**Breakout scenarios**: See [examples/breakout_cases.md](examples/breakout_cases.md)  
+**Trend-following scenarios**: See [examples/trend_following_cases.md](examples/trend_following_cases.md)
+**Mean-reversion scenarios**: See [examples/mean_reversion_cases.md](examples/mean_reversion_cases.md)
+**Breakout scenarios**: See [examples/breakout_cases.md](examples/breakout_cases.md)
 **Divergence scenarios**: See [examples/divergence_cases.md](examples/divergence_cases.md)
 
 ## Validation Framework
@@ -208,10 +208,10 @@ Optimize indicator parameters for specific securities:
 
 Evaluate indicator effectiveness using:
 
-**Accuracy**: Percentage of correct signals  
-**Sharpe Ratio**: Risk-adjusted returns  
-**Maximum Drawdown**: Largest peak-to-trough decline  
-**Win Rate**: Profitable trades / total trades  
+**Accuracy**: Percentage of correct signals
+**Sharpe Ratio**: Risk-adjusted returns
+**Maximum Drawdown**: Largest peak-to-trough decline
+**Win Rate**: Profitable trades / total trades
 **Profit Factor**: Gross profits / gross losses
 
 Track metrics across different market regimes and time frames to identify optimal indicator combinations.
@@ -241,16 +241,16 @@ All methodologies derive from established sources:
 
 Technical indicators integrate with:
 
-**Risk management systems**: ATR-based position sizing  
-**Algorithmic trading**: Signal generation and execution logic  
-**Portfolio optimization**: Tactical allocation based on trend strength  
+**Risk management systems**: ATR-based position sizing
+**Algorithmic trading**: Signal generation and execution logic
+**Portfolio optimization**: Tactical allocation based on trend strength
 **Performance attribution**: Decomposing returns by indicator strategy
 
 ## Tools and Resources
 
-**Python libraries**: ta, ta-lib, pandas_ta  
-**Data providers**: Alpha Vantage, Yahoo Finance, Polygon.io  
-**Visualization**: matplotlib, plotly, mplfinance  
+**Python libraries**: ta, ta-lib, pandas_ta
+**Data providers**: Alpha Vantage, Yahoo Finance, Polygon.io
+**Visualization**: matplotlib, plotly, mplfinance
 **Backtesting frameworks**: Backtrader, Zipline, VectorBT
 
 ## Next Steps

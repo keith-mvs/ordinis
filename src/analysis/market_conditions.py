@@ -16,8 +16,8 @@ from enum import Enum
 import logging
 from typing import Any
 
-from src.plugins.market_data.iex import IEXDataPlugin
-from src.plugins.market_data.polygon import PolygonDataPlugin
+from adapters.market_data.iex import IEXDataPlugin
+from adapters.market_data.polygon import PolygonDataPlugin
 
 logger = logging.getLogger(__name__)
 

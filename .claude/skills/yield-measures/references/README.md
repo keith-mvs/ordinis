@@ -4,8 +4,8 @@
 
 ## Quick Reference
 
-**Skill Level**: Intermediate  
-**Time Commitment**: 12-15 hours  
+**Skill Level**: Intermediate
+**Time Commitment**: 12-15 hours
 **Prerequisites**: Bond Pricing and Valuation
 
 ## Core Capabilities
@@ -36,12 +36,12 @@ from scipy.optimize import newton
 def ytm_calculate(price, face_value, coupon_rate, years, freq=2):
     periods = int(years * freq)
     coupon = (face_value * coupon_rate) / freq
-    
+
     def price_func(y):
         py = y / freq
         return sum(coupon/(1+py)**t for t in range(1,periods+1)) \
                + face_value/(1+py)**periods - price
-    
+
     return newton(price_func, coupon_rate)
 ```
 
@@ -58,7 +58,7 @@ def ytm_calculate(price, face_value, coupon_rate, years, freq=2):
 
 ## Validation Checkpoint
 
-Can you calculate YTM for a bond at $950, 6% coupon, 10 years to maturity?  
+Can you calculate YTM for a bond at $950, 6% coupon, 10 years to maturity?
 **Expected Answer**: ~6.75% (approximately)
 
 ---

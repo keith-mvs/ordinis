@@ -11,9 +11,9 @@ Quantify bond price sensitivity to interest rate changes using duration and conv
 
 ## Skill Classification
 
-**Domain**: Fixed Income Risk Management  
-**Level**: Advanced  
-**Prerequisites**: Bond Pricing, Yield Measures  
+**Domain**: Fixed Income Risk Management
+**Level**: Advanced
+**Prerequisites**: Bond Pricing, Yield Measures
 **Estimated Time**: 15-18 hours
 
 ## Focus Areas
@@ -36,7 +36,7 @@ Where:
 def macaulay_duration(face_value, coupon_rate, yield_rate, years, frequency=2):
     """
     Calculate Macaulay Duration.
-    
+
     Parameters:
     -----------
     face_value : float
@@ -49,7 +49,7 @@ def macaulay_duration(face_value, coupon_rate, yield_rate, years, frequency=2):
         Years to maturity
     frequency : int
         Coupon frequency per year
-    
+
     Returns:
     --------
     float : Macaulay duration in years
@@ -57,17 +57,17 @@ def macaulay_duration(face_value, coupon_rate, yield_rate, years, frequency=2):
     periods = int(years * frequency)
     coupon = (face_value * coupon_rate) / frequency
     periodic_yield = yield_rate / frequency
-    
+
     # Calculate weighted present values
     weighted_pv = 0
     bond_price = 0
-    
+
     for t in range(1, periods + 1):
         cf = coupon if t < periods else coupon + face_value
         pv = cf / (1 + periodic_yield)**t
         weighted_pv += t * pv
         bond_price += pv
-    
+
     # Convert to years
     mac_duration = (weighted_pv / bond_price) / frequency
     return mac_duration
@@ -103,7 +103,7 @@ Where:
 def modified_duration(macaulay_dur, yield_rate, frequency=2):
     """
     Calculate Modified Duration.
-    
+
     Parameters:
     -----------
     macaulay_dur : float
@@ -112,7 +112,7 @@ def modified_duration(macaulay_dur, yield_rate, frequency=2):
         Yield to maturity (decimal)
     frequency : int
         Compounding frequency
-    
+
     Returns:
     --------
     float : Modified duration
@@ -122,14 +122,14 @@ def modified_duration(macaulay_dur, yield_rate, frequency=2):
 def price_change_estimate(modified_dur, yield_change):
     """
     Estimate percentage price change using modified duration.
-    
+
     Parameters:
     -----------
     modified_dur : float
         Modified duration
     yield_change : float
         Change in yield (decimal)
-    
+
     Returns:
     --------
     float : Estimated percentage price change
@@ -156,7 +156,7 @@ Convexity = Σ[t(t+1) × PV(CF_t)] / [P × (1+y)²]
 def convexity_calculate(face_value, coupon_rate, yield_rate, years, frequency=2):
     """
     Calculate convexity.
-    
+
     Parameters:
     -----------
     face_value : float
@@ -169,7 +169,7 @@ def convexity_calculate(face_value, coupon_rate, yield_rate, years, frequency=2)
         Years to maturity
     frequency : int
         Coupon frequency
-    
+
     Returns:
     --------
     float : Convexity
@@ -177,17 +177,17 @@ def convexity_calculate(face_value, coupon_rate, yield_rate, years, frequency=2)
     periods = int(years * frequency)
     coupon = (face_value * coupon_rate) / frequency
     periodic_yield = yield_rate / frequency
-    
+
     # Calculate weighted second derivatives
     weighted_pv2 = 0
     bond_price = 0
-    
+
     for t in range(1, periods + 1):
         cf = coupon if t < periods else coupon + face_value
         pv = cf / (1 + periodic_yield)**t
         weighted_pv2 += t * (t + 1) * pv
         bond_price += pv
-    
+
     convexity = weighted_pv2 / (bond_price * (1 + periodic_yield)**2)
     # Adjust for annual basis
     return convexity / frequency**2
@@ -195,7 +195,7 @@ def convexity_calculate(face_value, coupon_rate, yield_rate, years, frequency=2)
 def price_change_with_convexity(modified_dur, convexity, yield_change):
     """
     Estimate price change including convexity adjustment.
-    
+
     Returns:
     --------
     float : Estimated percentage price change
@@ -225,14 +225,14 @@ Where:
 def portfolio_duration(durations, weights):
     """
     Calculate portfolio duration.
-    
+
     Parameters:
     -----------
     durations : array-like
         Modified durations of individual bonds
     weights : array-like
         Portfolio weights (must sum to 1)
-    
+
     Returns:
     --------
     float : Portfolio duration
@@ -251,7 +251,7 @@ def portfolio_convexity(convexities, weights):
 def duration_gap(portfolio_dur, target_dur):
     """
     Calculate duration gap for immunization.
-    
+
     Returns:
     --------
     float : Duration gap (positive = extend, negative = shorten)
@@ -261,30 +261,30 @@ def duration_gap(portfolio_dur, target_dur):
 def rebalance_weights(current_weights, durations, target_dur):
     """
     Optimize portfolio weights to achieve target duration.
-    
+
     Uses quadratic programming to minimize tracking error
     while matching target duration.
     """
     from scipy.optimize import minimize
-    
+
     def objective(w):
         # Minimize deviation from current weights
         return np.sum((w - current_weights)**2)
-    
+
     def duration_constraint(w):
         # Portfolio duration must equal target
         return np.dot(w, durations) - target_dur
-    
+
     constraints = [
         {'type': 'eq', 'fun': duration_constraint},
         {'type': 'eq', 'fun': lambda w: np.sum(w) - 1}  # Sum to 1
     ]
-    
+
     bounds = [(0, 1) for _ in current_weights]
-    
+
     result = minimize(objective, current_weights, method='SLSQP',
                      bounds=bounds, constraints=constraints)
-    
+
     return result.x
 ```
 
@@ -303,19 +303,19 @@ class ImmunizationPortfolio:
     """
     Portfolio immunization framework.
     """
-    
-    def __init__(self, liability_value, liability_duration, 
+
+    def __init__(self, liability_value, liability_duration,
                  liability_convexity, horizon):
         self.liability_value = liability_value
         self.liability_duration = liability_duration
         self.liability_convexity = liability_convexity
         self.horizon = horizon
-    
-    def check_immunization(self, asset_value, asset_duration, 
+
+    def check_immunization(self, asset_value, asset_duration,
                           asset_convexity):
         """
         Verify immunization conditions.
-        
+
         Returns:
         --------
         dict : Immunization status for each condition
@@ -325,19 +325,19 @@ class ImmunizationPortfolio:
             'duration_matched': abs(asset_duration - self.liability_duration) < 0.1,
             'convexity_adequate': asset_convexity > self.liability_convexity
         }
-        
+
         conditions['fully_immunized'] = all(conditions.values())
         return conditions
-    
+
     def rebalancing_needed(self, current_duration, tolerance=0.25):
         """
         Determine if rebalancing required.
-        
+
         Parameters:
         -----------
         tolerance : float
             Duration deviation tolerance (years)
-        
+
         Returns:
         --------
         bool : True if rebalancing needed
@@ -356,12 +356,12 @@ Number of Contracts = (Target Duration - Portfolio Duration) × Portfolio Value
 
 **Python Implementation**:
 ```python
-def futures_hedge_ratio(portfolio_value, portfolio_duration, 
-                       target_duration, futures_duration, 
+def futures_hedge_ratio(portfolio_value, portfolio_duration,
+                       target_duration, futures_duration,
                        futures_price, contract_multiplier=1000):
     """
     Calculate number of futures contracts for duration adjustment.
-    
+
     Parameters:
     -----------
     portfolio_value : float
@@ -376,7 +376,7 @@ def futures_hedge_ratio(portfolio_value, portfolio_duration,
         Current futures price
     contract_multiplier : float
         Contract size multiplier
-    
+
     Returns:
     --------
     int : Number of contracts (positive = long, negative = short)
@@ -384,7 +384,7 @@ def futures_hedge_ratio(portfolio_value, portfolio_duration,
     duration_gap = target_duration - portfolio_duration
     numerator = duration_gap * portfolio_value
     denominator = futures_duration * futures_price * contract_multiplier
-    
+
     contracts = numerator / denominator
     return round(contracts)
 ```
@@ -395,7 +395,7 @@ def swap_duration_adjustment(portfolio_value, portfolio_duration,
                              target_duration, swap_duration):
     """
     Calculate notional value of interest rate swap for duration targeting.
-    
+
     Returns:
     --------
     float : Notional swap value

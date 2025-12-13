@@ -1,16 +1,12 @@
 """Tests for Performance Dashboard."""
 
-from datetime import datetime, timedelta
-
 import pandas as pd
 import plotly.graph_objects as go
 import pytest
 
-from monitoring.kpi import (
-    Alert,
+from adapters.telemetry.kpi import (
     AlertSeverity,
     KPIStatus,
-    KPIThreshold,
     KPITracker,
     KPIValue,
     TradingKPIs,

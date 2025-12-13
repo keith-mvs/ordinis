@@ -28,19 +28,19 @@ Model Identification:
   Title: Full descriptive name
   Purpose: Business decision model supports
   Model Type: DCF, 3-Statement, Budget, etc.
-  
+
 Version Control:
   Version Number: X.Y format
   Creation Date: YYYY-MM-DD
   Last Modified: YYYY-MM-DD HH:MM
   Status: Draft / Under Review / Approved / Production
-  
+
 Ownership:
   Author: Primary model developer
   Owner: Business owner/decision maker
   Reviewer: Independent reviewer
   Approver: Final sign-off authority
-  
+
 Usage:
   Intended Users: List of user groups
   Access Level: Public / Confidential / Restricted
@@ -134,7 +134,7 @@ File Location: \\shared\financial\2024\FY2024_Financials.xlsx
    Step 1 (Cell J10): =Gross_Revenue - Returns
    Step 2 (Cell J11): =J10 - Discounts
    Step 3 (Cell J12): =J11 * (1 - Tax_Rate)
-   
+
    Instead of: =((Gross_Revenue - Returns) - Discounts) * (1 - Tax_Rate)
    ```
 
@@ -214,7 +214,7 @@ Changes Made:
 2. Calculations Sheet
    - No formula changes
    - Recalculated all DCF discounting
-   
+
 3. Outputs Sheet
    - Updated sensitivity analysis ranges
    - Added note explaining WACC change impact
@@ -246,12 +246,12 @@ Attachments:
 1. **Overall Approach**
    ```
    Methodology: Discounted Cash Flow (DCF) Analysis
-   
+
    Overview:
    This model values the company by projecting future free cash flows
    and discounting them to present value using the weighted average
    cost of capital (WACC).
-   
+
    Steps:
    1. Project revenue using historical growth rates and market analysis
    2. Calculate operating expenses as % of revenue based on historical margins
@@ -259,7 +259,7 @@ Attachments:
    4. Calculate terminal value using perpetuity growth method
    5. Discount all cash flows to present value using WACC
    6. Sum present values to determine enterprise value
-   
+
    Sources:
    - Damodaran on Valuation (2012), Chapter 12
    - CFA Level II Corporate Finance curriculum
@@ -269,20 +269,20 @@ Attachments:
 2. **Key Formula Explanations**
    ```
    Free Cash Flow Calculation:
-   
+
    Formula:
    FCF = EBITDA - CapEx - ΔWC - Cash Taxes
-   
+
    Where:
    - EBITDA = Revenue × EBITDA Margin
    - CapEx = Revenue × CapEx % (assumption)
    - ΔWC = Change in (AR + Inventory - AP)
    - Cash Taxes = EBIT × Tax Rate
-   
+
    Rationale:
    This represents the cash available to all investors (debt and equity)
    after required investments in operations and growth.
-   
+
    Example (Year 1):
    Revenue: $10M
    EBITDA (25% margin): $2.5M
@@ -299,7 +299,7 @@ Attachments:
    - Model correctly handles negative values in NPV calculation
    - Validation check ensures this is due to investment, not errors
    - Management review required if negative FCF exceeds 3 years
-   
+
    Zero or Negative Growth:
    - Terminal value formula not valid if g ≥ WACC
    - Validation check flags this condition
@@ -325,7 +325,7 @@ Attachments:
 3. **How to Use**
    ```
    Standard Operating Procedure:
-   
+
    1. Open model
    2. Verify version number on Cover sheet matches latest approved
    3. Review assumption changes in Version History
@@ -340,13 +340,13 @@ Attachments:
    ```
    Issue: Validation VAL-001 shows FAIL
    Solution: Check Balance Sheet balances Assets = Liabilities + Equity
-   
+
    Issue: #DIV/0 error appears
    Solution: Check for zero values in denominator assumptions
-   
+
    Issue: Circular reference warning
    Solution: This model does not use circular references - check for accidental circular formulas
-   
+
    Issue: Results seem unreasonable
    Solution: Review sensitivity analysis to understand key drivers
    ```
