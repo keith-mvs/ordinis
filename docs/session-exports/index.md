@@ -12,6 +12,8 @@ Development session summaries and exports for continuity and knowledge preservat
 
 | Session | Date | Focus |
 |---------|------|-------|
+| [Phase 1 Completion](session-export-20251212-phase1-completion.md) | 2025-12-12 | Docs standardization, protocol migration |
+| [Refactoring](session-export-20251212-refactoring.md) | 2025-12-12 | Branch consolidation, cleanup |
 | [Coverage 75%](session-export-20251209-coverage-75.md) | 2025-12-09 | Test coverage target achievement (75%) |
 | [Docs Maintenance](session-export-20251208-docs-maintenance.md) | 2025-12-08 | Documentation audit, deduplication, normalization |
 | [Model Implementations](session-export-20251208-model-implementations.md) | 2025-12-08 | Multi-model framework implementation |
