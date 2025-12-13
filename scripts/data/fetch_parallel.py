@@ -47,12 +47,11 @@ def add_volatility_features(df: pd.DataFrame) -> pd.DataFrame:
     df["hvol_20"] = df["close"].pct_change().rolling(window=20).std() * (252 ** 0.5)
 
     # Parkinson Volatility (20-day, annualized) - fully vectorized
+    # Formula: σ = sqrt((1 / (4 * ln(2))) * mean(ln(high/low)²))
     high_low_ratio = df["high"] / df["low"]
-    # Use math.log(2) for clarity instead of magic number
-    log_hl_sq = (high_low_ratio ** 2) * (1 / (4 * math.log(2)))
-    df["parkinson_vol_20"] = (
-        (log_hl_sq.rolling(window=20).mean() ** 0.5) * (252 ** 0.5)
-    )
+    log_hl_sq = np.log(high_low_ratio) ** 2
+    parkinson_variance = log_hl_sq.rolling(window=20).mean() / (4 * math.log(2))
+    df["parkinson_vol_20"] = np.sqrt(parkinson_variance) * np.sqrt(252)
 
     return df
 
