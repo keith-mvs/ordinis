@@ -22,6 +22,7 @@ from .orders import (
 
 if TYPE_CHECKING:
     from alerting import AlertManager
+    from core.protocols import BrokerAdapter
     from persistence.repositories.order import OrderRepository
     from safety.kill_switch import KillSwitch
 
@@ -221,7 +222,7 @@ class FlowRouteEngine:
 
             # Persist error state
             await self._persist_order(order)
-            logger.exception(f"Error submitting order {order.order_id}: {e}")
+            logger.exception("Error submitting order %s", order.order_id)
 
             return False, f"Error submitting order: {e}"
 
@@ -278,7 +279,7 @@ class FlowRouteEngine:
             return False, broker_response.get("error", "Unknown error")
 
         except Exception as e:
-            logger.exception(f"Error cancelling order {order_id}: {e}")
+            logger.exception("Error cancelling order %s", order_id)
             return False, f"Error cancelling order: {e}"
 
     def get_order(self, order_id: str) -> Order | None:
@@ -361,8 +362,8 @@ class FlowRouteEngine:
                 signal_id=order.signal_id,
                 error_message=order.error_message,
             )
-        except Exception as e:
-            logger.exception(f"Failed to persist order {order.order_id}: {e}")
+        except Exception:
+            logger.exception("Failed to persist order %s", order.order_id)
 
     async def _persist_fill(self, fill: Fill, order: Order) -> None:
         """Persist fill to repository if configured."""
@@ -376,10 +377,9 @@ class FlowRouteEngine:
                 quantity=fill.quantity,
                 price=fill.price,
                 commission=fill.commission,
-                liquidity=fill.liquidity,
             )
-        except Exception as e:
-            logger.exception(f"Failed to persist fill {fill.fill_id}: {e}")
+        except Exception:
+            logger.exception("Failed to persist fill %s", fill.fill_id)
 
     async def _send_alert(
         self,
@@ -410,8 +410,8 @@ class FlowRouteEngine:
                 message=message,
                 metadata=metadata,
             )
-        except Exception as e:
-            logger.exception(f"Failed to send alert: {e}")
+        except Exception:
+            logger.exception("Failed to send alert")
 
     def get_execution_stats(self) -> dict[str, Any]:
         """Get execution statistics."""
@@ -462,43 +462,3 @@ class FlowRouteEngine:
             "has_broker": self._broker is not None,
             "execution_stats": self.get_execution_stats(),
         }
-
-
-class BrokerAdapter:
-    """
-    Abstract broker adapter interface.
-
-    All broker implementations must inherit from this.
-    """
-
-    async def submit_order(self, order: Order) -> dict[str, Any]:
-        """
-        Submit order to broker.
-
-        Args:
-            order: Order to submit
-
-        Returns:
-            Response dict with success/error
-        """
-        raise NotImplementedError
-
-    async def cancel_order(self, broker_order_id: str) -> dict[str, Any]:
-        """
-        Cancel order at broker.
-
-        Args:
-            broker_order_id: Broker's order ID
-
-        Returns:
-            Response dict with success/error
-        """
-        raise NotImplementedError
-
-    async def get_positions(self) -> list[dict[str, Any]]:
-        """Get current positions from broker."""
-        raise NotImplementedError
-
-    async def get_account(self) -> dict[str, Any]:
-        """Get account information."""
-        raise NotImplementedError

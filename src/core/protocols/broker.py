@@ -6,10 +6,10 @@ Abstracts broker-specific operations for order execution.
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Protocol
+from typing import TYPE_CHECKING, Any, Protocol
 
 if TYPE_CHECKING:
-    from typing import Any
+    pass
 
 
 class BrokerAdapter(Protocol):
@@ -24,7 +24,7 @@ class BrokerAdapter(Protocol):
     - submit_order: NOT idempotent (calling twice creates duplicates)
     """
 
-    async def submit_order(self, order: Any) -> str:
+    async def submit_order(self, order: Any) -> dict[str, Any]:
         """
         Place new order with broker.
 
@@ -32,36 +32,27 @@ class BrokerAdapter(Protocol):
             order: Order to submit
 
         Returns:
-            Broker-assigned order ID
-
-        Raises:
-            BrokerError: If submission fails
+            Response dict with keys:
+            - success: bool
+            - broker_order_id: str (if success)
+            - error: str (if failure)
 
         Note:
             NOT idempotent - calling twice places duplicate orders.
         """
         ...
 
-    async def cancel_order(self, order_id: str) -> None:
+    async def cancel_order(self, broker_order_id: str) -> dict[str, Any]:
         """
         Request cancellation of existing order.
 
         Safe to call multiple times; no effect if already closed.
 
         Args:
-            order_id: Broker order ID to cancel
-        """
-        ...
-
-    async def get_order_status(self, order_id: str) -> Any:
-        """
-        Retrieve current order status.
-
-        Args:
-            order_id: Broker order ID
+            broker_order_id: Broker order ID to cancel
 
         Returns:
-            Order status (pending, filled, cancelled, etc.)
+            Response dict with success/error status
         """
         ...
 

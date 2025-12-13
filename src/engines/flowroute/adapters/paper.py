@@ -10,7 +10,8 @@ import logging
 from typing import Any
 import uuid
 
-from ..core.engine import BrokerAdapter
+from core.protocols import BrokerAdapter
+
 from ..core.orders import Fill, Order
 
 logger = logging.getLogger(__name__)

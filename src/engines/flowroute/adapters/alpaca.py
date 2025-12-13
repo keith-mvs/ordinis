@@ -14,7 +14,8 @@ from alpaca.trading.client import TradingClient
 from alpaca.trading.enums import OrderSide, TimeInForce
 from alpaca.trading.requests import LimitOrderRequest, MarketOrderRequest
 
-from ..core.engine import BrokerAdapter
+from core.protocols import BrokerAdapter
+
 from ..core.orders import Fill, Order
 
 logger = logging.getLogger(__name__)
