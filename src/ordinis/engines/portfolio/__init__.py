@@ -7,10 +7,13 @@ Provides multiple rebalancing strategies:
 - Signal-Driven: Rebalance based on indicator signals
 - Threshold-Based: Rebalance when drift exceeds tolerance
 
-Plus a unified engine to orchestrate multiple strategies.
+Plus a unified engine to orchestrate multiple strategies, with event hooks
+and adapters for integration with other Ordinis systems.
 """
 
+from .adapters import FlowRouteAdapter, FlowRouteOrderRequest, ProofBenchAdapter, SignalCoreAdapter
 from .engine import ExecutionResult, RebalancingEngine, RebalancingHistory, StrategyType
+from .events import EventHooks, RebalanceEvent, RebalanceEventType
 from .risk_parity import RiskParityDecision, RiskParityRebalancer, RiskParityWeights
 from .signal_driven import (
     SignalDrivenDecision,
@@ -52,4 +55,13 @@ __all__ = [
     "StrategyType",
     "RebalancingHistory",
     "ExecutionResult",
+    # Events
+    "EventHooks",
+    "RebalanceEvent",
+    "RebalanceEventType",
+    # Adapters
+    "SignalCoreAdapter",
+    "ProofBenchAdapter",
+    "FlowRouteAdapter",
+    "FlowRouteOrderRequest",
 ]

@@ -11,6 +11,8 @@ from typing import Any
 
 import pandas as pd
 
+from ordinis.engines.portfolio.events import EventHooks, RebalanceEvent, RebalanceEventType
+
 
 class StrategyType(Enum):
     """Types of rebalancing strategies."""
@@ -93,15 +95,18 @@ class RebalancingEngine:
         self,
         default_strategy: StrategyType = StrategyType.TARGET_ALLOCATION,
         track_history: bool = True,
+        event_hooks: EventHooks | None = None,
     ) -> None:
         """Initialize the rebalancing engine.
 
         Args:
             default_strategy: Default strategy to use for rebalancing
             track_history: Whether to track rebalancing history
+            event_hooks: Event hooks manager (None = create new instance)
         """
         self.default_strategy = default_strategy
         self.track_history = track_history
+        self.event_hooks = event_hooks if event_hooks is not None else EventHooks()
         self.strategies: dict[StrategyType, Any] = {}
         self.history: list[RebalancingHistory] = []
         self.last_rebalance_date: datetime | None = None
@@ -173,15 +178,42 @@ class RebalancingEngine:
         strategy = self.get_strategy(strategy_type)
         stype = strategy_type if strategy_type is not None else self.default_strategy
 
+        # Emit rebalance started event
+        timestamp = datetime.now(tz=UTC)
+        self.event_hooks.emit(
+            RebalanceEvent(
+                timestamp=timestamp,
+                event_type=RebalanceEventType.REBALANCE_STARTED,
+                strategy_type=stype,
+                data={"positions": positions, "prices": prices},
+                metadata=strategy_kwargs,
+            )
+        )
+
         # Generate decisions
         decisions = strategy.generate_rebalance_orders(positions, prices, **strategy_kwargs)
+
+        # Emit decisions generated event
+        if decisions:
+            total_adjustment = sum(getattr(d, "adjustment_value", 0.0) for d in decisions)
+            self.event_hooks.emit(
+                RebalanceEvent(
+                    timestamp=timestamp,
+                    event_type=RebalanceEventType.DECISIONS_GENERATED,
+                    strategy_type=stype,
+                    data={
+                        "decisions_count": len(decisions),
+                        "total_adjustment_value": total_adjustment,
+                    },
+                )
+            )
 
         # Track in history if enabled
         if self.track_history and decisions:
             total_adjustment = sum(getattr(d, "adjustment_value", 0.0) for d in decisions)
 
             history_entry = RebalancingHistory(
-                timestamp=datetime.now(tz=UTC),
+                timestamp=timestamp,
                 strategy_type=stype,
                 decisions_count=len(decisions),
                 total_adjustment_value=total_adjustment,
@@ -235,15 +267,26 @@ class RebalancingEngine:
         Returns:
             ExecutionResult with execution summary
         """
+        timestamp = datetime.now(tz=UTC)
+
         if not decisions:
             return ExecutionResult(
-                timestamp=datetime.now(tz=UTC),
+                timestamp=timestamp,
                 decisions_executed=0,
                 decisions_failed=0,
                 total_value_traded=0.0,
                 success=True,
                 errors=[],
             )
+
+        # Emit execution started event
+        self.event_hooks.emit(
+            RebalanceEvent(
+                timestamp=timestamp,
+                event_type=RebalanceEventType.EXECUTION_STARTED,
+                data={"decisions_count": len(decisions)},
+            )
+        )
 
         executed = 0
         failed = 0
@@ -262,26 +305,70 @@ class RebalancingEngine:
                     if success:
                         executed += 1
                         total_traded += abs(getattr(decision, "adjustment_value", 0.0))
+                        # Emit order executed event
+                        self.event_hooks.emit(
+                            RebalanceEvent(
+                                timestamp=datetime.now(tz=UTC),
+                                event_type=RebalanceEventType.ORDER_EXECUTED,
+                                data={
+                                    "symbol": decision.symbol,
+                                    "adjustment_value": abs(
+                                        getattr(decision, "adjustment_value", 0.0)
+                                    ),
+                                },
+                            )
+                        )
                     else:
                         failed += 1
                         if error:
                             errors.append(f"{decision.symbol}: {error}")
+                        # Emit order failed event
+                        self.event_hooks.emit(
+                            RebalanceEvent(
+                                timestamp=datetime.now(tz=UTC),
+                                event_type=RebalanceEventType.ORDER_FAILED,
+                                data={"symbol": decision.symbol, "error": error},
+                            )
+                        )
                 except Exception as e:
                     failed += 1
                     errors.append(f"{decision.symbol}: {e!s}")
+                    # Emit order failed event
+                    self.event_hooks.emit(
+                        RebalanceEvent(
+                            timestamp=datetime.now(tz=UTC),
+                            event_type=RebalanceEventType.ORDER_FAILED,
+                            data={"symbol": decision.symbol, "error": str(e)},
+                        )
+                    )
 
         # Update history if tracked
+        completion_timestamp = datetime.now(tz=UTC)
         if self.track_history and self.history:
             self.history[-1].execution_status = "executed" if failed == 0 else "partial"
-            self.last_rebalance_date = datetime.now(tz=UTC)
+            self.last_rebalance_date = completion_timestamp
 
         result = ExecutionResult(
-            timestamp=datetime.now(tz=UTC),
+            timestamp=completion_timestamp,
             decisions_executed=executed,
             decisions_failed=failed,
             total_value_traded=total_traded,
             success=(failed == 0),
             errors=errors,
+        )
+
+        # Emit rebalance completed event
+        self.event_hooks.emit(
+            RebalanceEvent(
+                timestamp=completion_timestamp,
+                event_type=RebalanceEventType.REBALANCE_COMPLETED,
+                data={
+                    "executed": executed,
+                    "failed": failed,
+                    "total_traded": total_traded,
+                    "success": failed == 0,
+                },
+            )
         )
 
         return result
