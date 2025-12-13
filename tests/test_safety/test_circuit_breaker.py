@@ -16,6 +16,7 @@ import asyncio
 import pytest
 
 from ordinis.safety.circuit_breaker import (
+    BrokerCircuitBreaker,
     CircuitBreaker,
     CircuitOpenError,
     CircuitState,
@@ -350,3 +351,541 @@ class TestCircuitBreakerHalfOpenMaxCalls:
 
         # Circuit should be open again after failure in half-open
         assert cb.state == CircuitState.OPEN
+
+    @pytest.mark.unit
+    @pytest.mark.asyncio
+    async def test_half_open_blocks_after_max_calls(self):
+        """Test half-open state blocks calls after max reached."""
+        cb = CircuitBreaker(
+            name="test",
+            failure_threshold=1,
+            half_open_max_calls=2,
+            recovery_timeout_seconds=0.01,
+        )
+
+        call_count = 0
+
+        async def slow_success():
+            """Slow async function to test concurrent calls in half-open."""
+            nonlocal call_count
+            call_count += 1
+            await asyncio.sleep(0.05)
+            return "ok"
+
+        async def fail_func():
+            raise ValueError("fail")
+
+        # Open the circuit
+        with pytest.raises(ValueError, match="fail"):
+            await cb.call(fail_func)
+
+        assert cb.state == CircuitState.OPEN
+
+        # Wait for recovery timeout
+        await asyncio.sleep(0.02)
+
+        # Start two async calls (max allowed)
+        task1 = asyncio.create_task(cb.call(slow_success))
+        await asyncio.sleep(0.001)  # Small delay to ensure first call enters
+        task2 = asyncio.create_task(cb.call(slow_success))
+
+        # Third call should be blocked
+        await asyncio.sleep(0.001)
+        with pytest.raises(CircuitOpenError, match="max calls reached"):
+            await cb.call(slow_success)
+
+        # Wait for tasks to complete
+        await task1
+        await task2
+
+    @pytest.mark.unit
+    @pytest.mark.asyncio
+    async def test_half_open_multiple_successes_close_circuit(self):
+        """Test half-open closes after multiple successes."""
+        cb = CircuitBreaker(
+            name="test",
+            failure_threshold=1,
+            success_threshold=3,
+            recovery_timeout_seconds=0.01,
+            half_open_max_calls=5,
+        )
+
+        async def fail_func():
+            raise ValueError("fail")
+
+        async def success_func():
+            return "ok"
+
+        # Open the circuit
+        with pytest.raises(ValueError, match="fail"):
+            await cb.call(fail_func)
+
+        assert cb.state == CircuitState.OPEN
+
+        # Wait for recovery timeout
+        await asyncio.sleep(0.02)
+
+        # First success transitions to half-open
+        result = await cb.call(success_func)
+        assert result == "ok"
+        assert cb.state == CircuitState.HALF_OPEN
+
+        # Second success
+        result = await cb.call(success_func)
+        assert result == "ok"
+        assert cb.state == CircuitState.HALF_OPEN
+
+        # Third success should close circuit
+        result = await cb.call(success_func)
+        assert result == "ok"
+        assert cb.state == CircuitState.CLOSED
+        assert cb.stats.consecutive_successes == 3
+
+
+class TestCircuitBreakerCallbackErrors:
+    """Test error handling in callbacks."""
+
+    @pytest.mark.unit
+    @pytest.mark.asyncio
+    async def test_state_change_callback_exception(self):
+        """Test that exceptions in state change callback are handled."""
+
+        def failing_callback(state):
+            raise RuntimeError("Callback error")
+
+        cb = CircuitBreaker(
+            name="test",
+            failure_threshold=1,
+            on_state_change=failing_callback,
+        )
+
+        async def fail_func():
+            raise ValueError("fail")
+
+        # Should not raise even though callback fails
+        with pytest.raises(ValueError, match="fail"):
+            await cb.call(fail_func)
+
+        # Circuit should still be open
+        assert cb.state == CircuitState.OPEN
+
+    @pytest.mark.unit
+    @pytest.mark.asyncio
+    async def test_state_change_callback_none(self):
+        """Test state changes work without callback."""
+        cb = CircuitBreaker(name="test", failure_threshold=1, on_state_change=None)
+
+        async def fail_func():
+            raise ValueError("fail")
+
+        with pytest.raises(ValueError, match="fail"):
+            await cb.call(fail_func)
+
+        assert cb.state == CircuitState.OPEN
+
+
+class TestCircuitBreakerAsyncEdgeCases:
+    """Test async edge cases and concurrent behavior."""
+
+    @pytest.mark.unit
+    @pytest.mark.asyncio
+    async def test_function_with_args_and_kwargs(self):
+        """Test calling function with positional and keyword arguments."""
+        cb = CircuitBreaker(name="test")
+
+        async def func_with_args(a, b, c=None):
+            return f"{a}-{b}-{c}"
+
+        result = await cb.call(func_with_args, "x", "y", c="z")
+        assert result == "x-y-z"
+        assert cb.stats.successful_calls == 1
+
+    @pytest.mark.unit
+    @pytest.mark.asyncio
+    async def test_sync_function_with_args(self):
+        """Test sync function with arguments."""
+        cb = CircuitBreaker(name="test")
+
+        def sync_func(a, b):
+            return a + b
+
+        result = await cb.call(sync_func, 10, 20)
+        assert result == 30
+        assert cb.stats.successful_calls == 1
+
+    @pytest.mark.unit
+    @pytest.mark.asyncio
+    async def test_exception_propagation(self):
+        """Test that original exception is propagated."""
+        cb = CircuitBreaker(name="test", failure_threshold=5)
+
+        class CustomError(Exception):
+            pass
+
+        async def custom_fail():
+            raise CustomError("custom error message")
+
+        with pytest.raises(CustomError, match="custom error message"):
+            await cb.call(custom_fail)
+
+        assert cb.stats.failed_calls == 1
+
+
+class TestCircuitBreakerRecovery:
+    """Test recovery timeout and state transitions."""
+
+    @pytest.mark.unit
+    @pytest.mark.asyncio
+    async def test_recovery_timeout_not_elapsed(self):
+        """Test circuit stays open if recovery timeout not elapsed."""
+        cb = CircuitBreaker(
+            name="test",
+            failure_threshold=1,
+            recovery_timeout_seconds=1.0,  # 1 second
+        )
+
+        async def fail_func():
+            raise ValueError("fail")
+
+        async def success_func():
+            return "ok"
+
+        # Open the circuit
+        with pytest.raises(ValueError, match="fail"):
+            await cb.call(fail_func)
+
+        assert cb.state == CircuitState.OPEN
+
+        # Try immediately (before timeout)
+        with pytest.raises(CircuitOpenError):
+            await cb.call(success_func)
+
+        # Should still be open
+        assert cb.state == CircuitState.OPEN
+
+    @pytest.mark.unit
+    @pytest.mark.asyncio
+    async def test_opened_at_timestamp_set(self):
+        """Test that opened_at timestamp is set when circuit opens."""
+        cb = CircuitBreaker(name="test", failure_threshold=1)
+
+        async def fail_func():
+            raise ValueError("fail")
+
+        assert cb._opened_at is None
+
+        # Open the circuit
+        with pytest.raises(ValueError, match="fail"):
+            await cb.call(fail_func)
+
+        assert cb.state == CircuitState.OPEN
+        assert cb._opened_at is not None
+
+    @pytest.mark.unit
+    @pytest.mark.asyncio
+    async def test_opened_at_cleared_on_close(self):
+        """Test that opened_at is cleared when circuit closes."""
+        cb = CircuitBreaker(
+            name="test",
+            failure_threshold=1,
+            success_threshold=1,
+            recovery_timeout_seconds=0.01,
+        )
+
+        async def fail_func():
+            raise ValueError("fail")
+
+        async def success_func():
+            return "ok"
+
+        # Open the circuit
+        with pytest.raises(ValueError, match="fail"):
+            await cb.call(fail_func)
+
+        assert cb._opened_at is not None
+
+        # Wait for recovery
+        await asyncio.sleep(0.02)
+
+        # Close the circuit
+        await cb.call(success_func)
+
+        assert cb.state == CircuitState.CLOSED
+        assert cb._opened_at is None
+
+
+class TestCircuitBreakerForceOperations:
+    """Test force open/close operations."""
+
+    @pytest.mark.unit
+    @pytest.mark.asyncio
+    async def test_force_open_with_reason(self):
+        """Test force open with custom reason."""
+        cb = CircuitBreaker(name="test")
+
+        await cb.force_open(reason="Testing manual override")
+        assert cb.state == CircuitState.OPEN
+
+    @pytest.mark.unit
+    @pytest.mark.asyncio
+    async def test_force_close_resets_counters(self):
+        """Test force close resets failure/success counters."""
+        cb = CircuitBreaker(name="test", failure_threshold=5)
+
+        async def fail_func():
+            raise ValueError("fail")
+
+        # Accumulate some failures
+        for _ in range(3):
+            with pytest.raises(ValueError, match="fail"):
+                await cb.call(fail_func)
+
+        assert cb.stats.consecutive_failures == 3
+
+        # Force close
+        await cb.force_close()
+
+        assert cb.state == CircuitState.CLOSED
+        assert cb.stats.consecutive_failures == 0
+        assert cb.stats.consecutive_successes == 0
+
+
+class TestBrokerCircuitBreaker:
+    """Test BrokerCircuitBreaker specialized class."""
+
+    @pytest.mark.unit
+    def test_broker_circuit_breaker_initialization(self):
+        """Test BrokerCircuitBreaker initialization with defaults."""
+        bcb = BrokerCircuitBreaker()
+        assert bcb.name == "broker_api"
+        assert bcb.state == CircuitState.CLOSED
+        assert bcb._failure_threshold == 3
+        assert bcb._success_threshold == 2
+        assert bcb._recovery_timeout.total_seconds() == 60.0
+        assert bcb._order_failures == 0
+        assert bcb._quote_failures == 0
+        assert bcb._account_failures == 0
+
+    @pytest.mark.unit
+    def test_broker_circuit_breaker_custom_params(self):
+        """Test BrokerCircuitBreaker with custom parameters."""
+        bcb = BrokerCircuitBreaker(
+            name="custom_broker",
+            failure_threshold=5,
+            success_threshold=3,
+            recovery_timeout_seconds=120.0,
+        )
+        assert bcb.name == "custom_broker"
+        assert bcb._failure_threshold == 5
+        assert bcb._success_threshold == 3
+        assert bcb._recovery_timeout.total_seconds() == 120.0
+
+    @pytest.mark.unit
+    @pytest.mark.asyncio
+    async def test_record_order_failure(self):
+        """Test recording order submission failures."""
+        bcb = BrokerCircuitBreaker(failure_threshold=3)
+
+        error = ValueError("Order submission failed")
+        await bcb.record_order_failure(error)
+
+        assert bcb._order_failures == 1
+        assert bcb.stats.failed_calls == 1
+        assert bcb.stats.consecutive_failures == 1
+
+    @pytest.mark.unit
+    @pytest.mark.asyncio
+    async def test_record_quote_failure(self):
+        """Test recording quote request failures."""
+        bcb = BrokerCircuitBreaker(failure_threshold=3)
+
+        error = ValueError("Quote request failed")
+        await bcb.record_quote_failure(error)
+
+        assert bcb._quote_failures == 1
+        assert bcb.stats.failed_calls == 1
+
+    @pytest.mark.unit
+    @pytest.mark.asyncio
+    async def test_record_account_failure(self):
+        """Test recording account query failures."""
+        bcb = BrokerCircuitBreaker(failure_threshold=3)
+
+        error = ValueError("Account query failed")
+        await bcb.record_account_failure(error)
+
+        assert bcb._account_failures == 1
+        assert bcb.stats.failed_calls == 1
+
+    @pytest.mark.unit
+    @pytest.mark.asyncio
+    async def test_broker_circuit_opens_after_failures(self):
+        """Test broker circuit opens after threshold."""
+        bcb = BrokerCircuitBreaker(failure_threshold=3)
+
+        error = ValueError("API error")
+
+        # Record multiple failures
+        await bcb.record_order_failure(error)
+        await bcb.record_quote_failure(error)
+        await bcb.record_account_failure(error)
+
+        assert bcb.state == CircuitState.OPEN
+        assert bcb._order_failures == 1
+        assert bcb._quote_failures == 1
+        assert bcb._account_failures == 1
+
+    @pytest.mark.unit
+    @pytest.mark.asyncio
+    async def test_on_open_callback_triggered(self):
+        """Test on_open callback is triggered when circuit opens."""
+        callback_triggered = []
+
+        def on_open_callback():
+            callback_triggered.append(True)
+
+        bcb = BrokerCircuitBreaker(
+            failure_threshold=1,
+            on_open=on_open_callback,
+        )
+
+        async def fail_func():
+            raise ValueError("fail")
+
+        # Trigger failure to open circuit
+        with pytest.raises(ValueError, match="fail"):
+            await bcb.call(fail_func)
+
+        assert bcb.state == CircuitState.OPEN
+        assert len(callback_triggered) == 1
+
+    @pytest.mark.unit
+    @pytest.mark.asyncio
+    async def test_on_open_callback_exception_handled(self):
+        """Test exceptions in on_open callback are handled."""
+
+        def failing_on_open():
+            raise RuntimeError("Callback error")
+
+        bcb = BrokerCircuitBreaker(
+            failure_threshold=1,
+            on_open=failing_on_open,
+        )
+
+        async def fail_func():
+            raise ValueError("fail")
+
+        # Should not raise even though callback fails
+        with pytest.raises(ValueError, match="fail"):
+            await bcb.call(fail_func)
+
+        # Circuit should still be open
+        assert bcb.state == CircuitState.OPEN
+
+    @pytest.mark.unit
+    @pytest.mark.asyncio
+    async def test_on_open_callback_none(self):
+        """Test on_open callback works when None."""
+        bcb = BrokerCircuitBreaker(
+            failure_threshold=1,
+            on_open=None,
+        )
+
+        async def fail_func():
+            raise ValueError("fail")
+
+        with pytest.raises(ValueError, match="fail"):
+            await bcb.call(fail_func)
+
+        assert bcb.state == CircuitState.OPEN
+
+    @pytest.mark.unit
+    def test_broker_get_status(self):
+        """Test broker circuit breaker status includes failure counts."""
+        bcb = BrokerCircuitBreaker()
+        status = bcb.get_status()
+
+        assert status["name"] == "broker_api"
+        assert status["state"] == "closed"
+        assert "order_failures" in status
+        assert "quote_failures" in status
+        assert "account_failures" in status
+        assert status["order_failures"] == 0
+        assert status["quote_failures"] == 0
+        assert status["account_failures"] == 0
+
+    @pytest.mark.unit
+    @pytest.mark.asyncio
+    async def test_broker_status_after_failures(self):
+        """Test broker status reflects failure counts."""
+        bcb = BrokerCircuitBreaker(failure_threshold=10)
+
+        error = ValueError("API error")
+
+        # Record various failures
+        await bcb.record_order_failure(error)
+        await bcb.record_order_failure(error)
+        await bcb.record_quote_failure(error)
+        await bcb.record_account_failure(error)
+
+        status = bcb.get_status()
+        assert status["order_failures"] == 2
+        assert status["quote_failures"] == 1
+        assert status["account_failures"] == 1
+        assert status["failed_calls"] == 4
+
+    @pytest.mark.unit
+    @pytest.mark.asyncio
+    async def test_broker_state_change_callback(self):
+        """Test broker circuit breaker with state change callback."""
+        state_changes = []
+
+        def on_state_change(state):
+            state_changes.append(state)
+
+        bcb = BrokerCircuitBreaker(
+            failure_threshold=1,
+            on_state_change=on_state_change,
+        )
+
+        error = ValueError("fail")
+        await bcb.record_order_failure(error)
+
+        assert CircuitState.OPEN in state_changes
+
+    @pytest.mark.unit
+    @pytest.mark.asyncio
+    async def test_broker_on_open_only_on_open_state(self):
+        """Test on_open callback only triggered when transitioning to OPEN."""
+        callback_count = []
+
+        def on_open_callback():
+            callback_count.append(1)
+
+        bcb = BrokerCircuitBreaker(
+            failure_threshold=1,
+            success_threshold=1,
+            recovery_timeout_seconds=0.01,
+            on_open=on_open_callback,
+        )
+
+        async def fail_func():
+            raise ValueError("fail")
+
+        async def success_func():
+            return "ok"
+
+        # Open circuit
+        with pytest.raises(ValueError, match="fail"):
+            await bcb.call(fail_func)
+
+        assert len(callback_count) == 1
+
+        # Wait for recovery
+        await asyncio.sleep(0.02)
+
+        # Success should close circuit
+        await bcb.call(success_func)
+
+        # Callback should only be called once (on OPEN)
+        assert len(callback_count) == 1
