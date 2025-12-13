@@ -4,17 +4,19 @@ Parallelized Dataset Fetch - Max CPU Utilization
 Fetches 101 symbols in parallel using all available CPU cores.
 """
 
-import sys
-from pathlib import Path
-from datetime import datetime, timedelta
 from concurrent.futures import ProcessPoolExecutor, as_completed
+from datetime import datetime, timedelta
 import multiprocessing as mp
+from pathlib import Path
+import sys
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from enhanced_dataset_config_v2 import (
-    get_all_symbols_by_market_cap_v2 as get_all_symbols_by_market_cap,
     EXPANDED_SYMBOL_UNIVERSE as ENHANCED_SYMBOL_UNIVERSE,
+)
+from enhanced_dataset_config_v2 import (
+    get_all_symbols_by_market_cap_v2 as get_all_symbols_by_market_cap,
 )
 import pandas as pd
 import yfinance as yf
@@ -24,12 +26,12 @@ def add_volatility_features(df: pd.DataFrame) -> pd.DataFrame:
     """Add volatility features inline using vectorized operations for better performance."""
     # True Range - vectorized calculation (much faster than apply with axis=1)
     prev_close = df["close"].shift(1)
-    
+
     # Calculate all three components vectorized
     high_low = df["high"] - df["low"]
     high_prev_close = (df["high"] - prev_close).abs()
     low_prev_close = (df["low"] - prev_close).abs()
-    
+
     # Stack and find max across columns (vectorized)
     df["true_range"] = pd.concat([high_low, high_prev_close, low_prev_close], axis=1).max(axis=1)
 

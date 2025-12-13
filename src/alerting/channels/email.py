@@ -243,10 +243,16 @@ Time: {alert.timestamp.strftime("%Y-%m-%d %H:%M:%S UTC")}
 """
 
         if alert.metadata:
-            html_body += '        <div class="details"><strong>Details:</strong><ul>'
-            for key, value in alert.metadata.items():
-                html_body += f"<li><strong>{key}:</strong> {value}</li>"
-            html_body += "</ul></div>"
+            # Use list comprehension and join for better performance
+            metadata_items = [
+                f"<li><strong>{key}:</strong> {value}</li>"
+                for key, value in alert.metadata.items()
+            ]
+            html_body += (
+                '        <div class="details"><strong>Details:</strong><ul>'
+                + "".join(metadata_items)
+                + "</ul></div>"
+            )
 
         html_body += """
     </div>
