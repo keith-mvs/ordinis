@@ -11,6 +11,7 @@ import pandas as pd
 
 from .moving_averages import MovingAverages
 from .oscillators import OscillatorCondition, Oscillators, OscillatorSignal
+from .trend import IchimokuSignal, TrendIndicators
 from .volatility import BandSignal, VolatilityIndicators
 from .volume import VolumeIndicators, VolumeSignal
 
@@ -23,6 +24,7 @@ class TechnicalSnapshot:
     trend_direction: str  # "bullish", "bearish", "neutral"
     trend_strength: float  # 0-100
     ma_alignment: str  # "bullish", "bearish", "mixed"
+    ichimoku: IchimokuSignal
 
     # Momentum
     rsi: float
@@ -56,6 +58,7 @@ class TechnicalIndicators:
     def __init__(self):
         self.ma = MovingAverages()
         self.oscillators = Oscillators()
+        self.trend = TrendIndicators()
         self.volatility = VolatilityIndicators()
         self.volume = VolumeIndicators()
 
@@ -96,6 +99,9 @@ class TechnicalIndicators:
         # MACD
         macd_line, signal_line, histogram = self._calculate_macd(close)
 
+        # Ichimoku Cloud
+        _, ichimoku_signal = self.trend.ichimoku(high, low, close)
+
         # Volatility Analysis
         vol_metrics = self.volatility.volatility_analysis(data)
         bb_signal = self.volatility.bollinger_signal(data)
@@ -106,18 +112,30 @@ class TechnicalIndicators:
 
         # Generate Signals
         signals = self._generate_signals(
-            rsi_signal, bb_signal, vol_signal, ma_analysis, stoch_k_current, histogram
+            rsi_signal,
+            bb_signal,
+            vol_signal,
+            ma_analysis,
+            stoch_k_current,
+            histogram,
+            ichimoku_signal,
         )
 
         # Overall Bias
         overall_bias = self._calculate_bias(
-            trend_direction, rsi, stoch_k_current, bb_signal.position, vol_signal.trend
+            trend_direction,
+            rsi,
+            stoch_k_current,
+            bb_signal.position,
+            vol_signal.trend,
+            ichimoku_signal,
         )
 
         return TechnicalSnapshot(
             trend_direction=trend_direction,
             trend_strength=trend_strength,
             ma_alignment=ma_alignment,
+            ichimoku=ichimoku_signal,
             rsi=rsi,
             rsi_condition=rsi_signal.condition,
             stochastic_k=stoch_k_current,
@@ -145,7 +163,7 @@ class TechnicalIndicators:
 
         return macd_line.iloc[-1], signal_line.iloc[-1], histogram.iloc[-1]
 
-    def _generate_signals(
+    def _generate_signals(  # noqa: PLR0912
         self,
         rsi_signal: OscillatorSignal,
         bb_signal: BandSignal,
@@ -153,6 +171,7 @@ class TechnicalIndicators:
         ma_analysis: dict,
         stoch_k: float,
         macd_hist: float,
+        ichimoku_signal: IchimokuSignal,
     ) -> list[str]:
         """Generate list of active trading signals."""
         signals = []
@@ -195,10 +214,26 @@ class TechnicalIndicators:
         elif stoch_k > 80:
             signals.append("Stochastic overbought")
 
+        # Ichimoku
+        if ichimoku_signal.trend == "bullish":
+            signals.append("Ichimoku bullish cloud")
+        elif ichimoku_signal.trend == "bearish":
+            signals.append("Ichimoku bearish cloud")
+        if ichimoku_signal.baseline_cross == "bullish":
+            signals.append("Kijun bullish cross")
+        elif ichimoku_signal.baseline_cross == "bearish":
+            signals.append("Kijun bearish cross")
+
         return signals
 
-    def _calculate_bias(
-        self, trend: str, rsi: float, stoch: float, bb_pos: str, vol_trend: str
+    def _calculate_bias(  # noqa: PLR0912
+        self,
+        trend: str,
+        rsi: float,
+        stoch: float,
+        bb_pos: str,
+        vol_trend: str,
+        ichimoku_signal: IchimokuSignal,
     ) -> str:
         """Calculate overall market bias."""
         score = 0
@@ -231,6 +266,16 @@ class TechnicalIndicators:
         if vol_trend == "accumulation":
             score += 1
         elif vol_trend == "distribution":
+            score -= 1
+
+        # Ichimoku (weight: 1)
+        if ichimoku_signal.trend == "bullish":
+            score += 1
+        elif ichimoku_signal.trend == "bearish":
+            score -= 1
+        if ichimoku_signal.position == "above_cloud":
+            score += 1
+        elif ichimoku_signal.position == "below_cloud":
             score -= 1
 
         # Map score to bias

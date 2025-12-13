@@ -17,7 +17,7 @@ from .combined import TechnicalIndicators
 from .moving_averages import MovingAverages
 from .oscillators import Oscillators
 from .static_levels import StaticLevels
-from .trend import TrendIndicators
+from .trend import IchimokuCloudValues, IchimokuSignal, TrendIndicators
 from .volatility import VolatilityIndicators
 from .volume import VolumeIndicators
 
@@ -25,6 +25,8 @@ __all__ = [
     "MovingAverages",
     "Oscillators",
     "TrendIndicators",
+    "IchimokuCloudValues",
+    "IchimokuSignal",
     "StaticLevels",
     "VolatilityIndicators",
     "VolumeIndicators",

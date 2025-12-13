@@ -6,6 +6,7 @@ Identify and measure trend direction, strength, and potential reversals.
 Indicators:
 - ADX: Average Directional Index (trend strength)
 - Parabolic SAR: Stop and Reverse (dynamic support/resistance)
+- Ichimoku Cloud: Multi-line trend and momentum framework
 """
 
 from dataclasses import dataclass
@@ -32,6 +33,29 @@ class ParabolicSARSignal:
     trend: str  # "bullish" (SAR below price) or "bearish" (SAR above price)
     reversal: bool  # True if trend just reversed
     acceleration: float  # Current acceleration factor
+
+
+@dataclass
+class IchimokuCloudValues:
+    """Raw Ichimoku line values at the latest bar."""
+
+    tenkan_sen: float
+    kijun_sen: float
+    senkou_span_a: float
+    senkou_span_b: float
+    chikou_span: float
+
+
+@dataclass
+class IchimokuSignal:
+    """Ichimoku Cloud signal summary."""
+
+    trend: str  # "bullish", "bearish", "neutral"
+    position: str  # "above_cloud", "in_cloud", "below_cloud"
+    cloud_bias: str  # "bullish", "bearish"
+    baseline_cross: str | None  # "bullish", "bearish", or None
+    lagging_confirmation: bool
+    values: IchimokuCloudValues
 
 
 class TrendIndicators:
@@ -299,3 +323,113 @@ class TrendIndicators:
             reversal=reversal,
             acceleration=acceleration,  # Simplified - actual AF varies
         )
+
+    @staticmethod
+    def ichimoku(
+        high: pd.Series,
+        low: pd.Series,
+        close: pd.Series,
+        conversion_period: int = 9,
+        base_period: int = 26,
+        span_b_period: int = 52,
+        displacement: int = 26,
+    ) -> tuple[IchimokuCloudValues, IchimokuSignal]:
+        """
+        Calculate Ichimoku Cloud lines and derive a trend signal.
+
+        Args:
+            high: High prices
+            low: Low prices
+            close: Close prices
+            conversion_period: Lookback for Tenkan-sen (default 9)
+            base_period: Lookback for Kijun-sen (default 26)
+            span_b_period: Lookback for Senkou Span B (default 52)
+            displacement: Forward shift for leading spans and backward for Chikou (default 26)
+
+        Returns:
+            (IchimokuCloudValues, IchimokuSignal)
+        """
+        conversion_line = (
+            high.rolling(window=conversion_period).max()
+            + low.rolling(window=conversion_period).min()
+        ) / 2
+        base_line = (
+            high.rolling(window=base_period).max() + low.rolling(window=base_period).min()
+        ) / 2
+        leading_span_a = ((conversion_line + base_line) / 2).shift(displacement)
+        leading_span_b = (
+            (high.rolling(window=span_b_period).max() + low.rolling(window=span_b_period).min()) / 2
+        ).shift(displacement)
+        lagging_span = close.shift(-displacement)
+        chikou_series = lagging_span.dropna()
+        chikou_value = float(chikou_series.iloc[-1]) if not chikou_series.empty else float("nan")
+
+        values = IchimokuCloudValues(
+            tenkan_sen=float(conversion_line.iloc[-1]),
+            kijun_sen=float(base_line.iloc[-1]),
+            senkou_span_a=float(leading_span_a.iloc[-1]),
+            senkou_span_b=float(leading_span_b.iloc[-1]),
+            chikou_span=chikou_value,
+        )
+
+        price = float(close.iloc[-1])
+        cloud_top = max(values.senkou_span_a, values.senkou_span_b)
+        cloud_bottom = min(values.senkou_span_a, values.senkou_span_b)
+
+        if price > cloud_top:
+            position = "above_cloud"
+        elif price < cloud_bottom:
+            position = "below_cloud"
+        else:
+            position = "in_cloud"
+
+        cloud_bias = "bullish" if values.senkou_span_a >= values.senkou_span_b else "bearish"
+
+        # Detect price crossing baseline (Kijun)
+        baseline_cross: str | None = None
+        if len(close) > 1 and len(base_line.dropna()) >= 2:
+            prev_price = float(close.iloc[-2])
+            prev_base = float(base_line.iloc[-2])
+            if prev_price <= prev_base < price:
+                baseline_cross = "bullish"
+            elif prev_price >= prev_base > price:
+                baseline_cross = "bearish"
+
+        # Lagging span confirmation: Chikou above/below price at displacement offset
+        lag_confirm = False
+        if len(close) > displacement and not pd.isna(values.chikou_span):
+            lookback_price = float(close.iloc[-displacement - 1])
+            if (
+                values.chikou_span > lookback_price
+                and cloud_bias == "bullish"
+                or values.chikou_span < lookback_price
+                and cloud_bias == "bearish"
+            ):
+                lag_confirm = True
+
+        # Overall trend assessment
+        if (
+            position == "above_cloud"
+            and cloud_bias == "bullish"
+            and values.tenkan_sen > values.kijun_sen
+        ):
+            trend = "bullish"
+        elif (
+            position == "below_cloud"
+            and cloud_bias == "bearish"
+            and values.tenkan_sen < values.kijun_sen
+        ):
+            trend = "bearish"
+        else:
+            trend = "neutral"
+
+        signal = IchimokuSignal(
+            trend=trend,
+            position=position,
+            cloud_bias=cloud_bias,
+            baseline_cross=baseline_cross,
+            lagging_confirmation=lag_confirm,
+            values=values,
+        )
+
+        return values, signal

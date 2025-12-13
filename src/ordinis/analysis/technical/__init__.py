@@ -22,19 +22,35 @@ Modules:
   - trend_analysis: Direction, strength, support/resistance
 """
 
+from .composite import CompositeIndicator, CompositeResult
 from .indicators import (
     MovingAverages,
     Oscillators,
     TechnicalIndicators,
+    TrendIndicators,
     VolatilityIndicators,
     VolumeIndicators,
 )
+from .multi_timeframe import MultiTimeframeAnalyzer, MultiTimeframeResult, TimeframeSignal
 from .patterns import (
+    BreakoutDetector,
+    BreakoutSignal,
     CandlestickPatterns,
-    ChartPatterns,
-    FibonacciAnalysis,
+    PatternMatch,
+    SupportResistanceLevels,
+    SupportResistanceLocator,
 )
-from .trend_analysis import TrendAnalysis
+
+# ChartPatterns and FibonacciAnalysis not yet implemented
+# try:
+#     from .patterns import ChartPatterns, FibonacciAnalysis
+# except ImportError:
+#     ChartPatterns = None
+#     FibonacciAnalysis = None
+try:
+    from .trend_analysis import TrendAnalysis
+except ImportError:
+    TrendAnalysis = None
 
 __all__ = [
     "TechnicalIndicators",
@@ -42,8 +58,19 @@ __all__ = [
     "Oscillators",
     "VolumeIndicators",
     "VolatilityIndicators",
+    "TrendIndicators",
     "ChartPatterns",
     "CandlestickPatterns",
     "FibonacciAnalysis",
     "TrendAnalysis",
+    "SupportResistanceLocator",
+    "SupportResistanceLevels",
+    "BreakoutDetector",
+    "BreakoutSignal",
+    "PatternMatch",
+    "MultiTimeframeAnalyzer",
+    "MultiTimeframeResult",
+    "TimeframeSignal",
+    "CompositeIndicator",
+    "CompositeResult",
 ]
