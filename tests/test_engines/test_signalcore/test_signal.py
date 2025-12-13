@@ -6,7 +6,7 @@ from datetime import datetime
 
 import pytest
 
-from src.engines.signalcore import Direction, Signal, SignalBatch, SignalType
+from ordinis.engines.signalcore import Direction, Signal, SignalBatch, SignalType
 
 
 @pytest.mark.unit

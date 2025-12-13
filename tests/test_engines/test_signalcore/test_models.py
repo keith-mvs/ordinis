@@ -8,7 +8,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from src.engines.signalcore import (
+from ordinis.engines.signalcore import (
     Direction,
     ModelConfig,
     RSIMeanReversionModel,

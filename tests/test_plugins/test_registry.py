@@ -11,15 +11,15 @@ from unittest.mock import AsyncMock
 
 import pytest
 
-from src.plugins.base import Plugin, PluginConfig
-from src.plugins.registry import PluginRegistry
+from ordinis.plugins.base import Plugin, PluginConfig
+from ordinis.plugins.registry import PluginRegistry
 
 
 @pytest.mark.unit
 def test_registry_singleton():
     """Test that global registry instance exists."""
-    from src.plugins.registry import registry as reg1
-    from src.plugins.registry import registry as reg2
+    from ordinis.plugins.registry import registry as reg1
+    from ordinis.plugins.registry import registry as reg2
 
     assert reg1 is reg2
 

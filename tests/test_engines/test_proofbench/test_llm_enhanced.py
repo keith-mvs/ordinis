@@ -14,13 +14,13 @@ from datetime import datetime
 import pandas as pd
 import pytest
 
-from src.engines.proofbench import (
+from ordinis.engines.proofbench import (
     LLMPerformanceNarrator,
     PerformanceMetrics,
     SimulationConfig,
     SimulationResults,
 )
-from src.engines.proofbench.core.portfolio import Portfolio
+from ordinis.engines.proofbench.core.portfolio import Portfolio
 
 
 @pytest.fixture

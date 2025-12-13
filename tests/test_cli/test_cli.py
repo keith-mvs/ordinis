@@ -6,7 +6,7 @@ import tempfile
 import pandas as pd
 import pytest
 
-from interface.cli import create_strategy, load_market_data
+from ordinis.interface.cli import create_strategy, load_market_data
 
 
 class TestLoadMarketData:

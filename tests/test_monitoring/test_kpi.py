@@ -2,7 +2,7 @@
 
 from datetime import timedelta
 
-from adapters.telemetry.kpi import (
+from ordinis.adapters.telemetry.kpi import (
     Alert,
     AlertSeverity,
     KPIStatus,

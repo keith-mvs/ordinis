@@ -2,7 +2,7 @@
 
 from datetime import datetime
 
-from src.engines.governance.core.ethics import (
+from ordinis.engines.governance.core.ethics import (
     ESGScore,
     EthicsCheckResult,
     EthicsEngine,

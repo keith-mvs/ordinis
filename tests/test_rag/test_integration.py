@@ -7,9 +7,9 @@ Tests marked with @pytest.mark.integration require ChromaDB to be populated.
 
 import pytest
 
-from rag.config import RAGConfig
-from rag.retrieval.engine import RetrievalEngine
-from rag.retrieval.query_classifier import QueryType, classify_query
+from ordinis.rag.config import RAGConfig
+from ordinis.rag.retrieval.engine import RetrievalEngine
+from ordinis.rag.retrieval.query_classifier import QueryType, classify_query
 
 
 @pytest.fixture

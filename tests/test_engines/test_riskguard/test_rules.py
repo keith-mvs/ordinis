@@ -11,7 +11,7 @@ from datetime import datetime
 
 import pytest
 
-from src.engines.riskguard.core.rules import RiskCheckResult, RiskRule, RuleCategory
+from ordinis.engines.riskguard.core.rules import RiskCheckResult, RiskRule, RuleCategory
 
 
 @pytest.mark.unit

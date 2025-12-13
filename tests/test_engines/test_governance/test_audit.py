@@ -2,7 +2,7 @@
 
 from datetime import datetime
 
-from src.engines.governance.core.audit import (
+from ordinis.engines.governance.core.audit import (
     AuditEngine,
     AuditEvent,
     AuditEventType,

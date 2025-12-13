@@ -6,7 +6,7 @@ import tempfile
 from loguru import logger
 import pytest
 
-from adapters.telemetry.logger import (
+from ordinis.adapters.telemetry.logger import (
     get_logger,
     log_exception,
     log_execution_time,

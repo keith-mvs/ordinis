@@ -13,7 +13,7 @@ from unittest.mock import AsyncMock
 
 import pytest
 
-from src.plugins.base import Plugin, PluginConfig, PluginStatus
+from ordinis.plugins.base import Plugin, PluginConfig, PluginStatus
 
 
 @pytest.mark.unit
@@ -69,7 +69,7 @@ async def test_plugin_shutdown():
 @pytest.mark.asyncio
 async def test_plugin_health_check():
     """Test plugin health checking."""
-    from src.plugins.base import PluginHealth
+    from ordinis.plugins.base import PluginHealth
 
     plugin = AsyncMock(spec=Plugin)
     health = PluginHealth(status=PluginStatus.READY, last_check=datetime.now(), latency_ms=10.0)

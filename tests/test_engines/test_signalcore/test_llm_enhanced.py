@@ -13,7 +13,7 @@ from datetime import datetime
 import pandas as pd
 import pytest
 
-from src.engines.signalcore.models import (
+from ordinis.engines.signalcore.models import (
     LLMEnhancedModel,
     LLMFeatureEngineer,
     RSIMeanReversionModel,
@@ -39,7 +39,7 @@ def sample_data():
 @pytest.fixture
 def base_model():
     """Create base model to enhance."""
-    from src.engines.signalcore.core.model import ModelConfig
+    from ordinis.engines.signalcore.core.model import ModelConfig
 
     config = ModelConfig(
         model_id="rsi-test",

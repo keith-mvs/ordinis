@@ -9,8 +9,8 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from src.engines.optionscore import OptionsCoreEngine, OptionsEngineConfig
-from src.engines.optionscore.data import OptionType
+from ordinis.engines.optionscore import OptionsCoreEngine, OptionsEngineConfig
+from ordinis.engines.optionscore.data import OptionType
 
 
 @pytest.fixture
@@ -242,7 +242,7 @@ async def test_filtered_chain_fetch(engine):
 @pytest.mark.asyncio
 async def test_price_contract_method(engine):
     """Test pricing individual contract."""
-    from src.engines.optionscore.data import OptionContract
+    from ordinis.engines.optionscore.data import OptionContract
 
     contract = OptionContract(
         symbol="O:AAPL260117C00150000",
@@ -263,7 +263,7 @@ async def test_price_contract_method(engine):
 @pytest.mark.asyncio
 async def test_calculate_greeks_method(engine):
     """Test calculating Greeks for individual contract."""
-    from src.engines.optionscore.data import OptionContract
+    from ordinis.engines.optionscore.data import OptionContract
 
     contract = OptionContract(
         symbol="O:AAPL260117C00150000",

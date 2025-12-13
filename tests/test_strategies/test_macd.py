@@ -4,8 +4,8 @@ from datetime import datetime
 
 import pandas as pd
 
-from application.strategies.macd import MACDStrategy
-from engines.signalcore.core.signal import Direction, SignalType
+from ordinis.application.strategies.macd import MACDStrategy
+from ordinis.engines.signalcore.core.signal import Direction, SignalType
 
 
 def create_test_data(bars=70, **overrides):
@@ -322,7 +322,7 @@ class TestDataValidation:
 
 
 class TestSymbolHandling:
-    """Test symbol extraction from data."""
+    """Test symbol extraction from ordinis.data."""
 
     def test_symbol_from_data(self):
         """Test symbol extraction when present."""

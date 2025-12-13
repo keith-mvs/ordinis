@@ -14,7 +14,7 @@ import asyncio
 
 import pytest
 
-from src.core.rate_limiter import RateLimitConfig, RateLimiter
+from ordinis.core.rate_limiter import RateLimitConfig, RateLimiter
 
 # ==================== BASIC TESTS ====================
 

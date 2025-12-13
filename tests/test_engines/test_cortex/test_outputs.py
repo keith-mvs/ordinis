@@ -11,7 +11,7 @@ from datetime import datetime
 
 import pytest
 
-from src.engines.cortex.core.outputs import (
+from ordinis.engines.cortex.core.outputs import (
     CortexOutput,
     OutputType,
     StrategyHypothesis,

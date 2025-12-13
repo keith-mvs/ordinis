@@ -2,7 +2,7 @@
 
 from datetime import datetime, timedelta
 
-from engines.proofbench.core.events import Event, EventQueue, EventType
+from ordinis.engines.proofbench.core.events import Event, EventQueue, EventType
 
 
 class TestEvent:

@@ -9,7 +9,7 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from src.engines.optionscore import OptionsCoreEngine, OptionsEngineConfig
+from ordinis.engines.optionscore import OptionsCoreEngine, OptionsEngineConfig
 
 
 @pytest.fixture

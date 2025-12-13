@@ -7,8 +7,8 @@ from unittest.mock import AsyncMock, MagicMock, patch
 import aiohttp
 import pytest
 
-from adapters.market_data.polygon import PolygonDataPlugin
-from plugins.base import PluginConfig, PluginStatus
+from ordinis.adapters.market_data.polygon import PolygonDataPlugin
+from ordinis.plugins.base import PluginConfig, PluginStatus
 
 
 @pytest.fixture
@@ -545,7 +545,7 @@ class TestPolygonCapabilities:
     @pytest.mark.asyncio
     async def test_plugin_capabilities(self, polygon_config):
         """Test that plugin advertises correct capabilities."""
-        from plugins.base import PluginCapability
+        from ordinis.plugins.base import PluginCapability
 
         plugin = PolygonDataPlugin(polygon_config)
 

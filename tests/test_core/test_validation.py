@@ -12,7 +12,7 @@ from datetime import datetime, timedelta
 
 import pytest
 
-from src.core.validation import (
+from ordinis.core.validation import (
     DataValidator,
     MarketDataValidator,
     OrderValidator,

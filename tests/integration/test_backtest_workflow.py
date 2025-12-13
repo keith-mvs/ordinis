@@ -7,9 +7,9 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from interface.cli import create_strategy, load_market_data
-from engines.proofbench import SimulationConfig, SimulationEngine
-from engines.proofbench.core.execution import Order, OrderSide, OrderType
+from ordinis.interface.cli import create_strategy, load_market_data
+from ordinis.engines.proofbench import SimulationConfig, SimulationEngine
+from ordinis.engines.proofbench.core.execution import Order, OrderSide, OrderType
 
 
 def create_realistic_market_data(bars: int = 500, volatility: float = 0.02) -> pd.DataFrame:

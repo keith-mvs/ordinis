@@ -2,7 +2,7 @@
 
 import pytest
 
-from core.container import (
+from ordinis.core.container import (
     Container,
     ContainerConfig,
     create_paper_trading_engine,
@@ -10,7 +10,7 @@ from core.container import (
     reset_default_container,
     set_default_container,
 )
-from engines.flowroute.core.engine import FlowRouteEngine
+from ordinis.engines.flowroute.core.engine import FlowRouteEngine
 
 
 class TestContainerConfig:

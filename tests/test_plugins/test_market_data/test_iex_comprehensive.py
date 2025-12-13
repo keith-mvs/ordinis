@@ -7,8 +7,8 @@ from unittest.mock import AsyncMock, MagicMock, patch
 import aiohttp
 import pytest
 
-from adapters.market_data.iex import IEXDataPlugin
-from plugins.base import PluginConfig, PluginStatus
+from ordinis.adapters.market_data.iex import IEXDataPlugin
+from ordinis.plugins.base import PluginConfig, PluginStatus
 
 
 @pytest.fixture
@@ -454,7 +454,7 @@ class TestIEXCapabilities:
     @pytest.mark.asyncio
     async def test_plugin_capabilities(self, iex_config):
         """Test that plugin advertises correct capabilities."""
-        from plugins.base import PluginCapability
+        from ordinis.plugins.base import PluginCapability
 
         plugin = IEXDataPlugin(iex_config)
 

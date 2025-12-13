@@ -4,7 +4,7 @@ from unittest.mock import AsyncMock
 
 import pytest
 
-from src.analysis.market_conditions import (
+from ordinis.analysis.market_conditions import (
     AllDataSourcesFailedError,
     BreadthIndicators,
     IndexSnapshot,

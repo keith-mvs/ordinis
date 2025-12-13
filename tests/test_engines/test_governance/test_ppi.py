@@ -1,6 +1,6 @@
 """Tests for PPI Engine."""
 
-from src.engines.governance.core.ppi import (
+from ordinis.engines.governance.core.ppi import (
     MaskingMethod,
     PPICategory,
     PPIEngine,

@@ -12,8 +12,8 @@ from unittest.mock import AsyncMock, patch
 
 import pytest
 
-from adapters.market_data.iex import IEXDataPlugin
-from plugins.base import PluginConfig
+from ordinis.adapters.market_data.iex import IEXDataPlugin
+from ordinis.plugins.base import PluginConfig
 
 
 @pytest.fixture

@@ -9,7 +9,7 @@ import pytest
 src_path = Path(__file__).parent.parent / "src"
 sys.path.insert(0, str(src_path))
 
-from core.container import Container, ContainerConfig  # noqa: E402
+from ordinis.core.container import Container, ContainerConfig  # noqa: E402
 
 
 @pytest.fixture

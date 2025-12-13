@@ -6,10 +6,10 @@ Tests for options chain enrichment and contract transformation.
 
 import pytest
 
-from src.engines.optionscore.core.enrichment import ChainEnrichmentEngine
-from src.engines.optionscore.data import OptionType
-from src.engines.optionscore.pricing.black_scholes import BlackScholesEngine
-from src.engines.optionscore.pricing.greeks import GreeksCalculator
+from ordinis.engines.optionscore.core.enrichment import ChainEnrichmentEngine
+from ordinis.engines.optionscore.data import OptionType
+from ordinis.engines.optionscore.pricing.black_scholes import BlackScholesEngine
+from ordinis.engines.optionscore.pricing.greeks import GreeksCalculator
 
 
 @pytest.fixture

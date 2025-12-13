@@ -2,7 +2,7 @@
 
 from datetime import datetime
 
-from src.engines.governance.core.governance import (
+from ordinis.engines.governance.core.governance import (
     GovernanceEngine,
     Policy,
     PolicyAction,

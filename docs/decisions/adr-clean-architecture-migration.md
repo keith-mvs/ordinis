@@ -227,17 +227,17 @@ These rules are **non-negotiable** for maintaining clean architecture:
 ---
 
 ### Phase M7: Package Restructure (Major Breaking)
-**Status**: Planned
-**Timeline**: Phase 3+
+**Status**: Complete
+**Completed**: 2025-12-13
 
 **Tasks**:
-- [ ] Create nested `src/ordinis/` package structure
-- [ ] Update `pyproject.toml` package configuration
-- [ ] Update all imports to use `ordinis.` prefix
-- [ ] Update test imports
-- [ ] Update documentation
+- [x] Create nested `src/ordinis/` package structure
+- [x] Update `pyproject.toml` package configuration
+- [x] Update all imports to use `ordinis.` prefix
+- [x] Update test imports
+- [ ] Update documentation (deferred)
 
-**Note**: This is the most disruptive change and should be done when the codebase is stable.
+**Result**: All packages moved to `src/ordinis/`. All imports updated to use `ordinis.` prefix. Tests pass: 763 passed, 2 pre-existing failures.
 
 ---
 

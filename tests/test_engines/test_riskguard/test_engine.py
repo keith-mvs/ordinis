@@ -12,10 +12,10 @@ from datetime import datetime
 
 import pytest
 
-from src.engines.riskguard import STANDARD_RISK_RULES, RiskGuardEngine
-from src.engines.riskguard.core.engine import PortfolioState, ProposedTrade
-from src.engines.riskguard.core.rules import RiskRule, RuleCategory
-from src.engines.signalcore.core.signal import Direction, Signal, SignalType
+from ordinis.engines.riskguard import STANDARD_RISK_RULES, RiskGuardEngine
+from ordinis.engines.riskguard.core.engine import PortfolioState, ProposedTrade
+from ordinis.engines.riskguard.core.rules import RiskRule, RuleCategory
+from ordinis.engines.signalcore.core.signal import Direction, Signal, SignalType
 
 
 @pytest.fixture

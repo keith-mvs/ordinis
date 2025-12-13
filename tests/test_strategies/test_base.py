@@ -5,8 +5,8 @@ from datetime import datetime
 import pandas as pd
 import pytest
 
-from application.strategies.base import BaseStrategy
-from engines.signalcore.core.signal import Direction, Signal, SignalType
+from ordinis.application.strategies.base import BaseStrategy
+from ordinis.engines.signalcore.core.signal import Direction, Signal, SignalType
 
 
 # Create concrete implementation for testing

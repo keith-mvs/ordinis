@@ -2,8 +2,8 @@
 
 from loguru import logger
 
-from rag.config import RAGConfig, get_config, set_config
-from rag.retrieval.query_classifier import QueryType, classify_query
+from ordinis.rag.config import RAGConfig, get_config, set_config
+from ordinis.rag.retrieval.query_classifier import QueryType, classify_query
 
 
 def test_query_classifier():

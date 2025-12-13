@@ -1,6 +1,6 @@
 """Tests for monitoring.health module."""
 
-from adapters.telemetry.health import (
+from ordinis.adapters.telemetry.health import (
     HealthCheck,
     HealthCheckResult,
     HealthStatus,

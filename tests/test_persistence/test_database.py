@@ -6,12 +6,12 @@ import tempfile
 
 import pytest
 
-from adapters.storage.database import DatabaseManager
-from adapters.storage.models import OrderRow, PositionRow, TradeRow
-from adapters.storage.repositories.order import OrderRepository
-from adapters.storage.repositories.position import PositionRepository
-from adapters.storage.repositories.system_state import SystemStateRepository
-from adapters.storage.repositories.trade import TradeRepository
+from ordinis.adapters.storage.database import DatabaseManager
+from ordinis.adapters.storage.models import OrderRow, PositionRow, TradeRow
+from ordinis.adapters.storage.repositories.order import OrderRepository
+from ordinis.adapters.storage.repositories.position import PositionRepository
+from ordinis.adapters.storage.repositories.system_state import SystemStateRepository
+from ordinis.adapters.storage.repositories.trade import TradeRepository
 
 
 @pytest.fixture

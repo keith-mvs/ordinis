@@ -2,7 +2,7 @@
 
 from datetime import datetime, timedelta
 
-from src.engines.governance.core.broker_compliance import (
+from ordinis.engines.governance.core.broker_compliance import (
     Broker,
     BrokerComplianceEngine,
     BrokerPolicy,

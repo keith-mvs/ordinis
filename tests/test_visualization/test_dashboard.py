@@ -4,14 +4,14 @@ import pandas as pd
 import plotly.graph_objects as go
 import pytest
 
-from adapters.telemetry.kpi import (
+from ordinis.adapters.telemetry.kpi import (
     AlertSeverity,
     KPIStatus,
     KPITracker,
     KPIValue,
     TradingKPIs,
 )
-from visualization.dashboard import PerformanceDashboard
+from ordinis.visualization.dashboard import PerformanceDashboard
 
 
 class TestPerformanceDashboardInitialization:

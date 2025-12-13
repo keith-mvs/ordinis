@@ -6,7 +6,7 @@ Tests for OptionsEngineConfig validation and serialization.
 
 import pytest
 
-from src.engines.optionscore.core.config import OptionsEngineConfig
+from ordinis.engines.optionscore.core.config import OptionsEngineConfig
 
 
 def test_config_defaults():

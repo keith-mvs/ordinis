@@ -10,8 +10,8 @@ Tests cover:
 
 import pytest
 
-from src.engines.flowroute.adapters.paper import PaperBrokerAdapter
-from src.engines.flowroute.core.orders import Order, OrderType
+from ordinis.engines.flowroute.adapters.paper import PaperBrokerAdapter
+from ordinis.engines.flowroute.core.orders import Order, OrderType
 
 
 @pytest.fixture

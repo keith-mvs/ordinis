@@ -149,7 +149,9 @@
       "Bash(git worktree:*)",
       "Bash(Get-ChildItem -Path \"C:\\Users\\kjfle\\Workspace\\ordinis\\docs\" -Directory -Recurse)",
       "Bash(conda activate:*)",
-      "Bash(if exist srcmonitoring__pycache__ rmdir /s /q srcmonitoring__pycache__)"
+      "Bash(if exist srcmonitoring__pycache__ rmdir /s /q srcmonitoring__pycache__)",
+      "Bash(pwsh -NoProfile -File update_imports.ps1)",
+      "Bash(pwsh -NoProfile -File update_src_imports.ps1)"
     ],
     "deny": [],
     "ask": []

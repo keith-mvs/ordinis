@@ -11,8 +11,8 @@ Tests cover:
 
 import pytest
 
-from src.engines.cortex.core.engine import CortexEngine
-from src.engines.cortex.core.outputs import OutputType
+from ordinis.engines.cortex.core.engine import CortexEngine
+from ordinis.engines.cortex.core.outputs import OutputType
 
 
 @pytest.fixture
