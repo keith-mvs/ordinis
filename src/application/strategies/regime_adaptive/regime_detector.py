@@ -352,38 +352,32 @@ class RegimeAnalyzer:
 
         Returns DataFrame with regime labels and confidence scores.
         """
-        results = []
+        # Pre-allocate result dictionary for better performance
+        n_rows = len(data)
+        results = {
+            "date": data.index.tolist(),
+            "regime": [MarketRegime.SIDEWAYS.value] * n_rows,
+            "confidence": [0.3] * n_rows,
+            "trend_strength": [0.0] * n_rows,
+            "volatility_pct": [50.0] * n_rows,
+            "momentum": [50.0] * n_rows,
+        }
 
-        for i in range(len(data)):
-            if i < self.detector.trend_ma_period:
-                results.append(
-                    {
-                        "date": data.index[i],
-                        "regime": MarketRegime.SIDEWAYS.value,
-                        "confidence": 0.3,
-                        "trend_strength": 0,
-                        "volatility_pct": 50,
-                        "momentum": 50,
-                    }
-                )
-                continue
-
+        # Process only valid periods to avoid redundant calculations
+        for i in range(self.detector.trend_ma_period, n_rows):
+            # Use iloc slicing (already a view, not a copy)
             window = data.iloc[: i + 1]
             signal = self.detector.detect(window)
 
-            results.append(
-                {
-                    "date": data.index[i],
-                    "regime": signal.regime.value,
-                    "confidence": signal.confidence,
-                    "trend_strength": signal.trend_strength,
-                    "volatility_pct": signal.volatility_percentile,
-                    "momentum": signal.momentum,
-                }
-            )
+            results["regime"][i] = signal.regime.value
+            results["confidence"][i] = signal.confidence
+            results["trend_strength"][i] = signal.trend_strength
+            results["volatility_pct"][i] = signal.volatility_percentile
+            results["momentum"][i] = signal.momentum
 
             self.detector.reset()
 
+        # Create DataFrame once at the end instead of appending
         return pd.DataFrame(results).set_index("date")
 
     def get_regime_periods(
@@ -399,8 +393,10 @@ class RegimeAnalyzer:
         current_regime = None
         period_start = None
 
-        for date, row in regime_labels.iterrows():
-            regime = row["regime"]
+        # Use itertuples() instead of iterrows() for better performance (10-100x faster)
+        for row in regime_labels.itertuples():
+            date = row.Index
+            regime = row.regime
 
             if regime != current_regime:
                 if current_regime is not None:

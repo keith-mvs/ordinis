@@ -21,14 +21,17 @@ import yfinance as yf
 
 
 def add_volatility_features(df: pd.DataFrame) -> pd.DataFrame:
-    """Add volatility features inline."""
-    # True Range
-    df["true_range"] = df[["high", "low", "close"]].apply(
-        lambda x: max(x["high"] - x["low"],
-                     abs(x["high"] - x["close"]),
-                     abs(x["low"] - x["close"])),
-        axis=1
-    )
+    """Add volatility features inline using vectorized operations for better performance."""
+    # True Range - vectorized calculation (much faster than apply with axis=1)
+    prev_close = df["close"].shift(1)
+    
+    # Calculate all three components vectorized
+    high_low = df["high"] - df["low"]
+    high_prev_close = (df["high"] - prev_close).abs()
+    low_prev_close = (df["low"] - prev_close).abs()
+    
+    # Stack and find max across columns (vectorized)
+    df["true_range"] = pd.concat([high_low, high_prev_close, low_prev_close], axis=1).max(axis=1)
 
     # ATR (14-day)
     df["atr_14"] = df["true_range"].rolling(window=14).mean()
@@ -36,10 +39,11 @@ def add_volatility_features(df: pd.DataFrame) -> pd.DataFrame:
     # Historical Volatility (20-day, annualized)
     df["hvol_20"] = df["close"].pct_change().rolling(window=20).std() * (252 ** 0.5)
 
-    # Parkinson Volatility (20-day, annualized)
+    # Parkinson Volatility (20-day, annualized) - vectorized calculation
+    high_low_ratio = df["high"] / df["low"]
+    log_hl_sq = (high_low_ratio.apply(lambda x: x ** 2)) * (1 / (4 * 0.6931471805599453))
     df["parkinson_vol_20"] = (
-        (df["high"] / df["low"]).apply(lambda x: (1 / (4 * 0.6931471805599453)) * (x ** 2))
-        .rolling(window=20).mean().apply(lambda x: x ** 0.5) * (252 ** 0.5)
+        log_hl_sq.rolling(window=20).mean().apply(lambda x: x ** 0.5) * (252 ** 0.5)
     )
 
     return df

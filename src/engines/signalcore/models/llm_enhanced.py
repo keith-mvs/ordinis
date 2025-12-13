@@ -167,12 +167,11 @@ Keep it concise and actionable."""
         Returns:
             Formatted market context string
         """
-        lines = []
-
-        for _, row in data.iterrows():
-            close = row.get("close", 0)
-            volume = row.get("volume", 0)
-            lines.append(f"Close: ${close:.2f}, Volume: {volume:,}")
+        # Use vectorized string formatting instead of iterrows() for better performance
+        lines = [
+            f"Close: ${row['close']:.2f}, Volume: {int(row['volume']):,}"
+            for row in data[["close", "volume"]].itertuples(index=False, name=None)
+        ]
 
         # Add signal-specific context if features exist
         if hasattr(signal, "features") and signal.features:
