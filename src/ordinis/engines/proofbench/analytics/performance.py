@@ -87,6 +87,16 @@ class PerformanceMetrics:
     equity_final: float
 
 
+@dataclass
+class BenchmarkMetrics:
+    alpha: float
+    beta: float
+    correlation: float
+    r_squared: float
+    information_ratio: float
+    treynor_ratio: float
+
+
 class PerformanceAnalyzer:
     """Analyzes backtest performance and generates metrics.
 
@@ -471,3 +481,38 @@ class PerformanceAnalyzer:
             recovery_factor=0.0,
             equity_final=0.0,
         )
+
+
+def compare_to_benchmark(
+    strategy_returns: pd.Series, benchmark_returns: pd.Series, risk_free_rate: float = 0.0
+) -> BenchmarkMetrics:
+    """Calculate benchmark-relative metrics (alpha, beta, info ratio, etc.)."""
+    aligned = pd.concat([strategy_returns, benchmark_returns], axis=1).dropna()
+    if aligned.empty:
+        raise ValueError("No overlapping returns to compare.")
+
+    s = aligned.iloc[:, 0]
+    b = aligned.iloc[:, 1]
+
+    cov = np.cov(s, b, ddof=1)
+    var_b = cov[1, 1]
+    beta = cov[0, 1] / var_b if var_b != 0 else np.nan
+    mean_s = s.mean()
+    mean_b = b.mean()
+    alpha = mean_s - risk_free_rate - beta * (mean_b - risk_free_rate) if not np.isnan(beta) else np.nan
+
+    corr = s.corr(b)
+    r_sq = corr**2 if not np.isnan(corr) else np.nan
+
+    diff = s - b
+    ir = diff.mean() / diff.std(ddof=1) if diff.std(ddof=1) != 0 else np.nan
+    treynor = (mean_s - risk_free_rate) / beta if beta not in (0, np.nan) else np.nan
+
+    return BenchmarkMetrics(
+        alpha=float(alpha),
+        beta=float(beta),
+        correlation=float(corr),
+        r_squared=float(r_sq),
+        information_ratio=float(ir),
+        treynor_ratio=float(treynor),
+    )

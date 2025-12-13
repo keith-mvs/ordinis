@@ -33,6 +33,14 @@ class OrderStatus(Enum):
     REJECTED = "REJECTED"
 
 
+class FillMode(Enum):
+    """Fill modeling granularity."""
+
+    BAR_OPEN = "BAR_OPEN"  # Fill at bar open (previous behavior)
+    INTRA_BAR = "INTRA_BAR"  # Approximate intrabar extremes (high/low biased by side)
+    REALISTIC = "REALISTIC"  # Blend open/close with range to mimic intrabar path
+
+
 @dataclass
 class Order:
     """Trading order.
@@ -202,6 +210,7 @@ class ExecutionConfig:
         min_commission: Minimum commission per trade
         partial_fills: Allow partial fills
         fill_probability: Probability of fill for limit orders
+        fill_mode: How to model intrabar fills for market/stop orders
     """
 
     estimated_spread: float = 0.001  # 0.1%
@@ -214,6 +223,7 @@ class ExecutionConfig:
     min_commission: float = 0.0
     partial_fills: bool = False
     fill_probability: float = 1.0
+    fill_mode: FillMode = FillMode.BAR_OPEN
 
     def __post_init__(self):
         """Validate configuration."""
@@ -278,8 +288,18 @@ class ExecutionSimulator:
         Returns:
             Fill object
         """
-        # Use open price as base (assume fill at bar open)
-        base_price = bar.open
+        # Choose base price depending on fill mode
+        if self.config.fill_mode == FillMode.BAR_OPEN:
+            base_price = bar.open
+        elif self.config.fill_mode == FillMode.INTRA_BAR:
+            # Side-biased toward worst-case intrabar price
+            base_price = (bar.high + bar.open) / 2 if order.side == OrderSide.BUY else (bar.low + bar.open) / 2
+        else:  # FillMode.REALISTIC
+            # Blend open/close with range to approximate intrabar path, bounded by high/low
+            if order.side == OrderSide.BUY:
+                base_price = min(bar.high, (bar.open + bar.close + bar.high) / 3)
+            else:
+                base_price = max(bar.low, (bar.open + bar.close + bar.low) / 3)
 
         # Calculate slippage
         slippage = self._calculate_slippage(order, bar)
