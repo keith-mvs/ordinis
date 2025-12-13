@@ -499,7 +499,9 @@ def compare_to_benchmark(
     beta = cov[0, 1] / var_b if var_b != 0 else np.nan
     mean_s = s.mean()
     mean_b = b.mean()
-    alpha = mean_s - risk_free_rate - beta * (mean_b - risk_free_rate) if not np.isnan(beta) else np.nan
+    alpha = (
+        mean_s - risk_free_rate - beta * (mean_b - risk_free_rate) if not np.isnan(beta) else np.nan
+    )
 
     corr = s.corr(b)
     r_sq = corr**2 if not np.isnan(corr) else np.nan

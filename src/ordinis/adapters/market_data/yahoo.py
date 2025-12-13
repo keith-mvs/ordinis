@@ -127,7 +127,7 @@ class YahooDataPlugin(DataPlugin):
             # Quick health check with SPY
             ticker = yf.Ticker("SPY")
             await asyncio.to_thread(lambda: ticker.fast_info)
-            latency = (datetime.utcnow() - start_time).total_seconds() * 1000
+            latency = max((datetime.utcnow() - start_time).total_seconds() * 1000, 0.1)
 
             self._health = PluginHealth(
                 status=PluginStatus.READY,

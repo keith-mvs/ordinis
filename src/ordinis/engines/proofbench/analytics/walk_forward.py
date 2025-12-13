@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+
 import numpy as np
 import pandas as pd
 
@@ -43,7 +44,9 @@ class WalkForwardAnalyzer:
             idx += self.test_size  # advance by test window
 
         robustness = self._robustness_ratio(in_sample, out_sample)
-        return WalkForwardResult(in_sample, out_sample, robustness_ratio=robustness, num_windows=len(in_sample))
+        return WalkForwardResult(
+            in_sample, out_sample, robustness_ratio=robustness, num_windows=len(in_sample)
+        )
 
     @staticmethod
     def _robustness_ratio(in_sample: list[float], out_sample: list[float]) -> float:

@@ -487,5 +487,5 @@ class IndicatorChart:
             hovermode="x unified",
             legend={"orientation": "h", "yanchor": "bottom", "y": 1.02, "xanchor": "right", "x": 1},
         )
-        fig.update_xaxes(rangebreaks=[dict(bounds=["sat", "mon"])])  # Hide weekends
+        fig.update_xaxes(rangebreaks=[{"bounds": ["sat", "mon"]}])  # Hide weekends
         return fig

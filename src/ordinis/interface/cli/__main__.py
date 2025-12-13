@@ -308,7 +308,7 @@ def list_strategies(args):
     return 0
 
 
-def analyze_market(args):
+def analyze_market(args):  # noqa: PLR0915
     """Run technical analysis (Phase 3 indicators/patterns)."""
     print("\n" + "=" * 80)
     print("INTELLIGENT INVESTOR - TECHNICAL ANALYSIS")

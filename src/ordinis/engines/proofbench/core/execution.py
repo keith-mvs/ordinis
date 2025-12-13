@@ -293,13 +293,15 @@ class ExecutionSimulator:
             base_price = bar.open
         elif self.config.fill_mode == FillMode.INTRA_BAR:
             # Side-biased toward worst-case intrabar price
-            base_price = (bar.high + bar.open) / 2 if order.side == OrderSide.BUY else (bar.low + bar.open) / 2
-        else:  # FillMode.REALISTIC
-            # Blend open/close with range to approximate intrabar path, bounded by high/low
-            if order.side == OrderSide.BUY:
-                base_price = min(bar.high, (bar.open + bar.close + bar.high) / 3)
-            else:
-                base_price = max(bar.low, (bar.open + bar.close + bar.low) / 3)
+            base_price = (
+                (bar.high + bar.open) / 2
+                if order.side == OrderSide.BUY
+                else (bar.low + bar.open) / 2
+            )
+        elif order.side == OrderSide.BUY:
+            base_price = min(bar.high, (bar.open + bar.close + bar.high) / 3)
+        else:
+            base_price = max(bar.low, (bar.open + bar.close + bar.low) / 3)
 
         # Calculate slippage
         slippage = self._calculate_slippage(order, bar)
