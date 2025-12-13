@@ -134,15 +134,15 @@ These rules are **non-negotiable** for maintaining clean architecture:
 ## Migration Phases
 
 ### Phase M1: Foundation (Non-Breaking)
-**Status**: In Progress
-**Timeline**: Immediate
+**Status**: Complete
+**Completed**: 2025-12-10
 
 **Tasks**:
 - [x] Create `artifacts/` directory structure
 - [x] Create `configs/` with default.yaml and environment files
 - [x] Update `.gitignore` with artifact patterns
-- [ ] Add `Makefile` with standard targets
-- [ ] Add `.pre-commit-config.yaml`
+- [x] Add `.pre-commit-config.yaml`
+- [ ] Add `Makefile` with standard targets (deferred)
 
 **Files Created**:
 - `configs/default.yaml`
@@ -153,89 +153,76 @@ These rules are **non-negotiable** for maintaining clean architecture:
 ---
 
 ### Phase M2: Protocol Consolidation (Minor Breaking)
-**Status**: Planned
-**Timeline**: After Phase 1 production validation
+**Status**: Complete
+**Completed**: 2025-12-12
 
 **Tasks**:
-- [ ] Rename `src/interfaces/` to `src/core/protocols/`
-- [ ] Update all imports referencing interfaces
-- [ ] Add missing protocol definitions from conventions doc
-- [ ] Validate no I/O in protocol definitions
+- [x] Rename `src/interfaces/` to `src/core/protocols/`
+- [x] Update all imports referencing interfaces
+- [x] Add missing protocol definitions from conventions doc
+- [x] Validate no I/O in protocol definitions
 
-**Current `src/interfaces/` files**:
-```
-src/interfaces/
-├── __init__.py
-├── event.py       -> src/core/protocols/event_bus.py
-├── broker.py      -> src/core/protocols/broker.py
-├── execution.py   -> src/core/protocols/execution.py
-├── fill.py        -> src/core/protocols/fill_model.py
-├── cost.py        -> src/core/protocols/cost_model.py
-└── risk.py        -> src/core/protocols/risk_policy.py
-```
-
-**Import Update Script**:
-```python
-# Run after rename
-# find . -name "*.py" -exec sed -i 's/from src.interfaces/from src.core.protocols/g' {} \;
-```
+**Result**: All protocol definitions now in `src/core/protocols/`. Imports updated across codebase.
 
 ---
 
 ### Phase M3: Adapter Extraction (Medium Breaking)
-**Status**: Planned
-**Timeline**: Phase 2+
+**Status**: Complete
+**Completed**: 2025-12-12
 
 **Tasks**:
-- [ ] Create `src/adapters/` structure
-- [ ] Move `src/plugins/market_data/` -> `src/adapters/market_data/`
-- [ ] Move `src/persistence/` -> `src/adapters/storage/sqlite_store.py`
-- [ ] Move `src/alerting/` -> `src/adapters/alerting/`
-- [ ] Move `src/monitoring/` -> `src/adapters/telemetry/`
-- [ ] Extract broker adapter from `src/engines/flowroute/adapters/`
+- [x] Create `src/adapters/` structure
+- [x] Move `src/plugins/market_data/` -> `src/adapters/market_data/`
+- [x] Move `src/persistence/` -> `src/adapters/storage/`
+- [x] Move `src/alerting/` -> `src/adapters/alerting/`
+- [x] Move `src/monitoring/` -> `src/adapters/telemetry/`
+- [ ] Extract broker adapter from `src/engines/flowroute/adapters/` (deferred - tightly coupled)
 
-**Key Considerations**:
-- Maintain backward compatibility during transition
-- Update all import statements
-- Ensure adapters only implement protocols from `core/protocols/`
+**Result**: Adapters layer created with storage/, market_data/, alerting/, telemetry/ modules.
 
 ---
 
 ### Phase M4: Application Layer Creation (Medium Breaking)
-**Status**: Planned
-**Timeline**: Phase 2+
+**Status**: Complete
+**Completed**: 2025-12-12
 
 **Tasks**:
-- [ ] Create `src/application/` structure
-- [ ] Move `src/orchestration/` -> `src/application/services/orchestration_service.py`
-- [ ] Move `src/strategies/` -> `src/application/strategies/`
-- [ ] Create use-case modules (run_backtest, run_paper, run_research)
-- [ ] Ensure application layer has no direct I/O
+- [x] Create `src/application/` structure
+- [x] Move `src/orchestration/` -> `src/application/services/`
+- [x] Move `src/strategies/` -> `src/application/strategies/`
+- [ ] Create use-case modules (run_backtest, run_paper, run_research) (deferred)
+- [x] Ensure application layer has no direct I/O
+
+**Result**: Application layer created with services/ and strategies/ modules.
 
 ---
 
 ### Phase M5: Interface Layer Creation (Minor Breaking)
-**Status**: Planned
-**Timeline**: Phase 2+
+**Status**: Complete
+**Completed**: 2025-12-12
 
 **Tasks**:
-- [ ] Create `src/interface/cli/` structure
-- [ ] Move dashboard to `src/interface/` or remove if unused
-- [ ] Create CLI entry point with commands
-- [ ] Add admin command for cleanup (`ordinis admin clean`)
+- [x] Create `src/interface/cli/` structure
+- [x] Move dashboard to `src/interface/dashboard/`
+- [x] Migrate `src/cli.py` to `src/interface/cli/__main__.py`
+- [ ] Add admin command for cleanup (`ordinis admin clean`) (deferred)
+
+**Result**: Interface layer created with cli/ and dashboard/ modules.
 
 ---
 
 ### Phase M6: Runtime/DI Setup (Non-Breaking)
-**Status**: Planned
-**Timeline**: Phase 2+
+**Status**: Partial
+**Started**: 2025-12-12
 
 **Tasks**:
 - [ ] Create `src/runtime/` structure
 - [ ] Implement `config.py` with Pydantic BaseSettings
-- [ ] Implement `container.py` for dependency injection
+- [x] Implement `container.py` for dependency injection (in `src/core/`)
 - [ ] Implement `bootstrap.py` for application startup
 - [ ] Consolidate logging configuration
+
+**Note**: DI container exists in `src/core/container.py`. Consider moving to `src/runtime/` or keeping in core.
 
 ---
 

@@ -7,7 +7,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from cli import create_strategy, load_market_data
+from interface.cli import create_strategy, load_market_data
 from engines.proofbench import SimulationConfig, SimulationEngine
 from engines.proofbench.core.execution import Order, OrderSide, OrderType
 

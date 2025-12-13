@@ -127,7 +127,7 @@ all = [
 ]
 
 [project.scripts]
-intelligent-investor = "cli:main"
+intelligent-investor = "interface.cli:main"
 
 [project.urls]
 Homepage = "https://github.com/FleithFeming/intelligent-investor"
@@ -222,9 +222,9 @@ ignore_errors = true
 module = [
     "src.core.validation",
     "src.plugins.base",
-    "src.plugins.market_data.*",
+    "src.adapters.market_data.*",
     "src.engines.proofbench.core.simulator",
-    "src.dashboard.*"
+    "src.interface.dashboard.*"
 ]
 # Suppress type errors in Phase 1 code - will fix in future refactor
 disable_error_code = ["operator", "assignment", "union-attr", "arg-type", "index", "var-annotated"]
