@@ -257,7 +257,7 @@ class BreakoutStrategy(TrendFollowingStrategy):
         if current_price >= upper_channel and uptrend and self.is_flat:
             self._position = 1
             self._entry_price = current_price
-            self._stop_loss = current_price - (self.atr_multiplier * self._atr)
+            self._stop_loss = current_price - (self.atr_multiplier * self._atr)  # type: ignore[operator]
 
             # Signal strength based on breakout magnitude
             breakout_pct = (current_price - upper_channel) / upper_channel

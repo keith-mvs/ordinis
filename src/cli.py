@@ -11,13 +11,13 @@ import sys
 
 import pandas as pd
 
-from engines.proofbench import SimulationConfig, SimulationEngine
-from engines.proofbench.analytics import LLMPerformanceNarrator
-from strategies import (
+from application.strategies import (
     MomentumBreakoutStrategy,
     MovingAverageCrossoverStrategy,
     RSIMeanReversionStrategy,
 )
+from engines.proofbench import SimulationConfig, SimulationEngine
+from engines.proofbench.analytics import LLMPerformanceNarrator
 
 
 def load_market_data(file_path: str) -> tuple[str, pd.DataFrame]:

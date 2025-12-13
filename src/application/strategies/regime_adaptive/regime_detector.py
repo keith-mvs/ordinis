@@ -130,7 +130,7 @@ class RegimeDetector:
         )
 
         # Determine regime with highest score
-        best_regime = max(scores, key=scores.get)
+        best_regime = max(scores, key=scores.get)  # type: ignore[arg-type]
         confidence = scores[best_regime]
 
         # Check for transitional state
@@ -265,7 +265,7 @@ class RegimeDetector:
 
         return sum(scores)
 
-    def _score_regimes(
+    def _score_regimes(  # noqa: PLR0912
         self,
         adx: float,
         volatility_pct: float,

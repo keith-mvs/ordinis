@@ -196,7 +196,7 @@ class RSIReversalStrategy(MeanReversionStrategy):
 
         return rsi.iloc[-1]
 
-    def generate_signal(self, data: pd.DataFrame) -> TradingSignal:
+    def generate_signal(self, data: pd.DataFrame) -> TradingSignal:  # noqa: PLR0911
         """Generate signal based on RSI reversals."""
         if len(data) < self.rsi_period + 5:
             return TradingSignal(SignalType.HOLD, 0.0, data["close"].iloc[-1])
@@ -261,7 +261,7 @@ class RSIReversalStrategy(MeanReversionStrategy):
                     self._stop_loss = current_price * (1 - self.stop_percent)
                     self._was_oversold = False
 
-                    self._prev_rsi = rsi
+                    self._prev_rsi = rsi  # type: ignore[assignment]
                     return TradingSignal(
                         SignalType.BUY,
                         0.6,
@@ -270,7 +270,7 @@ class RSIReversalStrategy(MeanReversionStrategy):
                         position_size=0.6,
                     )
 
-        self._prev_rsi = rsi
+        self._prev_rsi = rsi  # type: ignore[assignment]
         return TradingSignal(SignalType.HOLD, 0.0, current_price)
 
 
@@ -320,7 +320,7 @@ class KeltnerChannelStrategy(MeanReversionStrategy):
         close = data["close"]
         ema = close.ewm(span=self.ema_period, adjust=False).mean().iloc[-1]
         atr = self._calculate_atr(data)
-        self._atr = atr
+        self._atr = atr  # type: ignore[assignment]
 
         upper = ema + (self.atr_multiplier * atr)
         lower = ema - (self.atr_multiplier * atr)
@@ -353,7 +353,7 @@ class KeltnerChannelStrategy(MeanReversionStrategy):
             self._position = 1
             self._entry_price = current_price
             self._target_price = middle
-            self._stop_loss = current_price - (self.stop_atr_multiplier * self._atr)
+            self._stop_loss = current_price - (self.stop_atr_multiplier * self._atr)  # type: ignore[operator]
 
             # Strength based on distance outside channel
             distance = (lower - current_price) / self._atr

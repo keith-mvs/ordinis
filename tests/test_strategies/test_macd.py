@@ -4,8 +4,8 @@ from datetime import datetime
 
 import pandas as pd
 
-from src.engines.signalcore.core.signal import Direction, SignalType
-from src.strategies.macd import MACDStrategy
+from application.strategies.macd import MACDStrategy
+from engines.signalcore.core.signal import Direction, SignalType
 
 
 def create_test_data(bars=70, **overrides):

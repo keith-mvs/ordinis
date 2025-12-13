@@ -20,7 +20,7 @@ This library provides battle-tested trading strategies that can be easily integr
 Trades mean reversion using the Relative Strength Index (RSI) indicator.
 
 ```python
-from strategies import RSIMeanReversionStrategy
+from application.strategies import RSIMeanReversionStrategy
 
 strategy = RSIMeanReversionStrategy(
     name="RSI-MR",
@@ -49,7 +49,7 @@ print(strategy.get_description())
 Classic trend-following using golden cross and death cross patterns.
 
 ```python
-from strategies import MovingAverageCrossoverStrategy
+from application.strategies import MovingAverageCrossoverStrategy
 
 strategy = MovingAverageCrossoverStrategy(
     name="MA-Cross",
@@ -75,7 +75,7 @@ signal = strategy.generate_signal(market_data, timestamp)
 Identifies and trades price breakouts with volume and momentum confirmation.
 
 ```python
-from strategies import MomentumBreakoutStrategy
+from application.strategies import MomentumBreakoutStrategy
 
 strategy = MomentumBreakoutStrategy(
     name="Momentum-BO",
@@ -103,7 +103,7 @@ signal = strategy.generate_signal(market_data, timestamp)
 ```python
 from datetime import datetime
 import pandas as pd
-from strategies import RSIMeanReversionStrategy
+from application.strategies import RSIMeanReversionStrategy
 
 # Create strategy
 strategy = RSIMeanReversionStrategy(name="MyRSI")
@@ -124,7 +124,7 @@ if signal:
 
 ```python
 from engines.proofbench import SimulationEngine, SimulationConfig
-from strategies import MovingAverageCrossoverStrategy
+from application.strategies import MovingAverageCrossoverStrategy
 
 # Create strategy
 strategy = MovingAverageCrossoverStrategy(name="MA-50-200")
@@ -157,7 +157,7 @@ results = sim.run()
 ### Strategy Comparison
 
 ```python
-from strategies import (
+from application.strategies import (
     RSIMeanReversionStrategy,
     MovingAverageCrossoverStrategy,
     MomentumBreakoutStrategy
@@ -189,7 +189,7 @@ for strategy in strategies:
 Create your own strategy by extending `BaseStrategy`:
 
 ```python
-from strategies.base import BaseStrategy
+from application.strategies.base import BaseStrategy
 from engines.signalcore.core.signal import Signal, SignalType, Direction
 from datetime import datetime
 import pandas as pd
@@ -334,7 +334,7 @@ pytest tests/test_strategies/ -v
 
 To add a new strategy:
 
-1. Create a new file in `src/strategies/`
+1. Create a new file in `src/application/strategies/`
 2. Extend `BaseStrategy` class
 3. Implement required methods
 4. Add to `__init__.py` exports

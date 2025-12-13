@@ -10,6 +10,7 @@ Coordinates:
 """
 
 import asyncio
+import contextlib
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
@@ -203,7 +204,7 @@ class OrdinisOrchestrator:
                 return True
 
             except Exception as e:
-                logger.exception(f"Failed to start system: {e}")
+                logger.exception("Failed to start system")
                 self._state = SystemState.ERROR
                 self._stats["errors"].append(f"{datetime.utcnow()}: {e}")
                 return False
@@ -240,13 +241,11 @@ class OrdinisOrchestrator:
                 # Step 1: Stop health check
                 if self._health_check_task:
                     self._health_check_task.cancel()
-                    try:
+                    with contextlib.suppress(TimeoutError, asyncio.CancelledError):
                         await asyncio.wait_for(
                             self._health_check_task,
                             timeout=5.0,
                         )
-                    except (TimeoutError, asyncio.CancelledError):
-                        pass
 
                 # Step 2: Cancel pending orders
                 await self._cancel_all_pending_orders(reason)
@@ -273,7 +272,7 @@ class OrdinisOrchestrator:
                 return True
 
             except Exception as e:
-                logger.exception(f"Error during shutdown: {e}")
+                logger.exception("Error during shutdown")
                 self._state = SystemState.ERROR
                 return False
 
@@ -298,7 +297,7 @@ class OrdinisOrchestrator:
                 logger.info("Main loop cancelled")
                 break
             except Exception as e:
-                logger.exception(f"Error in main loop: {e}")
+                logger.exception("Error in main loop")
                 await asyncio.sleep(1.0)
 
         logger.info("Exiting main trading loop")
@@ -317,7 +316,7 @@ class OrdinisOrchestrator:
                 logger.info(f"Database initialized: {self.config.db_path}")
             return result
         except Exception as e:
-            logger.exception(f"Database initialization failed: {e}")
+            logger.exception("Database initialization failed")
             return False
 
     async def _init_kill_switch(self) -> bool:
@@ -345,7 +344,7 @@ class OrdinisOrchestrator:
             logger.info("Kill switch initialized")
             return True
         except Exception as e:
-            logger.exception(f"Kill switch initialization failed: {e}")
+            logger.exception("Kill switch initialization failed")
             return False
 
     def _init_repositories(self) -> None:
@@ -423,7 +422,7 @@ class OrdinisOrchestrator:
                     else "Unknown reason",
                 )
             except Exception as e:
-                logger.exception(f"Failed to send kill switch alert: {e}")
+                logger.exception("Failed to send kill switch alert")
 
     # ==================== HEALTH MONITORING ====================
 
@@ -446,7 +445,7 @@ class OrdinisOrchestrator:
             except asyncio.CancelledError:
                 break
             except Exception as e:
-                logger.exception(f"Health check error: {e}")
+                logger.exception("Health check error")
 
     # ==================== SIGNAL HANDLERS ====================
 

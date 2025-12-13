@@ -7,7 +7,7 @@ from datetime import datetime
 import pandas as pd
 import pytest
 
-from src.strategies.options.covered_call import CoveredCallStrategy
+from application.strategies.options.covered_call import CoveredCallStrategy
 
 
 @pytest.fixture

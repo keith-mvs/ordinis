@@ -4,8 +4,8 @@ from datetime import datetime
 
 import pandas as pd
 
-from src.engines.signalcore.core.signal import Direction, SignalType
-from src.strategies.bollinger_bands import BollingerBandsStrategy
+from application.strategies.bollinger_bands import BollingerBandsStrategy
+from engines.signalcore.core.signal import Direction, SignalType
 
 
 def create_test_data(bars=60, **overrides):

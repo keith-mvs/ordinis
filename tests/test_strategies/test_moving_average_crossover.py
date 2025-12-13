@@ -5,7 +5,7 @@ from datetime import datetime
 import numpy as np
 import pandas as pd
 
-from strategies.moving_average_crossover import MovingAverageCrossoverStrategy
+from application.strategies.moving_average_crossover import MovingAverageCrossoverStrategy
 
 
 def create_ma_test_data(bars: int = 250, pattern: str = "golden_cross") -> pd.DataFrame:

@@ -117,7 +117,7 @@ class ScalpingStrategy(VolatilityStrategy):
         pullback_pct = (high_5 - current) / high_5
         return pullback_pct > self.pullback_threshold * 0.01  # Convert to decimal
 
-    def generate_signal(self, data: pd.DataFrame) -> TradingSignal:
+    def generate_signal(self, data: pd.DataFrame) -> TradingSignal:  # noqa: PLR0911
         """Generate scalping signal."""
         if len(data) < 50:
             return TradingSignal(SignalType.HOLD, 0.0, data["close"].iloc[-1])

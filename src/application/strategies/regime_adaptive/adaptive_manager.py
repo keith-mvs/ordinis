@@ -155,9 +155,9 @@ class AdaptiveStrategyManager:
             self.volatility_strategies = VolatilityTradingEnsemble()
         else:
             # Single best strategy from each pool
-            self.trend_strategies = MACrossoverStrategy()
-            self.reversion_strategies = BollingerFadeStrategy()
-            self.volatility_strategies = ATRTrailingStrategy()
+            self.trend_strategies = MACrossoverStrategy()  # type: ignore[assignment]
+            self.reversion_strategies = BollingerFadeStrategy()  # type: ignore[assignment]
+            self.volatility_strategies = ATRTrailingStrategy()  # type: ignore[assignment]
 
         # Set regime weights
         self.regime_weights = self.config.regime_weights or DEFAULT_REGIME_WEIGHTS
@@ -396,7 +396,7 @@ def create_strategy_callback(manager: AdaptiveStrategyManager) -> Callable:
 
     Returns a function compatible with the backtesting engine.
     """
-    from src.engines.proofbench.core.execution import Order, OrderSide, OrderType
+    from engines.proofbench.core.execution import Order, OrderSide, OrderType
 
     position = {"shares": 0, "entry": 0.0}
 

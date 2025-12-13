@@ -8,9 +8,9 @@ from datetime import datetime
 
 import pandas as pd
 
-from src.engines.signalcore.core.model import ModelConfig
-from src.engines.signalcore.core.signal import Signal
-from src.engines.signalcore.models import RSIMeanReversionModel
+from engines.signalcore.core.model import ModelConfig
+from engines.signalcore.core.signal import Signal
+from engines.signalcore.models import RSIMeanReversionModel
 
 from .base import BaseStrategy
 

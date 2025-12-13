@@ -20,9 +20,9 @@ from typing import Any
 
 import pandas as pd
 
-from ...engines.optionscore import OptionsCoreEngine
-from ...engines.signalcore.core.signal import Direction, Signal, SignalType
-from ..base import BaseStrategy
+from application.strategies.base import BaseStrategy
+from engines.optionscore import OptionsCoreEngine
+from engines.signalcore.core.signal import Direction, Signal, SignalType
 
 
 class CoveredCallStrategy(BaseStrategy):

@@ -219,7 +219,7 @@ class PositionReconciliation:
             )
 
         except Exception as e:
-            logger.exception(f"Reconciliation failed: {e}")
+            logger.exception("Reconciliation failed")
             return ReconciliationResult(
                 success=False,
                 timestamp=timestamp,
@@ -348,7 +348,7 @@ class PositionReconciliation:
 
         except Exception as e:
             errors.append(f"Auto-correct failed: {e}")
-            logger.exception(f"Auto-correct error: {e}")
+            logger.exception("Auto-correct error")
 
         return corrections
 

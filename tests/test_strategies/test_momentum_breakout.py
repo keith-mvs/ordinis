@@ -4,8 +4,8 @@ from datetime import datetime
 
 import pandas as pd
 
+from application.strategies.momentum_breakout import MomentumBreakoutStrategy
 from engines.signalcore.core.signal import Direction, SignalType
-from strategies.momentum_breakout import MomentumBreakoutStrategy
 
 
 def create_test_data(bars=100, **overrides):

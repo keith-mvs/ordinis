@@ -5,7 +5,7 @@ from datetime import datetime
 import pandas as pd
 import pytest
 
-from strategies.rsi_mean_reversion import RSIMeanReversionStrategy
+from application.strategies.rsi_mean_reversion import RSIMeanReversionStrategy
 
 
 def create_test_data(bars: int = 150, trend: str = "neutral") -> pd.DataFrame:
