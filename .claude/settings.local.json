@@ -138,12 +138,25 @@
       "Bash(python scripts/generate_all_references.py:*)",
       "Bash(dir /B \"C:\\Users\\kjfle\\Workspace\\ordinis\\.claude\\skills\\bear-put-spread\\references\"\")",
       "Bash(git remote set-head:*)",
-      "Bash(tree:*)"
+      "Bash(tree:*)",
+      "Bash(del:*)",
+      "Bash(Get-ChildItem -Path docs -Recurse -Filter \"*.md\")",
+      "Bash(Select-Object FullName)",
+      "Bash(Sort-Object FullName)",
+      "Bash(pre-commit clean:*)",
+      "Bash(git mv:*)",
+      "Bash(Get-ChildItem -Path \"C:\\Users\\kjfle\\Workspace\\ordinis\\docs\\knowledge-base\\02_signals\" -Recurse -Name)"
     ],
     "deny": [],
     "ask": []
   },
   "remote": {
     "defaultEnvironmentId": "env_011CUthQLyyWnx5ythFHPfnJ"
-  }
+  },
+  "enabledMcpjsonServers": [
+    "Context7",
+    "GitHub",
+    "Microsoft Learn"
+  ],
+  "enableAllProjectMcpServers": true
 }

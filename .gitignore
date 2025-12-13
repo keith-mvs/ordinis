@@ -80,3 +80,18 @@ data/*.csv
 data/*.txt
 results/
 demo_results/
+
+# Artifacts (generated outputs - never committed)
+artifacts/
+runs/
+reports/
+
+# Additional caches
+.ruff_cache/
+.mypy_cache/
+.pytest_cache/
+
+# Temporary files
+*.tmp
+*.log
+NUL

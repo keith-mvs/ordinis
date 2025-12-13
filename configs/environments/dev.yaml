@@ -1,0 +1,27 @@
+# Ordinis Trading System - Development Environment
+# This file overrides configs/default.yaml for development
+
+system:
+  environment: dev
+
+broker:
+  mode: paper
+
+logging:
+  level: DEBUG
+
+risk:
+  max_position_size: 10
+  max_portfolio_exposure_pct: 10.0
+
+kill_switch:
+  daily_loss_limit: 100.0
+  max_drawdown_pct: 2.0
+  consecutive_loss_limit: 3
+
+alerting:
+  channels:
+    desktop:
+      enabled: true
+    email:
+      enabled: false

@@ -2,14 +2,23 @@
 RiskGuard engine for rule-based risk management.
 
 Evaluates all trading decisions against deterministic rules.
+Integrates with alerting for risk breach notifications.
 """
+
+from __future__ import annotations
 
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import Any
+import logging
+from typing import TYPE_CHECKING, Any
 
 from ...signalcore.core.signal import Signal
 from .rules import RiskCheckResult, RiskRule, RuleCategory
+
+if TYPE_CHECKING:
+    from alerting import AlertManager
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -30,7 +39,7 @@ class PortfolioState:
     daily_trades: int
 
     # Positions
-    open_positions: dict[str, "Position"]
+    open_positions: dict[str, Position]
     total_positions: int
 
     # Risk metrics
@@ -90,17 +99,23 @@ class RiskGuardEngine:
     RiskGuard rule-based risk management engine.
 
     Evaluates all trading decisions against deterministic rules
-    before execution.
+    before execution. Sends alerts on risk breaches.
     """
 
-    def __init__(self, rules: dict[str, RiskRule] | None = None):
+    def __init__(
+        self,
+        rules: dict[str, RiskRule] | None = None,
+        alert_manager: AlertManager | None = None,
+    ):
         """
         Initialize RiskGuard engine.
 
         Args:
             rules: Dictionary of rule_id -> RiskRule
+            alert_manager: Optional alert manager for notifications
         """
         self._rules: dict[str, RiskRule] = rules or {}
+        self._alert_manager = alert_manager
         self._halted: bool = False
         self._halt_reason: str | None = None
 

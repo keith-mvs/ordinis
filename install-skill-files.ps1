@@ -25,7 +25,7 @@ Expand-Archive -Path $zipFile -DestinationPath $tempExtract -Force
 Write-Host "✓ Extracted files.zip" -ForegroundColor Green
 
 # Step 2: Create directories
-Write-Host "`nStep 2: Creating directory structure..." -ForegroundColor Yellow
+Write-Host "Step 2: Creating directory structure..." -ForegroundColor Yellow
 $refsDir = "$skillDir\references"
 $assetsDir = "$skillDir\assets"
 

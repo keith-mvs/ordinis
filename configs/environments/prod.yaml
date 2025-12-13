@@ -1,0 +1,29 @@
+# Ordinis Trading System - Production Environment
+# This file overrides configs/default.yaml for production
+
+system:
+  environment: prod
+
+broker:
+  mode: live
+
+logging:
+  level: INFO
+
+risk:
+  max_position_size: 100
+  max_portfolio_exposure_pct: 25.0
+  require_stop_loss: true
+
+kill_switch:
+  daily_loss_limit: 1000.0
+  max_drawdown_pct: 5.0
+  consecutive_loss_limit: 5
+
+alerting:
+  channels:
+    desktop:
+      enabled: true
+    email:
+      enabled: true
+      min_severity: critical

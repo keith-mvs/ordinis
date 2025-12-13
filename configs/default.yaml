@@ -1,0 +1,96 @@
+# Ordinis Trading System - Default Configuration
+# Version: 1.0.0
+# Last Updated: 2025-12-12
+#
+# This file contains default configuration values.
+# Environment-specific overrides go in configs/environments/{dev,prod}.yaml
+# Environment variables can override any value using ORDINIS_ prefix.
+
+# System identification
+system:
+  name: ordinis
+  version: 1.0.0
+  environment: dev  # Overridden by environment files
+
+# Database configuration
+database:
+  path: data/ordinis.db
+  backup_dir: data/backups
+  journal_mode: WAL
+  synchronous: NORMAL
+  busy_timeout_ms: 5000
+  auto_backup_on_start: true
+
+# Kill switch configuration
+kill_switch:
+  file_path: data/KILL_SWITCH
+  check_interval_seconds: 1.0
+  daily_loss_limit: 1000.0
+  max_drawdown_pct: 5.0
+  consecutive_loss_limit: 5
+  persist_state: true
+
+# Circuit breaker configuration
+circuit_breaker:
+  failure_threshold: 5
+  success_threshold: 3
+  recovery_timeout_seconds: 30.0
+  half_open_max_calls: 3
+
+# Orchestrator configuration
+orchestrator:
+  reconciliation_on_startup: true
+  cancel_stale_orders: true
+  shutdown_timeout_seconds: 30.0
+  health_check_interval_seconds: 30.0
+
+# Alerting configuration
+alerting:
+  enabled: true
+  rate_limit_seconds: 60
+  dedup_window_seconds: 300
+  max_history: 1000
+  channels:
+    desktop:
+      enabled: true
+      min_severity: warning
+    email:
+      enabled: false
+      min_severity: critical
+
+# Broker configuration
+broker:
+  provider: alpaca
+  mode: paper  # paper or live
+  rate_limit_per_minute: 200
+
+# Logging configuration
+logging:
+  level: INFO
+  format: structured
+  file: artifacts/logs/ordinis.log
+  max_size_mb: 100
+  backup_count: 5
+
+# Risk management
+risk:
+  max_position_size: 100
+  max_portfolio_exposure_pct: 25.0
+  max_sector_concentration_pct: 30.0
+  require_stop_loss: false
+
+# Data providers
+data:
+  primary_provider: alpaca
+  cache_dir: artifacts/cache
+  historical_lookback_days: 365
+
+# Artifacts configuration
+artifacts:
+  base_dir: artifacts
+  runs_dir: artifacts/runs
+  reports_dir: artifacts/reports
+  logs_dir: artifacts/logs
+  cache_dir: artifacts/cache
+  retention_days: 30
+  max_size_gb: 10.0
