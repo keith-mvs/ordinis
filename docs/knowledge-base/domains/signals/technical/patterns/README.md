@@ -13,6 +13,7 @@ Pattern recognition identifies recurring price structures that may indicate cont
 | [candlestick.md](candlestick.md) | Candlestick | Doji, Hammer, Engulfing |
 | [chart_patterns.md](chart_patterns.md) | Chart Patterns | Head & Shoulders, Triangles |
 | [support_resistance.md](support_resistance.md) | Levels | Horizontal S/R, Pivots |
+| [breakout.md](breakout.md) | Breakouts | Range/flag/triangle breaks with volume |
 
 ---
 

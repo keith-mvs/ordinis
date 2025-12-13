@@ -294,24 +294,25 @@ def assess_trend_strength(data_dict):
 ## Implementation
 
 ```python
-from src.analysis.technical.mtf import MultiTimeframeAnalyzer
+import pandas as pd
+from ordinis.analysis.technical.multi_timeframe import MultiTimeframeAnalyzer
 
-mtf = MultiTimeframeAnalyzer()
+# Price data per timeframe (must include open/high/low/close/volume columns)
+data_by_tf = {
+    "1h": hourly_df,   # e.g., pd.DataFrame with 1h candles
+    "4h": h4_df,
+    "1d": daily_df,
+}
 
-# Load data for multiple timeframes
-data = mtf.load_data(
-    symbol='AAPL',
-    timeframes=['weekly', 'daily', '4h']
-)
+analyzer = MultiTimeframeAnalyzer()
+result = analyzer.analyze(data_by_tf)
 
-# Assess overall trend
-trend = mtf.assess_trend(data)
+print(result.majority_trend)    # "bullish" | "bearish" | "mixed"
+print(result.agreement_score)   # 0.0 - 1.0 alignment score
+print(result.bias)              # "bullish" | "bearish" | "neutral"
 
-# Find aligned signals
-signals = mtf.find_aligned_signals(data, direction=trend['direction'])
-
-# Get entry on lowest timeframe
-entry = mtf.find_entry(data['4h'], signals['entry_zone'])
+for signal in result.signals:
+    print(f"{signal.timeframe}: {signal.trend} (score={signal.score:.2f})")
 ```
 
 ---

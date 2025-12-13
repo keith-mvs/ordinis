@@ -294,26 +294,20 @@ def level_strength(level, prices, volumes, lookback=100):
 ## Implementation
 
 ```python
-from src.analysis.technical.levels import SupportResistance
+from ordinis.analysis.technical.patterns import SupportResistanceLocator
 
-sr = SupportResistance()
+locator = SupportResistanceLocator()
 
-# Find horizontal levels
-levels = sr.find_horizontal_levels(data, lookback=100, min_touches=3)
+# Find recent pivot-based levels (returns SupportResistanceLevels dataclass)
+levels = locator.find_levels(
+    high=data["high"],
+    low=data["low"],
+    window=3,
+    tolerance=0.003,  # merge nearby pivots into a zone
+)
 
-# Calculate pivot points
-pivots = sr.calculate_pivots(data, method='standard')
-
-# Find dynamic S/R (moving averages)
-ma_levels = {
-    'MA20': SMA(data['close'], 20),
-    'MA50': SMA(data['close'], 50),
-    'MA200': SMA(data['close'], 200)
-}
-
-# Check if price at level
-at_support = sr.is_at_support(data['close'].iloc[-1], levels)
-at_resistance = sr.is_at_resistance(data['close'].iloc[-1], levels)
+print(levels.support, levels.support_touches)
+print(levels.resistance, levels.resistance_touches)
 ```
 
 ---

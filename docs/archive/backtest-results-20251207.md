@@ -153,7 +153,7 @@ Default configuration used:
 ## Files Modified/Created
 
 ### New Files
-- `src/analysis/technical/indicators/` - Complete indicator library
+- `src/ordinis/analysis/technical/indicators/` - Complete indicator library
 - `src/strategies/regime_adaptive/` - Adaptive strategy framework
 - `src/data/training_data_generator.py` - Multi-timeframe data generation
 - `docs/ANALYSIS_FRAMEWORK.md` - Framework documentation

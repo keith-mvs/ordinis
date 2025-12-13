@@ -275,6 +275,24 @@ CONFIRMED_PATTERN = (
 
 ---
 
+## Quick Usage (Library)
+
+```python
+import pandas as pd
+from ordinis.analysis.technical.patterns import CandlestickPatterns
+
+patterns = CandlestickPatterns()
+
+# data must include open/high/low/close columns
+detected = patterns.detect(data)
+
+for name, matched in detected.items():
+    if matched:
+        print(f"Pattern detected: {name}")
+```
+
+---
+
 ## Implementation
 
 ```python

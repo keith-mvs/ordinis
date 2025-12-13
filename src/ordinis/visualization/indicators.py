@@ -8,6 +8,7 @@ import pandas as pd
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
+from ordinis.analysis.technical import TrendIndicators
 from ordinis.engines.signalcore.core.signal import Signal, SignalType
 from ordinis.engines.signalcore.features.technical import TechnicalIndicators
 
@@ -435,4 +436,56 @@ class IndicatorChart:
         fig.update_yaxes(title_text="Price", row=1, col=1)
         fig.update_yaxes(title_text="RSI", row=2, col=1)
 
+        return fig
+
+    @staticmethod
+    def plot_ichimoku_cloud(data: pd.DataFrame, title: str = "Ichimoku Cloud") -> go.Figure:
+        """
+        Plot Ichimoku Cloud using Phase 3 analytics.
+
+        Args:
+            data: DataFrame with OHLCV data
+            title: Chart title
+        """
+        if len(data) < 60:
+            raise ValueError("Ichimoku requires at least 60 bars of data.")
+
+        trend = TrendIndicators()
+        values, signal = trend.ichimoku(data["high"], data["low"], data["close"])
+
+        fig = go.Figure()
+        fig.add_trace(
+            go.Candlestick(
+                x=data.index,
+                open=data["open"],
+                high=data["high"],
+                low=data["low"],
+                close=data["close"],
+                name="Price",
+                increasing_line_color="green",
+                decreasing_line_color="red",
+            )
+        )
+        fig.add_trace(go.Scatter(x=data.index, y=values.conversion_line, name="Tenkan-sen"))
+        fig.add_trace(go.Scatter(x=data.index, y=values.baseline, name="Kijun-sen"))
+        fig.add_trace(go.Scatter(x=data.index, y=values.leading_span_a, name="Senkou Span A"))
+        fig.add_trace(
+            go.Scatter(
+                x=data.index,
+                y=values.leading_span_b,
+                name="Senkou Span B",
+                fill="tonexty",
+                fillcolor="rgba(135, 206, 250, 0.15)",
+            )
+        )
+        fig.add_trace(go.Scatter(x=data.index, y=values.chikou_span, name="Chikou Span"))
+
+        fig.update_layout(
+            title=f"{title} ({signal.trend}, {signal.position}, {signal.baseline_cross})",
+            xaxis_title="Date",
+            yaxis_title="Price",
+            hovermode="x unified",
+            legend={"orientation": "h", "yanchor": "bottom", "y": 1.02, "xanchor": "right", "x": 1},
+        )
+        fig.update_xaxes(rangebreaks=[dict(bounds=["sat", "mon"])])  # Hide weekends
         return fig

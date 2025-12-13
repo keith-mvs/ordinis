@@ -7,7 +7,7 @@ The Ordinis Analysis Framework (OAF) is engineered to provide a robust, multi-di
 1. **Technical Analysis** - Studies price/volume data to predict movements
     Support and Resistance: Support and resistance levels identify key price zones where historical buying or selling pressure has caused reversals. These "floors" and "ceilings" are critical for the framework to determine optimal entry and exit points and anticipate trend exhaustion.
     Trendlines: Trendlines connect series of highs or lows to visually map the asset's directional momentum. Whether indicating bullish higher lows or bearish lower highs, these lines serve as dynamic support/resistance boundaries used to confirm trend strength within the `trend_analysis` module.
-    Candlestick Patterns: Candlestick patterns decode immediate market sentiment through specific formations like Doji, Hammer, and Engulfing. The framework utilizes these patterns (defined in `src/analysis/technical/patterns/candlestick.py`) to anticipate short-term reversals or continuations based on crowd psychology.
+    Candlestick Patterns: Candlestick patterns decode immediate market sentiment through specific formations like Doji, Hammer, and Engulfing. The framework utilizes these patterns (defined in `src/ordinis/analysis/technical/patterns/candlestick.py`) to anticipate short-term reversals or continuations based on crowd psychology.
     Fibonacci Retracement: Fibonacci retracement applies mathematical ratios (23.6%, 38.2%, 50%, 61.8%) to identify probable reversal zones during market corrections. These levels help predict where price pullbacks might stabilize before the primary trend resumes.
     Moving Averages: Moving averages (SMA, EMA, VWAP) smooth price data to filter noise and highlight the prevailing trend. The framework analyzes crossovers and slopes of these averages to generate buy/sell signals and define the current market regime.
     Price Action: Price action analysis focuses on raw market movements—highs, lows, and formations—without the lag of derived indicators. This approach allows for swift decision-making based on pure price behavior and structural market shifts.
@@ -32,7 +32,7 @@ All relevant information is already reflected in the stock's price, and historic
 ### Module Structure
 
 ```
-src/analysis/technical/
+src/ordinis/analysis/technical/
 ├── __init__.py
 ├── indicators/
 │   ├── __init__.py
@@ -40,13 +40,15 @@ src/analysis/technical/
 │   ├── oscillators.py        # RSI, Stochastic, CCI, Williams %R
 │   ├── volatility.py         # ATR, Bollinger Bands, Keltner Channels
 │   ├── volume.py             # OBV, CMF, VWAP, Force Index
+│   ├── trend.py              # ADX, MACD, Ichimoku Cloud
 │   └── combined.py           # Unified TechnicalIndicators class
 ├── patterns/
 │   ├── __init__.py
-│   ├── chart_patterns.py     # Head & Shoulders, Triangles, etc.
-│   ├── candlestick.py        # Doji, Hammer, Engulfing patterns
-│   └── fibonacci.py          # Retracement, Extensions
-└── trend_analysis.py         # Trend direction and strength
+│   ├── candlestick.py        # 15+ candle patterns
+│   ├── support_resistance.py # Support/resistance clustering
+│   └── breakout.py           # Breakout detection and confirmation
+├── composite.py              # CompositeIndicator aggregation helpers
+└── multi_timeframe.py        # Cross-timeframe trend alignment
 ```
 
 ### Indicator Categories
@@ -64,7 +66,7 @@ Smooth price data to identify trend direction.
 | KAMA | Adaptive MA | Adjusts to volatility |
 
 ```python
-from src.analysis.technical import MovingAverages
+from ordinis.analysis.technical import MovingAverages
 
 # Calculate 20-period EMA
 ema = MovingAverages.ema(close_prices, period=20)
@@ -85,7 +87,7 @@ Identify overbought/oversold conditions.
 | MFI | 0-100 | >80 | <20 |
 
 ```python
-from src.analysis.technical import Oscillators
+from ordinis.analysis.technical import Oscillators
 
 # Calculate RSI
 rsi = Oscillators.rsi(close_prices, period=14)
@@ -106,7 +108,7 @@ Measure price dispersion and risk.
 | Historical Volatility | Annualized standard deviation |
 
 ```python
-from src.analysis.technical import VolatilityIndicators
+from ordinis.analysis.technical import VolatilityIndicators
 
 # Get Bollinger Band signal
 bb_signal = VolatilityIndicators.bollinger_signal(data, period=20, std_dev=2.0)
@@ -127,7 +129,7 @@ Confirm price movements with volume analysis.
 | Relative Volume | Current vs average volume |
 
 ```python
-from src.analysis.technical import VolumeIndicators
+from ordinis.analysis.technical import VolumeIndicators
 
 # Volume confirmation check
 vol_signal = VolumeIndicators.volume_confirmation(data)

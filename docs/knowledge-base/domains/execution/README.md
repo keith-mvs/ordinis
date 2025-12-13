@@ -245,7 +245,7 @@ REGIME_WEIGHTS = {
 
 ## 5. Technical Indicators Library
 
-Location: `src/analysis/technical/indicators/`
+Location: `src/ordinis/analysis/technical/indicators/`
 
 ```
 indicators/

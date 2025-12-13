@@ -198,7 +198,7 @@ class OUMeanReversion:
         Estimate θ (mean reversion speed), μ (long-term mean), σ (volatility).
         """
         # See 10_mathematical_foundations for implementation
-        from src.analysis.technical.statistics import estimate_ou_parameters
+        from ordinis.analysis.technical.statistics import estimate_ou_parameters
         return estimate_ou_parameters(spread)
 
     def expected_value(self, current: float, mu: float, theta: float, dt: float) -> float:

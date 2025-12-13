@@ -17,6 +17,7 @@ Example scripts demonstrating various Ordinis features and strategies.
 
 ## General Backtesting
 - **complete-backtest-demo.py** - Comprehensive backtesting framework demonstration
+- **technical_phase3_demo.py** - Phase 3 technical analytics (Ichimoku, patterns, composite, multi-timeframe)
 
 ## Running Examples
 

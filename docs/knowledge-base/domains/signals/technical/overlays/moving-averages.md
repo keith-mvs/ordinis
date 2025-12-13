@@ -203,7 +203,7 @@ TREND_TRADE = close > EMA(50) AND ADX(14) > 25
 ## Implementation
 
 ```python
-from src.analysis.technical.indicators import MovingAverages
+from ordinis.analysis.technical.indicators import MovingAverages
 
 ma = MovingAverages()
 

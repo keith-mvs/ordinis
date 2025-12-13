@@ -17,6 +17,7 @@ Production-ready trading system featuring:
 - **Backtesting Framework** - ProofBench with performance analytics
 - **5 Trading Strategies** - Ready to deploy
 - **RiskGuard Framework** - Risk management with hard control gates
+- **Advanced TA** - Ichimoku Cloud, candlestick/breakout detection, composite + multi-timeframe analysis
 
 ## Project Phases
 
@@ -74,6 +75,12 @@ python scripts/demo_full_system.py
 - 2 trading signals generated
 - Orders filled with realistic slippage
 - Final P&L displayed
+
+### Run Technical Analysis (CLI)
+```bash
+# Phase 3 indicators/patterns on an OHLCV CSV
+python -m ordinis.interface.cli analyze --data data/AAPL_historical.csv
+```
 
 ### Test Market Data APIs
 ```bash

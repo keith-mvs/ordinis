@@ -11,6 +11,14 @@ import sys
 
 import pandas as pd
 
+from ordinis.analysis.technical import (
+    BreakoutDetector,
+    CandlestickPatterns,
+    CompositeIndicator,
+    MultiTimeframeAnalyzer,
+    SupportResistanceLocator,
+    TechnicalIndicators,
+)
 from ordinis.application.strategies import (
     MomentumBreakoutStrategy,
     MovingAverageCrossoverStrategy,
@@ -18,6 +26,7 @@ from ordinis.application.strategies import (
 )
 from ordinis.engines.proofbench import SimulationConfig, SimulationEngine
 from ordinis.engines.proofbench.analytics import LLMPerformanceNarrator
+from ordinis.visualization.indicators import IndicatorChart
 
 
 def load_market_data(file_path: str) -> tuple[str, pd.DataFrame]:
@@ -299,6 +308,117 @@ def list_strategies(args):
     return 0
 
 
+def analyze_market(args):
+    """Run technical analysis (Phase 3 indicators/patterns)."""
+    print("\n" + "=" * 80)
+    print("INTELLIGENT INVESTOR - TECHNICAL ANALYSIS")
+    print("=" * 80)
+
+    # Load data
+    print(f"\n[1/4] Loading market data from {args.data}...")
+    try:
+        symbol, data = load_market_data(args.data)
+        print(f"  Symbol: {symbol}")
+        print(f"  Bars: {len(data)}")
+        print(f"  Period: {data.index[0].date()} to {data.index[-1].date()}")
+    except Exception as e:  # pragma: no cover - CLI guard rail
+        print(f"[ERROR] Failed to load data: {e}")
+        return 1
+
+    # Full technical snapshot (includes Ichimoku Cloud)
+    print("\n[2/4] Running core indicators (Ichimoku, MA/vol/osc)...")
+    tech = TechnicalIndicators()
+    snapshot = tech.analyze(data)
+    print(f"  Trend: {snapshot.trend_direction} | Bias: {snapshot.overall_bias}")
+    print(
+        f"  Ichimoku: {snapshot.ichimoku.trend} | Position: {snapshot.ichimoku.position} | "
+        f"Baseline cross: {snapshot.ichimoku.baseline_cross}"
+    )
+    print(f"  Signals: {', '.join(snapshot.signals) if snapshot.signals else 'None'}")
+
+    # Patterns and breakouts
+    print("\n[3/4] Detecting patterns and breakouts...")
+    patterns = CandlestickPatterns().detect(data.tail(120))
+    if isinstance(patterns, dict):
+        active_patterns = [name for name, matched in patterns.items() if matched]
+    else:
+        active_patterns = [p for p in patterns if p]
+    sr = SupportResistanceLocator().find_levels(
+        high=data["high"], low=data["low"], window=3, tolerance=0.003
+    )
+    breakout_signal = BreakoutDetector.detect(
+        close=data["close"],
+        support=sr.support,
+        resistance=sr.resistance,
+        tolerance=0.002,
+    )
+    print(f"  Candlestick patterns: {', '.join(active_patterns) if active_patterns else 'None'}")
+    brk_text = breakout_signal.direction or "none"
+    level_text = f"{breakout_signal.level:.2f}" if breakout_signal.level else "n/a"
+    print(f"  Breakout: {brk_text} | level: {level_text} | confirmed: {breakout_signal.confirmed}")
+
+    # Multi-timeframe alignment + composite score
+    print("\n[4/4] Multi-timeframe alignment + composite score...")
+    resampled = {
+        "1d": data,
+        "1w": data.resample("1W")
+        .agg({"open": "first", "high": "max", "low": "min", "close": "last", "volume": "sum"})
+        .dropna(),
+        "1m": data.resample("1M")
+        .agg({"open": "first", "high": "max", "low": "min", "close": "last", "volume": "sum"})
+        .dropna(),
+    }
+    resampled = {k: v for k, v in resampled.items() if len(v) > 10}
+
+    if resampled:
+        mtf = MultiTimeframeAnalyzer()
+        mtf_result = mtf.analyze(resampled)
+        print(
+            f"  MTF majority: {mtf_result.majority_trend} | bias: {mtf_result.bias} "
+            f"| agreement: {mtf_result.agreement_score:.2f}"
+        )
+        for sig in mtf_result.signals:
+            print(f"    {sig.timeframe}: {sig.trend_direction} (strength={sig.trend_strength:.2f})")
+    else:
+        print("  Not enough data to compute multi-timeframe alignment.")
+
+    bias_score = (
+        1
+        if snapshot.overall_bias in {"buy", "strong_buy"}
+        else -1
+        if snapshot.overall_bias in {"sell", "strong_sell"}
+        else 0
+    )
+    ichimoku_score = (
+        1
+        if snapshot.ichimoku.trend == "bullish"
+        else -1
+        if snapshot.ichimoku.trend == "bearish"
+        else 0
+    )
+    comp = CompositeIndicator.weighted_sum(
+        {"bias": bias_score, "ichimoku": ichimoku_score}, {"bias": 0.6, "ichimoku": 0.4}
+    )
+    # Map score to simple signal
+    comp_signal = "buy" if comp.value > 0 else "sell" if comp.value < 0 else "neutral"
+    print(f"\nComposite Score: {comp.value:.2f} | Signal: {comp_signal}")
+
+    print(f"\n{'=' * 80}")
+    print("TECHNICAL ANALYSIS COMPLETE")
+    print(f"{'=' * 80}\n")
+
+    # Optional: save Ichimoku plot
+    if args.save_ichimoku:
+        try:
+            fig = IndicatorChart.plot_ichimoku_cloud(data, title=f"{symbol} Ichimoku")
+            fig.write_html(args.save_ichimoku)
+            print(f"[saved] Ichimoku plot -> {args.save_ichimoku}")
+        except Exception as plot_err:  # pragma: no cover - best-effort for CLI convenience
+            print(f"[warning] Failed to save Ichimoku plot: {plot_err}")
+
+    return 0
+
+
 def main():
     """Main CLI entry point."""
     parser = argparse.ArgumentParser(
@@ -380,6 +500,32 @@ Examples:
     # List strategies command
     list_parser = subparsers.add_parser("list", help="List available strategies")
 
+    # Technical analysis command
+    analyze_parser = subparsers.add_parser(
+        "analyze", help="Run Phase 3 technical analysis on OHLCV CSV"
+    )
+    analyze_parser.add_argument(
+        "--data",
+        required=True,
+        help="Path to CSV file with OHLCV data (requires timestamp/date index column)",
+    )
+    analyze_parser.add_argument(
+        "--breakout-lookback",
+        type=int,
+        default=20,
+        help="Lookback window for breakout detection (default: 20)",
+    )
+    analyze_parser.add_argument(
+        "--breakout-volume-mult",
+        type=float,
+        default=1.5,
+        help="Volume multiplier for breakout confirmation (default: 1.5x)",
+    )
+    analyze_parser.add_argument(
+        "--save-ichimoku",
+        help="Optional path to save Ichimoku cloud HTML plot",
+    )
+
     # Parse arguments
     args = parser.parse_args()
 
@@ -388,6 +534,8 @@ Examples:
         return run_backtest(args)
     if args.command == "list":
         return list_strategies(args)
+    if args.command == "analyze":
+        return analyze_market(args)
     parser.print_help()
     return 0
 

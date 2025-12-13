@@ -81,6 +81,7 @@ Measure trend presence, direction, and strength.
 | ADX | Trend strength | >25 trending, <20 ranging |
 | Parabolic SAR | Trend + stops | Trailing stop placement |
 | Aroon | Trend age | New highs/lows timing |
+| Ichimoku Cloud | Trend, momentum, S/R | Cloud position + TK cross |
 
 ### 4. Volatility
 Measure price dispersion and expected movement.
@@ -99,6 +100,7 @@ Multi-component indicators combining several calculations.
 | MACD | 2 EMAs + signal | Crossovers, divergence |
 | PPO | % MACD | Normalized comparison |
 | TRIX | Triple EMA | Filtered momentum |
+| CompositeIndicator | Weighted/vote mix | Consensus of multiple signals |
 
 ---
 
@@ -134,19 +136,26 @@ VALID_BREAKOUT = price_breakout AND volume > 1.5 * avg_volume
 ## Implementation in Ordinis
 
 These indicators are implemented in:
-- `src/analysis/technical/indicators/` - Core indicator calculations
+- `src/ordinis/analysis/technical/indicators/` - Core indicator calculations
 - `src/strategies/regime_adaptive/` - Regime-aware strategy framework
 
 ### Available Indicator Classes
 
 ```python
-from src.analysis.technical.indicators import (
+from ordinis.analysis.technical import (
+    TechnicalIndicators, # Unified interface including Ichimoku Cloud
     MovingAverages,      # SMA, EMA, WMA, VWAP, Hull, KAMA
     Oscillators,         # RSI, Stochastic, CCI, Williams %R
     VolatilityIndicators,# ATR, Bollinger, Keltner, Donchian
     VolumeIndicators,    # OBV, CMF, Force Index
-    TechnicalIndicators, # Unified interface
+    CompositeIndicator,  # Weighted/voting aggregation
+    MultiTimeframeAnalyzer,  # Cross-timeframe alignment
+    CandlestickPatterns,     # 15+ candlestick detections
+    BreakoutDetector,        # Breakout confirmation helper
 )
+
+# CLI shortcut for Phase 3 analytics:
+# python -m ordinis.interface.cli analyze --data data/AAPL_historical.csv
 ```
 
 ---
@@ -174,4 +183,5 @@ from src.analysis.technical.indicators import (
 - [ADX](trend_indicators/adx_dmi.md)
 - [ATR](volatility/atr.md)
 - [Candlestick Patterns](patterns/candlestick.md)
+- [Breakout Detection](patterns/breakout.md)
 - [Multi-Timeframe Analysis](advanced/multi_timeframe.md)

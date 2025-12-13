@@ -258,7 +258,7 @@ STRONG_TREND = (
 ## Implementation
 
 ```python
-from src.analysis.technical.indicators import TrendIndicators
+from ordinis.analysis.technical.indicators import TrendIndicators
 
 trend = TrendIndicators()
 

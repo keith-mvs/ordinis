@@ -59,6 +59,20 @@ ordinis backtest \
   --params rsi_period=14 oversold_threshold=25 overbought_threshold=75
 ```
 
+### 4. Run Technical Analysis (Phase 3)
+
+Generate Ichimoku snapshot, candlestick/breakout signals, composite bias, and multi-timeframe alignment on an OHLCV CSV:
+
+```bash
+ordinis analyze --data data/AAPL_historical.csv --breakout-lookback 20 --breakout-volume-mult 1.5
+```
+
+Outputs include:
+- Trend/bias with Ichimoku context
+- Active candlestick patterns and breakout status (with volume confirmation)
+- Multi-timeframe majority trend and agreement score
+- Composite score combining bias + Ichimoku trend
+
 ## Commands
 
 ### backtest

@@ -212,7 +212,7 @@ CONNORS_RSI = (RSI(3) + RSI_STREAK(2) + PERCENT_RANK(100)) / 3
 ## Implementation
 
 ```python
-from src.analysis.technical.indicators import Oscillators
+from ordinis.analysis.technical.indicators import Oscillators
 
 osc = Oscillators()
 

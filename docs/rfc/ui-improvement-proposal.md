@@ -118,6 +118,103 @@ Your MkDocs Material setup has a solid foundation but lacks refinement in severa
 
 ---
 
+## 3. Goals (Phase 1 rollout)
+- Improve readability on desktop and mobile (max-width, line-height, spacing scale).
+- Reduce navigation friction (sticky TOC, collapsible sidebar, active states).
+- Ensure code/table usability (overflow handling, tabs, copy buttons).
+- Add quick feedback and contribution affordances.
+- Keep changes low-risk and easily reversible (scoped CSS/JS overrides).
+
+## 4. Proposed Changes
+
+### 4.1 Layout & Grid
+- Set content max-width to ~720-760px with centered container.
+- Add right-rail sticky TOC on desktop; collapse under content on mobile.
+- Introduce responsive padding: 16/24/32px for mobile/tablet/desktop.
+
+### 4.2 Typography & Rhythm
+- Apply 1.6 line-height for body text; 1.4 for list items; tighten code.
+- Use a 4px spacing scale; larger top margins for H2/H3 to create hierarchy.
+- Limit paragraph width to ~80-90 characters.
+
+### 4.3 Navigation
+- Sidebar: accordion sections with clear active/expanded state; cap depth to 4.
+- Breadcrumbs with “Edit this page” link.
+- Version selector (header) with current version highlighted.
+
+### 4.4 Code & Tables
+- Code blocks: scrollable horizontally with `max-height` + copy button.
+- Support language tabs (Python/CLI/PowerShell where available).
+- Tables: wrap in responsive container with shadow and zebra rows; allow horizontal scroll on small screens.
+
+### 4.5 Components & Feedback
+- Bottom-of-page “Was this helpful?” (Yes/No) with optional comment link.
+- Inline “Feature availability” badges for tiered features.
+- Highlight “Last updated” and “Contribute” in page footer meta.
+
+### 4.6 Mobile
+- Collapse TOC under a toggle; enlarge tap targets (44px).
+- Reduce header/nav height; ensure search overlay is full screen on mobile.
+
+## 5. Implementation Plan
+
+1) **Scaffolding**
+   - Add `docs/overrides/assets/styles/ui-refresh.css` for scoped CSS.
+   - Add `docs/overrides/assets/javascripts/ui-refresh.js` for minor behaviors (TOC sticky, copy buttons hook if not native).
+   - Wire overrides via `mkdocs.yml` (extra_css, extra_javascript).
+
+2) **Layout & Typography**
+   - Max-width container, spacing scale, line-height updates.
+   - Heading sizes/weights per level; anchor on hover.
+
+3) **Navigation**
+   - Sidebar accordion styling and active state.
+   - Sticky TOC on desktop; collapsible on mobile.
+   - Breadcrumb and “Edit on GitHub” link in header/footer.
+
+4) **Code & Tables**
+   - Code block overflow styles, copy button support, language tabs.
+   - Responsive table wrapper with subtle shadow/borderless rows.
+
+5) **Feedback & Meta**
+   - Lightweight “Was this helpful?” buttons pointing to GitHub issue template.
+   - Feature badges: utility classes + markdown snippet guidance.
+   - “Last updated” pulled from MkDocs metadata (page.meta).
+
+6) **Testing & QA**
+   - Visual regression spots: home, deep article, table-heavy, code-heavy, mobile viewport.
+   - Lighthouse pass for mobile/desktop on docs landing and a deep article.
+
+## 6. Success Metrics
+- Bounce rate and time-on-page (GA) improve on docs pages by 5-10%.
+- Search exit rate decreases; nav depth clicks increase (sidebar/TOC).
+- Reduced user-reported “hard to read”/“can’t find” feedback.
+- Qualitative: clearer hierarchy and code/table usability in dev surveys.
+
+## 7. Risks & Mitigations
+- **Risk:** CSS overrides conflict with theme updates → **Mitigation:** scope selectors under `.md-content` and `.md-nav`, keep overrides minimal, document in README.
+- **Risk:** Sticky TOC overlapping content → **Mitigation:** use `@media (min-width: 1100px)` guard, test on common breakpoints.
+- **Risk:** Copy buttons duplicate native Material feature → **Mitigation:** feature-detect; only add if not present.
+- **Risk:** Accessibility regressions → **Mitigation:** maintain contrast, focus states, and ARIA labels on toggles.
+
+## 8. Deliverables
+- `mkdocs.yml` updates to include overrides.
+- `docs/overrides/assets/styles/ui-refresh.css` and `ui-refresh.js`.
+- Updated README snippet describing how to enable/disable the UI refresh.
+- Optional: quick before/after screenshots for review.
+
+## 9. Timeline (estimate)
+- Day 1: Layout/typography CSS, code/table styling.
+- Day 2: Navigation (sidebar accordion, sticky TOC), mobile tweaks.
+- Day 3: Feedback widgets, badges, README/docs, QA pass + screenshots.
+
+## 10. Review Checklist
+- [ ] Content width and spacing match spec on desktop/mobile.
+- [ ] Code blocks scroll and copy; language tabs render where provided.
+- [ ] Tables are responsive without layout shift.
+- [ ] Sidebar accordion + sticky TOC behave at all breakpoints.
+- [ ] Breadcrumb/edit links present and accurate.
+- [ ] Accessibility: focus outlines, contrast, tap targets ≥44px.
 ## 3. Layout & Wrapper Strategy
 
 ### 3.1 Desktop Layout (>1200px)

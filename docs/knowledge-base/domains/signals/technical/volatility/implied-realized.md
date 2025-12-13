@@ -265,7 +265,7 @@ FEAR_ENTRY = (
 ## Implementation
 
 ```python
-from src.analysis.technical.indicators import VolatilityIndicators
+from ordinis.analysis.technical.indicators import VolatilityIndicators
 
 vol = VolatilityIndicators()
 

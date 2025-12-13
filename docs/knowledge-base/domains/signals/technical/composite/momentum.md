@@ -311,7 +311,7 @@ def momentum_factor(prices):
 ## Implementation
 
 ```python
-from src.analysis.technical.indicators import Oscillators
+from ordinis.analysis.technical.indicators import Oscillators
 
 osc = Oscillators()
 

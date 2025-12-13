@@ -228,7 +228,7 @@ LONG = close < lower_band AND MACD_histogram > MACD_histogram[1]
 ## Implementation
 
 ```python
-from src.analysis.technical.indicators import VolatilityIndicators
+from ordinis.analysis.technical.indicators import VolatilityIndicators
 
 vol = VolatilityIndicators()
 

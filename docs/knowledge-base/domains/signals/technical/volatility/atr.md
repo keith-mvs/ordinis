@@ -214,7 +214,7 @@ KELTNER_LOWER = EMA(20) - (2.0 * ATR(10))
 ## Implementation
 
 ```python
-from src.analysis.technical.indicators import VolatilityIndicators
+from ordinis.analysis.technical.indicators import VolatilityIndicators
 
 vol = VolatilityIndicators()
 
