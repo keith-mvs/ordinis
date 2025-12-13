@@ -138,6 +138,9 @@ class SimulationEngine:
         self.all_orders.append(order)
 
         # Create order submit event
+        if self.current_time is None:
+            raise RuntimeError("Cannot submit order before simulation starts")
+
         event = Event(
             timestamp=self.current_time,
             event_type=EventType.ORDER_SUBMIT,
@@ -183,6 +186,9 @@ class SimulationEngine:
         # Run event loop
         while not self.event_queue.is_empty():
             event = self.event_queue.pop()
+
+            if event is None:
+                break
 
             if event.timestamp > end_time:
                 break
@@ -249,6 +255,8 @@ class SimulationEngine:
         # Record equity periodically
         self.bar_count += 1
         if self.bar_count % self.config.record_equity_frequency == 0:
+            if self.current_time is None:
+                raise RuntimeError("Current time not set during simulation")
             self.portfolio.record_equity(self.current_time)
 
     def _process_bar_update(self, event: Event):
@@ -261,6 +269,8 @@ class SimulationEngine:
         bar = event.data["bar"]
 
         # Update position prices (mark-to-market)
+        if self.current_time is None:
+            raise RuntimeError("Current time not set during bar update")
         self.portfolio.update_prices({symbol: bar.close}, self.current_time)
 
         # Try to fill pending orders
@@ -288,6 +298,8 @@ class SimulationEngine:
         order = event.data["order"]
 
         # Update portfolio
+        if self.current_time is None:
+            raise RuntimeError("Current time not set during order fill")
         self.portfolio.update_position(fill, self.current_time)
 
         # Update order status
@@ -317,6 +329,9 @@ class SimulationEngine:
                 continue
 
             # Try to fill
+            if self.current_time is None:
+                raise RuntimeError("Current time not set during order fill attempt")
+
             fill = self.executor.simulate_fill(order, bar, self.current_time)
 
             if fill:
