@@ -16,13 +16,16 @@ This Knowledge Base (KB) provides foundational trading knowledge for automated s
 
 | Phase | Folder | Use Case |
 |-------|--------|----------|
-| Learn Markets | `01_foundations/` | Understanding market mechanics |
-| Generate Signals | `02_signals/` | Building entry/exit logic |
-| Manage Risk | `03_risk/` | Position sizing, stop losses |
-| Design Strategy | `04_strategy/` | Backtesting, validation |
-| Build System | `05_execution/` | Implementation, automation |
-| Trade Options | `06_options/` | Derivatives-specific |
-| Cite Sources | `07_references/` | Academic validation |
+| Learn Markets | `domains/foundations/` | Understanding market mechanics |
+| Generate Signals | `domains/signals/` | Building entry/exit logic |
+| Manage Risk | `domains/risk/` | Position sizing, stop losses |
+| Design Strategy | `domains/strategy/` | Backtesting, validation |
+| Build System | `domains/execution/` | Implementation, automation |
+| Trade Options | `domains/options/` | Derivatives-specific |
+| References | `domains/references/` | Academic validation |
+| Engines | `engines/` | System architecture & engines |
+| Prompts | `prompts/` | AI skills & CLI guides |
+| Sources | `sources/` | Data & external integrations |
 
 ---
 
@@ -31,20 +34,41 @@ This Knowledge Base (KB) provides foundational trading knowledge for automated s
 ```
 knowledge-base/
 ├── index.md                    # This file
-├── 01_foundations/             # Market structure, microstructure, math
-├── 02_signals/                 # Signal generation methods
-│   ├── technical/              # Technical analysis indicators
-│   ├── fundamental/            # Fundamental analysis
-│   ├── volume/                 # Volume & liquidity
-│   ├── sentiment/              # News & social sentiment
-│   ├── events/                 # Event-driven strategies
-│   ├── quantitative/           # Quant strategies & ML
-│   └── 10_mathematical_foundations/  # Statistical & mathematical concepts
-├── 03_risk/                    # Risk management & position sizing
-├── 04_strategy/                # Strategy design & evaluation
-├── 05_execution/               # System architecture & execution
-├── 06_options/                 # Options & derivatives
-└── 07_references/              # Academic sources & citations
+├── domains/                    # Trading domain knowledge
+│   ├── foundations/            # Market structure, microstructure, math
+│   ├── signals/                # Signal generation methods
+│   │   ├── technical/          # Technical analysis indicators
+│   │   ├── fundamental/        # Fundamental analysis
+│   │   ├── volume/             # Volume & liquidity
+│   │   ├── sentiment/          # News & social sentiment
+│   │   ├── events/             # Event-driven strategies
+│   │   └── quantitative/       # Quant strategies & ML
+│   ├── risk/                   # Risk management & position sizing
+│   ├── strategy/               # Strategy design & evaluation
+│   ├── execution/              # System architecture & execution
+│   ├── options/                # Options & derivatives
+│   └── references/             # Academic sources & citations
+├── engines/                    # Ordinis system engines
+│   ├── system-architecture.md  # Core system overview
+│   ├── signalcore-engine.md    # Signal generation engine
+│   ├── proofbench.md           # Backtesting engine
+│   ├── rag-engine.md           # LLM retrieval engine
+│   ├── execution-path.md       # Execution flow
+│   ├── nvidia-integration.md   # AI model integration
+│   └── monitoring.md           # System monitoring
+├── prompts/                    # AI & user interaction
+│   ├── cli-usage.md            # CLI usage guide
+│   ├── recommended-skills.md   # Claude skills reference
+│   ├── skills-index.md         # Skills to KB mapping
+│   └── user-testing-guide.md   # Testing instructions
+├── sources/                    # Data & integrations
+│   ├── dataset-management-guide.md
+│   ├── connectors-quick-reference.md
+│   └── alpaca-deployment.md
+└── inbox/                      # Archive & unsorted
+    ├── archive/                # Deprecated docs
+    ├── planning/               # Historical plans
+    └── strategies/             # Superseded strategies
 ```
 
 ---
@@ -53,7 +77,7 @@ knowledge-base/
 
 Understanding markets at mechanical and mathematical levels.
 
-**Location**: `01_foundations/`
+**Location**: `domains/foundations/`
 
 **Key Concepts**:
 1. **Market Structure**: Exchange types, order routing, market makers, ECNs
@@ -78,7 +102,7 @@ Understanding markets at mechanical and mathematical levels.
 
 All methods for generating trading signals.
 
-**Location**: `02_signals/`
+**Location**: `domains/signals/`
 
 ### 2.1 Technical Analysis (`technical/`)
 
@@ -88,30 +112,30 @@ Chart-based methods for rule-based entry/exit signals.
 technical/
 ├── README.md                    # Section overview
 ├── overlays/                    # Price overlay indicators
-│   ├── moving_averages.md       # SMA, EMA, WMA, KAMA, VWAP
-│   └── bollinger_bands.md       # BB, %B, Bandwidth
+│   ├── moving-averages.md       # SMA, EMA, WMA, KAMA, VWAP
+│   └── bollinger-bands.md       # BB, %B, Bandwidth
 ├── oscillators/                 # Bounded momentum indicators
 │   ├── rsi.md                   # RSI, divergence, Stoch RSI
 │   ├── stochastic.md            # %K, %D, crossovers
 │   ├── cci.md                   # Commodity Channel Index
-│   └── williams_r.md            # Williams %R
-├── trend_indicators/            # Trend strength & direction
-│   ├── adx_dmi.md               # ADX, +DI, -DI
-│   ├── parabolic_sar.md         # Trailing stops
+│   └── williams-r.md            # Williams %R
+├── trend-indicators/            # Trend strength & direction
+│   ├── adx-dmi.md               # ADX, +DI, -DI
+│   ├── parabolic-sar.md         # Trailing stops
 │   └── aroon.md                 # Time-based trend
 ├── volatility/                  # Volatility measures
 │   ├── atr.md                   # Average True Range
-│   └── implied_realized.md      # IV vs RV, VIX
+│   └── implied-realized.md      # IV vs RV, VIX
 ├── composite/                   # Multi-component indicators
 │   ├── macd.md                  # MACD, Signal, Histogram
 │   └── momentum.md              # ROC, MOM, TRIX, TSI
 ├── patterns/                    # Price patterns
 │   ├── candlestick.md           # Doji, Hammer, Engulfing
-│   ├── chart_patterns.md        # H&S, Triangles, Flags
-│   └── support_resistance.md    # S/R levels, Fibonacci
+│   ├── chart-patterns.md        # H&S, Triangles, Flags
+│   └── support-resistance.md    # S/R levels, Fibonacci
 └── advanced/                    # Advanced techniques
-    ├── multi_timeframe.md       # MTF analysis
-    └── regime_detection.md      # Market regime identification
+    ├── multi-timeframe.md       # MTF analysis
+    └── regime-detection.md      # Market regime identification
 ```
 
 ### 2.2 Fundamental Analysis (`fundamental/`)
@@ -182,11 +206,12 @@ Systematic quantitative strategies.
 
 Hard constraints for capital preservation.
 
-**Location**: `03_risk/`
+**Location**: `domains/risk/`
 
 **Files**:
 - `README.md` - Core risk management principles and methods
-- `advanced_risk_methods.md` - Quantitative risk methods (VaR, stress testing)
+- `advanced-risk-methods.md` - Quantitative risk methods (VaR, stress testing)
+- `frameworks/` - Risk governance, taxonomy, and scoring frameworks
 
 **Key Concepts**:
 1. **Risk Per Trade**: Fixed fractional, percentage-based limits
@@ -217,13 +242,14 @@ Hard constraints for capital preservation.
 
 Constructing and validating trading strategies with NVIDIA AI integration.
 
-**Location**: `04_strategy/`
+**Location**: `domains/strategy/`
 
 **Files**:
 - `backtesting-requirements.md` - Backtesting methodology and metrics
 - `data-evaluation-requirements.md` - Comprehensive data and evaluation specs
-- `nvidia_integration.md` - NVIDIA AI model integration patterns
-- `strategy_formulation_framework.md` - Complete strategy development framework
+- `nvidia-integration.md` - NVIDIA AI model integration patterns
+- `strategy-formulation-framework.md` - Complete strategy development framework
+- `due-diligence-framework.md` - Research and validation methodology
 
 **Supported Asset Classes**:
 | Asset | Status | Notes |
@@ -258,13 +284,13 @@ Constructing and validating trading strategies with NVIDIA AI integration.
 
 Technical infrastructure for automated trading.
 
-**Location**: `05_execution/`
+**Location**: `domains/execution/`
 
 **Files**:
 - `README.md` - System architecture overview
-- `governance_engines.md` - Comprehensive governance framework
-- `data_pipelines.md` - Complete data pipeline architecture
-- `deployment_patterns.md` - Deployment architectures
+- `governance-engines.md` - Comprehensive governance framework
+- `data-pipelines.md` - Complete data pipeline architecture
+- `deployment-patterns.md` - Deployment architectures
 - `monitoring.md` - Comprehensive monitoring
 
 **Key Concepts**:
@@ -294,7 +320,7 @@ Implementation: `src/engines/governance/`
 
 Options-specific knowledge for automated strategies.
 
-**Location**: `06_options/`
+**Location**: `domains/options/`
 
 **Key Concepts**:
 1. **Options Fundamentals**: Calls, puts, strike, expiry, exercise
@@ -308,36 +334,65 @@ Options-specific knowledge for automated strategies.
 9. **Volatility Trading**: IV vs RV, mean reversion
 10. **Hedging**: Portfolio protection, tail risk
 
+**Strategy Implementations** (`strategy-implementations/`):
+- Vertical spreads, iron condors, butterflies
+- Covered strategies, protective puts
+- Volatility strategies
+
 **Academic References**:
 - "Options, Futures, and Other Derivatives" (Hull)
 - "Option Volatility and Pricing" (Natenberg)
 
 ---
 
-## Section 7: References
+## Section 7: Engines
 
-Academic sources and validation materials.
+Ordinis system architecture and engine documentation.
 
-**Location**: `07_references/`
+**Location**: `engines/`
 
-**Primary Academic Sources**:
-- Journal of Finance
-- Journal of Financial Economics
-- Review of Financial Studies
-- Journal of Portfolio Management
-- Quantitative Finance
+**Files**:
+- `system-architecture.md` - Core production architecture
+- `signalcore-engine.md` - Signal generation engine
+- `proofbench.md` - Backtesting/simulation engine
+- `proofbench-guide.md` - User guide for backtesting
+- `rag-engine.md` - LLM retrieval-augmentation engine
+- `execution-path.md` - End-to-end execution flow
+- `nvidia-integration.md` - NVIDIA AI model integration
+- `monitoring.md` - System monitoring and alerting
 
-**Foundational Texts**:
-1. Graham & Dodd - Security Analysis
-2. Hull - Options, Futures, and Other Derivatives
-3. Harris - Trading and Exchanges
-4. de Prado - Advances in Financial Machine Learning
-5. Aronson - Evidence-Based Technical Analysis
+**Planned Engine Docs**:
+- `cortex-engine.md` - Strategy orchestration layer
+- `riskguard-engine.md` - Risk management engine
+- `flowroute-engine.md` - Order execution module
 
-**Regulatory Sources**:
-- SEC.gov - Securities regulations
-- FINRA - Trading rules and compliance
-- CFTC - Futures and derivatives
+---
+
+## Section 8: Prompts & Skills
+
+AI interaction and skill documentation.
+
+**Location**: `prompts/`
+
+**Files**:
+- `cli-usage.md` - CLI usage guide
+- `recommended-skills.md` - Claude skills reference
+- `skills-index.md` - Skills to KB content mapping
+- `user-testing-guide.md` - Testing instructions
+
+---
+
+## Section 9: Sources & Data
+
+External data sources and integrations.
+
+**Location**: `sources/`
+
+**Files**:
+- `dataset-management-guide.md` - Data management procedures
+- `dataset-quick-reference.md` - Quick data reference
+- `connectors-quick-reference.md` - External API connectors
+- `alpaca-deployment.md` - Alpaca broker integration
 
 ---
 
@@ -348,3 +403,4 @@ Academic sources and validation materials.
 3. **Academic validated**: Cite sources for claimed edges
 4. **Cross-reference**: Risk management touches all areas
 5. **Regular updates**: Markets evolve, strategies decay
+6. **Kebab-case**: All file and folder names use lowercase with hyphens

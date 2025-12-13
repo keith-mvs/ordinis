@@ -146,7 +146,8 @@
       "Bash(pre-commit clean:*)",
       "Bash(git mv:*)",
       "Bash(Get-ChildItem -Path \"C:\\Users\\kjfle\\Workspace\\ordinis\\docs\\knowledge-base\\02_signals\" -Recurse -Name)",
-      "Bash(git worktree:*)"
+      "Bash(git worktree:*)",
+      "Bash(Get-ChildItem -Path \"C:\\Users\\kjfle\\Workspace\\ordinis\\docs\" -Directory -Recurse)"
     ],
     "deny": [],
     "ask": []
