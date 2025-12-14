@@ -164,7 +164,7 @@ class GARCHVolatilityModel(Model):
             VolatilityForecast with predictions
         """
         # Calculate returns (percentage)
-        returns = data["close"].pct_change().dropna() * 100  # Scale for GARCH
+        returns: pd.Series = data["close"].pct_change().dropna() * 100  # Scale for GARCH
 
         if not ARCH_AVAILABLE:
             # Fallback: Rolling standard deviation

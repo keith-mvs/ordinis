@@ -243,7 +243,7 @@ class ModelRegistry:
 
             for symbol, df in data.items():
                 try:
-                    is_valid, msg = model.validate(df)
+                    is_valid, _msg = model.validate(df)
                     if not is_valid:
                         continue
 

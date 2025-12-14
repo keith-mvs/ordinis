@@ -197,7 +197,8 @@ class MACDModel(Model):
 
         # Staleness
         if isinstance(data.index, pd.DatetimeIndex):
-            staleness = timestamp - data.index[-1]
+            delta = timestamp - data.index[-1]
+            staleness = timedelta(seconds=delta.total_seconds())
         else:
             staleness = timedelta(seconds=0)
 

@@ -21,10 +21,10 @@ __all__ = [
     # Price forecasting
     "ARIMAForecastModel",
     "AutoARIMAForecastModel",
+    "EGARCHVolatilityModel",
     "ForecastResult",
     # Volatility estimation
     "GARCHVolatilityModel",
-    "EGARCHVolatilityModel",
     "TGARCHVolatilityModel",
     "VolatilityForecast",
 ]

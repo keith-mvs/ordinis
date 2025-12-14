@@ -12,7 +12,7 @@ from datetime import UTC, datetime
 from typing import Any
 
 from ordinis.engines.portfolio.events import EventHooks, RebalanceEvent, RebalanceEventType
-from ordinis.engines.portfolio.signal_driven import SignalInput
+from ordinis.engines.portfolio.strategies.signal_driven import SignalInput
 
 # Check if SignalCore is available
 try:

@@ -9,59 +9,101 @@ Provides multiple rebalancing strategies:
 
 Plus a unified engine to orchestrate multiple strategies, with event hooks
 and adapters for integration with other Ordinis systems.
+
+The engine follows the standard Ordinis engine template with:
+- core/ - Engine, config, and domain models
+- hooks/ - Governance hooks for preflight/audit
+- strategies/ - Rebalancing strategy implementations
 """
 
-from .adapters import FlowRouteAdapter, FlowRouteOrderRequest, ProofBenchAdapter, SignalCoreAdapter
-from .engine import ExecutionResult, RebalancingEngine, RebalancingHistory, StrategyType
-from .events import EventHooks, RebalanceEvent, RebalanceEventType
-from .risk_parity import RiskParityDecision, RiskParityRebalancer, RiskParityWeights
-from .signal_driven import (
+# Core engine components
+# Adapters
+from ordinis.engines.portfolio.adapters import (
+    FlowRouteAdapter,
+    FlowRouteOrderRequest,
+    ProofBenchAdapter,
+    SignalCoreAdapter,
+)
+from ordinis.engines.portfolio.core import (
+    ExecutionResult,
+    PortfolioEngine,
+    PortfolioEngineConfig,
+    RebalancingHistory,
+    StrategyType,
+)
+
+# Events
+from ordinis.engines.portfolio.events import EventHooks, RebalanceEvent, RebalanceEventType
+
+# Governance hooks
+from ordinis.engines.portfolio.hooks import (
+    PortfolioGovernanceHook,
+    PositionLimitRule,
+    RebalanceFrequencyRule,
+    TradeValueRule,
+)
+
+# Strategies
+from ordinis.engines.portfolio.strategies import (
+    RebalanceDecision,
+    RiskParityDecision,
+    RiskParityRebalancer,
+    RiskParityWeights,
     SignalDrivenDecision,
     SignalDrivenRebalancer,
     SignalDrivenWeights,
     SignalInput,
     SignalMethod,
-)
-from .target_allocation import RebalanceDecision, TargetAllocation, TargetAllocationRebalancer
-from .threshold_based import (
+    TargetAllocation,
+    TargetAllocationRebalancer,
     ThresholdBasedRebalancer,
     ThresholdConfig,
     ThresholdDecision,
     ThresholdStatus,
 )
 
+# Backward compatibility aliases
+RebalancingEngine = PortfolioEngine
+
 __all__ = [
-    # Target Allocation
-    "TargetAllocationRebalancer",
-    "TargetAllocation",
+    # Events
+    "EventHooks",
+    "ExecutionResult",
+    "FlowRouteAdapter",
+    "FlowRouteOrderRequest",
+    # Core Engine
+    "PortfolioEngine",
+    "PortfolioEngineConfig",
+    # Governance Hooks
+    "PortfolioGovernanceHook",
+    "PositionLimitRule",
+    "ProofBenchAdapter",
     "RebalanceDecision",
+    "RebalanceEvent",
+    "RebalanceEventType",
+    "RebalanceFrequencyRule",
+    "RebalancingEngine",  # Backward compatibility alias
+    "RebalancingHistory",
+    "RiskParityDecision",
     # Risk Parity
     "RiskParityRebalancer",
     "RiskParityWeights",
-    "RiskParityDecision",
+    # Adapters
+    "SignalCoreAdapter",
+    "SignalDrivenDecision",
     # Signal-Driven
     "SignalDrivenRebalancer",
     "SignalDrivenWeights",
-    "SignalDrivenDecision",
     "SignalInput",
     "SignalMethod",
+    "StrategyType",
+    "TargetAllocation",
+    # Target Allocation
+    "TargetAllocationRebalancer",
     # Threshold-Based
     "ThresholdBasedRebalancer",
     "ThresholdConfig",
     "ThresholdDecision",
     "ThresholdStatus",
-    # Unified Engine
-    "RebalancingEngine",
-    "StrategyType",
-    "RebalancingHistory",
-    "ExecutionResult",
-    # Events
-    "EventHooks",
-    "RebalanceEvent",
-    "RebalanceEventType",
-    # Adapters
-    "SignalCoreAdapter",
-    "ProofBenchAdapter",
-    "FlowRouteAdapter",
-    "FlowRouteOrderRequest",
+    "TradeValueRule",
 ]

@@ -13,7 +13,7 @@ from enum import Enum
 from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
-    from ordinis.engines.portfolio.engine import StrategyType
+    from ordinis.engines.portfolio.core.models import StrategyType
 
 
 class RebalanceEventType(Enum):
@@ -198,11 +198,9 @@ class EventHooks:
         Returns:
             True if handlers are registered
         """
-        return (
-            event_type in self._handlers
-            and len(self._handlers[event_type]) > 0
-            or len(self._global_handlers) > 0
-        )
+        return (event_type in self._handlers and len(self._handlers[event_type]) > 0) or len(
+            self._global_handlers
+        ) > 0
 
     def get_handler_count(self, event_type: RebalanceEventType | None = None) -> int:
         """Get number of registered handlers.
