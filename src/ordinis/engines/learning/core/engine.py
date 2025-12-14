@@ -204,14 +204,14 @@ class LearningEngine(BaseEngine[LearningEngineConfig]):
             _logger.info("Flushing %d events to storage", len(self._events))
 
         # Audit the flush
-        if self._governance_hook:
-            await self._governance_hook.audit(
+        if self._governance:
+            await self._governance.audit(
                 AuditRecord(
-                    engine_id=self.config.engine_id,
-                    operation="flush_events",
-                    context={"event_count": len(self._events)},
-                    result={"status": "success"},
-                    duration_ms=0,
+                    engine=self.name,
+                    action="flush_events",
+                    inputs={"event_count": len(self._events)},
+                    outputs={"status": "success"},
+                    latency_ms=0.0,
                 )
             )
 
@@ -281,17 +281,17 @@ class LearningEngine(BaseEngine[LearningEngineConfig]):
         _logger.info("Training job submitted: %s for model %s", job.job_id, model_name)
 
         # Audit the submission
-        if self._governance_hook:
-            await self._governance_hook.audit(
+        if self._governance:
+            await self._governance.audit(
                 AuditRecord(
-                    engine_id=self.config.engine_id,
-                    operation="submit_training_job",
-                    context={
+                    engine=self.name,
+                    action="submit_training_job",
+                    inputs={
                         "model_name": model_name,
                         "model_type": model_type,
                     },
-                    result={"job_id": job.job_id},
-                    duration_ms=0,
+                    outputs={"job_id": job.job_id},
+                    latency_ms=0.0,
                 )
             )
 
@@ -413,19 +413,19 @@ class LearningEngine(BaseEngine[LearningEngineConfig]):
         )
 
         # Audit the promotion
-        if self._governance_hook:
-            await self._governance_hook.audit(
+        if self._governance:
+            await self._governance.audit(
                 AuditRecord(
-                    engine_id=self.config.engine_id,
-                    operation="promote_model",
-                    context={
+                    engine=self.name,
+                    action="promote_model",
+                    inputs={
                         "model_name": model_name,
                         "version_id": version_id,
                         "target_stage": target_stage.value,
                         "rollout_strategy": rollout_strategy.value,
                     },
-                    result={"success": True},
-                    duration_ms=0,
+                    outputs={"success": True},
+                    latency_ms=0.0,
                 )
             )
 
