@@ -3,13 +3,25 @@ ProofBench - Backtesting Engine
 
 Event-driven simulation engine for strategy validation.
 Provides realistic execution modeling with comprehensive performance analytics.
+
+The engine follows the standard Ordinis engine template with:
+- core/ - Engine, config, and domain models
+- hooks/ - Governance hooks for preflight/audit
+- analytics/ - Performance analysis and reporting
 """
 
-from .analytics.llm_enhanced import LLMPerformanceNarrator
-from .analytics.performance import PerformanceAnalyzer, PerformanceMetrics
-from .core.events import Event, EventQueue, EventType
-from .core.execution import (
+# Core engine components
+# Analytics
+from ordinis.engines.proofbench.analytics.llm_enhanced import LLMPerformanceNarrator
+from ordinis.engines.proofbench.analytics.performance import (
+    PerformanceAnalyzer,
+    PerformanceMetrics,
+)
+from ordinis.engines.proofbench.core import (
     Bar,
+    Event,
+    EventQueue,
+    EventType,
     ExecutionConfig,
     ExecutionSimulator,
     Fill,
@@ -17,37 +29,60 @@ from .core.execution import (
     OrderSide,
     OrderStatus,
     OrderType,
+    Portfolio,
+    Position,
+    PositionSide,
+    ProofBenchEngine,
+    ProofBenchEngineConfig,
+    SimulationConfig,
+    SimulationEngine,
+    SimulationResults,
+    Trade,
 )
-from .core.portfolio import Portfolio, Position, PositionSide, Trade
-from .core.simulator import SimulationConfig, SimulationEngine, SimulationResults
+
+# Governance hooks
+from ordinis.engines.proofbench.hooks import (
+    CapitalLimitRule,
+    DataValidationRule,
+    ProofBenchGovernanceHook,
+    SymbolLimitRule,
+)
 
 __all__ = [
+    # Execution
+    "Bar",
+    # Governance Hooks
+    "CapitalLimitRule",
+    "DataValidationRule",
     # Events
     "Event",
-    "EventType",
     "EventQueue",
-    # Simulation
-    "SimulationEngine",
-    "SimulationConfig",
-    "SimulationResults",
+    "EventType",
+    "ExecutionConfig",
+    "ExecutionSimulator",
+    "Fill",
+    # Analytics
+    "LLMPerformanceNarrator",
+    "Order",
+    "OrderSide",
+    "OrderStatus",
+    "OrderType",
+    "PerformanceAnalyzer",
+    "PerformanceMetrics",
     # Portfolio
     "Portfolio",
     "Position",
     "PositionSide",
+    # Core Engine
+    "ProofBenchEngine",
+    "ProofBenchEngineConfig",
+    "ProofBenchGovernanceHook",
+    # Simulation
+    "SimulationConfig",
+    "SimulationEngine",
+    "SimulationResults",
+    "SymbolLimitRule",
     "Trade",
-    # Execution
-    "ExecutionSimulator",
-    "ExecutionConfig",
-    "Order",
-    "OrderSide",
-    "OrderType",
-    "OrderStatus",
-    "Fill",
-    "Bar",
-    # Analytics
-    "PerformanceAnalyzer",
-    "PerformanceMetrics",
-    "LLMPerformanceNarrator",
 ]
 
 __version__ = "0.1.0"

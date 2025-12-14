@@ -8,10 +8,13 @@ Uses NVIDIA models for:
 - Comparative backtest analysis
 """
 
-from datetime import datetime
-from typing import Any
+from __future__ import annotations
 
-from ..core.simulator import SimulationResults
+from datetime import datetime
+from typing import TYPE_CHECKING, Any
+
+if TYPE_CHECKING:
+    from ordinis.engines.proofbench.core.simulator import SimulationResults
 
 # Optional NVIDIA integration
 try:

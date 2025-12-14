@@ -1,7 +1,9 @@
 """ProofBench core components."""
 
-from .events import Event, EventQueue, EventType
-from .execution import (
+from ordinis.engines.proofbench.core.config import ProofBenchEngineConfig
+from ordinis.engines.proofbench.core.engine import ProofBenchEngine
+from ordinis.engines.proofbench.core.events import Event, EventQueue, EventType
+from ordinis.engines.proofbench.core.execution import (
     Bar,
     ExecutionConfig,
     ExecutionSimulator,
@@ -11,30 +13,37 @@ from .execution import (
     OrderStatus,
     OrderType,
 )
-from .portfolio import Portfolio, Position, PositionSide, Trade
-from .simulator import SimulationConfig, SimulationEngine, SimulationResults
+from ordinis.engines.proofbench.core.portfolio import Portfolio, Position, PositionSide, Trade
+from ordinis.engines.proofbench.core.simulator import (
+    SimulationConfig,
+    SimulationEngine,
+    SimulationResults,
+)
 
 __all__ = [
+    # Execution
+    "Bar",
     # Events
     "Event",
-    "EventType",
     "EventQueue",
-    # Execution
+    "EventType",
+    "ExecutionConfig",
+    "ExecutionSimulator",
+    "Fill",
     "Order",
     "OrderSide",
-    "OrderType",
     "OrderStatus",
-    "Fill",
-    "Bar",
-    "ExecutionSimulator",
-    "ExecutionConfig",
+    "OrderType",
     # Portfolio
     "Portfolio",
     "Position",
     "PositionSide",
-    "Trade",
+    # Engine
+    "ProofBenchEngine",
+    "ProofBenchEngineConfig",
     # Simulation
-    "SimulationEngine",
     "SimulationConfig",
+    "SimulationEngine",
     "SimulationResults",
+    "Trade",
 ]
