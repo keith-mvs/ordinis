@@ -10,47 +10,76 @@ Implements OECD AI Principles (2024) for responsible automated decision-making:
 
 Reference: https://oecd.ai/en/ai-principles
 
+The engine follows the standard Ordinis engine template with:
+- core/ - Engine, config, and domain models
+- UnifiedGovernanceEngine - Standardized BaseEngine wrapper
+
 Components:
+- UnifiedGovernanceEngine: Standardized BaseEngine wrapper with lifecycle
+- GovernanceEngine: Policy enforcement and compliance orchestration
 - AuditEngine: Immutable audit trails with hash chaining
 - PPIEngine: Personal/Private Information detection and masking
 - EthicsEngine: OECD-compliant ethical constraints and ESG scoring
-- GovernanceEngine: Policy enforcement and compliance orchestration
 - BrokerComplianceEngine: Broker terms of service compliance (Alpaca, IB, etc.)
 """
 
-from .core.audit import AuditEngine, AuditEvent, AuditEventType
-from .core.broker_compliance import (
+# Core engine components
+from ordinis.engines.governance.core import (
+    ApprovalRequest,
+    ApprovalStatus,
+    AuditEngine,
+    AuditEvent,
+    AuditEventType,
+    EthicsCheckResult,
+    EthicsEngine,
+    GovernanceEngine,
+    GovernanceEngineConfig,
+    MaskingMethod,
+    OECDPrinciple,
+    Policy,
+    PolicyAction,
+    PolicyDecision,
+    PolicyType,
+    PPICategory,
+    PPIEngine,
+    UnifiedGovernanceEngine,
+)
+from ordinis.engines.governance.core.broker_compliance import (
     Broker,
     BrokerComplianceEngine,
     BrokerPolicy,
     ComplianceCategory,
     ComplianceCheckResult,
 )
-from .core.ethics import EthicsCheckResult, EthicsEngine, OECDPrinciple
-from .core.governance import GovernanceEngine, Policy, PolicyDecision
-from .core.ppi import MaskingMethod, PPICategory, PPIEngine
 
 __all__ = [
+    # Governance
+    "ApprovalRequest",
+    "ApprovalStatus",
     # Audit
     "AuditEngine",
     "AuditEvent",
     "AuditEventType",
-    # PPI
-    "PPIEngine",
-    "PPICategory",
-    "MaskingMethod",
-    # Ethics
-    "EthicsEngine",
-    "OECDPrinciple",
-    "EthicsCheckResult",
-    # Governance
-    "GovernanceEngine",
-    "Policy",
-    "PolicyDecision",
     # Broker Compliance
-    "BrokerComplianceEngine",
     "Broker",
+    "BrokerComplianceEngine",
     "BrokerPolicy",
     "ComplianceCategory",
     "ComplianceCheckResult",
+    # Ethics
+    "EthicsCheckResult",
+    "EthicsEngine",
+    "GovernanceEngine",
+    # Unified Engine (standardized interface)
+    "GovernanceEngineConfig",
+    # PPI
+    "MaskingMethod",
+    "OECDPrinciple",
+    "PPICategory",
+    "PPIEngine",
+    "Policy",
+    "PolicyAction",
+    "PolicyDecision",
+    "PolicyType",
+    "UnifiedGovernanceEngine",
 ]

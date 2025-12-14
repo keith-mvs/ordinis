@@ -13,6 +13,7 @@ Additional: https://www.oecd.org/en/topics/ai-principles.html
 """
 
 from collections.abc import Callable
+import contextlib
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
@@ -677,8 +678,8 @@ class EthicsEngine:
                 score = self._esg_provider.get_score(symbol)
                 self._esg_cache[symbol] = score
                 return score
-            except Exception:
-                pass
+            except Exception:  # noqa: S110
+                pass  # Provider error - fall through to return None
 
         return None
 
@@ -755,10 +756,8 @@ class EthicsEngine:
     def _trigger_violation_callbacks(self, result: EthicsCheckResult) -> None:
         """Trigger callbacks for violations."""
         for callback in self._violation_callbacks:
-            try:
+            with contextlib.suppress(Exception):
                 callback(result)
-            except Exception:
-                pass
 
     def _generate_check_id(self) -> str:
         """Generate unique check ID."""

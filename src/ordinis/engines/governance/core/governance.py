@@ -439,7 +439,7 @@ class GovernanceEngine:
 
         # 1. Run ethics checks
         checks_performed.append("ethics_compliance")
-        ethics_approved, ethics_results = self._ethics.check_trade(
+        ethics_approved, _ethics_results = self._ethics.check_trade(
             symbol=symbol,
             action=action,
             quantity=quantity,
@@ -524,7 +524,7 @@ class GovernanceEngine:
             try:
                 callback(decision)
             except Exception:  # noqa: S110
-                pass
+                pass  # Isolate callback errors
 
         # 8. Trigger violation callbacks if violations occurred
         if violations:
@@ -533,7 +533,7 @@ class GovernanceEngine:
                     try:
                         callback(violation)
                     except Exception:  # noqa: S110
-                        pass
+                        pass  # Isolate callback errors
 
         return decision
 
@@ -636,7 +636,7 @@ class GovernanceEngine:
         request = ApprovalRequest(
             request_id=self._generate_request_id(),
             timestamp=datetime.utcnow(),
-            policy_id=decision.policy_id,
+            policy_id=decision.policy_id or "UNKNOWN",
             requester=requester,
             reason=reason,
             action_context=decision.context,
@@ -663,7 +663,7 @@ class GovernanceEngine:
             try:
                 callback(request)
             except Exception:  # noqa: S110
-                pass
+                pass  # Isolate callback errors
 
         return request
 
@@ -780,7 +780,7 @@ class GovernanceEngine:
         blocked_count = sum(1 for d in decisions if not d.allowed)
 
         # Count by action type
-        decisions_by_action = {}
+        decisions_by_action: dict[str, int] = {}
         for d in decisions:
             action_str = d.action.value
             decisions_by_action[action_str] = decisions_by_action.get(action_str, 0) + 1

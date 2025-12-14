@@ -330,8 +330,8 @@ class AuditEngine:
         Follows parent_event_id chain to reconstruct
         the full decision path (OECD traceability requirement).
         """
-        trace = []
-        current_id = event_id
+        trace: list[AuditEvent] = []
+        current_id: str | None = event_id
 
         while current_id:
             event = self.get_event(current_id)

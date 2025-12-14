@@ -328,34 +328,34 @@ class PPIEngine:
         Returns:
             Tuple of (masked_dict, list of detections)
         """
-        all_detections = []
-        masked_data = {}
+        all_detections: list[PPIDetection] = []
+        masked_data: dict[str, Any] = {}
 
         for key, value in data.items():
             current_path = f"{path_prefix}.{key}" if path_prefix else key
 
             if isinstance(value, str):
-                masked_value, detections = self.scan_text(value, current_path, categories)
-                masked_data[key] = masked_value
-                all_detections.extend(detections)
+                masked_str, str_detections = self.scan_text(value, current_path, categories)
+                masked_data[key] = masked_str
+                all_detections.extend(str_detections)
 
             elif isinstance(value, dict):
-                masked_value, detections = self.scan_dict(value, current_path, categories)
-                masked_data[key] = masked_value
-                all_detections.extend(detections)
+                masked_dict, dict_detections = self.scan_dict(value, current_path, categories)
+                masked_data[key] = masked_dict
+                all_detections.extend(dict_detections)
 
             elif isinstance(value, list):
-                masked_list = []
+                masked_list: list[Any] = []
                 for i, item in enumerate(value):
                     item_path = f"{current_path}[{i}]"
                     if isinstance(item, str):
-                        masked_item, detections = self.scan_text(item, item_path, categories)
-                        masked_list.append(masked_item)
-                        all_detections.extend(detections)
+                        item_str, item_detections = self.scan_text(item, item_path, categories)
+                        masked_list.append(item_str)
+                        all_detections.extend(item_detections)
                     elif isinstance(item, dict):
-                        masked_item, detections = self.scan_dict(item, item_path, categories)
-                        masked_list.append(masked_item)
-                        all_detections.extend(detections)
+                        item_dict, item_detections = self.scan_dict(item, item_path, categories)
+                        masked_list.append(item_dict)
+                        all_detections.extend(item_detections)
                     else:
                         masked_list.append(item)
                 masked_data[key] = masked_list
@@ -365,7 +365,7 @@ class PPIEngine:
 
         return masked_data, all_detections
 
-    def _mask_value(
+    def _mask_value(  # noqa: PLR0911
         self,
         value: str,
         method: MaskingMethod,
@@ -392,7 +392,7 @@ class PPIEngine:
 
         return "[MASKED]"
 
-    def _partial_mask(self, value: str, category: PPICategory) -> str:
+    def _partial_mask(self, value: str, category: PPICategory) -> str:  # noqa: PLR0911
         """Apply partial masking based on category."""
         length = len(value)
 
@@ -525,8 +525,8 @@ class PPIEngine:
         for callback in self._alert_callbacks:
             try:
                 callback(detection)
-            except Exception:
-                pass  # Don't let callback errors break PPI engine
+            except Exception:  # noqa: S110
+                pass  # Isolate callback errors
 
     def get_detection_summary(
         self,
@@ -541,7 +541,7 @@ class PPIEngine:
         if end:
             detections = [d for d in detections if d.timestamp <= end]
 
-        category_counts = {}
+        category_counts: dict[str, int] = {}
         for detection in detections:
             cat = detection.category.value
             category_counts[cat] = category_counts.get(cat, 0) + 1
@@ -554,7 +554,7 @@ class PPIEngine:
                 for d in detections
                 if d.category in [PPICategory.SSN, PPICategory.CREDIT_CARD, PPICategory.PASSWORD]
             ),
-            "unique_fields": len(set(d.field_path for d in detections)),
+            "unique_fields": len({d.field_path for d in detections}),
         }
 
     def should_block_transmission(
