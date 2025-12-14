@@ -13,9 +13,12 @@ Supported Brokers:
 
 from collections.abc import Callable
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import UTC, datetime, timedelta
 from enum import Enum
+import logging
 from typing import Any
+
+_logger = logging.getLogger(__name__)
 
 
 class Broker(Enum):
@@ -428,9 +431,11 @@ class BrokerComplianceEngine:
             )
 
         # Count day trades in last 5 business days
-        cutoff = datetime.utcnow() - timedelta(days=5)
+        cutoff = datetime.now(UTC) - timedelta(days=5)
         recent_day_trades = [
-            dt for dt in self._day_trades if dt.get("timestamp", datetime.min) > cutoff
+            dt
+            for dt in self._day_trades
+            if dt.get("timestamp", datetime.min.replace(tzinfo=UTC)) > cutoff
         ]
 
         current_count = len(recent_day_trades)
@@ -718,7 +723,7 @@ class BrokerComplianceEngine:
             try:
                 callback(result)
             except Exception:
-                pass  # Don't let callback errors break compliance
+                _logger.debug("Violation callback error isolated", exc_info=True)
 
     def register_violation_callback(
         self,
@@ -789,7 +794,9 @@ class BrokerComplianceEngine:
         self._api_calls_today = 0
 
         # Keep day trades for PDT tracking (5-day window)
-        cutoff = datetime.utcnow() - timedelta(days=5)
+        cutoff = datetime.now(UTC) - timedelta(days=5)
         self._day_trades = [
-            dt for dt in self._day_trades if dt.get("timestamp", datetime.min) > cutoff
+            dt
+            for dt in self._day_trades
+            if dt.get("timestamp", datetime.min.replace(tzinfo=UTC)) > cutoff
         ]

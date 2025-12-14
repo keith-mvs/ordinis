@@ -15,12 +15,15 @@ from collections.abc import Callable
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
+import logging
 from typing import Any
 import uuid
 
 from .audit import AuditEngine, AuditEventType
 from .ethics import EthicsEngine
 from .ppi import PPIEngine
+
+_logger = logging.getLogger(__name__)
 
 
 class PolicyType(Enum):
@@ -523,8 +526,8 @@ class GovernanceEngine:
         for callback in self._decision_callbacks:
             try:
                 callback(decision)
-            except Exception:  # noqa: S110
-                pass  # Isolate callback errors
+            except Exception:
+                _logger.debug("Decision callback error isolated", exc_info=True)
 
         # 8. Trigger violation callbacks if violations occurred
         if violations:
@@ -532,8 +535,8 @@ class GovernanceEngine:
                 for callback in self._violation_callbacks:
                     try:
                         callback(violation)
-                    except Exception:  # noqa: S110
-                        pass  # Isolate callback errors
+                    except Exception:
+                        _logger.debug("Violation callback error isolated", exc_info=True)
 
         return decision
 
@@ -662,8 +665,8 @@ class GovernanceEngine:
         for callback in self._approval_callbacks:
             try:
                 callback(request)
-            except Exception:  # noqa: S110
-                pass  # Isolate callback errors
+            except Exception:
+                _logger.debug("Approval callback error isolated", exc_info=True)
 
         return request
 

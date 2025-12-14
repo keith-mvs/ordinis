@@ -13,9 +13,12 @@ from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
 import hashlib
+import logging
 import re
 from typing import Any
 import uuid
+
+_logger = logging.getLogger(__name__)
 
 
 class PPICategory(Enum):
@@ -525,8 +528,8 @@ class PPIEngine:
         for callback in self._alert_callbacks:
             try:
                 callback(detection)
-            except Exception:  # noqa: S110
-                pass  # Isolate callback errors
+            except Exception:
+                _logger.debug("Alert callback error isolated", exc_info=True)
 
     def get_detection_summary(
         self,
