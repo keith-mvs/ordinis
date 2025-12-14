@@ -3,42 +3,147 @@
 > **Document ID:** {ENGINE_ID}-ICD-001
 > **Version:** {VERSION}
 > **Last Updated:** {DATE}
+> **Author:** {AUTHOR}
 > **Status:** Draft | Review | Approved
+> **Implements:** {ENGINE_ID}-SPEC-001
 
 ---
 
 ## 1. Overview
 
 ### 1.1 Purpose
-This document defines all interfaces exposed by and consumed by {ENGINE_NAME}.
+This document defines all interfaces exposed by and consumed by {ENGINE_NAME}, including sync/async variants, batch operations, and streaming interfaces.
 
 ### 1.2 Interface Summary
 
-| Interface | Type | Direction | Description |
-|-----------|------|-----------|-------------|
-| {Interface} | Sync/Async | In/Out | {Description} |
+| Interface | Type | Direction | Async | Batch | Streaming |
+|-----------|------|-----------|-------|-------|-----------|
+| I{ENGINE_NAME} | Protocol | Exposed | Yes | No | No |
+| I{ENGINE_NAME}Sync | Protocol | Exposed | No | No | No |
+| I{ENGINE_NAME}Batch | Protocol | Exposed | Yes | Yes | No |
+| I{ENGINE_NAME}Stream | Protocol | Exposed | Yes | No | Yes |
+
+### 1.3 Interface Stability
+
+| Level | Meaning |
+|-------|---------|
+| Stable | No breaking changes without major version bump |
+| Evolving | May change with deprecation notice |
+| Experimental | May change without notice |
 
 ---
 
 ## 2. Public API
 
-### 2.1 Primary Interface
+### 2.1 Primary Interface (Async)
 
 ```python
+from typing import Protocol, AsyncIterator
+
 class I{ENGINE_NAME}(Protocol):
-    """Protocol defining {ENGINE_NAME} interface."""
+    """
+    Protocol defining {ENGINE_NAME} async interface.
+
+    Stability: Stable
+    Implements: {ENGINE_ID}-INT-001
+    """
 
     @property
     def name(self) -> str:
         """Engine name."""
         ...
 
+    @property
+    def state(self) -> EngineState:
+        """Current engine state."""
+        ...
+
     async def {method}(self, {params}) -> {return}:
-        """{Description}"""
+        """
+        {Description}
+
+        Implements: {ENGINE_ID}-FUNC-001
+        """
         ...
 ```
 
-### 2.2 Method Contracts
+### 2.2 Synchronous Interface
+
+```python
+class I{ENGINE_NAME}Sync(Protocol):
+    """
+    Protocol defining {ENGINE_NAME} sync interface.
+
+    Stability: Stable
+    Note: Wraps async methods for sync contexts.
+    """
+
+    def {method}_sync(self, {params}) -> {return}:
+        """
+        Synchronous wrapper for {method}.
+
+        Note: Blocks the calling thread until complete.
+        """
+        ...
+```
+
+### 2.3 Batch Interface
+
+```python
+class I{ENGINE_NAME}Batch(Protocol):
+    """
+    Protocol for batch operations.
+
+    Stability: Evolving
+    Use for: Processing multiple items efficiently.
+    """
+
+    async def {method}_batch(
+        self,
+        items: list[{InputType}],
+        *,
+        max_concurrency: int = 10,
+        fail_fast: bool = False,
+    ) -> list[{return} | Exception]:
+        """
+        Process multiple items concurrently.
+
+        Args:
+            items: Items to process
+            max_concurrency: Maximum parallel operations
+            fail_fast: Stop on first failure
+
+        Returns:
+            List of results or exceptions for each item
+        """
+        ...
+```
+
+### 2.4 Streaming Interface
+
+```python
+class I{ENGINE_NAME}Stream(Protocol):
+    """
+    Protocol for streaming operations.
+
+    Stability: Experimental
+    Use for: Real-time data processing, large datasets.
+    """
+
+    async def {method}_stream(
+        self,
+        {params},
+    ) -> AsyncIterator[{chunk_type}]:
+        """
+        Stream results as they become available.
+
+        Yields:
+            {chunk_type}: Incremental results
+        """
+        ...
+```
+
+### 2.5 Method Contracts
 
 #### `{method_name}`
 
@@ -47,19 +152,25 @@ class I{ENGINE_NAME}(Protocol):
 async def {method_name}(
     self,
     {param}: {type},
+    *,
+    timeout: float | None = None,
+    trace_id: str | None = None,
 ) -> {return_type}:
 ```
 
 **Preconditions:**
 - Engine must be in `READY` or `RUNNING` state
+- Input must pass schema validation
 - {Additional precondition}
 
 **Postconditions:**
-- {Postcondition 1}
-- Audit record emitted
+- Result conforms to output schema
+- Audit record emitted to governance hook
+- Metrics updated (latency, success/failure)
 
 **Invariants:**
-- {Invariant}
+- Engine state unchanged on error
+- No side effects on validation failure
 
 ---
 
@@ -181,33 +292,137 @@ class {ENGINE_NAME}Error:
 
 ## 8. Examples
 
-### 8.1 Basic Usage
+### 8.1 Basic Usage (Async)
+```python
+import asyncio
+from ordinis.engines.{engine} import {ENGINE_NAME}, {ENGINE_NAME}Config
+
+async def main():
+    config = {ENGINE_NAME}Config(
+        engine_id="{ENGINE_ID}",
+        {param}={value},
+    )
+    engine = {ENGINE_NAME}(config)
+    await engine.initialize()
+
+    try:
+        result = await engine.{method}({params})
+        print(f"Result: {result}")
+    finally:
+        await engine.shutdown()
+
+asyncio.run(main())
+```
+
+### 8.2 Synchronous Usage
 ```python
 from ordinis.engines.{engine} import {ENGINE_NAME}, {ENGINE_NAME}Config
 
-config = {ENGINE_NAME}Config(
-    {param}={value},
-)
+config = {ENGINE_NAME}Config({param}={value})
 engine = {ENGINE_NAME}(config)
-await engine.initialize()
+engine.initialize_sync()
 
-result = await engine.{method}({params})
-print(result)
+result = engine.{method}_sync({params})
+print(f"Result: {result}")
 
-await engine.shutdown()
+engine.shutdown_sync()
 ```
 
-### 8.2 With Governance
+### 8.3 Batch Processing
 ```python
-async with engine.track_operation("{action}", {"{param}": value}) as ctx:
-    result = await engine._do_{action}({params})
-    ctx["outputs"] = result
+items = [{InputType}(...) for _ in range(100)]
+
+results = await engine.{method}_batch(
+    items,
+    max_concurrency=10,
+    fail_fast=False,
+)
+
+successes = [r for r in results if not isinstance(r, Exception)]
+failures = [r for r in results if isinstance(r, Exception)]
+print(f"Success: {len(successes)}, Failed: {len(failures)}")
+```
+
+### 8.4 Streaming
+```python
+async for chunk in engine.{method}_stream({params}):
+    print(f"Received: {chunk}")
+    # Process incrementally
+```
+
+### 8.5 With Governance Hook
+```python
+from ordinis.engines.base.hooks import CompositeGovernanceHook
+
+# Custom governance hook
+class CustomHook(BaseGovernanceHook):
+    async def preflight(self, context: PreflightContext) -> PreflightResult:
+        # Add custom checks
+        return PreflightResult(decision=Decision.APPROVE)
+
+engine = {ENGINE_NAME}(
+    config,
+    governance_hook=CompositeGovernanceHook([CustomHook()]),
+)
+```
+
+### 8.6 Error Handling
+```python
+from ordinis.engines.{engine}.errors import {ENGINE_NAME}Error
+
+try:
+    result = await engine.{method}({params})
+except {ENGINE_NAME}Error as e:
+    if e.recoverable:
+        # Retry logic
+        pass
+    else:
+        # Log and alert
+        raise
 ```
 
 ---
 
-## 9. Revision History
+## 9. Testing Contracts
 
-| Version | Date | Author | Changes |
-|---------|------|--------|---------|
-| 1.0.0 | {DATE} | {AUTHOR} | Initial interface specification |
+### 9.1 Contract Tests
+
+```python
+import pytest
+from ordinis.engines.base.requirements import verifies
+
+@verifies("{ENGINE_ID}-INT-001")
+async def test_{method}_contract():
+    """Verify {method} adheres to interface contract."""
+    engine = {ENGINE_NAME}(config)
+    await engine.initialize()
+
+    # Precondition: engine ready
+    assert engine.state == EngineState.READY
+
+    result = await engine.{method}({params})
+
+    # Postcondition: valid output
+    assert isinstance(result, {return_type})
+
+    # Invariant: state unchanged
+    assert engine.state == EngineState.READY
+```
+
+### 9.2 Mock Implementation
+
+```python
+class Mock{ENGINE_NAME}(I{ENGINE_NAME}):
+    """Mock implementation for testing."""
+
+    async def {method}(self, {params}) -> {return}:
+        return {return}(...)  # Canned response
+```
+
+---
+
+## 10. Revision History
+
+| Version | Date | Author | Changes | Reviewed By |
+|---------|------|--------|---------|-------------|
+| 1.0.0 | {DATE} | {AUTHOR} | Initial interface specification | {Reviewer} |

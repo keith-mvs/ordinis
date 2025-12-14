@@ -3,7 +3,9 @@
 > **Document ID:** {ENGINE_ID}-DESIGN-001
 > **Version:** {VERSION}
 > **Last Updated:** {DATE}
+> **Author:** {AUTHOR}
 > **Status:** Draft | Review | Approved
+> **Implements:** {ENGINE_ID}-SPEC-001
 
 ---
 
@@ -12,36 +14,136 @@
 ### 1.1 Architecture Overview
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│                    {ENGINE_NAME}                         │
-├─────────────────────────────────────────────────────────┤
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐     │
-│  │   Input     │  │    Core     │  │   Output    │     │
-│  │  Adapters   │→ │   Logic     │→ │  Adapters   │     │
-│  └─────────────┘  └─────────────┘  └─────────────┘     │
-│         ↑                ↑                ↓             │
-│  ┌─────────────────────────────────────────────────┐   │
-│  │              Governance Hooks                    │   │
-│  └─────────────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────────┐
+│                        {ENGINE_NAME}                             │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│   ┌──────────────┐                           ┌──────────────┐   │
+│   │  StreamingBus│◄─────────────────────────►│  Helix/LLM   │   │
+│   │   Events     │                           │  (optional)  │   │
+│   └──────┬───────┘                           └──────────────┘   │
+│          │                                                       │
+│          ▼                                                       │
+│   ┌─────────────┐  ┌─────────────┐  ┌─────────────┐            │
+│   │   Input     │  │    Core     │  │   Output    │            │
+│   │  Adapters   │─►│   Logic     │─►│  Adapters   │            │
+│   └─────────────┘  └──────┬──────┘  └─────────────┘            │
+│                           │                                      │
+│                    ┌──────▼──────┐                              │
+│                    │  Governance │                              │
+│                    │    Hooks    │                              │
+│                    └─────────────┘                              │
+│                           │                                      │
+│                    ┌──────▼──────┐                              │
+│                    │   Metrics   │                              │
+│                    │  & Logging  │                              │
+│                    └─────────────┘                              │
+└─────────────────────────────────────────────────────────────────┘
 ```
 
 ### 1.2 Component Diagram
 
-| Component | Responsibility | Location |
-|-----------|---------------|----------|
-| Engine | Main orchestration | `core/engine.py` |
-| Config | Configuration | `core/config.py` |
-| Models | Data structures | `core/models.py` |
-| Hooks | Governance | `hooks/governance.py` |
+| Component | Responsibility | Location | Dependencies |
+|-----------|---------------|----------|--------------|
+| Engine | Main orchestration | `core/engine.py` | BaseEngine |
+| Config | Configuration | `core/config.py` | BaseEngineConfig |
+| Models | Data structures | `core/models.py` | Pydantic |
+| Hooks | Governance | `hooks/governance.py` | GovernanceHook |
+| Adapters | External integrations | `adapters/` | Protocol-specific |
 
 ### 1.3 Data Flow
 
 ```
-Input → Validate → Process → Transform → Output
-          ↓           ↓          ↓
-       Preflight    Audit      Audit
+┌─────────┐    ┌──────────┐    ┌─────────┐    ┌───────────┐    ┌────────┐
+│  Input  │───►│ Validate │───►│Preflight│───►│  Process  │───►│ Output │
+└─────────┘    └──────────┘    └────┬────┘    └─────┬─────┘    └────────┘
+                                    │               │
+                                    ▼               ▼
+                               ┌─────────┐    ┌─────────┐
+                               │  Audit  │    │  Audit  │
+                               │ (start) │    │  (end)  │
+                               └─────────┘    └─────────┘
 ```
+
+### 1.4 Sequence Diagram - Primary Operation
+
+```
+┌──────┐       ┌────────┐       ┌──────────┐       ┌────────┐
+│Client│       │ Engine │       │Governance│       │  Bus   │
+└──┬───┘       └───┬────┘       └────┬─────┘       └───┬────┘
+   │               │                 │                 │
+   │ request()     │                 │                 │
+   │──────────────►│                 │                 │
+   │               │ preflight()     │                 │
+   │               │────────────────►│                 │
+   │               │     Decision    │                 │
+   │               │◄────────────────│                 │
+   │               │                 │                 │
+   │               │ [if APPROVE]    │                 │
+   │               │ _do_operation() │                 │
+   │               │─────────┐       │                 │
+   │               │         │       │                 │
+   │               │◄────────┘       │                 │
+   │               │                 │                 │
+   │               │ audit()         │                 │
+   │               │────────────────►│                 │
+   │               │                 │                 │
+   │               │ publish(event)  │                 │
+   │               │─────────────────────────────────►│
+   │               │                 │                 │
+   │   response    │                 │                 │
+   │◄──────────────│                 │                 │
+   │               │                 │                 │
+```
+
+### 1.5 State Diagram
+
+```
+                    ┌─────────────┐
+                    │UNINITIALIZED│
+                    └──────┬──────┘
+                           │ initialize()
+                           ▼
+                    ┌─────────────┐
+              ┌────►│INITIALIZING │
+              │     └──────┬──────┘
+              │            │ success
+              │            ▼
+              │     ┌─────────────┐
+              │     │    READY    │◄─────────────┐
+              │     └──────┬──────┘              │
+              │            │ start()             │ pause()
+              │            ▼                     │
+              │     ┌─────────────┐              │
+              │     │   RUNNING   │──────────────┘
+              │     └──────┬──────┘
+              │            │ stop() / error
+              │            ▼
+              │     ┌─────────────┐
+              │     │ STOPPING    │
+              │     └──────┬──────┘
+              │            │ complete
+              │            ▼
+              │     ┌─────────────┐
+              └─────│  STOPPED    │
+                    └──────┬──────┘
+                           │ error (unrecoverable)
+                           ▼
+                    ┌─────────────┐
+                    │   FAILED    │
+                    └─────────────┘
+```
+
+**State Transitions:**
+| From | Event | To | Action |
+|------|-------|-----|--------|
+| UNINITIALIZED | initialize() | INITIALIZING | Load config, connect dependencies |
+| INITIALIZING | success | READY | Register with orchestrator |
+| READY | start() | RUNNING | Begin processing |
+| RUNNING | pause() | READY | Drain current work |
+| RUNNING | stop() | STOPPING | Graceful shutdown |
+| STOPPING | complete | STOPPED | Release resources |
+| Any | error | FAILED | Log error, alert |
 
 ---
 
@@ -50,19 +152,67 @@ Input → Validate → Process → Transform → Output
 ### 2.1 Class Diagram
 
 ```python
+from ordinis.engines.base import BaseEngine, BaseEngineConfig
+from ordinis.engines.base.hooks import GovernanceHook
+
 class {ENGINE_NAME}Config(BaseEngineConfig):
     """Engine configuration."""
+
+    # Required fields
+    engine_id: str = "{ENGINE_ID}"
+    engine_name: str = "{ENGINE_NAME}"
+
+    # Domain-specific configuration
     {config_field}: {type} = {default}
 
-class {ENGINE_NAME}(BaseEngine[{ENGINE_NAME}Config]):
-    """Main engine class."""
+    def validate(self) -> list[str]:
+        """Validate configuration."""
+        errors = super().validate()
+        # Add domain-specific validation
+        return errors
 
-    async def _do_initialize(self) -> None: ...
-    async def _do_shutdown(self) -> None: ...
-    async def _do_health_check(self) -> HealthStatus: ...
+
+class {ENGINE_NAME}(BaseEngine[{ENGINE_NAME}Config]):
+    """
+    {ENGINE_NAME} - {Brief description}
+
+    Implements: {ENGINE_ID}-SPEC-001
+    """
+
+    def __init__(
+        self,
+        config: {ENGINE_NAME}Config,
+        governance_hook: GovernanceHook | None = None,
+    ):
+        super().__init__(config, governance_hook)
+        # Domain-specific initialization
+        self._state: dict = {}
+
+    async def _do_initialize(self) -> None:
+        """Initialize engine resources."""
+        ...
+
+    async def _do_shutdown(self) -> None:
+        """Release engine resources."""
+        ...
+
+    async def _do_health_check(self) -> HealthStatus:
+        """Check engine health."""
+        ...
 
     # Domain methods
-    async def {method_name}(self, {params}) -> {return_type}: ...
+    async def {method_name}(self, {params}) -> {return_type}:
+        """
+        {Method description}
+
+        Implements: {ENGINE_ID}-FUNC-001
+        """
+        async with self.track_operation("{method_name}", {"{param}": {param}}):
+            return await self._do_{method_name}({params})
+
+    async def _do_{method_name}(self, {params}) -> {return_type}:
+        """Internal implementation."""
+        ...
 ```
 
 ### 2.2 Method Specifications
@@ -168,18 +318,117 @@ class {ENGINE_NAME}Config(BaseEngineConfig):
 
 ---
 
-## 6. Design Decisions
+## 6. Design Patterns
 
-### 6.1 Decision Log
+### 6.1 Patterns Used
 
-| ID | Decision | Rationale | Alternatives Considered |
-|----|----------|-----------|------------------------|
-| DD-001 | {Decision} | {Why} | {What else was considered} |
+| Pattern | Usage | Rationale |
+|---------|-------|-----------|
+| Template Method | BaseEngine lifecycle | Enforce consistent initialization/shutdown |
+| Strategy | GovernanceHook | Pluggable governance policies |
+| Observer | StreamingBus | Decoupled event-driven communication |
+| Factory | Config.validate() | Consistent validation across engines |
+| Circuit Breaker | Error handling | Prevent cascade failures |
+
+### 6.2 Template Method Pattern
+
+```
+BaseEngine                          {ENGINE_NAME}
+────────────                        ───────────────
+initialize()  ──────────────────►   _do_initialize()
+    │                                    │
+    ├── set state INITIALIZING           ├── connect dependencies
+    │                                    │
+    ├── call _do_initialize() ──────────►├── load resources
+    │                                    │
+    └── set state READY                  └── register handlers
+```
+
+### 6.3 Strategy Pattern - Governance
+
+```
+┌─────────────────┐
+│ GovernanceHook  │ (Protocol)
+├─────────────────┤
+│ + preflight()   │
+│ + audit()       │
+└────────┬────────┘
+         │
+    ┌────┴────┬────────────────┐
+    │         │                │
+┌───▼───┐ ┌───▼───┐       ┌────▼────┐
+│Default│ │Strict │       │Composite│
+│ Hook  │ │ Hook  │       │  Hook   │
+└───────┘ └───────┘       └─────────┘
+```
 
 ---
 
-## 7. Revision History
+## 7. Design Decisions
 
-| Version | Date | Author | Changes |
-|---------|------|--------|---------|
-| 1.0.0 | {DATE} | {AUTHOR} | Initial design |
+### 7.1 Decision Log
+
+| ID | Decision | Rationale | Alternatives Considered | Date |
+|----|----------|-----------|------------------------|------|
+| DD-001 | Async-first API | Trading requires non-blocking I/O | Sync with threads | {DATE} |
+| DD-002 | Protocol-based contracts | Enable static type checking | ABC inheritance | {DATE} |
+| DD-003 | Governance hooks required | Compliance and auditability | Optional hooks | {DATE} |
+
+### 7.2 Architecture Decision Records (ADRs)
+
+#### ADR-001: {Decision Title}
+
+**Status:** Accepted | Proposed | Deprecated
+
+**Context:** {What is the issue we're trying to solve?}
+
+**Decision:** {What is the change we're proposing?}
+
+**Consequences:**
+- Positive: {Benefits}
+- Negative: {Tradeoffs}
+- Neutral: {Side effects}
+
+---
+
+## 8. Security Considerations
+
+### 8.1 Threat Model
+
+| Threat | Impact | Mitigation |
+|--------|--------|------------|
+| Invalid input | Data corruption | Schema validation |
+| Unauthorized access | Data breach | RBAC + audit logs |
+| Denial of service | Service outage | Rate limiting |
+
+### 8.2 Data Protection
+
+- Sensitive fields masked in logs
+- No credentials in config files (use env vars)
+- Audit trail for all mutations
+
+---
+
+## 9. Appendices
+
+### 9.1 Glossary
+
+| Term | Definition |
+|------|------------|
+| Preflight | Pre-execution governance check |
+| Audit | Post-execution record for compliance |
+| Track Operation | Context manager for metrics/governance |
+
+### 9.2 References
+
+- `{ENGINE_ID}-SPEC.md` - Requirements specification
+- `{ENGINE_ID}-INTERFACE.md` - Interface control document
+- BaseEngine Framework - `src/ordinis/engines/base/`
+
+---
+
+## 10. Revision History
+
+| Version | Date | Author | Changes | Reviewed By |
+|---------|------|--------|---------|-------------|
+| 1.0.0 | {DATE} | {AUTHOR} | Initial design | {Reviewer} |

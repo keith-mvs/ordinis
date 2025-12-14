@@ -3,14 +3,16 @@
 > **Document ID:** {ENGINE_ID}-DATA-001
 > **Version:** {VERSION}
 > **Last Updated:** {DATE}
+> **Author:** {AUTHOR}
 > **Status:** Draft | Review | Approved
+> **Implements:** {ENGINE_ID}-SPEC-001
 
 ---
 
 ## 1. Overview
 
 ### 1.1 Purpose
-This document defines all data structures, schemas, and persistence requirements for {ENGINE_NAME}.
+This document defines all data structures, schemas, persistence requirements, data governance policies, and data contracts for {ENGINE_NAME}.
 
 ### 1.2 Data Flow Summary
 
@@ -19,8 +21,22 @@ Input Sources          Engine Processing          Output Destinations
 ─────────────          ─────────────────          ───────────────────
 {Source 1} ──────►┌─────────────────────┐──────► {Destination 1}
 {Source 2} ──────►│   {ENGINE_NAME}     │──────► {Destination 2}
-{Source 3} ──────►└─────────────────────┘──────► Audit Log
+{Source 3} ──────►│                     │──────► StreamingBus
+                  │  ┌───────────────┐  │──────► Audit Log
+                  │  │ Data Contract │  │──────► Metrics
+                  │  │  Validation   │  │
+                  │  └───────────────┘  │
+                  └─────────────────────┘
 ```
+
+### 1.3 Data Classification
+
+| Level | Description | Handling |
+|-------|-------------|----------|
+| Public | Non-sensitive, shareable | No restrictions |
+| Internal | Business data | Access control required |
+| Confidential | Sensitive financial | Encryption + audit |
+| Restricted | PII, credentials | Encryption + masking + audit |
 
 ---
 
@@ -231,20 +247,218 @@ message {ModelName} {
 
 ### 9.1 Schema Versions
 
-| Version | Date | Changes | Migration |
-|---------|------|---------|-----------|
+| Version | Date | Changes | Migration Script |
+|---------|------|---------|------------------|
 | 1.0.0 | {DATE} | Initial schema | N/A |
 | 1.1.0 | {DATE} | Added {field} | `migrate_v1_to_v1_1.py` |
 
-### 9.2 Backward Compatibility
+### 9.2 Migration Strategy
+
+**Approach:** Blue-Green / Rolling / Big Bang
+
+**Steps:**
+1. Deploy new version with backward compatibility
+2. Run migration script during maintenance window
+3. Validate migrated data
+4. Remove backward compatibility after {duration}
+
+### 9.3 Backward Compatibility
 
 - Old format supported for: {duration}
-- Migration strategy: {Strategy}
+- Deprecation notice: {X} releases before removal
+- Migration tooling: `ordinis migrate --engine {ENGINE_ID}`
 
 ---
 
-## 10. Revision History
+## 10. Data Governance
 
-| Version | Date | Author | Changes |
-|---------|------|--------|---------|
-| 1.0.0 | {DATE} | {AUTHOR} | Initial data dictionary |
+### 10.1 Data Ownership
+
+| Data Entity | Owner | Steward |
+|-------------|-------|---------|
+| {ModelName} | {Team/Role} | {Person/Role} |
+
+### 10.2 Data Retention
+
+| Data Type | Retention Period | Archive Policy | Deletion |
+|-----------|------------------|----------------|----------|
+| Operational | 90 days | Move to cold storage | Automated |
+| Audit | 7 years | Immutable archive | Manual approval |
+| Metrics | 30 days | Aggregate and archive | Automated |
+
+### 10.3 Access Control
+
+| Role | Read | Write | Delete | Export |
+|------|------|-------|--------|--------|
+| Admin | Yes | Yes | Yes | Yes |
+| Operator | Yes | Yes | No | Yes |
+| Analyst | Yes | No | No | Yes |
+| Service Account | Yes | Yes | No | No |
+
+### 10.4 Audit Requirements
+
+```python
+@dataclass
+class DataAuditRecord:
+    """Audit record for data operations."""
+
+    timestamp: datetime
+    operation: str  # CREATE, READ, UPDATE, DELETE
+    entity_type: str
+    entity_id: str
+    user_id: str
+    trace_id: str
+    old_value: dict | None  # For UPDATE/DELETE
+    new_value: dict | None  # For CREATE/UPDATE
+    outcome: str  # SUCCESS, FAILURE
+```
+
+---
+
+## 11. PII Handling
+
+### 11.1 PII Inventory
+
+| Field | PII Type | Classification | Engine |
+|-------|----------|----------------|--------|
+| `account_id` | Account Number | Confidential | Masked in logs |
+| `api_key` | Credential | Restricted | Never logged |
+| `email` | Contact | Confidential | Hashed for lookup |
+
+### 11.2 Masking Rules
+
+```python
+MASKING_RULES = {
+    "account_id": lambda v: f"***{v[-4:]}",
+    "api_key": lambda _: "[REDACTED]",
+    "email": lambda v: f"{v[0]}***@{v.split('@')[1]}",
+}
+```
+
+### 11.3 Encryption
+
+| Data State | Method | Key Management |
+|------------|--------|----------------|
+| At Rest | AES-256 | AWS KMS / Azure Key Vault |
+| In Transit | TLS 1.3 | Certificate rotation |
+| In Memory | N/A | Process isolation |
+
+### 11.4 Data Subject Rights
+
+| Right | Implementation |
+|-------|----------------|
+| Access | Export API with audit log |
+| Rectification | Update API with validation |
+| Erasure | Soft delete with 30-day purge |
+| Portability | Standard JSON export format |
+
+---
+
+## 12. Data Contracts
+
+### 12.1 Producer Contract
+
+```python
+@dataclass
+class {ENGINE_NAME}DataContract:
+    """
+    Data contract for {ENGINE_NAME} outputs.
+
+    Version: 1.0.0
+    Stability: Stable
+    """
+
+    # Schema definition
+    schema_version: str = "1.0.0"
+
+    # Field guarantees
+    fields: dict = field(default_factory=lambda: {
+        "{field}": {
+            "type": "{type}",
+            "nullable": False,
+            "constraints": "{constraints}",
+        },
+    })
+
+    # Quality guarantees
+    quality: dict = field(default_factory=lambda: {
+        "completeness": 0.99,  # 99% fields non-null
+        "freshness": "< 1 minute",
+        "accuracy": "validated against source",
+    })
+
+    # SLA
+    sla: dict = field(default_factory=lambda: {
+        "availability": "99.9%",
+        "latency_p95": "< 100ms",
+    })
+```
+
+### 12.2 Consumer Contract
+
+```python
+@dataclass
+class {ENGINE_NAME}ConsumerContract:
+    """
+    Contract for consuming {ENGINE_NAME} data.
+
+    Required by: {ConsumerEngine}
+    """
+
+    # Expected schema
+    required_fields: list[str] = field(default_factory=lambda: [
+        "{field_1}",
+        "{field_2}",
+    ])
+
+    # Consumption pattern
+    pattern: str = "streaming"  # batch | streaming | request-response
+
+    # Retry behavior
+    on_missing_data: str = "retry"  # retry | skip | fail
+```
+
+### 12.3 Contract Validation
+
+```python
+from ordinis.data.contracts import validate_contract
+
+def validate_output(data: dict) -> bool:
+    """Validate output against data contract."""
+    contract = {ENGINE_NAME}DataContract()
+    return validate_contract(data, contract)
+```
+
+### 12.4 Contract Evolution
+
+| Version | Breaking | Deprecation | Migration |
+|---------|----------|-------------|-----------|
+| 1.0 → 1.1 | No | N/A | Auto-compatible |
+| 1.x → 2.0 | Yes | 2 releases | Migration guide |
+
+---
+
+## 13. Appendices
+
+### 13.1 Glossary
+
+| Term | Definition |
+|------|------------|
+| PII | Personally Identifiable Information |
+| Data Contract | Agreement between producer and consumer |
+| Data Lineage | Tracking data from source to destination |
+| Cold Storage | Low-cost archival storage |
+
+### 13.2 References
+
+- `{ENGINE_ID}-SPEC.md` - Requirements specification
+- `{ENGINE_ID}-INTERFACE.md` - Interface control document
+- Data Governance Policy - `docs/governance/data-policy.md`
+
+---
+
+## 14. Revision History
+
+| Version | Date | Author | Changes | Reviewed By |
+|---------|------|--------|---------|-------------|
+| 1.0.0 | {DATE} | {AUTHOR} | Initial data dictionary | {Reviewer} |
