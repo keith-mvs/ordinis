@@ -72,7 +72,7 @@ class LearningEngineConfig(BaseEngineConfig):
 
     def validate(self) -> list[str]:
         """Validate configuration parameters."""
-        errors = super().validate()
+        errors: list[str] = []
 
         if self.max_events_memory < 100:
             errors.append("max_events_memory should be at least 100")

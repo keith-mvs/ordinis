@@ -134,9 +134,7 @@ class PortfolioOptGovernanceHook(BaseGovernanceHook):
 
         # Skip non-optimization operations
         if operation not in ("optimize", "generate_scenarios"):
-            return PreflightResult(
-                approved=True, decision=Decision.ALLOW, reason="Non-optimization operation"
-            )
+            return PreflightResult(decision=Decision.ALLOW, reason="Non-optimization operation")
 
         # Validate optimization requests
         if operation == "optimize":
@@ -166,13 +164,11 @@ class PortfolioOptGovernanceHook(BaseGovernanceHook):
         if reasons:
             _logger.warning("Preflight failed: %s", "; ".join(reasons))
             return PreflightResult(
-                approved=False,
                 decision=Decision.DENY,
                 reason="; ".join(reasons),
             )
 
         return PreflightResult(
-            approved=True,
             decision=Decision.ALLOW,
             reason="All validation rules passed",
         )

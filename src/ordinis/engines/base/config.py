@@ -45,6 +45,14 @@ class BaseEngineConfig:
         if not self.name:
             self.name = self.__class__.__name__.replace("Config", "")
 
+    def validate(self) -> list[str]:
+        """Validate configuration parameters.
+
+        Returns:
+            List of validation error messages (empty if valid).
+        """
+        return []
+
     def to_dict(self) -> dict[str, Any]:
         """Convert config to dictionary for serialization."""
         return {
