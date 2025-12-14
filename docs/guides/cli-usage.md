@@ -73,6 +73,25 @@ Outputs include:
 - Multi-timeframe majority trend and agreement score
 - Composite score combining bias + Ichimoku trend
 
+### 5. Portfolio Optimization (QPO)
+
+Run Mean-CVaR optimization using the NVIDIA QPO blueprint:
+
+```bash
+ordinis optimize \
+  --returns examples/data/sample_returns.csv \
+  --target-return 0.001 \
+  --max-weight 0.2 \
+  --risk-aversion 0.5 \
+  --api cvxpy \
+  --dry-run
+```
+
+Notes:
+- `--dry-run` validates the environment without solving. Remove it to execute.
+- Requires RAPIDS/cuOpt + cvxpy (GPU stack); see QPO blueprint docs.
+- You can override the QPO source path via `--qpo-src` if the blueprint lives elsewhere.
+
 ## Commands
 
 ### backtest

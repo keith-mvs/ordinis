@@ -87,7 +87,7 @@ class CortexEngine:
         # Initialize ChatNVIDIA with a general chat model
         # USD Code is specialized, but ChatNVIDIA supports general models
         return ChatNVIDIA(
-            model="meta/llama-3.1-405b-instruct",  # Large general model
+            model="nvidia/llama-3.3-nemotron-super-49b-v1.5",  # Default NVIDIA model
             nvidia_api_key=self.nvidia_api_key,
             temperature=0.2,  # Lower temperature for code analysis
             max_tokens=2048,
@@ -344,10 +344,10 @@ class CortexEngine:
                     # Fall back to rule-based on initialization error
                     self._usd_code_client = None
 
-            if self._usd_code_client is not None:
-                # Use NVIDIA model for code analysis
-                try:
-                    prompt = f"""Analyze the following code for {analysis_type}.
+                if self._usd_code_client is not None:
+                    # Use NVIDIA model for code analysis
+                    try:
+                        prompt = f"""Analyze the following code for {analysis_type}.
 
 Provide analysis in this format:
 - Code Quality: (good/fair/poor)
@@ -360,27 +360,30 @@ Code to analyze:
 {code}
 ```"""
 
-                    # Add RAG context if available
-                    if rag_context:
-                        prompt += f"\n\nRelevant best practices and examples from codebase:\n{rag_context}"
+                        # Add RAG context if available
+                        if rag_context:
+                            prompt += (
+                                "\n\nRelevant best practices and examples from codebase:\n"
+                                f"{rag_context}"
+                            )
 
-                    prompt += "\n\nProvide concise, actionable feedback."
+                        prompt += "\n\nProvide concise, actionable feedback."
 
-                    response = self._usd_code_client.invoke(prompt)
-                    analysis = {
-                        "code_quality": "AI-analyzed",
-                        "llm_analysis": response.content
-                        if hasattr(response, "content")
-                        else str(response),
-                        "suggestions": ["AI-generated suggestions available in llm_analysis"],
-                        "complexity_score": 0.7,  # Would parse from LLM response
-                        "maintainability_index": 70,  # Would parse from LLM response
-                    }
-                    model_used = "nvidia-llama-3.1-405b"
-                    confidence = 0.90
-                except Exception:  # noqa: S110
-                    # Fall back to rule-based
-                    pass
+                        response = self._usd_code_client.invoke(prompt)
+                        analysis = {
+                            "code_quality": "AI-analyzed",
+                            "llm_analysis": response.content
+                            if hasattr(response, "content")
+                            else str(response),
+                            "suggestions": ["AI-generated suggestions available in llm_analysis"],
+                            "complexity_score": 0.7,  # Would parse from LLM response
+                            "maintainability_index": 70,  # Would parse from LLM response
+                        }
+                        model_used = "nvidia-llama-3.1-405b"
+                        confidence = 0.90
+                    except Exception:  # noqa: S110
+                        # Fall back to rule-based
+                        pass
 
         # Rule-based fallback (default when no API key or on error)
         if model_used == "rule-based":

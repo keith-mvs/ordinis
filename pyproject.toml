@@ -41,6 +41,9 @@ dependencies = [
 
     # Type hints
     "typing-extensions>=4.8.0",
+
+    # AI/LLM
+    "openai>=1.0.0",
 ]
 
 [project.optional-dependencies]

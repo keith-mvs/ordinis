@@ -39,6 +39,12 @@ The system integrates NVIDIA's state-of-the-art language models to enhance every
   - Research synthesis from multiple sources
   - Knowledge base queries
 
+### NVIDIA Llama 3.3 Nemotron Super 49B v1.5
+- **Engine:** Cortex (default NVIDIA path)
+- **Purpose:** Primary reasoning/code-review LLM
+- **Defaults:** `model=nvidia/llama-3.3-nemotron-super-49b-v1.5`, `base_url=https://integrate.api.nvidia.com/v1`
+- **Notes:** Requires `pip install langchain-nvidia-ai-endpoints`; falls back to rule-based when not configured.
+
 ## Engine-Specific Integration
 
 ### Cortex Engine
@@ -52,7 +58,7 @@ The system integrates NVIDIA's state-of-the-art language models to enhance every
 - Output review and recommendations
 
 **Models:**
-- Llama 3.1 405B for code analysis
+- Llama 3.3 Nemotron Super 49B v1.5 for code analysis (default NVIDIA path)
 - NV-Embed-QA for embeddings
 
 **Example:**
@@ -75,6 +81,8 @@ hypothesis = cortex.generate_hypothesis(
 analysis = cortex.analyze_code(code_string, "review")
 print(analysis.content['llm_analysis'])
 ```
+
+The NVIDIA provider is the default and uses `nvidia/llama-3.3-nemotron-super-49b-v1.5`.
 
 ### SignalCore Engine
 

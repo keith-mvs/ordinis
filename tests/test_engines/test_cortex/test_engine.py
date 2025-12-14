@@ -124,6 +124,7 @@ def calculate_rsi(prices, period=14):
     assert output.output_type == OutputType.CODE_ANALYSIS
     assert "analysis" in output.content
     assert output.confidence > 0.0
+    assert output.model_used is not None
 
 
 @pytest.mark.unit
