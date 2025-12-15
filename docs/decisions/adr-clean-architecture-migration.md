@@ -344,9 +344,12 @@ Target convention:
 ```yaml
 version: "1.0.0"
 created: "2025-12-12"
+last_updated: "{{ now().strftime('%Y-%m-%d') }}"
 source: "C:\\Users\\kjfle\\Wiki\\ordinis\\Repo architecture and naming cleanup conventions.md"
 status: "in_progress"
 next_review: "2025-12-31"
+author: "Architecture Team"
+tags: ["adr", "clean-architecture", "migration", "refactoring"]
 ```
 
 ---

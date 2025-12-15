@@ -526,5 +526,17 @@ done
 
 ---
 
-**Version:** 1.0.0
-**Last Updated:** 2025-11-29
+## Document Metadata
+
+```yaml
+version: "1.0.0"
+created: "2025-11-29"
+last_updated: "{{ now().strftime('%Y-%m-%d') }}"
+status: "published"
+author: "Ordinis Development Team"
+tags: ["cli", "guides", "usage", "backtesting"]
+```
+
+---
+
+**END OF DOCUMENT**
