@@ -392,7 +392,7 @@ Code to analyze:
                 "maintainability_index": 70,
             }
         except Exception as e:
-            logger.error(f"Code analysis failed: {e}")
+            self._logger.error(f"Code analysis failed: {e}")
             model_used = "fallback-rule-based"
             confidence = 0.5
             analysis = {"code_quality": "unknown", "error": str(e)}

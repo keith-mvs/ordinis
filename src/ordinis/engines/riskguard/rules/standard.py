@@ -17,7 +17,7 @@ STANDARD_RISK_RULES = {
         name="Max Position Size",
         description="Maximum position as percentage of equity",
         condition="position_value / portfolio_equity <= threshold",
-        threshold=0.10,  # 10% max position size
+        threshold=0.20,  # 20% max position size
         comparison="<=",
         action_on_breach="resize",
         severity="high",
@@ -28,7 +28,7 @@ STANDARD_RISK_RULES = {
         name="Max Risk Per Trade",
         description="Maximum capital at risk per trade (entry to stop)",
         condition="risk_per_trade / portfolio_equity <= threshold",
-        threshold=0.01,  # 1% max risk per trade
+        threshold=0.02,  # 2% max risk per trade
         comparison="<=",
         action_on_breach="resize",
         severity="high",

@@ -149,7 +149,7 @@ class LearningEngine(BaseEngine[LearningEngineConfig]):
             # In a real implementation, we would parse the result to determine the specific event type
             event = LearningEvent(
                 event_type=EventType.MODEL_PREDICTION,  # Defaulting for now
-                source="orchestration",
+                source_engine="orchestration",
                 payload={"data": result},
                 timestamp=datetime.now(UTC),
             )
