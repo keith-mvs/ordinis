@@ -160,7 +160,6 @@ nav:
 
   - AI:
     - ai/architecture-synthesis.md
-    - phase5-portfolio-rebalancing.md
 
   - Guides:
     - guides/index.md
@@ -194,7 +193,7 @@ nav:
     - internal/mcp-tools-quick-start.md
 
   - Planning:
-    - Updated Specification and Roadmap: "Updated Specification and Roadmap.md"
+    - Roadmap (Phases 2-4): planning/roadmap-phases-2-4.md
 
 # Watch for changes
 watch:

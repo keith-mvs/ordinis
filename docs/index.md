@@ -22,7 +22,7 @@ Ordinis is a professional algorithmic trading system built with transparency, et
 | [Knowledge Base (Preview)](kb/index.md) | Trading knowledge and domain references |
 | [Decisions](decisions/index.md) | Architecture Decision Records (ADRs) |
 | [Internal](internal/index.md) | Developer documentation (not user-facing) |
-| [Roadmap](Updated%20Specification%20and%20Roadmap.md) | Phases 2–4 plan and documentation reorg |
+| [Roadmap](planning/roadmap-phases-2-4.md) | Phases 2–4 plan and documentation reorg |
 
 ## System Components
 
@@ -89,7 +89,7 @@ Ordinis Trading System (Phase 1 Complete)
 2. **Follow [Guides](guides/index.md)** to use CLI and configure the system
 3. **Check [Reference](reference/index.md)** for API documentation
 4. **Explore the [Knowledge Base (Preview)](kb/index.md)** for domain context
-5. **See the [Roadmap](Updated%20Specification%20and%20Roadmap.md)** for Phase 2–4 milestones
+5. **See the [Roadmap](planning/roadmap-phases-2-4.md)** for Phase 2–4 milestones
 
 ## Documentation Standards
 

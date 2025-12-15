@@ -58,7 +58,7 @@ The Ordinis trading system is built on a modular architecture with clear separat
 | [Connectors Reference](../reference/connectors-quick-reference.md) | API connector quick reference |
 | [Additional Plugins](additional-plugins-analysis.md) | Extended plugin analysis |
 
-*Note: Internal evaluation docs live under [internal](../internal/index.md).* 
+*Note: Internal evaluation docs live under [internal](../internal/index.md).*
 
 ### 2.3.4 Phase 1 (Current) and Roadmap
 | Document | Description | Status |
@@ -70,7 +70,7 @@ The Ordinis trading system is built on a modular architecture with clear separat
 | [Model Alternatives Framework](model-alternatives-framework.md) | Multi-model selection and fallback | 🟡 Planning |
 | [NVIDIA Blueprint Integration](nvidia-blueprint-integration.md) | GPU portfolio optimization and distillation | 🟡 Planning |
 | [TensorTrade-Alpaca Deployment](tensortrade-alpaca-deployment.md) | Deployment blueprint | 🟡 Planning |
-| [Updated Specification and Roadmap](../Updated%20Specification%20and%20Roadmap.md) | Phase 2-4 roadmap and documentation reorg | ✅ Published |
+| [Updated Specification and Roadmap](../planning/roadmap-phases-2-4.md) | Phase 2-4 roadmap and documentation reorg | ✅ Published |
 
 ### 2.3.5 Related Records
 | Document | Description |
