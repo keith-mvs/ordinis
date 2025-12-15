@@ -1,6 +1,6 @@
 # Ordinis Trading System Documentation
 
-**Version:** 0.2.0-dev
+**Status:** Phase 1 Complete (Baseline)
 **Last Updated:** {{ git_revision_date_localized }}
 **Build Date:** {{ now().strftime('%Y-%m-%d') }}
 
@@ -17,11 +17,12 @@ Ordinis is a professional algorithmic trading system built with transparency, et
 | Section | Description |
 |---------|-------------|
 | [Architecture](architecture/index.md) | System design and technical architecture |
-| [Knowledge Base](knowledge-base/index.md) | Trading knowledge and domain expertise |
 | [Guides](guides/index.md) | User guides and tutorials |
-| [Reference](reference/) | API documentation and quick references |
-| [Decisions](decisions/) | Architecture Decision Records (ADRs) |
-| [Internal](internal/) | Developer documentation (not user-facing) |
+| [Reference](reference/index.md) | API documentation and quick references |
+| [Knowledge Base (Preview)](kb/index.md) | Trading knowledge and domain references |
+| [Decisions](decisions/index.md) | Architecture Decision Records (ADRs) |
+| [Internal](internal/index.md) | Developer documentation (not user-facing) |
+| [Roadmap](Updated%20Specification%20and%20Roadmap.md) | Phases 2–4 plan and documentation reorg |
 
 ## System Components
 
@@ -85,9 +86,10 @@ Ordinis Trading System (Phase 1 Complete)
 ## Getting Started
 
 1. **Review [Architecture](architecture/index.md)** for system design and technical details
-2. **Explore the [Knowledge Base](knowledge-base/index.md)** for trading domain knowledge
-3. **Follow [Guides](guides/index.md)** to use CLI and configure the system
-4. **Check [Reference](reference/)** for API documentation
+2. **Follow [Guides](guides/index.md)** to use CLI and configure the system
+3. **Check [Reference](reference/index.md)** for API documentation
+4. **Explore the [Knowledge Base (Preview)](kb/index.md)** for domain context
+5. **See the [Roadmap](Updated%20Specification%20and%20Roadmap.md)** for Phase 2–4 milestones
 
 ## Documentation Standards
 
@@ -102,10 +104,25 @@ This documentation follows these conventions:
 
 | Version | Date | Changes |
 |---------|------|---------|
-| 0.2.0-dev | 2025-12-12 | **Phase 1 Complete**: Persistence, Safety, Orchestration, Alerting, Interface protocols |
+| Phase 1 Baseline | 2025-12-12 | **Phase 1 Complete**: Persistence, Safety, Orchestration, Alerting, Interface protocols |
 | 0.1.0 | 2024-12-08 | Added governance engines, OECD principles, broker compliance |
 | 0.0.1 | 2024-11-30 | Initial release with core trading infrastructure |
 
 ---
 
 *Documentation generated with MkDocs Material*
+
+---
+
+## Document Metadata
+
+```yaml
+version: "phase-1-baseline"
+created: "2024-11-30"
+last_updated: "{{ now().strftime('%Y-%m-%d') }}"
+status: "published"
+```
+
+---
+
+**END OF DOCUMENT**

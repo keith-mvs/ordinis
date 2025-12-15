@@ -3,7 +3,7 @@
 > **HISTORICAL DOCUMENT**
 >
 > This assessment was conducted in early Phase 1 (Jan 2025). Many components marked as "Design Only" have since been implemented.
-> For current status, see [PROJECT_STATUS_REPORT.md](../project/PROJECT_STATUS_REPORT.md).
+> For current status, see [Project Status Report](../internal/project-status-report.md).
 
 **Original Date:** 2025-01-29
 **Archived:** 2025-12-08

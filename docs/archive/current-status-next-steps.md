@@ -6,7 +6,7 @@
 >
 > **Current references:**
 > - Architecture: [layered-system-architecture.md](../architecture/layered-system-architecture.md)
-> - Status: [project-status-report.md](project-status-report.md)
+> - Status: [Project Status Report](../internal/project-status-report.md)
 > - Systems: [signalcore-system.md](../architecture/signalcore-system.md)
 
 **Original Date:** 2025-11-30

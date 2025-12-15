@@ -18,4 +18,4 @@ Technical reference documentation including API specifications and quick referen
 ## Related
 
 - [Architecture](../architecture/index.md) - System design documentation
-- [Knowledge Base](../knowledge-base/index.md) - Domain knowledge and trading concepts
+  
