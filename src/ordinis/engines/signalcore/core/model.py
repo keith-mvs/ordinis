@@ -65,7 +65,7 @@ class Model(ABC):
         self._last_update: datetime | None = None
 
     @abstractmethod
-    def generate(self, data: pd.DataFrame, timestamp: datetime) -> Signal:
+    async def generate(self, data: pd.DataFrame, timestamp: datetime) -> Signal:
         """
         Generate trading signal from market data.
 
@@ -225,7 +225,7 @@ class ModelRegistry:
         """
         return [model for model in self._models.values() if model.config.model_type == model_type]
 
-    def generate_all(self, data: dict[str, pd.DataFrame], timestamp: datetime) -> SignalBatch:
+    async def generate_all(self, data: dict[str, pd.DataFrame], timestamp: datetime) -> SignalBatch:
         """
         Generate signals from all enabled models.
 
@@ -247,7 +247,7 @@ class ModelRegistry:
                     if not is_valid:
                         continue
 
-                    signal = model.generate(df, timestamp)
+                    signal = await model.generate(df, timestamp)
                     signals.append(signal)
 
                 except Exception as e:  # noqa: S112

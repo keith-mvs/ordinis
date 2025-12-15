@@ -55,9 +55,12 @@ class KBIndexer:
 
         logger.info(f"Indexing KB from: {kb_path}")
 
-        # Find all markdown files
+        # Find all markdown and python files
         md_files = list(kb_path.rglob("*.md"))
-        logger.info(f"Found {len(md_files)} markdown files")
+        py_files = list(kb_path.rglob("*.py"))
+        all_files = md_files + py_files
+
+        logger.info(f"Found {len(md_files)} markdown files and {len(py_files)} python files")
 
         total_chunks = 0
         total_tokens = 0
@@ -67,24 +70,24 @@ class KBIndexer:
         all_metadata = []
         all_ids = []
 
-        for md_file in md_files:
+        for file_path in all_files:
             try:
-                chunks, metadata = self._process_file(md_file, kb_path)
+                chunks, metadata = self._process_file(file_path, kb_path)
                 all_texts.extend(chunks)
                 all_metadata.extend(metadata)
 
                 # Generate IDs
-                base_id = str(md_file.relative_to(kb_path)).replace("\\", "/").replace("/", "_")
+                base_id = str(file_path.relative_to(kb_path)).replace("\\", "/").replace("/", "_")
                 chunk_ids = [f"{base_id}_chunk{i}" for i in range(len(chunks))]
                 all_ids.extend(chunk_ids)
 
                 total_chunks += len(chunks)
                 total_tokens += sum(len(self.tokenizer.encode(chunk)) for chunk in chunks)
 
-                logger.debug(f"Processed {md_file.name}: {len(chunks)} chunks")
+                logger.debug(f"Processed {file_path.name}: {len(chunks)} chunks")
 
             except Exception as e:
-                logger.warning(f"Failed to process {md_file}: {e}")
+                logger.warning(f"Failed to process {file_path}: {e}")
 
         # Embed and store in batches
         logger.info(f"Embedding {len(all_texts)} chunks in batches of {batch_size}")
@@ -101,7 +104,7 @@ class KBIndexer:
             self.chroma_client.add_texts(
                 texts=batch_texts,
                 embeddings=embeddings,
-                metadata=[m.model_dump() for m in batch_metadata],
+                metadata=[m.model_dump(exclude_none=True) for m in batch_metadata],
                 ids=batch_ids,
             )
 
@@ -195,11 +198,13 @@ class KBIndexer:
             chunk_text = self.tokenizer.decode(chunk_tokens)
             chunks.append(chunk_text)
 
-            # Move to next chunk with overlap
-            start = end - chunk_overlap
-
-            # Prevent infinite loop
-            if start >= len(tokens):
+            # If we reached the end, stop
+            if end >= len(tokens):
                 break
+
+            # Move to next chunk with overlap
+            # Ensure we always move forward by at least 1 token
+            next_start = end - chunk_overlap
+            start = max(next_start, start + 1)
 
         return chunks

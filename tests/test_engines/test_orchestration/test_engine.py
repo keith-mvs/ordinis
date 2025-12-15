@@ -17,6 +17,8 @@ from tests.test_engines.test_orchestration.conftest import (
     MockAnalyticsEngine,
     MockDataSource,
     MockExecutionEngine,
+    MockLearningEngine,
+    MockPortfolioEngine,
     MockRiskEngine,
     MockSignalEngine,
     apply_governance_workarounds,
@@ -169,6 +171,8 @@ class TestEngineRegistration:
         mock_risk_engine: MockRiskEngine,
         mock_execution_engine: MockExecutionEngine,
         mock_analytics_engine: MockAnalyticsEngine,
+        mock_portfolio_engine: MockPortfolioEngine,
+        mock_learning_engine: MockLearningEngine,
         mock_data_source: MockDataSource,
     ) -> None:
         """Test registering multiple engines at once."""
@@ -177,6 +181,8 @@ class TestEngineRegistration:
             risk_engine=mock_risk_engine,
             execution_engine=mock_execution_engine,
             analytics_engine=mock_analytics_engine,
+            portfolio_engine=mock_portfolio_engine,
+            learning_engine=mock_learning_engine,
             data_source=mock_data_source,
         )
 
@@ -184,6 +190,8 @@ class TestEngineRegistration:
         assert orchestration_engine._engines.risk_engine is mock_risk_engine
         assert orchestration_engine._engines.execution_engine is mock_execution_engine
         assert orchestration_engine._engines.analytics_engine is mock_analytics_engine
+        assert orchestration_engine._engines.portfolio_engine is mock_portfolio_engine
+        assert orchestration_engine._engines.learning_engine is mock_learning_engine
         assert orchestration_engine._engines.data_source is mock_data_source
 
     @pytest.mark.asyncio
@@ -233,6 +241,41 @@ class TestTradingCycle:
         assert result.cycle_id.startswith("CYC-")
         assert result.completed_at is not None
         assert result.total_duration_ms >= 0  # Can be 0 for very fast cycles
+
+    @pytest.mark.asyncio
+    async def test_run_cycle_full_pipeline(
+        self,
+        fully_configured_engine: OrchestrationEngine,
+        mock_signal_engine: MockSignalEngine,
+        mock_risk_engine: MockRiskEngine,
+        mock_execution_engine: MockExecutionEngine,
+        mock_analytics_engine: MockAnalyticsEngine,
+        mock_portfolio_engine: MockPortfolioEngine,
+        mock_learning_engine: MockLearningEngine,
+        sample_market_data: dict[str, Any],
+        sample_signals: list[dict[str, Any]],
+        sample_orders: list[dict[str, Any]],
+    ) -> None:
+        """Test full pipeline execution including portfolio and learning updates."""
+        # Setup mocks
+        mock_signal_engine.set_return_value(sample_signals)
+        mock_risk_engine.set_return_value((sample_signals, []))
+        mock_execution_engine.set_return_value(sample_orders)
+
+        result = await fully_configured_engine.run_cycle(data=sample_market_data)
+
+        assert result.status == CycleStatus.COMPLETED
+        assert result.signals_generated == len(sample_signals)
+        assert result.signals_approved == len(sample_signals)
+        assert result.orders_submitted == len(sample_signals)
+
+        # Verify all engines were called
+        assert mock_signal_engine.call_count == 1
+        assert mock_risk_engine.call_count == 1
+        assert mock_execution_engine.call_count == 1
+        assert mock_analytics_engine.call_count == 1
+        assert mock_portfolio_engine.update_call_count == 1
+        assert mock_learning_engine.update_call_count == 1
 
     @pytest.mark.asyncio
     async def test_run_cycle_with_signals(

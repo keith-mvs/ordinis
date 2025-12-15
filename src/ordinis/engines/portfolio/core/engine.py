@@ -82,6 +82,32 @@ class PortfolioEngine(BaseEngine[PortfolioEngineConfig]):
         self.last_rebalance_date: datetime | None = None
         self.event_hooks = EventHooks()
 
+    # -------------------------------------------------------------------------
+    # Protocol Implementation
+    # -------------------------------------------------------------------------
+
+    async def update(self, fills: list[Any]) -> None:
+        """
+        Update portfolio with trade fills (Protocol implementation).
+        """
+        # In a real implementation, this would update the internal position state
+        # For now, we just log the update
+        if fills:
+            self.last_rebalance_date = datetime.now(UTC)
+            # We could also emit an event here
+            # await self.event_hooks.emit(RebalanceEvent(...))
+
+    async def get_state(self) -> Any:
+        """
+        Get current portfolio state (Protocol implementation).
+        """
+        # Return a simplified state representation
+        return {
+            "last_rebalance": self.last_rebalance_date,
+            "history_count": len(self.history),
+            "strategies": list(self.strategies.keys()),
+        }
+
     async def _do_initialize(self) -> None:
         """Initialize portfolio engine resources."""
         self.strategies.clear()

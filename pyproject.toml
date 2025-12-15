@@ -55,6 +55,7 @@ dev = [
     "pytest-mock>=3.11",
     "pytest-timeout>=2.2",
     "hypothesis>=6.80",
+    "fakeredis>=2.23.2",
 
     # Linting & Formatting
     "ruff>=0.1.6",

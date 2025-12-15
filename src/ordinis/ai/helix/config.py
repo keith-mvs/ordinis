@@ -8,10 +8,111 @@ from dataclasses import dataclass, field
 import os
 
 from ordinis.ai.helix.models import ModelInfo, ModelType, ProviderType
+from ordinis.engines.base import BaseEngineConfig
+
+# Mistral AI models
+MISTRAL_MODELS: dict[str, ModelInfo] = {
+    "codestral": ModelInfo(
+        model_id="codestral-25.01",
+        display_name="Codestral 25.01",
+        model_type=ModelType.CODE,
+        provider=ProviderType.MISTRAL_API,
+        context_length=256000,
+        default_temperature=0.1,
+        max_output_tokens=4096,
+    ),
+    "mistral-large": ModelInfo(
+        model_id="mistral-large-24.11",
+        display_name="Mistral Large 24.11",
+        model_type=ModelType.CHAT,
+        provider=ProviderType.MISTRAL_API,
+        context_length=128000,
+        default_temperature=0.3,
+        max_output_tokens=4096,
+    ),
+}
+
+# OpenAI models
+OPENAI_MODELS: dict[str, ModelInfo] = {
+    "gpt-4.1": ModelInfo(
+        model_id="gpt-4.1",
+        display_name="GPT-4.1",
+        model_type=ModelType.CODE,
+        provider=ProviderType.OPENAI_API,
+        context_length=128000,
+        supports_function_calling=True,
+        default_temperature=0.2,
+        max_output_tokens=4096,
+    ),
+    "gpt-4o": ModelInfo(
+        model_id="gpt-4o",
+        display_name="GPT-4o",
+        model_type=ModelType.CHAT,
+        provider=ProviderType.OPENAI_API,
+        context_length=128000,
+        supports_function_calling=True,
+        default_temperature=0.3,
+        max_output_tokens=4096,
+    ),
+    "text-embedding-3-large": ModelInfo(
+        model_id="text-embedding-3-large",
+        display_name="Text Embedding 3 Large",
+        model_type=ModelType.EMBEDDING,
+        provider=ProviderType.OPENAI_API,
+        context_length=8192,
+        embedding_dim=3072,
+        supports_streaming=False,
+    ),
+}
+
+# Azure OpenAI models (deployment names configurable)
+AZURE_MODELS: dict[str, ModelInfo] = {
+    "azure-gpt-4": ModelInfo(
+        model_id="gpt-4",  # Azure deployment name
+        display_name="Azure GPT-4",
+        model_type=ModelType.CHAT,
+        provider=ProviderType.AZURE_OPENAI_API,
+        context_length=128000,
+        supports_function_calling=True,
+        default_temperature=0.2,
+        max_output_tokens=4096,
+    ),
+    "azure-embedding": ModelInfo(
+        model_id="text-embedding-3-large",
+        display_name="Azure Text Embedding 3",
+        model_type=ModelType.EMBEDDING,
+        provider=ProviderType.AZURE_OPENAI_API,
+        context_length=8192,
+        embedding_dim=3072,
+        supports_streaming=False,
+    ),
+}
 
 # Pre-defined NVIDIA models
 NVIDIA_MODELS: dict[str, ModelInfo] = {
-    # Primary chat model
+    # Primary reasoning/strategy model (DeepSeek R1)
+    "deepseek-r1": ModelInfo(
+        model_id="deepseek-ai/deepseek-r1",
+        display_name="DeepSeek R1",
+        model_type=ModelType.CHAT,
+        provider=ProviderType.NVIDIA_API,
+        context_length=128000,
+        supports_function_calling=True,
+        default_temperature=0.6,
+        max_output_tokens=8192,
+    ),
+    # Fallback reasoning model (Nemotron Ultra)
+    "nemotron-ultra": ModelInfo(
+        model_id="nvidia/llama-3.1-nemotron-ultra-253b-v1",
+        display_name="Nemotron Ultra 253B",
+        model_type=ModelType.CHAT,
+        provider=ProviderType.NVIDIA_API,
+        context_length=128000,
+        supports_function_calling=True,
+        default_temperature=0.6,
+        max_output_tokens=4096,
+    ),
+    # Fast synthesis/RAG model (Super)
     "nemotron-super": ModelInfo(
         model_id="nvidia/llama-3.3-nemotron-super-49b-v1.5",
         display_name="Nemotron Super 49B",
@@ -19,16 +120,27 @@ NVIDIA_MODELS: dict[str, ModelInfo] = {
         provider=ProviderType.NVIDIA_API,
         context_length=128000,
         supports_function_calling=True,
-        default_temperature=0.2,
+        default_temperature=0.3,
         max_output_tokens=4096,
+    ),
+    # Reward/Judgment model
+    "nemotron-reward": ModelInfo(
+        model_id="nvidia/llama-3.1-nemotron-70b-reward",
+        display_name="Nemotron Reward 70B",
+        model_type=ModelType.CHAT,  # Acts as chat but used for scoring
+        provider=ProviderType.NVIDIA_API,
+        context_length=128000,
+        supports_function_calling=False,
+        default_temperature=0.1,
+        max_output_tokens=1024,
     ),
     # Fallback chat model
     "nemotron-8b": ModelInfo(
-        model_id="nvidia/llama-3.1-nemotron-8b",
-        display_name="Nemotron 8B",
+        model_id="meta/llama-3.1-8b-instruct",
+        display_name="Llama 3.1 8B",
         model_type=ModelType.CHAT,
         provider=ProviderType.NVIDIA_API,
-        context_length=32000,
+        context_length=128000,
         default_temperature=0.3,
         max_output_tokens=2048,
     ),
@@ -51,6 +163,17 @@ NVIDIA_MODELS: dict[str, ModelInfo] = {
         context_length=8192,
         embedding_dim=1024,
         supports_streaming=False,
+    ),
+    # BART-RAG equivalent (using Nemotron for orchestration)
+    "bart-rag": ModelInfo(
+        model_id="nvidia/llama-3.1-nemotron-ultra-253b-v1",
+        display_name="BART-RAG (Nemotron Wrapper)",
+        model_type=ModelType.CHAT,
+        provider=ProviderType.NVIDIA_API,
+        context_length=128000,
+        supports_function_calling=True,
+        default_temperature=0.2,
+        max_output_tokens=4096,
     ),
 }
 
@@ -88,20 +211,42 @@ class RateLimitConfig:
 
 
 @dataclass
-class HelixConfig:
+class HelixConfig(BaseEngineConfig):
     """Main Helix configuration."""
+
+    engine_id: str = "helix"
+    engine_name: str = "Helix LLM Provider"
 
     # API credentials
     nvidia_api_key: str | None = field(default_factory=lambda: os.getenv("NVIDIA_API_KEY"))
+    mistral_api_key: str | None = field(default_factory=lambda: os.getenv("MISTRAL_API_KEY"))
+    openai_api_key: str | None = field(default_factory=lambda: os.getenv("OPENAI_API_KEY"))
+    azure_openai_api_key: str | None = field(
+        default_factory=lambda: os.getenv("AZURE_OPENAI_API_KEY")
+    )
+    azure_openai_endpoint: str | None = field(
+        default_factory=lambda: os.getenv("AZURE_OPENAI_ENDPOINT")
+    )
 
-    # Model selection
-    default_chat_model: str = "nemotron-super"
+    # Model selection - Code generation (primary use case)
+    default_chat_model: str = "nemotron-super"  # NVIDIA Nemotron for code
     fallback_chat_model: str = "nemotron-8b"
-    default_embedding_model: str = "nv-embedqa"
-    fallback_embedding_model: str = "nemoretriever"
+    default_code_model: str = "nemotron-super"
+    fallback_code_model: str = "nemotron-8b"
 
-    # Model registry
-    models: dict[str, ModelInfo] = field(default_factory=lambda: NVIDIA_MODELS.copy())
+    # Embeddings
+    default_embedding_model: str = "nv-embedqa"  # NVIDIA
+    fallback_embedding_model: str = "nemoretriever"  # NVIDIA
+
+    # Model registry - combine all providers
+    models: dict[str, ModelInfo] = field(
+        default_factory=lambda: {
+            **NVIDIA_MODELS,
+            **MISTRAL_MODELS,
+            **OPENAI_MODELS,
+            **AZURE_MODELS,
+        }
+    )
 
     # Generation defaults
     default_temperature: float = 0.2
@@ -154,8 +299,18 @@ class HelixConfig:
         """Validate configuration, returning list of errors."""
         errors: list[str] = []
 
-        if not self.nvidia_api_key and not self.prefer_local:
-            errors.append("nvidia_api_key required when prefer_local=False")
+        # Check at least one provider has credentials
+        has_provider = any(
+            [
+                self.nvidia_api_key,
+                self.mistral_api_key,
+                self.openai_api_key,
+                self.azure_openai_api_key,
+                self.prefer_local,
+            ]
+        )
+        if not has_provider:
+            errors.append("At least one provider API key required")
 
         if self.default_chat_model not in self.models:
             errors.append(f"default_chat_model '{self.default_chat_model}' not in models")

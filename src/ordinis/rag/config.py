@@ -4,8 +4,8 @@ from pathlib import Path
 
 from pydantic import BaseModel, ConfigDict, Field
 
-# Get project root (3 levels up from this file: src/rag/config.py -> project root)
-PROJECT_ROOT = Path(__file__).parent.parent.parent
+# Get project root (4 levels up from this file: src/ordinis/rag/config.py -> project root)
+PROJECT_ROOT = Path(__file__).parent.parent.parent.parent
 
 
 class RAGConfig(BaseModel):
@@ -29,11 +29,11 @@ class RAGConfig(BaseModel):
 
     # Embedding models
     text_embedding_model: str = Field(
-        default="sentence-transformers/all-MiniLM-L6-v2",
+        default="nvidia/llama-3.2-nemoretriever-300m-embed-v2",
         description="Text embedding model (lightweight, works on CPU/GPU)",
     )
     code_embedding_model: str = Field(
-        default="sentence-transformers/all-MiniLM-L6-v2",
+        default="nvidia/llama-3.2-nemoretriever-300m-embed-v2",
         description="Code embedding model (uses same model as text for simplicity)",
     )
     rerank_model: str = Field(
@@ -43,11 +43,11 @@ class RAGConfig(BaseModel):
 
     # Embedding strategy
     use_local_embeddings: bool = Field(
-        default=True,
+        default=False,
         description="Use local GPU for embeddings (vs API)",
     )
     text_embedding_dimension: int = Field(
-        default=384,
+        default=1024,
         description="Matryoshka embedding dimension for text (768 → 384)",
     )
 
@@ -87,6 +87,10 @@ class RAGConfig(BaseModel):
     code_base_path: Path = Field(
         default=PROJECT_ROOT / "src",
         description="Base directory for code indexing",
+    )
+    project_root: Path = Field(
+        default=PROJECT_ROOT,
+        description="Project root directory (used for relative path calculations)",
     )
 
     # API fallback

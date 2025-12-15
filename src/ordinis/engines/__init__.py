@@ -1,5 +1,27 @@
 """Trading engines for the Intelligent Investor system."""
 
-from . import proofbench
+from . import (
+    analytics,
+    cortex,
+    flowroute,
+    governance,
+    learning,
+    orchestration,
+    portfolio,
+    proofbench,
+    riskguard,
+    signalcore,
+)
 
-__all__ = ["proofbench"]
+__all__ = [
+    "analytics",
+    "cortex",
+    "flowroute",
+    "governance",
+    "learning",
+    "orchestration",
+    "portfolio",
+    "proofbench",
+    "riskguard",
+    "signalcore",
+]

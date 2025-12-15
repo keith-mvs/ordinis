@@ -1157,3 +1157,13 @@ The SignalCore Trading System provides a robust, auditable framework for automat
 | [NVIDIA Blueprint Integration](nvidia-blueprint-integration.md) | PortOpt and Distillery extensions to infrastructure |
 | [NVIDIA Integration](nvidia-integration.md) | LLM model integration for Cortex engine |
 | [RiskGuard Implementation](../engines/riskguard/) | Enhanced risk rules and kill switches |
+
+---
+
+## Document Metadata
+
+```yaml
+version: "phase-1-baseline"
+last_reviewed: "{{ now().strftime('%Y-%m-%d') }}"
+status: "published"
+```

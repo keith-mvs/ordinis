@@ -157,9 +157,7 @@ nav:
     - Model Alternatives Framework: architecture/model-alternatives-framework.md
     - NVIDIA Blueprint Integration: architecture/nvidia-blueprint-integration.md
     - TensorTrade-Alpaca Deployment: architecture/tensortrade-alpaca-deployment.md
-
-  - AI:
-    - ai/architecture-synthesis.md
+    - Architecture Synthesis: architecture/architecture-synthesis.md
 
   - Guides:
     - guides/index.md
@@ -194,6 +192,9 @@ nav:
 
   - Planning:
     - Roadmap (Phases 2-4): planning/roadmap-phases-2-4.md
+    - System Specification: planning/system-specification.md
+    - Dashboard Plan: planning/dashboard-plan.md
+    - Phase 5 Portfolio Rebalancing: planning/phase5-portfolio-rebalancing.md
 
 # Watch for changes
 watch:

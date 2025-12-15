@@ -151,7 +151,13 @@
       "Bash(conda activate:*)",
       "Bash(if exist srcmonitoring__pycache__ rmdir /s /q srcmonitoring__pycache__)",
       "Bash(pwsh -NoProfile -File update_imports.ps1)",
-      "Bash(pwsh -NoProfile -File update_src_imports.ps1)"
+      "Bash(pwsh -NoProfile -File update_src_imports.ps1)",
+      "Bash(Select Name)",
+      "Bash(test:*)",
+      "Bash(Select-Object Name)",
+      "Bash(Test-Path \"src/ordinis/engines/cortex/core/nvidia_adapter.py\")",
+      "Bash(Test-Path \"src/ordinis/engines/cortex/core/types.py\")",
+      "Bash(Test-Path \"scripts/helix_dev_assistant.py\")"
     ],
     "deny": [],
     "ask": []

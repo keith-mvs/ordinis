@@ -54,56 +54,102 @@ class IndicatorChart:
             fig = go.Figure()
 
         # Candlestick
-        fig.add_trace(
-            go.Candlestick(
-                x=data.index,
-                open=data["open"],
-                high=data["high"],
-                low=data["low"],
-                close=data["close"],
-                name="Price",
-                increasing_line_color="green",
-                decreasing_line_color="red",
-            ),
-            row=1,
-            col=1,
-        )
+        if show_volume:
+            fig.add_trace(
+                go.Candlestick(
+                    x=data.index,
+                    open=data["open"],
+                    high=data["high"],
+                    low=data["low"],
+                    close=data["close"],
+                    name="Price",
+                    increasing_line_color="green",
+                    decreasing_line_color="red",
+                ),
+                row=1,
+                col=1,
+            )
+        else:
+            fig.add_trace(
+                go.Candlestick(
+                    x=data.index,
+                    open=data["open"],
+                    high=data["high"],
+                    low=data["low"],
+                    close=data["close"],
+                    name="Price",
+                    increasing_line_color="green",
+                    decreasing_line_color="red",
+                )
+            )
 
         # Bollinger Bands
-        fig.add_trace(
-            go.Scatter(
-                x=data.index,
-                y=upper,
-                name="Upper BB",
-                line={"color": "rgba(250, 128, 114, 0.7)", "width": 1, "dash": "dash"},
-            ),
-            row=1,
-            col=1,
-        )
+        if show_volume:
+            fig.add_trace(
+                go.Scatter(
+                    x=data.index,
+                    y=upper,
+                    name="Upper BB",
+                    line={"color": "rgba(250, 128, 114, 0.7)", "width": 1, "dash": "dash"},
+                ),
+                row=1,
+                col=1,
+            )
+        else:
+            fig.add_trace(
+                go.Scatter(
+                    x=data.index,
+                    y=upper,
+                    name="Upper BB",
+                    line={"color": "rgba(250, 128, 114, 0.7)", "width": 1, "dash": "dash"},
+                )
+            )
 
-        fig.add_trace(
-            go.Scatter(
-                x=data.index,
-                y=middle,
-                name="Middle BB",
-                line={"color": "rgba(135, 206, 250, 0.9)", "width": 2},
-            ),
-            row=1,
-            col=1,
-        )
+        if show_volume:
+            fig.add_trace(
+                go.Scatter(
+                    x=data.index,
+                    y=middle,
+                    name="Middle BB",
+                    line={"color": "rgba(135, 206, 250, 0.9)", "width": 2},
+                ),
+                row=1,
+                col=1,
+            )
+        else:
+            fig.add_trace(
+                go.Scatter(
+                    x=data.index,
+                    y=middle,
+                    name="Middle BB",
+                    line={"color": "rgba(135, 206, 250, 0.9)", "width": 2},
+                )
+            )
 
-        fig.add_trace(
-            go.Scatter(
-                x=data.index,
-                y=lower,
-                name="Lower BB",
-                line={"color": "rgba(250, 128, 114, 0.7)", "width": 1, "dash": "dash"},
-                fill="tonexty",
-                fillcolor="rgba(135, 206, 250, 0.1)",
-            ),
-            row=1,
-            col=1,
-        )
+        if show_volume:
+            fig.add_trace(
+                go.Scatter(
+                    x=data.index,
+                    y=lower,
+                    name="Lower BB",
+                    line={"color": "rgba(250, 128, 114, 0.7)", "width": 1, "dash": "dash"},
+                    fill="tonexty",
+                    fillcolor="rgba(135, 206, 250, 0.1)",
+                ),
+                row=1,
+                col=1,
+            )
+        else:
+            fig.add_trace(
+                go.Scatter(
+                    x=data.index,
+                    y=lower,
+                    name="Lower BB",
+                    line={"color": "rgba(250, 128, 114, 0.7)", "width": 1, "dash": "dash"},
+                    fill="tonexty",
+                    fillcolor="rgba(135, 206, 250, 0.1)",
+                )
+            )
 
         # Volume
         if show_volume:

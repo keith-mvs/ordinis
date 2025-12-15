@@ -127,13 +127,22 @@ def mock_rag_engine(mock_query_response: QueryResponse) -> Mock:
 
 
 @pytest.fixture
+def mock_helix() -> Mock:
+    """Mock Helix LLM provider."""
+    helix = Mock()
+    helix.config.default_chat_model = "nemotron-super"
+    return helix
+
+
+@pytest.fixture
 def synapse_with_mock_rag(
     synapse_config: SynapseConfig,
     mock_rag_engine: Mock,
+    mock_helix: Mock,
     monkeypatch: pytest.MonkeyPatch,
 ) -> Synapse:
     """Synapse instance with mocked RAG engine."""
-    synapse = Synapse(config=synapse_config)
+    synapse = Synapse(config=synapse_config, helix=mock_helix)
 
     # Mock the _ensure_rag_engine method to return our mock
     def mock_ensure_rag_engine() -> Mock:

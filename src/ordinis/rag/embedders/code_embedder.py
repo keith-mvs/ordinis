@@ -30,7 +30,8 @@ class CodeEmbedder(BaseEmbedder):
         self.use_local = use_local if use_local is not None else config.use_local_embeddings
         self.api_key = api_key or config.nvidia_api_key or os.getenv("NVIDIA_API_KEY")
         self.model_name = config.code_embedding_model
-        self.embedding_dim = 768  # nv-embedcode-7b-v1 default
+        # Use text embedding dimension since we default to the same model
+        self.embedding_dim = config.text_embedding_dimension
 
         self._model = None
         self._client = None
@@ -158,6 +159,10 @@ class CodeEmbedder(BaseEmbedder):
             else:
                 msg = "No embedding model or client available"
                 raise RuntimeError(msg)
+
+            # Apply Matryoshka truncation if needed
+            if embeddings.shape[1] > self.embedding_dim:
+                embeddings = embeddings[:, : self.embedding_dim]
 
             return embeddings[0] if is_single else embeddings
 

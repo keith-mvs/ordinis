@@ -4,8 +4,10 @@ StreamingBus configuration.
 Defines configuration for event bus settings.
 """
 
+from collections.abc import Callable
 from dataclasses import dataclass
 from enum import Enum
+from typing import Any
 
 
 class AdapterType(Enum):
@@ -26,6 +28,7 @@ class BusConfig:
     redis_url: str = "redis://localhost:6379"
     redis_stream_prefix: str = "ordinis:"
     redis_max_len: int = 10000  # Max events per stream
+    redis_client: Any | None = None  # Injected redis client (for testing/DI)
 
     # Event settings
     max_payload_size: int = 1024 * 1024  # 1MB max payload
@@ -49,6 +52,11 @@ class BusConfig:
     emit_metrics: bool = True
     metrics_interval_seconds: int = 60
 
+    # Validation & governance hooks
+    schema_validator: Callable[[Any], None] | None = None
+    publish_governance_hook: Callable[[Any], bool | None] | None = None
+    subscribe_governance_hook: Callable[[str, Any], bool | None] | None = None
+
     def validate(self) -> list[str]:
         """Validate configuration, returning list of errors."""
         errors: list[str] = []
@@ -58,6 +66,9 @@ class BusConfig:
 
         if self.handler_timeout_seconds <= 0:
             errors.append("handler_timeout_seconds must be > 0")
+
+        if self.redis_stream_prefix == "":
+            errors.append("redis_stream_prefix must not be empty")
 
         if self.adapter == AdapterType.REDIS and not self.redis_url:
             errors.append("redis_url required when adapter=REDIS")

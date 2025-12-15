@@ -35,28 +35,41 @@ class CodeIndexer:
 
     def index_directory(
         self,
-        code_path: Path | None = None,
+        code_paths: Path | list[Path] | None = None,
         batch_size: int = 16,
     ) -> dict:
-        """Index all Python files in directory.
+        """Index all Python files in directories.
 
         Args:
-            code_path: Path to code directory (uses config default if None)
+            code_paths: Single path or list of paths to code directories (uses config defaults if None)
             batch_size: Batch size for embedding
 
         Returns:
             Dictionary with indexing statistics
         """
-        code_path = code_path or self.config.code_base_path
+        # Handle default paths if not provided
+        if code_paths is None:
+            code_paths = [
+                self.config.code_base_path,  # src/
+                self.config.project_root / "scripts",  # scripts/
+                self.config.project_root / "docs" / "knowledge-base" / "code",  # docs code examples
+            ]
+        elif isinstance(code_paths, Path):
+            code_paths = [code_paths]
 
-        if not code_path.exists():
-            msg = f"Code path does not exist: {code_path}"
+        # Filter to paths that exist
+        code_paths = [p for p in code_paths if p.exists()]
+
+        if not code_paths:
+            msg = "No valid code paths found"
             raise FileNotFoundError(msg)
 
-        logger.info(f"Indexing code from: {code_path}")
+        logger.info(f"Indexing code from: {[str(p) for p in code_paths]}")
 
-        # Find all Python files
-        py_files = list(code_path.rglob("*.py"))
+        # Find all Python files from all paths
+        py_files = []
+        for code_path in code_paths:
+            py_files.extend(code_path.rglob("*.py"))
 
         # Filter out test files and __pycache__
         py_files = [
@@ -77,12 +90,18 @@ class CodeIndexer:
 
         for py_file in py_files:
             try:
-                chunks, metadata = self._process_file(py_file, code_path)
+                chunks, metadata = self._process_file(
+                    py_file, code_paths[0] if len(code_paths) == 1 else py_file.parent
+                )
                 all_code.extend(chunks)
                 all_metadata.extend(metadata)
 
-                # Generate IDs
-                base_id = str(py_file.relative_to(code_path)).replace("\\", "/").replace("/", "_")
+                # Generate IDs - use project root as base for relative paths
+                try:
+                    rel_path = py_file.relative_to(self.config.project_root)
+                except ValueError:
+                    rel_path = py_file
+                base_id = str(rel_path).replace("\\", "/").replace("/", "_").replace(".py", "")
                 chunk_ids = [f"{base_id}_chunk{i}" for i in range(len(chunks))]
                 all_ids.extend(chunk_ids)
 
@@ -108,7 +127,7 @@ class CodeIndexer:
             self.chroma_client.add_code(
                 code=batch_code,
                 embeddings=embeddings,
-                metadata=[m.model_dump() for m in batch_metadata],
+                metadata=[m.model_dump(exclude_none=True) for m in batch_metadata],
                 ids=batch_ids,
             )
 

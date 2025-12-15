@@ -3,6 +3,7 @@
 import asyncio
 from collections.abc import Callable
 
+import fakeredis.aioredis as fakeredis
 import pytest
 
 from ordinis.bus import BusConfig, BusEvent, EventPriority, EventType, StreamingBus
@@ -42,6 +43,26 @@ def bus_config_no_retry() -> BusConfig:
 
 
 @pytest.fixture
+async def redis_client():
+    """In-memory Redis client for tests."""
+    client = fakeredis.FakeRedis()
+    try:
+        yield client
+    finally:
+        await client.aclose()
+
+
+@pytest.fixture
+def bus_config_redis(redis_client) -> BusConfig:
+    """BusConfig pointing to in-memory Redis."""
+    return BusConfig(
+        adapter=AdapterType.REDIS,
+        redis_client=redis_client,
+        redis_stream_prefix="test:bus:",
+    )
+
+
+@pytest.fixture
 async def streaming_bus(bus_config: BusConfig) -> StreamingBus:
     """StreamingBus instance for testing."""
     bus = StreamingBus(bus_config)
@@ -61,6 +82,14 @@ async def streaming_bus_no_history(bus_config_no_history: BusConfig) -> Streamin
 async def streaming_bus_no_retry(bus_config_no_retry: BusConfig) -> StreamingBus:
     """StreamingBus instance with retry disabled."""
     bus = StreamingBus(bus_config_no_retry)
+    yield bus
+    await bus.shutdown()
+
+
+@pytest.fixture
+async def streaming_bus_redis(bus_config_redis: BusConfig) -> StreamingBus:
+    """StreamingBus instance using Redis adapter (fakeredis)."""
+    bus = StreamingBus(bus_config_redis)
     yield bus
     await bus.shutdown()
 

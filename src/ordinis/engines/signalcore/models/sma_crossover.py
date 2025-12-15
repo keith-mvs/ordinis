@@ -46,7 +46,7 @@ class SMACrossoverModel(Model):
         # Update min data points based on slow period
         self.config.min_data_points = max(self.config.min_data_points, self.slow_period + 10)
 
-    def generate(self, data: pd.DataFrame, timestamp: datetime) -> Signal:
+    async def generate(self, data: pd.DataFrame, timestamp: datetime) -> Signal:
         """
         Generate trading signal from SMA crossover.
 

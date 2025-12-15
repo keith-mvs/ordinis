@@ -7,10 +7,11 @@ Defines configuration for RAG retrieval settings.
 from dataclasses import dataclass
 
 from ordinis.ai.synapse.models import SearchScope
+from ordinis.engines.base import BaseEngineConfig
 
 
 @dataclass
-class SynapseConfig:
+class SynapseConfig(BaseEngineConfig):
     """Configuration for Synapse retrieval engine."""
 
     # Search defaults
@@ -39,9 +40,14 @@ class SynapseConfig:
     cache_enabled: bool = True
     cache_ttl_seconds: int = 300
 
+    # Orchestrator settings
+    enable_intent_recognition: bool = True
+    max_search_retries: int = 3
+    conversation_history_limit: int = 10
+
     def validate(self) -> list[str]:
         """Validate configuration, returning list of errors."""
-        errors: list[str] = []
+        errors = super().validate()
 
         if self.default_top_k < 1:
             errors.append("default_top_k must be >= 1")

@@ -1,0 +1,18 @@
+universe: equities_us_large
+window: 6m
+start_date: 2020-03-01
+end_date: 2020-08-31
+regime_tags:
+  - bear
+  - high_vol
+  - macro_shock
+asset_types:
+  - equities
+features:
+  - rsi_14
+  - atr_14
+checksums:
+  data.parquet: "sha256:TODO_REPLACE"
+notes: |
+  Sample benchmark pack manifest. Replace checksum with the actual hash of your data file.
+  Source: placeholder. Clean gaps with max 1-bar forward fill; drop symbols with <95% coverage.

@@ -18,4 +18,3 @@ Technical reference documentation including API specifications and quick referen
 ## Related
 
 - [Architecture](../architecture/index.md) - System design documentation
-  

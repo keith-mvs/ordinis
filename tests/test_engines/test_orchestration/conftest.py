@@ -99,10 +99,46 @@ class MockAnalyticsEngine:
     def __init__(self) -> None:
         """Initialize mock analytics engine."""
         self.call_count = 0
+        self.last_results: list[Any] = []
 
     async def record(self, results: list[Any]) -> None:
         """Mock analytics recording."""
         self.call_count += 1
+        self.last_results = results
+
+
+class MockPortfolioEngine:
+    """Mock portfolio engine for testing."""
+
+    def __init__(self) -> None:
+        """Initialize mock portfolio engine."""
+        self.update_call_count = 0
+        self.get_state_call_count = 0
+        self.last_fills: list[Any] = []
+
+    async def update(self, fills: list[Any]) -> None:
+        """Mock portfolio update."""
+        self.update_call_count += 1
+        self.last_fills = fills
+
+    async def get_state(self) -> Any:
+        """Mock get state."""
+        self.get_state_call_count += 1
+        return {"cash": 100000}
+
+
+class MockLearningEngine:
+    """Mock learning engine for testing."""
+
+    def __init__(self) -> None:
+        """Initialize mock learning engine."""
+        self.update_call_count = 0
+        self.last_results: list[Any] = []
+
+    async def update(self, results: list[Any]) -> None:
+        """Mock learning update."""
+        self.update_call_count += 1
+        self.last_results = results
 
 
 class MockDataSource:
@@ -161,6 +197,26 @@ def mock_analytics_engine() -> MockAnalyticsEngine:
         MockAnalyticsEngine instance.
     """
     return MockAnalyticsEngine()
+
+
+@pytest.fixture
+def mock_portfolio_engine() -> MockPortfolioEngine:
+    """Provide a mock portfolio engine.
+
+    Returns:
+        MockPortfolioEngine instance.
+    """
+    return MockPortfolioEngine()
+
+
+@pytest.fixture
+def mock_learning_engine() -> MockLearningEngine:
+    """Provide a mock learning engine.
+
+    Returns:
+        MockLearningEngine instance.
+    """
+    return MockLearningEngine()
 
 
 @pytest.fixture
@@ -273,6 +329,8 @@ async def fully_configured_engine(
     mock_risk_engine: MockRiskEngine,
     mock_execution_engine: MockExecutionEngine,
     mock_analytics_engine: MockAnalyticsEngine,
+    mock_portfolio_engine: MockPortfolioEngine,
+    mock_learning_engine: MockLearningEngine,
     mock_data_source: MockDataSource,
 ) -> OrchestrationEngine:
     """Provide a fully configured and initialized orchestration engine.
@@ -283,6 +341,8 @@ async def fully_configured_engine(
         mock_risk_engine: Mock risk engine fixture.
         mock_execution_engine: Mock execution engine fixture.
         mock_analytics_engine: Mock analytics engine fixture.
+        mock_portfolio_engine: Mock portfolio engine fixture.
+        mock_learning_engine: Mock learning engine fixture.
         mock_data_source: Mock data source fixture.
 
     Returns:
@@ -294,6 +354,8 @@ async def fully_configured_engine(
         risk_engine=mock_risk_engine,
         execution_engine=mock_execution_engine,
         analytics_engine=mock_analytics_engine,
+        portfolio_engine=mock_portfolio_engine,
+        learning_engine=mock_learning_engine,
         data_source=mock_data_source,
     )
     await orchestration_engine.initialize()

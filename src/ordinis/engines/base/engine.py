@@ -9,10 +9,10 @@ from abc import ABC, abstractmethod
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 from datetime import datetime
-import logging
 from typing import Any, Generic, TypeVar
 import uuid
 
+from ordinis.core.logging import get_logger
 from ordinis.engines.base.config import BaseEngineConfig
 from ordinis.engines.base.hooks import (
     BaseGovernanceHook,
@@ -66,7 +66,7 @@ class BaseEngine(ABC, Generic[ConfigT]):
         self._config = config
         self._state = EngineState.UNINITIALIZED
         self._started_at: datetime | None = None
-        self._logger = logging.getLogger(f"ordinis.engines.{self.name}")
+        self._logger = get_logger(f"ordinis.engines.{self.name}")
 
         # Governance
         self._governance = governance_hook or BaseGovernanceHook(self.name)

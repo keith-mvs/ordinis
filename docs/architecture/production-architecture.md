@@ -1500,4 +1500,14 @@ C:\Users\kjfle\Workspace\ordinis\
 
 ---
 
+## Document Metadata
+
+```yaml
+version: "phase-1-baseline"
+last_reviewed: "{{ now().strftime('%Y-%m-%d') }}"
+status: "published"
+```
+
+---
+
 **END OF DOCUMENT**

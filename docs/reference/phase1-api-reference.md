@@ -14,7 +14,7 @@ This document provides API reference documentation for Phase 1 production infras
 - Alerting Layer
 - Interface Layer
 
-For comprehensive architecture documentation, see [production-architecture.md](production-architecture.md).
+For comprehensive architecture documentation, see [Production Architecture](../architecture/production-architecture.md).
 
 ---
 
@@ -1065,9 +1065,19 @@ alerting:
 
 ## See Also
 
-- [Production Architecture](production-architecture.md) - Comprehensive Phase 1 architecture
-- [Architecture Review Response](architecture-review-response.md) - Gap analysis
-- [SignalCore System](signalcore-system.md) - Trading engine integration
+- [Production Architecture](../architecture/production-architecture.md) - Comprehensive Phase 1 architecture
+- [Architecture Review Response](../architecture/architecture-review-response.md) - Gap analysis
+- [SignalCore System](../architecture/signalcore-system.md) - Trading engine integration
+
+---
+
+## Document Metadata
+
+```yaml
+version: "phase-1-baseline"
+last_reviewed: "{{ now().strftime('%Y-%m-%d') }}"
+status: "published"
+```
 
 ---
 

@@ -13,6 +13,7 @@ import logging
 from typing import TYPE_CHECKING, Any
 
 from ...signalcore.core.signal import Signal
+from ..rules.standard import STANDARD_RISK_RULES
 from .rules import RiskCheckResult, RiskRule, RuleCategory
 
 if TYPE_CHECKING:
@@ -114,7 +115,17 @@ class RiskGuardEngine:
             rules: Dictionary of rule_id -> RiskRule
             alert_manager: Optional alert manager for notifications
         """
-        self._rules: dict[str, RiskRule] = rules or {}
+        # Use standard rules if none provided, but allow empty dict if explicitly passed?
+        # Usually 'None' means default.
+        if rules is None:
+            # Convert rule_id -> RiskRule mapping from standard rules
+            # STANDARD_RISK_RULES is keyed by descriptive name in standard.py,
+            # but engine expects rule_id as key?
+            # Let's check standard.py again.
+            self._rules = {r.rule_id: r for r in STANDARD_RISK_RULES.values()}
+        else:
+            self._rules = rules
+
         self._alert_manager = alert_manager
         self._halted: bool = False
         self._halt_reason: str | None = None

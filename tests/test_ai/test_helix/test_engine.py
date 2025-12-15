@@ -72,7 +72,8 @@ class TestHelixInitialization:
         with pytest.raises(ValueError, match="Invalid Helix configuration"):
             Helix(invalid_config)
 
-    def test_helix_init_providers(self, test_helix_config: HelixConfig):
+    @pytest.mark.asyncio
+    async def test_helix_init_providers(self, test_helix_config: HelixConfig):
         """Test provider initialization."""
         with patch("ordinis.ai.helix.engine.NVIDIAProvider") as mock_provider_class:
             mock_provider = MagicMock()
@@ -80,6 +81,7 @@ class TestHelixInitialization:
             mock_provider_class.return_value = mock_provider
 
             helix = Helix(test_helix_config)
+            await helix.initialize()
 
             assert ProviderType.NVIDIA_API in helix._providers
             assert helix._providers[ProviderType.NVIDIA_API] == mock_provider
@@ -135,7 +137,7 @@ class TestModelResolution:
             model = helix._get_fallback_model(ModelType.CHAT)
 
             assert model is not None
-            assert model.model_id == "nvidia/llama-3.1-nemotron-8b"
+            assert model.model_id == "meta/llama-3.1-8b-instruct"
 
     def test_get_fallback_model_embedding(self, test_helix_config: HelixConfig):
         """Test getting fallback embedding model."""

@@ -19,6 +19,16 @@ class SearchScope(Enum):
     AUTO = "auto"  # Auto-detect based on query
 
 
+class IntentType(Enum):
+    """Detected intent of the user query."""
+
+    CHAT = "chat"  # General conversation
+    SEARCH = "search"  # Knowledge retrieval
+    CODE_GEN = "code_gen"  # Code generation request
+    DEBUG = "debug"  # Debugging assistance
+    ANALYSIS = "analysis"  # Complex reasoning/analysis
+
+
 @dataclass
 class RetrievalContext:
     """Context for retrieval query."""
@@ -132,3 +142,15 @@ class RetrievalResultSet:
             }
             for s in self.snippets
         ]
+
+
+@dataclass
+class OrchestrationResult:
+    """Result of the orchestration process."""
+
+    query: str
+    intent: IntentType
+    answer: str
+    context: RetrievalResultSet | None = None
+    metadata: dict[str, Any] = field(default_factory=dict)
+    latency_ms: float = 0.0

@@ -418,3 +418,13 @@ pytest tests/test_rag/ -v -m integration
 - [NVIDIA Build Platform](https://build.nvidia.com/)
 - [ChromaDB Documentation](https://docs.trychroma.com/)
 - [Matryoshka Embeddings](https://arxiv.org/abs/2205.13147)
+
+---
+
+## Document Metadata
+
+```yaml
+version: "phase-1-baseline"
+last_reviewed: "{{ now().strftime('%Y-%m-%d') }}"
+status: "published"
+```

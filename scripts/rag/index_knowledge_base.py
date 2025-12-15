@@ -18,7 +18,7 @@ from loguru import logger
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root / "src"))
 
-from rag.pipeline.kb_indexer import KBIndexer  # noqa: E402
+from ordinis.rag.pipeline.kb_indexer import KBIndexer  # noqa: E402
 
 
 def main() -> None:

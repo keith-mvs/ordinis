@@ -135,6 +135,27 @@ class LearningEngine(BaseEngine[LearningEngineConfig]):
         )
 
     # -------------------------------------------------------------------------
+    # Protocol Implementation
+    # -------------------------------------------------------------------------
+
+    async def update(self, results: list[Any]) -> None:
+        """
+        Update models based on results (Protocol implementation).
+
+        This method adapts the generic update call to internal event recording.
+        """
+        for result in results:
+            # Create a generic learning event for now
+            # In a real implementation, we would parse the result to determine the specific event type
+            event = LearningEvent(
+                event_type=EventType.MODEL_PREDICTION,  # Defaulting for now
+                source="orchestration",
+                payload={"data": result},
+                timestamp=datetime.now(UTC),
+            )
+            self.record_event(event)
+
+    # -------------------------------------------------------------------------
     # Event Collection
     # -------------------------------------------------------------------------
 

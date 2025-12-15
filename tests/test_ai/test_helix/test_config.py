@@ -135,18 +135,18 @@ class TestNVIDIAModels:
         assert model.provider == ProviderType.NVIDIA_API
         assert model.context_length == 128000
         assert model.supports_function_calling is True
-        assert model.default_temperature == 0.2
+        assert model.default_temperature == 0.3
         assert model.max_output_tokens == 4096
 
     def test_nemotron_8b_config(self):
         """Test Nemotron 8B model configuration."""
         model = NVIDIA_MODELS["nemotron-8b"]
 
-        assert model.model_id == "nvidia/llama-3.1-nemotron-8b"
-        assert model.display_name == "Nemotron 8B"
+        assert model.model_id == "meta/llama-3.1-8b-instruct"
+        assert model.display_name == "Llama 3.1 8B"
         assert model.model_type == ModelType.CHAT
         assert model.provider == ProviderType.NVIDIA_API
-        assert model.context_length == 32000
+        assert model.context_length == 128000
         assert model.default_temperature == 0.3
         assert model.max_output_tokens == 2048
 
@@ -258,10 +258,10 @@ class TestHelixConfig:
         """Test getting model by full model ID."""
         config = HelixConfig(nvidia_api_key=mock_nvidia_api_key)
 
-        model = config.get_model("nvidia/llama-3.3-nemotron-super-49b-v1.5")
+        model = config.get_model("nvidia/llama-3.1-nemotron-ultra-253b-v1")
 
         assert model is not None
-        assert model.display_name == "Nemotron Super 49B"
+        assert model.display_name == "Nemotron Ultra 253B"
 
     def test_get_model_not_found(self, mock_nvidia_api_key: str):
         """Test getting non-existent model."""
@@ -279,7 +279,7 @@ class TestHelixConfig:
 
         assert len(models) >= 4
         model_ids = [m.model_id for m in models]
-        assert "nvidia/llama-3.3-nemotron-super-49b-v1.5" in model_ids
+        assert "nvidia/llama-3.1-nemotron-ultra-253b-v1" in model_ids
 
     def test_list_models_by_type_chat(self, mock_nvidia_api_key: str):
         """Test listing chat models."""
@@ -334,7 +334,7 @@ class TestHelixConfig:
         errors = config.validate()
 
         assert len(errors) > 0
-        assert any("nvidia_api_key" in err for err in errors)
+        assert any("At least one provider API key required" in err for err in errors)
 
     def test_validate_api_key_not_required_for_local(self):
         """Test validation passes without API key when prefer_local=True."""

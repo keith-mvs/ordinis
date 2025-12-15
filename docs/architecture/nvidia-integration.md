@@ -175,13 +175,23 @@ print(narration['narration'])
 comparison = narrator.compare_results([
     ("Strategy A", results_a),
     ("Strategy B", results_b),
-])
-print(comparison['comparison'])
 
-# Get optimization suggestions
-suggestions = narrator.suggest_optimizations(
-    results, focus="returns"
-)
+---
+
+**Last Updated:** 2025-11-29
+**Version:** 1.0.0
+**Status:** Production Ready
+
+```
+
+---
+
+## Document Metadata
+
+```yaml
+version: "phase-1-baseline"
+last_reviewed: "{{ now().strftime('%Y-%m-%d') }}"
+status: "published"
 ```
 
 ## Setup and Configuration

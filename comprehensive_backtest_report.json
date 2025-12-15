@@ -1,0 +1,183 @@
+{
+  "metadata": {
+    "timestamp": "2025-12-15T09:11:27.142314",
+    "total_equities": 28,
+    "equities": {
+      "AAPL": "Technology",
+      "MSFT": "Technology",
+      "GOOGL": "Technology",
+      "NVDA": "Technology",
+      "META": "Technology",
+      "JNJ": "Healthcare",
+      "UNH": "Healthcare",
+      "PFE": "Healthcare",
+      "ABBV": "Healthcare",
+      "JPM": "Financials",
+      "BAC": "Financials",
+      "GS": "Financials",
+      "BLK": "Financials",
+      "BA": "Industrials",
+      "CAT": "Industrials",
+      "GE": "Industrials",
+      "AMZN": "Consumer Discretionary",
+      "MCD": "Consumer Discretionary",
+      "NKE": "Consumer Discretionary",
+      "PG": "Consumer Staples",
+      "KO": "Consumer Staples",
+      "XOM": "Energy",
+      "CVX": "Energy",
+      "MMM": "Materials",
+      "LMT": "Materials",
+      "SPG": "Real Estate",
+      "NEE": "Utilities",
+      "VZ": "Communication Services"
+    },
+    "test_periods": [
+      "20-Year Full",
+      "10-Year Recent",
+      "5-Year Recent",
+      "2-Year Recent",
+      "Tech Boom (2004-2008)",
+      "Financial Crisis (2008-2012)",
+      "Recovery (2012-2016)",
+      "Bull Market (2016-2020)",
+      "COVID Era (2020-2024)"
+    ]
+  },
+  "results_by_period": {
+    "20-Year Full": {
+      "period": "20-Year Full",
+      "start_date": "2004-01-01",
+      "end_date": "2024-12-31",
+      "metrics": {
+        "total_return": 0.0,
+        "annualized_return": 0.0,
+        "sharpe_ratio": 0.0,
+        "sortino_ratio": 0.0,
+        "max_drawdown": 0.0,
+        "num_trades": 0,
+        "win_rate": 0.0,
+        "profit_factor": 0.0,
+        "ic_mean": 0.0,
+        "ic_std": 0.0,
+        "hit_rate": 0.0,
+        "equity_final": "1000000"
+      },
+      "model_metrics": {},
+      "output_dir": "backtest_results\\comprehensive_20-year_full"
+    },
+    "10-Year Recent": {
+      "period": "10-Year Recent",
+      "start_date": "2014-01-01",
+      "end_date": "2024-12-31",
+      "metrics": {
+        "total_return": 0.0,
+        "annualized_return": 0.0,
+        "sharpe_ratio": 0.0,
+        "sortino_ratio": 0.0,
+        "max_drawdown": 0.0,
+        "num_trades": 0,
+        "win_rate": 0.0,
+        "profit_factor": 0.0,
+        "ic_mean": 0.0,
+        "ic_std": 0.0,
+        "hit_rate": 0.0,
+        "equity_final": "1000000"
+      },
+      "model_metrics": {},
+      "output_dir": "backtest_results\\comprehensive_10-year_recent"
+    },
+    "5-Year Recent": {
+      "period": "5-Year Recent",
+      "start_date": "2019-01-01",
+      "end_date": "2024-12-31",
+      "metrics": {
+        "total_return": 0.0,
+        "annualized_return": 0.0,
+        "sharpe_ratio": 0.0,
+        "sortino_ratio": 0.0,
+        "max_drawdown": 0.0,
+        "num_trades": 0,
+        "win_rate": 0.0,
+        "profit_factor": 0.0,
+        "ic_mean": 0.0,
+        "ic_std": 0.0,
+        "hit_rate": 0.0,
+        "equity_final": "1000000"
+      },
+      "model_metrics": {},
+      "output_dir": "backtest_results\\comprehensive_5-year_recent"
+    },
+    "2-Year Recent": {
+      "period": "2-Year Recent",
+      "start_date": "2022-01-01",
+      "end_date": "2024-12-31",
+      "metrics": {
+        "total_return": 0.0,
+        "annualized_return": 0.0,
+        "sharpe_ratio": 0.0,
+        "sortino_ratio": 0.0,
+        "max_drawdown": 0.0,
+        "num_trades": 0,
+        "win_rate": 0.0,
+        "profit_factor": 0.0,
+        "ic_mean": 0.0,
+        "ic_std": 0.0,
+        "hit_rate": 0.0,
+        "equity_final": "1000000"
+      },
+      "model_metrics": {},
+      "output_dir": "backtest_results\\comprehensive_2-year_recent"
+    },
+    "Tech Boom (2004-2008)": {
+      "period": "Tech Boom (2004-2008)",
+      "error": "No data available"
+    },
+    "Financial Crisis (2008-2012)": {
+      "period": "Financial Crisis (2008-2012)",
+      "error": "No data available"
+    },
+    "Recovery (2012-2016)": {
+      "period": "Recovery (2012-2016)",
+      "error": "No data available"
+    },
+    "Bull Market (2016-2020)": {
+      "period": "Bull Market (2016-2020)",
+      "error": "No data available"
+    },
+    "COVID Era (2020-2024)": {
+      "period": "COVID Era (2020-2024)",
+      "start_date": "2020-01-01",
+      "end_date": "2024-12-31",
+      "metrics": {
+        "total_return": 0.0,
+        "annualized_return": 0.0,
+        "sharpe_ratio": 0.0,
+        "sortino_ratio": 0.0,
+        "max_drawdown": 0.0,
+        "num_trades": 0,
+        "win_rate": 0.0,
+        "profit_factor": 0.0,
+        "ic_mean": 0.0,
+        "ic_std": 0.0,
+        "hit_rate": 0.0,
+        "equity_final": "1000000"
+      },
+      "model_metrics": {},
+      "output_dir": "backtest_results\\comprehensive_covid_era_(2020-2024)"
+    }
+  },
+  "sector_analysis": {},
+  "model_rankings": {},
+  "recommendations": {
+    "ensemble_weights": {},
+    "parameter_tuning": {},
+    "risk_management": {
+      "recommended_position_size": "5-10%",
+      "recommended_max_portfolio_exposure": "80-100%",
+      "recommended_stop_loss": "8-10%",
+      "overall_strategy_sharpe": NaN
+    },
+    "model_selection": {}
+  }
+}

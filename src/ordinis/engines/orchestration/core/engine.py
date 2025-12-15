@@ -18,12 +18,14 @@ from dataclasses import dataclass
 from datetime import UTC, datetime
 import logging
 from typing import TYPE_CHECKING, Any, Protocol
+import uuid
 
 from ordinis.engines.base import (
     AuditRecord,
     BaseEngine,
     HealthLevel,
     HealthStatus,
+    PreflightContext,
 )
 
 from .config import OrchestrationEngineConfig
@@ -68,6 +70,26 @@ class AnalyticsEngineProtocol(Protocol):
         ...
 
 
+class PortfolioEngineProtocol(Protocol):
+    """Protocol for portfolio engine interface."""
+
+    async def update(self, fills: list[Any]) -> None:
+        """Update portfolio with trade fills."""
+        ...
+
+    async def get_state(self) -> Any:
+        """Get current portfolio state."""
+        ...
+
+
+class LearningEngineProtocol(Protocol):
+    """Protocol for learning engine interface."""
+
+    async def update(self, results: list[Any]) -> None:
+        """Update models based on results."""
+        ...
+
+
 class DataSourceProtocol(Protocol):
     """Protocol for data source (StreamingBus) interface."""
 
@@ -84,6 +106,8 @@ class PipelineEngines:
     risk_engine: RiskEngineProtocol | None = None
     execution_engine: ExecutionEngineProtocol | None = None
     analytics_engine: AnalyticsEngineProtocol | None = None
+    portfolio_engine: PortfolioEngineProtocol | None = None
+    learning_engine: LearningEngineProtocol | None = None
     data_source: DataSourceProtocol | None = None
 
 
@@ -143,6 +167,8 @@ class OrchestrationEngine(BaseEngine[OrchestrationEngineConfig]):
             missing_engines.append("risk_engine")
         if not self._engines.execution_engine:
             missing_engines.append("execution_engine")
+        if not self._engines.portfolio_engine:
+            missing_engines.append("portfolio_engine")
 
         if missing_engines:
             return HealthStatus(
@@ -189,6 +215,16 @@ class OrchestrationEngine(BaseEngine[OrchestrationEngineConfig]):
         self._engines.analytics_engine = engine
         _logger.info("Analytics engine registered")
 
+    def register_portfolio_engine(self, engine: PortfolioEngineProtocol) -> None:
+        """Register the portfolio management engine."""
+        self._engines.portfolio_engine = engine
+        _logger.info("Portfolio engine registered")
+
+    def register_learning_engine(self, engine: LearningEngineProtocol) -> None:
+        """Register the learning engine."""
+        self._engines.learning_engine = engine
+        _logger.info("Learning engine registered")
+
     def register_data_source(self, source: DataSourceProtocol) -> None:
         """Register the data source (e.g., StreamingBus)."""
         self._engines.data_source = source
@@ -200,6 +236,8 @@ class OrchestrationEngine(BaseEngine[OrchestrationEngineConfig]):
         risk_engine: RiskEngineProtocol | None = None,
         execution_engine: ExecutionEngineProtocol | None = None,
         analytics_engine: AnalyticsEngineProtocol | None = None,
+        portfolio_engine: PortfolioEngineProtocol | None = None,
+        learning_engine: LearningEngineProtocol | None = None,
         data_source: DataSourceProtocol | None = None,
     ) -> None:
         """Register multiple engines at once."""
@@ -211,6 +249,10 @@ class OrchestrationEngine(BaseEngine[OrchestrationEngineConfig]):
             self.register_execution_engine(execution_engine)
         if analytics_engine:
             self.register_analytics_engine(analytics_engine)
+        if portfolio_engine:
+            self.register_portfolio_engine(portfolio_engine)
+        if learning_engine:
+            self.register_learning_engine(learning_engine)
         if data_source:
             self.register_data_source(data_source)
 
@@ -252,9 +294,15 @@ class OrchestrationEngine(BaseEngine[OrchestrationEngineConfig]):
         try:
             async with self.track_operation("run_cycle", context):
                 # Governance preflight
-                if self.config.enable_governance and self._governance_hook:
-                    preflight = await self._governance_hook.preflight(context)
-                    if not preflight.approved:
+                if self.config.enable_governance and self._governance:
+                    preflight_ctx = PreflightContext(
+                        engine=self.config.engine_id,
+                        action="run_cycle",
+                        inputs=context,
+                        trace_id=str(uuid.uuid4()),
+                    )
+                    preflight = await self._governance.preflight(preflight_ctx)
+                    if not preflight.allowed:
                         result.status = CycleStatus.SKIPPED
                         result.errors.append(f"Governance blocked: {preflight.reason}")
                         return result
@@ -339,7 +387,15 @@ class OrchestrationEngine(BaseEngine[OrchestrationEngineConfig]):
                 result.orders_filled = len([f for f in fills if f.get("filled", False)])
                 result.orders_rejected = len([f for f in fills if f.get("rejected", False)])
 
-                # Stage 5: Analytics Recording
+                # Stage 5: Portfolio Update
+                if self._engines.portfolio_engine and fills:
+                    stage_start = datetime.now(UTC)
+                    await self._engines.portfolio_engine.update(fills)
+                    stage_duration = (datetime.now(UTC) - stage_start).total_seconds() * 1000
+                    # Note: We might want to add a PORTFOLIO_UPDATE stage to PipelineStage enum later
+                    # For now, we just log it or track it implicitly
+
+                # Stage 6: Analytics Recording
                 if self.config.enable_analytics_recording:
                     stage_start = datetime.now(UTC)
                     await self._record_analytics(fills)
@@ -352,6 +408,14 @@ class OrchestrationEngine(BaseEngine[OrchestrationEngineConfig]):
                             output_count=len(fills),
                         )
                     )
+
+                # Stage 7: Learning Update
+                if self._engines.learning_engine:
+                    # We can pass the entire cycle result or specific parts
+                    # For now, let's assume we pass the fills and signals for learning
+                    learning_data = {"signals": signals, "fills": fills, "cycle_result": result}
+                    # The protocol expects a list, so we wrap it or adapt it
+                    await self._engines.learning_engine.update([learning_data])
 
                 result.status = CycleStatus.COMPLETED
 
@@ -368,14 +432,14 @@ class OrchestrationEngine(BaseEngine[OrchestrationEngineConfig]):
             self._last_cycle_time = result.completed_at
 
             # Audit the cycle
-            if self._governance_hook:
-                await self._governance_hook.audit(
+            if self._governance:
+                await self._governance.audit(
                     AuditRecord(
-                        engine_id=self.config.engine_id,
-                        operation="run_cycle",
-                        context=context,
-                        result=result.to_dict(),
-                        duration_ms=result.total_duration_ms,
+                        engine=self.config.engine_id,
+                        action="run_cycle",
+                        inputs=context,
+                        outputs=result.to_dict(),
+                        latency_ms=result.total_duration_ms,
                     )
                 )
 

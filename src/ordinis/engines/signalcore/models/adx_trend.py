@@ -55,7 +55,7 @@ class ADXTrendModel(Model):
         # Update min data points (ADX needs period + smoothing)
         self.config.min_data_points = (self.adx_period * 2) + 30
 
-    def generate(self, data: pd.DataFrame, timestamp: datetime) -> Signal:  # noqa: PLR0912, PLR0915
+    async def generate(self, data: pd.DataFrame, timestamp: datetime) -> Signal:  # noqa: PLR0912, PLR0915
         """
         Generate trading signal from ADX analysis.
 

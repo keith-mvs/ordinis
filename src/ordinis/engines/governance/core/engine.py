@@ -9,13 +9,18 @@ from datetime import UTC, datetime
 from typing import Any
 
 from ordinis.engines.base import (
+    AuditRecord,
     BaseEngine,
+    Decision,
+    EngineError,
     EngineMetrics,
     GovernanceHook,
     HealthLevel,
     HealthStatus,
+    PreflightContext,
+    PreflightResult,
 )
-from ordinis.engines.governance.core.audit import AuditEngine
+from ordinis.engines.governance.core.audit import AuditEngine, AuditEventType
 from ordinis.engines.governance.core.config import GovernanceEngineConfig
 from ordinis.engines.governance.core.ethics import EthicsEngine
 from ordinis.engines.governance.core.governance import (
@@ -71,6 +76,92 @@ class UnifiedGovernanceEngine(BaseEngine[GovernanceEngineConfig]):
         self._last_evaluation: datetime | None = None
         self._blocked_count: int = 0
         self._approved_count: int = 0
+
+    async def preflight(self, context: PreflightContext) -> PreflightResult:
+        """Perform governance preflight check.
+
+        Implements GovernanceHook protocol.
+        """
+        if self._governance is None:
+            return PreflightResult(
+                decision=Decision.DENY,
+                reason="Governance engine not initialized",
+            )
+
+        self._evaluations_count += 1
+        self._last_evaluation = datetime.now(UTC)
+
+        # Map context to specific checks
+        if context.action == "execute_order":
+            inputs = context.inputs
+            decision = self._governance.evaluate_trade(
+                symbol=inputs.get("symbol", "UNKNOWN"),
+                action=inputs.get("side", "unknown"),
+                quantity=inputs.get("quantity", 0),
+                price=inputs.get("price", 0.0),
+                strategy=inputs.get("strategy_id"),
+                signal_explanation=inputs.get("reason"),
+            )
+
+            if decision.allowed:
+                self._approved_count += 1
+                return PreflightResult(
+                    decision=Decision.ALLOW,
+                    reason="Policy check passed",
+                    policy_id=decision.policy_id,
+                    warnings=decision.warnings,
+                )
+            self._blocked_count += 1
+            return PreflightResult(
+                decision=Decision.DENY,
+                reason=f"Policy check failed: {decision.violations}",
+                policy_id=decision.policy_id,
+                warnings=decision.warnings,
+            )
+
+        # Default allow for other actions (e.g. signal generation)
+        # In a stricter system, we might want to check these too
+        return PreflightResult(
+            decision=Decision.ALLOW,
+            reason="No specific policy for action",
+        )
+
+    async def audit(self, record: AuditRecord) -> None:
+        """Record audit event.
+
+        Implements GovernanceHook protocol.
+        """
+        if self._governance and self._governance.audit_engine:
+            # Map generic action to AuditEventType if possible, or use generic
+            event_type = AuditEventType.SYSTEM_START
+            if record.action == "run_cycle":
+                event_type = AuditEventType.SYSTEM_START  # Placeholder
+
+            self._governance.audit_engine.log_event(
+                event_type=event_type,
+                actor=record.engine,
+                action=record.action,
+                details=record.metadata or {},
+                correlation_id=record.trace_id,
+            )
+
+    async def on_error(self, error: EngineError) -> None:
+        """Handle engine error.
+
+        Implements GovernanceHook protocol.
+        """
+        if self._governance and self._governance.audit_engine:
+            self._governance.audit_engine.log_event(
+                event_type=AuditEventType.ERROR_OCCURRED,  # Need to ensure this exists or use generic
+                actor=error.engine,
+                action="error_occurred",
+                details={
+                    "code": error.code,
+                    "message": error.message,
+                    "details": error.details,
+                    "recoverable": error.recoverable,
+                },
+            )
 
     async def _do_initialize(self) -> None:
         """Initialize governance engine resources."""

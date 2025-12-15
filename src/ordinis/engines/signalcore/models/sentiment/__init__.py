@@ -1,12 +1,7 @@
 """
-Sentiment analysis models using ProsusAI FinBERT.
-
-Reference: https://github.com/ProsusAI/finBERT
+Sentiment analysis models.
 """
 
-from .finbert_model import FinBERTSentimentModel, SentimentResult
+from .news_sentiment import NewsSentimentModel
 
-__all__ = [
-    "FinBERTSentimentModel",
-    "SentimentResult",
-]
+__all__ = ["NewsSentimentModel"]

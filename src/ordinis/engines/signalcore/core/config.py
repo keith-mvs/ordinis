@@ -46,6 +46,10 @@ class SignalCoreEngineConfig(BaseEngineConfig):
     # Governance
     enable_governance: bool = True
 
+    # Ensemble settings
+    enable_ensemble: bool = False
+    ensemble_strategy: str = "voting"  # voting, weighted_average, highest_confidence
+
     # Model tracking
     registered_models: list[str] = field(default_factory=list)
 

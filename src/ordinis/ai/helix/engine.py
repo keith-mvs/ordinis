@@ -7,7 +7,7 @@ Orchestrates LLM providers with caching, rate limiting, and fallback.
 import asyncio
 from collections import OrderedDict
 from collections.abc import AsyncIterator
-from dataclasses import dataclass, field
+from dataclasses import asdict, dataclass, field
 import hashlib
 import logging
 import time
@@ -25,8 +25,19 @@ from ordinis.ai.helix.models import (
     ProviderType,
     RateLimitError,
 )
+from ordinis.ai.helix.providers.azure import AzureOpenAIProvider
 from ordinis.ai.helix.providers.base import BaseProvider
+from ordinis.ai.helix.providers.mistral import MistralProvider
 from ordinis.ai.helix.providers.nvidia import NVIDIAProvider
+from ordinis.ai.helix.providers.openai import OpenAIProvider
+from ordinis.dashboard import TraceType, get_trace_logger
+from ordinis.engines.base import (
+    BaseEngine,
+    GovernanceHook,
+    HealthLevel,
+    HealthStatus,
+    PreflightContext,
+)
 
 _logger = logging.getLogger(__name__)
 
@@ -49,7 +60,7 @@ class RateLimitState:
     semaphore: asyncio.Semaphore | None = None
 
 
-class Helix:
+class Helix(BaseEngine[HelixConfig]):
     """
     Unified LLM provider for Ordinis.
 
@@ -60,16 +71,22 @@ class Helix:
     - Response caching
     - Rate limiting
     - Retry with exponential backoff
+    - Governance integration (preflight checks and auditing)
     """
 
-    def __init__(self, config: HelixConfig | None = None):
+    def __init__(
+        self,
+        config: HelixConfig | None = None,
+        governance_hook: GovernanceHook | None = None,
+    ):
         """
         Initialize Helix.
 
         Args:
             config: Configuration options. Uses defaults if None.
+            governance_hook: Optional governance hook.
         """
-        self.config = config or HelixConfig()
+        super().__init__(config or HelixConfig(), governance_hook)
 
         # Validate configuration
         errors = self.config.validate()
@@ -79,7 +96,10 @@ class Helix:
 
         # Initialize providers
         self._providers: dict[ProviderType, BaseProvider] = {}
-        self._init_providers()
+        # Providers initialized in _do_initialize
+
+        # Initialize Trace Logger
+        self._trace_logger = get_trace_logger()
 
         # Cache
         self._cache: OrderedDict[str, CacheEntry] = OrderedDict()
@@ -97,6 +117,44 @@ class Helix:
         self._cache_hits = 0
         self._cache_misses = 0
 
+    async def _do_initialize(self) -> None:
+        """Initialize engine resources."""
+        self._init_providers()
+        _logger.info("Helix engine initialized")
+
+    async def _do_shutdown(self) -> None:
+        """Shutdown engine resources."""
+        self._providers.clear()
+        _logger.info("Helix engine shutdown")
+
+    async def _do_health_check(self) -> HealthStatus:
+        """Check engine health."""
+        provider_health = {}
+        all_healthy = True
+
+        for p_type, provider in self._providers.items():
+            try:
+                is_healthy = await provider.health_check()
+                provider_health[p_type.value] = is_healthy
+                if not is_healthy:
+                    all_healthy = False
+            except Exception:
+                provider_health[p_type.value] = False
+                all_healthy = False
+
+        if not self._providers:
+            return HealthStatus(
+                level=HealthLevel.DEGRADED,
+                message="No providers configured",
+                details={"providers": {}},
+            )
+
+        return HealthStatus(
+            level=HealthLevel.HEALTHY if all_healthy else HealthLevel.DEGRADED,
+            message="All providers healthy" if all_healthy else "Some providers unhealthy",
+            details={"providers": provider_health},
+        )
+
     def _init_providers(self) -> None:
         """Initialize available providers."""
         # NVIDIA API provider
@@ -108,6 +166,38 @@ class Helix:
                     _logger.info("NVIDIA API provider initialized")
             except Exception as e:
                 _logger.warning("Failed to initialize NVIDIA provider: %s", e)
+
+        # Mistral API provider
+        if self.config.mistral_api_key:
+            try:
+                mistral = MistralProvider(self.config.mistral_api_key)
+                if mistral.is_available:
+                    self._providers[ProviderType.MISTRAL_API] = mistral
+                    _logger.info("Mistral API provider initialized")
+            except Exception as e:
+                _logger.warning("Failed to initialize Mistral provider: %s", e)
+
+        # OpenAI API provider
+        if self.config.openai_api_key:
+            try:
+                openai = OpenAIProvider(self.config.openai_api_key)
+                if openai.is_available:
+                    self._providers[ProviderType.OPENAI_API] = openai
+                    _logger.info("OpenAI API provider initialized")
+            except Exception as e:
+                _logger.warning("Failed to initialize OpenAI provider: %s", e)
+
+        # Azure OpenAI provider
+        if self.config.azure_openai_api_key and self.config.azure_openai_endpoint:
+            try:
+                azure = AzureOpenAIProvider(
+                    self.config.azure_openai_api_key, self.config.azure_openai_endpoint
+                )
+                if azure.is_available:
+                    self._providers[ProviderType.AZURE_OPENAI_API] = azure
+                    _logger.info("Azure OpenAI provider initialized")
+            except Exception as e:
+                _logger.warning("Failed to initialize Azure provider: %s", e)
 
         if not self._providers:
             _logger.warning("No LLM providers available")
@@ -320,26 +410,78 @@ class Helix:
         # Resolve model
         model_info = self._get_model(model, ModelType.CHAT)
 
-        # Check cache
-        cache_enabled = use_cache if use_cache is not None else self.config.cache.cache_chat
-        if cache_enabled:
-            cache_key = self._cache_key(messages, model_info.model_id, **kwargs)
-            cached = self._get_cached(cache_key)
-            if cached and isinstance(cached, ChatResponse):
-                return cached
+        # Governance Preflight
+        context = PreflightContext(
+            engine=self.name,
+            action="generate",
+            inputs={
+                "model": model_info.model_id,
+                "messages_count": len(messages),
+                "max_tokens": max_tokens,
+            },
+        )
 
-        # Rate limit check
-        await self._check_rate_limit()
+        async with self.track_operation("generate", context.inputs) as ctx:
+            # Start Trace
+            trace_id = self._trace_logger.start_trace()
 
-        # Acquire semaphore for concurrent request limiting
-        if self._rate_limit.semaphore:
-            async with self._rate_limit.semaphore:
-                return await self._do_generate(
+            self._trace_logger.log(
+                trace_type=TraceType.LLM_REQUEST,
+                component="Helix",
+                content={
+                    "model": model_info.model_id,
+                    "messages": [m.to_dict() for m in messages],
+                    "parameters": {"temperature": temperature, "max_tokens": max_tokens, **kwargs},
+                },
+                trace_id=trace_id,
+            )
+
+            # Check cache
+            cache_enabled = use_cache if use_cache is not None else self.config.cache.cache_chat
+            if cache_enabled:
+                cache_key = self._cache_key(messages, model_info.model_id, **kwargs)
+                cached = self._get_cached(cache_key)
+                if cached and isinstance(cached, ChatResponse):
+                    ctx["model_used"] = cached.model
+                    ctx["cached"] = True
+
+                    # Log Cache Hit
+                    self._trace_logger.log(
+                        trace_type=TraceType.LLM_RESPONSE,
+                        component="Helix",
+                        content=asdict(cached),
+                        trace_id=trace_id,
+                        metadata={"cached": True},
+                    )
+                    return cached
+
+            # Rate limit check
+            await self._check_rate_limit()
+
+            # Acquire semaphore for concurrent request limiting
+            if self._rate_limit.semaphore:
+                async with self._rate_limit.semaphore:
+                    response = await self._do_generate(
+                        messages, model_info, temperature, max_tokens, stop, cache_enabled, **kwargs
+                    )
+            else:
+                response = await self._do_generate(
                     messages, model_info, temperature, max_tokens, stop, cache_enabled, **kwargs
                 )
-        return await self._do_generate(
-            messages, model_info, temperature, max_tokens, stop, cache_enabled, **kwargs
-        )
+
+            ctx["model_used"] = response.model
+            ctx["usage"] = response.usage
+
+            # Log Response
+            self._trace_logger.log(
+                trace_type=TraceType.LLM_RESPONSE,
+                component="Helix",
+                content=asdict(response),
+                trace_id=trace_id,
+                metadata={"cached": False},
+            )
+
+            return response
 
     async def _do_generate(
         self,
@@ -410,18 +552,35 @@ class Helix:
             messages = [ChatMessage(role=m["role"], content=m["content"]) for m in messages]
 
         model_info = self._get_model(model, ModelType.CHAT)
-        provider = self._get_provider(model_info)
 
-        await self._check_rate_limit()
+        # Governance Preflight
+        context = PreflightContext(
+            engine=self.name,
+            action="generate_stream",
+            inputs={
+                "model": model_info.model_id,
+                "messages_count": len(messages),
+                "max_tokens": max_tokens,
+            },
+        )
 
-        async for chunk in provider.chat_stream(
-            messages,
-            model_info,
-            temperature or self.config.default_temperature,
-            max_tokens or self.config.default_max_tokens,
-            **kwargs,
-        ):
-            yield chunk
+        async with self.track_operation("generate_stream", context.inputs) as ctx:
+            provider = self._get_provider(model_info)
+
+            await self._check_rate_limit()
+
+            # We can't easily track token usage for streams without a tokenizer or provider support
+            # For now, we just mark it as streaming
+            ctx["streaming"] = True
+
+            async for chunk in provider.chat_stream(
+                messages,
+                model_info,
+                temperature or self.config.default_temperature,
+                max_tokens or self.config.default_max_tokens,
+                **kwargs,
+            ):
+                yield chunk
 
     async def embed(
         self,
@@ -445,35 +604,53 @@ class Helix:
 
         model_info = self._get_model(model, ModelType.EMBEDDING)
 
-        # Check cache
-        cache_enabled = use_cache if use_cache is not None else self.config.cache.cache_embeddings
-        if cache_enabled:
-            cache_key = self._embed_cache_key(texts, model_info.model_id)
-            cached = self._get_cached(cache_key)
-            if cached and isinstance(cached, EmbeddingResponse):
-                return cached
+        # Governance Preflight
+        context = PreflightContext(
+            engine=self.name,
+            action="embed",
+            inputs={
+                "model": model_info.model_id,
+                "text_count": len(texts),
+            },
+        )
 
-        await self._check_rate_limit()
-
-        try:
-            provider = self._get_provider(model_info)
-            response = await self._retry_with_backoff(provider.embed, texts, model_info)
-
-            self._record_usage(response.usage.total_tokens)
-
+        async with self.track_operation("embed", context.inputs) as ctx:
+            # Check cache
+            cache_enabled = (
+                use_cache if use_cache is not None else self.config.cache.cache_embeddings
+            )
             if cache_enabled:
                 cache_key = self._embed_cache_key(texts, model_info.model_id)
-                self._set_cached(cache_key, response)
+                cached = self._get_cached(cache_key)
+                if cached and isinstance(cached, EmbeddingResponse):
+                    ctx["cached"] = True
+                    return cached
 
-            return response
+            await self._check_rate_limit()
 
-        except HelixError:
-            fallback = self._get_fallback_model(ModelType.EMBEDDING)
-            if fallback and fallback.model_id != model_info.model_id:
-                _logger.info("Falling back to %s", fallback.display_name)
-                provider = self._get_provider(fallback)
-                return await self._retry_with_backoff(provider.embed, texts, fallback)
-            raise
+            try:
+                provider = self._get_provider(model_info)
+                response = await self._retry_with_backoff(provider.embed, texts, model_info)
+
+                self._record_usage(response.usage.total_tokens)
+
+                if cache_enabled:
+                    cache_key = self._embed_cache_key(texts, model_info.model_id)
+                    self._set_cached(cache_key, response)
+
+                ctx["usage"] = response.usage
+                return response
+
+            except HelixError:
+                fallback = self._get_fallback_model(ModelType.EMBEDDING)
+                if fallback and fallback.model_id != model_info.model_id:
+                    _logger.info("Falling back to %s", fallback.display_name)
+                    provider = self._get_provider(fallback)
+                    response = await self._retry_with_backoff(provider.embed, texts, fallback)
+                    ctx["usage"] = response.usage
+                    ctx["fallback_used"] = True
+                    return response
+                raise
 
     def list_models(self, model_type: ModelType | None = None) -> list[ModelInfo]:
         """List available models."""

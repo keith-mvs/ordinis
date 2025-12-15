@@ -20,8 +20,12 @@ from ordinis.engines.base import (
     PreflightContext,
 )
 from ordinis.engines.signalcore.core.config import SignalCoreEngineConfig
+from ordinis.engines.signalcore.core.ensemble import EnsembleStrategy, SignalEnsemble
 from ordinis.engines.signalcore.core.model import Model, ModelRegistry
 from ordinis.engines.signalcore.core.signal import Signal, SignalBatch
+
+if False:  # TYPE_CHECKING
+    from ordinis.ai.helix.engine import Helix
 
 
 class SignalCoreEngine(BaseEngine[SignalCoreEngineConfig]):
@@ -58,22 +62,25 @@ class SignalCoreEngine(BaseEngine[SignalCoreEngineConfig]):
         self,
         config: SignalCoreEngineConfig | None = None,
         governance_hook: GovernanceHook | None = None,
+        helix: "Helix | None" = None,
     ) -> None:
         """Initialize the SignalCore engine.
 
         Args:
             config: Engine configuration (uses defaults if None)
             governance_hook: Optional governance hook for preflight/audit
+            helix: Optional Helix engine for LLM features
         """
         super().__init__(config or SignalCoreEngineConfig(), governance_hook)
 
+        self.helix = helix
         self._registry = ModelRegistry()
         self._last_generation: datetime | None = None
         self._signals_generated: int = 0
 
     async def _do_initialize(self) -> None:
         """Initialize SignalCore engine resources."""
-        self._registry = ModelRegistry()
+        # Registry is initialized in __init__ and preserved
         self._last_generation = None
         self._signals_generated = 0
 
@@ -223,7 +230,7 @@ class SignalCoreEngine(BaseEngine[SignalCoreEngineConfig]):
                     return None
 
                 # Generate signal
-                signal = model.generate(data, timestamp)
+                signal = await model.generate(data, timestamp)
                 self._signals_generated += 1
                 self._last_generation = timestamp
 
@@ -292,7 +299,31 @@ class SignalCoreEngine(BaseEngine[SignalCoreEngineConfig]):
                 symbols_to_process = list(data.keys())[: self.config.max_batch_size]
                 data = {k: v for k, v in data.items() if k in symbols_to_process}
 
-            batch = self._registry.generate_all(data, timestamp)
+            batch = await self._registry.generate_all(data, timestamp)
+
+            # Apply ensemble if enabled
+            if self.config.enable_ensemble:
+                ensemble_signals = []
+                # Group signals by symbol
+                signals_by_symbol = {}
+                for signal in batch.signals:
+                    if signal.symbol not in signals_by_symbol:
+                        signals_by_symbol[signal.symbol] = []
+                    signals_by_symbol[signal.symbol].append(signal)
+
+                # Generate ensemble for each symbol
+                strategy = EnsembleStrategy(self.config.ensemble_strategy)
+                for symbol, signals in signals_by_symbol.items():
+                    if len(signals) > 1:
+                        consensus = SignalEnsemble.combine(signals, strategy)
+                        if consensus:
+                            ensemble_signals.append(consensus)
+                    elif signals:
+                        ensemble_signals.append(signals[0])
+
+                # Replace batch signals with ensemble signals
+                batch.signals = ensemble_signals
+
             self._signals_generated += len(batch.signals)
             self._last_generation = timestamp
 

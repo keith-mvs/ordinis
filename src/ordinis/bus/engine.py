@@ -8,6 +8,7 @@ import asyncio
 from collections import defaultdict
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
+import json
 import logging
 import uuid
 
@@ -72,6 +73,12 @@ class StreamingBus:
         self._metrics = BusMetrics()
         self._running = False
         self._semaphore = asyncio.Semaphore(self.config.max_concurrent_handlers)
+        self._redis_adapter = None
+
+        if self.config.adapter.value == "redis":
+            from ordinis.bus.adapters.redis_adapter import RedisAdapter
+
+            self._redis_adapter = RedisAdapter(self.config)
 
         _logger.info("StreamingBus initialized with adapter=%s", self.config.adapter.value)
 
@@ -85,8 +92,28 @@ class StreamingBus:
         # Mark publish time
         event._published_at = datetime.now(UTC)
 
+        # Optional schema validation
+        if self.config.schema_validator:
+            try:
+                self.config.schema_validator(event)
+            except Exception as exc:
+                _logger.warning("Schema validation failed: %s", exc)
+                self._metrics.events_dropped += 1
+                return
+
+        # Optional governance hook before publish
+        if self.config.publish_governance_hook:
+            try:
+                allowed = self.config.publish_governance_hook(event)
+            except Exception as exc:
+                _logger.warning("Publish governance hook raised, dropping event: %s", exc)
+                self._metrics.events_dropped += 1
+                return
+            if allowed is False:
+                _logger.info("Publish governance denied event of type %s", event.event_type)
+                self._metrics.events_dropped += 1
+                return
         # Validate payload size
-        import json
 
         payload_size = len(json.dumps(event.payload))
         if payload_size > self.config.max_payload_size:
@@ -100,6 +127,15 @@ class StreamingBus:
             # Trim history
             if len(self._history) > self.config.history_max_events:
                 self._history = self._history[-self.config.history_max_events :]
+
+        # Persist to Redis Streams if configured
+        if self._redis_adapter:
+            try:
+                await self._redis_adapter.write_event(event)
+            except Exception:
+                _logger.warning("Redis adapter write failed; dropping event", exc_info=True)
+                self._metrics.events_dropped += 1
+                return
 
         # Update metrics
         self._metrics.events_published += 1
@@ -220,6 +256,15 @@ class StreamingBus:
             symbol_filter=symbol_filter,
             priority_min=priority_min,
         )
+
+        if self.config.subscribe_governance_hook:
+            try:
+                allowed = self.config.subscribe_governance_hook(topic, subscription)
+            except Exception as exc:
+                _logger.warning("Subscribe governance hook raised, denying: %s", exc)
+                raise PermissionError("Subscription denied by governance hook") from exc
+            if allowed is False:
+                raise PermissionError("Subscription denied by governance hook")
 
         self._subscriptions[sub_id] = subscription
         self._subscriptions_by_topic[topic].append(sub_id)
@@ -348,5 +393,8 @@ class StreamingBus:
         # Clear subscriptions
         self._subscriptions.clear()
         self._subscriptions_by_topic.clear()
+
+        if self._redis_adapter:
+            await self._redis_adapter.close()
 
         _logger.info("StreamingBus shutdown complete")
