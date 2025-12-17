@@ -46,6 +46,14 @@ governance.yml
 .serena/
 data/chromadb/
 src/data/
+bin/grafana/
+bin/prometheus/
+bin/alertmanager/
+bin/loki/
+bin/promtail/
+bin/downloads/
+backtest_results/
+comprehensive_backtest_report.json
 
 # Build
 dist/

@@ -1,0 +1,27 @@
+# Helix Model Configuration
+# Maps logical aliases to concrete model IDs.
+# This allows swapping providers without changing code.
+
+aliases:
+  # General purpose chat
+  default: nemotron-super
+  fast: nemotron-8b
+
+  # Specialized tasks
+  code: nemotron-super
+  reasoning: deepseek-r1
+  safety: nemoguard-8b
+
+  # Embeddings
+  embedding: nv-embedqa
+  embedding_fallback: nemoretriever
+
+# You can also define new models here that aren't in the code
+models:
+  # Example:
+  # gpt-5-preview:
+  #   model_id: gpt-5-preview
+  #   display_name: GPT-5 Preview
+  #   model_type: chat
+  #   provider: openai
+  #   context_length: 128000

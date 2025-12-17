@@ -232,7 +232,7 @@ Most scripts accept standard arguments:
 Scripts respect environment variables from `.env`:
 - `ALPHA_VANTAGE_API_KEY`: Alpha Vantage API key
 - `FINNHUB_API_KEY`: Finnhub API key
-- `POLYGON_API_KEY`: Polygon API key
+- `MASSIVE_API_KEY`: Massive API key
 - `TWELVE_DATA_API_KEY`: Twelve Data API key
 - `ALPACA_API_KEY`: Alpaca trading API key
 - `ALPACA_SECRET_KEY`: Alpaca secret key

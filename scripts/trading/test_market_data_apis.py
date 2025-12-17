@@ -11,20 +11,19 @@ import sys
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
-import asyncio  # noqa: E402
-from datetime import UTC, datetime, timedelta  # noqa: E402
-import os  # noqa: E402
-import traceback  # noqa: E402
+import asyncio
+from datetime import UTC, datetime, timedelta
+import os
+import traceback
 
-from dotenv import load_dotenv  # noqa: E402
-
-from adapters.market_data import (  # noqa: E402
+from adapters.market_data import (
     AlphaVantageDataPlugin,
     FinnhubDataPlugin,
-    PolygonDataPlugin,
+    MassiveDataPlugin,
     TwelveDataPlugin,
 )
-from plugins.base import PluginConfig  # noqa: E402
+from dotenv import load_dotenv
+from plugins.base import PluginConfig
 
 
 async def test_alphavantage():
@@ -158,32 +157,32 @@ async def test_finnhub():
         await plugin.shutdown()
 
 
-async def test_polygon():
-    """Test Polygon/Massive API."""
+async def test_massive():
+    """Test Massive API."""
     print("\n" + "=" * 60)
-    print("Testing Polygon/Massive API")
+    print("Testing Massive API")
     print("=" * 60)
 
-    api_key = os.getenv("POLYGON_API_KEY") or os.getenv("MASSIVE_API_KEY")
+    api_key = os.getenv("MASSIVE_API_KEY")
     if not api_key:
-        print("[X] MASSIVE_API_KEY or POLYGON_API_KEY not found in .env")
+        print("[X] MASSIVE_API_KEY not found in .env")
         return False
 
     config = PluginConfig(
-        name="polygon_test",
+        name="massive_test",
         api_key=api_key,
         enabled=True,
         rate_limit_per_minute=5,
         timeout_seconds=30,
     )
 
-    plugin = PolygonDataPlugin(config)
+    plugin = MassiveDataPlugin(config)
 
     try:
         # Initialize
         print("\n[1/3] Initializing...")
         if not await plugin.initialize():
-            print("[X] Failed to initialize Polygon plugin")
+            print("[X] Failed to initialize Massive plugin")
             return False
         print("[OK] Initialized successfully")
 
@@ -286,8 +285,8 @@ async def main():
     results["Finnhub"] = await test_finnhub()
     await asyncio.sleep(1)
 
-    # Test Polygon/Massive
-    results["Polygon/Massive"] = await test_polygon()
+    # Test Massive
+    results["Massive"] = await test_massive()
     await asyncio.sleep(1)
 
     # Test Twelve Data

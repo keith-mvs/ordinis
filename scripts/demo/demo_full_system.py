@@ -16,26 +16,25 @@ import sys
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
-import asyncio  # noqa: E402
-from datetime import UTC, datetime  # noqa: E402
-import os  # noqa: E402
+import asyncio
+from datetime import UTC, datetime
+import os
 
-from dotenv import load_dotenv  # noqa: E402
-
-from adapters.market_data import (  # noqa: E402
+from adapters.market_data import (
     AlphaVantageDataPlugin,
     FinnhubDataPlugin,
     TwelveDataPlugin,
 )
-from engines.flowroute.adapters.paper import PaperBrokerAdapter  # noqa: E402
-from engines.flowroute.core.orders import Order, OrderType  # noqa: E402
-from engines.riskguard.core.engine import (  # noqa: E402
+from dotenv import load_dotenv
+from engines.flowroute.adapters.paper import PaperBrokerAdapter
+from engines.flowroute.core.orders import Order, OrderType
+from engines.riskguard.core.engine import (
     PortfolioState,
     ProposedTrade,
     RiskGuardEngine,
 )
-from engines.signalcore.core.signal import Direction, Signal, SignalType  # noqa: E402
-from plugins.base import PluginConfig  # noqa: E402
+from engines.signalcore.core.signal import Direction, Signal, SignalType
+from plugins.base import PluginConfig
 
 
 class MultiSourceDataAggregator:
@@ -128,7 +127,7 @@ class SimpleStrategy:
         return None
 
 
-async def run_full_system_demo():  # noqa: PLR0915
+async def run_full_system_demo():
     """Run complete system demonstration."""
     load_dotenv()
 
@@ -157,14 +156,14 @@ async def run_full_system_demo():  # noqa: PLR0915
     )
     await aggregator.add_source("Finnhub", FinnhubDataPlugin(fh_config))
 
-    # Skip Polygon for now (API key issues)
-    # pg_config = PluginConfig(
-    #     name="polygon",
-    #     api_key=os.getenv("POLYGON_API_KEY"),
+    # Skip Massive for now (API key issues)
+    # ms_config = PluginConfig(
+    #     name="massive",
+    #     api_key=os.getenv("MASSIVE_API_KEY"),
     #     enabled=True,
     #     rate_limit_per_minute=5,
     # )
-    # await aggregator.add_source("Polygon", PolygonDataPlugin(pg_config))
+    # await aggregator.add_source("Massive", MassiveDataPlugin(ms_config))
 
     td_config = PluginConfig(
         name="twelvedata",

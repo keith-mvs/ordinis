@@ -371,6 +371,22 @@ ignore = [
     "S",       # Security relaxed
     "PTH",     # Pathlib not required
 ]
+"scripts/**/*.py" = [
+    "ANN",     # Type annotations not required in scripts
+    "PLR2004", # Magic values OK in scripts
+    "PTH",     # Pathlib not required in scripts
+    "TRY",     # Exception handling relaxed
+    "S",       # Security relaxed in scripts
+    "E",       # Style issues OK in scripts
+    "W",       # Warnings OK in scripts
+    "B",       # Bugbear relaxed
+    "RUF",     # Ruff rules relaxed
+    "SIM",     # Simplify not strict
+    "F",       # Flake8 rules relaxed
+    "N",       # Naming relaxed
+    "PLR1722", # exit() instead of sys.exit() OK
+    "PLW0127", # Self-assignment OK
+]
 
 [tool.ruff.lint.isort]
 known-first-party = ["ordinis"]

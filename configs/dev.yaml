@@ -1,0 +1,49 @@
+# configs/dev.yaml
+environment: development
+
+bus:
+  type: in_memory          # options: in_memory | kafka | nats
+  kafka:
+    bootstrap_servers: localhost:9092
+
+database:
+  path: data/dev.sqlite
+  wal: false
+  backup: false
+
+market_data:
+  adapter: mock            # mock | alpha_vantage | finnhub | massive
+  mock_path: data/mock/    # folder with CSVs per symbol
+
+broker:
+  provider: paper
+  mode: paper
+
+execution:
+  adapter: paper           # paper | broker_api | fix
+  slippage_bps: 5
+  commission_per_share: 0.005
+
+helix:
+  profile: dev_small       # dev_small → 8B, dev_full → 49B
+  model_overrides:
+    default: nemotron-8b
+    analytics: nemotron-8b
+    codegen: nemotron-8b
+
+governance:
+  strict: false
+  log_path: logs/dev_audit.log
+
+learning:
+  enabled: true
+  data_path: data/learning/
+  model_dir: models/dev/
+  schedule: manual        # or cron: "0 2 * * *"
+  trainer: local
+  epochs: 5                     # quick iteration
+  data_root: data/mock/
+  use_gpu: true
+  llm_profile: dev_small        # maps to Nemotron‑8B
+  safety_filter: false          # turn off Nemoguard for rapid prototyping
+  log_level: DEBUG

@@ -271,7 +271,7 @@ def fetch_historical_data(
         symbol: Stock symbol
         start_date: Start date
         end_date: End date
-        source: Data source ('yfinance', 'polygon', 'alphavantage')
+        source: Data source ('yfinance', 'massive', 'alphavantage')
 
     Returns:
         DataFrame with OHLCV data or None if failed

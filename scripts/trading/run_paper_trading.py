@@ -11,7 +11,7 @@ This script demonstrates the full workflow:
 Can be run with:
 - Mock market data (default, no API key needed)
 - Sample CSV data (historical simulation)
-- Live market data (requires IEX/Polygon API key)
+- Live market data (requires IEX/Massive API key)
 """
 
 import asyncio

@@ -72,31 +72,31 @@ async def test_iex():
         return False
 
 
-async def test_polygon():
-    """Test Polygon.io data fetch."""
+async def test_massive():
+    """Test Massive data fetch."""
     print("\n" + "=" * 60)
-    print("Testing Polygon.io Data Fetch")
+    print("Testing Massive Data Fetch")
     print("=" * 60)
 
-    api_key = os.getenv("POLYGON_API_KEY")
-    if not api_key or api_key == "your_polygon_api_key_here":
-        print("[X] POLYGON_API_KEY not set in .env")
-        print("    Sign up at https://polygon.io (free tier available)")
+    api_key = os.getenv("MASSIVE_API_KEY")
+    if not api_key or api_key == "your_massive_api_key_here":
+        print("[X] MASSIVE_API_KEY not set in .env")
+        print("    Sign up at https://massive.com")
         return False
 
     try:
-        from plugins.market_data.polygon import PolygonDataPlugin
+        from ordinis.adapters.market_data.massive import MassiveDataPlugin
+        from ordinis.plugins.base import PluginConfig
 
-        plugin = PolygonDataPlugin(config={"api_key": api_key})
+        config = PluginConfig(name="massive", options={"api_key": api_key})
+        plugin = MassiveDataPlugin(config)
 
-        print("\n[OK] Polygon plugin initialized")
+        print("\n[OK] Massive plugin initialized")
 
         # Test 1: Get quote
         print("\n[Test 1] Fetching current quote for SPY...")
-        quote = await plugin.fetch_quote("SPY")
-        print(
-            f"[OK] Quote received: Bid=${quote.get('bid', 'N/A')}, Ask=${quote.get('ask', 'N/A')}"
-        )
+        quote = await plugin.get_quote("SPY")
+        print(f"[OK] Quote received: {quote}")
 
         # Test 2: Get historical data
         print("\n[Test 2] Fetching historical data (last 30 days)...")
@@ -118,7 +118,7 @@ async def test_polygon():
         else:
             print("[!] No historical data received")
 
-        print("\n[SUCCESS] Polygon plugin working!")
+        print("\n[SUCCESS] Massive plugin working!")
         return True
 
     except ImportError as e:
@@ -135,15 +135,15 @@ async def main():
     print("MARKET DATA FETCH TEST")
     print("=" * 60)
 
-    results = {"iex": await test_iex(), "polygon": await test_polygon()}
+    results = {"iex": await test_iex(), "massive": await test_massive()}
 
     print("\n" + "=" * 60)
     print("SUMMARY")
     print("=" * 60)
     print(f"IEX Cloud:  {'[OK] Working' if results['iex'] else '[X] Failed'}")
-    print(f"Polygon.io: {'[OK] Working' if results['polygon'] else '[X] Failed'}")
+    print(f"Massive:    {'[OK] Working' if results['massive'] else '[X] Failed'}")
 
-    if results["iex"] or results["polygon"]:
+    if results["iex"] or results["massive"]:
         print("\n[SUCCESS] At least one data provider working - ready for backtests!")
         return True
     print("\n[X] No data providers working - need API keys")

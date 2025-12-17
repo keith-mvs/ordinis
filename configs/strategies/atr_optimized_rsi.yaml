@@ -1,0 +1,114 @@
+strategy:
+  name: ATR-Optimized RSI Mean Reversion
+  version: 1.0.0
+  type: mean_reversion
+  description: RSI oversold entries with ATR-based adaptive stops. Optimized on 10
+    days of intraday data.
+global_params:
+  rsi_period: 14
+  atr_period: 14
+  default_rsi_oversold: 35
+  default_rsi_exit: 50
+  default_atr_stop_mult: 1.5
+  default_atr_tp_mult: 2.0
+regime_filter:
+  enabled: true
+  avoid_regimes:
+  - quiet_choppy
+  - choppy
+  prefer_regimes:
+  - mean_reverting
+  - trending
+risk_management:
+  max_position_size_pct: 5.0
+  max_daily_loss_pct: 2.0
+  max_concurrent_positions: 5
+  use_atr_position_sizing: true
+symbols:
+  AMD:
+    rsi_oversold: 35
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 1.5
+    backtest_return: 5.8
+    backtest_win_rate: 57
+    backtest_profit_factor: 1.58
+  COIN:
+    rsi_oversold: 35
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 3.0
+    backtest_return: 12.1
+    backtest_win_rate: 58
+    backtest_profit_factor: 1.77
+  DKNG:
+    rsi_oversold: 35
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_return: 7.3
+    backtest_win_rate: 64
+    backtest_profit_factor: 1.91
+  PLTR:
+    rsi_oversold: 35
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_return: 5.7
+    backtest_win_rate: 60
+    backtest_profit_factor: 1.54
+  ROKU:
+    rsi_oversold: 35
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_return: 8.1
+    backtest_win_rate: 66
+    backtest_profit_factor: 1.92
+  SPY:
+    rsi_oversold: 35
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_return: 1.1
+    backtest_win_rate: 59
+    backtest_profit_factor: 1.21
+  SOXS:
+    rsi_oversold: 35
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_return: 6.6
+    backtest_win_rate: 64
+    backtest_profit_factor: 1.34
+  TSLA:
+    rsi_oversold: 35
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_return: 5.5
+    backtest_win_rate: 54
+    backtest_profit_factor: 1.64
+  BAC:
+    rsi_oversold: 35
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_return: 2.5
+    backtest_win_rate: 64
+    backtest_profit_factor: 1.35
+  AAL:
+    rsi_oversold: 35
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_return: 5.1
+    backtest_win_rate: 59
+    backtest_profit_factor: 1.42
+performance_summary:
+  total_return_pct: 60.1
+  total_trades: 819
+  tradeable_symbols: 15
+  avoided_symbols: 9
+  test_period: 10 days intraday 5min
+  backtested_on: '2025-12-17'
