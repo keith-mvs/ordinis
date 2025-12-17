@@ -1,6 +1,0 @@
-ticker,stock_price,shares,cost_basis,call_strike,call_premium,expiration_days,annualized_return,scenario
-AAPL,175.00,100,17000,180.00,2.25,30,15.8,monthly_income_above_cost_basis
-T,18.50,500,9000,19.00,0.35,45,8.5,high_yield_dividend_enhanced_with_calls
-F,12.25,800,9600,13.00,0.28,30,11.2,deep_value_income_generation
-INTC,44.00,200,8400,46.00,1.10,45,11.8,turnaround_story_income_while_waiting
-XOM,110.00,100,10500,115.00,1.85,30,21.1,energy_covered_call_high_premium

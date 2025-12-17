@@ -1,6 +1,0 @@
-cusip,issuer,coupon,maturity_date,face_value,settlement_date,current_price,yield_to_maturity,rating
-912828YK0,US_Treasury,2.875,2028-05-15,100000,2025-12-12,98.50,3.125,AAA
-459200JZ7,IBM_Corp,3.625,2027-02-12,100000,2025-12-12,101.25,3.385,A+
-06051GJN6,Bank_of_America,4.000,2026-01-22,100000,2025-12-12,99.75,4.125,A-
-037833BH5,Apple_Inc,2.400,2030-08-20,100000,2025-12-12,95.00,2.895,AA+
-02079K107,Alphabet_Inc,1.900,2029-08-15,100000,2025-12-12,92.50,2.650,AA

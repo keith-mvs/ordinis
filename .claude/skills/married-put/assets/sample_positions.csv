@@ -1,6 +1,0 @@
-ticker,stock_price,shares,investment_size,put_strike,put_premium,days_to_expiration,iv_level,iv_pct,scenario_description
-COST,52.75,200,10550,50.00,1.85,45,low,18,Large-cap defensive consumer stock with stable fundamentals
-SNAP,23.80,400,9520,22.00,2.65,60,high,58,Small-cap social media with high volatility and growth potential
-TDOC,38.50,300,11550,37.00,2.15,60,medium,32,Mid-cap telemedicine stock with moderate volatility
-PLTR,28.40,500,14200,27.00,2.40,45,medium,38,Mid-cap data analytics with elevated volatility around earnings
-MRNA,175.50,100,17550,170.00,8.25,90,high,52,Biotech large-cap with significant volatility and binary events

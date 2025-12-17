@@ -48,6 +48,15 @@ repos:
       # Detect private keys
       - id: detect-private-key
 
+  # Local hooks
+  - repo: local
+    hooks:
+      - id: forbid-root-md
+        name: Forbid new markdown files in repo root (except README.md)
+        entry: python scripts/dev/forbid_root_md.py
+        language: python
+        pass_filenames: false
+
 # Global settings
 default_language_version:
   python: python3.11

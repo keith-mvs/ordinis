@@ -1,5 +1,0 @@
-ticker,entry_price,lower_strike,middle_strike,upper_strike,max_profit,max_loss,expiration_days,iv_rank,scenario
-SPY,450.00,445.00,450.00,455.00,3.75,1.25,45,42,pinning_at_major_resistance
-QQQ,380.00,375.00,380.00,385.00,3.50,1.50,30,38,expected_consolidation_near_current_price
-IWM,195.00,190.00,195.00,200.00,3.25,1.75,45,48,range_bound_small_cap_mean_reversion
-DIA,350.00,345.00,350.00,355.00,3.00,2.00,60,35,low_volatility_blue_chip_stability

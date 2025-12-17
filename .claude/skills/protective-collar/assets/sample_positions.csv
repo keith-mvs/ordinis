@@ -1,6 +1,0 @@
-ticker,stock_price,shares,cost_basis,put_strike,put_premium,call_strike,call_premium,net_cost,expiration_days,scenario
-AAPL,175.00,100,16800,170.00,4.50,185.00,3.25,125,90,protect_gains_in_concentrated_position
-MSFT,380.00,50,18500,370.00,9.25,395.00,6.50,275,90,hedge_portfolio_core_holding
-NVDA,485.00,30,14000,470.00,18.00,510.00,12.00,600,60,volatility_protection_with_upside_cap
-GOOGL,140.00,100,13200,135.00,3.75,150.00,2.50,125,90,earnings_season_downside_insurance
-META,320.00,50,15500,310.00,11.00,340.00,7.50,350,60,protect_unrealized_gains_tech_position
