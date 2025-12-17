@@ -129,8 +129,8 @@ class TestNVIDIAModels:
         """Test Nemotron Super model configuration."""
         model = NVIDIA_MODELS["nemotron-super"]
 
-        assert model.model_id == "nvidia/llama-3.3-nemotron-super-49b-v1.5"
-        assert model.display_name == "Nemotron Super 49B"
+        assert model.model_id == "meta/llama-3.3-70b-instruct"
+        assert model.display_name == "Llama 3.3 70B Instruct"
         assert model.model_type == ModelType.CHAT
         assert model.provider == ProviderType.NVIDIA_API
         assert model.context_length == 128000
@@ -154,8 +154,8 @@ class TestNVIDIAModels:
         """Test NV-EmbedQA embedding model configuration."""
         model = NVIDIA_MODELS["nv-embedqa"]
 
-        assert model.model_id == "nvidia/nv-embedqa-e5-v5"
-        assert model.display_name == "NV-EmbedQA E5"
+        assert model.model_id == "nvidia/llama-3.2-nemoretriever-300m-embed-v2"
+        assert model.display_name == "NeMo Retriever 300M Embed V2"
         assert model.model_type == ModelType.EMBEDDING
         assert model.provider == ProviderType.NVIDIA_API
         assert model.context_length == 512
@@ -251,8 +251,8 @@ class TestHelixConfig:
         model = config.get_model("nemotron-super")
 
         assert model is not None
-        assert model.model_id == "nvidia/llama-3.3-nemotron-super-49b-v1.5"
-        assert model.display_name == "Nemotron Super 49B"
+        assert model.model_id == "meta/llama-3.3-70b-instruct"
+        assert model.display_name == "Llama 3.3 70B Instruct"
 
     def test_get_model_by_id(self, mock_nvidia_api_key: str):
         """Test getting model by full model ID."""
@@ -328,6 +328,9 @@ class TestHelixConfig:
         """Test validation fails without API key when not using local."""
         config = HelixConfig(
             nvidia_api_key=None,
+            mistral_api_key=None,
+            openai_api_key=None,
+            azure_openai_api_key=None,
             prefer_local=False,
         )
 

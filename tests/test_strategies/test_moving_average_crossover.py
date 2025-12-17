@@ -93,24 +93,24 @@ class TestMovingAverageCrossoverStrategy:
         assert is_valid
         assert msg == ""
 
-    def test_generate_signal_insufficient_data(self):
+    async def test_generate_signal_insufficient_data(self):
         """Test signal generation with insufficient data."""
         strategy = MovingAverageCrossoverStrategy(name="test")
         data = create_ma_test_data(bars=100)
 
-        signal = strategy.generate_signal(data, datetime.utcnow())
+        signal = await strategy.generate_signal(data, datetime.utcnow())
         assert signal is None
 
-    def test_generate_signal_valid_data(self):
+    async def test_generate_signal_valid_data(self):
         """Test signal generation with valid data."""
         strategy = MovingAverageCrossoverStrategy(name="test")
         data = create_ma_test_data(bars=250, pattern="sideways")
 
-        signal = strategy.generate_signal(data, datetime.utcnow())
+        signal = await strategy.generate_signal(data, datetime.utcnow())
         # May or may not generate signal
         assert signal is None or hasattr(signal, "symbol")
 
-    def test_sma_calculation(self):
+    async def test_sma_calculation(self):
         """Test SMA type calculation."""
         strategy = MovingAverageCrossoverStrategy(
             name="test", fast_period=20, slow_period=50, ma_type="SMA"
@@ -118,10 +118,10 @@ class TestMovingAverageCrossoverStrategy:
         data = create_ma_test_data(bars=100)
 
         # Should not crash with SMA calculation
-        signal = strategy.generate_signal(data, datetime.utcnow())
+        signal = await strategy.generate_signal(data, datetime.utcnow())
         assert signal is None or hasattr(signal, "symbol")
 
-    def test_ema_calculation(self):
+    async def test_ema_calculation(self):
         """Test EMA type calculation."""
         strategy = MovingAverageCrossoverStrategy(
             name="test", fast_period=20, slow_period=50, ma_type="EMA"
@@ -129,7 +129,7 @@ class TestMovingAverageCrossoverStrategy:
         data = create_ma_test_data(bars=100)
 
         # Should not crash with EMA calculation
-        signal = strategy.generate_signal(data, datetime.utcnow())
+        signal = await strategy.generate_signal(data, datetime.utcnow())
         assert signal is None or hasattr(signal, "symbol")
 
     def test_handles_missing_columns(self):
@@ -166,25 +166,25 @@ class TestMovingAverageCrossoverStrategy:
 class TestMovingAverageCrossoverIntegration:
     """Integration tests for MA crossover strategy."""
 
-    def test_golden_cross_pattern(self):
+    async def test_golden_cross_pattern(self):
         """Test with golden cross pattern."""
         strategy = MovingAverageCrossoverStrategy(name="test", fast_period=20, slow_period=50)
         data = create_ma_test_data(bars=150, pattern="golden_cross")
 
-        signal = strategy.generate_signal(data, datetime.utcnow())
+        signal = await strategy.generate_signal(data, datetime.utcnow())
         # Should handle golden cross pattern
         assert signal is None or hasattr(signal, "symbol")
 
-    def test_death_cross_pattern(self):
+    async def test_death_cross_pattern(self):
         """Test with death cross pattern."""
         strategy = MovingAverageCrossoverStrategy(name="test", fast_period=20, slow_period=50)
         data = create_ma_test_data(bars=150, pattern="death_cross")
 
-        signal = strategy.generate_signal(data, datetime.utcnow())
+        signal = await strategy.generate_signal(data, datetime.utcnow())
         # Should handle death cross pattern
         assert signal is None or hasattr(signal, "symbol")
 
-    def test_different_timeframes(self):
+    async def test_different_timeframes(self):
         """Test with different data lengths."""
         strategy = MovingAverageCrossoverStrategy(name="test", fast_period=10, slow_period=30)
 
@@ -192,17 +192,17 @@ class TestMovingAverageCrossoverIntegration:
             if bars < strategy.get_required_bars():
                 continue
             data = create_ma_test_data(bars=bars)
-            signal = strategy.generate_signal(data, datetime.utcnow())
+            signal = await strategy.generate_signal(data, datetime.utcnow())
             assert signal is None or hasattr(signal, "symbol")
 
-    def test_consistency(self):
+    async def test_consistency(self):
         """Test signal generation consistency."""
         strategy = MovingAverageCrossoverStrategy(name="test")
         data = create_ma_test_data(bars=250)
         timestamp = datetime.utcnow()
 
-        signal1 = strategy.generate_signal(data, timestamp)
-        signal2 = strategy.generate_signal(data, timestamp)
+        signal1 = await strategy.generate_signal(data, timestamp)
+        signal2 = await strategy.generate_signal(data, timestamp)
 
         # Should be consistent
         if signal1 is None:

@@ -9,6 +9,8 @@ Tests cover:
 - Output review
 """
 
+from unittest.mock import MagicMock
+
 import pytest
 
 from ordinis.engines.cortex.core.engine import CortexEngine
@@ -16,33 +18,34 @@ from ordinis.engines.cortex.core.outputs import OutputType
 
 
 @pytest.fixture
-def cortex_engine():
-    """Create Cortex engine without NVIDIA integration."""
-    return CortexEngine()
+def mock_helix():
+    """Create a mock Helix instance."""
+    return MagicMock()
 
 
 @pytest.fixture
-def cortex_with_nvidia():
-    """Create Cortex engine with NVIDIA enabled (but no API key)."""
-    return CortexEngine(
-        nvidia_api_key=None,  # Will use rule-based fallback
-        usd_code_enabled=True,
-        embeddings_enabled=True,
-    )
+def cortex_engine(mock_helix):
+    """Create Cortex engine with mock Helix."""
+    return CortexEngine(helix=mock_helix)
+
+
+@pytest.fixture
+def cortex_with_nvidia(mock_helix):
+    """Create Cortex engine with mock Helix (same as base for now)."""
+    return CortexEngine(helix=mock_helix)
 
 
 @pytest.mark.unit
-def test_engine_initialization(cortex_engine):
+def test_engine_initialization(cortex_engine, mock_helix):
     """Test Cortex engine initialization."""
-    assert cortex_engine.nvidia_api_key is None
-    assert cortex_engine.usd_code_enabled is False
-    assert cortex_engine.embeddings_enabled is False
+    assert cortex_engine.helix == mock_helix
+    assert cortex_engine.rag_enabled is False
     assert len(cortex_engine._outputs) == 0
     assert len(cortex_engine._hypotheses) == 0
 
 
-@pytest.mark.unit
-def test_generate_trend_following_hypothesis(cortex_engine):
+@pytest.mark.asyncio
+async def test_generate_trend_following_hypothesis(cortex_engine):
     """Test generating trend-following hypothesis."""
     market_context = {
         "regime": "trending",
@@ -50,7 +53,7 @@ def test_generate_trend_following_hypothesis(cortex_engine):
         "trend_strength": 0.75,
     }
 
-    hypothesis = cortex_engine.generate_hypothesis(market_context)
+    hypothesis = await cortex_engine.generate_hypothesis(market_context)
 
     assert hypothesis.hypothesis_id.startswith("hyp-")
     assert hypothesis.strategy_type == "trend_following"
@@ -59,37 +62,37 @@ def test_generate_trend_following_hypothesis(cortex_engine):
     assert len(hypothesis.entry_conditions) > 0
 
 
-@pytest.mark.unit
-def test_generate_mean_reversion_hypothesis(cortex_engine):
+@pytest.mark.asyncio
+async def test_generate_mean_reversion_hypothesis(cortex_engine):
     """Test generating mean reversion hypothesis."""
     market_context = {
         "regime": "mean_reverting",
         "volatility": "high",
     }
 
-    hypothesis = cortex_engine.generate_hypothesis(market_context)
+    hypothesis = await cortex_engine.generate_hypothesis(market_context)
 
     assert hypothesis.strategy_type == "mean_reversion"
     assert hypothesis.name == "RSI Mean Reversion"
     assert "rsi_period" in hypothesis.parameters
 
 
-@pytest.mark.unit
-def test_generate_balanced_hypothesis(cortex_engine):
+@pytest.mark.asyncio
+async def test_generate_balanced_hypothesis(cortex_engine):
     """Test generating balanced hypothesis for unknown conditions."""
     market_context = {
         "regime": "unknown",
         "volatility": "medium",
     }
 
-    hypothesis = cortex_engine.generate_hypothesis(market_context)
+    hypothesis = await cortex_engine.generate_hypothesis(market_context)
 
     assert hypothesis.strategy_type == "adaptive"
     assert hypothesis.confidence == 0.60
 
 
-@pytest.mark.unit
-def test_generate_hypothesis_with_constraints(cortex_engine):
+@pytest.mark.asyncio
+async def test_generate_hypothesis_with_constraints(cortex_engine):
     """Test hypothesis generation with constraints."""
     market_context = {"regime": "trending", "volatility": "low"}
     constraints = {
@@ -97,14 +100,14 @@ def test_generate_hypothesis_with_constraints(cortex_engine):
         "max_position_pct": 0.05,
     }
 
-    hypothesis = cortex_engine.generate_hypothesis(market_context, constraints)
+    hypothesis = await cortex_engine.generate_hypothesis(market_context, constraints)
 
     assert hypothesis.instrument_class == "options"
     assert hypothesis.max_position_size_pct == 0.05
 
 
-@pytest.mark.unit
-def test_analyze_code(cortex_engine):
+@pytest.mark.asyncio
+async def test_analyze_code(cortex_engine):
     """Test code analysis."""
     code = """
 def calculate_rsi(prices, period=14):
@@ -119,7 +122,7 @@ def calculate_rsi(prices, period=14):
     return 100 - (100 / (1 + sum(gains) / sum(losses)))
 """
 
-    output = cortex_engine.analyze_code(code, "review")
+    output = await cortex_engine.analyze_code(code, "review")
 
     assert output.output_type == OutputType.CODE_ANALYSIS
     assert "analysis" in output.content
@@ -127,8 +130,8 @@ def calculate_rsi(prices, period=14):
     assert output.model_used is not None
 
 
-@pytest.mark.unit
-def test_synthesize_research(cortex_engine):
+@pytest.mark.asyncio
+async def test_synthesize_research(cortex_engine):
     """Test research synthesis."""
     query = "What are the best risk management practices for trading?"
     sources = [
@@ -137,7 +140,7 @@ def test_synthesize_research(cortex_engine):
     ]
     context = {"focus": "practical_application"}
 
-    output = cortex_engine.synthesize_research(query, sources, context)
+    output = await cortex_engine.synthesize_research(query, sources, context)
 
     assert output.output_type == OutputType.RESEARCH
     assert output.content["query"] == query
@@ -174,11 +177,11 @@ def test_review_riskguard_halted(cortex_engine):
     assert len(output.content["concerns"]) > 0
 
 
-@pytest.mark.unit
-def test_get_hypothesis(cortex_engine):
+@pytest.mark.asyncio
+async def test_get_hypothesis(cortex_engine):
     """Test retrieving hypothesis by ID."""
     market_context = {"regime": "trending", "volatility": "low"}
-    hypothesis = cortex_engine.generate_hypothesis(market_context)
+    hypothesis = await cortex_engine.generate_hypothesis(market_context)
 
     retrieved = cortex_engine.get_hypothesis(hypothesis.hypothesis_id)
 
@@ -186,12 +189,12 @@ def test_get_hypothesis(cortex_engine):
     assert retrieved.hypothesis_id == hypothesis.hypothesis_id
 
 
-@pytest.mark.unit
-def test_list_hypotheses(cortex_engine):
+@pytest.mark.asyncio
+async def test_list_hypotheses(cortex_engine):
     """Test listing hypotheses."""
     # Generate multiple hypotheses
     for regime in ["trending", "mean_reverting", "unknown"]:
-        cortex_engine.generate_hypothesis({"regime": regime, "volatility": "medium"})
+        await cortex_engine.generate_hypothesis({"regime": regime, "volatility": "medium"})
 
     all_hypotheses = cortex_engine.list_hypotheses()
     assert len(all_hypotheses) == 3
@@ -200,13 +203,13 @@ def test_list_hypotheses(cortex_engine):
     assert len(high_confidence) <= 3
 
 
-@pytest.mark.unit
-def test_get_outputs_by_type(cortex_engine):
+@pytest.mark.asyncio
+async def test_get_outputs_by_type(cortex_engine):
     """Test getting outputs filtered by type."""
     # Generate various outputs
-    cortex_engine.generate_hypothesis({"regime": "trending", "volatility": "low"})
-    cortex_engine.analyze_code("def test(): pass")
-    cortex_engine.synthesize_research("test query", ["source1"])
+    await cortex_engine.generate_hypothesis({"regime": "trending", "volatility": "low"})
+    await cortex_engine.analyze_code("def test(): pass")
+    await cortex_engine.synthesize_research("test query", ["source1"])
 
     all_outputs = cortex_engine.get_outputs()
     assert len(all_outputs) == 3
@@ -216,12 +219,12 @@ def test_get_outputs_by_type(cortex_engine):
     assert all(o.output_type == OutputType.HYPOTHESIS for o in hypotheses)
 
 
-@pytest.mark.unit
-def test_engine_to_dict(cortex_engine):
+@pytest.mark.asyncio
+async def test_engine_to_dict(cortex_engine):
     """Test converting engine state to dictionary."""
     # Generate some outputs
-    cortex_engine.generate_hypothesis({"regime": "trending", "volatility": "low"})
-    cortex_engine.analyze_code("code")
+    await cortex_engine.generate_hypothesis({"regime": "trending", "volatility": "low"})
+    await cortex_engine.analyze_code("code")
 
     state = cortex_engine.to_dict()
 

@@ -23,8 +23,8 @@ def engine_config():
 
 
 @pytest.fixture
-def mock_polygon():
-    """Create mock Polygon plugin."""
+def mock_provider():
+    """Create mock market data provider."""
     plugin = MagicMock()
     plugin.status = MagicMock()
     plugin.status.value = "ready"
@@ -32,17 +32,17 @@ def mock_polygon():
 
 
 @pytest.fixture
-def engine(engine_config, mock_polygon):
+def engine(engine_config, mock_provider):
     """Create engine instance."""
-    return OptionsCoreEngine(engine_config, mock_polygon)
+    return OptionsCoreEngine(engine_config, mock_provider)
 
 
-def test_engine_initialization(engine_config, mock_polygon):
+def test_engine_initialization(engine_config, mock_provider):
     """Test engine initialization."""
-    engine = OptionsCoreEngine(engine_config, mock_polygon)
+    engine = OptionsCoreEngine(engine_config, mock_provider)
 
     assert engine.config == engine_config
-    assert engine.polygon == mock_polygon
+    assert engine.provider == mock_provider
     assert engine.pricing_engine is not None
     assert engine.greeks_calc is not None
     assert engine.enrichment_engine is not None
@@ -72,14 +72,14 @@ async def test_initialize_already_initialized(engine):
 
 @pytest.mark.asyncio
 async def test_initialize_plugin_not_ready(engine_config):
-    """Test initialization with plugin not ready."""
-    mock_polygon = MagicMock()
-    mock_polygon.status = MagicMock()
-    mock_polygon.status.value = "error"
+    """Test initialization with provider not ready."""
+    mock_provider = MagicMock()
+    mock_provider.status = MagicMock()
+    mock_provider.status.value = "error"
 
-    engine = OptionsCoreEngine(engine_config, mock_polygon)
+    engine = OptionsCoreEngine(engine_config, mock_provider)
 
-    with pytest.raises(RuntimeError, match="Polygon plugin not ready"):
+    with pytest.raises(RuntimeError, match="Market data provider not ready"):
         await engine.initialize()
 
 
@@ -97,14 +97,14 @@ def test_cache_get_set(engine):
     assert cached == test_value
 
 
-def test_cache_expiration(engine_config, mock_polygon):
+def test_cache_expiration(engine_config, mock_provider):
     """Test cache TTL expiration."""
     # Create engine with very short TTL
     config = OptionsEngineConfig(
         engine_id="test",
         cache_ttl_seconds=1,  # 1 second TTL
     )
-    engine = OptionsCoreEngine(config, mock_polygon)
+    engine = OptionsCoreEngine(config, mock_provider)
 
     # Set value
     engine._set_cached("test_key", "value")

@@ -146,28 +146,31 @@ class TestRSIMeanReversionStrategy:
         assert is_valid is True
         assert msg == ""
 
-    def test_generate_signal_with_insufficient_data(self):
+    @pytest.mark.asyncio
+    async def test_generate_signal_with_insufficient_data(self):
         """Test signal generation returns None for insufficient data."""
         strategy = RSIMeanReversionStrategy(name="test-rsi")
         data = create_test_data(bars=20)
 
-        signal = strategy.generate_signal(data, datetime.utcnow())
+        signal = await strategy.generate_signal(data, datetime.utcnow())
 
         assert signal is None
 
-    def test_generate_signal_with_valid_data(self):
+    @pytest.mark.asyncio
+    async def test_generate_signal_with_valid_data(self):
         """Test signal generation with valid data."""
         strategy = RSIMeanReversionStrategy(name="test-rsi")
         data = create_test_data(bars=150, trend="neutral")
 
         timestamp = datetime.utcnow()
-        signal = strategy.generate_signal(data, timestamp)
+        signal = await strategy.generate_signal(data, timestamp)
 
         # May or may not generate signal depending on RSI values
         # Just verify it doesn't crash
         assert signal is None or hasattr(signal, "symbol")
 
-    def test_generate_signal_handles_exceptions(self):
+    @pytest.mark.asyncio
+    async def test_generate_signal_handles_exceptions(self):
         """Test signal generation handles exceptions gracefully."""
         strategy = RSIMeanReversionStrategy(name="test-rsi")
 
@@ -175,7 +178,7 @@ class TestRSIMeanReversionStrategy:
         data = create_test_data(bars=100)
 
         try:
-            signal = strategy.generate_signal(data, datetime.utcnow())
+            signal = await strategy.generate_signal(data, datetime.utcnow())
             # Should return None on exception
             assert signal is None or hasattr(signal, "symbol")
         except Exception:
@@ -236,7 +239,8 @@ class TestRSIMeanReversionStrategyParameters:
 class TestRSIMeanReversionStrategyIntegration:
     """Integration tests for RSI strategy."""
 
-    def test_strategy_with_trending_market(self):
+    @pytest.mark.asyncio
+    async def test_strategy_with_trending_market(self):
         """Test strategy behavior in trending market."""
         strategy = RSIMeanReversionStrategy(name="test-rsi")
         data = create_test_data(bars=150, trend="uptrend")
@@ -244,7 +248,7 @@ class TestRSIMeanReversionStrategyIntegration:
         # Test at multiple points
         for i in range(50, len(data), 20):
             timestamp = data.index[i]
-            signal = strategy.generate_signal(data.iloc[: i + 1], timestamp)
+            signal = await strategy.generate_signal(data.iloc[: i + 1], timestamp)
 
             # Signal may or may not be generated
             if signal:
@@ -252,18 +256,20 @@ class TestRSIMeanReversionStrategyIntegration:
                 assert hasattr(signal, "timestamp")
                 assert hasattr(signal, "signal_type")
 
-    def test_strategy_with_volatile_market(self):
+    @pytest.mark.asyncio
+    async def test_strategy_with_volatile_market(self):
         """Test strategy behavior in volatile market."""
         strategy = RSIMeanReversionStrategy(name="test-rsi")
         data = create_test_data(bars=150, trend="volatile")
 
         timestamp = data.index[-1]
-        signal = strategy.generate_signal(data, timestamp)
+        signal = await strategy.generate_signal(data, timestamp)
 
         # Should handle volatile data without crashing
         assert signal is None or hasattr(signal, "symbol")
 
-    def test_strategy_with_different_timeframes(self):
+    @pytest.mark.asyncio
+    async def test_strategy_with_different_timeframes(self):
         """Test strategy with different data lengths."""
         strategy = RSIMeanReversionStrategy(name="test-rsi")
 
@@ -273,20 +279,21 @@ class TestRSIMeanReversionStrategyIntegration:
 
             data = create_test_data(bars=bars)
             timestamp = data.index[-1]
-            signal = strategy.generate_signal(data, timestamp)
+            signal = await strategy.generate_signal(data, timestamp)
 
             # Should handle different timeframes
             assert signal is None or hasattr(signal, "symbol")
 
-    def test_strategy_consistency(self):
+    @pytest.mark.asyncio
+    async def test_strategy_consistency(self):
         """Test strategy generates consistent signals for same data."""
         strategy = RSIMeanReversionStrategy(name="test-rsi", rsi_period=14)
         data = create_test_data(bars=150, trend="neutral")
         timestamp = data.index[-1]
 
         # Generate signal multiple times
-        signal1 = strategy.generate_signal(data, timestamp)
-        signal2 = strategy.generate_signal(data, timestamp)
+        signal1 = await strategy.generate_signal(data, timestamp)
+        signal2 = await strategy.generate_signal(data, timestamp)
 
         # Should be consistent
         if signal1 is None:

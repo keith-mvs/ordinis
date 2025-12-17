@@ -215,10 +215,11 @@ def test_calculate_payoff_stock_drops(strategy):
     # Loss with covered call is -7.50 (2.50 cushion)
 
 
-def test_generate_signal_no_engine(strategy, sample_data):
+@pytest.mark.asyncio
+async def test_generate_signal_no_engine(strategy, sample_data):
     """Test signal generation without options engine."""
     timestamp = datetime.now()
-    signal = strategy.generate_signal(sample_data, timestamp, options_engine=None)
+    signal = await strategy.generate_signal(sample_data, timestamp, options_engine=None)
 
     # Should return None without options engine
     assert signal is None

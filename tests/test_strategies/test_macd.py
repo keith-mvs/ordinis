@@ -3,6 +3,7 @@
 from datetime import datetime
 
 import pandas as pd
+import pytest
 
 from ordinis.application.strategies.macd import MACDStrategy
 from ordinis.engines.signalcore.core.signal import Direction, SignalType
@@ -56,7 +57,8 @@ class TestMACDConfiguration:
 class TestBullishCrossover:
     """Test bullish crossover signal generation."""
 
-    def test_bullish_crossover_entry(self):
+    @pytest.mark.asyncio
+    async def test_bullish_crossover_entry(self):
         """Test long entry on bullish MACD crossover."""
         strategy = MACDStrategy(name="test", fast_period=5, slow_period=10, signal_period=3)
 
@@ -75,7 +77,7 @@ class TestBullishCrossover:
         )
         data["symbol"] = "AAPL"
 
-        signal = strategy.generate_signal(data, datetime.utcnow())
+        signal = await strategy.generate_signal(data, datetime.utcnow())
 
         assert signal is not None
         if signal.signal_type == SignalType.ENTRY and signal.direction == Direction.LONG:
@@ -84,7 +86,8 @@ class TestBullishCrossover:
             assert "crossover_type" in signal.metadata
             assert signal.metadata["crossover_type"] == "bullish"
 
-    def test_bullish_crossover_with_positive_histogram(self):
+    @pytest.mark.asyncio
+    async def test_bullish_crossover_with_positive_histogram(self):
         """Test bullish signal with increasing histogram."""
         strategy = MACDStrategy(name="test", fast_period=5, slow_period=10, signal_period=3)
 
@@ -95,7 +98,7 @@ class TestBullishCrossover:
         )
         data["symbol"] = "AAPL"
 
-        signal = strategy.generate_signal(data, datetime.utcnow())
+        signal = await strategy.generate_signal(data, datetime.utcnow())
 
         if signal is not None and signal.signal_type == SignalType.ENTRY:
             assert "histogram" in signal.metadata
@@ -106,7 +109,8 @@ class TestBullishCrossover:
 class TestBearishCrossover:
     """Test bearish crossover signal generation."""
 
-    def test_bearish_crossover_exit(self):
+    @pytest.mark.asyncio
+    async def test_bearish_crossover_exit(self):
         """Test exit signal on bearish MACD crossover."""
         strategy = MACDStrategy(name="test", fast_period=5, slow_period=10, signal_period=3)
 
@@ -125,7 +129,7 @@ class TestBearishCrossover:
         )
         data["symbol"] = "AAPL"
 
-        signal = strategy.generate_signal(data, datetime.utcnow())
+        signal = await strategy.generate_signal(data, datetime.utcnow())
 
         assert signal is not None
         if signal.signal_type == SignalType.EXIT:
@@ -133,7 +137,8 @@ class TestBearishCrossover:
             assert "crossover_type" in signal.metadata
             assert signal.metadata["crossover_type"] == "bearish"
 
-    def test_bearish_crossover_with_negative_histogram(self):
+    @pytest.mark.asyncio
+    async def test_bearish_crossover_with_negative_histogram(self):
         """Test bearish signal with decreasing histogram."""
         strategy = MACDStrategy(name="test", fast_period=5, slow_period=10, signal_period=3)
 
@@ -144,7 +149,7 @@ class TestBearishCrossover:
         )
         data["symbol"] = "AAPL"
 
-        signal = strategy.generate_signal(data, datetime.utcnow())
+        signal = await strategy.generate_signal(data, datetime.utcnow())
 
         if signal is not None and signal.signal_type == SignalType.EXIT:
             assert "histogram" in signal.metadata
@@ -155,7 +160,8 @@ class TestBearishCrossover:
 class TestTrendStrength:
     """Test trend strength assessment."""
 
-    def test_strong_uptrend_high_probability(self):
+    @pytest.mark.asyncio
+    async def test_strong_uptrend_high_probability(self):
         """Test higher probability in strong uptrend."""
         strategy = MACDStrategy(name="test", fast_period=5, slow_period=10, signal_period=3)
 
@@ -166,13 +172,14 @@ class TestTrendStrength:
         )
         data["symbol"] = "AAPL"
 
-        signal = strategy.generate_signal(data, datetime.utcnow())
+        signal = await strategy.generate_signal(data, datetime.utcnow())
 
         if signal is not None and signal.signal_type == SignalType.ENTRY:
             # Strong trend should yield higher probability
             assert signal.probability > 0.55
 
-    def test_weak_trend_lower_probability(self):
+    @pytest.mark.asyncio
+    async def test_weak_trend_lower_probability(self):
         """Test lower probability in weak/sideways market."""
         strategy = MACDStrategy(name="test", fast_period=5, slow_period=10, signal_period=3)
 
@@ -183,7 +190,7 @@ class TestTrendStrength:
         )
         data["symbol"] = "AAPL"
 
-        signal = strategy.generate_signal(data, datetime.utcnow())
+        signal = await strategy.generate_signal(data, datetime.utcnow())
 
         if signal is not None:
             # Weak/sideways should have moderate or low probability
@@ -193,7 +200,8 @@ class TestTrendStrength:
 class TestHistogramAnalysis:
     """Test MACD histogram analysis."""
 
-    def test_histogram_divergence_detection(self):
+    @pytest.mark.asyncio
+    async def test_histogram_divergence_detection(self):
         """Test histogram values in metadata."""
         strategy = MACDStrategy(name="test", fast_period=5, slow_period=10, signal_period=3)
 
@@ -203,7 +211,7 @@ class TestHistogramAnalysis:
         )
         data["symbol"] = "AAPL"
 
-        signal = strategy.generate_signal(data, datetime.utcnow())
+        signal = await strategy.generate_signal(data, datetime.utcnow())
 
         if signal is not None:
             assert "histogram" in signal.metadata
@@ -211,7 +219,8 @@ class TestHistogramAnalysis:
             assert "signal_line" in signal.metadata
             assert isinstance(signal.metadata["histogram"], (int, float))
 
-    def test_histogram_magnitude_affects_score(self):
+    @pytest.mark.asyncio
+    async def test_histogram_magnitude_affects_score(self):
         """Test that larger histogram affects signal strength."""
         strategy = MACDStrategy(name="test", fast_period=5, slow_period=10, signal_period=3)
 
@@ -229,8 +238,8 @@ class TestHistogramAnalysis:
         )
         data_weak["symbol"] = "AAPL"
 
-        signal_strong = strategy.generate_signal(data_strong, datetime.utcnow())
-        signal_weak = strategy.generate_signal(data_weak, datetime.utcnow())
+        signal_strong = await strategy.generate_signal(data_strong, datetime.utcnow())
+        signal_weak = await strategy.generate_signal(data_weak, datetime.utcnow())
 
         if signal_strong and signal_weak:
             # Strong trend should have larger histogram magnitude
@@ -242,7 +251,8 @@ class TestHistogramAnalysis:
 class TestSignalMetadata:
     """Test signal metadata fields."""
 
-    def test_entry_metadata_complete(self):
+    @pytest.mark.asyncio
+    async def test_entry_metadata_complete(self):
         """Test all metadata fields present in entry signal."""
         strategy = MACDStrategy(name="test", fast_period=5, slow_period=10, signal_period=3)
 
@@ -252,7 +262,7 @@ class TestSignalMetadata:
         )
         data["symbol"] = "AAPL"
 
-        signal = strategy.generate_signal(data, datetime.utcnow())
+        signal = await strategy.generate_signal(data, datetime.utcnow())
 
         assert signal is not None
         metadata = signal.metadata
@@ -263,14 +273,15 @@ class TestSignalMetadata:
         assert "histogram" in metadata
         assert "crossover_type" in metadata
 
-    def test_metadata_values_reasonable(self):
+    @pytest.mark.asyncio
+    async def test_metadata_values_reasonable(self):
         """Test metadata values are within reasonable ranges."""
         strategy = MACDStrategy(name="test", fast_period=5, slow_period=10, signal_period=3)
 
         data = create_test_data(bars=70, close=list(range(100, 170)))
         data["symbol"] = "AAPL"
 
-        signal = strategy.generate_signal(data, datetime.utcnow())
+        signal = await strategy.generate_signal(data, datetime.utcnow())
 
         if signal is not None:
             metadata = signal.metadata
@@ -290,33 +301,36 @@ class TestSignalMetadata:
 class TestDataValidation:
     """Test data validation and error handling."""
 
-    def test_insufficient_data_returns_none(self):
+    @pytest.mark.asyncio
+    async def test_insufficient_data_returns_none(self):
         """Test that insufficient data returns None."""
         strategy = MACDStrategy(name="test", slow_period=26)
 
         data = create_test_data(bars=20)  # Need 26
 
-        signal = strategy.generate_signal(data, datetime.utcnow())
+        signal = await strategy.generate_signal(data, datetime.utcnow())
 
         assert signal is None
 
-    def test_missing_columns_returns_none(self):
+    @pytest.mark.asyncio
+    async def test_missing_columns_returns_none(self):
         """Test that missing columns returns None."""
         strategy = MACDStrategy(name="test")
 
         data = pd.DataFrame({"high": [100] * 40, "low": [95] * 40, "open": [98] * 40})
 
-        signal = strategy.generate_signal(data, datetime.utcnow())
+        signal = await strategy.generate_signal(data, datetime.utcnow())
 
         assert signal is None
 
-    def test_empty_dataframe_returns_none(self):
+    @pytest.mark.asyncio
+    async def test_empty_dataframe_returns_none(self):
         """Test that empty DataFrame returns None."""
         strategy = MACDStrategy(name="test")
 
         data = pd.DataFrame()
 
-        signal = strategy.generate_signal(data, datetime.utcnow())
+        signal = await strategy.generate_signal(data, datetime.utcnow())
 
         assert signal is None
 
@@ -324,25 +338,27 @@ class TestDataValidation:
 class TestSymbolHandling:
     """Test symbol extraction from ordinis.data."""
 
-    def test_symbol_from_data(self):
+    @pytest.mark.asyncio
+    async def test_symbol_from_data(self):
         """Test symbol extraction when present."""
         strategy = MACDStrategy(name="test", fast_period=5, slow_period=10)
 
         data = create_test_data(bars=70)
         data["symbol"] = "MSFT"
 
-        signal = strategy.generate_signal(data, datetime.utcnow())
+        signal = await strategy.generate_signal(data, datetime.utcnow())
 
         assert signal is not None
         assert signal.symbol == "MSFT"
 
-    def test_default_symbol_when_missing(self):
+    @pytest.mark.asyncio
+    async def test_default_symbol_when_missing(self):
         """Test default symbol when not in data."""
         strategy = MACDStrategy(name="test", fast_period=5, slow_period=10)
 
         data = create_test_data(bars=70)
 
-        signal = strategy.generate_signal(data, datetime.utcnow())
+        signal = await strategy.generate_signal(data, datetime.utcnow())
 
         if signal is not None:
             assert signal.symbol == "UNKNOWN"
@@ -367,7 +383,8 @@ class TestStrategyDescription:
 class TestEdgeCases:
     """Test edge cases."""
 
-    def test_probability_bounds(self):
+    @pytest.mark.asyncio
+    async def test_probability_bounds(self):
         """Test that probability is within valid bounds."""
         strategy = MACDStrategy(name="test", fast_period=5, slow_period=10, signal_period=3)
 
@@ -379,12 +396,13 @@ class TestEdgeCases:
         )
         data["symbol"] = "AAPL"
 
-        signal = strategy.generate_signal(data, datetime.utcnow())
+        signal = await strategy.generate_signal(data, datetime.utcnow())
 
         assert signal is not None
         assert 0 <= signal.probability <= 1
 
-    def test_nan_handling(self):
+    @pytest.mark.asyncio
+    async def test_nan_handling(self):
         """Test handling of NaN values in data."""
         strategy = MACDStrategy(name="test", fast_period=5, slow_period=10)
 
@@ -393,12 +411,14 @@ class TestEdgeCases:
         data.loc[15:18, "close"] = float("nan")
         data["symbol"] = "AAPL"
 
-        signal = strategy.generate_signal(data, datetime.utcnow())
+        signal = await strategy.generate_signal(data, datetime.utcnow())
 
         # Should either handle gracefully or return None
         assert signal is None or isinstance(signal.probability, float)
 
-    def test_constant_price_no_signal(self):
+    @pytest.mark.asyncio
+    @pytest.mark.asyncio
+    async def test_constant_price_no_signal(self):
         """Test handling of constant price (no movement)."""
         strategy = MACDStrategy(name="test", fast_period=5, slow_period=10, signal_period=3)
 
@@ -408,7 +428,7 @@ class TestEdgeCases:
         )
         data["symbol"] = "AAPL"
 
-        signal = strategy.generate_signal(data, datetime.utcnow())
+        signal = await strategy.generate_signal(data, datetime.utcnow())
 
         # With no price movement, MACD should be near zero
         if signal is not None:
@@ -419,7 +439,8 @@ class TestEdgeCases:
 class TestCrossoverDetection:
     """Test crossover detection logic."""
 
-    def test_no_crossover_hold_signal(self):
+    @pytest.mark.asyncio
+    async def test_no_crossover_hold_signal(self):
         """Test hold signal when no crossover occurs."""
         strategy = MACDStrategy(name="test", fast_period=5, slow_period=10, signal_period=3)
 
@@ -430,13 +451,14 @@ class TestCrossoverDetection:
         )
         data["symbol"] = "AAPL"
 
-        signal = strategy.generate_signal(data, datetime.utcnow())
+        signal = await strategy.generate_signal(data, datetime.utcnow())
 
         if signal is not None:
             # Should be entry, exit, or hold
             assert signal.signal_type in [SignalType.ENTRY, SignalType.EXIT, SignalType.HOLD]
 
-    def test_multiple_crossovers(self):
+    @pytest.mark.asyncio
+    async def test_multiple_crossovers(self):
         """Test behavior with multiple recent crossovers."""
         strategy = MACDStrategy(name="test", fast_period=5, slow_period=10, signal_period=3)
 
@@ -447,7 +469,7 @@ class TestCrossoverDetection:
         )
         data["symbol"] = "AAPL"
 
-        signal = strategy.generate_signal(data, datetime.utcnow())
+        signal = await strategy.generate_signal(data, datetime.utcnow())
 
         # Should generate some signal based on most recent crossover
         assert signal is not None
@@ -456,7 +478,8 @@ class TestCrossoverDetection:
 class TestTrendReversal:
     """Test trend reversal detection."""
 
-    def test_uptrend_to_downtrend_reversal(self):
+    @pytest.mark.asyncio
+    async def test_uptrend_to_downtrend_reversal(self):
         """Test detection of uptrend to downtrend reversal."""
         strategy = MACDStrategy(name="test", fast_period=5, slow_period=10, signal_period=3)
 
@@ -468,13 +491,14 @@ class TestTrendReversal:
         )
         data["symbol"] = "AAPL"
 
-        signal = strategy.generate_signal(data, datetime.utcnow())
+        signal = await strategy.generate_signal(data, datetime.utcnow())
 
         if signal is not None and signal.signal_type == SignalType.EXIT:
             # Reversal should trigger exit
             assert "crossover_type" in signal.metadata
 
-    def test_downtrend_to_uptrend_reversal(self):
+    @pytest.mark.asyncio
+    async def test_downtrend_to_uptrend_reversal(self):
         """Test detection of downtrend to uptrend reversal."""
         strategy = MACDStrategy(name="test", fast_period=5, slow_period=10, signal_period=3)
 
@@ -486,7 +510,7 @@ class TestTrendReversal:
         )
         data["symbol"] = "AAPL"
 
-        signal = strategy.generate_signal(data, datetime.utcnow())
+        signal = await strategy.generate_signal(data, datetime.utcnow())
 
         if signal is not None and signal.signal_type == SignalType.ENTRY:
             # Reversal to uptrend should trigger entry

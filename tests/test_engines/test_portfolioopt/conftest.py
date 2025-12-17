@@ -270,11 +270,15 @@ def portfolioopt_engine(
     Returns:
         PortfolioOptEngine instance with mocked dependencies.
     """
-    # Mock the QPO classes
-    from ordinis import quant
-
-    monkeypatch.setattr(quant, "QPOPortfolioOptimizer", lambda qpo_src=None: mock_qpo_optimizer)
-    monkeypatch.setattr(quant, "QPOScenarioGenerator", lambda qpo_src=None: mock_qpo_scenario_gen)
+    # Mock the QPO classes in the engine module where they are used
+    monkeypatch.setattr(
+        "ordinis.engines.portfolioopt.core.engine.QPOPortfolioOptimizer",
+        lambda qpo_src=None: mock_qpo_optimizer,
+    )
+    monkeypatch.setattr(
+        "ordinis.engines.portfolioopt.core.engine.QPOScenarioGenerator",
+        lambda qpo_src=None: mock_qpo_scenario_gen,
+    )
 
     engine = PortfolioOptEngine(portfolioopt_config)
 
@@ -301,11 +305,15 @@ def portfolioopt_engine_with_governance(
     Returns:
         PortfolioOptEngine with governance enabled.
     """
-    # Mock the QPO classes
-    from ordinis import quant
-
-    monkeypatch.setattr(quant, "QPOPortfolioOptimizer", lambda qpo_src=None: mock_qpo_optimizer)
-    monkeypatch.setattr(quant, "QPOScenarioGenerator", lambda qpo_src=None: mock_qpo_scenario_gen)
+    # Mock the QPO classes in the engine module where they are used
+    monkeypatch.setattr(
+        "ordinis.engines.portfolioopt.core.engine.QPOPortfolioOptimizer",
+        lambda qpo_src=None: mock_qpo_optimizer,
+    )
+    monkeypatch.setattr(
+        "ordinis.engines.portfolioopt.core.engine.QPOScenarioGenerator",
+        lambda qpo_src=None: mock_qpo_scenario_gen,
+    )
 
     engine = PortfolioOptEngine(portfolioopt_config, governance_hook)
 

@@ -100,7 +100,7 @@ def test_llm_enhanced_creation_no_base():
     enhanced = LLMEnhancedRiskGuard(llm_enabled=False)
 
     assert enhanced.llm_enabled is False
-    assert len(enhanced.list_rules()) == 0
+    assert len(enhanced.list_rules()) > 0  # Loads standard rules by default
 
 
 @pytest.mark.unit
@@ -272,7 +272,8 @@ def test_llm_enhanced_preserves_functionality(
 @pytest.mark.unit
 def test_llm_enhanced_add_rule():
     """Test adding rules to enhanced engine."""
-    enhanced = LLMEnhancedRiskGuard(llm_enabled=False)
+    base = RiskGuardEngine(rules={})
+    enhanced = LLMEnhancedRiskGuard(base_engine=base, llm_enabled=False)
 
     from ordinis.engines.riskguard.core.rules import RiskRule, RuleCategory
 

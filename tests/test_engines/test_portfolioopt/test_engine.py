@@ -393,6 +393,15 @@ class TestGovernanceIntegration:
         mock_qpo_scenario_gen: MagicMock,
     ) -> None:
         """Test optimization blocked by preflight."""
+        # Mock the QPO classes in the engine module where they are used
+        monkeypatch.setattr(
+            "ordinis.engines.portfolioopt.core.engine.QPOPortfolioOptimizer",
+            lambda qpo_src=None: mock_qpo_optimizer,
+        )
+        monkeypatch.setattr(
+            "ordinis.engines.portfolioopt.core.engine.QPOScenarioGenerator",
+            lambda qpo_src=None: mock_qpo_scenario_gen,
+        )
 
         # Create engine with governance
         config = PortfolioOptEngineConfig(
@@ -429,8 +438,8 @@ class TestGovernanceIntegration:
         assert len(audit_log) > initial_count
 
         last_record = audit_log[-1]
-        assert last_record.operation == "optimize"
-        assert last_record.engine_id == portfolioopt_engine_with_governance.config.engine_id
+        assert last_record.action == "optimize"
+        assert last_record.engine == portfolioopt_engine_with_governance.name
 
         await portfolioopt_engine_with_governance.shutdown()
 
@@ -444,12 +453,23 @@ class TestGovernanceIntegration:
         mock_qpo_scenario_gen: MagicMock,
     ) -> None:
         """Test optimization without governance hook."""
+        # Mock the QPO classes in the engine module where they are used
+        monkeypatch.setattr(
+            "ordinis.engines.portfolioopt.core.engine.QPOPortfolioOptimizer",
+            lambda qpo_src=None: mock_qpo_optimizer,
+        )
+        monkeypatch.setattr(
+            "ordinis.engines.portfolioopt.core.engine.QPOScenarioGenerator",
+            lambda qpo_src=None: mock_qpo_scenario_gen,
+        )
+
         engine = PortfolioOptEngine(portfolioopt_config_no_governance)
         engine._optimizer = mock_qpo_optimizer
         engine._scenario_gen = mock_qpo_scenario_gen
         engine._qpo_available = True
 
         await engine.initialize()
+        engine._qpo_available = True
 
         result = await engine.optimize(sample_returns)
 

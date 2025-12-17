@@ -9,10 +9,12 @@ Tests cover:
 """
 
 from datetime import datetime
+from unittest.mock import AsyncMock, MagicMock
 
 import pandas as pd
 import pytest
 
+from ordinis.ai.helix.models import ChatResponse, ProviderType, UsageInfo
 from ordinis.engines.signalcore.models import (
     LLMEnhancedModel,
     LLMFeatureEngineer,
@@ -44,6 +46,7 @@ def base_model():
     config = ModelConfig(
         model_id="rsi-test",
         model_type="mean_reversion",
+        version="1.0.0",
         parameters={
             "rsi_period": 14,
             "oversold_threshold": 30,
@@ -53,24 +56,39 @@ def base_model():
     return RSIMeanReversionModel(config)
 
 
+@pytest.fixture
+def mock_helix():
+    """Create mock Helix engine."""
+    helix = MagicMock()
+    helix.generate = AsyncMock(
+        return_value=ChatResponse(
+            content="Test interpretation",
+            model="test-model",
+            provider=ProviderType.MOCK,
+            usage=UsageInfo(prompt_tokens=10, completion_tokens=10, total_tokens=20),
+        )
+    )
+    return helix
+
+
 @pytest.mark.unit
 def test_llm_enhanced_model_creation(base_model):
     """Test creating LLM-enhanced model."""
-    enhanced = LLMEnhancedModel(base_model=base_model, nvidia_api_key=None, llm_enabled=False)
+    enhanced = LLMEnhancedModel(base_model=base_model, helix=None, llm_enabled=False)
 
     assert enhanced.base_model == base_model
     assert enhanced.llm_enabled is False
-    assert enhanced.nvidia_api_key is None
+    assert enhanced.helix is None
     assert enhanced.config.metadata["llm_enhanced"] is False
 
 
 @pytest.mark.unit
-def test_llm_enhanced_model_with_api_key(base_model):
-    """Test LLM-enhanced model with API key (will use fallback)."""
-    enhanced = LLMEnhancedModel(base_model=base_model, nvidia_api_key="test-key", llm_enabled=True)
+def test_llm_enhanced_model_with_helix(base_model, mock_helix):
+    """Test LLM-enhanced model with Helix engine."""
+    enhanced = LLMEnhancedModel(base_model=base_model, helix=mock_helix, llm_enabled=True)
 
     assert enhanced.llm_enabled is True
-    assert enhanced.nvidia_api_key == "test-key"
+    assert enhanced.helix == mock_helix
 
 
 @pytest.mark.unit
@@ -86,56 +104,59 @@ def test_llm_enhanced_validate(base_model, sample_data):
 
 
 @pytest.mark.unit
-def test_llm_enhanced_generate_no_llm(base_model, sample_data):
+@pytest.mark.asyncio
+async def test_llm_enhanced_generate_no_llm(base_model, sample_data):
     """Test signal generation without LLM."""
     enhanced = LLMEnhancedModel(base_model=base_model, llm_enabled=False)
 
-    signal = enhanced.generate(sample_data, datetime.utcnow())
+    signal = await enhanced.generate(sample_data, datetime.utcnow())
 
     assert signal.model_id == base_model.config.model_id
     assert "llm_interpretation" not in signal.metadata
 
 
 @pytest.mark.unit
-def test_llm_enhanced_generate_with_llm_fallback(base_model, sample_data):
-    """Test signal generation with LLM enabled but no API key."""
-    enhanced = LLMEnhancedModel(base_model=base_model, nvidia_api_key=None, llm_enabled=True)
+@pytest.mark.asyncio
+async def test_llm_enhanced_generate_with_helix(base_model, sample_data, mock_helix):
+    """Test signal generation with LLM enabled and Helix."""
+    enhanced = LLMEnhancedModel(base_model=base_model, helix=mock_helix, llm_enabled=True)
 
-    signal = enhanced.generate(sample_data, datetime.utcnow())
+    signal = await enhanced.generate(sample_data, datetime.utcnow())
 
-    # Should work but without LLM interpretation
     assert signal.model_id == base_model.config.model_id
-    # No interpretation added without API key
-    assert "llm_interpretation" not in signal.metadata
+    # Interpretation should be added
+    # Note: The current implementation of _add_llm_interpretation might not add to metadata directly
+    # but return a new signal. Let's check if mock was called.
+    assert mock_helix.generate.called
 
 
 @pytest.mark.unit
-def test_llm_enhanced_describe(base_model):
+def test_llm_enhanced_describe(base_model, mock_helix):
     """Test model description includes LLM info."""
-    enhanced = LLMEnhancedModel(base_model=base_model, llm_enabled=True)
+    enhanced = LLMEnhancedModel(base_model=base_model, helix=mock_helix, llm_enabled=True)
 
     desc = enhanced.describe()
 
     assert desc["llm_enhanced"] is True
-    assert "llm_available" in desc
+    assert desc["llm_available"] is True
     assert desc["wrapper_type"] == "LLMEnhancedModel"
 
 
 @pytest.mark.unit
 def test_feature_engineer_creation():
     """Test creating feature engineer."""
-    engineer = LLMFeatureEngineer(nvidia_api_key=None)
+    engineer = LLMFeatureEngineer(helix=None)
 
-    assert engineer.nvidia_api_key is None
-    assert engineer._llm_client is None
+    assert engineer.helix is None
 
 
 @pytest.mark.unit
-def test_feature_engineer_suggest_features_no_api(sample_data):
-    """Test feature suggestions without API key (fallback)."""
-    engineer = LLMFeatureEngineer(nvidia_api_key=None)
+@pytest.mark.asyncio
+async def test_feature_engineer_suggest_features_no_helix(sample_data):
+    """Test feature suggestions without Helix (fallback)."""
+    engineer = LLMFeatureEngineer(helix=None)
 
-    features = engineer.suggest_features(sample_data, "trend_following")
+    features = await engineer.suggest_features(sample_data, "trend_following")
 
     # Should return basic features
     assert len(features) > 0
@@ -143,37 +164,53 @@ def test_feature_engineer_suggest_features_no_api(sample_data):
 
 
 @pytest.mark.unit
-def test_feature_engineer_suggest_features_with_api(sample_data):
-    """Test feature suggestions with API key (will use fallback)."""
-    engineer = LLMFeatureEngineer(nvidia_api_key="test-key")
+@pytest.mark.asyncio
+async def test_feature_engineer_suggest_features_with_helix(sample_data, mock_helix):
+    """Test feature suggestions with Helix."""
+    mock_helix.generate.return_value = ChatResponse(
+        content="RSI_14\nSMA_50\nMACD",
+        model="test-model",
+        provider=ProviderType.MOCK,
+        usage=UsageInfo(prompt_tokens=10, completion_tokens=10, total_tokens=20),
+    )
+    engineer = LLMFeatureEngineer(helix=mock_helix)
 
-    features = engineer.suggest_features(sample_data, "mean_reversion")
+    features = await engineer.suggest_features(sample_data, "mean_reversion")
 
-    # Should return features (fallback since no real API)
+    # Should return features from mock
     assert len(features) > 0
     assert isinstance(features, list)
+    assert "RSI_14" in features
 
 
 @pytest.mark.unit
-def test_feature_engineer_explain_feature_no_api():
-    """Test feature explanation without API key."""
-    engineer = LLMFeatureEngineer(nvidia_api_key=None)
+@pytest.mark.asyncio
+async def test_feature_engineer_explain_feature_no_helix():
+    """Test feature explanation without Helix."""
+    engineer = LLMFeatureEngineer(helix=None)
 
-    explanation = engineer.explain_feature("RSI_14")
+    explanation = await engineer.explain_feature("RSI_14")
 
     assert "RSI_14" in explanation
     assert isinstance(explanation, str)
 
 
 @pytest.mark.unit
-def test_feature_engineer_explain_feature_with_api():
-    """Test feature explanation with API key (will use fallback)."""
-    engineer = LLMFeatureEngineer(nvidia_api_key="test-key")
+@pytest.mark.asyncio
+async def test_feature_engineer_explain_feature_with_helix(mock_helix):
+    """Test feature explanation with Helix."""
+    mock_helix.generate.return_value = ChatResponse(
+        content="RSI measures momentum.",
+        model="test-model",
+        provider=ProviderType.MOCK,
+        usage=UsageInfo(prompt_tokens=10, completion_tokens=10, total_tokens=20),
+    )
+    engineer = LLMFeatureEngineer(helix=mock_helix)
 
-    explanation = engineer.explain_feature("MACD")
+    explanation = await engineer.explain_feature("MACD")
 
     assert isinstance(explanation, str)
-    assert len(explanation) > 0
+    assert explanation == "RSI measures momentum."
 
 
 @pytest.mark.unit

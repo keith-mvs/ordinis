@@ -165,8 +165,8 @@ class TestHelixModelManagement:
         model = helix.get_model("nemotron-super")
 
         assert model is not None
-        assert model.model_id == "nvidia/llama-3.3-nemotron-super-49b-v1.5"
-        assert model.display_name == "Nemotron Super 49B"
+        assert model.model_id == "meta/llama-3.3-70b-instruct"
+        assert model.display_name == "Llama 3.3 70B Instruct"
 
     def test_get_embedding_model(self, mock_nvidia_api_key):
         """Test getting embedding model."""
@@ -176,8 +176,8 @@ class TestHelixModelManagement:
         model = helix.get_model("nv-embedqa")
 
         assert model is not None
-        assert model.model_id == "nvidia/nv-embedqa-e5-v5"
-        assert model.display_name == "NV-EmbedQA E5"
+        assert model.model_id == "nvidia/llama-3.2-nemoretriever-300m-embed-v2"
+        assert model.display_name == "NeMo Retriever 300M Embed V2"
 
     def test_get_nonexistent_model(self, mock_nvidia_api_key):
         """Test getting nonexistent model returns None."""

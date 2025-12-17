@@ -93,11 +93,12 @@ def test_sma_model_validation(sma_model_config, sample_ohlcv_data):
 
 
 @pytest.mark.unit
-def test_sma_model_generate_signal(sma_model_config, sample_ohlcv_data):
+@pytest.mark.asyncio
+async def test_sma_model_generate_signal(sma_model_config, sample_ohlcv_data):
     """Test SMA model signal generation."""
     model = SMACrossoverModel(sma_model_config)
 
-    signal = model.generate(sample_ohlcv_data, datetime(2024, 10, 27))
+    signal = await model.generate(sample_ohlcv_data, datetime(2024, 10, 27))
 
     assert signal.model_id == "sma_test"
     assert signal.signal_type in [SignalType.ENTRY, SignalType.EXIT, SignalType.HOLD]
@@ -107,7 +108,8 @@ def test_sma_model_generate_signal(sma_model_config, sample_ohlcv_data):
 
 
 @pytest.mark.unit
-def test_sma_model_bullish_crossover(sma_model_config):
+@pytest.mark.asyncio
+async def test_sma_model_bullish_crossover(sma_model_config):
     """Test SMA model detects bullish crossover."""
     # Create data with clear bullish crossover
     dates = pd.date_range("2024-01-01", periods=100, freq="1d")
@@ -132,7 +134,7 @@ def test_sma_model_bullish_crossover(sma_model_config):
     )
 
     model = SMACrossoverModel(sma_model_config)
-    signal = model.generate(data, datetime(2024, 4, 10))
+    signal = await model.generate(data, datetime(2024, 4, 10))
 
     # Should detect bullish signal or hold (depending on exact crossover timing)
     assert signal.signal_type in [SignalType.ENTRY, SignalType.HOLD]
@@ -152,11 +154,12 @@ def test_rsi_model_initialization(rsi_model_config):
 
 
 @pytest.mark.unit
-def test_rsi_model_generate_signal(rsi_model_config, sample_ohlcv_data):
+@pytest.mark.asyncio
+async def test_rsi_model_generate_signal(rsi_model_config, sample_ohlcv_data):
     """Test RSI model signal generation."""
     model = RSIMeanReversionModel(rsi_model_config)
 
-    signal = model.generate(sample_ohlcv_data, datetime(2024, 10, 27))
+    signal = await model.generate(sample_ohlcv_data, datetime(2024, 10, 27))
 
     assert signal.model_id == "rsi_test"
     assert signal.signal_type in [SignalType.ENTRY, SignalType.EXIT, SignalType.HOLD]
@@ -166,7 +169,8 @@ def test_rsi_model_generate_signal(rsi_model_config, sample_ohlcv_data):
 
 
 @pytest.mark.unit
-def test_rsi_model_oversold_condition(rsi_model_config):
+@pytest.mark.asyncio
+async def test_rsi_model_oversold_condition(rsi_model_config):
     """Test RSI model detects oversold condition."""
     # Create data that becomes oversold
     dates = pd.date_range("2024-01-01", periods=100, freq="1d")
@@ -191,7 +195,7 @@ def test_rsi_model_oversold_condition(rsi_model_config):
     )
 
     model = RSIMeanReversionModel(rsi_model_config)
-    signal = model.generate(data, datetime(2024, 4, 10))
+    signal = await model.generate(data, datetime(2024, 4, 10))
 
     # RSI should be low, potentially triggering entry signal
     assert "rsi" in signal.feature_contributions
@@ -216,11 +220,12 @@ def test_model_describe(sma_model_config):
 
 
 @pytest.mark.unit
-def test_signal_feature_contributions(sma_model_config, sample_ohlcv_data):
+@pytest.mark.asyncio
+async def test_signal_feature_contributions(sma_model_config, sample_ohlcv_data):
     """Test that signals include feature contributions."""
     model = SMACrossoverModel(sma_model_config)
 
-    signal = model.generate(sample_ohlcv_data, datetime(2024, 10, 27))
+    signal = await model.generate(sample_ohlcv_data, datetime(2024, 10, 27))
 
     assert len(signal.feature_contributions) > 0
     assert "fast_sma" in signal.feature_contributions

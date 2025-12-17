@@ -15,6 +15,7 @@ from ordinis.engines.flowroute.core.engine import FlowRouteEngine
 from ordinis.engines.flowroute.core.orders import (
     Fill,
     OrderIntent,
+    OrderSide,
     OrderStatus,
     OrderType,
 )
@@ -48,7 +49,7 @@ def test_create_order_from_intent(engine):
     intent = OrderIntent(
         intent_id="intent-001",
         symbol="AAPL",
-        side="buy",
+        side=OrderSide.BUY,
         quantity=100,
         order_type=OrderType.MARKET,
     )
@@ -69,7 +70,7 @@ async def test_submit_order(engine):
     intent = OrderIntent(
         intent_id="intent-001",
         symbol="AAPL",
-        side="buy",
+        side=OrderSide.BUY,
         quantity=100,
         order_type=OrderType.MARKET,
     )
@@ -90,7 +91,7 @@ async def test_submit_order_twice_fails(engine):
     intent = OrderIntent(
         intent_id="intent-001",
         symbol="AAPL",
-        side="buy",
+        side=OrderSide.BUY,
         quantity=100,
         order_type=OrderType.MARKET,
     )
@@ -112,7 +113,7 @@ async def test_cancel_order(engine):
     intent = OrderIntent(
         intent_id="intent-001",
         symbol="AAPL",
-        side="buy",
+        side=OrderSide.BUY,
         quantity=100,
         order_type=OrderType.LIMIT,
         limit_price=150.0,
@@ -144,7 +145,7 @@ def test_get_order(engine):
     intent = OrderIntent(
         intent_id="intent-001",
         symbol="AAPL",
-        side="buy",
+        side=OrderSide.BUY,
         quantity=100,
         order_type=OrderType.MARKET,
     )
@@ -166,7 +167,7 @@ async def test_get_active_orders(engine):
         intent = OrderIntent(
             intent_id=f"intent-{i:03d}",
             symbol="AAPL",
-            side="buy",
+            side=OrderSide.BUY,
             quantity=100,
             order_type=OrderType.LIMIT,
             limit_price=150.0,
@@ -189,7 +190,7 @@ async def test_process_fill(engine):
     intent = OrderIntent(
         intent_id="intent-001",
         symbol="AAPL",
-        side="buy",
+        side=OrderSide.BUY,
         quantity=100,
         order_type=OrderType.MARKET,
     )
@@ -200,7 +201,7 @@ async def test_process_fill(engine):
         fill_id="fill-001",
         order_id=order.order_id,
         symbol="AAPL",
-        side="buy",
+        side=OrderSide.BUY,
         quantity=100,
         price=150.0,
         commission=0.50,
@@ -235,7 +236,7 @@ async def test_get_execution_stats_with_orders(engine):
     intent = OrderIntent(
         intent_id="intent-001",
         symbol="AAPL",
-        side="buy",
+        side=OrderSide.BUY,
         quantity=100,
         order_type=OrderType.MARKET,
     )
@@ -246,7 +247,7 @@ async def test_get_execution_stats_with_orders(engine):
         fill_id="fill-001",
         order_id=order.order_id,
         symbol="AAPL",
-        side="buy",
+        side=OrderSide.BUY,
         quantity=100,
         price=150.0,
         commission=0.50,

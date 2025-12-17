@@ -22,8 +22,8 @@ from ordinis.analysis.market_conditions import (
 
 
 @pytest.fixture
-def mock_polygon():
-    """Create mock Polygon plugin."""
+def mock_massive():
+    """Create mock Massive plugin."""
     plugin = AsyncMock()
     plugin.get_snapshot = AsyncMock()
     plugin.get_previous_close = AsyncMock()
@@ -39,10 +39,10 @@ def mock_iex():
 
 
 @pytest.fixture
-def analyzer(mock_polygon, mock_iex):
+def analyzer(mock_massive, mock_iex):
     """Create analyzer with mock plugins."""
     return MarketConditionsAnalyzer(
-        polygon_plugin=mock_polygon, iex_plugin=mock_iex, use_cache=False
+        massive_plugin=mock_massive, iex_plugin=mock_iex, use_cache=False
     )
 
 
@@ -52,36 +52,36 @@ class TestMarketConditionsAnalyzer:
     def test_init_requires_plugin(self):
         """Test that at least one plugin is required."""
         with pytest.raises(ValueError, match="At least one data plugin"):
-            MarketConditionsAnalyzer(polygon_plugin=None, iex_plugin=None)
+            MarketConditionsAnalyzer(massive_plugin=None, iex_plugin=None)
 
-    def test_init_with_polygon_only(self, mock_polygon):
-        """Test initialization with only Polygon plugin."""
-        analyzer = MarketConditionsAnalyzer(polygon_plugin=mock_polygon)
-        assert analyzer.polygon == mock_polygon
+    def test_init_with_massive_only(self, mock_massive):
+        """Test initialization with only Massive plugin."""
+        analyzer = MarketConditionsAnalyzer(massive_plugin=mock_massive)
+        assert analyzer.massive == mock_massive
         assert analyzer.iex is None
 
     def test_init_with_iex_only(self, mock_iex):
         """Test initialization with only IEX plugin."""
         analyzer = MarketConditionsAnalyzer(iex_plugin=mock_iex)
         assert analyzer.iex == mock_iex
-        assert analyzer.polygon is None
+        assert analyzer.massive is None
 
-    def test_cache_enabled_by_default(self, mock_polygon):
+    def test_cache_enabled_by_default(self, mock_massive):
         """Test that caching is enabled by default."""
-        analyzer = MarketConditionsAnalyzer(polygon_plugin=mock_polygon)
+        analyzer = MarketConditionsAnalyzer(massive_plugin=mock_massive)
         assert analyzer.cache is not None
         assert isinstance(analyzer.cache, dict)
 
-    def test_cache_disabled(self, mock_polygon):
+    def test_cache_disabled(self, mock_massive):
         """Test that caching can be disabled."""
-        analyzer = MarketConditionsAnalyzer(polygon_plugin=mock_polygon, use_cache=False)
+        analyzer = MarketConditionsAnalyzer(massive_plugin=mock_massive, use_cache=False)
         assert analyzer.cache == {}
 
     @pytest.mark.asyncio
-    async def test_get_market_overview_polygon(self, analyzer, mock_polygon):
-        """Test getting market overview from Polygon."""
-        # Mock Polygon response
-        mock_polygon.get_snapshot.return_value = {
+    async def test_get_market_overview_massive(self, analyzer, mock_massive):
+        """Test getting market overview from Massive."""
+        # Mock Massive response
+        mock_massive.get_snapshot.return_value = {
             "ticker": {
                 "lastTrade": {"p": 450.0},
                 "todaysChange": 5.0,
@@ -97,13 +97,13 @@ class TestMarketConditionsAnalyzer:
         assert isinstance(result["SPY"], IndexSnapshot)
         assert result["SPY"].symbol == "SPY"
         assert result["SPY"].price == 450.0
-        assert mock_polygon.get_snapshot.call_count == 4  # SPY, QQQ, IWM, DIA
+        assert mock_massive.get_snapshot.call_count == 4  # SPY, QQQ, IWM, DIA
 
     @pytest.mark.asyncio
-    async def test_get_market_overview_fallback_to_iex(self, analyzer, mock_polygon, mock_iex):
-        """Test fallback to IEX when Polygon fails."""
-        # Polygon fails
-        mock_polygon.get_snapshot.side_effect = Exception("Polygon API error")
+    async def test_get_market_overview_fallback_to_iex(self, analyzer, mock_massive, mock_iex):
+        """Test fallback to IEX when Massive fails."""
+        # Massive fails
+        mock_massive.get_snapshot.side_effect = Exception("Massive API error")
 
         # IEX succeeds
         mock_iex.get_quote.return_value = {
@@ -123,19 +123,19 @@ class TestMarketConditionsAnalyzer:
         assert mock_iex.get_quote.call_count == 4  # Fallback for all indices
 
     @pytest.mark.asyncio
-    async def test_get_market_overview_all_fail(self, analyzer, mock_polygon, mock_iex):
+    async def test_get_market_overview_all_fail(self, analyzer, mock_massive, mock_iex):
         """Test exception when all sources fail."""
-        mock_polygon.get_snapshot.side_effect = Exception("Polygon failed")
+        mock_massive.get_snapshot.side_effect = Exception("Massive failed")
         mock_iex.get_quote.side_effect = Exception("IEX failed")
 
         with pytest.raises(AllDataSourcesFailedError, match="All data sources failed"):
             await analyzer.get_market_overview()
 
     @pytest.mark.asyncio
-    async def test_get_volatility_metrics_polygon(self, analyzer, mock_polygon):
-        """Test getting VIX metrics from Polygon."""
-        mock_polygon.get_snapshot.return_value = {"ticker": {"lastTrade": {"p": 18.5}}}
-        mock_polygon.get_previous_close.return_value = {"c": 20.0}
+    async def test_get_volatility_metrics_massive(self, analyzer, mock_massive):
+        """Test getting VIX metrics from Massive."""
+        mock_massive.get_snapshot.return_value = {"ticker": {"lastTrade": {"p": 18.5}}}
+        mock_massive.get_previous_close.return_value = {"c": 20.0}
 
         result = await analyzer.get_volatility_metrics()
 
@@ -158,20 +158,20 @@ class TestMarketConditionsAnalyzer:
 
         for vix_level, expected_regime in test_cases:
             # Create fresh mock for each iteration to avoid state leakage
-            mock_poly = AsyncMock()
-            mock_poly.get_snapshot.return_value = {"ticker": {"lastTrade": {"p": vix_level}}}
-            mock_poly.get_previous_close.return_value = {"c": vix_level}
+            mock_massive = AsyncMock()
+            mock_massive.get_snapshot.return_value = {"ticker": {"lastTrade": {"p": vix_level}}}
+            mock_massive.get_previous_close.return_value = {"c": vix_level}
 
-            analyzer = MarketConditionsAnalyzer(polygon_plugin=mock_poly, use_cache=False)
+            analyzer = MarketConditionsAnalyzer(massive_plugin=mock_massive, use_cache=False)
             result = await analyzer.get_volatility_metrics()
             assert (
                 result.regime == expected_regime
             ), f"VIX {vix_level} classified as {result.regime}, expected {expected_regime}"
 
     @pytest.mark.asyncio
-    async def test_get_sector_performance(self, analyzer, mock_polygon):
+    async def test_get_sector_performance(self, analyzer, mock_massive):
         """Test getting sector performance data."""
-        mock_polygon.get_snapshot.return_value = {
+        mock_massive.get_snapshot.return_value = {
             "ticker": {
                 "lastTrade": {"p": 150.0},
                 "todaysChangePerc": 2.5,
@@ -352,10 +352,10 @@ class TestMarketConditionsAnalyzer:
         )
 
     @pytest.mark.asyncio
-    async def test_analyze_end_to_end(self, analyzer, mock_polygon):
+    async def test_analyze_end_to_end(self, analyzer, mock_massive):
         """Test complete analysis workflow."""
         # Mock all data sources
-        mock_polygon.get_snapshot.return_value = {
+        mock_massive.get_snapshot.return_value = {
             "ticker": {
                 "lastTrade": {"p": 450.0},
                 "todaysChange": 5.0,
@@ -364,7 +364,7 @@ class TestMarketConditionsAnalyzer:
                 "prevDay": {"h": 455.0, "l": 445.0},
             }
         }
-        mock_polygon.get_previous_close.return_value = {"c": 20.0}
+        mock_massive.get_previous_close.return_value = {"c": 20.0}
 
         report = await analyzer.analyze()
 
@@ -377,10 +377,10 @@ class TestMarketConditionsAnalyzer:
         assert report.regime_rationale != ""
         assert report.trading_implications is not None
 
-    def test_cache_functionality(self, mock_polygon):
+    def test_cache_functionality(self, mock_massive):
         """Test that caching works correctly."""
         analyzer = MarketConditionsAnalyzer(
-            polygon_plugin=mock_polygon, use_cache=True, cache_ttl_seconds=60
+            massive_plugin=mock_massive, use_cache=True, cache_ttl_seconds=60
         )
 
         # Set cached value
@@ -398,8 +398,8 @@ class TestMarketConditionsAnalyzer:
 class TestDataParsing:
     """Test data parsing helper methods."""
 
-    def test_parse_index_snapshots_polygon(self, analyzer):
-        """Test parsing Polygon index data."""
+    def test_parse_index_snapshots_massive(self, analyzer):
+        """Test parsing Massive index data."""
         data = {
             "SPY": {
                 "ticker": {
@@ -412,7 +412,7 @@ class TestDataParsing:
             }
         }
 
-        result = analyzer._parse_index_snapshots(data, "polygon")
+        result = analyzer._parse_index_snapshots(data, "massive")
 
         assert "SPY" in result
         assert result["SPY"].price == 450.0
@@ -451,7 +451,7 @@ class TestDataParsing:
             }
         }
 
-        result = analyzer._parse_sector_performance(data, "polygon")
+        result = analyzer._parse_sector_performance(data, "massive")
 
         assert len(result) == 1
         assert result[0].symbol == "XLK"
@@ -484,10 +484,10 @@ class TestExceptionHandling:
 class TestCachingBehavior:
     """Test caching functionality in detail."""
 
-    def test_cache_expiration(self, mock_polygon):
+    def test_cache_expiration(self, mock_massive):
         """Test that cache expires after TTL."""
         analyzer = MarketConditionsAnalyzer(
-            polygon_plugin=mock_polygon, use_cache=True, cache_ttl_seconds=1
+            massive_plugin=mock_massive, use_cache=True, cache_ttl_seconds=1
         )
 
         # Set cached value
@@ -505,9 +505,9 @@ class TestCachingBehavior:
         cached_after_expiry = analyzer._get_cached("test_key")
         assert cached_after_expiry is None
 
-    def test_cache_disabled_set_and_get(self, mock_polygon):
+    def test_cache_disabled_set_and_get(self, mock_massive):
         """Test cache behavior when disabled."""
-        analyzer = MarketConditionsAnalyzer(polygon_plugin=mock_polygon, use_cache=False)
+        analyzer = MarketConditionsAnalyzer(massive_plugin=mock_massive, use_cache=False)
 
         # When cache is disabled, cache dict is still created but empty
         assert analyzer.cache == {}
@@ -522,13 +522,13 @@ class TestCachingBehavior:
         assert cached == "value"  # Cache still works, just not used in practice
 
     @pytest.mark.asyncio
-    async def test_market_overview_uses_cache(self, mock_polygon):
+    async def test_market_overview_uses_cache(self, mock_massive):
         """Test that market overview uses cache on second call."""
         analyzer = MarketConditionsAnalyzer(
-            polygon_plugin=mock_polygon, use_cache=True, cache_ttl_seconds=60
+            massive_plugin=mock_massive, use_cache=True, cache_ttl_seconds=60
         )
 
-        mock_polygon.get_snapshot.return_value = {
+        mock_massive.get_snapshot.return_value = {
             "ticker": {
                 "lastTrade": {"p": 450.0},
                 "todaysChange": 5.0,
@@ -540,45 +540,45 @@ class TestCachingBehavior:
 
         # First call should fetch from API
         result1 = await analyzer.get_market_overview()
-        call_count_1 = mock_polygon.get_snapshot.call_count
+        call_count_1 = mock_massive.get_snapshot.call_count
 
         # Second call should use cache
         result2 = await analyzer.get_market_overview()
-        call_count_2 = mock_polygon.get_snapshot.call_count
+        call_count_2 = mock_massive.get_snapshot.call_count
 
         # Call count should be the same (no new API calls)
         assert call_count_2 == call_count_1
         assert result1 == result2
 
     @pytest.mark.asyncio
-    async def test_volatility_metrics_uses_cache(self, mock_polygon):
+    async def test_volatility_metrics_uses_cache(self, mock_massive):
         """Test that volatility metrics uses cache on second call."""
         analyzer = MarketConditionsAnalyzer(
-            polygon_plugin=mock_polygon, use_cache=True, cache_ttl_seconds=60
+            massive_plugin=mock_massive, use_cache=True, cache_ttl_seconds=60
         )
 
-        mock_polygon.get_snapshot.return_value = {"ticker": {"lastTrade": {"p": 18.5}}}
-        mock_polygon.get_previous_close.return_value = {"c": 20.0}
+        mock_massive.get_snapshot.return_value = {"ticker": {"lastTrade": {"p": 18.5}}}
+        mock_massive.get_previous_close.return_value = {"c": 20.0}
 
         # First call
         result1 = await analyzer.get_volatility_metrics()
-        call_count_1 = mock_polygon.get_snapshot.call_count
+        call_count_1 = mock_massive.get_snapshot.call_count
 
         # Second call should use cache
         result2 = await analyzer.get_volatility_metrics()
-        call_count_2 = mock_polygon.get_snapshot.call_count
+        call_count_2 = mock_massive.get_snapshot.call_count
 
         assert call_count_2 == call_count_1
         assert result1 == result2
 
     @pytest.mark.asyncio
-    async def test_sector_performance_uses_cache(self, mock_polygon):
+    async def test_sector_performance_uses_cache(self, mock_massive):
         """Test that sector performance uses cache on second call."""
         analyzer = MarketConditionsAnalyzer(
-            polygon_plugin=mock_polygon, use_cache=True, cache_ttl_seconds=60
+            massive_plugin=mock_massive, use_cache=True, cache_ttl_seconds=60
         )
 
-        mock_polygon.get_snapshot.return_value = {
+        mock_massive.get_snapshot.return_value = {
             "ticker": {
                 "lastTrade": {"p": 150.0},
                 "todaysChangePerc": 2.5,
@@ -587,11 +587,11 @@ class TestCachingBehavior:
 
         # First call
         result1 = await analyzer.get_sector_performance()
-        call_count_1 = mock_polygon.get_snapshot.call_count
+        call_count_1 = mock_massive.get_snapshot.call_count
 
         # Second call should use cache
         result2 = await analyzer.get_sector_performance()
-        call_count_2 = mock_polygon.get_snapshot.call_count
+        call_count_2 = mock_massive.get_snapshot.call_count
 
         assert call_count_2 == call_count_1
         assert result1 == result2
@@ -603,10 +603,10 @@ class TestDataSourceFailover:
     @pytest.mark.asyncio
     async def test_no_data_source_configured_market_overview(self):
         """Test NoDataSourceError when no plugins configured for market overview."""
-        mock_polygon = AsyncMock()
-        analyzer = MarketConditionsAnalyzer(polygon_plugin=mock_polygon, use_cache=False)
+        mock_massive = AsyncMock()
+        analyzer = MarketConditionsAnalyzer(massive_plugin=mock_massive, use_cache=False)
         # Set both to None to simulate no data sources
-        analyzer.polygon = None
+        analyzer.massive = None
         analyzer.iex = None
 
         with pytest.raises(NoDataSourceError, match="No data sources configured"):
@@ -615,9 +615,9 @@ class TestDataSourceFailover:
     @pytest.mark.asyncio
     async def test_no_data_source_configured_volatility(self):
         """Test NoDataSourceError when no plugins configured for volatility."""
-        mock_polygon = AsyncMock()
-        analyzer = MarketConditionsAnalyzer(polygon_plugin=mock_polygon, use_cache=False)
-        analyzer.polygon = None
+        mock_massive = AsyncMock()
+        analyzer = MarketConditionsAnalyzer(massive_plugin=mock_massive, use_cache=False)
+        analyzer.massive = None
         analyzer.iex = None
 
         with pytest.raises(NoDataSourceError, match="No data sources configured"):
@@ -626,23 +626,23 @@ class TestDataSourceFailover:
     @pytest.mark.asyncio
     async def test_no_data_source_configured_sectors(self):
         """Test NoDataSourceError when no plugins configured for sectors."""
-        mock_polygon = AsyncMock()
-        analyzer = MarketConditionsAnalyzer(polygon_plugin=mock_polygon, use_cache=False)
-        analyzer.polygon = None
+        mock_massive = AsyncMock()
+        analyzer = MarketConditionsAnalyzer(massive_plugin=mock_massive, use_cache=False)
+        analyzer.massive = None
         analyzer.iex = None
 
         with pytest.raises(NoDataSourceError, match="No data sources configured"):
             await analyzer.get_sector_performance()
 
     @pytest.mark.asyncio
-    async def test_iex_fallback_for_volatility(self, mock_polygon, mock_iex):
-        """Test IEX fallback for volatility metrics when Polygon fails."""
+    async def test_iex_fallback_for_volatility(self, mock_massive, mock_iex):
+        """Test IEX fallback for volatility metrics when Massive fails."""
         analyzer = MarketConditionsAnalyzer(
-            polygon_plugin=mock_polygon, iex_plugin=mock_iex, use_cache=False
+            massive_plugin=mock_massive, iex_plugin=mock_iex, use_cache=False
         )
 
-        # Polygon fails
-        mock_polygon.get_snapshot.side_effect = Exception("Polygon error")
+        # Massive fails
+        mock_massive.get_snapshot.side_effect = Exception("Massive error")
 
         # IEX succeeds
         mock_iex.get_quote.return_value = {
@@ -656,27 +656,27 @@ class TestDataSourceFailover:
         assert result.regime == VolatilityRegime.ELEVATED
 
     @pytest.mark.asyncio
-    async def test_all_sources_fail_volatility(self, mock_polygon, mock_iex):
+    async def test_all_sources_fail_volatility(self, mock_massive, mock_iex):
         """Test AllDataSourcesFailedError when both sources fail for volatility."""
         analyzer = MarketConditionsAnalyzer(
-            polygon_plugin=mock_polygon, iex_plugin=mock_iex, use_cache=False
+            massive_plugin=mock_massive, iex_plugin=mock_iex, use_cache=False
         )
 
-        mock_polygon.get_snapshot.side_effect = Exception("Polygon failed")
+        mock_massive.get_snapshot.side_effect = Exception("Massive failed")
         mock_iex.get_quote.side_effect = Exception("IEX failed")
 
         with pytest.raises(AllDataSourcesFailedError, match="All data sources failed for VIX"):
             await analyzer.get_volatility_metrics()
 
     @pytest.mark.asyncio
-    async def test_iex_fallback_for_sectors(self, mock_polygon, mock_iex):
-        """Test IEX fallback for sector performance when Polygon fails."""
+    async def test_iex_fallback_for_sectors(self, mock_massive, mock_iex):
+        """Test IEX fallback for sector performance when Massive fails."""
         analyzer = MarketConditionsAnalyzer(
-            polygon_plugin=mock_polygon, iex_plugin=mock_iex, use_cache=False
+            massive_plugin=mock_massive, iex_plugin=mock_iex, use_cache=False
         )
 
-        # Polygon fails
-        mock_polygon.get_snapshot.side_effect = Exception("Polygon error")
+        # Massive fails
+        mock_massive.get_snapshot.side_effect = Exception("Massive error")
 
         # IEX succeeds
         mock_iex.get_quote.return_value = {
@@ -691,13 +691,13 @@ class TestDataSourceFailover:
         assert all(isinstance(s, SectorPerformance) for s in result)
 
     @pytest.mark.asyncio
-    async def test_all_sources_fail_sectors(self, mock_polygon, mock_iex):
+    async def test_all_sources_fail_sectors(self, mock_massive, mock_iex):
         """Test AllDataSourcesFailedError when both sources fail for sectors."""
         analyzer = MarketConditionsAnalyzer(
-            polygon_plugin=mock_polygon, iex_plugin=mock_iex, use_cache=False
+            massive_plugin=mock_massive, iex_plugin=mock_iex, use_cache=False
         )
 
-        mock_polygon.get_snapshot.side_effect = Exception("Polygon failed")
+        mock_massive.get_snapshot.side_effect = Exception("Massive failed")
         mock_iex.get_quote.side_effect = Exception("IEX failed")
 
         with pytest.raises(AllDataSourcesFailedError, match="All data sources failed for sector"):
@@ -708,13 +708,13 @@ class TestVolatilityTrendClassification:
     """Test volatility trend classification logic."""
 
     @pytest.mark.asyncio
-    async def test_vix_rising_trend(self, mock_polygon):
+    async def test_vix_rising_trend(self, mock_massive):
         """Test VIX rising trend classification."""
-        analyzer = MarketConditionsAnalyzer(polygon_plugin=mock_polygon, use_cache=False)
+        analyzer = MarketConditionsAnalyzer(massive_plugin=mock_massive, use_cache=False)
 
         # VIX increases by more than 5%
-        mock_polygon.get_snapshot.return_value = {"ticker": {"lastTrade": {"p": 21.0}}}
-        mock_polygon.get_previous_close.return_value = {"c": 20.0}
+        mock_massive.get_snapshot.return_value = {"ticker": {"lastTrade": {"p": 21.0}}}
+        mock_massive.get_previous_close.return_value = {"c": 20.0}
 
         result = await analyzer.get_volatility_metrics()
 
@@ -722,13 +722,13 @@ class TestVolatilityTrendClassification:
         assert result.trend == "Stable"
 
     @pytest.mark.asyncio
-    async def test_vix_rising_trend_strong(self, mock_polygon):
+    async def test_vix_rising_trend_strong(self, mock_massive):
         """Test VIX rising trend classification with strong increase."""
-        analyzer = MarketConditionsAnalyzer(polygon_plugin=mock_polygon, use_cache=False)
+        analyzer = MarketConditionsAnalyzer(massive_plugin=mock_massive, use_cache=False)
 
         # VIX increases by more than 5%
-        mock_polygon.get_snapshot.return_value = {"ticker": {"lastTrade": {"p": 21.5}}}
-        mock_polygon.get_previous_close.return_value = {"c": 20.0}
+        mock_massive.get_snapshot.return_value = {"ticker": {"lastTrade": {"p": 21.5}}}
+        mock_massive.get_previous_close.return_value = {"c": 20.0}
 
         result = await analyzer.get_volatility_metrics()
 
@@ -736,13 +736,13 @@ class TestVolatilityTrendClassification:
         assert result.trend == "Rising"
 
     @pytest.mark.asyncio
-    async def test_vix_falling_trend_strong(self, mock_polygon):
+    async def test_vix_falling_trend_strong(self, mock_massive):
         """Test VIX falling trend classification with strong decrease."""
-        analyzer = MarketConditionsAnalyzer(polygon_plugin=mock_polygon, use_cache=False)
+        analyzer = MarketConditionsAnalyzer(massive_plugin=mock_massive, use_cache=False)
 
         # VIX decreases by more than 5%
-        mock_polygon.get_snapshot.return_value = {"ticker": {"lastTrade": {"p": 18.5}}}
-        mock_polygon.get_previous_close.return_value = {"c": 20.0}
+        mock_massive.get_snapshot.return_value = {"ticker": {"lastTrade": {"p": 18.5}}}
+        mock_massive.get_previous_close.return_value = {"c": 20.0}
 
         result = await analyzer.get_volatility_metrics()
 
@@ -750,13 +750,13 @@ class TestVolatilityTrendClassification:
         assert result.trend == "Falling"
 
     @pytest.mark.asyncio
-    async def test_vix_stable_trend(self, mock_polygon):
+    async def test_vix_stable_trend(self, mock_massive):
         """Test VIX stable trend classification."""
-        analyzer = MarketConditionsAnalyzer(polygon_plugin=mock_polygon, use_cache=False)
+        analyzer = MarketConditionsAnalyzer(massive_plugin=mock_massive, use_cache=False)
 
         # VIX changes by less than 5%
-        mock_polygon.get_snapshot.return_value = {"ticker": {"lastTrade": {"p": 20.5}}}
-        mock_polygon.get_previous_close.return_value = {"c": 20.0}
+        mock_massive.get_snapshot.return_value = {"ticker": {"lastTrade": {"p": 20.5}}}
+        mock_massive.get_previous_close.return_value = {"c": 20.0}
 
         result = await analyzer.get_volatility_metrics()
 
@@ -764,12 +764,12 @@ class TestVolatilityTrendClassification:
         assert result.trend == "Stable"
 
     @pytest.mark.asyncio
-    async def test_vix_zero_previous_close(self, mock_polygon):
+    async def test_vix_zero_previous_close(self, mock_massive):
         """Test VIX handling when previous close is zero."""
-        analyzer = MarketConditionsAnalyzer(polygon_plugin=mock_polygon, use_cache=False)
+        analyzer = MarketConditionsAnalyzer(massive_plugin=mock_massive, use_cache=False)
 
-        mock_polygon.get_snapshot.return_value = {"ticker": {"lastTrade": {"p": 20.0}}}
-        mock_polygon.get_previous_close.return_value = {"c": 0.0}
+        mock_massive.get_snapshot.return_value = {"ticker": {"lastTrade": {"p": 20.0}}}
+        mock_massive.get_previous_close.return_value = {"c": 0.0}
 
         result = await analyzer.get_volatility_metrics()
 
@@ -783,8 +783,8 @@ class TestRegimeClassificationEdgeCases:
 
     def test_classify_regime_vix_exactly_18(self):
         """Test regime classification when VIX is exactly 18."""
-        mock_polygon = AsyncMock()
-        analyzer = MarketConditionsAnalyzer(polygon_plugin=mock_polygon, use_cache=False)
+        mock_massive = AsyncMock()
+        analyzer = MarketConditionsAnalyzer(massive_plugin=mock_massive, use_cache=False)
 
         volatility = VolatilityMetrics(
             vix_current=18.0,
@@ -818,8 +818,8 @@ class TestRegimeClassificationEdgeCases:
 
     def test_classify_regime_vix_exactly_25(self):
         """Test regime classification when VIX is exactly 25."""
-        mock_polygon = AsyncMock()
-        analyzer = MarketConditionsAnalyzer(polygon_plugin=mock_polygon, use_cache=False)
+        mock_massive = AsyncMock()
+        analyzer = MarketConditionsAnalyzer(massive_plugin=mock_massive, use_cache=False)
 
         volatility = VolatilityMetrics(
             vix_current=25.0,
@@ -853,8 +853,8 @@ class TestRegimeClassificationEdgeCases:
 
     def test_classify_regime_defensive_leadership_risk_off(self):
         """Test risk-off classification with defensive leadership."""
-        mock_polygon = AsyncMock()
-        analyzer = MarketConditionsAnalyzer(polygon_plugin=mock_polygon, use_cache=False)
+        mock_massive = AsyncMock()
+        analyzer = MarketConditionsAnalyzer(massive_plugin=mock_massive, use_cache=False)
 
         volatility = VolatilityMetrics(
             vix_current=22.0,
@@ -889,8 +889,8 @@ class TestRegimeClassificationEdgeCases:
 
     def test_classify_regime_equal_cyclical_defensive_leadership(self):
         """Test choppy classification when cyclical and defensive leadership are equal."""
-        mock_polygon = AsyncMock()
-        analyzer = MarketConditionsAnalyzer(polygon_plugin=mock_polygon, use_cache=False)
+        mock_massive = AsyncMock()
+        analyzer = MarketConditionsAnalyzer(massive_plugin=mock_massive, use_cache=False)
 
         volatility = VolatilityMetrics(
             vix_current=16.0,
@@ -929,8 +929,8 @@ class TestRegimeClassificationEdgeCases:
 
     def test_classify_regime_bearish_breadth_sentiment(self):
         """Test risk-off classification with bearish breadth sentiment."""
-        mock_polygon = AsyncMock()
-        analyzer = MarketConditionsAnalyzer(polygon_plugin=mock_polygon, use_cache=False)
+        mock_massive = AsyncMock()
+        analyzer = MarketConditionsAnalyzer(massive_plugin=mock_massive, use_cache=False)
 
         volatility = VolatilityMetrics(
             vix_current=16.0,
@@ -968,8 +968,8 @@ class TestTradingImplicationsEdgeCases:
 
     def test_vix_extreme_warning_at_30(self):
         """Test VIX extreme warning at exactly 30."""
-        mock_polygon = AsyncMock()
-        analyzer = MarketConditionsAnalyzer(polygon_plugin=mock_polygon, use_cache=False)
+        mock_massive = AsyncMock()
+        analyzer = MarketConditionsAnalyzer(massive_plugin=mock_massive, use_cache=False)
 
         volatility = VolatilityMetrics(
             vix_current=30.0,
@@ -989,8 +989,8 @@ class TestTradingImplicationsEdgeCases:
 
     def test_vix_extreme_warning_above_30(self):
         """Test VIX extreme warning when above 30."""
-        mock_polygon = AsyncMock()
-        analyzer = MarketConditionsAnalyzer(polygon_plugin=mock_polygon, use_cache=False)
+        mock_massive = AsyncMock()
+        analyzer = MarketConditionsAnalyzer(massive_plugin=mock_massive, use_cache=False)
 
         volatility = VolatilityMetrics(
             vix_current=31.0,
@@ -1011,8 +1011,8 @@ class TestTradingImplicationsEdgeCases:
 
     def test_vix_very_low_warning_at_15(self):
         """Test VIX very low warning at exactly 15."""
-        mock_polygon = AsyncMock()
-        analyzer = MarketConditionsAnalyzer(polygon_plugin=mock_polygon, use_cache=False)
+        mock_massive = AsyncMock()
+        analyzer = MarketConditionsAnalyzer(massive_plugin=mock_massive, use_cache=False)
 
         volatility = VolatilityMetrics(
             vix_current=15.0,
@@ -1032,8 +1032,8 @@ class TestTradingImplicationsEdgeCases:
 
     def test_vix_very_low_warning_below_15(self):
         """Test VIX very low warning when below 15."""
-        mock_polygon = AsyncMock()
-        analyzer = MarketConditionsAnalyzer(polygon_plugin=mock_polygon, use_cache=False)
+        mock_massive = AsyncMock()
+        analyzer = MarketConditionsAnalyzer(massive_plugin=mock_massive, use_cache=False)
 
         volatility = VolatilityMetrics(
             vix_current=14.5,
@@ -1054,8 +1054,8 @@ class TestTradingImplicationsEdgeCases:
 
     def test_implications_for_trending_up_regime(self):
         """Test trading implications for TRENDING_UP regime."""
-        mock_polygon = AsyncMock()
-        analyzer = MarketConditionsAnalyzer(polygon_plugin=mock_polygon, use_cache=False)
+        mock_massive = AsyncMock()
+        analyzer = MarketConditionsAnalyzer(massive_plugin=mock_massive, use_cache=False)
 
         volatility = VolatilityMetrics(
             vix_current=16.0,
@@ -1075,8 +1075,8 @@ class TestTradingImplicationsEdgeCases:
 
     def test_implications_for_trending_down_regime(self):
         """Test trading implications for TRENDING_DOWN regime."""
-        mock_polygon = AsyncMock()
-        analyzer = MarketConditionsAnalyzer(polygon_plugin=mock_polygon, use_cache=False)
+        mock_massive = AsyncMock()
+        analyzer = MarketConditionsAnalyzer(massive_plugin=mock_massive, use_cache=False)
 
         volatility = VolatilityMetrics(
             vix_current=16.0,
@@ -1100,10 +1100,10 @@ class TestTradingImplicationsEdgeCases:
 class TestDataParsingEdgeCases:
     """Test edge cases in data parsing."""
 
-    def test_parse_index_snapshots_missing_fields_polygon(self):
-        """Test parsing Polygon data with missing fields."""
-        mock_polygon = AsyncMock()
-        analyzer = MarketConditionsAnalyzer(polygon_plugin=mock_polygon, use_cache=False)
+    def test_parse_index_snapshots_missing_fields_massive(self):
+        """Test parsing Massive data with missing fields."""
+        mock_massive = AsyncMock()
+        analyzer = MarketConditionsAnalyzer(massive_plugin=mock_massive, use_cache=False)
 
         data = {
             "SPY": {
@@ -1113,7 +1113,7 @@ class TestDataParsingEdgeCases:
             }
         }
 
-        result = analyzer._parse_index_snapshots(data, "polygon")
+        result = analyzer._parse_index_snapshots(data, "massive")
 
         assert "SPY" in result
         assert result["SPY"].price == 0.0
@@ -1122,8 +1122,8 @@ class TestDataParsingEdgeCases:
 
     def test_parse_index_snapshots_missing_fields_iex(self):
         """Test parsing IEX data with missing fields."""
-        mock_polygon = AsyncMock()
-        analyzer = MarketConditionsAnalyzer(polygon_plugin=mock_polygon, use_cache=False)
+        mock_massive = AsyncMock()
+        analyzer = MarketConditionsAnalyzer(massive_plugin=mock_massive, use_cache=False)
 
         data = {
             "SPY": {
@@ -1158,8 +1158,8 @@ class TestDataParsingEdgeCases:
 
     def test_parse_volatility_metrics_missing_previous(self):
         """Test parsing VIX data when previous close is missing."""
-        mock_polygon = AsyncMock()
-        analyzer = MarketConditionsAnalyzer(polygon_plugin=mock_polygon, use_cache=False)
+        mock_massive = AsyncMock()
+        analyzer = MarketConditionsAnalyzer(massive_plugin=mock_massive, use_cache=False)
 
         data = {
             "snapshot": {
@@ -1197,8 +1197,8 @@ class TestDataParsingEdgeCases:
 
     def test_parse_sector_performance_skip_non_sector_symbols(self):
         """Test that non-sector symbols are skipped during parsing."""
-        mock_polygon = AsyncMock()
-        analyzer = MarketConditionsAnalyzer(polygon_plugin=mock_polygon, use_cache=False)
+        mock_massive = AsyncMock()
+        analyzer = MarketConditionsAnalyzer(massive_plugin=mock_massive, use_cache=False)
 
         data = {
             "XLK": {
@@ -1215,7 +1215,7 @@ class TestDataParsingEdgeCases:
             },
         }
 
-        result = analyzer._parse_sector_performance(data, "polygon")
+        result = analyzer._parse_sector_performance(data, "massive")
 
         # Should only include XLK, not SPY
         assert len(result) == 1
@@ -1226,9 +1226,9 @@ class TestAnalyzeEndToEnd:
     """Test the complete analyze workflow."""
 
     @pytest.mark.asyncio
-    async def test_analyze_sorts_sectors_by_performance(self, mock_polygon):
+    async def test_analyze_sorts_sectors_by_performance(self, mock_massive):
         """Test that analyze() sorts sectors by daily performance."""
-        analyzer = MarketConditionsAnalyzer(polygon_plugin=mock_polygon, use_cache=False)
+        analyzer = MarketConditionsAnalyzer(massive_plugin=mock_massive, use_cache=False)
 
         # Mock all data sources with varying sector performance
         def get_snapshot_side_effect(symbol):
@@ -1259,8 +1259,8 @@ class TestAnalyzeEndToEnd:
                 }
             }
 
-        mock_polygon.get_snapshot.side_effect = get_snapshot_side_effect
-        mock_polygon.get_previous_close.return_value = {"c": 20.0}
+        mock_massive.get_snapshot.side_effect = get_snapshot_side_effect
+        mock_massive.get_previous_close.return_value = {"c": 20.0}
 
         report = await analyzer.analyze()
 
@@ -1270,11 +1270,11 @@ class TestAnalyzeEndToEnd:
         assert report.sectors[0].change_pct_daily > report.sectors[-1].change_pct_daily
 
     @pytest.mark.asyncio
-    async def test_analyze_creates_report_structure(self, mock_polygon):
+    async def test_analyze_creates_report_structure(self, mock_massive):
         """Test that analyze() creates proper MarketConditionsReport structure."""
-        analyzer = MarketConditionsAnalyzer(polygon_plugin=mock_polygon, use_cache=False)
+        analyzer = MarketConditionsAnalyzer(massive_plugin=mock_massive, use_cache=False)
 
-        mock_polygon.get_snapshot.return_value = {
+        mock_massive.get_snapshot.return_value = {
             "ticker": {
                 "lastTrade": {"p": 450.0},
                 "todaysChange": 5.0,
@@ -1283,7 +1283,7 @@ class TestAnalyzeEndToEnd:
                 "prevDay": {"h": 455.0, "l": 445.0},
             }
         }
-        mock_polygon.get_previous_close.return_value = {"c": 20.0}
+        mock_massive.get_previous_close.return_value = {"c": 20.0}
 
         report = await analyzer.analyze()
 

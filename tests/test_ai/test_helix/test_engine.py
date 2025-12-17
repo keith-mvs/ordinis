@@ -99,7 +99,7 @@ class TestModelResolution:
             model = helix._get_model("nemotron-super", ModelType.CHAT)
 
             assert model is not None
-            assert model.model_id == "nvidia/llama-3.3-nemotron-super-49b-v1.5"
+            assert model.model_id == "meta/llama-3.3-70b-instruct"
 
     def test_get_model_default_chat(self, test_helix_config: HelixConfig):
         """Test getting default chat model."""
@@ -109,7 +109,7 @@ class TestModelResolution:
             model = helix._get_model(None, ModelType.CHAT)
 
             assert model is not None
-            assert model.model_id == "nvidia/llama-3.3-nemotron-super-49b-v1.5"
+            assert model.model_id == "meta/llama-3.3-70b-instruct"
 
     def test_get_model_default_embedding(self, test_helix_config: HelixConfig):
         """Test getting default embedding model."""

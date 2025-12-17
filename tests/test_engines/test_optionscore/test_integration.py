@@ -14,8 +14,8 @@ from ordinis.engines.optionscore.data import OptionType
 
 
 @pytest.fixture
-def mock_polygon_plugin():
-    """Create mock Polygon plugin."""
+def mock_provider():
+    """Create mock market data provider."""
     plugin = MagicMock()
     plugin.status = MagicMock()
     plugin.status.value = "ready"
@@ -80,17 +80,17 @@ def engine_config():
 
 
 @pytest.fixture
-async def engine(engine_config, mock_polygon_plugin):
+async def engine(engine_config, mock_provider):
     """Create and initialize engine."""
-    engine = OptionsCoreEngine(engine_config, mock_polygon_plugin)
+    engine = OptionsCoreEngine(engine_config, mock_provider)
     await engine.initialize()
     return engine
 
 
 @pytest.mark.asyncio
-async def test_engine_initialization(engine_config, mock_polygon_plugin):
+async def test_engine_initialization(engine_config, mock_provider):
     """Test engine initialization."""
-    engine = OptionsCoreEngine(engine_config, mock_polygon_plugin)
+    engine = OptionsCoreEngine(engine_config, mock_provider)
 
     assert not engine.initialized
     result = await engine.initialize()
@@ -130,7 +130,7 @@ async def test_full_chain_workflow(engine):
 @pytest.mark.asyncio
 async def test_cache_behavior(engine):
     """Test caching with TTL."""
-    # First call - should fetch from Polygon
+    # First call - should fetch from provider
     chain1 = await engine.get_option_chain("AAPL")
     assert len(chain1.contracts) == 3
 
@@ -218,9 +218,9 @@ async def test_invalid_symbol_handling(engine):
 
 
 @pytest.mark.asyncio
-async def test_uninitialized_engine_error(engine_config, mock_polygon_plugin):
+async def test_uninitialized_engine_error(engine_config, mock_provider):
     """Test that uninitialized engine raises error."""
-    engine = OptionsCoreEngine(engine_config, mock_polygon_plugin)
+    engine = OptionsCoreEngine(engine_config, mock_provider)
 
     with pytest.raises(RuntimeError, match="Engine not initialized"):
         await engine.get_option_chain("AAPL")

@@ -16,6 +16,7 @@ from ordinis.engines.flowroute.core.orders import (
     Fill,
     Order,
     OrderIntent,
+    OrderSide,
     OrderStatus,
     OrderType,
 )
@@ -27,7 +28,7 @@ def test_order_intent_creation():
     intent = OrderIntent(
         intent_id="test-intent-001",
         symbol="AAPL",
-        side="buy",
+        side=OrderSide.BUY,
         quantity=100,
         order_type=OrderType.LIMIT,
         limit_price=150.0,
@@ -47,7 +48,7 @@ def test_order_creation():
     order = Order(
         order_id="order-001",
         symbol="AAPL",
-        side="buy",
+        side=OrderSide.BUY,
         quantity=100,
         order_type=OrderType.MARKET,
     )
@@ -64,7 +65,7 @@ def test_order_is_terminal():
     order = Order(
         order_id="order-001",
         symbol="AAPL",
-        side="buy",
+        side=OrderSide.BUY,
         quantity=100,
         order_type=OrderType.MARKET,
     )
@@ -91,7 +92,7 @@ def test_order_is_active():
     order = Order(
         order_id="order-001",
         symbol="AAPL",
-        side="buy",
+        side=OrderSide.BUY,
         quantity=100,
         order_type=OrderType.MARKET,
     )
@@ -118,7 +119,7 @@ def test_order_add_fill():
     order = Order(
         order_id="order-001",
         symbol="AAPL",
-        side="buy",
+        side=OrderSide.BUY,
         quantity=100,
         order_type=OrderType.MARKET,
     )
@@ -128,7 +129,7 @@ def test_order_add_fill():
         fill_id="fill-001",
         order_id="order-001",
         symbol="AAPL",
-        side="buy",
+        side=OrderSide.BUY,
         quantity=50,
         price=150.0,
         commission=0.25,
@@ -147,7 +148,7 @@ def test_order_add_fill():
         fill_id="fill-002",
         order_id="order-001",
         symbol="AAPL",
-        side="buy",
+        side=OrderSide.BUY,
         quantity=50,
         price=151.0,
         commission=0.25,
@@ -168,7 +169,7 @@ def test_order_fill_percentage():
     order = Order(
         order_id="order-001",
         symbol="AAPL",
-        side="buy",
+        side=OrderSide.BUY,
         quantity=100,
         order_type=OrderType.MARKET,
     )
@@ -179,7 +180,7 @@ def test_order_fill_percentage():
         fill_id="fill-001",
         order_id="order-001",
         symbol="AAPL",
-        side="buy",
+        side=OrderSide.BUY,
         quantity=50,
         price=150.0,
         commission=0.25,
@@ -197,17 +198,17 @@ def test_order_to_dict():
     order = Order(
         order_id="order-001",
         symbol="AAPL",
-        side="buy",
+        side=OrderSide.BUY,
         quantity=100,
         order_type=OrderType.LIMIT,
         limit_price=150.0,
     )
 
-    order_dict = order.to_dict()
+    order_dict = order.model_dump()
 
     assert order_dict["order_id"] == "order-001"
     assert order_dict["symbol"] == "AAPL"
-    assert order_dict["order_type"] == "limit"
+    assert order_dict["order_type"] == OrderType.LIMIT
     assert order_dict["limit_price"] == 150.0
 
 
@@ -218,7 +219,7 @@ def test_fill_creation():
         fill_id="fill-001",
         order_id="order-001",
         symbol="AAPL",
-        side="buy",
+        side=OrderSide.BUY,
         quantity=100,
         price=150.0,
         commission=0.50,
@@ -240,18 +241,18 @@ def test_fill_to_dict():
         fill_id="fill-001",
         order_id="order-001",
         symbol="AAPL",
-        side="buy",
+        side=OrderSide.BUY,
         quantity=100,
         price=150.0,
         commission=0.50,
         timestamp=now,
     )
 
-    fill_dict = fill.to_dict()
+    fill_dict = fill.model_dump()
 
     assert fill_dict["fill_id"] == "fill-001"
     assert fill_dict["quantity"] == 100
-    assert fill_dict["timestamp"] == now.isoformat()
+    assert fill_dict["timestamp"] == now
 
 
 @pytest.mark.unit
@@ -285,8 +286,8 @@ def test_execution_event_to_dict():
         status_after=OrderStatus.FILLED,
     )
 
-    event_dict = event.to_dict()
+    event_dict = event.model_dump()
 
     assert event_dict["event_id"] == "event-001"
-    assert event_dict["status_before"] == "submitted"
-    assert event_dict["status_after"] == "filled"
+    assert event_dict["status_before"] == OrderStatus.SUBMITTED
+    assert event_dict["status_after"] == OrderStatus.FILLED

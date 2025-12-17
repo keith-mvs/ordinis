@@ -3,6 +3,7 @@
 from datetime import datetime
 
 import pandas as pd
+import pytest
 
 from ordinis.application.strategies.bollinger_bands import BollingerBandsStrategy
 from ordinis.engines.signalcore.core.signal import Direction, SignalType
@@ -52,7 +53,8 @@ class TestBollingerBandsConfiguration:
 class TestLowerBandTouch:
     """Test lower band touch signal generation."""
 
-    def test_lower_band_touch_long_entry(self):
+    @pytest.mark.asyncio
+    async def test_lower_band_touch_long_entry(self):
         """Test long entry signal when price touches lower band."""
         strategy = BollingerBandsStrategy(name="test", bb_period=5, bb_std=2.0)
 
@@ -64,7 +66,7 @@ class TestLowerBandTouch:
         )
         data["symbol"] = "AAPL"
 
-        signal = strategy.generate_signal(data, datetime.utcnow())
+        signal = await strategy.generate_signal(data, datetime.utcnow())
 
         assert signal is not None
         # Signal should be ENTRY or HOLD (near lower band can be either)
@@ -74,7 +76,8 @@ class TestLowerBandTouch:
         assert "band_position" in signal.metadata
         assert signal.metadata["band_position"] < 0.2  # Near lower band
 
-    def test_lower_band_touch_with_high_volatility(self):
+    @pytest.mark.asyncio
+    async def test_lower_band_touch_with_high_volatility(self):
         """Test signal with sufficient band width."""
         strategy = BollingerBandsStrategy(name="test", bb_period=5, bb_std=2.0, min_band_width=0.01)
 
@@ -86,7 +89,7 @@ class TestLowerBandTouch:
         )
         data["symbol"] = "AAPL"
 
-        signal = strategy.generate_signal(data, datetime.utcnow())
+        signal = await strategy.generate_signal(data, datetime.utcnow())
 
         assert signal is not None
         if signal.signal_type == SignalType.ENTRY:
@@ -97,7 +100,8 @@ class TestLowerBandTouch:
 class TestUpperBandTouch:
     """Test upper band touch signal generation."""
 
-    def test_upper_band_touch_exit_signal(self):
+    @pytest.mark.asyncio
+    async def test_upper_band_touch_exit_signal(self):
         """Test exit signal when price touches upper band."""
         strategy = BollingerBandsStrategy(name="test", bb_period=5, bb_std=2.0)
 
@@ -108,7 +112,7 @@ class TestUpperBandTouch:
         )
         data["symbol"] = "AAPL"
 
-        signal = strategy.generate_signal(data, datetime.utcnow())
+        signal = await strategy.generate_signal(data, datetime.utcnow())
 
         assert signal is not None
         if signal.signal_type == SignalType.EXIT:
@@ -120,7 +124,8 @@ class TestUpperBandTouch:
 class TestMiddleBandBehavior:
     """Test behavior around middle band."""
 
-    def test_middle_band_hold_signal(self):
+    @pytest.mark.asyncio
+    async def test_middle_band_hold_signal(self):
         """Test hold signal when price near middle band."""
         strategy = BollingerBandsStrategy(name="test", bb_period=5, bb_std=2.0)
 
@@ -132,7 +137,7 @@ class TestMiddleBandBehavior:
         )
         data["symbol"] = "AAPL"
 
-        signal = strategy.generate_signal(data, datetime.utcnow())
+        signal = await strategy.generate_signal(data, datetime.utcnow())
 
         assert signal is not None
         if signal.signal_type == SignalType.HOLD:
@@ -143,7 +148,8 @@ class TestMiddleBandBehavior:
 class TestBandWidthConditions:
     """Test band width filtering."""
 
-    def test_insufficient_band_width_no_entry(self):
+    @pytest.mark.asyncio
+    async def test_insufficient_band_width_no_entry(self):
         """Test no entry signal when bands too narrow."""
         strategy = BollingerBandsStrategy(name="test", bb_period=5, bb_std=2.0, min_band_width=0.05)
 
@@ -154,7 +160,7 @@ class TestBandWidthConditions:
         )
         data["symbol"] = "AAPL"
 
-        signal = strategy.generate_signal(data, datetime.utcnow())
+        signal = await strategy.generate_signal(data, datetime.utcnow())
 
         # Should get hold/neutral, not entry
         if signal is not None and signal.signal_type == SignalType.ENTRY:
@@ -165,7 +171,8 @@ class TestBandWidthConditions:
 class TestSignalMetadata:
     """Test signal metadata fields."""
 
-    def test_entry_metadata_complete(self):
+    @pytest.mark.asyncio
+    async def test_entry_metadata_complete(self):
         """Test all metadata fields present in entry signal."""
         strategy = BollingerBandsStrategy(name="test", bb_period=5, bb_std=2.0)
 
@@ -175,7 +182,7 @@ class TestSignalMetadata:
         )
         data["symbol"] = "AAPL"
 
-        signal = strategy.generate_signal(data, datetime.utcnow())
+        signal = await strategy.generate_signal(data, datetime.utcnow())
 
         assert signal is not None
         metadata = signal.metadata
@@ -189,14 +196,15 @@ class TestSignalMetadata:
         assert "stop_loss" in metadata
         assert "take_profit" in metadata
 
-    def test_metadata_values_reasonable(self):
+    @pytest.mark.asyncio
+    async def test_metadata_values_reasonable(self):
         """Test metadata values are within reasonable ranges."""
         strategy = BollingerBandsStrategy(name="test", bb_period=5, bb_std=2.0)
 
         data = create_test_data(bars=60, close=list(range(100, 160)))
         data["symbol"] = "AAPL"
 
-        signal = strategy.generate_signal(data, datetime.utcnow())
+        signal = await strategy.generate_signal(data, datetime.utcnow())
 
         if signal is not None:
             metadata = signal.metadata
@@ -215,33 +223,36 @@ class TestSignalMetadata:
 class TestDataValidation:
     """Test data validation and error handling."""
 
-    def test_insufficient_data_returns_none(self):
+    @pytest.mark.asyncio
+    async def test_insufficient_data_returns_none(self):
         """Test that insufficient data returns None."""
         strategy = BollingerBandsStrategy(name="test", bb_period=20)
 
         data = create_test_data(bars=10)  # Need 20
 
-        signal = strategy.generate_signal(data, datetime.utcnow())
+        signal = await strategy.generate_signal(data, datetime.utcnow())
 
         assert signal is None
 
-    def test_missing_columns_returns_none(self):
+    @pytest.mark.asyncio
+    async def test_missing_columns_returns_none(self):
         """Test that missing columns returns None."""
         strategy = BollingerBandsStrategy(name="test")
 
         data = pd.DataFrame({"high": [100] * 30, "low": [95] * 30, "close": [98] * 30})
 
-        signal = strategy.generate_signal(data, datetime.utcnow())
+        signal = await strategy.generate_signal(data, datetime.utcnow())
 
         assert signal is None
 
-    def test_empty_dataframe_returns_none(self):
+    @pytest.mark.asyncio
+    async def test_empty_dataframe_returns_none(self):
         """Test that empty DataFrame returns None."""
         strategy = BollingerBandsStrategy(name="test")
 
         data = pd.DataFrame()
 
-        signal = strategy.generate_signal(data, datetime.utcnow())
+        signal = await strategy.generate_signal(data, datetime.utcnow())
 
         assert signal is None
 
@@ -249,25 +260,27 @@ class TestDataValidation:
 class TestSymbolHandling:
     """Test symbol extraction from ordinis.data."""
 
-    def test_symbol_from_data(self):
+    @pytest.mark.asyncio
+    async def test_symbol_from_data(self):
         """Test symbol extraction when present."""
         strategy = BollingerBandsStrategy(name="test", bb_period=5)
 
         data = create_test_data(bars=60)
         data["symbol"] = "TSLA"
 
-        signal = strategy.generate_signal(data, datetime.utcnow())
+        signal = await strategy.generate_signal(data, datetime.utcnow())
 
         assert signal is not None
         assert signal.symbol == "TSLA"
 
-    def test_default_symbol_when_missing(self):
+    @pytest.mark.asyncio
+    async def test_default_symbol_when_missing(self):
         """Test default symbol when not in data."""
         strategy = BollingerBandsStrategy(name="test", bb_period=5)
 
         data = create_test_data(bars=60)
 
-        signal = strategy.generate_signal(data, datetime.utcnow())
+        signal = await strategy.generate_signal(data, datetime.utcnow())
 
         if signal is not None:
             assert signal.symbol == "UNKNOWN"
@@ -292,7 +305,8 @@ class TestStrategyDescription:
 class TestEdgeCases:
     """Test edge cases."""
 
-    def test_probability_bounds(self):
+    @pytest.mark.asyncio
+    async def test_probability_bounds(self):
         """Test that probability is within valid bounds."""
         strategy = BollingerBandsStrategy(name="test", bb_period=5, bb_std=2.0)
 
@@ -303,12 +317,13 @@ class TestEdgeCases:
         )
         data["symbol"] = "AAPL"
 
-        signal = strategy.generate_signal(data, datetime.utcnow())
+        signal = await strategy.generate_signal(data, datetime.utcnow())
 
         assert signal is not None
         assert 0 <= signal.probability <= 1
 
-    def test_nan_handling(self):
+    @pytest.mark.asyncio
+    async def test_nan_handling(self):
         """Test handling of NaN values in data."""
         strategy = BollingerBandsStrategy(name="test", bb_period=5)
 
@@ -317,13 +332,14 @@ class TestEdgeCases:
         data.loc[10:12, "close"] = float("nan")
         data["symbol"] = "AAPL"
 
-        signal = strategy.generate_signal(data, datetime.utcnow())
+        signal = await strategy.generate_signal(data, datetime.utcnow())
 
         # Should either handle gracefully or return None
         # Not crash with exception
         assert signal is None or isinstance(signal.probability, float)
 
-    def test_zero_volume(self):
+    @pytest.mark.asyncio
+    async def test_zero_volume(self):
         """Test handling of zero volume."""
         strategy = BollingerBandsStrategy(name="test", bb_period=5)
 
@@ -334,7 +350,7 @@ class TestEdgeCases:
         )
         data["symbol"] = "AAPL"
 
-        signal = strategy.generate_signal(data, datetime.utcnow())
+        signal = await strategy.generate_signal(data, datetime.utcnow())
 
         # Should still generate signal (BB doesn't depend on volume)
         assert signal is not None
@@ -343,7 +359,8 @@ class TestEdgeCases:
 class TestMeanReversion:
     """Test mean reversion behavior."""
 
-    def test_oversold_to_mean_reversion(self):
+    @pytest.mark.asyncio
+    async def test_oversold_to_mean_reversion(self):
         """Test mean reversion from oversold condition."""
         strategy = BollingerBandsStrategy(name="test", bb_period=10, bb_std=2.0)
 
@@ -355,10 +372,10 @@ class TestMeanReversion:
         data["symbol"] = "AAPL"
 
         # Check signal at bottom (should be entry)
-        signal_bottom = strategy.generate_signal(data.iloc[:45], datetime.utcnow())
+        signal_bottom = await strategy.generate_signal(data.iloc[:45], datetime.utcnow())
 
         # Check signal at reversion (might be exit)
-        signal_revert = strategy.generate_signal(data, datetime.utcnow())
+        signal_revert = await strategy.generate_signal(data, datetime.utcnow())
 
         if signal_bottom is not None and signal_bottom.signal_type == SignalType.ENTRY:
             assert signal_bottom.direction == Direction.LONG

@@ -55,7 +55,7 @@ def mock_signal():
 @pytest.mark.unit
 def test_engine_initialization():
     """Test RiskGuard engine initialization."""
-    engine = RiskGuardEngine()
+    engine = RiskGuardEngine(rules={})
 
     assert len(engine.list_rules()) == 0
     assert engine.is_halted() is False
@@ -73,7 +73,7 @@ def test_engine_with_standard_rules():
 @pytest.mark.unit
 def test_add_rule():
     """Test adding a rule to engine."""
-    engine = RiskGuardEngine()
+    engine = RiskGuardEngine(rules={})
 
     rule = RiskRule(
         rule_id="TEST001",
@@ -96,7 +96,7 @@ def test_add_rule():
 @pytest.mark.unit
 def test_remove_rule():
     """Test removing a rule from engine."""
-    engine = RiskGuardEngine()
+    engine = RiskGuardEngine(rules={})
 
     rule = RiskRule(
         rule_id="TEST001",
@@ -287,7 +287,7 @@ def test_get_available_capacity(mock_portfolio):
 
     assert "max_value" in capacity
     assert "limiting_rule" in capacity
-    assert capacity["max_value"] == 10000.0  # 10% of 100k equity
+    assert capacity["max_value"] == 20000.0  # 20% of 100k equity (RT001)
 
 
 @pytest.mark.unit

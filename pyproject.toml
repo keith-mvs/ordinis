@@ -339,6 +339,10 @@ ignore = [
     "PLR2004", # Magic values OK in tests
     "ARG",     # Unused arguments OK in tests
     "DTZ",     # Datetime issues OK in tests
+    "PT018",   # Multi-part assertions OK in tests
+    "PT011",   # Broad exceptions OK in tests
+    "TRY002",  # Custom exceptions not required in tests
+    "PTH",     # Pathlib not required in tests
 ]
 "docs/**/*.py" = [
     "ANN",     # Type annotations not required in examples
