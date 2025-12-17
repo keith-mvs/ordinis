@@ -1,77 +1,73 @@
-# Vertical Spreads Implementation
+# Vertical Spreads
 
-**Section**: 06_options/strategy_implementations
-**Last Updated**: 2025-12-12
-**Source Skills**: [bull-call-spread](../../../../.claude/skills/bull-call-spread/SKILL.md), [bear-put-spread](../../../../.claude/skills/bear-put-spread/SKILL.md)
+## Purpose
 
----
+Directional structures using two strikes and one expiry with defined risk/reward. Covers debit (bull call, bear put) and credit (bull put, bear call) variants.
 
-## Bull Call Spread
+## Components
 
-### Structure
-- Buy lower strike call (ITM/ATM)
-- Sell higher strike call (OTM)
-- Same expiration
+- Two options on same underlying and expiry.
+- One long, one short; width = |long strike - short strike|.
+- Net debit (pay) or net credit (receive).
 
-### Risk Profile
+## Payoff Formulas
+
+- Debit spreads: max loss = net debit; max profit = width - net debit; breakeven = long strike ± net debit (call: +, put: -).
+- Credit spreads: max profit = net credit; max loss = width - net credit; breakeven = short strike ± net credit (put: -, call: +).
+
+## Greek Profile (typical)
+
+- Delta: modest directional; credit spreads often closer to 0 at open.
+- Theta: credit spreads generally positive; debit spreads negative.
+- Vega: debit spreads benefit from IV rise; credit spreads from IV fall.
+
+## Construction Guidelines
+
+- Pick width based on risk budget/margin; prefer stable spacing (e.g., $5 or $10).
+- Debit (directional, lower IV): buy near ATM, sell OTM to offset cost.
+- Credit (range/neutral, higher IV): sell nearer money; buy further OTM for protection; avoid tiny widths that are all fees.
+- Align expiry to thesis; avoid unintended event risk unless desired.
+
+## Risk Controls
+
+- Set exits: profit target (e.g., 50–75% of max) and max loss (e.g., 1–1.5x debit).
+- Monitor assignment on short leg (dividends for calls, deep ITM puts).
+- Roll or close when most credit captured or thesis invalidates.
+
+## Example (Bull Call Debit)
+
+- Buy 1 K1 call @ $3.00, sell 1 K2 call @ $1.50 (K1 < K2).
+- Net debit = $1.50; width = K2 - K1.
+- Max profit = width - debit; max loss = debit.
+
+## Implementation Notes
+
+- Enforce strike spacing/width limits and margin checks in engine.
+- Backtest with realistic fills, early exercise, and slippage.
+- Standardize sizing across spread types; cap exposure per underlying/sector.
+
+## Python Example (debit vs credit spread metrics)
+
 ```python
-net_debit = long_premium - short_premium
-max_profit = spread_width - net_debit
-max_loss = net_debit
-breakeven = long_strike + net_debit
+def debit_spread_metrics(long_k, short_k, long_px, short_px, call=True):
+    width = abs(short_k - long_k)
+    debit = long_px - short_px
+    max_loss = debit
+    max_profit = width - debit
+    breakeven = long_k + debit if call else long_k - debit
+    return {"width": width, "debit": debit, "max_profit": max_profit, "max_loss": max_loss, "breakeven": breakeven}
+
+def credit_spread_metrics(short_k, long_k, short_px, long_px, call=True):
+    width = abs(long_k - short_k)
+    credit = short_px - long_px
+    max_profit = credit
+    max_loss = width - credit
+    breakeven = short_k + credit if call else short_k - credit
+    return {"width": width, "credit": credit, "max_profit": max_profit, "max_loss": max_loss, "breakeven": breakeven}
+
+# Examples
+bull_call = debit_spread_metrics(long_k=100, short_k=105, long_px=3.5, short_px=1.5, call=True)
+bear_call = credit_spread_metrics(short_k=100, long_k=105, short_px=3.0, long_px=1.0, call=True)
+print("Bull call metrics:", bull_call)
+print("Bear call metrics:", bear_call)
 ```
-
-### Example: SPY $445/$455 Bull Call
-- Buy $445 call @ $8.50
-- Sell $455 call @ $3.20
-- Net debit: $5.30
-- Max profit: $4.70 (if SPY >= $455)
-- Max loss: $5.30 (if SPY <= $445)
-- Breakeven: $450.30
-
----
-
-## Bear Put Spread
-
-### Structure
-- Buy higher strike put (ATM/ITM)
-- Sell lower strike put (OTM)
-- Same expiration
-
-### Risk Profile
-```python
-net_debit = long_premium - short_premium
-max_profit = spread_width - net_debit
-max_loss = net_debit
-breakeven = long_strike - net_debit
-```
-
-### Example: SPY $450/$445 Bear Put
-- Buy $450 put @ $7.50
-- Sell $445 put @ $5.00
-- Net debit: $2.50
-- Max profit: $2.50 (if SPY <= $445)
-- Max loss: $2.50 (if SPY >= $450)
-- Breakeven: $447.50
-
----
-
-## Spread Width Guidelines
-
-| Width | Risk | Reward | Best For |
-|-------|------|--------|----------|
-| $2.50-$5 | Low | Low | Small accounts |
-| $5-$10 | Moderate | Moderate | Standard |
-| $10-$20 | High | High | High conviction |
-
----
-
-## Management
-- **Profit target**: 50-75% max profit
-- **Stop loss**: 100-150% of debit
-- **DTE sweet spot**: 30-45 days
-- **Roll**: Extend expiration or adjust strikes
-
----
-
-**Template**: KB Skills Integration v1.0

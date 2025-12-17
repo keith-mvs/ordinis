@@ -59,8 +59,8 @@ The Ordinis RAG (Retrieval Augmented Generation) system provides semantic search
 **Implemented:**
 
 1. **Embedders**
-   - `TextEmbedder`: NVIDIA NeMo Retriever 300M
-   - `CodeEmbedder`: NVIDIA nv-embedcode-7B
+   - `TextEmbedder`: NVIDIA Llama 3.2 NeMo Retriever 300M
+   - `CodeEmbedder`: NVIDIA Llama 3.2 NeMo Retriever 300M (Unified)
    - Local GPU and API fallback support
    - Matryoshka compression (768 → 384 dims)
 

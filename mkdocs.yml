@@ -16,14 +16,14 @@ theme:
   language: en
   palette:
     - scheme: default
-      primary: blue grey
-      accent: teal
+      primary: custom
+      accent: indigo
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode
     - scheme: slate
-      primary: blue grey
-      accent: teal
+      primary: custom
+      accent: indigo
       toggle:
         icon: material/brightness-4
         name: Switch to light mode
@@ -32,47 +32,37 @@ theme:
     code: JetBrains Mono
   features:
     - navigation.instant
-    - navigation.instant.prefetch
     - navigation.tracking
-    - navigation.tabs
-    - navigation.tabs.sticky
     - navigation.sections
     - navigation.expand
-    - navigation.indexes
     - navigation.top
-    - navigation.path
-    - navigation.prune
     - search.suggest
     - search.highlight
-    - search.share
     - content.code.copy
     - content.code.annotate
     - content.tabs.link
     - toc.follow
-    - announce.dismiss
   icon:
     repo: fontawesome/brands/github
+
+# Exclude patterns (for files not to be included in the site)
+exclude_docs: |
+  knowledge-base/
+  planning/phase6-advanced-optimization-plan.md
 
 # Plugins
 plugins:
   - search:
       separator: '[\s\-,:!=\[\]()"/]+|(?!\b)(?=[A-Z][a-z])|\.(?!\d)|&[lg]t;'
-  - exclude:
-      glob:
-        - knowledge-base/**
-        - knowledge-base/**/*
-        - knowledge-base/**/*.md
-        - planning/phase6-advanced-optimization-plan.md
-  - git-revision-date-localized:
-      enable_creation_date: true
-      type: timeago
-      fallback_to_build_date: true
-      enable_git_follow: false
-  # section-index disabled to prevent unintended inclusion of README/INDEX pages
+  # git-revision-date-localized disabled for faster builds
+  # - git-revision-date-localized:
+  #     enable_creation_date: true
+  #     type: timeago
+  #     fallback_to_build_date: true
+  #     enable_git_follow: false
   - macros:
       module_name: docs/macros
       include_dir: docs/includes
-  # print-site plugin disabled to allow strict builds without KB warnings
 
 # Extensions
 markdown_extensions:
@@ -144,37 +134,40 @@ extra:
 # Navigation
 nav:
   - Home: index.md
+
+  - Getting Started:
+    - getting-started/index.md
+
+  - Performance Results:
+    - performance/index.md
+
+  - Fundamentals:
+    - fundamentals/index.md
+
   - Architecture:
     - architecture/index.md
+    - System Overview: architecture/overview.md
     - Production Architecture: architecture/production-architecture.md
     - Execution Path: architecture/execution-path.md
-    - Simulation Engine: architecture/simulation-engine.md
     - SignalCore System: architecture/signalcore-system.md
     - RAG System: architecture/rag-system.md
     - NVIDIA Integration: architecture/nvidia-integration.md
-    - Architecture Review Response: architecture/architecture-review-response.md
-    - Layered System Architecture: architecture/layered-system-architecture.md
-    - Model Alternatives Framework: architecture/model-alternatives-framework.md
-    - NVIDIA Blueprint Integration: architecture/nvidia-blueprint-integration.md
-    - TensorTrade-Alpaca Deployment: architecture/tensortrade-alpaca-deployment.md
-    - Architecture Synthesis: architecture/architecture-synthesis.md
+    - AI Integration: architecture/ai-integration.md
+    - Infrastructure: architecture/infrastructure.md
+    - Security & Compliance: architecture/security-compliance.md
 
-  - Guides:
+  - User Guides:
     - guides/index.md
     - guides/cli-usage.md
     - guides/dataset-management-guide.md
     - guides/dataset-quick-reference.md
-    - guides/due-diligence-skill.md
-    - guides/recommended-skills.md
+    - guides/running-backtests.md
+    - guides/interpreting-results.md
 
   - Reference:
     - reference/index.md
     - reference/phase1-api-reference.md
     - reference/connectors-quick-reference.md
-
-  - Knowledge Base (Preview):
-    - kb/index.md
-
 
   - Decisions:
     - decisions/index.md
@@ -189,12 +182,7 @@ nav:
     - internal/phase1-testing-setup.md
     - internal/user-testing-guide.md
     - internal/mcp-tools-quick-start.md
-
-  - Planning:
-    - Roadmap (Phases 2-4): planning/roadmap-phases-2-4.md
-    - System Specification: planning/system-specification.md
-    - Dashboard Plan: planning/dashboard-plan.md
-    - Phase 5 Portfolio Rebalancing: planning/phase5-portfolio-rebalancing.md
+    - internal/testing-qa.md
 
 # Watch for changes
 watch:

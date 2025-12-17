@@ -22,7 +22,16 @@ The system integrates NVIDIA's state-of-the-art language models to enhance every
   - Complex reasoning about market conditions
   - Strategy hypothesis generation
 
-### Meta Llama 3.1 70B Instruct
+### Mistral Large 3 (675B) Instruct 2512
+- **Engine:** Helix
+- **Purpose:** Developer Assistant and Code Generation
+- **Temperature:** 0.2
+- **Use Cases:**
+  - Code generation and refactoring
+  - Technical documentation writing
+  - Unit test generation
+
+### Meta Llama 3.3 70B Instruct
 - **Engines:** SignalCore, RiskGuard, ProofBench
 - **Purpose:** Real-time interpretation and explanation
 - **Temperature:** 0.3-0.4 (balanced)
@@ -31,13 +40,20 @@ The system integrates NVIDIA's state-of-the-art language models to enhance every
   - Trade risk explanations
   - Performance narration and optimization
 
-### NVIDIA NV-Embed-QA E5 V5
-- **Engine:** Cortex
+### NVIDIA Llama 3.2 NeMo Retriever 300M Embed V2
+- **Engine:** Synapse (used by Cortex, etc.)
 - **Purpose:** Semantic understanding and research synthesis
 - **Use Cases:**
   - Document similarity and search
   - Research synthesis from multiple sources
   - Knowledge base queries
+
+### NVIDIA Llama 3.2 NeMo Retriever 500M Rerank V2
+- **Engine:** Synapse
+- **Purpose:** Reranking retrieved results for relevance
+- **Use Cases:**
+  - Improving RAG accuracy
+  - Filtering irrelevant context
 
 ## Engine-Specific Integration
 

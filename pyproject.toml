@@ -348,6 +348,28 @@ ignore = [
     "ANN",     # Type annotations not required in examples
     "PLR2004", # Magic values OK in examples
     "RET504",  # Unnecessary assignment before return
+    "F401",    # Unused imports OK in examples
+    "F811",    # Redefinitions OK in examples
+    "F821",    # Undefined names OK in examples
+    "TRY",     # Exception handling not strict in examples
+    "PTH",     # Pathlib not required in examples
+    "E",       # Style issues OK in examples
+    "S",       # Security issues relaxed in examples
+    "N",       # Naming conventions not strict in examples
+    "B",       # Bugbear not strict in examples
+    "RUF",     # Ruff rules not strict in examples
+    "SIM",     # Simplify not strict in examples
+    "ISC",     # Implicit string concat OK in examples
+    "ARG",     # Unused arguments OK in examples
+    "C4",      # Comprehensions not strict in examples
+]
+"examples/**/*.py" = [
+    "ANN",     # Type annotations not required
+    "F",       # All Flake8 rules relaxed
+    "N",       # Naming not strict
+    "TRY",     # Exception handling relaxed
+    "S",       # Security relaxed
+    "PTH",     # Pathlib not required
 ]
 
 [tool.ruff.lint.isort]

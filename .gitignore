@@ -30,6 +30,7 @@ coverage.xml
 .vscode/
 .vs/
 .idea/
+.claude/
 *.swp
 *.swo
 *~
@@ -37,6 +38,7 @@ coverage.xml
 # OS
 .DS_Store
 Thumbs.db
+governance.yml
 
 # Project specific
 .ruff_cache/
@@ -76,6 +78,7 @@ data/historical_cache/
 data/raw/
 data/synthetic/
 data/macro/
+data/grafana/
 data/*.csv
 data/*.txt
 results/
@@ -85,6 +88,11 @@ demo_results/
 artifacts/
 runs/
 reports/
+configs/grafana/
+configs/prometheus/
+configs/promtail/
+configs/alertmanager/
+configs/loki/
 
 # Additional caches
 .ruff_cache/
@@ -95,4 +103,3 @@ reports/
 *.tmp
 *.log
 NUL
-.claude/settings.local.json

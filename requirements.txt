@@ -23,8 +23,8 @@ yfinance>=0.1.70
 # Uncomment as needed:
 
 # Data Sources
-# yfinance>=0.2.0          # Real-time market data
-# alpaca-trade-api>=3.0.0  # Alpaca trading integration
+yfinance>=0.2.0          # Real-time market data
+alpaca-py>=0.9.0         # Alpaca trading integration (modern SDK)
 
 # Development Tools
 # jupyter>=1.0.0           # Interactive notebooks

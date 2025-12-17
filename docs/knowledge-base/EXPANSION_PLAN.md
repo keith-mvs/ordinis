@@ -7,7 +7,7 @@ The knowledge-base has domains like execution, foundations, options, risk, signa
 
 Starting with Execution. The domains/execution directory has data-pipelines.md, deployment-patterns.md, governance-engines.md, monitoring.md, and a README. But the user mentioned order management and connectivity. I don't see anything about order management systems, order routing, or connectivity to exchanges/brokers. So missing topics here might be order management, order routing, exchange connectivity, API integrations. Possible files: order-management-systems.md, exchange-connectivity.md, order-routing-strategies.md.
 
-Next, Strategy. The strategy directory has backtesting-requirements.md, data-evaluation-requirements.md, due-diligence-framework.md, nvidia-integration.md, strategy-formulation-framework.md, and case-studies. But the user wants research, backtesting, live trading. The existing files cover some backtesting and due diligence, but maybe missing live trading aspects, strategy deployment, performance attribution. Also, in strategy-templates, there's a README but no actual templates. So missing topics could be live-trading-workflows.md, strategy-performance-attribution.md, strategy-deployment-guidelines.md. Also, strategy templates like mean-reversion-strategy.md, statistical-arbitrage-strategy.md.
+Next, Strategy. The strategy directory now holds standards (backtesting, data evaluation, due diligence, formulation, NVIDIA integration) under `domains/strategy/standards/`, operations (live-trading-workflows, performance-attribution, strategy-version-control, strategy-retirement) under `domains/strategy/operations/`, plus empty case-studies and strategy-templates placeholders. Research/backtesting/live trading are covered; templates/case studies remain to be populated.
 
 Risk. The risk directory has advanced-risk-methods.md, drawdown-management.md, fixed-income-risk.md, risk-metrics-library.md, and various subdirectories like case-studies, compliance, data-privacy, etc. The user mentioned pre-trade, post-trade, portfolio. The existing files cover some aspects, but maybe missing pre-trade risk checks, post-trade analysis, portfolio concentration risks. Also, stress testing and scenario analysis. So possible files: pre-trade-risk-checks.md, post-trade-analysis.md, portfolio-concentration-risk.md, stress-testing-methodologies.md.
 
@@ -33,7 +33,7 @@ Execution:
 Strategy:
 - Live Trading: Execution monitoring, trade reconciliation.
 - Strategy Deployment: Version control for strategies, A/B testing.
-- Missing files: live-trading-monitoring.md, strategy-version-control.md.
+- Missing files: strategy templates and populated case studies.
 
 Risk:
 - Pre-trade: Real-time risk checks, position limits.
@@ -111,10 +111,10 @@ This document outlines essential gaps in the current knowledge base structure an
 - **Strategy Retirement**: Criteria for decommissioning underperforming strategies.
 
 ### **Proposed Files**
-- `domains/strategy/live-trading-workflows.md`
-- `domains/strategy/strategy-version-control.md`
-- `domains/strategy/performance-attribution.md`
-- `domains/strategy/strategy-retirement.md`
+- `domains/strategy/operations/live-trading-workflows.md`
+- `domains/strategy/operations/strategy-version-control.md`
+- `domains/strategy/operations/performance-attribution.md`
+- `domains/strategy/operations/strategy-retirement.md`
 
 ---
 

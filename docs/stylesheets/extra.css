@@ -1,52 +1,464 @@
 /* ==========================================================================
-   Ordinis Documentation - Modern Design System
-   Version: 3.0
+   Ordinis Documentation - Alpaca/ReadMe.io Style
+   Clean, professional, modern documentation theme
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
-   1. Design Tokens - Modern Color Palette
+   Global Font - Aptos Display 11pt
    -------------------------------------------------------------------------- */
-
 :root {
-  /* Primary Brand Colors - Deep Blue Professional */
-  --ordinis-primary: #1e3a5f;
-  --ordinis-primary-light: #2d5a8a;
-  --ordinis-primary-dark: #0f1f33;
-  --ordinis-primary-rgb: 30, 58, 95;
+  --md-text-font: "Aptos Display", "Segoe UI", -apple-system, BlinkMacSystemFont, sans-serif;
+  --md-code-font: "JetBrains Mono", "Fira Code", monospace;
+  --base-font-size: 11pt;
+}
 
-  /* Accent - Teal for CTAs and highlights */
-  --ordinis-accent: #00897b;
-  --ordinis-accent-light: #4db6ac;
-  --ordinis-accent-dark: #00695c;
+html {
+  font-size: var(--base-font-size);
+}
 
-  /* Semantic Colors */
-  --ordinis-success: #2e7d32;
-  --ordinis-warning: #f57c00;
-  --ordinis-error: #c62828;
-  --ordinis-info: #0277bd;
+body,
+.md-typeset,
+.md-nav,
+.md-sidebar,
+.md-header,
+.md-footer,
+.md-search__input,
+.md-tabs {
+  font-family: var(--md-text-font) !important;
+  font-size: var(--base-font-size) !important;
+}
 
-  /* Neutral Palette */
-  --ordinis-gray-50: #fafafa;
-  --ordinis-gray-100: #f5f5f5;
-  --ordinis-gray-200: #eeeeee;
-  --ordinis-gray-300: #e0e0e0;
-  --ordinis-gray-400: #bdbdbd;
-  --ordinis-gray-500: #9e9e9e;
-  --ordinis-gray-600: #757575;
-  --ordinis-gray-700: #616161;
-  --ordinis-gray-800: #424242;
-  --ordinis-gray-900: #212121;
+/* --------------------------------------------------------------------------
+   CSS Variables - Alpaca-inspired palette
+   -------------------------------------------------------------------------- */
+:root {
+  --md-primary-fg-color: #0d1117;
+  --md-primary-bg-color: #ffffff;
+  --md-accent-fg-color: #0969da;
+  --md-default-fg-color: #24292f;
+  --md-default-fg-color--light: #57606a;
+  --md-default-bg-color: #ffffff;
+  --md-code-bg-color: #f6f8fa;
+  --md-typeset-a-color: #0969da;
+}
 
-  /* Spacing Scale (4px base, consistent rhythm) */
-  --space-1: 0.25rem;   /* 4px */
-  --space-2: 0.5rem;    /* 8px */
-  --space-3: 0.75rem;   /* 12px */
-  --space-4: 1rem;      /* 16px */
-  --space-5: 1.5rem;    /* 24px */
-  --space-6: 2rem;      /* 32px */
-  --space-8: 3rem;      /* 48px */
-  --space-10: 4rem;     /* 64px */
-  --space-12: 5rem;     /* 80px */
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color: #0d1117;
+  --md-primary-bg-color: #0d1117;
+  --md-accent-fg-color: #58a6ff;
+  --md-default-fg-color: #c9d1d9;
+  --md-default-fg-color--light: #8b949e;
+  --md-default-bg-color: #0d1117;
+  --md-code-bg-color: #161b22;
+}
+
+/* --------------------------------------------------------------------------
+   Header - Larger, centered search like Alpaca
+   -------------------------------------------------------------------------- */
+.md-header {
+  background: #0d1117 !important;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.1);
+  height: 3.5rem !important;
+}
+
+.md-header__inner {
+  height: 3.5rem;
+}
+
+.md-header__title {
+  font-weight: 600;
+  font-size: inherit !important;
+  color: #fff !important;
+}
+
+.md-header__button {
+  color: #fff !important;
+}
+
+/* Center the search bar */
+.md-search {
+  order: 0;
+}
+
+.md-header__source {
+  order: 1;
+}
+
+@media screen and (min-width: 60em) {
+  .md-search {
+    max-width: 24rem;
+    margin: 0 auto;
+  }
+}
+
+.md-search__input {
+  background: rgba(255,255,255,0.12) !important;
+  border-radius: 6px;
+  font-size: inherit !important;
+  height: 2.4rem;
+}
+
+.md-search__input::placeholder {
+  color: rgba(255,255,255,0.5);
+}
+
+/* --------------------------------------------------------------------------
+   Sidebar Navigation - Narrower, clean
+   -------------------------------------------------------------------------- */
+.md-sidebar {
+  width: 13rem;
+}
+
+.md-sidebar--primary {
+  background: #f6f8fa;
+  border-right: 1px solid #d0d7de;
+  width: 13rem !important;
+}
+
+[data-md-color-scheme="slate"] .md-sidebar--primary {
+  background: #161b22;
+  border-right: 1px solid #30363d;
+}
+
+.md-nav__title {
+  font-size: inherit !important;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--md-default-fg-color--light);
+  padding: 0.6rem 0.6rem 0.4rem;
+}
+
+.md-nav__item {
+  padding: 0;
+}
+
+.md-nav__link {
+  font-size: inherit !important;
+  padding: 0.35rem 0.6rem;
+  color: var(--md-default-fg-color);
+  border-radius: 3px;
+  margin: 1px 3px;
+  transition: background 0.15s ease;
+}
+
+.md-nav__link:hover {
+  background: rgba(0,0,0,0.04);
+}
+
+[data-md-color-scheme="slate"] .md-nav__link:hover {
+  background: rgba(255,255,255,0.05);
+}
+
+.md-nav__link--active {
+  font-weight: 600;
+  color: var(--md-accent-fg-color) !important;
+  background: rgba(9,105,218,0.08) !important;
+}
+
+/* Section headers in nav */
+.md-nav--primary > .md-nav__list > .md-nav__item > .md-nav__link {
+  font-weight: 600;
+  font-size: inherit !important;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--md-default-fg-color--light);
+  padding-top: 1rem;
+}
+
+/* Nested nav items */
+.md-nav--primary .md-nav--secondary .md-nav__link {
+  font-size: inherit !important;
+  padding-left: 1.2rem;
+}
+
+/* --------------------------------------------------------------------------
+   Content Area - Centered, readable width
+   -------------------------------------------------------------------------- */
+.md-content {
+  max-width: 48rem;
+  margin: 0 auto;
+}
+
+.md-content__inner {
+  padding: 2rem 1.5rem 3rem;
+}
+
+/* --------------------------------------------------------------------------
+   Typography - Clean, professional, readable (11pt base)
+   -------------------------------------------------------------------------- */
+.md-typeset {
+  font-size: inherit !important;
+  line-height: 1.6;
+  color: var(--md-default-fg-color);
+}
+
+.md-typeset h1 {
+  font-size: 1.8em;
+  font-weight: 700;
+  margin: 0 0 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #d0d7de;
+  letter-spacing: -0.02em;
+}
+
+[data-md-color-scheme="slate"] .md-typeset h1 {
+  border-bottom-color: #30363d;
+}
+
+.md-typeset h2 {
+  font-size: 1.4em;
+  font-weight: 600;
+  margin: 2rem 0 1rem;
+  letter-spacing: -0.01em;
+}
+
+.md-typeset h3 {
+  font-size: 1.2em;
+  font-weight: 600;
+  margin: 1.5rem 0 0.75rem;
+}
+
+.md-typeset h4 {
+  font-size: 1.1em;
+  font-weight: 600;
+  margin: 1.25rem 0 0.5rem;
+}
+
+.md-typeset p {
+  margin: 0 0 1rem;
+}
+
+.md-typeset a {
+  color: var(--md-accent-fg-color);
+  text-decoration: none;
+}
+
+.md-typeset a:hover {
+  text-decoration: underline;
+}
+
+/* Lists */
+.md-typeset ul, .md-typeset ol {
+  margin: 0 0 1rem;
+  padding-left: 1.5rem;
+}
+
+.md-typeset li {
+  margin: 0.25rem 0;
+}
+
+.md-typeset li > p {
+  margin: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Code Blocks - GitHub style
+   -------------------------------------------------------------------------- */
+.md-typeset code {
+  background: var(--md-code-bg-color);
+  border-radius: 4px;
+  padding: 0.15rem 0.4rem;
+  font-size: 0.9em;
+  font-family: var(--md-code-font);
+}
+
+.md-typeset pre {
+  background: var(--md-code-bg-color);
+  border-radius: 6px;
+  padding: 1rem;
+  margin: 1rem 0;
+  overflow-x: auto;
+}
+
+.md-typeset pre code {
+  background: transparent;
+  padding: 0;
+  font-size: inherit !important;
+  line-height: 1.5;
+}
+
+/* --------------------------------------------------------------------------
+   Tables - Clean borders
+   -------------------------------------------------------------------------- */
+.md-typeset table:not([class]) {
+  font-size: inherit !important;
+  margin: 1rem 0;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.md-typeset table:not([class]) th,
+.md-typeset table:not([class]) td {
+  padding: 0.75rem 1rem;
+  border: 1px solid #d0d7de;
+}
+
+[data-md-color-scheme="slate"] .md-typeset table:not([class]) th,
+[data-md-color-scheme="slate"] .md-typeset table:not([class]) td {
+  border-color: #30363d;
+}
+
+.md-typeset table:not([class]) th {
+  background: #f6f8fa;
+  font-weight: 600;
+  text-align: left;
+}
+
+[data-md-color-scheme="slate"] .md-typeset table:not([class]) th {
+  background: #161b22;
+}
+
+/* --------------------------------------------------------------------------
+   Admonitions - Subtle, professional
+   -------------------------------------------------------------------------- */
+.md-typeset .admonition {
+  margin: 1.25rem 0;
+  padding: 0;
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  box-shadow: none;
+  font-size: inherit !important;
+}
+
+[data-md-color-scheme="slate"] .md-typeset .admonition {
+  border-color: #30363d;
+}
+
+.md-typeset .admonition-title {
+  padding: 0.5rem 1rem;
+  margin: 0;
+  font-size: inherit !important;
+  font-weight: 600;
+  background: #f6f8fa;
+  border-bottom: 1px solid #d0d7de;
+  border-radius: 5px 5px 0 0;
+}
+
+[data-md-color-scheme="slate"] .md-typeset .admonition-title {
+  background: #161b22;
+  border-bottom-color: #30363d;
+}
+
+.md-typeset .admonition > :last-child {
+  padding: 0.75rem 1rem;
+  margin: 0;
+}
+
+/* Admonition colors */
+.md-typeset .admonition.note,
+.md-typeset .admonition.info {
+  border-left: 3px solid #0969da;
+}
+
+.md-typeset .admonition.tip,
+.md-typeset .admonition.success {
+  border-left: 3px solid #1a7f37;
+}
+
+.md-typeset .admonition.warning {
+  border-left: 3px solid #9a6700;
+}
+
+.md-typeset .admonition.danger,
+.md-typeset .admonition.error {
+  border-left: 3px solid #cf222e;
+}
+
+/* --------------------------------------------------------------------------
+   TOC (Table of Contents) - Right sidebar, consistent spacing
+   -------------------------------------------------------------------------- */
+.md-sidebar--secondary {
+  width: 12rem;
+}
+
+.md-nav--secondary {
+  padding: 0.75rem 0;
+}
+
+.md-nav--secondary .md-nav__title {
+  font-size: inherit !important;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+  color: var(--md-default-fg-color--light);
+  padding: 0 0.75rem 0.5rem;
+  margin-bottom: 0.25rem;
+  border-bottom: none;
+}
+
+[data-md-color-scheme="slate"] .md-nav--secondary .md-nav__title {
+  border-bottom-color: #30363d;
+}
+
+.md-nav--secondary .md-nav__list {
+  padding: 0 0.5rem;
+}
+
+.md-nav--secondary .md-nav__item {
+  padding: 0;
+  margin: 0;
+}
+
+.md-nav--secondary .md-nav__link {
+  font-size: inherit !important;
+  padding: 0.4rem 0.5rem;
+  margin: 0;
+  line-height: 1.4;
+  color: var(--md-default-fg-color--light);
+  border-radius: 3px;
+  display: block;
+}
+
+.md-nav--secondary .md-nav__link:hover {
+  color: var(--md-accent-fg-color);
+  background: rgba(9,105,218,0.06);
+}
+
+.md-nav--secondary .md-nav__link--active {
+  color: var(--md-accent-fg-color);
+  font-weight: 500;
+}
+
+/* --------------------------------------------------------------------------
+   Footer - Minimal
+   -------------------------------------------------------------------------- */
+.md-footer {
+  background: #f6f8fa;
+  border-top: 1px solid #d0d7de;
+}
+
+[data-md-color-scheme="slate"] .md-footer {
+  background: #0d1117;
+  border-top-color: #30363d;
+}
+
+.md-footer-meta {
+  background: transparent;
+}
+
+/* --------------------------------------------------------------------------
+   Responsive adjustments
+   -------------------------------------------------------------------------- */
+@media screen and (max-width: 76.25em) {
+  .md-sidebar--secondary {
+    display: none;
+  }
+  .md-content {
+    max-width: 100%;
+  }
+}
+
+@media screen and (max-width: 60em) {
+  .md-sidebar--primary {
+    width: 100%;
+  }
+  .md-content__inner {
+    padding: 1.5rem 1rem 2rem;
+  }
+}
+
+/* Original tokens kept for compatibility
 
   /* Layout */
   --content-max-width: 1400px;

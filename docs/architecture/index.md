@@ -1,53 +1,48 @@
-# 2. System Architecture
+<!-- ARCHIVED: This file has been merged into overview.md as of 2025-12-15. All future updates should be made in overview.md. -->
 
-**Last Updated:** {{ git_revision_date_localized }}
+### 📊 **Start Here**
+
+**New to the system?** Start with the [System Overview](overview.md) (with Mermaid diagrams)
+
+### 🎯 **Core Architecture**
+
+| Document | Description | Read Time |
+|----------|-------------|-----------|
+| [System Overview](overview.md) | Complete architecture with interactive diagrams | 15 min |
+| [Production Architecture](production-architecture.md) | Phase 1 baseline (orchestration, safety, persistence) | 20 min |
+| [Execution Path](execution-path.md) | End-to-end trade flow across all engines | 15 min |
+
+### 🧠 **Specialized Components**
+
+| Document | Description | Read Time |
+|----------|-------------|-----------|
+| [SignalCore System](signalcore-system.md) | Signal generation and multi-model voting | 20 min |
+| [RAG System](rag-system.md) | Knowledge base retrieval for analysis | 15 min |
+| [NVIDIA Integration](nvidia-integration.md) | AI-powered analysis with Llama 3.1 | 15 min |
 
 ---
 
-## 2.1 Overview
+## Key Design Principles
 
-The Ordinis trading system is built on a modular architecture with clear separation of concerns. Each component handles a specific aspect of the trading lifecycle.
+### ✅ Modularity
+- Independent, testable components
+- Clear interfaces between systems
+- Easy to evolve/replace parts
 
-## 2.2 Core Components
+### ✅ Safety
+- Multi-trigger kill switch
+- Database persistence for recovery
+- Comprehensive audit logging
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    ORDINIS ARCHITECTURE                      │
-├─────────────────────────────────────────────────────────────┤
-│                                                              │
-│  ┌──────────────┐    ┌──────────────┐    ┌──────────────┐   │
-│  │  SignalCore  │───▶│  RiskGuard   │───▶│  FlowRoute   │   │
-│  │   (Signals)  │    │    (Risk)    │    │ (Execution)  │   │
-│  └──────────────┘    └──────────────┘    └──────────────┘   │
-│         │                   │                   │            │
-│         ▼                   ▼                   ▼            │
-│  ┌──────────────────────────────────────────────────────┐   │
-│  │                  Governance Layer                     │   │
-│  │  Audit │ Ethics │ PPI │ Compliance │ Broker ToS      │   │
-│  └──────────────────────────────────────────────────────┘   │
-│         │                   │                   │            │
-│         ▼                   ▼                   ▼            │
-│  ┌──────────────────────────────────────────────────────┐   │
-│  │                    Cortex (AI)                        │   │
-│  │    NVIDIA NIM │ RAG │ Regime Detection │ Analysis    │   │
-│  └──────────────────────────────────────────────────────┘   │
-│                                                              │
-└─────────────────────────────────────────────────────────────┘
-```
+### ✅ Transparency
+- All decisions logged
+- Confidence scores explained
+- Per-trade P&L tracking
 
-## 2.3 Document Index
-
-### 2.3.1 System Overview
-| Document | Description |
-|----------|-------------|
-| [Production Architecture](production-architecture.md) | Phase 1 baseline architecture (orchestration, safety, persistence) |
-| [Execution Path](execution-path.md) | End-to-end trade flow across engines |
-| [SignalCore System](signalcore-system.md) | Signal generation engine design |
-| [Simulation Engine](simulation-engine.md) | Backtesting and ProofBench flow |
-| [Layered System Architecture](layered-system-architecture.md) | Pre-Phase 1 layered model (historical reference) |
-
-### 2.3.2 AI Integration
-| Document | Description |
+### ✅ Extensibility
+- New signal models can be plugged in
+- Custom risk rules supported
+- Multiple execution venues possible
 |----------|-------------|
 | [NVIDIA Integration](nvidia-integration.md) | Nemotron/NIM integration and AI usage constraints |
 | [RAG System](rag-system.md) | Retrieval-augmented pipeline for Cortex and Synapse |

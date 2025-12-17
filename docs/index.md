@@ -1,28 +1,46 @@
 # Ordinis Trading System Documentation
 
-**Status:** Phase 1 Complete (Baseline)
+**Status:** Phase 1 Complete + Validated
 **Last Updated:** {{ git_revision_date_localized }}
 **Build Date:** {{ now().strftime('%Y-%m-%d') }}
 
-[:material-file-pdf-box: Download as PDF](print_page/){ .md-button .md-button--primary } [:material-printer: Print Version](print_page/){ .md-button }
+[:material-lightning-bolt-circle: Getting Started](getting-started/index.md){ .md-button .md-button--primary } [:material-chart-line: View Results](performance/index.md){ .md-button } [:material-file-pdf-box: PDF](print_page/){ .md-button }
 
 ---
 
-## Overview
+## Welcome to Ordinis
 
-Ordinis is a professional algorithmic trading system built with transparency, ethics, and responsible AI principles at its core. The system implements OECD AI Principles (2024) and provides comprehensive governance for automated trading decisions.
+**Ordinis** is a professional algorithmic trading system that combines AI-powered signal generation, intelligent risk management, and rigorous backtesting to identify high-probability trading opportunities.
 
-## Quick Links
+**Proven Performance:** 59.7% win rate on real market data (2019-2024), with Sharpe ratio of 2.56
+**Conservative:** Only takes high-confidence trades (96% reduction from baseline)
+**Transparent:** Full audit trails, documented decisions, open architecture
+
+---
+
+## 🚀 New to Ordinis? Start Here
+
+| Goal | Path |
+|------|------|
+| **5-minute overview** | [Getting Started](getting-started/index.md) |
+| **Run your first backtest** | [Getting Started → Run Demo](getting-started/index.md#option-a-run-a-backtest-fastest---10-minutes) |
+| **See the performance data** | [Performance Results](performance/index.md) |
+| **Understand how it works** | [Fundamentals](fundamentals/index.md) |
+
+---
+
+## Key Sections
 
 | Section | Description |
 |---------|-------------|
-| [Architecture](architecture/index.md) | System design and technical architecture |
-| [Guides](guides/index.md) | User guides and tutorials |
-| [Reference](reference/index.md) | API documentation and quick references |
-| [Knowledge Base (Preview)](kb/index.md) | Trading knowledge and domain references |
-| [Decisions](decisions/index.md) | Architecture Decision Records (ADRs) |
-| [Internal](internal/index.md) | Developer documentation (not user-facing) |
-| [Roadmap](planning/roadmap-phases-2-4.md) | Phases 2–4 plan and documentation reorg |
+| **[Getting Started](getting-started/index.md)** | 5-minute overview, demo backtest, system setup |
+| **[Performance Results](performance/index.md)** | Real backtest data (2019-2024), calibration metrics, benchmarks |
+| **[Fundamentals](fundamentals/index.md)** | How signals, risk, and execution work together |
+| **[Architecture](architecture/index.md)** | Technical system design and component interactions |
+| **[User Guides](guides/index.md)** | CLI usage, backtesting, interpreting results |
+| **[Reference](reference/index.md)** | API documentation, connectors, specifications |
+| **[Decisions](decisions/index.md)** | Architecture Decision Records (ADRs) |
+| **[Internal](internal/index.md)** | Developer documentation and contribution guides |
 
 ## System Components
 

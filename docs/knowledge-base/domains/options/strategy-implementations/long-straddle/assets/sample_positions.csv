@@ -1,0 +1,5 @@
+ticker,entry_price,call_strike,put_strike,call_premium,put_premium,net_debit,expiration_days,iv_rank,catalyst,scenario
+AAPL,175.00,175.00,175,8.50,8.5,17.00,10,45,earnings,pre_earnings_volatility_expansion_expected
+TSLA,250.00,250.00,250,18.00,18.0,36.00,15,72,product_launch,binary_event_large_move_either_direction
+META,320.00,320.00,320,14.25,14.25,28.50,10,58,earnings,tech_earnings_high_implied_move
+AMZN,145.00,145.00,145,7.50,7.5,15.00,20,48,fed_decision,macro_event_breakout_potential

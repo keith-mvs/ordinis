@@ -1,6 +1,6 @@
 # Getting Started with Ordinis
 
-**Estimated read time:** 5 minutes  
+**Estimated read time:** 5 minutes
 **Level:** Beginner
 
 ---
@@ -35,25 +35,29 @@ Think of it as: *"A disciplined trading bot that only takes high-confidence trad
 
 ## 5-Minute System Overview
 
-### 1. **Signals** (What to trade?)
-- Multi-model consensus voting (6 independent models)
-- Models analyze: fundamentals, sentiment, technical patterns, volume profiles
-- Output: Trading signal with confidence score (0-100%)
+### System Flow
 
-### 2. **Risk Management** (Can we afford it?)
-- Position sizing: Bigger for high-confidence, smaller for risky
-- Portfolio limits: Max 10% per stock, 100% total
-- Drawdown protection: Kill switch if losses exceed threshold
+```mermaid
+graph LR
+    A["📊 Signals<br/>(What to trade?)"] -->|"Confidence"| B["🛡️ Risk<br/>(Can we afford it?)"]
+    B -->|"Position Size"| C["🎯 Execute<br/>(Place order)"]
+    C -->|"Fill Price"| D["📈 Track<br/>(Monitor P&L)"]
+    D -->|"Outcome"| E["🧠 Learn<br/>(Improve next time)"]
+    E -.->|"Feedback Loop"| A
 
-### 3. **Execution** (Place the order)
-- Simulated (paper trading) or live (Alpaca Markets)
-- Realistic slippage and commission modeling
-- Order tracking: Created → Submitted → Filled → Closed
+    style A fill:#e3f2fd,stroke:#1565c0,color:#000,stroke-width:2px
+    style B fill:#fff3e0,stroke:#e65100,color:#000,stroke-width:2px
+    style C fill:#f3e5f5,stroke:#512da8,color:#000,stroke-width:2px
+    style D fill:#e8f5e9,stroke:#2e7d32,color:#000,stroke-width:2px
+    style E fill:#fce4ec,stroke:#880e4f,color:#000,stroke-width:2px
+```
 
-### 4. **Learning** (Did it work?)
-- Track win/loss for every trade
-- Calibration engine learns which confidence scores are reliable
-- Continuous feedback loop improves future predictions
+**The pipeline:**
+1. Generate trading signals using 6 independent models
+2. Assess risk and size positions accordingly
+3. Execute trades via Alpaca Markets
+4. Track performance and P&L
+5. Learn from outcomes to improve future predictions
 
 ---
 
@@ -157,19 +161,19 @@ The system uses **ML-based probability calibration** to answer: *"When we say 80
 
 ## FAQ
 
-**Q: Is this a guaranteed money maker?**  
+**Q: Is this a guaranteed money maker?**
 A: No. Like all trading systems, past performance doesn't guarantee future results. We provide transparency, rigorous testing, and conservative filtering to improve odds, but market risk is always present.
 
-**Q: Do I need to understand ML?**  
+**Q: Do I need to understand ML?**
 A: No. The system handles ML complexity. You just need to understand the concepts: signals, risk, execution, and calibration (all explained above).
 
-**Q: Can I trade crypto/futures/forex?**  
+**Q: Can I trade crypto/futures/forex?**
 A: Currently built for equities (stocks). Crypto and futures are planned for Phase 2.
 
-**Q: How often should I run backtests?**  
+**Q: How often should I run backtests?**
 A: Whenever you change strategy logic (signals, risk rules). We recommend weekly to catch market regime changes.
 
-**Q: Where can I ask questions?**  
+**Q: Where can I ask questions?**
 A: Check [Internal Documentation](../internal/index.md) for developer guides, or see the `CONTRIBUTING.md` for community guidelines.
 
 ---
@@ -178,5 +182,5 @@ A: Check [Internal Documentation](../internal/index.md) for developer guides, or
 
 Pick one of the three options above and run it now. You'll have your first Ordinis backtest in minutes.
 
-**Stuck?** → See [Troubleshooting](troubleshooting.md)  
+**Stuck?** → See [Troubleshooting](troubleshooting.md)
 **Want to dive deeper?** → [Fundamentals Guide](../fundamentals/index.md)

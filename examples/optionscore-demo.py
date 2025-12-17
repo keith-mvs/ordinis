@@ -13,7 +13,7 @@ Usage:
     python examples/optionscore_demo.py
 
 Note:
-    Requires Polygon.io API key in environment variable: POLYGON_API_KEY
+    Requires Massive API key in environment variable: MASSIVE_API_KEY
     If not available, runs with mock data for demonstration.
 
 Author: Ordinis Project
@@ -29,9 +29,10 @@ import sys
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
-from adapters.market_data.polygon import PolygonDataPlugin
 from engines.optionscore import OptionsCoreEngine, OptionsEngineConfig
 from plugins.base import PluginConfig
+
+from ordinis.adapters.market_data.massive import MassiveDataPlugin
 
 
 async def demo_with_mock_data():
@@ -41,12 +42,12 @@ async def demo_with_mock_data():
     print("=" * 80)
     print()
 
-    # Mock Polygon plugin for demo
+    # Mock Massive plugin for demo
     from unittest.mock import MagicMock
 
-    mock_polygon = MagicMock()
-    mock_polygon.status = MagicMock()
-    mock_polygon.status.value = "ready"
+    mock_massive = MagicMock()
+    mock_massive.status = MagicMock()
+    mock_massive.status.value = "ready"
 
     async def mock_get_quote(symbol):
         return {"symbol": symbol, "last": 150.0, "timestamp": datetime.utcnow().isoformat()}
@@ -101,8 +102,8 @@ async def demo_with_mock_data():
             "count": 5,
         }
 
-    mock_polygon.get_quote = mock_get_quote
-    mock_polygon.get_options_chain = mock_get_options_chain
+    mock_massive.get_quote = mock_get_quote
+    mock_massive.get_options_chain = mock_get_options_chain
 
     # Create engine configuration
     config = OptionsEngineConfig(
@@ -119,7 +120,7 @@ async def demo_with_mock_data():
     print()
 
     # Create and initialize engine
-    engine = OptionsCoreEngine(config, mock_polygon)
+    engine = OptionsCoreEngine(config, mock_massive)
     await engine.initialize()
     print("[OK] Engine initialized")
     print()
@@ -172,10 +173,10 @@ async def demo_with_mock_data():
 
 
 async def demo_with_live_data():
-    """Demo with live Polygon data (requires API key)."""
-    api_key = os.getenv("POLYGON_API_KEY")
+    """Demo with live Massive data (requires API key)."""
+    api_key = os.getenv("MASSIVE_API_KEY")
     if not api_key:
-        print("POLYGON_API_KEY not found in environment")
+        print("MASSIVE_API_KEY not found in environment")
         print("Running mock data demo instead...")
         print()
         await demo_with_mock_data()
@@ -186,10 +187,10 @@ async def demo_with_live_data():
     print("=" * 80)
     print()
 
-    # Create Polygon plugin
-    polygon_config = PluginConfig(name="polygon", api_key=api_key)
-    polygon = PolygonDataPlugin(polygon_config)
-    await polygon.initialize()
+    # Create Massive plugin
+    massive_config = PluginConfig(name="massive", options={"api_key": api_key})
+    massive = MassiveDataPlugin(massive_config)
+    await massive.initialize()
 
     # Create engine
     config = OptionsEngineConfig(
