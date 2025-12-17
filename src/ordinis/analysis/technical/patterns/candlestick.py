@@ -135,8 +135,8 @@ class CandlestickPatterns:
     ) -> PatternMatch:
         if len(o) < 2:
             return PatternMatch("bullish_engulfing", False)
-        po, ph, pl, pc = CandlestickPatterns._prev(o, h, low_vals, c)
-        co, ch, cl, cc = CandlestickPatterns._last(o, h, low_vals, c)
+        po, _ph, _pl, pc = CandlestickPatterns._prev(o, h, low_vals, c)
+        co, _ch, _cl, cc = CandlestickPatterns._last(o, h, low_vals, c)
         cond = pc > po and cc > co and cc > pc and co < po and cc > pc and co < pc
         cond = cond or (pc < po and cc > co and cc >= po and co <= pc)
         return PatternMatch("bullish_engulfing", cond)
@@ -147,8 +147,8 @@ class CandlestickPatterns:
     ) -> PatternMatch:
         if len(o) < 2:
             return PatternMatch("bearish_engulfing", False)
-        po, ph, pl, pc = CandlestickPatterns._prev(o, h, low_vals, c)
-        co, ch, cl, cc = CandlestickPatterns._last(o, h, low_vals, c)
+        po, _ph, _pl, pc = CandlestickPatterns._prev(o, h, low_vals, c)
+        co, _ch, _cl, cc = CandlestickPatterns._last(o, h, low_vals, c)
         cond = pc < po and cc < co and cc < pc and co > po and cc < pc and co > pc
         cond = cond or (pc > po and cc < co and co >= pc and cc <= po)
         return PatternMatch("bearish_engulfing", cond)
@@ -159,8 +159,8 @@ class CandlestickPatterns:
     ) -> PatternMatch:
         if len(o) < 2:
             return PatternMatch("bullish_harami", False)
-        po, ph, pl, pc = CandlestickPatterns._prev(o, h, low_vals, c)
-        co, ch, cl, cc = CandlestickPatterns._last(o, h, low_vals, c)
+        po, _ph, _pl, pc = CandlestickPatterns._prev(o, h, low_vals, c)
+        co, _ch, _cl, cc = CandlestickPatterns._last(o, h, low_vals, c)
         prev_bearish = pc < po
         small_body_inside = min(co, cc) >= min(po, pc) and max(co, cc) <= max(po, pc)
         cond = prev_bearish and cc > co and small_body_inside
@@ -172,8 +172,8 @@ class CandlestickPatterns:
     ) -> PatternMatch:
         if len(o) < 2:
             return PatternMatch("bearish_harami", False)
-        po, ph, pl, pc = CandlestickPatterns._prev(o, h, low_vals, c)
-        co, ch, cl, cc = CandlestickPatterns._last(o, h, low_vals, c)
+        po, _ph, _pl, pc = CandlestickPatterns._prev(o, h, low_vals, c)
+        co, _ch, _cl, cc = CandlestickPatterns._last(o, h, low_vals, c)
         prev_bullish = pc > po
         small_body_inside = min(co, cc) >= min(po, pc) and max(co, cc) <= max(po, pc)
         cond = prev_bullish and cc < co and small_body_inside
@@ -185,8 +185,8 @@ class CandlestickPatterns:
     ) -> PatternMatch:
         if len(o) < 2:
             return PatternMatch("piercing_line", False)
-        po, ph, pl, pc = CandlestickPatterns._prev(o, h, low_vals, c)
-        co, ch, cl, cc = CandlestickPatterns._last(o, h, low_vals, c)
+        po, _ph, _pl, pc = CandlestickPatterns._prev(o, h, low_vals, c)
+        co, _ch, _cl, cc = CandlestickPatterns._last(o, h, low_vals, c)
         midpoint = (po + pc) / 2
         cond = pc < po and co < pc and cc > midpoint and cc < po
         return PatternMatch("piercing_line", cond)
@@ -197,8 +197,8 @@ class CandlestickPatterns:
     ) -> PatternMatch:
         if len(o) < 2:
             return PatternMatch("dark_cloud_cover", False)
-        po, ph, pl, pc = CandlestickPatterns._prev(o, h, low_vals, c)
-        co, ch, cl, cc = CandlestickPatterns._last(o, h, low_vals, c)
+        po, _ph, _pl, pc = CandlestickPatterns._prev(o, h, low_vals, c)
+        co, _ch, _cl, cc = CandlestickPatterns._last(o, h, low_vals, c)
         midpoint = (po + pc) / 2
         cond = pc > po and co > pc and cc < midpoint and cc > po
         return PatternMatch("dark_cloud_cover", cond)
@@ -253,7 +253,7 @@ class CandlestickPatterns:
         return PatternMatch("evening_star", cond)
 
     @staticmethod
-    def tweezer_top(  # noqa: ARG004
+    def tweezer_top(
         o: pd.Series, h: pd.Series, low_vals: pd.Series, c: pd.Series, tolerance: float = 0.001
     ) -> PatternMatch:
         """Detect tweezer top pattern (low_vals unused, only checks highs)."""
@@ -268,7 +268,7 @@ class CandlestickPatterns:
         return PatternMatch("tweezer_top", cond)
 
     @staticmethod
-    def tweezer_bottom(  # noqa: ARG004
+    def tweezer_bottom(
         o: pd.Series, h: pd.Series, low_vals: pd.Series, c: pd.Series, tolerance: float = 0.001
     ) -> PatternMatch:
         """Detect tweezer bottom pattern (h unused, only checks lows)."""

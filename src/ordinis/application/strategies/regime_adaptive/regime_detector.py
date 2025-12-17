@@ -265,7 +265,7 @@ class RegimeDetector:
 
         return sum(scores)
 
-    def _score_regimes(  # noqa: PLR0912
+    def _score_regimes(
         self,
         adx: float,
         volatility_pct: float,

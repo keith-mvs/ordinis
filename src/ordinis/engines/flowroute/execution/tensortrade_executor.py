@@ -121,7 +121,7 @@ class RLExecutionOptimizer:
             try:
                 action_idx = self._agent.act(state)
                 return self._action_from_index(action_idx, current_price, bid_price, ask_price)
-            except Exception:  # noqa: S110
+            except Exception:
                 # Agent inference failed, fall through to heuristic
                 pass
 

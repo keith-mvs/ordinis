@@ -58,7 +58,7 @@ class CodeEmbedder(BaseEmbedder):
             import subprocess
 
             result = subprocess.run(
-                ["nvidia-smi", "--query-gpu=memory.used", "--format=csv,noheader,nounits"],
+                ["nvidia-smi", "--query-gpu=memory.used", "--format=csv,noheader,nounits"],  # noqa: S607
                 capture_output=True,
                 text=True,
                 check=False,

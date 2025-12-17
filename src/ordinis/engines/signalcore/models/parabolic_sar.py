@@ -60,7 +60,7 @@ class ParabolicSARModel(Model):
         # Update min data points (need enough for SAR to stabilize)
         self.config.min_data_points = 50
 
-    async def generate(self, data: pd.DataFrame, timestamp: datetime) -> Signal:  # noqa: PLR0912, PLR0915
+    async def generate(self, data: pd.DataFrame, timestamp: datetime) -> Signal:
         """
         Generate trading signal from Parabolic SAR analysis.
 

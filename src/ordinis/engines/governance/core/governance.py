@@ -395,7 +395,7 @@ class GovernanceEngine:
 
     # Core Evaluation
 
-    def evaluate_trade(  # noqa: PLR0912
+    def evaluate_trade(
         self,
         symbol: str,
         action: str,

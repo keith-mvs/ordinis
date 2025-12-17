@@ -44,6 +44,12 @@ class ProofBenchEngineConfig(BaseEngineConfig):
     # Governance
     enable_governance: bool = True
 
+    # Analytics Configuration
+    storage_path: str = "data/analytics"
+    metrics_retention_days: int = 30
+    real_time_calculation: bool = True
+    performance_metrics: list[str] = field(default_factory=lambda: ["pnl", "win_rate", "drawdown"])
+
     # Tracking
     loaded_symbols: list[str] = field(default_factory=list)
 

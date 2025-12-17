@@ -23,6 +23,7 @@ class ProviderType(Enum):
     """LLM provider backend."""
 
     NVIDIA_API = "nvidia_api"
+    NVIDIA_NIM = "nvidia_nim"
     MISTRAL_API = "mistral_api"
     OPENAI_API = "openai_api"
     AZURE_OPENAI_API = "azure_openai_api"

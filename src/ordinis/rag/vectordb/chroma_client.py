@@ -1,6 +1,8 @@
 """ChromaDB client wrapper for vector storage and retrieval."""
 
+import json
 from pathlib import Path
+import time
 from typing import Any
 
 import chromadb
@@ -9,11 +11,14 @@ from loguru import logger
 import numpy as np
 
 from ordinis.rag.config import get_config
+from ordinis.rag.vectordb.base import VectorDatabaseInterface
 from ordinis.rag.vectordb.schema import RetrievalResult
 
 
-class ChromaClient:
+class ChromaClient(VectorDatabaseInterface):
     """ChromaDB client for managing text and code collections."""
+
+    METADATA_SCHEMA_COLLECTION = "_metadata_schemas"
 
     def __init__(
         self,
@@ -247,3 +252,174 @@ class ChromaClient:
             "code_documents": code_count,
             "persist_directory": str(self.persist_directory),
         }
+
+    # ============================================================================
+    # VectorDatabaseInterface implementation
+    # ============================================================================
+
+    def query(
+        self,
+        embedding: list[float],
+        top_k: int,
+        collection_name: str,
+        filters: dict[str, Any] | None = None,
+    ) -> list[dict[str, Any]]:
+        """Query any collection by name."""
+        collection = self.client.get_collection(collection_name)
+
+        results = collection.query(
+            query_embeddings=[embedding],
+            n_results=top_k,
+            where=filters,
+        )
+
+        return self._format_results(results)
+
+    def add_documents(
+        self,
+        texts: list[str],
+        embeddings: list[list[float]],
+        metadata: list[dict[str, Any]],
+        collection_name: str,
+        ids: list[str] | None = None,
+    ) -> None:
+        """Add documents to any collection."""
+        collection = self.client.get_or_create_collection(collection_name)
+
+        if ids is None:
+            ids = [
+                f"{collection_name}_{i}"
+                for i in range(collection.count(), collection.count() + len(texts))
+            ]
+
+        collection.add(
+            documents=texts,
+            embeddings=embeddings,
+            metadatas=metadata,
+            ids=ids,
+        )
+        logger.info(f"Added {len(texts)} documents to {collection_name}")
+
+    def delete_documents(
+        self,
+        ids: list[str],
+        collection_name: str,
+    ) -> None:
+        """Delete documents from collection."""
+        collection = self.client.get_collection(collection_name)
+        collection.delete(ids=ids)
+        logger.info(f"Deleted {len(ids)} documents from {collection_name}")
+
+    def get_collection(
+        self,
+        collection_name: str,
+    ) -> dict[str, Any]:
+        """Get collection metadata and stats."""
+        collection = self.client.get_collection(collection_name)
+        return {
+            "name": collection.name,
+            "count": collection.count(),
+            "metadata": collection.metadata,
+        }
+
+    def check_collection_exists(
+        self,
+        collection_name: str,
+    ) -> bool:
+        """Check if collection exists."""
+        try:
+            self.client.get_collection(collection_name)
+            return True
+        except Exception:
+            return False
+
+    def create_collection(
+        self,
+        collection_name: str,
+        dimension: int = 2048,
+        metadata: dict[str, Any] | None = None,
+    ) -> None:
+        """Create a new collection."""
+        self.client.get_or_create_collection(
+            name=collection_name,
+            metadata=metadata or {},
+        )
+        logger.info(f"Created collection: {collection_name}")
+
+    def delete_collection(
+        self,
+        collection_name: str,
+    ) -> None:
+        """Delete a collection."""
+        self.client.delete_collection(collection_name)
+        logger.info(f"Deleted collection: {collection_name}")
+
+    def check_health(self) -> dict[str, Any]:
+        """Check database health."""
+        try:
+            start = time.time()
+            self.client.heartbeat()
+            latency = (time.time() - start) * 1000
+
+            return {
+                "status": "healthy",
+                "latency_ms": latency,
+                "persist_dir": str(self.persist_directory),
+            }
+        except Exception as e:
+            logger.error(f"Health check failed: {e}")
+            return {
+                "status": "unhealthy",
+                "error": str(e),
+            }
+
+    def close(self) -> None:
+        """Close database connection."""
+        # ChromaDB cleanup if needed
+        logger.info("ChromaDB client closed")
+
+    # ============================================================================
+    # Metadata schema management
+    # ============================================================================
+
+    def store_metadata_schema(
+        self,
+        collection_name: str,
+        schema: dict[str, Any],
+    ) -> None:
+        """Store metadata schema for a collection."""
+        schema_collection = self.client.get_or_create_collection(
+            name=self.METADATA_SCHEMA_COLLECTION,
+            metadata={"description": "Metadata schemas for collections"},
+        )
+
+        schema_collection.upsert(
+            ids=[collection_name],
+            documents=[json.dumps(schema)],
+            metadatas=[{"collection": collection_name, "timestamp": str(time.time())}],
+        )
+
+        logger.info(f"Stored metadata schema for {collection_name}")
+
+    def get_metadata_schema(
+        self,
+        collection_name: str,
+    ) -> dict[str, Any] | None:
+        """Retrieve stored metadata schema for a collection."""
+        try:
+            schema_collection = self.client.get_collection(self.METADATA_SCHEMA_COLLECTION)
+
+            results = schema_collection.get(
+                ids=[collection_name],
+            )
+
+            if results["documents"]:
+                return json.loads(results["documents"][0])
+        except Exception as e:
+            logger.warning(f"Could not retrieve schema for {collection_name}: {e}")
+
+        return None
+
+    def list_collections(self) -> list[str]:
+        """List all collections in the database."""
+        return [coll.name for coll in self.client.list_collections()]

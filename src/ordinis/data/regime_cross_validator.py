@@ -5,8 +5,8 @@ Implements walk-forward and regime-stratified cross-validation to ensure
 strategies are tested across diverse market conditions.
 """
 
+from collections.abc import Callable
 from dataclasses import dataclass, field
-from typing import Callable, Optional
 
 import numpy as np
 import pandas as pd
@@ -17,6 +17,7 @@ from .training_data_generator import DataChunk, MarketRegime, TrainingDataGenera
 @dataclass
 class ValidationResult:
     """Results from a single validation fold."""
+
     fold_id: int
     regime: MarketRegime
     chunk: DataChunk
@@ -32,6 +33,7 @@ class ValidationResult:
 @dataclass
 class CrossValidationReport:
     """Comprehensive cross-validation report."""
+
     strategy_name: str
     results: list[ValidationResult]
     regime_performance: dict = field(default_factory=dict)
@@ -52,7 +54,9 @@ class CrossValidationReport:
                     "avg_return": np.mean([r.total_return for r in regime_folds]),
                     "avg_sharpe": np.mean([r.sharpe_ratio for r in regime_folds]),
                     "avg_alpha": np.mean([r.alpha for r in regime_folds]),
-                    "win_rate_vs_benchmark": sum(1 for r in regime_folds if r.alpha > 0) / len(regime_folds) * 100,
+                    "win_rate_vs_benchmark": sum(1 for r in regime_folds if r.alpha > 0)
+                    / len(regime_folds)
+                    * 100,
                     "avg_max_drawdown": np.mean([r.max_drawdown for r in regime_folds]),
                 }
         self.regime_performance = regime_results
@@ -124,15 +128,19 @@ class CrossValidationReport:
         # Regime breakdown
         print("\n[PERFORMANCE BY REGIME]")
         print("-" * 80)
-        print(f"{'Regime':<12} {'Folds':>6} {'Avg Ret':>10} {'Avg Alpha':>10} {'Win% vs B&H':>12} {'Avg DD':>10}")
+        print(
+            f"{'Regime':<12} {'Folds':>6} {'Avg Ret':>10} {'Avg Alpha':>10} {'Win% vs B&H':>12} {'Avg DD':>10}"
+        )
         print("-" * 80)
 
         for regime in MarketRegime:
             if regime in self.regime_performance:
                 p = self.regime_performance[regime]
-                print(f"{regime.value:<12} {p['count']:>6} {p['avg_return']:>+9.2f}% "
-                      f"{p['avg_alpha']:>+9.2f}% {p['win_rate_vs_benchmark']:>11.1f}% "
-                      f"{p['avg_max_drawdown']:>9.2f}%")
+                print(
+                    f"{regime.value:<12} {p['count']:>6} {p['avg_return']:>+9.2f}% "
+                    f"{p['avg_alpha']:>+9.2f}% {p['win_rate_vs_benchmark']:>11.1f}% "
+                    f"{p['avg_max_drawdown']:>9.2f}%"
+                )
 
         # Verdict
         print("\n[VERDICT]")
@@ -159,19 +167,14 @@ class RegimeCrossValidator:
     """
 
     def __init__(
-        self,
-        strategy_callback: Callable,
-        strategy_name: str,
-        initial_capital: float = 100000.0
+        self, strategy_callback: Callable, strategy_name: str, initial_capital: float = 100000.0
     ):
         self.strategy_callback = strategy_callback
         self.strategy_name = strategy_name
         self.initial_capital = initial_capital
 
     def validate(
-        self,
-        chunks: list[DataChunk],
-        min_folds_per_regime: int = 5
+        self, chunks: list[DataChunk], min_folds_per_regime: int = 5
     ) -> CrossValidationReport:
         """
         Run cross-validation across data chunks.
@@ -185,7 +188,6 @@ class RegimeCrossValidator:
         """
         # Import here to avoid circular dependency
         from ordinis.engines.proofbench.core.simulator import SimulationConfig, SimulationEngine
-        from ordinis.engines.proofbench.core.execution import Order, OrderSide, OrderType
 
         results = []
 
@@ -231,10 +233,7 @@ class RegimeCrossValidator:
                 print(f"[WARN] Fold {i} failed: {e}")
                 continue
 
-        return CrossValidationReport(
-            strategy_name=self.strategy_name,
-            results=results
-        )
+        return CrossValidationReport(strategy_name=self.strategy_name, results=results)
 
     def _create_fresh_strategy(self) -> Callable:
         """Create a fresh instance of the strategy callback."""
@@ -254,7 +253,7 @@ class WalkForwardValidator:
         train_months: int = 12,
         test_months: int = 3,
         step_months: int = 3,
-        expanding: bool = False
+        expanding: bool = False,
     ):
         self.train_months = train_months
         self.test_months = test_months
@@ -262,9 +261,7 @@ class WalkForwardValidator:
         self.expanding = expanding
 
     def generate_folds(
-        self,
-        data: pd.DataFrame,
-        min_train_bars: int = 252
+        self, data: pd.DataFrame, min_train_bars: int = 252
     ) -> list[tuple[pd.DataFrame, pd.DataFrame, dict]]:
         """
         Generate train/test folds for walk-forward validation.
@@ -315,9 +312,9 @@ class WalkForwardValidator:
 def run_comprehensive_validation(
     strategy_factory: Callable,
     strategy_name: str,
-    symbols: list[str] = None,
+    symbols: list[str] | None = None,
     chunks_per_symbol: int = 50,
-    random_seed: int = 42
+    random_seed: int = 42,
 ) -> CrossValidationReport:
     """
     Run comprehensive regime-stratified cross-validation.
@@ -332,24 +329,19 @@ def run_comprehensive_validation(
     Returns:
         CrossValidationReport with comprehensive results
     """
-    from .training_data_generator import TrainingConfig, TrainingDataGenerator
+    from .training_data_generator import TrainingConfig
 
     # Generate training data
-    config = TrainingConfig(
-        symbols=symbols or ["SPY"],
-        random_seed=random_seed
-    )
+    config = TrainingConfig(symbols=symbols or ["SPY"], random_seed=random_seed)
 
     generator = TrainingDataGenerator(config)
     chunks = generator.generate_multi_symbol_dataset(
-        chunks_per_symbol=chunks_per_symbol,
-        balance_regimes=True
+        chunks_per_symbol=chunks_per_symbol, balance_regimes=True
     )
 
     # Run validation
     validator = RegimeCrossValidator(
-        strategy_callback=strategy_factory(),
-        strategy_name=strategy_name
+        strategy_callback=strategy_factory(), strategy_name=strategy_name
     )
 
     report = validator.validate(chunks)

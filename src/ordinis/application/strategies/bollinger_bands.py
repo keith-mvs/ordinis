@@ -49,7 +49,7 @@ class BollingerBandsStrategy(BaseStrategy):
 
         self.model = BollingerBandsModel(model_config)
 
-    def generate_signal(self, data: pd.DataFrame, timestamp: datetime) -> Signal | None:
+    async def generate_signal(self, data: pd.DataFrame, timestamp: datetime) -> Signal | None:
         """
         Generate Bollinger Bands signal.
 
@@ -61,13 +61,13 @@ class BollingerBandsStrategy(BaseStrategy):
             Signal object or None
         """
         # Validate data
-        is_valid, msg = self.validate_data(data)
+        is_valid, _msg = self.validate_data(data)
         if not is_valid:
             return None
 
         try:
             # Generate signal using Bollinger Bands model
-            signal = self.model.generate(data, timestamp)
+            signal = await self.model.generate(data, timestamp)
 
             # Enrich signal metadata with strategy info
             if signal:

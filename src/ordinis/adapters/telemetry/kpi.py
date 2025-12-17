@@ -603,7 +603,7 @@ def get_kpi_tracker() -> KPITracker:
     Returns:
         Global KPI tracker
     """
-    global _global_tracker  # noqa: PLW0603
+    global _global_tracker
     if _global_tracker is None:
         _global_tracker = KPITracker()
     return _global_tracker
@@ -611,5 +611,5 @@ def get_kpi_tracker() -> KPITracker:
 
 def reset_kpi_tracker():
     """Reset global KPI tracker."""
-    global _global_tracker  # noqa: PLW0603
+    global _global_tracker
     _global_tracker = None

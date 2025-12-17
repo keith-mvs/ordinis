@@ -172,7 +172,7 @@ class ConfidenceCalibrator:
             results.append(
                 {
                     "threshold": threshold,
-                    "trades": int(len(selected)),
+                    "trades": len(selected),
                     "win_rate": win_rate,
                     "avg_return": avg_return,
                 }
@@ -243,7 +243,7 @@ class ConfidenceCalibrator:
 
     def _estimate_importance(self) -> dict[str, float]:
         if self._coef is None:
-            return {name: 0.0 for name in self.feature_names}
+            return dict.fromkeys(self.feature_names, 0.0)
 
         magnitudes = np.abs(self._coef)
         total = magnitudes.sum() or 1.0

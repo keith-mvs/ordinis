@@ -15,8 +15,8 @@ from ordinis.application.services.orchestrator import (
 from ordinis.application.services.reconciliation import PositionReconciliation, ReconciliationResult
 
 __all__ = [
-    "OrdinisOrchestrator",
     "OrchestratorConfig",
+    "OrdinisOrchestrator",
     "PositionReconciliation",
     "ReconciliationResult",
     "SystemComponents",

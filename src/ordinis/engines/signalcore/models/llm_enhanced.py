@@ -118,7 +118,7 @@ Keep it concise and actionable."""
 
             response = await self.helix.generate(
                 messages=[ChatMessage(role="user", content=prompt)],
-                model="nvidia/llama-3.1-70b-instruct",
+                model="meta/llama-3.3-70b-instruct",
                 temperature=0.3,
                 max_tokens=512,
             )
@@ -126,10 +126,10 @@ Keep it concise and actionable."""
 
             # Add interpretation to metadata
             signal.metadata["llm_interpretation"] = interpretation
-            signal.metadata["llm_model"] = "nvidia-llama-3.1-70b"
+            signal.metadata["llm_model"] = "meta-llama-3.3-70b"
             signal.metadata["interpretation_timestamp"] = datetime.now(tz=UTC).isoformat()
 
-        except Exception:  # noqa: S110
+        except Exception:
             # Return original signal if LLM fails
             pass
 
@@ -163,7 +163,7 @@ Keep it concise and actionable."""
         """Describe model with LLM enhancement info."""
         base_desc = self.base_model.describe()
         base_desc["llm_enhanced"] = self.llm_enabled
-        base_desc["llm_available"] = NVIDIA_AVAILABLE
+        base_desc["llm_available"] = self.helix is not None
         base_desc["wrapper_type"] = "LLMEnhancedModel"
         return base_desc
 
@@ -215,7 +215,7 @@ Format: Just list the feature names (e.g., "RSI_14", "SMA_50", "ATR_20")"""
 
             response = await self.helix.generate(
                 messages=[ChatMessage(role="user", content=prompt)],
-                model="nvidia/llama-3.1-70b-instruct",
+                model="meta/llama-3.3-70b-instruct",
                 temperature=0.5,
                 max_tokens=1024,
             )
@@ -270,7 +270,7 @@ Keep it concise and practical."""
 
             response = await self.helix.generate(
                 messages=[ChatMessage(role="user", content=prompt)],
-                model="nvidia/llama-3.1-70b-instruct",
+                model="meta/llama-3.3-70b-instruct",
                 temperature=0.3,
                 max_tokens=512,
             )

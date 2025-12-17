@@ -35,12 +35,9 @@ class OptionsCoreEngine:
     - Chain-level enrichment and analytics
 
     Usage:
-        >>> from ordinis.plugins.market_data.polygon import PolygonDataPlugin
-        >>>
         >>> # Initialize dependencies
-        >>> polygon_config = PluginConfig(name="polygon", api_key=API_KEY)
-        >>> polygon = PolygonDataPlugin(polygon_config)
-        >>> await polygon.initialize()
+        >>> # provider = AnyMarketDataPlugin(config)
+        >>> # await provider.initialize()
         >>>
         >>> # Initialize engine
         >>> engine_config = OptionsEngineConfig(
@@ -48,7 +45,7 @@ class OptionsCoreEngine:
         ...     cache_ttl_seconds=300,
         ...     default_risk_free_rate=0.05
         ... )
-        >>> engine = OptionsCoreEngine(engine_config, polygon)
+        >>> engine = OptionsCoreEngine(engine_config, provider)
         >>> await engine.initialize()
         >>>
         >>> # Fetch enriched chain
@@ -57,16 +54,16 @@ class OptionsCoreEngine:
         >>> print(f"ATM strike: {chain.summary['atm_strike']}")
     """
 
-    def __init__(self, config: OptionsEngineConfig, polygon_plugin):
+    def __init__(self, config: OptionsEngineConfig, market_data_provider):
         """
         Initialize OptionsCore engine.
 
         Args:
             config: Engine configuration
-            polygon_plugin: Polygon data plugin instance (PolygonDataPlugin)
+            market_data_provider: Market data provider instance
         """
         self.config = config
-        self.polygon = polygon_plugin
+        self.provider = market_data_provider
 
         # Initialize pricing components
         self.pricing_engine = BlackScholesEngine()
@@ -93,9 +90,9 @@ class OptionsCoreEngine:
         if self.initialized:
             return True
 
-        # Verify Polygon plugin is ready
-        if not self.polygon or self.polygon.status.value not in ["ready", "running"]:
-            raise RuntimeError("Polygon plugin not ready")
+        # Verify provider is ready
+        if not self.provider or self.provider.status.value not in ["ready", "running"]:
+            raise RuntimeError("Market data provider not ready")
 
         self.initialized = True
         return True
@@ -150,14 +147,14 @@ class OptionsCoreEngine:
 
         try:
             # Fetch underlying price
-            quote = await self.polygon.get_quote(symbol)
+            quote = await self.provider.get_quote(symbol)
             underlying_price = quote.get("last", 0.0)
 
             if underlying_price <= 0:
                 raise ValueError(f"Invalid underlying price for {symbol}: {underlying_price}")
 
-            # Fetch options chain from Polygon
-            raw_chain = await self.polygon.get_options_chain(
+            # Fetch options chain from provider
+            raw_chain = await self.provider.get_options_chain(
                 symbol=symbol,
                 expiration=expiration,
                 strike_price=strike_price,
@@ -350,7 +347,7 @@ class OptionsCoreEngine:
             self.cache.clear()
         else:
             # Clear entries matching symbol
-            keys_to_remove = [k for k in self.cache.keys() if k.startswith(f"chain:{symbol}:")]
+            keys_to_remove = [k for k in self.cache if k.startswith(f"chain:{symbol}:")]
             for key in keys_to_remove:
                 del self.cache[key]
 

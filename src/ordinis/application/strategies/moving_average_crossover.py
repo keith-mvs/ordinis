@@ -35,7 +35,7 @@ class MovingAverageCrossoverStrategy(BaseStrategy):
         self.params.setdefault("ma_type", "SMA")
         self.params.setdefault("min_bars", self.params["slow_period"] + 10)
 
-    def generate_signal(self, data: pd.DataFrame, timestamp: datetime) -> Signal | None:
+    async def generate_signal(self, data: pd.DataFrame, timestamp: datetime) -> Signal | None:
         """
         Generate moving average crossover signal.
 
@@ -47,7 +47,7 @@ class MovingAverageCrossoverStrategy(BaseStrategy):
             Signal object or None
         """
         # Validate data
-        is_valid, msg = self.validate_data(data)
+        is_valid, _msg = self.validate_data(data)
         if not is_valid:
             return None
 

@@ -10,10 +10,10 @@ from .candlestick import CandlestickPatterns, PatternMatch
 from .support_resistance import SupportResistanceLevels, SupportResistanceLocator
 
 __all__ = [
-    "CandlestickPatterns",
-    "PatternMatch",
-    "SupportResistanceLocator",
-    "SupportResistanceLevels",
     "BreakoutDetector",
     "BreakoutSignal",
+    "CandlestickPatterns",
+    "PatternMatch",
+    "SupportResistanceLevels",
+    "SupportResistanceLocator",
 ]

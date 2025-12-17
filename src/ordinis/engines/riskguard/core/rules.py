@@ -49,7 +49,7 @@ class RiskRule:
     modified_by: str | None = None
     metadata: dict[str, Any] = field(default_factory=dict)
 
-    def evaluate(self, current_value: float) -> bool:  # noqa: PLR0911
+    def evaluate(self, current_value: float) -> bool:
         """
         Evaluate rule against current value.
 

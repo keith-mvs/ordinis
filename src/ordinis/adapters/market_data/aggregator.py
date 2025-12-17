@@ -306,7 +306,7 @@ class DataAggregator(DataPlugin):
                     timeout=self._agg_config.timeout_seconds,
                 )
             else:
-                raise ValueError(f"Unknown data type: {data_type}")  # noqa: TRY301
+                raise ValueError(f"Unknown data type: {data_type}")
 
             latency = (datetime.now(UTC) - start_time).total_seconds() * 1000
 
@@ -458,7 +458,7 @@ class DataAggregator(DataPlugin):
 
         return outliers
 
-    def _aggregate_prices(self, prices: dict[str, float]) -> float:  # noqa: PLR0911
+    def _aggregate_prices(self, prices: dict[str, float]) -> float:
         """Aggregate prices using configured method."""
         values = list(prices.values())
         method = self._agg_config.method

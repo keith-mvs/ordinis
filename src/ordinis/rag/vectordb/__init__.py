@@ -11,9 +11,9 @@ from ordinis.rag.vectordb.schema import (
 
 __all__ = [
     "ChromaClient",
-    "TextChunkMetadata",
     "CodeChunkMetadata",
-    "RetrievalResult",
     "QueryRequest",
     "QueryResponse",
+    "RetrievalResult",
+    "TextChunkMetadata",
 ]

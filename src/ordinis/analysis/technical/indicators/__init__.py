@@ -22,13 +22,13 @@ from .volatility import VolatilityIndicators
 from .volume import VolumeIndicators
 
 __all__ = [
-    "MovingAverages",
-    "Oscillators",
-    "TrendIndicators",
     "IchimokuCloudValues",
     "IchimokuSignal",
+    "MovingAverages",
+    "Oscillators",
     "StaticLevels",
+    "TechnicalIndicators",
+    "TrendIndicators",
     "VolatilityIndicators",
     "VolumeIndicators",
-    "TechnicalIndicators",
 ]

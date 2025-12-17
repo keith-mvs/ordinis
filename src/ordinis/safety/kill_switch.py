@@ -16,6 +16,7 @@ The kill switch has three trigger sources:
 
 import asyncio
 from collections.abc import Callable
+import contextlib
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
@@ -191,10 +192,8 @@ class KillSwitch:
         self._running = False
         if self._file_check_task:
             self._file_check_task.cancel()
-            try:
+            with contextlib.suppress(asyncio.CancelledError):
                 await self._file_check_task
-            except asyncio.CancelledError:
-                pass
         logger.info("Kill switch monitoring stopped")
 
     async def trigger(

@@ -4,6 +4,8 @@ Synapse - RAG Retrieval Engine.
 Wraps RAG infrastructure with unified interface and Nemotron-Super synthesis.
 """
 
+import json
+import re
 import time
 from typing import TYPE_CHECKING, Any
 
@@ -98,7 +100,26 @@ class Synapse(BaseEngine):
                 message=f"Helix provider degraded: {helix_health.message}",
             )
 
-        return self._health_status
+        # Check RAG engine health
+        try:
+            rag_engine = self._ensure_rag_engine()
+            chroma_health = rag_engine.chroma_client.check_health()
+
+            if chroma_health.get("status") != "healthy":
+                return HealthStatus(
+                    level=HealthLevel.DEGRADED,
+                    message=f"ChromaDB unhealthy: {chroma_health.get('error', 'unknown')}",
+                )
+        except Exception as e:
+            return HealthStatus(
+                level=HealthLevel.DEGRADED,
+                message=f"RAG engine health check failed: {e}",
+            )
+
+        return HealthStatus(
+            level=HealthLevel.HEALTHY,
+            message="All components healthy",
+        )
 
     def _ensure_rag_engine(self) -> "RetrievalEngine":
         """Lazy initialize RAG engine."""
@@ -177,13 +198,15 @@ class Synapse(BaseEngine):
         self,
         query: str,
         context: RetrievalContext | dict | None = None,
+        collections: list[str] | None = None,
     ) -> RetrievalResultSet:
         """
-        Retrieve relevant context for a query.
+        Retrieve relevant context for a query with multi-collection support.
 
         Args:
             query: Query text
             context: Retrieval context (scope, filters, etc.)
+            collections: Specific collections to query (if None, uses default)
 
         Returns:
             RetrievalResultSet with snippets
@@ -207,13 +230,14 @@ class Synapse(BaseEngine):
             filters = filters or {}
             filters["engine"] = ctx.engine
 
-        # Execute query
+        # Execute query with optional collections parameter
         query_type = self._scope_to_query_type(ctx.scope)
         response = engine.query(
             query=query,
             query_type=query_type,
             top_k=ctx.top_k,
             filters=filters,
+            collections=collections,
         )
 
         # Filter by min_score
@@ -532,22 +556,141 @@ class Synapse(BaseEngine):
         return [f"File: {s.file_path}\n{s.text}" for s in results.snippets]
 
     def get_stats(self) -> dict:
-        """Get retrieval engine statistics."""
+        """Get comprehensive retrieval engine statistics."""
         if self._state != EngineState.READY:
             return {"initialized": False}
 
-        engine = self._ensure_rag_engine()
-        stats = engine.get_stats()
-        stats["synapse"] = {
-            "initialized": self._state == EngineState.READY,
-            "helix_enabled": True,
-            "config": {
-                "default_scope": self.config.default_scope.value,
-                "default_top_k": self.config.default_top_k,
-                "similarity_threshold": self.config.similarity_threshold,
-            },
-        }
-        return stats
+        try:
+            engine = self._ensure_rag_engine()
+            rag_stats = engine.get_stats()
+
+            # Add Synapse-specific stats
+            chroma_client = engine.chroma_client
+            collections = chroma_client.list_collections()
+
+            return {
+                "initialized": True,
+                "state": self._state.value,
+                "rag": rag_stats,
+                "collections": {
+                    "total": len(collections),
+                    "names": collections,
+                },
+                "helix_enabled": True,
+                "config": {
+                    "default_scope": self.config.default_scope.value,
+                    "default_top_k": self.config.default_top_k,
+                    "similarity_threshold": self.config.similarity_threshold,
+                    "max_context_tokens": self.config.max_context_tokens,
+                    "intent_recognition_enabled": self.config.enable_intent_recognition,
+                },
+            }
+        except Exception as e:
+            self._logger.error(f"Failed to get stats: {e}")
+            return {
+                "initialized": False,
+                "error": str(e),
+            }
+
+    # ========================================================================
+    # Filter generation from natural language
+    # ========================================================================
+
+    async def _generate_filters(
+        self,
+        query: str,
+        context: dict[str, Any] | None = None,
+    ) -> dict[str, Any]:
+        """
+        Generate metadata filters from natural language query.
+
+        Analyzes query for filter hints and converts to structured filters.
+
+        Args:
+            query: Natural language query
+            context: Optional context for filter generation
+
+        Returns:
+            Dictionary of metadata filters
+        """
+        filters = {}
+
+        # Heuristic filter detection
+        query_lower = query.lower()
+
+        # Engine/module filter
+        engines = ["cortex", "synapse", "helix", "learning"]
+        for engine in engines:
+            if engine in query_lower:
+                filters["engine"] = engine
+                break
+
+        # File type filter
+        file_types = ["python", "typescript", "javascript", "java", "cpp", "go"]
+        for file_type in file_types:
+            if file_type in query_lower:
+                filters["file_type"] = file_type
+                break
+
+        # Domain filter
+        domains = ["trading", "backtesting", "risk", "analytics", "data"]
+        for domain in domains:
+            if domain in query_lower:
+                filters["domain"] = domain
+                break
+
+        # Try LLM-based filter generation if query is complex
+        if len(query) > 50 and self.helix:
+            try:
+                filters.update(await self._llm_generate_filters(query))
+            except Exception as e:
+                self._logger.debug(f"LLM filter generation failed: {e}, using heuristic filters")
+
+        if filters:
+            self._logger.info(f"Generated filters: {filters}")
+
+        return filters
+
+    async def _llm_generate_filters(self, query: str) -> dict[str, Any]:
+        """
+        Use LLM to generate filters from query.
+
+        Args:
+            query: Query text
+
+        Returns:
+            Dictionary of extracted filters
+        """
+        prompt = f"""
+        Extract metadata filter from this query:
+        "{query}"
+
+        Available filters: engine, file_type, domain, language
+
+        Return ONLY valid JSON object (no markdown, no explanation):
+        {{"engine": "value"}} or {{"domain": "value"}} or {{}}
+        """
+
+        try:
+            response = await self.helix.generate(
+                messages=[ChatMessage(role="user", content=prompt)],
+                temperature=0.0,
+                max_tokens=50,
+                model="nemotron-super",
+            )
+
+            # Try to parse JSON from response
+            result_text = response.content.strip()
+
+            # Clean up markdown if present
+            result_text = re.sub(r"```json\n?", "", result_text)
+            result_text = re.sub(r"```\n?", "", result_text)
+
+            parsed = json.loads(result_text)
+            return parsed if isinstance(parsed, dict) else {}
+        except Exception as e:
+            self._logger.debug(f"Failed to parse filter JSON: {e}")
+            return {}
 
     @property
     def is_available(self) -> bool:

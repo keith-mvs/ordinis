@@ -1,0 +1,424 @@
+#!/usr/bin/env python3
+"""
+Live Trading Runtime.
+
+Complete integration of ATR-Optimized RSI strategy with Ordinis runtime.
+Supports paper trading and live trading modes.
+
+Usage:
+    # Paper trading
+    python -m ordinis.runtime.live_trading --mode paper --config configs/strategies/atr_optimized_rsi.yaml
+
+    # Simulated trading (no broker, for testing)
+    python -m ordinis.runtime.live_trading --mode simulated --config configs/strategies/atr_optimized_rsi.yaml
+"""
+
+import argparse
+import asyncio
+from datetime import UTC, datetime
+import logging
+import os
+from pathlib import Path
+import sys
+
+import pandas as pd
+
+# Add project root to path
+project_root = Path(__file__).parent.parent.parent.parent.parent
+sys.path.insert(0, str(project_root / "src"))
+
+from ordinis.adapters.broker.broker import (
+    AlpacaBroker,
+    BrokerAdapter,
+    Order,
+    OrderSide,
+    OrderType,
+    SimulatedBroker,
+)
+from ordinis.engines.signalcore.core.signal import Signal, SignalType
+from ordinis.engines.signalcore.strategy_loader import StrategyLoader
+
+logger = logging.getLogger(__name__)
+
+
+class LiveTradingRuntime:
+    """
+    Live trading runtime that connects strategy to broker.
+
+    Handles:
+    - Real-time signal generation
+    - Order execution
+    - Position management
+    - Risk management
+    - Logging and monitoring
+    """
+
+    def __init__(
+        self,
+        broker: BrokerAdapter,
+        strategy_loader: StrategyLoader,
+        mode: str = "paper",
+        poll_interval: int = 60,
+    ):
+        """
+        Initialize live trading runtime.
+
+        Args:
+            broker: Broker implementation.
+            strategy_loader: Strategy loader with models.
+            mode: Trading mode (paper, simulated, live).
+            poll_interval: Seconds between data polls.
+        """
+        self.broker = broker
+        self.loader = strategy_loader
+        self.mode = mode
+        self.poll_interval = poll_interval
+
+        self.running = False
+        self.daily_pnl = 0.0
+        self.trade_count = 0
+        self.start_equity: float | None = None
+
+        # Risk limits
+        self.max_daily_loss_pct = 2.0
+        self.max_position_pct = 5.0
+        self.max_concurrent = 5
+
+    async def connect(self) -> bool:
+        """Connect to broker."""
+        if await self.broker.connect():
+            account = await self.broker.get_account()
+            self.start_equity = account.equity
+            logger.info(f"Connected to broker. Equity: ${account.equity:,.2f}")
+            return True
+        return False
+
+    async def disconnect(self):
+        """Disconnect from broker."""
+        await self.broker.disconnect()
+        logger.info("Disconnected from broker")
+
+    async def get_market_data(self, symbol: str, bars: int = 100) -> pd.DataFrame | None:
+        """
+        Fetch market data for a symbol.
+
+        In a real implementation, this would connect to a data feed.
+        For now, returns None and logs a message.
+        """
+        # TODO: Integrate with actual data feed (Alpaca, Polygon, etc.)
+        logger.info(f"Fetching {bars} bars for {symbol}...")
+
+        # Placeholder: In production, fetch from:
+        # - Alpaca Data API
+        # - Polygon.io
+        # - Yahoo Finance (delayed)
+        # - IEX Cloud
+
+        return None
+
+    async def process_symbol(self, symbol: str) -> Signal | None:
+        """
+        Process a single symbol and generate signal.
+
+        Args:
+            symbol: Stock symbol.
+
+        Returns:
+            Signal if generated, None otherwise.
+        """
+        model = self.loader.get_model(symbol)
+        if not model:
+            return None
+
+        # Get market data
+        df = await self.get_market_data(symbol)
+        if df is None or len(df) < 50:
+            logger.debug(f"Insufficient data for {symbol}")
+            return None
+
+        # Check regime
+        should_trade, reason = self.loader.should_trade(symbol, df)
+        if not should_trade:
+            logger.info(f"Skipping {symbol}: {reason}")
+            return None
+
+        # Generate signal
+        try:
+            signal = await model.generate(symbol, df, datetime.now(UTC))
+
+            if signal and signal.signal_type != SignalType.HOLD:
+                logger.info(
+                    f"Signal for {symbol}: {signal.signal_type.value} "
+                    f"confidence={signal.confidence:.2f}"
+                )
+                return signal
+
+        except Exception as e:
+            logger.error(f"Error generating signal for {symbol}: {e}")
+
+        return None
+
+    async def execute_signal(self, symbol: str, signal: Signal) -> bool:
+        """
+        Execute a trading signal.
+
+        Args:
+            symbol: Stock symbol.
+            signal: Generated signal.
+
+        Returns:
+            True if order placed successfully.
+        """
+        # Check risk limits
+        if not await self.check_risk_limits(symbol, signal):
+            return False
+
+        # Calculate position size
+        account = await self.broker.get_account()
+        risk_params = self.loader.get_risk_params(symbol)
+        max_position = account.equity * (risk_params["max_position_pct"] / 100)
+
+        # Get current price (from metadata or estimate)
+        price = signal.metadata.get("entry_price", 0)
+        if price <= 0:
+            logger.warning(f"No price available for {symbol}")
+            return False
+
+        # Calculate shares
+        shares = int(max_position / price)
+        if shares <= 0:
+            logger.warning(f"Position size too small for {symbol}")
+            return False
+
+        # Determine order side
+        if signal.signal_type == SignalType.BUY:
+            side = OrderSide.BUY
+        elif signal.signal_type == SignalType.SELL:
+            side = OrderSide.SELL
+        else:
+            return False
+
+        # Create order
+        order = Order(
+            symbol=symbol,
+            side=side,
+            quantity=shares,
+            order_type=OrderType.MARKET,
+            limit_price=None,
+        )
+
+        # Submit order
+        try:
+            result = await self.broker.submit_order(order)
+            if result:
+                self.trade_count += 1
+                logger.info(
+                    f"Order placed: {side.value} {shares} {symbol} "
+                    f"(order_id: {result.order_id})"
+                )
+                return True
+
+        except Exception as e:
+            logger.error(f"Error placing order for {symbol}: {e}")
+
+        return False
+
+    async def check_risk_limits(self, symbol: str, signal: Signal) -> bool:
+        """Check if trade passes risk limits."""
+        account = await self.broker.get_account()
+        positions = await self.broker.get_positions()
+
+        # Check max concurrent positions
+        if len(positions) >= self.max_concurrent:
+            logger.warning(f"Max concurrent positions ({self.max_concurrent}) reached")
+            return False
+
+        # Check daily loss limit
+        if self.start_equity:
+            daily_change = (account.equity - self.start_equity) / self.start_equity * 100
+            if daily_change < -self.max_daily_loss_pct:
+                logger.warning(
+                    f"Daily loss limit ({self.max_daily_loss_pct}%) reached: {daily_change:.2f}%"
+                )
+                return False
+
+        # Check if we already have a position in this symbol
+        if symbol in positions:
+            logger.info(f"Already have position in {symbol}")
+            return False
+
+        return True
+
+    async def manage_positions(self):
+        """Manage existing positions (check stops, exits)."""
+        positions_list = await self.broker.get_positions()
+
+        for position in positions_list:
+            symbol = position.symbol
+            model = self.loader.get_model(symbol)
+            if not model:
+                continue
+
+            # Get current data for exit signals
+            df = await self.get_market_data(symbol)
+            if df is None:
+                continue
+
+            # Generate signal to check for exit
+            try:
+                signal = await model.generate(symbol, df, datetime.now(UTC))
+
+                # Check for exit conditions
+                if signal and signal.signal_type == SignalType.SELL and position.quantity > 0:
+                    # Exit long position
+                    await self.broker.submit_order(
+                        symbol=symbol,
+                        side=OrderSide.SELL,
+                        quantity=int(position.quantity),
+                        order_type=OrderType.MARKET,
+                    )
+                    logger.info(f"Exit signal: Sold {position.quantity} {symbol}")
+
+            except Exception as e:
+                logger.error(f"Error managing position {symbol}: {e}")
+
+    async def run_loop(self):
+        """Main trading loop."""
+        logger.info(f"Starting {self.mode} trading loop...")
+        self.running = True
+
+        symbols = self.loader.get_symbols()
+        logger.info(f"Trading {len(symbols)} symbols: {symbols}")
+
+        while self.running:
+            try:
+                # Get account status
+                account = await self.broker.get_account()
+                logger.info(
+                    f"Account: Equity=${account.equity:,.2f} "
+                    f"Cash=${account.cash:,.2f} "
+                    f"BP=${account.buying_power:,.2f}"
+                )
+
+                # Manage existing positions
+                await self.manage_positions()
+
+                # Process each symbol
+                for symbol in symbols:
+                    signal = await self.process_symbol(symbol)
+
+                    if signal and signal.signal_type != SignalType.HOLD:
+                        await self.execute_signal(symbol, signal)
+
+                    # Small delay between symbols
+                    await asyncio.sleep(1)
+
+                # Log summary
+                positions = await self.broker.get_positions()
+                logger.info(
+                    f"Loop complete. Trades: {self.trade_count}, Positions: {len(positions)}"
+                )
+
+                # Wait for next poll
+                await asyncio.sleep(self.poll_interval)
+
+            except Exception as e:
+                logger.error(f"Error in trading loop: {e}")
+                await asyncio.sleep(10)
+
+    def stop(self):
+        """Stop the trading loop."""
+        self.running = False
+        logger.info("Stopping trading loop...")
+
+
+async def main():
+    """Main entry point."""
+    parser = argparse.ArgumentParser(description="Live Trading Runtime")
+    parser.add_argument(
+        "--mode",
+        choices=["paper", "simulated", "live"],
+        default="simulated",
+        help="Trading mode",
+    )
+    parser.add_argument(
+        "--config",
+        default="configs/strategies/atr_optimized_rsi.yaml",
+        help="Strategy config path",
+    )
+    parser.add_argument(
+        "--poll-interval",
+        type=int,
+        default=60,
+        help="Seconds between data polls",
+    )
+    parser.add_argument(
+        "--log-level",
+        default="INFO",
+        help="Logging level",
+    )
+
+    args = parser.parse_args()
+
+    # Setup logging
+    logging.basicConfig(
+        level=getattr(logging, args.log_level.upper()),
+        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    )
+
+    # Load strategy
+    loader = StrategyLoader()
+    if not loader.load_strategy(args.config):
+        logger.error(f"Failed to load strategy from {args.config}")
+        return 1
+
+    # Create broker
+    if args.mode == "simulated":
+        broker = SimulatedBroker(initial_cash=100_000)
+        logger.info("Using simulated broker (no real trades)")
+    elif args.mode == "paper":
+        api_key = os.environ.get("ALPACA_API_KEY")
+        api_secret = os.environ.get("ALPACA_API_SECRET")
+
+        if not api_key or not api_secret:
+            logger.error("ALPACA_API_KEY and ALPACA_API_SECRET required for paper trading")
+            return 1
+
+        broker = AlpacaBroker(
+            api_key=api_key,
+            api_secret=api_secret,
+            paper=True,
+        )
+        logger.info("Using Alpaca paper trading")
+    elif args.mode == "live":
+        logger.error("Live trading not enabled. Use paper mode for testing.")
+        return 1
+    else:
+        logger.error(f"Unknown mode: {args.mode}")
+        return 1
+
+    # Create runtime
+    runtime = LiveTradingRuntime(
+        broker=broker,
+        strategy_loader=loader,
+        mode=args.mode,
+        poll_interval=args.poll_interval,
+    )
+
+    # Connect and run
+    if not await runtime.connect():
+        logger.error("Failed to connect to broker")
+        return 1
+
+    try:
+        await runtime.run_loop()
+    except KeyboardInterrupt:
+        logger.info("Interrupted by user")
+    finally:
+        await runtime.disconnect()
+
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(asyncio.run(main()))

@@ -114,7 +114,7 @@ class ChainEnrichmentEngine:
     """
     Engine for enriching options chain data with pricing and Greeks.
 
-    Transforms raw provider data (Polygon) into comprehensive analytics
+    Transforms raw provider data into comprehensive analytics
     using Black-Scholes pricing and Greeks calculations.
 
     Usage:
@@ -122,7 +122,7 @@ class ChainEnrichmentEngine:
         >>> greeks_calc = GreeksCalculator(pricing_engine)
         >>> enrichment = ChainEnrichmentEngine(pricing_engine, greeks_calc)
         >>> enriched_chain = enrichment.enrich_chain(
-        ...     chain_data=polygon_data,
+        ...     chain_data=provider_data,
         ...     underlying_price=100.0,
         ...     risk_free_rate=0.05
         ... )
@@ -275,7 +275,7 @@ class ChainEnrichmentEngine:
             Enriched options chain with all contracts priced
 
         Example:
-            >>> chain_data = polygon.get_options_chain("AAPL")
+            >>> chain_data = provider.get_options_chain("AAPL")
             >>> enriched = enrichment.enrich_chain(
             ...     chain_data,
             ...     underlying_price=145.0,
@@ -304,9 +304,9 @@ class ChainEnrichmentEngine:
 
         # Extract unique expirations and strikes
         expirations = sorted(
-            list({contract.contract.expiration.isoformat() for contract in enriched_contracts})
+            {contract.contract.expiration.isoformat() for contract in enriched_contracts}
         )
-        strikes = sorted(list({contract.contract.strike for contract in enriched_contracts}))
+        strikes = sorted({contract.contract.strike for contract in enriched_contracts})
 
         # Create enriched chain
         enriched_chain = EnrichedOptionsChain(

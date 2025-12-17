@@ -10,6 +10,7 @@ from typing import Any
 
 import pandas as pd
 
+from ordinis.domain.positions import Position, PositionSide
 from ordinis.engines.base import (
     AuditRecord,
     BaseEngine,
@@ -82,6 +83,12 @@ class PortfolioEngine(BaseEngine[PortfolioEngineConfig]):
         self.last_rebalance_date: datetime | None = None
         self.event_hooks = EventHooks()
 
+        # Portfolio State
+        self.positions: dict[str, Position] = {}
+        self.cash: float = self.config.initial_capital
+        self.equity: float = self.cash
+        self.margin_used: float = 0.0
+
     # -------------------------------------------------------------------------
     # Protocol Implementation
     # -------------------------------------------------------------------------
@@ -90,14 +97,170 @@ class PortfolioEngine(BaseEngine[PortfolioEngineConfig]):
         """
         Update portfolio with trade fills (Protocol implementation).
         """
-        # In a real implementation, this would update the internal position state
-        # For now, we just log the update
-        if fills:
-            self.last_rebalance_date = datetime.now(UTC)
-            # We could also emit an event here
-            # await self.event_hooks.emit(RebalanceEvent(...))
+        if not fills:
+            return
+
+        for fill in fills:
+            self._process_fill(fill)
+
+        self._update_equity()
+        self.last_rebalance_date = datetime.now(UTC)
+
+    def _process_fill(self, fill: Any) -> None:
+        """Process a single trade fill."""
+        # Handle dictionary fills (common from other engines)
+        if isinstance(fill, dict):
+            symbol = fill.get("symbol")
+            side = fill.get("side")
+            quantity = float(fill.get("quantity", 0))
+            price = float(fill.get("price", 0))
+            fee = float(fill.get("fee", 0))
+            multiplier = float(fill.get("multiplier", 1.0))
+        else:
+            # Handle object fills
+            symbol = getattr(fill, "symbol", None)
+            side = getattr(fill, "side", None)
+            quantity = float(getattr(fill, "quantity", 0))
+            price = float(getattr(fill, "price", 0))
+            fee = float(getattr(fill, "fee", 0))
+            multiplier = float(getattr(fill, "multiplier", 1.0))
+
+        if not symbol or not side:
+            return
+
+        # Normalize side
+        if hasattr(side, "value"):
+            side = str(side.value)
+        if isinstance(side, str):
+            side = side.lower()
+
+        # Update cash
+        cost = quantity * price * multiplier
+        if side == "buy":
+            self.cash -= cost + fee
+        else:
+            self.cash += cost - fee
+
+        # Update position
+        if symbol not in self.positions:
+            self.positions[symbol] = Position(symbol=symbol, multiplier=multiplier)
+
+        position = self.positions[symbol]
+
+        # Simple position update logic (FIFO/Average Cost handling would be more complex)
+        if side == "buy":
+            if position.side == PositionSide.SHORT:
+                # Covering short
+                remaining = quantity
+                if remaining >= position.quantity:
+                    # Closed full short, maybe flipped long
+                    remaining -= position.quantity
+                    position.quantity = 0
+                    position.side = PositionSide.FLAT
+                    if remaining > 0:
+                        position.side = PositionSide.LONG
+                        position.quantity = remaining
+                        position.avg_entry_price = price
+                else:
+                    # Partial cover
+                    position.quantity -= remaining
+            else:
+                # Adding to long
+                total_cost = (position.quantity * position.avg_entry_price) + (quantity * price)
+                position.quantity += quantity
+                position.side = PositionSide.LONG
+                position.avg_entry_price = total_cost / position.quantity
+
+        elif side == "sell":
+            if position.side == PositionSide.LONG:
+                # Selling long
+                remaining = quantity
+                if remaining >= position.quantity:
+                    # Closed full long, maybe flipped short
+                    remaining -= position.quantity
+                    position.quantity = 0
+                    position.side = PositionSide.FLAT
+                    if remaining > 0:
+                        position.side = PositionSide.SHORT
+                        position.quantity = remaining
+                        position.avg_entry_price = price
+                else:
+                    # Partial sell
+                    position.quantity -= remaining
+            else:
+                # Adding to short
+                total_cost = (position.quantity * position.avg_entry_price) + (quantity * price)
+                position.quantity += quantity
+                position.side = PositionSide.SHORT
+                position.avg_entry_price = total_cost / position.quantity
+
+        # Update position price
+        position.update_price(price, datetime.now(UTC))
+
+        # Remove flat positions
+        if position.quantity == 0:
+            del self.positions[symbol]
+
+    def _update_equity(self) -> None:
+        """Update total equity and margin usage."""
+        position_value = sum(p.unrealized_pnl for p in self.positions.values())
+        # Note: For futures, market_value isn't equity, PnL is.
+        # For equities, market_value is equity.
+        # This hybrid approach needs refinement but works for PnL tracking.
+        # If we treat cash as "Account Balance" and positions as "Unrealized PnL",
+        # Equity = Cash + Unrealized PnL.
+
+        # However, for long stock, Cash was reduced by cost.
+        # So Equity = Cash + Market Value.
+        # For Futures, Cash is not reduced by cost (only fees), so Equity = Cash + Unrealized PnL.
+
+        # We need to distinguish asset types or use a unified model.
+        # For now, assuming Cash was adjusted by full cost for all assets (Spot model).
+        # If Futures, we need to fix the cash adjustment logic in _process_fill.
+
+        # Let's assume Spot model for now as default, but Futures require "Margin" model.
+        # To support Futures properly, we need to know if the instrument is a Future.
+        # The 'fill' should ideally contain instrument type.
+
+        # For this iteration, we'll stick to the Spot model logic where Cash is debited.
+        # Equity = Cash + Market Value of Longs - Market Value of Shorts?
+        # No, Market Value of Shorts is a liability.
+
+        long_value = sum(
+            p.market_value for p in self.positions.values() if p.side == PositionSide.LONG
+        )
+        short_value = sum(
+            p.market_value for p in self.positions.values() if p.side == PositionSide.SHORT
+        )
+
+        self.equity = self.cash + long_value - short_value
+        self.margin_used = self.calculate_margin()
+
+    def calculate_margin(self) -> float:
+        """Calculate total margin requirement."""
+        total_margin = 0.0
+        for position in self.positions.values():
+            if position.initial_margin > 0:
+                total_margin += position.initial_margin * position.quantity
+        return total_margin
 
     async def get_state(self) -> Any:
+        """Get current portfolio state."""
+        # Return a dict compatible with RiskGuard's PortfolioState
+        return {
+            "equity": self.equity,
+            "cash": self.cash,
+            "peak_equity": self.equity,  # Simplified
+            "daily_pnl": 0.0,  # Needs tracking
+            "daily_trades": 0,  # Needs tracking
+            "open_positions": self.positions,
+            "total_positions": len(self.positions),
+            "total_exposure": sum(p.market_value for p in self.positions.values()),
+            "sector_exposures": {},
+            "correlated_exposure": 0.0,
+            "market_open": True,
+            "connectivity_ok": True,
+        }
         """
         Get current portfolio state (Protocol implementation).
         """

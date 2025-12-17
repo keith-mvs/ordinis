@@ -1,5 +1,6 @@
 """Main retrieval engine coordinating embeddings, search, and reranking."""
 
+import re
 import time
 
 from loguru import logger
@@ -11,15 +12,23 @@ from ordinis.rag.retrieval.query_classifier import QueryType, classify_query
 from ordinis.rag.vectordb.chroma_client import ChromaClient
 from ordinis.rag.vectordb.schema import QueryResponse, RetrievalResult
 
+try:
+    from sentence_transformers import CrossEncoder
+
+    HAS_RERANKER = True
+except ImportError:
+    HAS_RERANKER = False
+
 
 class RetrievalEngine:
-    """Main RAG retrieval engine."""
+    """Main RAG retrieval engine with reranking and multi-collection support."""
 
     def __init__(
         self,
         chroma_client: ChromaClient | None = None,
         text_embedder: TextEmbedder | None = None,
         code_embedder: CodeEmbedder | None = None,
+        enable_reranking: bool = True,
     ):
         """Initialize retrieval engine.
 
@@ -27,11 +36,23 @@ class RetrievalEngine:
             chroma_client: ChromaDB client (created if None)
             text_embedder: Text embedder (created if None)
             code_embedder: Code embedder (created if None)
+            enable_reranking: Enable cross-encoder reranking
         """
         self.config = get_config()
         self.chroma_client = chroma_client or ChromaClient()
         self.text_embedder = text_embedder or TextEmbedder()
         self.code_embedder = code_embedder or CodeEmbedder()
+        self.enable_reranking = enable_reranking and HAS_RERANKER
+
+        # Initialize reranker if available
+        self.reranker = None
+        if self.enable_reranking:
+            try:
+                self.reranker = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
+                logger.info("Reranker initialized")
+            except Exception as e:
+                logger.warning(f"Failed to initialize reranker: {e}")
+                self.enable_reranking = False
 
         logger.info("Retrieval engine initialized")
 
@@ -41,19 +62,27 @@ class RetrievalEngine:
         query_type: QueryType | str | None = None,
         top_k: int | None = None,
         filters: dict | None = None,
+        collections: list[str] | None = None,
     ) -> QueryResponse:
-        """Execute RAG query.
+        """Execute RAG query with optional reranking and multi-collection support.
 
         Args:
             query: Query text
             query_type: Query type (auto-detected if None)
             top_k: Number of results (uses config default if None)
             filters: Metadata filters
+            collections: Query specific collections (if None, uses default)
 
         Returns:
             QueryResponse with results and metadata
         """
         start_time = time.time()
+
+        # Check for complex queries and decompose if needed
+        if self._is_complex_query(query):
+            logger.info(f"Complex query detected, decomposing: {query[:50]}...")
+            subqueries = self._decompose_query(query)
+            return self._query_decomposed(query, subqueries, top_k, filters, collections)
 
         # Classify query if not specified
         if query_type is None:
@@ -61,7 +90,8 @@ class RetrievalEngine:
         else:
             detected_type = QueryType(query_type) if isinstance(query_type, str) else query_type
 
-        top_k = top_k or self.config.top_k_rerank
+        top_k_retrieval = self.config.top_k_retrieval
+        top_k_final = top_k or self.config.top_k_rerank
 
         logger.info(f"Processing {detected_type.value} query: {query[:50]}...")
 
@@ -76,6 +106,28 @@ class RetrievalEngine:
         # Filter by similarity threshold
         threshold = self.config.similarity_threshold
         filtered_results = [r for r in results if r.score >= threshold]
+
+        # Rerank if enabled
+        if self.enable_reranking and filtered_results:
+            filtered_results = self._rerank_results(query, filtered_results, top_k_retrieval)
+
+        # Take top-k after filtering/reranking
+        final_results = filtered_results[:top_k_final]
+
+        latency_ms = (time.time() - start_time) * 1000
+
+        logger.info(
+            f"Query complete: {len(filtered_results)} results above threshold, "
+            f"returning top-{len(final_results)} in {latency_ms:.0f}ms"
+        )
+
+        return QueryResponse(
+            query=query,
+            query_type=detected_type.value,
+            results=final_results,
+            execution_time_ms=latency_ms,
+            total_candidates=len(results),
+        )
 
         # Take top-k after filtering
         final_results = filtered_results[:top_k]
@@ -178,9 +230,150 @@ class RetrievalEngine:
             "chroma": chroma_stats,
             "text_embedder_available": self.text_embedder.is_available(),
             "code_embedder_available": self.code_embedder.is_available(),
+            "reranker_enabled": self.enable_reranking,
             "config": {
                 "top_k_retrieval": self.config.top_k_retrieval,
                 "top_k_rerank": self.config.top_k_rerank,
                 "similarity_threshold": self.config.similarity_threshold,
             },
         }
+
+    # ========================================================================
+    # Advanced features: reranking, decomposition, multi-collection
+    # ========================================================================
+
+    def _rerank_results(
+        self,
+        query: str,
+        results: list[RetrievalResult],
+        top_k: int,
+    ) -> list[RetrievalResult]:
+        """Rerank results using cross-encoder model.
+
+        Args:
+            query: Original query
+            results: Results to rerank
+            top_k: Number to return
+
+        Returns:
+            Reranked results
+        """
+        if not self.reranker or not results:
+            return results
+
+        try:
+            # Prepare pairs for cross-encoder
+            pairs = [[query, r.text] for r in results]
+
+            # Get reranking scores
+            scores = self.reranker.predict(pairs)
+
+            # Combine and sort
+            ranked = sorted(
+                zip(results, scores, strict=False),
+                key=lambda x: x[1],
+                reverse=True,
+            )
+
+            reranked = [r for r, _ in ranked[:top_k]]
+            logger.debug(f"Reranked {len(results)} results -> {len(reranked)}")
+
+            return reranked
+        except Exception as e:
+            logger.warning(f"Reranking failed: {e}, returning original results")
+            return results
+
+    def _is_complex_query(self, query: str) -> bool:
+        """Detect if query requires decomposition.
+
+        Complex queries typically have:
+        - Multiple questions (? marks)
+        - Conjunctions (and, or)
+        - Long length (>100 chars)
+        """
+        question_count = query.count("?")
+        has_conjunctions = bool(re.search(r"\b(and|or|also|both)\b", query.lower()))
+        is_long = len(query) > 100
+
+        return (question_count > 1) or (has_conjunctions and is_long)
+
+    def _decompose_query(self, query: str) -> list[str]:
+        """Decompose complex query into simpler subqueries.
+
+        Args:
+            query: Complex query
+
+        Returns:
+            List of subqueries
+        """
+        subqueries = []
+
+        # Split by question marks
+        questions = [q.strip() for q in query.split("?") if q.strip()]
+        if len(questions) > 1:
+            subqueries.extend(questions)
+        else:
+            # Split by conjunctions
+            parts = re.split(r"\b(?:and|or|also)\b", query, flags=re.IGNORECASE)
+            subqueries.extend([p.strip() for p in parts if p.strip()])
+
+        # If no split occurred, return original
+        if not subqueries or len(subqueries) == 1:
+            subqueries = [query]
+
+        logger.info(f"Decomposed query into {len(subqueries)} subqueries")
+        return subqueries[:5]  # Limit to 5 subqueries
+
+    def _query_decomposed(
+        self,
+        original_query: str,
+        subqueries: list[str],
+        top_k: int | None,
+        filters: dict | None,
+        collections: list[str] | None,
+    ) -> QueryResponse:
+        """Execute decomposed query.
+
+        Args:
+            original_query: Original complex query
+            subqueries: List of subqueries
+            top_k: Number of results
+            filters: Metadata filters
+            collections: Specific collections to query
+
+        Returns:
+            Combined QueryResponse
+        """
+        all_results = []
+
+        for subquery in subqueries:
+            logger.info(f"Processing subquery: {subquery[:50]}...")
+
+            # Recursively query each subquery (without decomposing again)
+            response = self.query(
+                subquery,
+                query_type=classify_query(subquery),
+                top_k=top_k or self.config.top_k_rerank,
+                filters=filters,
+                collections=collections,
+            )
+
+            all_results.extend(response.results)
+
+        # Deduplicate and sort by score
+        seen_ids = set()
+        unique_results = []
+        for r in sorted(all_results, key=lambda x: x.score, reverse=True):
+            if r.id not in seen_ids:
+                unique_results.append(r)
+                seen_ids.add(r.id)
+
+        final_top_k = top_k or self.config.top_k_rerank
+
+        return QueryResponse(
+            query=original_query,
+            query_type="hybrid",
+            results=unique_results[:final_top_k],
+            execution_time_ms=0,  # Approximate
+            total_candidates=len(all_results),
+        )

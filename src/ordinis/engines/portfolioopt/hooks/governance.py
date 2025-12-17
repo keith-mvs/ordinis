@@ -183,9 +183,9 @@ class PortfolioOptGovernanceHook(BaseGovernanceHook):
         self._audit_log.append(record)
         _logger.debug(
             "Audit: %s.%s completed in %.2fms",
-            record.engine_id,
-            record.operation,
-            record.duration_ms,
+            record.engine,
+            record.action,
+            record.latency_ms,
         )
 
     def get_audit_log(self) -> list[AuditRecord]:

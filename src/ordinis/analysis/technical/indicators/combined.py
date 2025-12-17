@@ -97,7 +97,7 @@ class TechnicalIndicators:
         stoch_k_current = stoch_k.iloc[-1]
 
         # MACD
-        macd_line, signal_line, histogram = self._calculate_macd(close)
+        _macd_line, _signal_line, histogram = self._calculate_macd(close)
 
         # Ichimoku Cloud
         _, ichimoku_signal = self.trend.ichimoku(high, low, close)
@@ -163,7 +163,7 @@ class TechnicalIndicators:
 
         return macd_line.iloc[-1], signal_line.iloc[-1], histogram.iloc[-1]
 
-    def _generate_signals(  # noqa: PLR0912
+    def _generate_signals(
         self,
         rsi_signal: OscillatorSignal,
         bb_signal: BandSignal,
@@ -226,7 +226,7 @@ class TechnicalIndicators:
 
         return signals
 
-    def _calculate_bias(  # noqa: PLR0912
+    def _calculate_bias(
         self,
         trend: str,
         rsi: float,

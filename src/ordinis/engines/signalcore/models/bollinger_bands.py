@@ -45,7 +45,7 @@ class BollingerBandsModel(Model):
         # Update min data points
         self.config.min_data_points = self.bb_period + 30
 
-    async def generate(self, data: pd.DataFrame, timestamp: datetime) -> Signal:  # noqa: PLR0912, PLR0915
+    async def generate(self, data: pd.DataFrame, timestamp: datetime) -> Signal:
         """
         Generate trading signal from Bollinger Bands analysis.
 

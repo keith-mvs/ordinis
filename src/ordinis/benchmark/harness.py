@@ -119,7 +119,7 @@ def validate_pack(pack_path: Path, manifest: BenchmarkManifest) -> dict[str, Any
         )
         missing = sorted(required - cols)
         results["data_file"] = str(data_file)
-        results["row_count"] = int(len(df))
+        results["row_count"] = len(df)
         results["columns"] = sorted(df.columns)
         results["schema_ok"] = not missing
         if missing:

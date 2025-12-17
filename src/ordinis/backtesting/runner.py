@@ -18,6 +18,8 @@ from ordinis.engines.proofbench.core.execution import (
 )
 from ordinis.engines.signalcore.core.config import SignalCoreEngineConfig
 from ordinis.engines.signalcore.core.engine import SignalCoreEngine
+from ordinis.engines.signalcore.core.model import ModelConfig
+from ordinis.engines.signalcore.models.sma_crossover import SMACrossoverModel
 
 from .data_adapter import DataAdapter, HistoricalDataLoader
 from .metrics import BacktestMetrics
@@ -39,6 +41,8 @@ class BacktestConfig:
         max_position_size: Max notional per symbol
         max_portfolio_exposure: Max total exposure
         rebalance_freq: Rebalance frequency (daily, weekly, etc.)
+        stop_loss_pct: Stop loss percentage (e.g. 0.05 for 5%)
+        take_profit_pct: Take profit percentage (e.g. 0.10 for 10%)
     """
 
     name: str
@@ -47,10 +51,12 @@ class BacktestConfig:
     end_date: str
     initial_capital: float = 100000.0
     commission_pct: float = 0.001
-    slippage_bps: float = 5.0
-    max_position_size: float = 0.1  # 10% of portfolio
-    max_portfolio_exposure: float = 1.0  # 100%
+    slippage_bps: int = 5
+    max_position_size: float = 0.1
+    max_portfolio_exposure: float = 1.0
     rebalance_freq: str = "1d"
+    stop_loss_pct: float = 0.0
+    take_profit_pct: float = 0.0
 
 
 class BacktestRunner:
@@ -80,17 +86,27 @@ class BacktestRunner:
         self.signals_df: pd.DataFrame | None = None
         self.trades_df: pd.DataFrame | None = None
         self.metrics: BacktestMetrics | None = None
+        self._success_prints = 0
 
     async def initialize(self):
         """Initialize engines and runners."""
         # Signal engine
         signal_config = SignalCoreEngineConfig(
             min_probability=0.5,
-            min_score=0.2,
+            min_score=0.1,
             enable_governance=False,
         )
         self.signal_engine = SignalCoreEngine(signal_config)
         await self.signal_engine.initialize()
+
+        # Register default model
+        model_config = ModelConfig(
+            model_id="sma_crossover_v1",
+            model_type="technical",
+            parameters={"short_period": 20, "long_period": 50},
+        )
+        model = SMACrossoverModel(model_config)
+        self.signal_engine.register_model(model)
 
         # Backtest engine
         execution_config = ExecutionConfig(
@@ -122,8 +138,11 @@ class BacktestRunner:
         if self.backtest_engine:
             await self.backtest_engine.shutdown()
 
-    async def run(self) -> BacktestMetrics:
+    async def run(self, data: dict[str, pd.DataFrame] | None = None) -> BacktestMetrics:
         """Run complete backtest pipeline.
+
+        Args:
+            data: Optional pre-loaded data. If None, loads from disk.
 
         Returns:
             BacktestMetrics with all performance data
@@ -131,13 +150,14 @@ class BacktestRunner:
         try:
             await self.initialize()
 
-            # Load data
-            print(f"[backtest] Loading data for {self.config.symbols}...")
-            data = self.data_loader.load_batch(
-                self.config.symbols,
-                self.config.start_date,
-                self.config.end_date,
-            )
+            # Load data if not provided
+            if data is None:
+                print(f"[backtest] Loading data for {self.config.symbols}...")
+                data = self.data_loader.load_batch(
+                    self.config.symbols,
+                    self.config.start_date,
+                    self.config.end_date,
+                )
 
             if not data:
                 raise ValueError(f"No data loaded for {self.config.symbols}")
@@ -145,6 +165,10 @@ class BacktestRunner:
             # Generate signals
             print("[backtest] Generating historical signals...")
             signal_batches = await self.signal_runner.generate_batch_signals(data)
+            print(f"[backtest] Generated {len(signal_batches)} signal batches.")
+            if len(signal_batches) > 0:
+                first_ts = next(iter(signal_batches.keys()))
+                print(f"[backtest] Sample timestamp: {first_ts} (type: {type(first_ts)})")
 
             # Load data into backtest engine
             print("[backtest] Loading data into backtest engine...")
@@ -156,44 +180,103 @@ class BacktestRunner:
                 """Strategy callback on each bar."""
                 ts = bar.timestamp
 
+                # Check for stop loss
+                pos = engine.get_position(symbol)
+                if pos and pos.quantity > 0:
+                    # Long position stop loss
+                    if self.config.stop_loss_pct > 0 and bar.close < pos.avg_entry_price * (
+                        1 - self.config.stop_loss_pct
+                    ):
+                        if self._success_prints < 10:
+                            print(
+                                f"[DEBUG] Stop Loss triggered for {symbol} at {ts} (Price: {bar.close:.2f}, Entry: {pos.avg_entry_price:.2f})"
+                            )
+                        order = Order(
+                            symbol=symbol,
+                            side=OrderSide.SELL,
+                            quantity=pos.quantity,
+                            order_type=OrderType.MARKET,
+                        )
+                        engine.submit_order(order)
+                        return
+
+                    # Long position take profit
+                    if self.config.take_profit_pct > 0 and bar.close > pos.avg_entry_price * (
+                        1 + self.config.take_profit_pct
+                    ):
+                        if self._success_prints < 10:
+                            print(
+                                f"[DEBUG] Take Profit triggered for {symbol} at {ts} (Price: {bar.close:.2f}, Entry: {pos.avg_entry_price:.2f})"
+                            )
+                        order = Order(
+                            symbol=symbol,
+                            side=OrderSide.SELL,
+                            quantity=pos.quantity,
+                            order_type=OrderType.MARKET,
+                        )
+                        engine.submit_order(order)
+                        return
+
                 # Check if we have a signal for this timestamp
+                import logging
+
                 batch = self.signal_runner.get_cached_batch(ts)
+                if self._success_prints < 5:
+                    logging.warning(
+                        f"[DEBUG] Checking signals for {symbol} at {ts} (type: {type(ts)})"
+                    )
+                    if batch:
+                        logging.warning(f"[DEBUG] Found batch for {ts}")
+                    elif (
+                        hasattr(self.signal_runner, "_batch_cache")
+                        and len(self.signal_runner._batch_cache) > 0
+                    ):
+                        first_key = next(iter(self.signal_runner._batch_cache.keys()))
+                        logging.warning(
+                            f"[DEBUG] No batch. First cached key: {first_key} (type: {type(first_key)})"
+                        )
+
                 if not batch:
                     return
 
                 signal = batch.get_by_symbol(symbol)
-                if not signal:
-                    return
+                if signal:
+                    # Simple position sizing
+                    cash = engine.get_cash()
+                    equity = engine.get_equity()
+                    max_qty = int((equity * self.config.max_position_size) / bar.close)
 
-                # Simple position sizing
-                cash = engine.get_cash()
-                equity = engine.get_equity()
-                max_qty = int((equity * self.config.max_position_size) / bar.close)
+                    if max_qty <= 0:
+                        return
 
-                if max_qty <= 0:
-                    return
-
-                # Execute on signal
-                if signal.direction.value == "long" and signal.is_actionable():
-                    order = Order(
-                        symbol=symbol,
-                        side=OrderSide.BUY,
-                        quantity=max_qty,
-                        order_type=OrderType.MARKET,
+                    # Execute on signal
+                    is_valid = signal.is_actionable(
+                        min_probability=self.signal_engine.config.min_probability,
+                        min_score=self.signal_engine.config.min_score,
                     )
-                    engine.submit_order(order)
 
-                elif signal.direction.value == "short" and signal.is_actionable():
-                    pos = engine.get_position(symbol)
-                    if pos:
-                        # Close long position
+                    if signal.direction.value == "long" and is_valid:
                         order = Order(
                             symbol=symbol,
-                            side=OrderSide.SELL,
-                            quantity=min(pos.quantity, max_qty),
+                            side=OrderSide.BUY,
+                            quantity=max_qty,
                             order_type=OrderType.MARKET,
                         )
                         engine.submit_order(order)
+
+                    elif signal.direction.value == "short" and is_valid:
+                        pos = engine.get_position(symbol)
+                        if pos:
+                            # Close long position
+                            qty = min(pos.quantity, max_qty)
+                            if qty > 0:
+                                order = Order(
+                                    symbol=symbol,
+                                    side=OrderSide.SELL,
+                                    quantity=qty,
+                                    order_type=OrderType.MARKET,
+                                )
+                                engine.submit_order(order)
 
             self.backtest_engine.set_strategy(on_signal_bar)
 

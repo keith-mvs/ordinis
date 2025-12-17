@@ -23,7 +23,6 @@ import pandas as pd
 from ordinis.engines.base import (
     AuditRecord,
     BaseEngine,
-    EngineState,
     HealthLevel,
     HealthStatus,
 )
@@ -171,7 +170,7 @@ class PortfolioOptEngine(BaseEngine[PortfolioOptEngineConfig]):
 
     def is_available(self) -> bool:
         """Check if QPO optimization is available."""
-        return self._qpo_available and self._state == EngineState.RUNNING
+        return self._qpo_available and self.is_running
 
     async def optimize(
         self,
@@ -220,9 +219,9 @@ class PortfolioOptEngine(BaseEngine[PortfolioOptEngineConfig]):
 
         async with self.track_operation("optimize", context):
             # Run governance preflight if enabled
-            if self.config.require_preflight and self._governance_hook:
-                result = await self._governance_hook.preflight(context)
-                if not result.approved:
+            if self.config.require_preflight and self._governance:
+                result = await self._governance.preflight(context)
+                if not result.allowed:
                     raise RuntimeError(f"Optimization blocked by governance: {result.reason}")
 
             start_time = datetime.now(UTC)
@@ -285,14 +284,14 @@ class PortfolioOptEngine(BaseEngine[PortfolioOptEngineConfig]):
             self._optimization_history.append(result)
 
             # Audit the optimization
-            if self._governance_hook:
-                await self._governance_hook.audit(
+            if self._governance:
+                await self._governance.audit(
                     AuditRecord(
-                        engine_id=self.config.engine_id,
-                        operation="optimize",
-                        context=context,
-                        result=result.to_dict(),
-                        duration_ms=optimization_time * 1000,
+                        engine=self.config.name,
+                        action="optimize",
+                        inputs=context,
+                        outputs=result.to_dict(),
+                        latency_ms=optimization_time * 1000,
                     )
                 )
 

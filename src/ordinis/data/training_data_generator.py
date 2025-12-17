@@ -15,7 +15,6 @@ from dataclasses import dataclass
 from datetime import datetime, timedelta
 from enum import Enum
 from pathlib import Path
-from typing import Optional
 
 import numpy as np
 import pandas as pd
@@ -24,17 +23,19 @@ import yfinance as yf
 
 class MarketRegime(Enum):
     """Market regime classification."""
-    BULL = "bull"           # Strong uptrend (>15% annualized)
-    BEAR = "bear"           # Strong downtrend (<-15% annualized)
-    SIDEWAYS = "sideways"   # Low directional movement (-5% to +5%)
-    VOLATILE = "volatile"   # High volatility regime (VIX > 25 equivalent)
-    RECOVERY = "recovery"   # Post-crash recovery phase
+
+    BULL = "bull"  # Strong uptrend (>15% annualized)
+    BEAR = "bear"  # Strong downtrend (<-15% annualized)
+    SIDEWAYS = "sideways"  # Low directional movement (-5% to +5%)
+    VOLATILE = "volatile"  # High volatility regime (VIX > 25 equivalent)
+    RECOVERY = "recovery"  # Post-crash recovery phase
     CORRECTION = "correction"  # 10-20% decline from peak
 
 
 @dataclass
 class DataChunk:
     """Represents a chunk of training data."""
+
     data: pd.DataFrame
     regime: MarketRegime
     start_date: datetime
@@ -47,6 +48,7 @@ class DataChunk:
 @dataclass
 class TrainingConfig:
     """Configuration for training data generation."""
+
     symbols: list[str] = None
     chunk_sizes_months: list[int] = None
     lookback_years: list[int] = None
@@ -112,10 +114,9 @@ class MarketRegimeClassifier:
 
         if annualized_return > self.bull_threshold:
             return MarketRegime.BULL
-        elif annualized_return < self.bear_threshold:
+        if annualized_return < self.bear_threshold:
             return MarketRegime.BEAR
-        else:
-            return MarketRegime.SIDEWAYS
+        return MarketRegime.SIDEWAYS
 
     def get_metrics(self, data: pd.DataFrame) -> dict:
         """Calculate comprehensive metrics for a data chunk."""
@@ -136,7 +137,7 @@ class MarketRegimeClassifier:
         x = np.arange(len(data))
         y = data["close"].values
         correlation = np.corrcoef(x, y)[0, 1]
-        r_squared = correlation ** 2
+        r_squared = correlation**2
 
         return {
             "total_return": total_return,
@@ -154,19 +155,18 @@ class MarketRegimeClassifier:
 class HistoricalDataFetcher:
     """Fetches historical data from Yahoo Finance."""
 
-    def __init__(self, cache_dir: Optional[Path] = None):
+    def __init__(self, cache_dir: Path | None = None):
         self.cache_dir = cache_dir or Path("data/historical_cache")
         self.cache_dir.mkdir(parents=True, exist_ok=True)
 
     def fetch(
-        self,
-        symbol: str,
-        start_date: datetime,
-        end_date: datetime,
-        use_cache: bool = True
+        self, symbol: str, start_date: datetime, end_date: datetime, use_cache: bool = True
     ) -> pd.DataFrame:
         """Fetch historical OHLCV data."""
-        cache_file = self.cache_dir / f"{symbol}_{start_date.strftime('%Y%m%d')}_{end_date.strftime('%Y%m%d')}.csv"
+        cache_file = (
+            self.cache_dir
+            / f"{symbol}_{start_date.strftime('%Y%m%d')}_{end_date.strftime('%Y%m%d')}.csv"
+        )
 
         if use_cache and cache_file.exists():
             data = pd.read_csv(cache_file, index_col=0, parse_dates=True)
@@ -242,17 +242,14 @@ class TrainingDataGenerator:
     - Regime-balanced sampling for robust training
     """
 
-    def __init__(self, config: Optional[TrainingConfig] = None):
+    def __init__(self, config: TrainingConfig | None = None):
         self.config = config or TrainingConfig()
         self.fetcher = HistoricalDataFetcher()
         self.classifier = MarketRegimeClassifier()
         self.rng = np.random.default_rng(self.config.random_seed)
 
     def generate_chunks(
-        self,
-        symbol: str,
-        num_chunks: int = 100,
-        balance_regimes: bool = True
+        self, symbol: str, num_chunks: int = 100, balance_regimes: bool = True
     ) -> list[DataChunk]:
         """
         Generate training data chunks with diverse market conditions.
@@ -273,7 +270,7 @@ class TrainingDataGenerator:
             raise ValueError(f"Insufficient data for {symbol}: {len(full_data)} days")
 
         chunks = []
-        regime_counts = {regime: 0 for regime in MarketRegime}
+        regime_counts = dict.fromkeys(MarketRegime, 0)
 
         attempts = 0
         max_attempts = num_chunks * 10
@@ -305,7 +302,7 @@ class TrainingDataGenerator:
             start_idx = self.rng.integers(0, max_start_idx)
 
             # Extract chunk
-            chunk_data = valid_data.iloc[start_idx:start_idx + chunk_days].copy()
+            chunk_data = valid_data.iloc[start_idx : start_idx + chunk_days].copy()
 
             if len(chunk_data) < chunk_days * 0.9:  # Allow 10% tolerance
                 continue
@@ -327,9 +324,9 @@ class TrainingDataGenerator:
             end_ts = chunk_data.index[-1]
 
             # Remove timezone if present before converting to pydatetime
-            if hasattr(start_ts, 'tz') and start_ts.tz is not None:
+            if hasattr(start_ts, "tz") and start_ts.tz is not None:
                 start_ts = start_ts.tz_localize(None)
-            if hasattr(end_ts, 'tz') and end_ts.tz is not None:
+            if hasattr(end_ts, "tz") and end_ts.tz is not None:
                 end_ts = end_ts.tz_localize(None)
 
             chunk = DataChunk(
@@ -348,9 +345,7 @@ class TrainingDataGenerator:
         return chunks
 
     def generate_multi_symbol_dataset(
-        self,
-        chunks_per_symbol: int = 50,
-        balance_regimes: bool = True
+        self, chunks_per_symbol: int = 50, balance_regimes: bool = True
     ) -> list[DataChunk]:
         """Generate training data across multiple symbols."""
         all_chunks = []
@@ -358,9 +353,7 @@ class TrainingDataGenerator:
         for symbol in self.config.symbols:
             try:
                 chunks = self.generate_chunks(
-                    symbol,
-                    num_chunks=chunks_per_symbol,
-                    balance_regimes=balance_regimes
+                    symbol, num_chunks=chunks_per_symbol, balance_regimes=balance_regimes
                 )
                 all_chunks.extend(chunks)
                 print(f"[OK] {symbol}: {len(chunks)} chunks")
@@ -371,16 +364,13 @@ class TrainingDataGenerator:
 
     def get_regime_distribution(self, chunks: list[DataChunk]) -> dict:
         """Get distribution of regimes in chunk list."""
-        distribution = {regime: 0 for regime in MarketRegime}
+        distribution = dict.fromkeys(MarketRegime, 0)
         for chunk in chunks:
             distribution[chunk.regime] += 1
         return distribution
 
     def export_dataset(
-        self,
-        chunks: list[DataChunk],
-        output_dir: Path,
-        format: str = "csv"
+        self, chunks: list[DataChunk], output_dir: Path, format: str = "csv"
     ) -> None:
         """Export chunks to files for training."""
         output_dir = Path(output_dir)
@@ -395,16 +385,18 @@ class TrainingDataGenerator:
 
             chunk.data.to_csv(filepath)
 
-            metadata.append({
-                "chunk_id": i,
-                "filename": filename,
-                "symbol": chunk.symbol,
-                "regime": chunk.regime.value,
-                "start_date": chunk.start_date.isoformat(),
-                "end_date": chunk.end_date.isoformat(),
-                "duration_months": chunk.duration_months,
-                **chunk.metrics
-            })
+            metadata.append(
+                {
+                    "chunk_id": i,
+                    "filename": filename,
+                    "symbol": chunk.symbol,
+                    "regime": chunk.regime.value,
+                    "start_date": chunk.start_date.isoformat(),
+                    "end_date": chunk.end_date.isoformat(),
+                    "duration_months": chunk.duration_months,
+                    **chunk.metrics,
+                }
+            )
 
         # Save metadata
         metadata_df = pd.DataFrame(metadata)
@@ -420,9 +412,9 @@ class TrainingDataGenerator:
 
 def generate_training_dataset(
     output_dir: str = "data/training",
-    symbols: list[str] = None,
+    symbols: list[str] | None = None,
     chunks_per_symbol: int = 100,
-    random_seed: int = 42
+    random_seed: int = 42,
 ) -> list[DataChunk]:
     """
     Convenience function to generate a complete training dataset.
@@ -436,15 +428,11 @@ def generate_training_dataset(
     Returns:
         List of DataChunk objects
     """
-    config = TrainingConfig(
-        symbols=symbols,
-        random_seed=random_seed
-    )
+    config = TrainingConfig(symbols=symbols, random_seed=random_seed)
 
     generator = TrainingDataGenerator(config)
     chunks = generator.generate_multi_symbol_dataset(
-        chunks_per_symbol=chunks_per_symbol,
-        balance_regimes=True
+        chunks_per_symbol=chunks_per_symbol, balance_regimes=True
     )
 
     generator.export_dataset(chunks, Path(output_dir))
@@ -496,7 +484,7 @@ if __name__ == "__main__":
         symbols=["SPY"],  # Start with just SPY for demo
         chunk_sizes_months=[2, 3, 4, 6],
         lookback_years=[5, 10],
-        random_seed=42
+        random_seed=42,
     )
 
     generator = TrainingDataGenerator(config)
@@ -512,6 +500,8 @@ if __name__ == "__main__":
 
     print("\nSample Chunks:")
     for chunk in chunks[:5]:
-        print(f"  {chunk.symbol} | {chunk.regime.value:<10} | "
-              f"{chunk.start_date.strftime('%Y-%m-%d')} to {chunk.end_date.strftime('%Y-%m-%d')} | "
-              f"{chunk.duration_months}mo | Return: {chunk.metrics['total_return']:+.1%}")
+        print(
+            f"  {chunk.symbol} | {chunk.regime.value:<10} | "
+            f"{chunk.start_date.strftime('%Y-%m-%d')} to {chunk.end_date.strftime('%Y-%m-%d')} | "
+            f"{chunk.duration_months}mo | Return: {chunk.metrics['total_return']:+.1%}"
+        )

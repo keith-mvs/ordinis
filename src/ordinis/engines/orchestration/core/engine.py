@@ -116,7 +116,7 @@ class OrchestrationEngine(BaseEngine[OrchestrationEngineConfig]):
     Trading pipeline orchestration engine.
 
     Coordinates the flow of data through the trading pipeline:
-    Data → Signals → Risk → Execution → Analytics
+    Data → Signals → Risk → Execution → Analytics (ProofBench)
 
     Supports three operating modes:
     - live: Real-time trading with broker integration
@@ -260,7 +260,7 @@ class OrchestrationEngine(BaseEngine[OrchestrationEngineConfig]):
     # Trading Cycle
     # -------------------------------------------------------------------------
 
-    async def run_cycle(  # noqa: PLR0915
+    async def run_cycle(
         self,
         symbols: list[str] | None = None,
         data: dict[str, Any] | None = None,

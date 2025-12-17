@@ -26,9 +26,7 @@ class SMACrossoverModel(Model):
             return False
         if len(data) < self.long_period:
             return False
-        if "close" not in data.columns:
-            return False
-        return True
+        return "close" in data.columns
 
     async def generate(self, data: Any) -> list[Signal]:
         """Generate signals based on SMA crossover."""

@@ -216,7 +216,7 @@ def render_risk_status() -> None:
     portfolio = get_portfolio_state()
 
     # Check kill switches
-    triggered, reason = risk_engine.check_kill_switches(portfolio)
+    _triggered, reason = risk_engine.check_kill_switches(portfolio)
 
     col1, col2 = st.columns(2)
 

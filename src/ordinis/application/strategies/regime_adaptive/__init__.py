@@ -40,28 +40,28 @@ from .volatility_trading import (
 )
 
 __all__ = [
-    # Regime Detection
-    "MarketRegime",
-    "RegimeDetector",
-    "RegimeSignal",
-    # Trend Following
-    "TrendFollowingStrategy",
-    "MACrossoverStrategy",
-    "BreakoutStrategy",
     "ADXTrendStrategy",
-    # Mean Reversion
-    "MeanReversionStrategy",
-    "BollingerFadeStrategy",
-    "RSIReversalStrategy",
-    "KeltnerChannelStrategy",
-    # Volatility Trading
-    "VolatilityStrategy",
-    "ScalpingStrategy",
-    "VolatilityBreakoutStrategy",
     "ATRTrailingStrategy",
+    "AdaptiveConfig",
     # Adaptive Management
     "AdaptiveStrategyManager",
+    "BollingerFadeStrategy",
+    "BreakoutStrategy",
+    "KeltnerChannelStrategy",
+    "MACrossoverStrategy",
+    # Regime Detection
+    "MarketRegime",
+    # Mean Reversion
+    "MeanReversionStrategy",
+    "RSIReversalStrategy",
+    "RegimeDetector",
+    "RegimeSignal",
+    "ScalpingStrategy",
     "StrategyWeight",
-    "AdaptiveConfig",
+    # Trend Following
+    "TrendFollowingStrategy",
+    "VolatilityBreakoutStrategy",
+    # Volatility Trading
+    "VolatilityStrategy",
     "create_strategy_callback",
 ]

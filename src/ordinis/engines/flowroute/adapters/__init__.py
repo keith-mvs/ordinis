@@ -11,7 +11,7 @@ if TYPE_CHECKING:
     from .alpaca import AlpacaBrokerAdapter
     from .paper import PaperBrokerAdapter
 
-__all__ = ["PaperBrokerAdapter", "AlpacaBrokerAdapter"]
+__all__ = ["AlpacaBrokerAdapter", "PaperBrokerAdapter"]
 
 
 def __getattr__(name: str):

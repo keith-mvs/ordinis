@@ -67,7 +67,7 @@ class LLMEnhancedRiskGuard(RiskGuardEngine):
             raise ImportError("Install: pip install langchain-nvidia-ai-endpoints")
 
         return ChatNVIDIA(
-            model="meta/llama-3.1-70b-instruct",
+            model="meta/llama-3.3-70b-instruct",
             nvidia_api_key=self.nvidia_api_key,
             temperature=0.3,
             max_completion_tokens=512,
@@ -102,7 +102,7 @@ class LLMEnhancedRiskGuard(RiskGuardEngine):
                 if adjusted_signal is None:
                     adjusted_signal = signal
                 adjusted_signal.metadata["risk_explanation"] = explanation
-                adjusted_signal.metadata["risk_llm_model"] = "nvidia-llama-3.1-70b"
+                adjusted_signal.metadata["risk_llm_model"] = "meta/llama-3.3-70b-instruct"
 
         return passed, results, adjusted_signal
 
@@ -200,7 +200,7 @@ class LLMRiskAnalyzer:
             raise ImportError("Install: pip install langchain-nvidia-ai-endpoints")
 
         return ChatNVIDIA(
-            model="meta/llama-3.1-70b-instruct",
+            model="meta/llama-3.3-70b-instruct",
             nvidia_api_key=self.nvidia_api_key,
             temperature=0.4,
             max_completion_tokens=1024,
@@ -257,7 +257,7 @@ Be concise and actionable."""
             return {
                 "scenario": scenario_description,
                 "analysis": content,
-                "llm_model": "nvidia-llama-3.1-70b",
+                "llm_model": "meta/llama-3.3-70b-instruct",
                 "timestamp": datetime.utcnow().isoformat(),
             }
 

@@ -161,7 +161,7 @@ class RegimeAdaptiveWeights:
         }
 
     def get_weights(
-        self, regime: MarketRegime, regime_confidence: float = 1.0, sector: str = None
+        self, regime: MarketRegime, regime_confidence: float = 1.0, sector: str | None = None
     ) -> dict[str, float]:
         """
         Get ensemble weights adjusted for current regime.
@@ -297,7 +297,7 @@ class DynamicEnsemble:
         self.regime_metrics = metrics
         return regime
 
-    def get_current_weights(self, sector: str = None) -> dict[str, float]:
+    def get_current_weights(self, sector: str | None = None) -> dict[str, float]:
         """
         Get current ensemble weights.
 
@@ -316,7 +316,10 @@ class DynamicEnsemble:
         return weights
 
     def combine_signals(
-        self, model_signals: dict[str, float], price_data: np.ndarray = None, sector: str = None
+        self,
+        model_signals: dict[str, float],
+        price_data: np.ndarray = None,
+        sector: str | None = None,
     ) -> float:
         """
         Combine model signals with regime-adaptive weights.

@@ -119,13 +119,13 @@ class AlphaVantageProvider(DataProvider):
                 await asyncio.sleep(1)  # Rate limited
 
 
-class PolygonProvider(DataProvider):
-    """Polygon.io data provider."""
+class MassiveProvider(DataProvider):
+    """Massive data provider."""
 
     def __init__(self, api_key: str):
         """Initialize with API key."""
         self.api_key = api_key
-        self.base_url = "https://api.polygon.io"
+        self.base_url = "https://api.massive.com"
 
     async def fetch_bars(
         self,
@@ -133,7 +133,7 @@ class PolygonProvider(DataProvider):
         timeframe: str = "1d",
         limit: int = 100,
     ) -> pd.DataFrame:
-        """Fetch bars from Polygon."""
+        """Fetch bars from Massive."""
         # Placeholder implementation
         df = pd.DataFrame(
             {
@@ -159,7 +159,7 @@ class PolygonProvider(DataProvider):
 
     async def subscribe_updates(self, symbols: list[str], callback) -> None:
         """Subscribe to WebSocket updates."""
-        # Polygon supports WebSocket for real-time data
+        # Massive supports WebSocket for real-time data
         # Placeholder for WebSocket connection
 
 

@@ -170,9 +170,11 @@ class AlpacaBrokerAdapter(BrokerAdapter):
                 "account_id": account.id,
                 "cash": float(account.cash),
                 "buying_power": float(account.buying_power),
+                "equity": float(account.equity),  # Add equity alias
                 "total_equity": float(account.equity),
                 "total_position_value": float(account.long_market_value)
                 + float(account.short_market_value),
+                "status": account.status.value,  # Add status
                 "pattern_day_trader": account.pattern_day_trader,
                 "trading_blocked": account.trading_blocked,
                 "transfers_blocked": account.transfers_blocked,

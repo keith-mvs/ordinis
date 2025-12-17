@@ -348,7 +348,7 @@ class DatabaseManager:
         # Use whitelist to prevent SQL injection
         if table not in self._ALLOWED_TABLES:
             raise ValueError(f"Invalid table name: {table}")
-        row = await self.fetch_one(f"SELECT COUNT(*) FROM {table}")  # noqa: S608
+        row = await self.fetch_one(f"SELECT COUNT(*) FROM {table}")
         return row[0] if row else 0
 
     async def vacuum(self) -> None:
@@ -376,7 +376,7 @@ def get_database(
     Returns:
         DatabaseManager instance
     """
-    global _global_db  # noqa: PLW0603
+    global _global_db
 
     if _global_db is None:
         _global_db = DatabaseManager(db_path=db_path, backup_dir=backup_dir)
@@ -386,7 +386,7 @@ def get_database(
 
 async def reset_database() -> None:
     """Reset global database instance (for testing)."""
-    global _global_db  # noqa: PLW0603
+    global _global_db
 
     if _global_db:
         await _global_db.shutdown()

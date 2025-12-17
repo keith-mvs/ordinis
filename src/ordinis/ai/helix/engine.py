@@ -365,7 +365,7 @@ class Helix(BaseEngine[HelixConfig]):
             if retry_cfg.jitter:
                 import random
 
-                delay_seconds *= 0.5 + random.random()  # noqa: S311
+                delay_seconds *= 0.5 + random.random()
 
             _logger.warning(
                 "Request failed (attempt %d/%d), retrying in %.1fs: %s",

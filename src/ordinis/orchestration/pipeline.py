@@ -8,7 +8,7 @@ from dataclasses import dataclass
 from datetime import datetime
 
 from ordinis.engines.flowroute.core.engine import FlowRouteEngine
-from ordinis.engines.flowroute.core.orders import Order, OrderIntent, OrderSide
+from ordinis.engines.flowroute.core.orders import Order, OrderSide
 from ordinis.engines.portfolio.engine import RebalancingEngine
 from ordinis.engines.riskguard.core.engine import (
     PortfolioState,
@@ -143,7 +143,7 @@ class OrchestrationPipeline:
             stop_price=trade_intent.get("stop_price"),
         )
 
-        passed, checks, adjusted_signal = self.risk_engine.evaluate_signal(
+        passed, checks, _adjusted_signal = self.risk_engine.evaluate_signal(
             signal, proposed_trade, portfolio_state
         )
 
@@ -170,7 +170,7 @@ class OrchestrationPipeline:
         # Step 4: Create and submit order
         order = self.execution_engine.create_order_from_intent(intent)
 
-        success, msg = await self.execution_engine.submit_order(order)
+        success, _msg = await self.execution_engine.submit_order(order)
 
         if not success:
             self.pipeline_metrics["orders_failed"] += 1

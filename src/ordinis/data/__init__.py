@@ -1,6 +1,7 @@
 """Data module for training data generation and management."""
 
 from .training_data_generator import (
+    KNOWN_REGIMES,
     DataChunk,
     HistoricalDataFetcher,
     MarketRegime,
@@ -8,10 +9,10 @@ from .training_data_generator import (
     TrainingConfig,
     TrainingDataGenerator,
     generate_training_dataset,
-    KNOWN_REGIMES,
 )
 
 __all__ = [
+    "KNOWN_REGIMES",
     "DataChunk",
     "HistoricalDataFetcher",
     "MarketRegime",
@@ -19,5 +20,4 @@ __all__ = [
     "TrainingConfig",
     "TrainingDataGenerator",
     "generate_training_dataset",
-    "KNOWN_REGIMES",
 ]

@@ -134,7 +134,7 @@ class OptimizedConfigGenerator:
             },
             # ===== DATA & MONITORING =====
             "data": {
-                "providers": ["alpha_vantage", "polygon", "yfinance"],
+                "providers": ["alpha_vantage", "massive", "yfinance"],
                 "data_quality_threshold": 0.95,  # 95% minimum quality
                 "update_frequency_seconds": 300,  # Every 5 minutes
                 "historical_lookback_days": 730,  # 2 years for features

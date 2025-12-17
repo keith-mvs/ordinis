@@ -6,8 +6,11 @@ Provides research, strategy generation, and code analysis using NVIDIA models vi
 
 from contextlib import suppress
 import json
+import time
 from typing import Any
 import uuid
+
+from prometheus_client import Counter, Histogram
 
 from ordinis.ai.helix.models import ChatMessage
 from ordinis.core.logging import TraceContext
@@ -23,6 +26,14 @@ from .outputs import CortexOutput, OutputType, StrategyHypothesis
 
 if False:  # TYPE_CHECKING
     from ordinis.ai.helix.engine import Helix
+
+# --- Prometheus Metrics ---
+AI_REQUESTS = Counter("ai_requests_total", "Total AI model requests", ["model", "operation"])
+AI_ERRORS = Counter(
+    "ai_errors_total", "Total AI model errors", ["model", "operation", "error_type"]
+)
+AI_LATENCY = Histogram("ai_request_duration_seconds", "AI request latency", ["model", "operation"])
+# AI_TOKENS = Counter('ai_tokens_total', 'Total AI tokens used', ['model', 'type']) # Future use
 
 # Optional RAG integration
 try:
@@ -159,14 +170,18 @@ Include: name, description, rationale, parameters, entry_conditions, exit_condit
 
             try:
                 # Use DeepSeek R1 for deep reasoning
-                response = await self.helix.generate(
-                    messages=[
-                        ChatMessage(role="system", content=system_prompt),
-                        ChatMessage(role="user", content=user_prompt),
-                    ],
-                    model="deepseek-r1",
-                    temperature=0.6,
-                )
+                start_time = time.time()
+                AI_REQUESTS.labels(model="deepseek-r1", operation="generate_hypothesis").inc()
+
+                with AI_LATENCY.labels(model="deepseek-r1", operation="generate_hypothesis").time():
+                    response = await self.helix.generate(
+                        messages=[
+                            ChatMessage(role="system", content=system_prompt),
+                            ChatMessage(role="user", content=user_prompt),
+                        ],
+                        model="deepseek-r1",
+                        temperature=0.6,
+                    )
 
                 # Parse response (simplified for now, assuming model returns JSON-like structure or we parse it)
                 # In a real implementation, we'd use structured output or robust parsing.
@@ -181,6 +196,11 @@ Include: name, description, rationale, parameters, entry_conditions, exit_condit
                 )
 
             except Exception as e:
+                AI_ERRORS.labels(
+                    model="deepseek-r1",
+                    operation="generate_hypothesis",
+                    error_type=type(e).__name__,
+                ).inc()
                 self._logger.error(f"LLM generation failed: {e}")
                 llm_rationale = "LLM generation failed, using rule-based logic."
 
@@ -345,7 +365,7 @@ Include: name, description, rationale, parameters, entry_conditions, exit_condit
         Returns:
             Code analysis output
         """
-        if not self._initialized:
+        if self.state == EngineState.UNINITIALIZED:
             await self.initialize()
 
         model_used = "deepseek-r1"
@@ -377,11 +397,13 @@ Code to analyze:
             prompt += f"\n\nRelevant best practices:\n{rag_context}"
 
         try:
-            response = await self.helix.generate(
-                messages=[ChatMessage(role="user", content=prompt)],
-                model=model_used,
-                temperature=0.2,
-            )
+            AI_REQUESTS.labels(model=model_used, operation="analyze_code").inc()
+            with AI_LATENCY.labels(model=model_used, operation="analyze_code").time():
+                response = await self.helix.generate(
+                    messages=[ChatMessage(role="user", content=prompt)],
+                    model=model_used,
+                    temperature=0.2,
+                )
             analysis_content = response.content
 
             analysis = {
@@ -392,6 +414,9 @@ Code to analyze:
                 "maintainability_index": 70,
             }
         except Exception as e:
+            AI_ERRORS.labels(
+                model=model_used, operation="analyze_code", error_type=type(e).__name__
+            ).inc()
             self._logger.error(f"Code analysis failed: {e}")
             model_used = "fallback-rule-based"
             confidence = 0.5
@@ -426,7 +451,7 @@ Code to analyze:
         Returns:
             Research synthesis output
         """
-        if not self._initialized:
+        if self.state == EngineState.UNINITIALIZED:
             await self.initialize()
 
         context = context or {}
@@ -440,13 +465,18 @@ Provide a summary, key points, and confidence assessment.
 """
 
         try:
-            response = await self.helix.generate(
-                messages=[ChatMessage(role="user", content=prompt)],
-                model="deepseek-r1",
-                temperature=0.4,
-            )
+            AI_REQUESTS.labels(model="deepseek-r1", operation="synthesize_research").inc()
+            with AI_LATENCY.labels(model="deepseek-r1", operation="synthesize_research").time():
+                response = await self.helix.generate(
+                    messages=[ChatMessage(role="user", content=prompt)],
+                    model="deepseek-r1",
+                    temperature=0.4,
+                )
             content = response.content
         except Exception as e:
+            AI_ERRORS.labels(
+                model="deepseek-r1", operation="synthesize_research", error_type=type(e).__name__
+            ).inc()
             content = f"Synthesis failed: {e}"
 
         research = {

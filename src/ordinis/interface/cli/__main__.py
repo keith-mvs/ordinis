@@ -93,7 +93,7 @@ def create_strategy(strategy_name: str, **params):
     return strategy_class(name=f"{strategy_name}-backtest", **params)  # type: ignore[abstract]
 
 
-def run_backtest(args):  # noqa: PLR0915
+def run_backtest(args):
     """Run backtest command."""
     print("\n" + "=" * 80)
     print("INTELLIGENT INVESTOR - BACKTEST")
@@ -308,7 +308,7 @@ def list_strategies(args):
     return 0
 
 
-def analyze_market(args):  # noqa: PLR0915
+def analyze_market(args):
     """Run technical analysis (Phase 3 indicators/patterns)."""
     print("\n" + "=" * 80)
     print("INTELLIGENT INVESTOR - TECHNICAL ANALYSIS")

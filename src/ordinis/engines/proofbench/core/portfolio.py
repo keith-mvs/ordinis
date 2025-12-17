@@ -1,135 +1,10 @@
 """Portfolio management with position tracking and P&L calculation."""
 
-from dataclasses import dataclass, field
 from datetime import datetime
-from enum import Enum
-from uuid import uuid4
 
-from .execution import Fill, Order, OrderSide
-
-
-class PositionSide(Enum):
-    """Position side."""
-
-    LONG = "LONG"
-    SHORT = "SHORT"
-    FLAT = "FLAT"
-
-
-@dataclass
-class Position:
-    """Trading position for a symbol.
-
-    Tracks current holdings, P&L, and position history.
-
-    Attributes:
-        symbol: Stock symbol
-        side: Long, short, or flat
-        quantity: Number of shares held
-        avg_cost: Average cost basis per share
-        current_price: Current market price
-        realized_pnl: Realized profit/loss
-        unrealized_pnl: Unrealized profit/loss
-        entry_time: When position was opened
-        last_update: When position was last updated
-    """
-
-    symbol: str
-    side: PositionSide = PositionSide.FLAT
-    quantity: int = 0
-    avg_cost: float = 0.0
-    current_price: float = 0.0
-    realized_pnl: float = 0.0
-    unrealized_pnl: float = 0.0
-    entry_time: datetime | None = None
-    last_update: datetime | None = None
-
-    @property
-    def market_value(self) -> float:
-        """Get current market value of position."""
-        return self.quantity * self.current_price
-
-    @property
-    def cost_basis(self) -> float:
-        """Get total cost basis."""
-        return self.quantity * self.avg_cost
-
-    @property
-    def total_pnl(self) -> float:
-        """Get total P&L (realized + unrealized)."""
-        return self.realized_pnl + self.unrealized_pnl
-
-    @property
-    def pnl_pct(self) -> float:
-        """Get P&L as percentage of cost basis."""
-        if self.cost_basis == 0:
-            return 0.0
-        return (self.total_pnl / self.cost_basis) * 100
-
-    def update_price(self, price: float, timestamp: datetime):
-        """Update current price and unrealized P&L.
-
-        Args:
-            price: New market price
-            timestamp: Update timestamp
-        """
-        self.current_price = price
-        self.last_update = timestamp
-
-        if self.quantity > 0:
-            if self.side == PositionSide.LONG:
-                self.unrealized_pnl = (price - self.avg_cost) * self.quantity
-            elif self.side == PositionSide.SHORT:
-                self.unrealized_pnl = (self.avg_cost - price) * self.quantity
-        else:
-            self.unrealized_pnl = 0.0
-
-    def is_flat(self) -> bool:
-        """Check if position is flat (no holdings)."""
-        return self.quantity == 0 or self.side == PositionSide.FLAT
-
-
-@dataclass
-class Trade:
-    """Completed trade with entry and exit.
-
-    Attributes:
-        symbol: Stock symbol
-        side: Long or short
-        entry_time: When trade was entered
-        exit_time: When trade was exited
-        entry_price: Entry price per share
-        exit_price: Exit price per share
-        quantity: Number of shares
-        pnl: Profit/loss
-        pnl_pct: P&L as percentage
-        commission: Total commission paid
-        duration: Trade duration
-        trade_id: Unique trade identifier
-    """
-
-    symbol: str
-    side: PositionSide
-    entry_time: datetime
-    exit_time: datetime
-    entry_price: float
-    exit_price: float
-    quantity: int
-    pnl: float
-    pnl_pct: float
-    commission: float
-    duration: float  # In seconds
-    trade_id: str = field(default_factory=lambda: str(uuid4()))
-
-    @property
-    def is_winner(self) -> bool:
-        """Check if trade was profitable."""
-        return self.pnl > 0
-
-    @property
-    def is_loser(self) -> bool:
-        """Check if trade was a loss."""
-        return self.pnl < 0
+from ordinis.domain.enums import OrderSide, PositionSide
+from ordinis.domain.orders import Fill, Order
+from ordinis.domain.positions import Position, Trade
 
 
 class Portfolio:
@@ -213,7 +88,7 @@ class Portfolio:
         # Get or create position
         if symbol not in self.positions:
             self.positions[symbol] = Position(
-                symbol=symbol, entry_time=timestamp, last_update=timestamp
+                symbol=symbol, entry_time=timestamp, last_update_time=timestamp
             )
 
         pos = self.positions[symbol]
@@ -233,9 +108,9 @@ class Portfolio:
         """
         if pos.side == PositionSide.FLAT or pos.side == PositionSide.LONG:
             # Add to long position or open new long
-            total_cost = pos.avg_cost * pos.quantity + fill.price * fill.quantity
+            total_cost = pos.avg_entry_price * pos.quantity + fill.price * fill.quantity
             pos.quantity += fill.quantity
-            pos.avg_cost = total_cost / pos.quantity
+            pos.avg_entry_price = total_cost / pos.quantity
             pos.side = PositionSide.LONG
 
             # Update cash (pay for shares + commission)
@@ -249,7 +124,7 @@ class Portfolio:
             self._cover_short(pos, fill, timestamp)
 
         pos.current_price = fill.price
-        pos.last_update = timestamp
+        pos.last_update_time = timestamp
         pos.update_price(fill.price, timestamp)
 
     def _process_sell(self, pos: Position, fill: Fill, timestamp: datetime):
@@ -262,9 +137,9 @@ class Portfolio:
         """
         if pos.side == PositionSide.FLAT or pos.side == PositionSide.SHORT:
             # Add to short position or open new short
-            total_cost = pos.avg_cost * pos.quantity + fill.price * fill.quantity
+            total_cost = pos.avg_entry_price * pos.quantity + fill.price * fill.quantity
             pos.quantity += fill.quantity
-            pos.avg_cost = total_cost / pos.quantity
+            pos.avg_entry_price = total_cost / pos.quantity
             pos.side = PositionSide.SHORT
 
             # Update cash (receive proceeds - commission)
@@ -278,7 +153,7 @@ class Portfolio:
             self._close_long(pos, fill, timestamp)
 
         pos.current_price = fill.price
-        pos.last_update = timestamp
+        pos.last_update_time = timestamp
         pos.update_price(fill.price, timestamp)
 
     def _close_long(self, pos: Position, fill: Fill, timestamp: datetime):
@@ -290,7 +165,7 @@ class Portfolio:
             timestamp: Fill timestamp
         """
         # Calculate realized P&L
-        realized = (fill.price - pos.avg_cost) * fill.quantity - fill.commission
+        realized = (fill.price - pos.avg_entry_price) * fill.quantity - fill.commission
         pos.realized_pnl += realized
 
         # Update cash
@@ -303,11 +178,11 @@ class Portfolio:
                 side=PositionSide.LONG,
                 entry_time=pos.entry_time,
                 exit_time=timestamp,
-                entry_price=pos.avg_cost,
+                entry_price=pos.avg_entry_price,
                 exit_price=fill.price,
                 quantity=fill.quantity,
                 pnl=realized,
-                pnl_pct=((fill.price - pos.avg_cost) / pos.avg_cost) * 100,
+                pnl_pct=((fill.price - pos.avg_entry_price) / pos.avg_entry_price) * 100,
                 commission=fill.commission,
                 duration=(timestamp - pos.entry_time).total_seconds(),
             )
@@ -318,7 +193,7 @@ class Portfolio:
 
         if pos.quantity == 0:
             pos.side = PositionSide.FLAT
-            pos.avg_cost = 0.0
+            pos.avg_entry_price = 0.0
             pos.entry_time = None
 
     def _cover_short(self, pos: Position, fill: Fill, timestamp: datetime):
@@ -330,7 +205,7 @@ class Portfolio:
             timestamp: Fill timestamp
         """
         # Calculate realized P&L
-        realized = (pos.avg_cost - fill.price) * fill.quantity - fill.commission
+        realized = (pos.avg_entry_price - fill.price) * fill.quantity - fill.commission
         pos.realized_pnl += realized
 
         # Update cash
@@ -343,11 +218,11 @@ class Portfolio:
                 side=PositionSide.SHORT,
                 entry_time=pos.entry_time,
                 exit_time=timestamp,
-                entry_price=pos.avg_cost,
+                entry_price=pos.avg_entry_price,
                 exit_price=fill.price,
                 quantity=fill.quantity,
                 pnl=realized,
-                pnl_pct=((pos.avg_cost - fill.price) / pos.avg_cost) * 100,
+                pnl_pct=((pos.avg_entry_price - fill.price) / pos.avg_entry_price) * 100,
                 commission=fill.commission,
                 duration=(timestamp - pos.entry_time).total_seconds(),
             )
@@ -358,7 +233,7 @@ class Portfolio:
 
         if pos.quantity == 0:
             pos.side = PositionSide.FLAT
-            pos.avg_cost = 0.0
+            pos.avg_entry_price = 0.0
             pos.entry_time = None
 
     def update_prices(self, prices: dict[str, float], timestamp: datetime):

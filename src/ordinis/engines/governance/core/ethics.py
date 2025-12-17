@@ -678,7 +678,7 @@ class EthicsEngine:
                 score = self._esg_provider.get_score(symbol)
                 self._esg_cache[symbol] = score
                 return score
-            except Exception:  # noqa: S110
+            except Exception:
                 pass  # Provider error - fall through to return None
 
         return None

@@ -18,13 +18,13 @@ from .tensortrade_executor import (
 )
 
 __all__ = [
-    # RL-based
-    "TensorTradeExecutor",
-    "RLExecutionOptimizer",
+    "AlmgrenChrissExecutor",
     "ExecutionAction",
     "ExecutionResult",
+    "RLExecutionOptimizer",
+    "TWAPExecutor",
+    # RL-based
+    "TensorTradeExecutor",
     # Classical
     "VWAPExecutor",
-    "TWAPExecutor",
-    "AlmgrenChrissExecutor",
 ]

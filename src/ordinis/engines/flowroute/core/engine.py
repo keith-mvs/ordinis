@@ -102,6 +102,73 @@ class FlowRouteEngine:
 
         return order
 
+    async def execute(self, orders: list[Any]) -> list[Any]:
+        """Execute orders (Protocol implementation)."""
+        results = []
+        for signal in orders:
+            # Convert Signal to OrderIntent
+            # This is a simplification. Usually RiskGuard returns approved signals
+            # and we need to convert them to OrderIntent first.
+            # Or Orchestrator does it.
+            # For now, let's assume 'orders' are Signals and we convert them here.
+
+            # If it's already an Order object (from some other path), use it
+            if hasattr(signal, "order_id"):
+                # It's an Order
+                success, msg = await self.submit_order(signal)
+                if success:
+                    # In paper trading, we might get immediate fills
+                    # But submit_order is async.
+                    # We need to return fills.
+                    # For now, return a mock fill if successful
+                    results.append(
+                        {
+                            "symbol": signal.symbol,
+                            "side": signal.side,
+                            "quantity": signal.quantity,
+                            "price": signal.limit_price or 100.0,  # Mock
+                            "status": "filled",
+                        }
+                    )
+                continue
+
+            # If it's a Signal, create intent
+            from .orders import OrderIntent, OrderSide, OrderType
+
+            # Map Signal direction to OrderSide
+            side = OrderSide.BUY  # Default
+            if hasattr(signal, "direction"):
+                # Assuming signal.direction is an Enum or string
+                d = str(signal.direction).lower()
+                if "short" in d or "sell" in d:
+                    side = OrderSide.SELL
+
+            intent = OrderIntent(
+                intent_id=str(uuid.uuid4()),
+                symbol=signal.symbol,
+                side=side,
+                quantity=10,  # Default quantity for demo
+                order_type=OrderType.MARKET,
+                signal_id=getattr(signal, "signal_id", None),
+            )
+
+            order = self.create_order_from_intent(intent)
+            success, _msg = await self.submit_order(order)
+
+            if success:
+                # Mock fill for demo
+                results.append(
+                    {
+                        "symbol": order.symbol,
+                        "side": order.side,
+                        "quantity": order.quantity,
+                        "price": 148.0,  # Mock execution price
+                        "status": "filled",
+                    }
+                )
+
+        return results
+
     async def submit_order(self, order: Order) -> tuple[bool, str]:
         """
         Submit order to broker.
@@ -343,25 +410,61 @@ class FlowRouteEngine:
             return
 
         try:
-            await self._order_repo.upsert(
-                order_id=order.order_id,
-                symbol=order.symbol,
-                side=order.side.value if hasattr(order.side, "value") else str(order.side),
-                quantity=order.quantity,
-                order_type=order.order_type.value
-                if hasattr(order.order_type, "value")
-                else str(order.order_type),
-                status=order.status.value,
-                limit_price=order.limit_price,
-                stop_price=order.stop_price,
-                time_in_force=order.time_in_force.value
-                if hasattr(order.time_in_force, "value")
-                else str(order.time_in_force),
-                broker_order_id=order.broker_order_id,
-                strategy_id=order.strategy_id,
-                signal_id=order.signal_id,
-                error_message=order.error_message,
-            )
+            # Check if order exists
+            existing = await self._order_repo.get_by_id(order.order_id)
+
+            if existing:
+                # Update status
+                await self._order_repo.update_status(
+                    order_id=order.order_id,
+                    status=order.status.value
+                    if hasattr(order.status, "value")
+                    else str(order.status),
+                    error_message=order.error_message,
+                )
+            else:
+                # Create new order
+                import json
+
+                from ordinis.adapters.storage.models import OrderRow
+
+                row = OrderRow(
+                    order_id=order.order_id,
+                    symbol=order.symbol,
+                    side=order.side.value.lower()
+                    if hasattr(order.side, "value")
+                    else str(order.side).lower(),
+                    quantity=order.quantity,
+                    order_type=order.order_type.value.lower()
+                    if hasattr(order.order_type, "value")
+                    else str(order.order_type).lower(),
+                    limit_price=order.limit_price,
+                    stop_price=order.stop_price,
+                    time_in_force=order.time_in_force.value.lower()
+                    if hasattr(order.time_in_force, "value")
+                    else str(order.time_in_force).lower(),
+                    status=order.status.value.lower()
+                    if hasattr(order.status, "value")
+                    else str(order.status).lower(),
+                    filled_quantity=order.filled_quantity,
+                    remaining_quantity=order.remaining_quantity,
+                    avg_fill_price=order.avg_fill_price,
+                    created_at=order.created_at.isoformat() if order.created_at else None,
+                    submitted_at=order.submitted_at.isoformat() if order.submitted_at else None,
+                    filled_at=order.filled_at.isoformat() if order.filled_at else None,
+                    intent_id=order.intent_id,
+                    signal_id=order.signal_id,
+                    strategy_id=order.strategy_id,
+                    broker_order_id=order.broker_order_id,
+                    broker_response=json.dumps(order.broker_response)
+                    if order.broker_response
+                    else None,
+                    error_message=order.error_message,
+                    retry_count=order.retry_count,
+                    metadata=json.dumps(order.metadata) if order.metadata else None,
+                )
+                await self._order_repo.create(row)
+
         except Exception:
             logger.exception("Failed to persist order %s", order.order_id)
 

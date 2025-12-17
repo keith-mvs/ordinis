@@ -3,4 +3,4 @@
 from ordinis.rag.pipeline.code_indexer import CodeIndexer
 from ordinis.rag.pipeline.kb_indexer import KBIndexer
 
-__all__ = ["KBIndexer", "CodeIndexer"]
+__all__ = ["CodeIndexer", "KBIndexer"]

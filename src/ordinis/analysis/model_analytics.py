@@ -269,7 +269,7 @@ class ModelPerformanceAnalyzer:
         total_return = sum(r.pnl for r in records)
         avg_return = total_return / len(records) if records else 0.0
         sharpe = self.compute_sharpe_ratio(model_id)
-        ic, ic_std, ic_decay = self.compute_ic(model_id, lookback_days)
+        ic, _ic_std, ic_decay = self.compute_ic(model_id, lookback_days)
         consistency = self.compute_consistency(model_id)
 
         # Win streak
@@ -316,7 +316,7 @@ class ModelPerformanceAnalyzer:
         Returns:
             List of (model_id, metric_value) sorted desc
         """
-        models = set(r.model_id for r in self.records)
+        models = {r.model_id for r in self.records}
 
         rankings = []
 

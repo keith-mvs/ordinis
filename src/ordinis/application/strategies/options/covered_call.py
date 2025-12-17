@@ -69,7 +69,7 @@ class CoveredCallStrategy(BaseStrategy):
         self.params.setdefault("min_dte", 30)  # Minimum days to expiration
         self.params.setdefault("max_dte", 60)  # Maximum days to expiration
 
-    def generate_signal(
+    async def generate_signal(
         self, data: pd.DataFrame, timestamp: datetime, options_engine: OptionsCoreEngine = None
     ) -> Signal | None:
         """
@@ -88,7 +88,7 @@ class CoveredCallStrategy(BaseStrategy):
         """
         try:
             # Validate data
-            is_valid, message = self.validate_data(data)
+            is_valid, _message = self.validate_data(data)
             if not is_valid:
                 return None
 

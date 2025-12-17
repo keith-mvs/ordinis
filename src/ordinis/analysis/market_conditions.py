@@ -17,7 +17,7 @@ import logging
 from typing import Any
 
 from ordinis.adapters.market_data.iex import IEXDataPlugin
-from ordinis.adapters.market_data.polygon import PolygonDataPlugin
+from ordinis.adapters.market_data.massive import MassiveDataPlugin
 
 logger = logging.getLogger(__name__)
 
@@ -123,7 +123,7 @@ class MarketConditionsAnalyzer:
     """
     Analyze current market conditions using real-time plugin data.
 
-    Uses Polygon.io as primary data source with IEX Cloud fallback.
+    Uses Massive as primary data source with IEX Cloud fallback.
     Implements caching to minimize API calls.
     """
 
@@ -146,7 +146,7 @@ class MarketConditionsAnalyzer:
 
     def __init__(
         self,
-        polygon_plugin: PolygonDataPlugin | None = None,
+        massive_plugin: MassiveDataPlugin | None = None,
         iex_plugin: IEXDataPlugin | None = None,
         use_cache: bool = True,
         cache_ttl_seconds: int = 900,  # 15 minutes
@@ -155,17 +155,17 @@ class MarketConditionsAnalyzer:
         Initialize the analyzer.
 
         Args:
-            polygon_plugin: Polygon.io data plugin (primary source)
+            massive_plugin: Massive data plugin (primary source)
             iex_plugin: IEX Cloud data plugin (fallback)
             use_cache: Whether to cache results
             cache_ttl_seconds: Cache time-to-live in seconds
         """
-        self.polygon = polygon_plugin
+        self.massive = massive_plugin
         self.iex = iex_plugin
         self.cache: dict[str, tuple[datetime, Any]] = {} if use_cache else {}
         self.cache_ttl = timedelta(seconds=cache_ttl_seconds)
 
-        if not polygon_plugin and not iex_plugin:
+        if not massive_plugin and not iex_plugin:
             raise ValueError("At least one data plugin must be provided")
 
     def _get_cached(self, key: str) -> Any | None:
@@ -205,16 +205,16 @@ class MarketConditionsAnalyzer:
         symbols = self.INDICES
         snapshots = {}
 
-        # Try Polygon first
-        if self.polygon:
+        # Try Massive first
+        if self.massive:
             try:
-                logger.info(f"Fetching market overview from Polygon: {symbols}")
-                data = await self._get_snapshots_polygon(symbols)
-                snapshots = self._parse_index_snapshots(data, "polygon")
+                logger.info(f"Fetching market overview from Massive: {symbols}")
+                data = await self._get_snapshots_massive(symbols)
+                snapshots = self._parse_index_snapshots(data, "massive")
                 self._set_cached(cache_key, snapshots)
                 return snapshots
             except Exception as e:
-                logger.warning(f"Polygon failed for market overview: {e}")
+                logger.warning(f"Massive failed for market overview: {e}")
 
         # Fallback to IEX
         if self.iex:
@@ -244,16 +244,16 @@ class MarketConditionsAnalyzer:
         if cached:
             return cached
 
-        # Try Polygon first
-        if self.polygon:
+        # Try Massive first
+        if self.massive:
             try:
-                logger.info("Fetching VIX data from Polygon")
-                vix_data = await self._get_vix_polygon()
+                logger.info("Fetching VIX data from Massive")
+                vix_data = await self._get_vix_massive()
                 metrics = self._parse_volatility_metrics(vix_data)
                 self._set_cached(cache_key, metrics)
                 return metrics
             except Exception as e:
-                logger.warning(f"Polygon failed for VIX: {e}")
+                logger.warning(f"Massive failed for VIX: {e}")
 
         # Fallback to IEX
         if self.iex:
@@ -284,16 +284,16 @@ class MarketConditionsAnalyzer:
         symbols = list(self.SECTORS.keys())
         sector_data = []
 
-        # Try Polygon first
-        if self.polygon:
+        # Try Massive first
+        if self.massive:
             try:
-                logger.info(f"Fetching sector data from Polygon: {symbols}")
-                data = await self._get_snapshots_polygon(symbols)
-                sector_data = self._parse_sector_performance(data, "polygon")
+                logger.info(f"Fetching sector data from Massive: {symbols}")
+                data = await self._get_snapshots_massive(symbols)
+                sector_data = self._parse_sector_performance(data, "massive")
                 self._set_cached(cache_key, sector_data)
                 return sector_data
             except Exception as e:
-                logger.warning(f"Polygon failed for sectors: {e}")
+                logger.warning(f"Massive failed for sectors: {e}")
 
         # Fallback to IEX
         if self.iex:
@@ -523,13 +523,13 @@ class MarketConditionsAnalyzer:
     # Private helper methods for data fetching
     # -------------------------------------------------------------------------
 
-    async def _get_snapshots_polygon(self, symbols: list[str]) -> dict[str, Any]:
-        """Fetch snapshot data from Polygon."""
-        assert self.polygon is not None
+    async def _get_snapshots_massive(self, symbols: list[str]) -> dict[str, Any]:
+        """Fetch snapshot data from Massive."""
+        assert self.massive is not None
         # Use existing plugin method
         results = {}
         for symbol in symbols:
-            snapshot = await self.polygon.get_snapshot(symbol)
+            snapshot = await self.massive.get_snapshot(symbol)
             results[symbol] = snapshot
         return results
 
@@ -543,11 +543,11 @@ class MarketConditionsAnalyzer:
             results[symbol] = quote
         return results
 
-    async def _get_vix_polygon(self) -> dict[str, Any]:
-        """Fetch VIX data from Polygon."""
-        assert self.polygon is not None
-        snapshot = await self.polygon.get_snapshot("VIX")
-        prev_close = await self.polygon.get_previous_close("VIX")
+    async def _get_vix_massive(self) -> dict[str, Any]:
+        """Fetch VIX data from Massive."""
+        assert self.massive is not None
+        snapshot = await self.massive.get_snapshot("VIX")
+        prev_close = await self.massive.get_previous_close("VIX")
         return {"snapshot": snapshot, "previous": prev_close}
 
     async def _get_vix_iex(self) -> dict[str, Any]:
@@ -565,7 +565,7 @@ class MarketConditionsAnalyzer:
         snapshots = {}
 
         for symbol, raw_data in data.items():
-            if source == "polygon":
+            if source == "massive":
                 ticker = raw_data.get("ticker", {})
                 snapshots[symbol] = IndexSnapshot(
                     symbol=symbol,
@@ -594,7 +594,7 @@ class MarketConditionsAnalyzer:
     def _parse_volatility_metrics(self, data: dict[str, Any]) -> VolatilityMetrics:
         """Parse VIX data into VolatilityMetrics."""
         # Extract VIX values (structure depends on source)
-        if "snapshot" in data:  # Polygon
+        if "snapshot" in data:  # Massive
             ticker = data["snapshot"].get("ticker", {})
             current = ticker.get("lastTrade", {}).get("p", 16.0)
             prev = data["previous"].get("c", current)
@@ -646,7 +646,7 @@ class MarketConditionsAnalyzer:
             if symbol not in self.SECTORS:
                 continue
 
-            if source == "polygon":
+            if source == "massive":
                 ticker = raw_data.get("ticker", {})
                 change_pct = ticker.get("todaysChangePerc", 0.0)
                 price = ticker.get("lastTrade", {}).get("p", 0.0)

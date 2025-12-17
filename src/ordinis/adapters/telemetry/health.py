@@ -274,7 +274,7 @@ def get_health_check() -> HealthCheck:
     Returns:
         Global health check coordinator
     """
-    global _global_health_check  # noqa: PLW0603
+    global _global_health_check
     if _global_health_check is None:
         _global_health_check = HealthCheck()
 

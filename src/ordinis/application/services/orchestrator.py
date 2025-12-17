@@ -307,10 +307,11 @@ class OrdinisOrchestrator:
     async def _init_database(self) -> bool:
         """Initialize database connection."""
         try:
-            self._components.db = get_database(
-                db_path=self.config.db_path,
-                backup_dir=self.config.backup_dir,
-            )
+            if self._components.db is None:
+                self._components.db = get_database(
+                    db_path=self.config.db_path,
+                    backup_dir=self.config.backup_dir,
+                )
             result = await self._components.db.initialize()
             if result:
                 logger.info(f"Database initialized: {self.config.db_path}")
@@ -326,16 +327,18 @@ class OrdinisOrchestrator:
                 logger.error("Database must be initialized before kill switch")
                 return False
 
-            self._components.system_state_repo = SystemStateRepository(self._components.db)
+            if self._components.system_state_repo is None:
+                self._components.system_state_repo = SystemStateRepository(self._components.db)
 
-            self._components.kill_switch = KillSwitch(
-                db=self._components.db,
-                system_state_repo=self._components.system_state_repo,
-                kill_file=self.config.kill_file,
-                daily_loss_limit=self.config.daily_loss_limit,
-                max_drawdown_pct=self.config.max_drawdown_pct,
-                consecutive_loss_limit=self.config.consecutive_loss_limit,
-            )
+            if self._components.kill_switch is None:
+                self._components.kill_switch = KillSwitch(
+                    db=self._components.db,
+                    system_state_repo=self._components.system_state_repo,
+                    kill_file=self.config.kill_file,
+                    daily_loss_limit=self.config.daily_loss_limit,
+                    max_drawdown_pct=self.config.max_drawdown_pct,
+                    consecutive_loss_limit=self.config.consecutive_loss_limit,
+                )
 
             # Register callback for kill switch activation
             self._components.kill_switch.register_async_callback(self._on_kill_switch_triggered)
@@ -350,9 +353,12 @@ class OrdinisOrchestrator:
     def _init_repositories(self) -> None:
         """Initialize data repositories."""
         if self._components.db:
-            self._components.position_repo = PositionRepository(self._components.db)
-            self._components.order_repo = OrderRepository(self._components.db)
-            self._components.trade_repo = TradeRepository(self._components.db)
+            if self._components.position_repo is None:
+                self._components.position_repo = PositionRepository(self._components.db)
+            if self._components.order_repo is None:
+                self._components.order_repo = OrderRepository(self._components.db)
+            if self._components.trade_repo is None:
+                self._components.trade_repo = TradeRepository(self._components.db)
             logger.info("Repositories initialized")
 
     async def _check_previous_session(self) -> None:
@@ -404,13 +410,13 @@ class OrdinisOrchestrator:
     async def _on_kill_switch_triggered(self, state: Any) -> None:
         """Handle kill switch activation."""
         logger.critical(f"Kill switch triggered: {state.message}")
-        await self._handle_kill_switch_triggered()
+        await self._handle_kill_switch_triggered(f"Kill switch triggered: {state.message}")
 
-    async def _handle_kill_switch_triggered(self) -> None:
+    async def _handle_kill_switch_triggered(self, reason: str = "Kill switch triggered") -> None:
         """Handle kill switch being triggered."""
         # Cancel all pending orders
         if self._components.order_repo:
-            await self._components.order_repo.cancel_all_active("Kill switch triggered")
+            await self._components.order_repo.cancel_all_active(reason)
 
         # Send alert if alert manager configured
         if self._components.alert_manager:

@@ -119,6 +119,30 @@ class Container:
         logger.info("Created KillSwitch")
         return switch
 
+    def get_database_manager(self) -> Any | None:
+        """
+        Get or create database manager.
+
+        Returns:
+            DatabaseManager instance if persistence enabled, None otherwise.
+        """
+        if not self.config.enable_persistence:
+            return None
+
+        if "database_manager" in self._instances:
+            return self._instances["database_manager"]
+
+        if not self.config.db_path:
+            logger.warning("Persistence enabled but no db_path configured")
+            return None
+
+        from ordinis.adapters.storage.database import DatabaseManager
+
+        db = DatabaseManager(db_path=self.config.db_path)
+        self._instances["database_manager"] = db
+        logger.info(f"Created DatabaseManager (db={self.config.db_path})")
+        return db
+
     def get_order_repository(self) -> OrderRepository | None:
         """
         Get or create order repository.
@@ -132,15 +156,15 @@ class Container:
         if "order_repository" in self._instances:
             return self._instances["order_repository"]
 
-        if not self.config.db_path:
-            logger.warning("Persistence enabled but no db_path configured")
+        db = self.get_database_manager()
+        if not db:
             return None
 
         from ordinis.adapters.storage.repositories.order import OrderRepository
 
-        repo = OrderRepository(db_path=self.config.db_path)
+        repo = OrderRepository(db=db)
         self._instances["order_repository"] = repo
-        logger.info(f"Created OrderRepository (db={self.config.db_path})")
+        logger.info("Created OrderRepository")
         return repo
 
     def get_alert_manager(self) -> AlertManager | None:

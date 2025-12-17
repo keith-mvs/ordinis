@@ -368,7 +368,7 @@ class PPIEngine:
 
         return masked_data, all_detections
 
-    def _mask_value(  # noqa: PLR0911
+    def _mask_value(
         self,
         value: str,
         method: MaskingMethod,
@@ -395,7 +395,7 @@ class PPIEngine:
 
         return "[MASKED]"
 
-    def _partial_mask(self, value: str, category: PPICategory) -> str:  # noqa: PLR0911
+    def _partial_mask(self, value: str, category: PPICategory) -> str:
         """Apply partial masking based on category."""
         length = len(value)
 

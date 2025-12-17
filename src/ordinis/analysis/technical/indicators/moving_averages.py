@@ -277,7 +277,7 @@ class MovingAverages:
         )
 
     @classmethod
-    def multi_ma_analysis(cls, data: pd.DataFrame, periods: list[int] = None) -> dict:
+    def multi_ma_analysis(cls, data: pd.DataFrame, periods: list[int] | None = None) -> dict:
         """
         Analyze price relative to multiple MAs.
 

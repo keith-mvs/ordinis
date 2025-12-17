@@ -196,7 +196,7 @@ class RSIReversalStrategy(MeanReversionStrategy):
 
         return rsi.iloc[-1]
 
-    def generate_signal(self, data: pd.DataFrame) -> TradingSignal:  # noqa: PLR0911
+    def generate_signal(self, data: pd.DataFrame) -> TradingSignal:
         """Generate signal based on RSI reversals."""
         if len(data) < self.rsi_period + 5:
             return TradingSignal(SignalType.HOLD, 0.0, data["close"].iloc[-1])
@@ -334,7 +334,7 @@ class KeltnerChannelStrategy(MeanReversionStrategy):
             return TradingSignal(SignalType.HOLD, 0.0, data["close"].iloc[-1])
 
         current_price = data["close"].iloc[-1]
-        upper, middle, lower = self._calculate_channels(data)
+        _upper, middle, lower = self._calculate_channels(data)
 
         # Exit logic
         if self.is_long:

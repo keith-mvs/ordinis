@@ -54,7 +54,7 @@ class MACDStrategy(BaseStrategy):
 
         self.model = MACDModel(model_config)
 
-    def generate_signal(self, data: pd.DataFrame, timestamp: datetime) -> Signal | None:
+    async def generate_signal(self, data: pd.DataFrame, timestamp: datetime) -> Signal | None:
         """
         Generate MACD signal.
 
@@ -66,13 +66,13 @@ class MACDStrategy(BaseStrategy):
             Signal object or None
         """
         # Validate data
-        is_valid, msg = self.validate_data(data)
+        is_valid, _msg = self.validate_data(data)
         if not is_valid:
             return None
 
         try:
             # Generate signal using MACD model
-            signal = self.model.generate(data, timestamp)
+            signal = await self.model.generate(data, timestamp)
 
             # Enrich signal metadata with strategy info
             if signal:

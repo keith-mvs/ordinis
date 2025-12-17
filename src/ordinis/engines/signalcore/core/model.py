@@ -65,11 +65,12 @@ class Model(ABC):
         self._last_update: datetime | None = None
 
     @abstractmethod
-    async def generate(self, data: pd.DataFrame, timestamp: datetime) -> Signal:
+    async def generate(self, symbol: str, data: pd.DataFrame, timestamp: datetime) -> Signal:
         """
         Generate trading signal from market data.
 
         Args:
+            symbol: Stock ticker symbol
             data: Historical OHLCV data (indexed by timestamp)
             timestamp: Current time for signal generation
 
@@ -247,10 +248,15 @@ class ModelRegistry:
                     if not is_valid:
                         continue
 
-                    signal = await model.generate(df, timestamp)
-                    signals.append(signal)
+                    signal = await model.generate(symbol, df, timestamp)
+                    if signal:
+                        signals.append(signal)
 
-                except Exception as e:  # noqa: S112
+                except Exception as e:
+                    print(f"[ERROR] Model {model_id} failed: {e}")
+                    import traceback
+
+                    traceback.print_exc()
                     # Skip model on error, don't fail entire batch
                     # Logging intentionally omitted to avoid noise from expected failures
                     continue

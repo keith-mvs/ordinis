@@ -11,7 +11,6 @@ License: MIT
 from dataclasses import dataclass, field
 from datetime import date, datetime
 from enum import Enum
-from typing import Dict, List, Optional
 
 
 class OptionType(Enum):

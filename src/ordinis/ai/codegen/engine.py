@@ -73,6 +73,7 @@ class CodeGenEngine(BaseEngine):
         prompt: str,
         context: str = "",
         language: str = "python",
+        mode: str = "complex",  # "simple" or "complex"
     ) -> str:
         """
         Generate code based on prompt.
@@ -81,6 +82,7 @@ class CodeGenEngine(BaseEngine):
             prompt: Description of code to generate
             context: Additional context (existing code, interfaces)
             language: Target programming language
+            mode: Complexity mode ("simple" for fast/cheap, "complex" for deep reasoning)
 
         Returns:
             Generated code
@@ -88,13 +90,26 @@ class CodeGenEngine(BaseEngine):
         if self._state != EngineState.READY:
             await self.initialize()
 
+        # Select model based on mode
+        model = (
+            self.helix.config.fallback_code_model
+            if mode == "simple"
+            else self.helix.config.default_code_model
+        )
+
         with TraceContext() as trace_id:
             self._logger.info(
-                "Generating code", data={"language": language, "prompt_preview": prompt[:50]}
+                "Generating code",
+                data={
+                    "language": language,
+                    "mode": mode,
+                    "model": model,
+                    "prompt_preview": prompt[:50],
+                },
             )
 
-            # Enhance context with Synapse if available
-            if self.synapse:
+            # Enhance context with Synapse if available (only for complex mode)
+            if self.synapse and mode == "complex":
                 try:
                     # Run retrieval in thread pool with timeout to avoid blocking/hanging
                     rag_context = await asyncio.wait_for(
@@ -131,7 +146,7 @@ Context:
                         ChatMessage(role="system", content=system_prompt),
                         ChatMessage(role="user", content=user_prompt),
                     ],
-                    model=self._model,
+                    model=model,
                     temperature=0.1,  # Low temperature for precision
                 )
                 self._logger.info("Code generation successful")

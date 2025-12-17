@@ -1,7 +1,6 @@
 """Trading engines for the Intelligent Investor system."""
 
 from . import (
-    analytics,
     cortex,
     flowroute,
     governance,
@@ -14,7 +13,6 @@ from . import (
 )
 
 __all__ = [
-    "analytics",
     "cortex",
     "flowroute",
     "governance",

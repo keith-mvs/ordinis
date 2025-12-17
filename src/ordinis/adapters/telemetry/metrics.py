@@ -218,7 +218,7 @@ def get_metrics_collector() -> MetricsCollector:
     Returns:
         Global metrics collector
     """
-    global _global_collector  # noqa: PLW0603
+    global _global_collector
     if _global_collector is None:
         _global_collector = MetricsCollector()
     return _global_collector

@@ -1,36 +1,13 @@
 """Execution simulation with realistic slippage and commission modeling."""
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
-from uuid import uuid4
+import uuid
 
-
-class OrderSide(Enum):
-    """Order side (buy or sell)."""
-
-    BUY = "BUY"
-    SELL = "SELL"
-
-
-class OrderType(Enum):
-    """Order type."""
-
-    MARKET = "MARKET"
-    LIMIT = "LIMIT"
-    STOP = "STOP"
-    STOP_LIMIT = "STOP_LIMIT"
-
-
-class OrderStatus(Enum):
-    """Order status."""
-
-    PENDING = "PENDING"
-    SUBMITTED = "SUBMITTED"
-    PARTIAL = "PARTIAL"
-    FILLED = "FILLED"
-    CANCELLED = "CANCELLED"
-    REJECTED = "REJECTED"
+from ordinis.domain.enums import OrderSide, OrderStatus, OrderType
+from ordinis.domain.market_data import Bar
+from ordinis.domain.orders import Fill, Order
 
 
 class FillMode(Enum):
@@ -39,160 +16,6 @@ class FillMode(Enum):
     BAR_OPEN = "BAR_OPEN"  # Fill at bar open (previous behavior)
     INTRA_BAR = "INTRA_BAR"  # Approximate intrabar extremes (high/low biased by side)
     REALISTIC = "REALISTIC"  # Blend open/close with range to mimic intrabar path
-
-
-@dataclass
-class Order:
-    """Trading order.
-
-    Attributes:
-        symbol: Stock symbol
-        side: Buy or sell
-        quantity: Number of shares
-        order_type: Market, limit, stop, etc.
-        limit_price: Limit price for limit orders
-        stop_price: Stop price for stop orders
-        timestamp: When order was created
-        order_id: Unique order identifier
-        status: Current order status
-        filled_quantity: Number of shares filled
-        avg_fill_price: Average fill price
-    """
-
-    symbol: str
-    side: OrderSide
-    quantity: int
-    order_type: OrderType = OrderType.MARKET
-    limit_price: float | None = None
-    stop_price: float | None = None
-    timestamp: datetime | None = None
-    order_id: str = field(default_factory=lambda: str(uuid4()))
-    status: OrderStatus = OrderStatus.PENDING
-    filled_quantity: int = 0
-    avg_fill_price: float = 0.0
-
-    def __post_init__(self):
-        """Validate order parameters."""
-        if self.quantity <= 0:
-            raise ValueError("Order quantity must be positive")
-
-        if self.order_type == OrderType.LIMIT and self.limit_price is None:
-            raise ValueError("Limit orders require limit_price")
-
-        if self.order_type == OrderType.STOP and self.stop_price is None:
-            raise ValueError("Stop orders require stop_price")
-
-        if self.order_type == OrderType.STOP_LIMIT and (
-            self.limit_price is None or self.stop_price is None
-        ):
-            raise ValueError("Stop-limit orders require both limit_price and stop_price")
-
-    @property
-    def remaining_quantity(self) -> int:
-        """Get remaining unfilled quantity."""
-        return self.quantity - self.filled_quantity
-
-    @property
-    def is_filled(self) -> bool:
-        """Check if order is completely filled."""
-        return self.filled_quantity >= self.quantity
-
-    @property
-    def is_partial(self) -> bool:
-        """Check if order is partially filled."""
-        return 0 < self.filled_quantity < self.quantity
-
-
-@dataclass
-class Fill:
-    """Order fill execution.
-
-    Attributes:
-        order_id: ID of the order being filled
-        symbol: Stock symbol
-        side: Buy or sell
-        quantity: Number of shares filled
-        price: Fill price per share
-        commission: Commission paid
-        slippage: Slippage applied (as fraction)
-        timestamp: When fill occurred
-        fill_id: Unique fill identifier
-    """
-
-    order_id: str
-    symbol: str
-    side: OrderSide
-    quantity: int
-    price: float
-    commission: float
-    slippage: float
-    timestamp: datetime
-    fill_id: str = field(default_factory=lambda: str(uuid4()))
-
-    def __post_init__(self):
-        """Validate fill parameters."""
-        if self.quantity <= 0:
-            raise ValueError("Fill quantity must be positive")
-        if self.price <= 0:
-            raise ValueError("Fill price must be positive")
-        if self.commission < 0:
-            raise ValueError("Commission cannot be negative")
-
-    @property
-    def total_cost(self) -> float:
-        """Get total cost including commission.
-
-        For buys: price * quantity + commission
-        For sells: price * quantity - commission
-        """
-        base_cost = self.price * self.quantity
-        if self.side == OrderSide.BUY:
-            return base_cost + self.commission
-        return base_cost - self.commission
-
-    @property
-    def net_proceeds(self) -> float:
-        """Get net proceeds (for sells) or net cost (for buys).
-
-        Returns positive for sells, negative for buys.
-        """
-        if self.side == OrderSide.SELL:
-            return self.price * self.quantity - self.commission
-        return -(self.price * self.quantity + self.commission)
-
-
-@dataclass
-class Bar:
-    """OHLCV bar data for a single time period.
-
-    Attributes:
-        symbol: Stock symbol
-        timestamp: Bar timestamp
-        open: Opening price
-        high: High price
-        low: Low price
-        close: Closing price
-        volume: Trading volume
-    """
-
-    symbol: str
-    timestamp: datetime
-    open: float
-    high: float
-    low: float
-    close: float
-    volume: int
-
-    def __post_init__(self):
-        """Validate bar data."""
-        if self.high < self.low:
-            raise ValueError("High must be >= low")
-        if self.high < max(self.open, self.close):
-            raise ValueError("High must be >= open and close")
-        if self.low > min(self.open, self.close):
-            raise ValueError("Low must be <= open and close")
-        if self.volume < 0:
-            raise ValueError("Volume cannot be negative")
 
 
 @dataclass
@@ -252,13 +75,16 @@ class ExecutionSimulator:
         """
         self.config = config or ExecutionConfig()
 
-    def simulate_fill(self, order: Order, bar: Bar, timestamp: datetime) -> Fill | None:
+    def simulate_fill(
+        self, order: Order, bar: Bar, timestamp: datetime, multiplier: float = 1.0
+    ) -> Fill | None:
         """Simulate order fill for given market conditions.
 
         Args:
             order: Order to fill
             bar: Current market bar
             timestamp: Fill timestamp
+            multiplier: Contract multiplier (default 1.0)
 
         Returns:
             Fill object if order can be filled, None otherwise
@@ -267,23 +93,26 @@ class ExecutionSimulator:
             return None
 
         if order.order_type == OrderType.MARKET:
-            return self._fill_market_order(order, bar, timestamp)
+            return self._fill_market_order(order, bar, timestamp, multiplier)
         if order.order_type == OrderType.LIMIT:
-            return self._fill_limit_order(order, bar, timestamp)
+            return self._fill_limit_order(order, bar, timestamp, multiplier)
         if order.order_type == OrderType.STOP:
-            return self._fill_stop_order(order, bar, timestamp)
+            return self._fill_stop_order(order, bar, timestamp, multiplier)
         if order.order_type == OrderType.STOP_LIMIT:
-            return self._fill_stop_limit_order(order, bar, timestamp)
+            return self._fill_stop_limit_order(order, bar, timestamp, multiplier)
 
         return None
 
-    def _fill_market_order(self, order: Order, bar: Bar, timestamp: datetime) -> Fill:
+    def _fill_market_order(
+        self, order: Order, bar: Bar, timestamp: datetime, multiplier: float = 1.0
+    ) -> Fill:
         """Fill market order at current price with slippage.
 
         Args:
             order: Market order to fill
             bar: Current market bar
             timestamp: Fill timestamp
+            multiplier: Contract multiplier
 
         Returns:
             Fill object
@@ -313,9 +142,10 @@ class ExecutionSimulator:
             fill_price = base_price * (1 - slippage)
 
         # Calculate commission
-        commission = self._calculate_commission(order.remaining_quantity, fill_price)
+        commission = self._calculate_commission(order.remaining_quantity, fill_price, multiplier)
 
         return Fill(
+            fill_id=str(uuid.uuid4()),
             order_id=order.order_id,
             symbol=order.symbol,
             side=order.side,
@@ -324,15 +154,19 @@ class ExecutionSimulator:
             commission=commission,
             slippage=slippage,
             timestamp=timestamp,
+            multiplier=multiplier,
         )
 
-    def _fill_limit_order(self, order: Order, bar: Bar, timestamp: datetime) -> Fill | None:
+    def _fill_limit_order(
+        self, order: Order, bar: Bar, timestamp: datetime, multiplier: float = 1.0
+    ) -> Fill | None:
         """Fill limit order if price conditions are met.
 
         Args:
             order: Limit order to fill
             bar: Current market bar
             timestamp: Fill timestamp
+            multiplier: Contract multiplier
 
         Returns:
             Fill object if conditions met, None otherwise
@@ -354,7 +188,7 @@ class ExecutionSimulator:
 
         # Small slippage even for limit orders
         slippage = self.config.estimated_spread / 2
-        commission = self._calculate_commission(order.remaining_quantity, fill_price)
+        commission = self._calculate_commission(order.remaining_quantity, fill_price, multiplier)
 
         return Fill(
             order_id=order.order_id,
@@ -365,15 +199,19 @@ class ExecutionSimulator:
             commission=commission,
             slippage=slippage,
             timestamp=timestamp,
+            multiplier=multiplier,
         )
 
-    def _fill_stop_order(self, order: Order, bar: Bar, timestamp: datetime) -> Fill | None:
+    def _fill_stop_order(
+        self, order: Order, bar: Bar, timestamp: datetime, multiplier: float = 1.0
+    ) -> Fill | None:
         """Fill stop order if price conditions are met.
 
         Args:
             order: Stop order to fill
             bar: Current market bar
             timestamp: Fill timestamp
+            multiplier: Contract multiplier
 
         Returns:
             Fill object if conditions met, None otherwise
@@ -390,15 +228,18 @@ class ExecutionSimulator:
             return None
 
         # Once triggered, fill as market order
-        return self._fill_market_order(order, bar, timestamp)
+        return self._fill_market_order(order, bar, timestamp, multiplier)
 
-    def _fill_stop_limit_order(self, order: Order, bar: Bar, timestamp: datetime) -> Fill | None:
+    def _fill_stop_limit_order(
+        self, order: Order, bar: Bar, timestamp: datetime, multiplier: float = 1.0
+    ) -> Fill | None:
         """Fill stop-limit order if conditions are met.
 
         Args:
             order: Stop-limit order to fill
             bar: Current market bar
             timestamp: Fill timestamp
+            multiplier: Contract multiplier
 
         Returns:
             Fill object if conditions met, None otherwise
@@ -412,7 +253,7 @@ class ExecutionSimulator:
             stop_price=order.stop_price,
         )
 
-        if self._fill_stop_order(temp_stop_order, bar, timestamp) is None:
+        if self._fill_stop_order(temp_stop_order, bar, timestamp, multiplier) is None:
             return None
 
         # If stop triggered, try to fill as limit order
@@ -424,7 +265,7 @@ class ExecutionSimulator:
             limit_price=order.limit_price,
         )
 
-        return self._fill_limit_order(temp_limit_order, bar, timestamp)
+        return self._fill_limit_order(temp_limit_order, bar, timestamp, multiplier)
 
     def _calculate_slippage(self, order: Order, bar: Bar) -> float:
         """Calculate slippage for an order.
@@ -464,7 +305,7 @@ class ExecutionSimulator:
         # Cap at maximum
         return min(total_slippage, self.config.max_slippage)
 
-    def _calculate_commission(self, quantity: int, price: float) -> float:
+    def _calculate_commission(self, quantity: int, price: float, multiplier: float = 1.0) -> float:
         """Calculate commission for a trade.
 
         Commission can have multiple components:
@@ -475,6 +316,7 @@ class ExecutionSimulator:
         Args:
             quantity: Number of shares
             price: Price per share
+            multiplier: Contract multiplier
 
         Returns:
             Total commission
@@ -488,7 +330,7 @@ class ExecutionSimulator:
         commission += self.config.commission_per_trade
 
         # Percentage component
-        trade_value = quantity * price
+        trade_value = quantity * price * multiplier
         commission += trade_value * self.config.commission_pct
 
         # Apply minimum

@@ -15,7 +15,7 @@ from .dashboard import PerformanceDashboard
 from .indicators import IndicatorChart
 
 __all__ = [
-    "IndicatorChart",
     "ChartUtils",
+    "IndicatorChart",
     "PerformanceDashboard",
 ]

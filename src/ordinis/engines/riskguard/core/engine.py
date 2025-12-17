@@ -12,6 +12,8 @@ from datetime import datetime
 import logging
 from typing import TYPE_CHECKING, Any
 
+from ordinis.domain.positions import Position
+
 from ...signalcore.core.signal import Signal
 from ..rules.standard import STANDARD_RISK_RULES
 from .rules import RiskCheckResult, RiskRule, RuleCategory
@@ -67,19 +69,6 @@ class PortfolioState:
             "market_open": self.market_open,
             "connectivity_ok": self.connectivity_ok,
         }
-
-
-@dataclass
-class Position:
-    """Position information."""
-
-    symbol: str
-    quantity: int
-    entry_price: float
-    current_price: float
-    market_value: float
-    unrealized_pnl: float
-    sector: str | None = None
 
 
 @dataclass
@@ -194,6 +183,60 @@ class RiskGuardEngine:
             rules = [r for r in rules if r.enabled]
 
         return rules
+
+    async def evaluate(self, signals: list[Signal]) -> tuple[list[Signal], list[str]]:
+        """Evaluate signals and return approved signals with rejection reasons.
+
+        Protocol implementation for OrchestrationEngine.
+        """
+        approved_signals = []
+        rejections = []
+
+        # Mock portfolio state for now since we don't have easy access to it here
+        # In real flow, Orchestrator might pass it or we fetch it
+        portfolio = PortfolioState(
+            equity=100000.0,
+            cash=100000.0,
+            peak_equity=100000.0,
+            daily_pnl=0.0,
+            daily_trades=0,
+            open_positions={},
+            total_positions=0,
+            total_exposure=0.0,
+            sector_exposures={},
+            correlated_exposure=0.0,
+        )
+
+        for signal in signals:
+            # Create a proposed trade from signal for validation
+            # In a real system, sizing happens before this check
+            price = 0.0
+            if signal.metadata:
+                price = signal.metadata.get("price", signal.metadata.get("current_price", 0.0))
+
+            quantity = 100  # Default for demo
+
+            trade = ProposedTrade(
+                symbol=signal.symbol,
+                direction=signal.direction.value
+                if hasattr(signal.direction, "value")
+                else str(signal.direction),
+                quantity=quantity,
+                entry_price=price,
+                sector=signal.metadata.get("sector"),
+            )
+
+            # Evaluate against rules
+            passed, results, adjusted_signal = self.evaluate_signal(signal, trade, portfolio)
+
+            if passed:
+                approved_signals.append(adjusted_signal or signal)
+            else:
+                reasons = [r.message for r in results if not r.passed]
+                rejections.extend(reasons)
+                logger.warning(f"Signal rejected by RiskGuard: {reasons}")
+
+        return approved_signals, rejections
 
     def evaluate_signal(
         self, signal: Signal, proposed_trade: ProposedTrade, portfolio: PortfolioState
@@ -367,7 +410,7 @@ class RiskGuardEngine:
             "halt_reason": self._halt_reason,
         }
 
-    def _calculate_rule_value(  # noqa: PLR0911
+    def _calculate_rule_value(
         self, rule: RiskRule, trade: ProposedTrade, portfolio: PortfolioState
     ) -> float:
         """Calculate current value for rule evaluation."""
@@ -400,6 +443,12 @@ class RiskGuardEngine:
         # Cash checks
         if "cash" in rule.condition and "portfolio_equity" in rule.condition:
             return portfolio.cash / portfolio.equity
+
+        # Drawdown check
+        if "drawdown" in rule.condition:
+            if portfolio.peak_equity <= 0:
+                return 0.0
+            return (portfolio.peak_equity - portfolio.equity) / portfolio.peak_equity
 
         # Sanity checks
         if "price_deviation" in rule.condition:

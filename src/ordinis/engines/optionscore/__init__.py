@@ -8,7 +8,7 @@ Provides:
     - Greeks calculation (Delta, Gamma, Theta, Vega, Rho)
     - Options chain enrichment with theoretical pricing
     - Caching layer for performance optimization
-    - Integration with Polygon.io market data
+    - Integration with market data providers
 
 Main Classes:
     - OptionsCoreEngine: Main orchestration engine
@@ -21,11 +21,10 @@ Main Classes:
 
 Usage:
     >>> from ordinis.engines.optionscore import OptionsCoreEngine, OptionsEngineConfig
-    >>> from ordinis.plugins.market_data.polygon import PolygonDataPlugin
     >>>
     >>> # Initialize
     >>> config = OptionsEngineConfig(engine_id="main", cache_ttl_seconds=300)
-    >>> engine = OptionsCoreEngine(config, polygon_plugin)
+    >>> engine = OptionsCoreEngine(config, market_data_provider)
     >>> await engine.initialize()
     >>>
     >>> # Fetch enriched chain
@@ -41,15 +40,15 @@ from .data import OptionContract, OptionLeg, OptionPosition, OptionType
 from .pricing import BlackScholesEngine, GreeksCalculator, PricingParameters
 
 __all__ = [
-    "OptionsCoreEngine",
-    "OptionsEngineConfig",
     "BlackScholesEngine",
     "GreeksCalculator",
-    "PricingParameters",
     "OptionContract",
     "OptionLeg",
     "OptionPosition",
     "OptionType",
+    "OptionsCoreEngine",
+    "OptionsEngineConfig",
+    "PricingParameters",
 ]
 
 __version__ = "1.0.0"

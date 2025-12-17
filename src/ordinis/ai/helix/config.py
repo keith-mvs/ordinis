@@ -6,6 +6,9 @@ Defines configuration for LLM provider settings, model routing, and behavior.
 
 from dataclasses import dataclass, field
 import os
+from pathlib import Path
+
+import yaml
 
 from ordinis.ai.helix.models import ModelInfo, ModelType, ProviderType
 from ordinis.engines.base import BaseEngineConfig
@@ -13,19 +16,19 @@ from ordinis.engines.base import BaseEngineConfig
 # Mistral AI models
 MISTRAL_MODELS: dict[str, ModelInfo] = {
     "codestral": ModelInfo(
-        model_id="codestral-25.01",
-        display_name="Codestral 25.01",
+        model_id="mistralai/mistral-large-3-675b-instruct-2512",
+        display_name="Mistral Large 3 (675B) Instruct 2512",
         model_type=ModelType.CODE,
-        provider=ProviderType.MISTRAL_API,
+        provider=ProviderType.NVIDIA_NIM,
         context_length=256000,
         default_temperature=0.1,
         max_output_tokens=4096,
     ),
     "mistral-large": ModelInfo(
-        model_id="mistral-large-24.11",
-        display_name="Mistral Large 24.11",
+        model_id="mistralai/mistral-large-3-675b-instruct-2512",
+        display_name="Mistral Large 3 (675B) Instruct 2512",
         model_type=ModelType.CHAT,
-        provider=ProviderType.MISTRAL_API,
+        provider=ProviderType.NVIDIA_NIM,
         context_length=128000,
         default_temperature=0.3,
         max_output_tokens=4096,
@@ -114,8 +117,8 @@ NVIDIA_MODELS: dict[str, ModelInfo] = {
     ),
     # Fast synthesis/RAG model (Super)
     "nemotron-super": ModelInfo(
-        model_id="nvidia/llama-3.3-nemotron-super-49b-v1.5",
-        display_name="Nemotron Super 49B",
+        model_id="meta/llama-3.3-70b-instruct",
+        display_name="Llama 3.3 70B Instruct",
         model_type=ModelType.CHAT,
         provider=ProviderType.NVIDIA_API,
         context_length=128000,
@@ -146,8 +149,8 @@ NVIDIA_MODELS: dict[str, ModelInfo] = {
     ),
     # Primary embedding model
     "nv-embedqa": ModelInfo(
-        model_id="nvidia/nv-embedqa-e5-v5",
-        display_name="NV-EmbedQA E5",
+        model_id="nvidia/llama-3.2-nemoretriever-300m-embed-v2",
+        display_name="NeMo Retriever 300M Embed V2",
         model_type=ModelType.EMBEDDING,
         provider=ProviderType.NVIDIA_API,
         context_length=512,
@@ -229,14 +232,14 @@ class HelixConfig(BaseEngineConfig):
     )
 
     # Model selection - Code generation (primary use case)
-    default_chat_model: str = "nemotron-super"  # NVIDIA Nemotron for code
-    fallback_chat_model: str = "nemotron-8b"
-    default_code_model: str = "nemotron-super"
-    fallback_code_model: str = "nemotron-8b"
+    default_chat_model: str = "default"  # Maps to nemotron-super by default
+    fallback_chat_model: str = "fast"
+    default_code_model: str = "code"
+    fallback_code_model: str = "fast"
 
     # Embeddings
-    default_embedding_model: str = "nv-embedqa"  # NVIDIA
-    fallback_embedding_model: str = "nemoretriever"  # NVIDIA
+    default_embedding_model: str = "embedding"
+    fallback_embedding_model: str = "embedding_fallback"
 
     # Model registry - combine all providers
     models: dict[str, ModelInfo] = field(
@@ -247,6 +250,38 @@ class HelixConfig(BaseEngineConfig):
             **AZURE_MODELS,
         }
     )
+
+    # Model aliases from external config
+    aliases: dict[str, str] = field(
+        default_factory=lambda: {
+            "default": "nemotron-super",
+            "fast": "nemotron-8b",
+            "code": "nemotron-super",
+            "reasoning": "deepseek-r1",
+            "embedding": "nv-embedqa",
+            "embedding_fallback": "nemoretriever",
+        }
+    )
+
+    def __post_init__(self) -> None:
+        """Initialize and load external config."""
+        super().__post_init__()
+        self._load_external_config()
+
+    def _load_external_config(self) -> None:
+        """Load configuration from external YAML file."""
+        config_path = Path("configs/helix_models.yaml")
+        if not config_path.exists():
+            return
+
+        try:
+            with open(config_path, encoding="utf-8") as f:
+                data = yaml.safe_load(f)
+
+            if "aliases" in data and isinstance(data["aliases"], dict):
+                self.aliases.update(data["aliases"])
+        except Exception as e:
+            print(f"Warning: Failed to load helix_models.yaml: {e}")
 
     # Generation defaults
     default_temperature: float = 0.2
@@ -275,10 +310,22 @@ class HelixConfig(BaseEngineConfig):
 
     def get_model(self, name: str) -> ModelInfo | None:
         """Get model info by name or ID."""
-        # Check by alias first
+        # 1. Check external aliases
+        if name in self.aliases:
+            resolved_name = self.aliases[name]
+            # Check if alias maps to a model key
+            if resolved_name in self.models:
+                return self.models[resolved_name]
+            # Check if alias maps to a model ID
+            for model in self.models.values():
+                if model.model_id == resolved_name:
+                    return model
+
+        # 2. Check internal keys
         if name in self.models:
             return self.models[name]
-        # Check by full model ID
+
+        # 3. Check by full model ID
         for model in self.models.values():
             if model.model_id == name:
                 return model
@@ -312,13 +359,13 @@ class HelixConfig(BaseEngineConfig):
         if not has_provider:
             errors.append("At least one provider API key required")
 
-        if self.default_chat_model not in self.models:
-            errors.append(f"default_chat_model '{self.default_chat_model}' not in models")
+        if not self.get_model(self.default_chat_model):
+            errors.append(f"default_chat_model '{self.default_chat_model}' not found")
 
-        if self.fallback_chat_model not in self.models:
-            errors.append(f"fallback_chat_model '{self.fallback_chat_model}' not in models")
+        if not self.get_model(self.fallback_chat_model):
+            errors.append(f"fallback_chat_model '{self.fallback_chat_model}' not found")
 
-        if self.default_embedding_model not in self.models:
-            errors.append(f"default_embedding_model '{self.default_embedding_model}' not in models")
+        if not self.get_model(self.default_embedding_model):
+            errors.append(f"default_embedding_model '{self.default_embedding_model}' not found")
 
         return errors

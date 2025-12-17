@@ -173,7 +173,7 @@ class FinBERTSentimentModel(Model):
             },
         )
 
-    def analyze_texts(self, texts: list[str]) -> SentimentResult:  # noqa: PLR0912
+    def analyze_texts(self, texts: list[str]) -> SentimentResult:
         """
         Analyze sentiment of multiple texts.
 

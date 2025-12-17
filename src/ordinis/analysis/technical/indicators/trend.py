@@ -399,11 +399,8 @@ class TrendIndicators:
         lag_confirm = False
         if len(close) > displacement and not pd.isna(values.chikou_span):
             lookback_price = float(close.iloc[-displacement - 1])
-            if (
-                values.chikou_span > lookback_price
-                and cloud_bias == "bullish"
-                or values.chikou_span < lookback_price
-                and cloud_bias == "bearish"
+            if (values.chikou_span > lookback_price and cloud_bias == "bullish") or (
+                values.chikou_span < lookback_price and cloud_bias == "bearish"
             ):
                 lag_confirm = True
 

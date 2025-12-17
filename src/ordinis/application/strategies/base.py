@@ -39,7 +39,7 @@ class BaseStrategy(ABC):
         """Configure strategy parameters. Must be implemented by subclasses."""
 
     @abstractmethod
-    def generate_signal(self, data: pd.DataFrame, timestamp: datetime) -> Signal | None:
+    async def generate_signal(self, data: pd.DataFrame, timestamp: datetime) -> Signal | None:
         """
         Generate trading signal from market data.
 

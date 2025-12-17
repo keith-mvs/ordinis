@@ -136,6 +136,24 @@ class TechnicalIndicators:
         return atr
 
     @staticmethod
+    def z_score(data: pd.Series, window: int = 20) -> pd.Series:
+        """
+        Rolling Z-Score.
+
+        (Value - Mean) / StdDev
+
+        Args:
+            data: Price series
+            window: Rolling window size
+
+        Returns:
+            Z-Score series
+        """
+        mean = data.rolling(window=window).mean()
+        std = data.rolling(window=window).std()
+        return (data - mean) / std
+
+    @staticmethod
     def stochastic(
         high: pd.Series, low: pd.Series, close: pd.Series, window: int = 14
     ) -> tuple[pd.Series, pd.Series]:
@@ -215,7 +233,13 @@ class TechnicalIndicators:
         return obv
 
     @staticmethod
-    def vwap(high: pd.Series, low: pd.Series, close: pd.Series, volume: pd.Series) -> pd.Series:
+    def vwap(
+        high: pd.Series,
+        low: pd.Series,
+        close: pd.Series,
+        volume: pd.Series,
+        window: int | None = None,
+    ) -> pd.Series:
         """
         Volume-Weighted Average Price.
 
@@ -224,11 +248,19 @@ class TechnicalIndicators:
             low: Low prices
             close: Close prices
             volume: Volume
+            window: Rolling window size (optional). If None, calculates cumulative VWAP.
 
         Returns:
             VWAP series
         """
         typical_price = (high + low + close) / 3.0
-        vwap = (typical_price * volume).cumsum() / volume.cumsum()
+        pv = typical_price * volume
 
-        return vwap
+        if window:
+            cum_pv = pv.rolling(window=window).sum()
+            cum_vol = volume.rolling(window=window).sum()
+        else:
+            cum_pv = pv.cumsum()
+            cum_vol = volume.cumsum()
+
+        return cum_pv / cum_vol

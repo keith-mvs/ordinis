@@ -38,6 +38,7 @@ class PortfolioEngineConfig(BaseEngineConfig):
     max_history_entries: int = 1000
 
     # Execution settings
+    initial_capital: float = 100000.0
     min_trade_value: float = 10.0
     max_position_pct: float = 0.25
 

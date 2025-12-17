@@ -8,6 +8,6 @@ from .pipeline import (
 
 __all__ = [
     "OrchestrationPipeline",
-    "PipelineConfig",
     "OrderIntent",
+    "PipelineConfig",
 ]

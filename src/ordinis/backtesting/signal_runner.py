@@ -107,6 +107,9 @@ class HistoricalSignalRunner:
             all_timestamps.update(df.index.tolist())
 
         all_timestamps = sorted(all_timestamps)
+        print(
+            f"DEBUG: Found {len(all_timestamps)} unique timestamps. First: {all_timestamps[0] if all_timestamps else 'None'}, Last: {all_timestamps[-1] if all_timestamps else 'None'}"
+        )
 
         for ts in all_timestamps:
             # Collect signals from all symbols for this timestamp
@@ -114,7 +117,12 @@ class HistoricalSignalRunner:
 
             for symbol, df in data.items():
                 # Get data up to this timestamp
-                lookback_data = df[df.index <= ts]
+                # Use .loc for safer slicing with datetime index
+                try:
+                    lookback_data = df.loc[:ts]
+                except Exception:
+                    # Fallback if slicing fails (e.g. index mismatch)
+                    lookback_data = df[df.index <= ts]
 
                 if len(lookback_data) < 10:
                     continue
@@ -127,6 +135,8 @@ class HistoricalSignalRunner:
 
                 if signal:
                     signals.append(signal)
+
+            # DEBUG print removed for performance
 
             if signals:
                 batch = SignalBatch(

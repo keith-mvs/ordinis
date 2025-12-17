@@ -130,6 +130,19 @@ class ArtifactsConfig(BaseModel):
     max_size_gb: float = 10.0
 
 
+class KafkaConfig(BaseModel):
+    """Kafka configuration."""
+
+    bootstrap_servers: str = "localhost:9092"
+
+
+class BusConfig(BaseModel):
+    """Event bus configuration."""
+
+    type: Literal["in_memory", "kafka", "nats"] = "in_memory"
+    kafka: KafkaConfig = Field(default_factory=KafkaConfig)
+
+
 def _deep_merge(base: dict[str, Any], override: dict[str, Any]) -> dict[str, Any]:
     """Deep merge two dictionaries, override takes precedence."""
     result = base.copy()
@@ -187,6 +200,7 @@ class Settings(BaseSettings):
     circuit_breaker: CircuitBreakerConfig = Field(default_factory=CircuitBreakerConfig)
     orchestrator: OrchestratorConfig = Field(default_factory=OrchestratorConfig)
     alerting: AlertingConfig = Field(default_factory=AlertingConfig)
+    bus: BusConfig = Field(default_factory=BusConfig)
     broker: BrokerConfig = Field(default_factory=BrokerConfig)
     logging: LoggingConfig = Field(default_factory=LoggingConfig)
     risk: RiskConfig = Field(default_factory=RiskConfig)
