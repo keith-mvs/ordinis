@@ -30,9 +30,9 @@ Synapse is the Ordinis retrieval subsystem. It implements a RAG (Retrieval Augme
 │                                                                              │
 │  Integration Points:                                                         │
 │  ├── Cortex: Hypothesis generation with KB context                          │
-│  ├── RiskGuard: Trade explanations with risk principles                     │
-│  ├── ProofBench: Backtest narration with strategy context                   │
-│  └── SignalCore: Signal interpretation with TA concepts                     │
+│  ├── RiskEngine (RiskGuard): Trade explanations with risk principles        │
+│  ├── AnalyticsEngine (ProofBench): Backtest narration with strategy context │
+│  └── SignalEngine (SignalCore): Signal interpretation with TA concepts      │
 │                                                                              │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
@@ -102,9 +102,9 @@ Synapse is the Ordinis retrieval subsystem. It implements a RAG (Retrieval Augme
 
 ### Phase 4: Full Engine Integration (PLANNED)
 
-- RiskGuard: Trade explanation with risk principles
-- ProofBench: Backtest narration with strategy context
-- SignalCore: Signal interpretation with TA concepts
+- RiskEngine (RiskGuard): Trade explanation with risk principles
+- AnalyticsEngine (ProofBench): Backtest narration with strategy context
+- SignalEngine (SignalCore): Signal interpretation with TA concepts
 
 ---
 
