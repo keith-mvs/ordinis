@@ -26,6 +26,15 @@ Example:
     ... ))
 """
 
+from .collectors import (
+    CircuitBreakerMonitor,
+    CircuitBreakerState,
+    ErrorWindow,
+    FeedbackCollector,
+    FeedbackPriority,
+    FeedbackRecord,
+    FeedbackType,
+)
 from .core import (
     DriftAlert,
     EvaluationResult,
@@ -53,6 +62,14 @@ __all__ = [
     "LearningEngine",
     "LearningEngineConfig",
     "LearningEvent",
+    # Collectors
+    "CircuitBreakerMonitor",
+    "CircuitBreakerState",
+    "ErrorWindow",
+    "FeedbackCollector",
+    "FeedbackPriority",
+    "FeedbackRecord",
+    "FeedbackType",
     # Hooks
     "LearningGovernanceHook",
     "ModelStage",

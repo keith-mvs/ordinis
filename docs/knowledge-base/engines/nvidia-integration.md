@@ -7,9 +7,9 @@ Complete NVIDIA AI model integration across all Ordinis engines, providing natur
 The system integrates NVIDIA's state-of-the-art language models to enhance every stage of the trading pipeline:
 
 1. **Strategy Generation** (Cortex) - AI-powered hypothesis generation and code analysis
-2. **Signal Interpretation** (SignalCore) - Natural language signal explanations
-3. **Risk Evaluation** (RiskGuard) - AI-explained trade evaluations
-4. **Performance Analysis** (ProofBench) - Backtest narration and optimization
+2. **Signal Interpretation** (SignalEngine (SignalCore)) - Natural language signal explanations
+3. **Risk Evaluation** (RiskEngine (RiskGuard)) - AI-explained trade evaluations
+4. **Performance Analysis** (AnalyticsEngine (ProofBench)) - Backtest narration and optimization
 
 ## NVIDIA Models Deployed
 
@@ -23,7 +23,7 @@ The system integrates NVIDIA's state-of-the-art language models to enhance every
   - Strategy hypothesis generation
 
 ### Meta Llama 3.1 70B Instruct
-- **Engines:** SignalCore, RiskGuard, ProofBench
+- **Engines:** SignalEngine (SignalCore), RiskEngine (RiskGuard), AnalyticsEngine (ProofBench)
 - **Purpose:** Real-time interpretation and explanation
 - **Temperature:** 0.3-0.4 (balanced)
 - **Use Cases:**
@@ -47,9 +47,9 @@ The system integrates NVIDIA's state-of-the-art language models to enhance every
 
 ## Engine-Specific Integration
 
-### Cortex Engine
+### Cortex (LLM Reasoning Engine)
 
-**File:** `src/engines/cortex/core/engine.py`
+**File:** `src/ordinis/engines/cortex/core/engine.py`
 
 **AI Capabilities:**
 - Strategy hypothesis generation based on market context
@@ -63,7 +63,7 @@ The system integrates NVIDIA's state-of-the-art language models to enhance every
 
 **Example:**
 ```python
-from engines.cortex import CortexEngine
+from ordinis.engines.cortex import CortexEngine
 
 cortex = CortexEngine(
     nvidia_api_key="nvapi-...",
@@ -84,9 +84,9 @@ print(analysis.content['llm_analysis'])
 
 The NVIDIA provider is the default and uses `nvidia/llama-3.3-nemotron-super-49b-v1.5`.
 
-### SignalCore Engine
+### SignalEngine (SignalCore)
 
-**File:** `src/engines/signalcore/models/llm_enhanced.py`
+**File:** `src/ordinis/engines/signalcore/models/llm_enhanced.py`
 
 **AI Capabilities:**
 - Signal interpretation with natural language explanations
@@ -98,8 +98,8 @@ The NVIDIA provider is the default and uses `nvidia/llama-3.3-nemotron-super-49b
 
 **Example:**
 ```python
-from engines.signalcore.models import LLMEnhancedModel, RSIMeanReversionModel
-from engines.signalcore.core.model import ModelConfig
+from ordinis.engines.signalcore.models import LLMEnhancedModel, RSIMeanReversionModel
+from ordinis.engines.signalcore.core.model import ModelConfig
 
 # Create base model
 config = ModelConfig(
@@ -121,9 +121,9 @@ signal = enhanced.generate(data, timestamp)
 print(signal.metadata['llm_interpretation'])
 ```
 
-### RiskGuard Engine
+### RiskEngine (RiskGuard)
 
-**File:** `src/engines/riskguard/core/llm_enhanced.py`
+**File:** `src/ordinis/engines/riskguard/core/llm_enhanced.py`
 
 **AI Capabilities:**
 - Trade evaluation explanations
@@ -136,7 +136,7 @@ print(signal.metadata['llm_interpretation'])
 
 **Example:**
 ```python
-from engines.riskguard import LLMEnhancedRiskGuard, RiskGuardEngine, STANDARD_RISK_RULES
+from ordinis.engines.riskguard import LLMEnhancedRiskGuard, RiskGuardEngine, STANDARD_RISK_RULES
 
 # Create AI-enhanced risk guard
 base_engine = RiskGuardEngine(rules=STANDARD_RISK_RULES.copy())
@@ -155,9 +155,9 @@ if adjusted_signal:
     print(adjusted_signal.metadata['risk_explanation'])
 ```
 
-### ProofBench Engine
+### AnalyticsEngine (ProofBench)
 
-**File:** `src/engines/proofbench/analytics/llm_enhanced.py`
+**File:** `src/ordinis/engines/proofbench/analytics/llm_enhanced.py`
 
 **AI Capabilities:**
 - Performance narration with insights
@@ -171,7 +171,7 @@ if adjusted_signal:
 
 **Example:**
 ```python
-from engines.proofbench import LLMPerformanceNarrator
+from ordinis.engines.proofbench import LLMPerformanceNarrator
 
 narrator = LLMPerformanceNarrator(nvidia_api_key="nvapi-...")
 
@@ -234,21 +234,21 @@ cortex = CortexEngine(
     embeddings_enabled=True      # Enable embeddings
 )
 
-# SignalCore
+# SignalEngine (SignalCore)
 enhanced = LLMEnhancedModel(
     base_model=model,
     nvidia_api_key=api_key,
     llm_enabled=True             # Enable signal interpretation
 )
 
-# RiskGuard
+# RiskEngine (RiskGuard)
 riskguard = LLMEnhancedRiskGuard(
     base_engine=engine,
     nvidia_api_key=api_key,
     llm_enabled=True             # Enable risk explanations
 )
 
-# ProofBench
+# AnalyticsEngine (ProofBench)
 narrator = LLMPerformanceNarrator(
     nvidia_api_key=api_key       # Auto-enables when key provided
 )
@@ -271,18 +271,18 @@ Different tasks use different temperature settings for optimal results:
 | Engine | Temperature | Purpose |
 |--------|-------------|---------|
 | Cortex (405B) | 0.2 | Deterministic code analysis |
-| SignalCore (70B) | 0.3 | Balanced signal interpretation |
-| RiskGuard (70B) | 0.3-0.4 | Risk scenario creativity |
-| ProofBench (70B) | 0.4 | Creative performance insights |
+| SignalEngine (SignalCore) | 0.3 | Balanced signal interpretation |
+| RiskEngine (RiskGuard) | 0.3-0.4 | Risk scenario creativity |
+| AnalyticsEngine (ProofBench) | 0.4 | Creative performance insights |
 
 ### Token Limits
 
 Models are configured with appropriate token limits:
 
 - **Cortex 405B:** 2048 tokens (deep analysis)
-- **SignalCore 70B:** 512 tokens (concise interpretation)
-- **RiskGuard 70B:** 512-1024 tokens (risk explanations)
-- **ProofBench 70B:** 1024 tokens (performance narration)
+- **SignalEngine (SignalCore) 70B:** 512 tokens (concise interpretation)
+- **RiskEngine (RiskGuard) 70B:** 512-1024 tokens (risk explanations)
+- **AnalyticsEngine (ProofBench) 70B:** 1024 tokens (performance narration)
 
 ## Testing
 
@@ -307,9 +307,9 @@ pytest -v
 - **Overall Coverage:** 71.78%
 - **LLM-Specific Coverage:**
   - Cortex: 67.39%
-  - SignalCore: 52.03%
-  - RiskGuard: 57.86%
-  - ProofBench: 74.07%
+  - SignalEngine (SignalCore): 52.03%
+  - RiskEngine (RiskGuard): 57.86%
+  - AnalyticsEngine (ProofBench): 74.07%
 
 ### Integration Tests
 

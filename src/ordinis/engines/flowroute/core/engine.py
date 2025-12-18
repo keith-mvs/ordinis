@@ -8,6 +8,11 @@ Phase 1 enhancements (2025-12-17):
 - Pre-trade buying power validation
 - Position sync on startup
 - Broker state reconciliation
+
+Phase 2 enhancements (2025-12-17):
+- FeedbackCollector integration for closed-loop learning
+- Circuit breaker integration to halt trading on error spikes
+- Execution failure feedback to LearningEngine
 """
 
 from __future__ import annotations
@@ -28,6 +33,7 @@ if TYPE_CHECKING:
     from ordinis.adapters.alerting import AlertManager
     from ordinis.adapters.storage.repositories.order import OrderRepository
     from ordinis.core.protocols import BrokerAdapter
+    from ordinis.engines.learning.collectors import FeedbackCollector
     from ordinis.safety.kill_switch import KillSwitch
 
 logger = logging.getLogger(__name__)
@@ -87,6 +93,7 @@ class FlowRouteEngine:
         kill_switch: KillSwitch | None = None,
         order_repository: OrderRepository | None = None,
         alert_manager: AlertManager | None = None,
+        feedback_collector: FeedbackCollector | None = None,
         max_positions: int = 20,
         min_buying_power: Decimal = Decimal("1000"),
     ):
@@ -98,6 +105,7 @@ class FlowRouteEngine:
             kill_switch: Kill switch for emergency stop
             order_repository: Repository for order persistence
             alert_manager: Alert manager for notifications
+            feedback_collector: Feedback collector for closed-loop learning
             max_positions: Maximum number of concurrent positions (default: 20)
             min_buying_power: Minimum buying power to allow trading (default: $1000)
         """
@@ -105,6 +113,7 @@ class FlowRouteEngine:
         self._kill_switch = kill_switch
         self._order_repo = order_repository
         self._alert_manager = alert_manager
+        self._feedback = feedback_collector
         self._orders: dict[str, Order] = {}
         self._active_orders: set[str] = set()
 
@@ -191,6 +200,37 @@ class FlowRouteEngine:
                 discrepancies.append(f"New positions detected: {', '.join(added)}")
             if removed:
                 discrepancies.append(f"Positions closed: {', '.join(removed)}")
+
+            # Phase 2: Record position mismatches to FeedbackCollector
+            # This detects the 12/17 issue where internal tracking diverged from broker
+            if self._feedback and (added or removed):
+                for symbol in added:
+                    broker_pos = next((p for p in broker_positions if p.symbol == symbol), None)
+                    if broker_pos:
+                        try:
+                            await self._feedback.record_position_mismatch(
+                                symbol=symbol,
+                                internal_quantity=0,
+                                broker_quantity=int(broker_pos.quantity),
+                                internal_cost=0.0,
+                                broker_cost=float(broker_pos.avg_entry_price),
+                            )
+                        except Exception as e:
+                            logger.error(f"Failed to record position mismatch: {e}")
+
+                for symbol in removed:
+                    old_pos = self._positions.get(symbol)
+                    if old_pos:
+                        try:
+                            await self._feedback.record_position_mismatch(
+                                symbol=symbol,
+                                internal_quantity=int(old_pos.quantity),
+                                broker_quantity=0,
+                                internal_cost=float(old_pos.avg_entry_price),
+                                broker_cost=0.0,
+                            )
+                        except Exception as e:
+                            logger.error(f"Failed to record position mismatch: {e}")
 
             # Update position cache
             self._positions.clear()
@@ -412,7 +452,7 @@ class FlowRouteEngine:
         Submit order to broker.
 
         Validates buying power and position limits before submission.
-        Checks kill switch and persists order state.
+        Checks kill switch, circuit breaker, and persists order state.
 
         Args:
             order: Order to submit
@@ -432,6 +472,17 @@ class FlowRouteEngine:
                 severity="warning",
             )
             return False, "Kill switch active - trading halted"
+
+        # Phase 2: Circuit breaker check
+        # This prevents submitting orders when error rate is too high
+        if self._feedback:
+            allowed, reason = self._feedback.should_allow_execution()
+            if not allowed:
+                logger.warning(f"Order {order.order_id} blocked by circuit breaker: {reason}")
+                order.status = OrderStatus.REJECTED
+                order.error_message = f"Circuit breaker active: {reason}"
+                await self._persist_order(order)
+                return False, order.error_message
 
         if not self._broker:
             return False, "No broker adapter configured"
@@ -486,6 +537,36 @@ class FlowRouteEngine:
                     "buying_power": str(self._account_state.buying_power),
                 },
             )
+
+            # Phase 2: Record execution failure to FeedbackCollector
+            # This is the critical feedback loop that was missing on 12/17
+            if self._feedback:
+                # Determine error type for circuit breaker
+                error_type = "pre_trade_rejection"
+                if "buying power" in rejection_reason.lower():
+                    error_type = "insufficient_buying_power"
+                elif "position limit" in rejection_reason.lower():
+                    error_type = "position_limit"
+
+                try:
+                    _, circuit_tripped = await self._feedback.record_execution_failure(
+                        order_id=order.order_id,
+                        symbol=order.symbol,
+                        error_type=error_type,
+                        error_message=rejection_reason,
+                        order_details={
+                            "quantity": str(order.quantity),
+                            "estimated_cost": str(estimated_cost),
+                            "buying_power": str(self._account_state.buying_power),
+                            "side": str(order.side),
+                        },
+                        strategy=order.strategy_id,
+                    )
+                    if circuit_tripped:
+                        logger.critical("Circuit breaker tripped - trading will be halted")
+                except Exception as e:
+                    logger.error(f"Failed to record execution failure: {e}")
+
             return False, rejection_reason
 
         # Update status
@@ -558,6 +639,25 @@ class FlowRouteEngine:
                 metadata={"order_id": order.order_id, "symbol": order.symbol},
             )
 
+            # Phase 2: Record broker rejection to FeedbackCollector
+            if self._feedback:
+                error_msg = order.error_message or "Unknown error"
+                error_type = "broker_rejection"
+                if "buying power" in error_msg.lower() or "insufficient" in error_msg.lower():
+                    error_type = "insufficient_buying_power"
+                elif "margin" in error_msg.lower():
+                    error_type = "margin_call"
+
+                try:
+                    await self._feedback.record_order_rejected(
+                        order_id=order.order_id,
+                        symbol=order.symbol,
+                        rejection_reason=error_msg,
+                        broker_response=broker_response,
+                    )
+                except Exception as feedback_err:
+                    logger.error(f"Failed to record order rejection: {feedback_err}")
+
             return False, order.error_message or "Unknown error"
 
         except Exception as e:
@@ -577,6 +677,23 @@ class FlowRouteEngine:
 
             # Persist error state
             await self._persist_order(order)
+
+            # Phase 2: Record execution error to FeedbackCollector
+            if self._feedback:
+                try:
+                    await self._feedback.record_execution_failure(
+                        order_id=order.order_id,
+                        symbol=order.symbol,
+                        error_type="broker_error",
+                        error_message=str(e),
+                        order_details={
+                            "quantity": str(order.quantity),
+                            "side": str(order.side),
+                        },
+                        strategy=order.strategy_id,
+                    )
+                except Exception as feedback_err:
+                    logger.error(f"Failed to record execution error: {feedback_err}")
             logger.exception("Error submitting order %s", order.order_id)
 
             return False, f"Error submitting order: {e}"

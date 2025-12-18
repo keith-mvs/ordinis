@@ -693,14 +693,26 @@ class SensitivityAnalyzer:
     - All symbols stacked into (N_symbols, T) tensors
     - Single GPU transfer, bulk computation
     - Target: 70%+ SM utilization
+
+    FEEDBACK INTEGRATION:
+    - Records results to LearningEngine for model training
+    - Indexes in ChromaDB for semantic search/RAG
+    - Persists to SQLite for structured queries
     """
 
-    def __init__(self, config: SensitivityConfig):
+    def __init__(
+        self,
+        config: SensitivityConfig,
+        feedback_collector: "FeedbackCollector | None" = None,
+    ):
         self.config = config
         self.batched_engine = BatchedGPUEngine(config.use_gpu)
         self.gpu_engine = GPUTensorBacktest(config.use_gpu)  # Legacy fallback
         self.universe: dict[str, pd.DataFrame] = {}
         self.results: dict[str, Any] = {}
+
+        # Feedback collector for learning pipeline integration
+        self.feedback_collector = feedback_collector
 
         # Stacked tensors for batched operations
         self.symbols: list[str] = []
@@ -1267,6 +1279,11 @@ class SensitivityAnalyzer:
                 # Simplified correlation (would need per-symbol data for full version)
                 sharpe_corr = 0.5  # Placeholder - full version needs per-symbol tracking
 
+                is_overfit = sharpe_degradation > 0.5 or (
+                    abs(sharpe_degradation / train_sharpe) > 0.3 if train_sharpe != 0 else False
+                )
+                overfitting_score = min(1.0, abs(sharpe_degradation) / 2.0)
+
                 overfitting_metrics.append(
                     {
                         "strategy": strategy,
@@ -1286,12 +1303,31 @@ class SensitivityAnalyzer:
                         "pnl_corr_pval": 0.05,
                         "t_stat": sharpe_degradation / 0.5 if sharpe_degradation else 0,
                         "t_pval": 0.10,  # Placeholder
-                        "is_overfitting": sharpe_degradation > 0.5
-                        or abs(sharpe_degradation / train_sharpe) > 0.3
-                        if train_sharpe != 0
-                        else False,
+                        "is_overfitting": is_overfit,
                     }
                 )
+
+                # Record feedback for learning pipeline
+                if self.feedback_collector:
+                    asyncio.create_task(
+                        self.feedback_collector.record_sensitivity_analysis(
+                            strategy=strategy,
+                            parameters={},  # Default params
+                            train_metrics={
+                                "sharpe": train_sharpe,
+                                "total_pnl": train_pnl,
+                                "trades": train_result["total_trades"],
+                            },
+                            test_metrics={
+                                "sharpe": test_sharpe,
+                                "total_pnl": test_pnl,
+                                "trades": test_result["total_trades"],
+                            },
+                            overfitting_score=overfitting_score,
+                            symbols=self.symbols,
+                            timeframe="daily",
+                        )
+                    )
 
         return {"overfitting_analysis": overfitting_metrics}
 
@@ -1641,8 +1677,33 @@ async def main():
     else:
         logger.warning("CUDA not available - running on CPU (will be slower)")
 
+    # Initialize feedback collector for learning pipeline integration
+    feedback_collector = None
+    try:
+        from ordinis.adapters.storage.database import DatabaseManager
+        from ordinis.engines.learning import FeedbackCollector
+        from ordinis.rag.vectordb.chroma_client import ChromaClient
+
+        # Initialize storage backends
+        db_manager = DatabaseManager()
+        await db_manager.initialize()
+
+        chroma_client = ChromaClient()
+
+        feedback_collector = FeedbackCollector(
+            db_manager=db_manager,
+            chroma_client=chroma_client,
+            learning_engine=None,  # Will add when orchestration is ready
+        )
+        await feedback_collector.initialize()
+        logger.info("Feedback collector initialized - results will be stored for learning")
+    except ImportError as e:
+        logger.warning(f"Feedback collector not available: {e}")
+    except Exception as e:
+        logger.warning(f"Feedback collector initialization failed: {e}")
+
     config = SensitivityConfig(use_gpu=True)
-    analyzer = SensitivityAnalyzer(config)
+    analyzer = SensitivityAnalyzer(config, feedback_collector=feedback_collector)
 
     result = await analyzer.run_full_analysis()
 
@@ -1653,6 +1714,8 @@ async def main():
         logger.info(f"  Symbols: {result['symbols_analyzed']}")
         logger.info(f"  Analysis: {result['analysis_time_seconds']:.2f}s")
         logger.info(f"  Report: {result['report_path']}")
+        if feedback_collector:
+            logger.info("  Feedback: Recorded to SQLite + ChromaDB")
     else:
         logger.error(f"\n✗ Analysis failed: {result.get('error')}")
 

@@ -1,8 +1,8 @@
-# RAG System Architecture & Implementation
+# Synapse (Retrieval Engine) — RAG System Architecture & Implementation
 
 ## Overview
 
-The Ordinis RAG (Retrieval Augmented Generation) system provides semantic search and contextual retrieval capabilities for trading knowledge and codebase documentation.
+Synapse is the Ordinis retrieval subsystem. It implements a RAG (Retrieval Augmented Generation) pipeline that provides semantic search and contextual retrieval over trading knowledge and codebase documentation.
 
 **Implementation Status:** Phase 1 Complete | Phases 2-4 Planned
 

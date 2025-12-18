@@ -376,25 +376,25 @@ RETIREMENT_CRITERIA = {
 
 ### Component Descriptions
 
-**Market Data Feed**:
+**Market Data Feed → StreamingBus**:
 - Real-time price data
 - Options chains
 - News and events
 - Economic data
 
-**Signal Generator**:
+**SignalEngine (SignalCore)**:
 - Indicator calculations
 - Pattern detection
 - Signal scoring
 - Universe filtering
 
-**Risk Engine**:
+**RiskEngine (RiskGuard)**:
 - Pre-trade validation
 - Position limits
 - Exposure checks
 - Kill switch logic
 
-**Order Manager**:
+**ExecutionEngine (FlowRoute)**:
 - Order creation
 - Smart routing
 - Fill tracking
@@ -406,7 +406,7 @@ RETIREMENT_CRITERIA = {
 - Fill confirmation
 - Position sync
 
-**Portfolio Manager**:
+**PortfolioEngine**:
 - Position tracking
 - PnL calculation
 - Margin management

@@ -754,9 +754,9 @@ class Sprint3Runner:
         """Store backtest results to ChromaDB."""
         logger.info("Storing results to ChromaDB...")
 
-        documents = []
-        metadatas = []
-        ids = []
+        documents: list[str] = []
+        metadatas: list[dict[str, str | int | float | bool | None]] = []
+        ids: list[str] = []
 
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
@@ -770,21 +770,20 @@ class Sprint3Runner:
             )
             documents.append(doc_text)
 
-            # Metadata (ChromaDB doesn't support nested dicts or lists in metadata)
-            metadatas.append(
-                {
-                    "symbol": result["symbol"],
-                    "strategy": result["strategy"],
-                    "total_trades": result["total_trades"],
-                    "win_rate": result["win_rate"],
-                    "total_pnl": result["total_pnl"],
-                    "sharpe": result["sharpe"],
-                    "max_drawdown": result["max_drawdown"],
-                    "profit_factor": result["profit_factor"],
-                    "timestamp": timestamp,
-                    "sprint": "sprint3_smallcap",
-                }
-            )
+            # Metadata: only primitive types supported by ChromaDB
+            metadata: dict[str, str | int | float | bool | None] = {
+                "symbol": str(result["symbol"]),
+                "strategy": str(result["strategy"]),
+                "total_trades": int(result["total_trades"]),
+                "win_rate": float(result["win_rate"]),
+                "total_pnl": float(result["total_pnl"]),
+                "sharpe": float(result["sharpe"]),
+                "max_drawdown": float(result["max_drawdown"]),
+                "profit_factor": float(result["profit_factor"]),
+                "timestamp": timestamp,
+                "sprint": "sprint3_smallcap",
+            }
+            metadatas.append(metadata)
 
             ids.append(f"sprint3_{result['strategy']}_{result['symbol']}_{timestamp}_{idx}")
 

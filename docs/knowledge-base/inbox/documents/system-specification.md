@@ -1,10 +1,13 @@
 ---
-title: System Specification: System Design Specification (SDR) - Ordinis
+title: System Design Specification (SDR) - Ordinis
 date: 2025-12-14
-version: 1.1
+version: 1.1.0
 type: system design specification (sdr)
 description: >
 Comprehensive architecture and design specification for a modular, AI-driven trading system focused on reliability, extensibility, and robust risk management.
+tags:
+references:
+
 ---
 Introduction
 This document outlines the architecture of a modular AI-driven trading system designed to reliably and consistently generate significant profits. The system is composed of specialized engines that handle everything from data ingestion to trade execution, with a strong emphasis on risk management, auditability, and continuous learning. The design enables flexibility (e.g. easily adding new asset classes like futures) and adheres to best practices for robust, safe, and transparent AI system development[1]. Key performance indicators (KPIs) for both system operation and trading outcomes are defined to measure success.

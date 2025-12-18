@@ -3,6 +3,11 @@ RiskGuard engine for rule-based risk management.
 
 Evaluates all trading decisions against deterministic rules.
 Integrates with alerting for risk breach notifications.
+
+Phase 2 enhancements (2025-12-17):
+- FeedbackCollector integration for risk breach feedback
+- Buying power validation with circuit breaker
+- Exposure limit feedback to LearningEngine
 """
 
 from __future__ import annotations
@@ -20,6 +25,9 @@ from .rules import RiskCheckResult, RiskRule, RuleCategory
 
 if TYPE_CHECKING:
     from alerting import AlertManager
+
+    from ordinis.engines.learning.collectors.feedback import FeedbackCollector
+
 
 logger = logging.getLogger(__name__)
 
@@ -96,6 +104,7 @@ class RiskGuardEngine:
         self,
         rules: dict[str, RiskRule] | None = None,
         alert_manager: AlertManager | None = None,
+        feedback_collector: FeedbackCollector | None = None,
     ):
         """
         Initialize RiskGuard engine.
@@ -103,6 +112,7 @@ class RiskGuardEngine:
         Args:
             rules: Dictionary of rule_id -> RiskRule
             alert_manager: Optional alert manager for notifications
+            feedback_collector: Feedback collector for risk breach feedback
         """
         # Use standard rules if none provided, but allow empty dict if explicitly passed?
         # Usually 'None' means default.
@@ -116,6 +126,7 @@ class RiskGuardEngine:
             self._rules = rules
 
         self._alert_manager = alert_manager
+        self._feedback = feedback_collector
         self._halted: bool = False
         self._halt_reason: str | None = None
 
@@ -314,6 +325,29 @@ class RiskGuardEngine:
 
                 # Handle breach
                 if not passed:
+                    # Phase 2: Record risk breach to FeedbackCollector
+                    if self._feedback:
+                        import asyncio
+
+                        try:
+                            # Fire-and-forget async recording
+                            asyncio.get_event_loop().create_task(
+                                self._feedback.record_risk_breach(
+                                    breach_type=category.value,
+                                    rule_id=rule.rule_id,
+                                    current_value=current_value,
+                                    threshold=rule.threshold,
+                                    action_taken=rule.action_on_breach,
+                                    symbol=proposed_trade.symbol,
+                                    strategy=signal.metadata.get("strategy")
+                                    if signal.metadata
+                                    else None,
+                                    portfolio_state=portfolio.to_dict(),
+                                )
+                            )
+                        except Exception as e:
+                            logger.error(f"Failed to record risk breach: {e}")
+
                     if rule.action_on_breach == "reject":
                         all_passed = False
                     elif rule.action_on_breach == "resize":

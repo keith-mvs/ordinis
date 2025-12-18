@@ -9,6 +9,11 @@ Implements the trading cycle per design doc:
 5. Analytics recording
 
 Supports live, paper, and backtest modes.
+
+Phase 2 enhancements (2025-12-17):
+- FeedbackCollector integration for cycle-level feedback
+- Circuit breaker check before signal generation
+- Error rate tracking across cycles
 """
 
 from __future__ import annotations
@@ -33,6 +38,7 @@ from .models import CycleResult, CycleStatus, PipelineMetrics, PipelineStage, St
 
 if TYPE_CHECKING:
     from ordinis.engines.base import GovernanceHook
+    from ordinis.engines.learning.collectors.feedback import FeedbackCollector
 
 _logger = logging.getLogger(__name__)
 
@@ -135,6 +141,7 @@ class OrchestrationEngine(BaseEngine[OrchestrationEngineConfig]):
         self,
         config: OrchestrationEngineConfig | None = None,
         governance_hook: GovernanceHook | None = None,
+        feedback_collector: FeedbackCollector | None = None,
     ) -> None:
         """Initialize the OrchestrationEngine."""
         config = config or OrchestrationEngineConfig()
@@ -145,6 +152,7 @@ class OrchestrationEngine(BaseEngine[OrchestrationEngineConfig]):
         self._cycle_history: list[CycleResult] = []
         self._running = False
         self._last_cycle_time: datetime | None = None
+        self._feedback = feedback_collector
 
     async def _do_initialize(self) -> None:
         """Initialize engine resources."""
@@ -430,6 +438,21 @@ class OrchestrationEngine(BaseEngine[OrchestrationEngineConfig]):
             self._cycle_history.append(result)
             self._metrics.update_from_cycle(result)
             self._last_cycle_time = result.completed_at
+
+            # Phase 2: Record trading cycle to FeedbackCollector
+            if self._feedback:
+                try:
+                    await self._feedback.record_trading_cycle(
+                        cycle_id=str(uuid.uuid4()),
+                        duration_ms=result.total_duration_ms,
+                        signals_generated=result.signals_generated,
+                        orders_submitted=result.orders_submitted,
+                        orders_filled=result.orders_filled,
+                        orders_rejected=result.orders_rejected,
+                        errors=[{"error": e} for e in result.errors] if result.errors else None,
+                    )
+                except Exception as feedback_err:
+                    _logger.error(f"Failed to record trading cycle: {feedback_err}")
 
             # Audit the cycle
             if self._governance:

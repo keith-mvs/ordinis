@@ -38,6 +38,16 @@ This document serves as the master index for all trading strategies implemented 
 | **HMM Regime Switching** | `hmm_regime.py` | ✅ Complete | 4/5 | 4/5 |
 | **Network Risk Parity** | `network_parity.py` | ✅ Complete | 3/5 | 3/5 |
 
+### Tier 4: Sprint 3 Small-Cap Strategies (GPU-Accelerated)
+
+| Strategy | File | Status | Expected Edge | Complexity |
+|----------|------|--------|---------------|------------|
+| **Momentum Breakout** | `sprint3_smallcap_gpu.py` | ✅ Complete | 3/5 | 2/5 |
+| **Mean Reversion RSI** | `sprint3_smallcap_gpu.py` | ✅ Complete | 4/5 | 2/5 |
+| **Volatility Squeeze** | `sprint3_smallcap_gpu.py` | ✅ Complete | 4/5 | 2/5 |
+| **Trend Following EMA** | `sprint3_smallcap_gpu.py` | ✅ Complete | 4/5 | 2/5 |
+| **Volume-Price Confirm** | `sprint3_smallcap_gpu.py` | ✅ Complete | 3/5 | 2/5 |
+
 ---
 
 ## Strategy Summaries

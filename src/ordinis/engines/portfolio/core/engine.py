@@ -3,10 +3,14 @@ Portfolio Rebalancing Engine.
 
 Standardized engine extending BaseEngine for portfolio rebalancing operations.
 Orchestrates multiple rebalancing strategies with governance hooks.
+
+Phase 2 enhancements (2025-12-17):
+- FeedbackCollector integration for portfolio state snapshots
+- Periodic state recording to LearningEngine
 """
 
 from datetime import UTC, datetime
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import pandas as pd
 
@@ -31,6 +35,9 @@ from ordinis.engines.portfolio.events import (
     RebalanceEvent,
     RebalanceEventType,
 )
+
+if TYPE_CHECKING:
+    from ordinis.engines.learning.collectors.feedback import FeedbackCollector
 
 
 class PortfolioEngine(BaseEngine[PortfolioEngineConfig]):
@@ -69,12 +76,14 @@ class PortfolioEngine(BaseEngine[PortfolioEngineConfig]):
         self,
         config: PortfolioEngineConfig | None = None,
         governance_hook: GovernanceHook | None = None,
+        feedback_collector: FeedbackCollector | None = None,
     ) -> None:
         """Initialize the portfolio rebalancing engine.
 
         Args:
             config: Engine configuration (uses defaults if None)
             governance_hook: Optional governance hook for preflight/audit
+            feedback_collector: Feedback collector for portfolio state snapshots
         """
         super().__init__(config or PortfolioEngineConfig(), governance_hook)
 
@@ -82,6 +91,7 @@ class PortfolioEngine(BaseEngine[PortfolioEngineConfig]):
         self.history: list[RebalancingHistory] = []
         self.last_rebalance_date: datetime | None = None
         self.event_hooks = EventHooks()
+        self._feedback = feedback_collector
 
         # Portfolio State
         self.positions: dict[str, Position] = {}
@@ -105,6 +115,31 @@ class PortfolioEngine(BaseEngine[PortfolioEngineConfig]):
 
         self._update_equity()
         self.last_rebalance_date = datetime.now(UTC)
+
+        # Phase 2: Record portfolio state snapshot after update
+        if self._feedback:
+            total_exposure = sum(
+                abs(p.quantity * p.current_price)
+                for p in self.positions.values()
+                if hasattr(p, "current_price")
+            )
+            unrealized_pnl = sum(
+                p.unrealized_pnl for p in self.positions.values() if hasattr(p, "unrealized_pnl")
+            )
+            try:
+                await self._feedback.record_portfolio_state_snapshot(
+                    equity=self.equity,
+                    cash=self.cash,
+                    buying_power=self.cash,  # Simplified - real would come from broker
+                    position_count=len(self.positions),
+                    total_exposure=total_exposure,
+                    margin_used=self.margin_used,
+                    unrealized_pnl=unrealized_pnl,
+                    daily_pnl=0.0,  # Would need daily tracking
+                )
+            except Exception as e:
+                # Don't fail update if feedback fails
+                pass
 
     def _process_fill(self, fill: Any) -> None:
         """Process a single trade fill."""

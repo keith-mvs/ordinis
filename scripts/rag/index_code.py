@@ -10,8 +10,8 @@ from ordinis.rag.pipeline.code_indexer import CodeIndexer
 
 
 def main():
-    # Define paths
-    project_root = Path(__file__).parent.parent
+    # Define paths - script is in scripts/rag/, so parent.parent is project root
+    project_root = Path(__file__).parent.parent.parent
     code_paths = [
         project_root / "src",
         project_root / "scripts",

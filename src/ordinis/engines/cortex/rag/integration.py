@@ -209,7 +209,7 @@ class CortexRAGHelper:
         context_parts = []
         for i, result in enumerate(response.results, 1):
             source = result.metadata.get("source", "Unknown")
-            context_parts.append(f"[{i}] Source: {source}\n{result.content}\n")
+            context_parts.append(f"[{i}] Source: {source}\n{result.text}\n")
 
         return "\n".join(context_parts)
 
@@ -230,7 +230,7 @@ class CortexRAGHelper:
             if func_name:
                 location += f".{func_name}" if class_name else f" :: {func_name}"
 
-            examples.append(f"Example {i} ({location}):\n```python\n{result.content}\n```\n")
+            examples.append(f"Example {i} ({location}):\n```python\n{result.text}\n```\n")
 
         return "\n".join(examples)
 
@@ -242,7 +242,7 @@ class CortexRAGHelper:
         parts = []
         for i, result in enumerate(results, 1):
             source = result.metadata.get("source", "Unknown")
-            parts.append(f"[{i}] {source}: {result.content}")
+            parts.append(f"[{i}] {source}: {result.text}")
 
         return "\n".join(parts)
 
@@ -254,6 +254,6 @@ class CortexRAGHelper:
         examples = []
         for i, result in enumerate(results, 1):
             file_path = result.metadata.get("file_path", "Unknown")
-            examples.append(f"[{i}] {file_path}:\n```python\n{result.content}\n```")
+            examples.append(f"[{i}] {file_path}:\n```python\n{result.text}\n```")
 
         return "\n".join(examples)

@@ -15,14 +15,14 @@ Market Data → StreamingBus → SignalEngine → RiskEngine → ExecutionEngine
                               └─────── GovernanceEngine (pre-flight checks & audit) ──┘
 ```
 
-**Core principle**: All engines extend [BaseEngine](src/ordinis/engines/base/engine.py:37-53) and follow a standard lifecycle:
+**Core principle**: All engines extend `BaseEngine` (see `src/ordinis/engines/base/engine.py:37-53`) and follow a standard lifecycle:
 1. Initialize (`_do_initialize()`)
 2. Health checks (`_do_health_check()`)
 3. Governance preflight (`self._governance.preflight()`)
 4. Shutdown (`_do_shutdown()`)
 
 ### Standard Engine Structure
-Every engine follows this template (see [base/__init__.py](src/ordinis/engines/base/__init__.py:7-18)):
+Every engine follows this template (see `src/ordinis/engines/base/__init__.py:7-18`):
 ```
 engines/{engine_name}/
 ├── __init__.py              # Public API exports
@@ -36,9 +36,9 @@ engines/{engine_name}/
 ```
 
 **Examples**:
-- [SignalCore](src/ordinis/engines/signalcore/) - ML-based signal generation
-- [RiskGuard](src/ordinis/engines/riskguard/) - Risk policy enforcement
-- [Cortex](src/ordinis/engines/cortex/) - LLM reasoning engine
+- `src/ordinis/engines/signalcore/` - ML-based signal generation
+- `src/ordinis/engines/riskguard/` - Risk policy enforcement
+- `src/ordinis/engines/cortex/` - LLM reasoning engine
 
 ---
 
@@ -58,10 +58,10 @@ pytest -m slow           # >1 second tests
 pytest --cov=src --cov-report=html
 ```
 
-**Coverage target**: >80% for business logic (see [pyproject.toml](pyproject.toml:163))
+**Coverage target**: >80% for business logic (see `pyproject.toml:163`)
 
 ### Code Quality
-Pre-commit hooks run automatically ([.pre-commit-config.yaml](.pre-commit-config.yaml)):
+Pre-commit hooks run automatically (`.pre-commit-config.yaml`):
 - **Ruff**: Linting + formatting (replaces Black, isort, Flake8)
 - **MyPy**: Type checking (disabled by default for large commits)
 
@@ -97,7 +97,7 @@ All engine methods are async. Use `async with` for resource management:
 async with engine.managed_lifecycle():
     result = await engine.process_event(event)
 ```
-See [BaseEngine.managed_lifecycle](src/ordinis/engines/base/engine.py:200-210)
+See `BaseEngine.managed_lifecycle` in `src/ordinis/engines/base/engine.py:200-210`
 
 ### 2. Pydantic Models for Data
 Use Pydantic v2 for all data structures (validation + serialization):
@@ -133,7 +133,7 @@ except Exception as e:
 ```
 
 ### 5. Configuration via YAML + Pydantic
-Configs live in [configs/](configs/) and load via `config.from_yaml()`:
+Configs live in `configs/` directory and load via `config.from_yaml()`:
 ```python
 # configs/strategies/momentum.yaml
 strategy:
@@ -166,7 +166,7 @@ await bus.subscribe("signals.generated", handle_signal)
 **Schemas**: Events are Pydantic models with strict validation.
 
 ### Market Data Adapters
-Located in [adapters/market_data/](src/ordinis/adapters/market_data/):
+Located in `src/ordinis/adapters/market_data/`:
 - AlphaVantage, Finnhub, Massive, TwelveData
 - All return normalized `MarketDataEvent` models
 - Rate limiting and retry logic built-in
@@ -186,14 +186,14 @@ positions = await repo.get_all_positions()
 ## NVIDIA Integration (GPU-Accelerated)
 
 ### Portfolio Optimization
-[PortfolioOptEngine](src/ordinis/engines/portfolioopt/) uses NVIDIA cuOpt for mean-CVaR optimization:
+`PortfolioOptEngine` (in `src/ordinis/engines/portfolioopt/`) uses NVIDIA cuOpt for mean-CVaR optimization:
 ```python
 # GPU-accelerated (falls back to CPU if no GPU)
 result = await opt_engine.optimize(returns_data, constraints)
 ```
 
 ### LLM Services (NVIDIA NIM APIs)
-Unified via [Helix](src/ordinis/services/helix/) facade:
+Unified via `Helix` facade (in `src/ordinis/ai/helix/`):
 ```python
 # Helix dispatches to appropriate model
 response = await helix.generate(
@@ -202,7 +202,7 @@ response = await helix.generate(
 )
 ```
 
-**Model mapping** (see [README.md](README.md:73-92)):
+**Model mapping** (see `README.md:73-92`):
 - `nemotron-super-49b-v1.5` - Cortex reasoning, code review
 - `nemotron-8b-v3.1` - Fast inference, analytics reports
 - `meta/llama-3.3-70b-instruct` - Risk explanations
@@ -255,22 +255,187 @@ async def test_market_data_fetch(mocker):
 
 ---
 
+## Strategy Development
+
+### Available Strategies (12 Total)
+The system includes production-ready strategies across multiple categories:
+
+**Basic Technical** (5):
+- `moving_average_crossover.py` - Golden/death cross (50/200 SMA/EMA)
+- `rsi_mean_reversion.py` - RSI oversold/overbought (14-period)
+- `momentum_breakout.py` - Volume + ATR confirmed breakouts
+- `bollinger_bands.py` - Bollinger squeeze/expansion
+- `macd.py` - MACD crossover + divergence
+
+**Advanced Technical** (3):
+- `adx_filtered_rsi.py` - ADX trend strength + RSI
+- `fibonacci_adx.py` - Fibonacci retracement + ADX
+- `parabolic_sar_trend.py` - Parabolic SAR trend following
+
+**Regime Adaptive** (2):
+- `regime_adaptive/mean_reversion.py` - Adapts to ranging markets
+- `regime_adaptive/trend_following.py` - Adapts to trending markets
+- Orchestrated by `adaptive_manager.py` using `regime_detector.py`
+
+**Options Strategies** (2):
+- `options/covered_call.py` - Income generation
+- `options/married_put.py` - Downside protection
+
+### Adding a New Strategy
+1. **Extend BaseStrategy** in `src/ordinis/application/strategies/your_strategy.py`:
+```python
+from ordinis.application.strategies.base import BaseStrategy
+from ordinis.engines.signalcore.core.signal import Signal, SignalType, Direction
+
+class MyStrategy(BaseStrategy):
+    def configure(self):
+        """Set strategy parameters with defaults."""
+        self.params.setdefault("lookback", 20)
+        self.params.setdefault("min_bars", 50)
+
+    async def generate_signal(self, data: pd.DataFrame, timestamp: datetime) -> Signal | None:
+        """Generate trading signal. MUST be async."""
+        is_valid, msg = self.validate_data(data)
+        if not is_valid:
+            return None
+
+        # Your signal logic here
+        return Signal(
+            symbol=data.name,  # Assumes data.name is symbol
+            timestamp=timestamp,
+            signal_type=SignalType.ENTRY,
+            direction=Direction.LONG,
+            probability=0.65,
+            score=100.0,
+            expected_return=0.05,
+            metadata={"strategy": self.name}
+        )
+
+    def get_description(self) -> str:
+        return "My strategy: Does X when Y happens"
+
+    def get_required_bars(self) -> int:
+        return self.params.get("min_bars", 50)
+```
+
+2. **Required data format**:
+   - DatetimeIndex
+   - Columns: `open`, `high`, `low`, `close`, `volume` (lowercase)
+   - Use `self.validate_data(data)` before processing
+
+3. **Export in `__init__.py`**:
+```python
+from .my_strategy import MyStrategy
+__all__ = [..., "MyStrategy"]
+```
+
+4. **Test in `tests/test_strategies/test_my_strategy.py`**:
+```python
+@pytest.fixture
+def sample_data():
+    """Generate synthetic OHLCV data."""
+    dates = pd.date_range("2024-01-01", periods=100, freq="D")
+    return pd.DataFrame({
+        "open": np.random.randn(100).cumsum() + 100,
+        "high": ...,
+        "low": ...,
+        "close": ...,
+        "volume": np.random.randint(1000, 10000, 100)
+    }, index=dates)
+
+async def test_signal_generation(sample_data):
+    strategy = MyStrategy(name="test", lookback=20)
+    signal = await strategy.generate_signal(sample_data, datetime.now())
+    assert signal is not None
+```
+
+See `src/ordinis/application/strategies/README.md:187-228` for the complete custom strategy template.
+
+## LLM/AI Integration with Cortex
+
+### Cortex Engine Capabilities
+`CortexEngine` (in `src/ordinis/engines/cortex/core/engine.py:48-56`) provides AI-powered capabilities via NVIDIA models:
+
+1. **Strategy Hypothesis Generation**:
+```python
+from ordinis.engines.cortex.core.engine import CortexEngine
+
+cortex = CortexEngine(helix=helix_instance, rag_enabled=True)
+await cortex.initialize()
+
+# Generate strategy idea
+hypothesis = await cortex.generate_hypothesis(
+    market_context={
+        "regime": "trending",
+        "volatility": "high",
+        "sector": "tech"
+    },
+    constraints={
+        "max_leverage": 2.0,
+        "instruments": ["equities", "options"]
+    }
+)
+print(hypothesis.rationale)
+print(hypothesis.entry_criteria)
+```
+
+2. **Code Analysis** (CLI):
+```bash
+# Security audit
+python -m ordinis.engines.cortex.analyze_code \
+    --dir src/ordinis/engines/signalcore \
+    --type security \
+    --output reports/security_audit.json
+
+# Complexity analysis
+python -m ordinis.engines.cortex.analyze_code \
+    --file src/ordinis/strategies/custom.py \
+    --type complexity
+```
+
+3. **Research Synthesis** (via Helix):
+```python
+# Cortex uses Helix for LLM calls
+from ordinis.ai.helix.models import ChatMessage
+
+response = await helix.generate(
+    messages=[
+        ChatMessage(role="system", content="You are a quantitative researcher..."),
+        ChatMessage(role="user", content="Analyze momentum factors in current market")
+    ],
+    model_id="nemotron-super-49b-v1.5",  # Cortex default
+    temperature=0.7
+)
+```
+
+### RAG Integration
+When `rag_enabled=True`, Cortex retrieves relevant documentation context:
+```python
+# Automatically adds context from docs/knowledge-base
+hypothesis = await cortex.generate_hypothesis(
+    market_context={"regime": "mean_reverting"},
+    # RAG fetches: docs/knowledge-base/domains/signals/technical/oscillators/
+)
+```
+
+### Model Selection Guide
+| Task | Model | Model ID | Notes |
+|------|-------|----------|-------|
+| Deep reasoning | Nemotron-49B | `nemotron-super-49b-v1.5` | Cortex default, code review |
+| Fast inference | Nemotron-8B | `nemotron-8b-v3.1` | Analytics reports |
+| Risk explanation | Llama-3.3-70B | `meta/llama-3.3-70b-instruct` | Natural language |
+| Content safety | NemoGuard-8B | `nvidia/llama-3.1-nemoguard-8b-content-safety` | Pre-filter |
+
+Override via `helix.generate(model_id="...")` - see `README.md:73-92` for full mapping.
+
 ## Common Tasks
 
 ### Adding a New Engine
-1. Create structure under `src/ordinis/engines/new_engine/` (follow [template](src/ordinis/engines/base/__init__.py:7-18))
+1. Create structure under `src/ordinis/engines/new_engine/` (follow template in `src/ordinis/engines/base/__init__.py:7-18`)
 2. Extend `BaseEngine[YourConfig]` in `core/engine.py`
 3. Implement abstract methods: `_do_initialize`, `_do_shutdown`, `_do_health_check`
 4. Add tests in `tests/test_engines/test_new_engine/`
 5. Register with orchestrator in `src/ordinis/orchestration/`
-
-### Adding a New Strategy
-Place in [src/ordinis/application/strategies/](src/ordinis/application/strategies/) with:
-- `StrategyConfig` (extends `BaseModel`)
-- `generate_signals(data: pd.DataFrame) -> List[Signal]` method
-- Unit tests with synthetic data
-
-See [strategies/README.md](src/ordinis/application/strategies/README.md) for examples.
 
 ### Debugging
 ```bash
@@ -288,7 +453,7 @@ tail -f logs/ordinis_$(date +%Y%m%d).log
 
 1. **Never commit secrets**: Use `.env` files (see `.env.example`)
 2. **Governance audits**: All trading actions logged immutably to `data/audit/`
-3. **Content safety**: LLM outputs filtered via NemoGuard ([RiskGuard](src/ordinis/engines/riskguard/))
+3. **Content safety**: LLM outputs filtered via NemoGuard (in `src/ordinis/engines/riskguard/`)
 4. **Pre-commit hooks**: Detect private keys automatically
 
 ---
@@ -297,20 +462,20 @@ tail -f logs/ordinis_$(date +%Y%m%d).log
 
 | File | Purpose |
 |------|---------|
-| [pyproject.toml](pyproject.toml) | Dependencies, pytest/ruff/mypy config |
-| [README.md](README.md) | Project overview, architecture diagram, KPIs |
-| [src/ordinis/engines/base/](src/ordinis/engines/base/) | Engine framework (start here for new engines) |
-| [docs/architecture/production-architecture.md](docs/architecture/production-architecture.md) | Full Phase 1 implementation details |
-| [configs/default.yaml](configs/default.yaml) | Default system configuration |
-| [scripts/README.md](scripts/README.md) | Development scripts documentation |
+| `pyproject.toml` | Dependencies, pytest/ruff/mypy config |
+| `README.md` | Project overview, architecture diagram, KPIs |
+| `src/ordinis/engines/base/` | Engine framework (start here for new engines) |
+| `docs/architecture/production-architecture.md` | Full Phase 1 implementation details |
+| `configs/default.yaml` | Default system configuration |
+| `scripts/README.md` | Development scripts documentation |
 
 ---
 
 ## Quick Wins
 
-- **Start engine development**: Copy [engines/base/](src/ordinis/engines/base/) template
-- **Add market data source**: See [adapters/market_data/alpha_vantage.py](src/ordinis/adapters/market_data/alpha_vantage.py)
-- **Write strategy**: Use [strategies/moving_average.py](src/ordinis/application/strategies/moving_average.py) as reference
+- **Start engine development**: Copy `src/ordinis/engines/base/` template
+- **Add market data source**: See `src/ordinis/adapters/market_data/alpha_vantage.py`
+- **Write strategy**: Use `src/ordinis/application/strategies/moving_average_crossover.py` as reference
 - **Run backtest**: `python scripts/backtesting/run_backtest.py --config configs/backtest.yaml`
 
 ---
