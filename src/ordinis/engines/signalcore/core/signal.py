@@ -65,15 +65,15 @@ class Signal:
     signal_type: SignalType
     direction: Direction
 
-    # Quantitative outputs
-    probability: float
-    expected_return: float
-    confidence_interval: tuple[float, float]
-    score: float
+    # Quantitative outputs (optional for legacy model compatibility)
+    probability: float = 0.5
+    expected_return: float = 0.0
+    confidence_interval: tuple[float, float] = (0.0, 0.0)
+    score: float = 0.0
 
-    # Model attribution
-    model_id: str
-    model_version: str
+    # Model attribution (optional for legacy model compatibility)
+    model_id: str = "unknown"
+    model_version: str = "1.0.0"
     feature_contributions: dict[str, float] = field(default_factory=dict)
 
     # Metadata
@@ -81,6 +81,10 @@ class Signal:
     data_quality: float = 1.0
     staleness: timedelta = timedelta(seconds=0)
     metadata: dict[str, Any] = field(default_factory=dict)
+
+    # Legacy compatibility fields (used by some models)
+    price: float | None = None  # Entry/exit price
+    confidence: float | None = None  # Alias for probability (legacy)
 
     def __post_init__(self):
         """Validate signal data."""
