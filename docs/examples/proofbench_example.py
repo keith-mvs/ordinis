@@ -11,7 +11,7 @@ This example demonstrates how to:
 import numpy as np
 import pandas as pd
 
-from src.engines.proofbench import (
+from ordinis.engines.proofbench import (
     ExecutionConfig,
     Order,
     OrderSide,

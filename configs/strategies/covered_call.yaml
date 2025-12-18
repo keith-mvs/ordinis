@@ -1,0 +1,96 @@
+# Covered Call Strategy Configuration
+# Income generation strategy for neutral to slightly bullish outlook
+
+name: Covered Call Income Strategy
+version: 1.0.0
+description: >
+  Sells OTM call options against long stock positions to generate income.
+  Best for neutral to slightly bullish outlook with high implied volatility.
+
+strategy_type: options
+sub_type: covered_call
+
+# Universe: Stocks we own or willing to buy
+symbols:
+  - AAPL  # Apple
+  - MSFT  # Microsoft
+  - GOOGL # Alphabet
+  - AMZN  # Amazon
+  - META  # Meta
+  - NVDA  # NVIDIA
+  - AMD   # AMD
+  - INTC  # Intel
+  - JPM   # JPMorgan
+  - BAC   # Bank of America
+
+# Entry Criteria
+entry:
+  min_iv_rank: 25           # Minimum IV rank for premium
+  min_iv_percentile: 20     # Minimum IV percentile
+  max_rsi: 70               # Don't sell calls on overbought stocks
+  min_volume: 1000000       # Minimum underlying volume
+  require_stock_ownership: true  # Must own underlying
+
+# Strike Selection
+strikes:
+  strike_otm_pct: 0.05      # 5% out-of-the-money
+  min_delta: 0.25           # Minimum call delta (25 delta)
+  max_delta: 0.40           # Maximum call delta (40 delta)
+  prefer_round_strikes: true # Prefer round number strikes
+
+# Premium Requirements
+premium:
+  min_premium_yield: 0.12   # 12% annualized minimum
+  min_absolute_premium: 0.50 # $0.50 minimum per contract
+
+# Expiration Selection
+expiration:
+  min_dte: 30               # Minimum days to expiration
+  max_dte: 60               # Maximum days to expiration
+  target_dte: 45            # Ideal DTE (30-45 range)
+  prefer_monthly: true      # Prefer monthly expirations
+
+# Exit Rules
+exit:
+  profit_target_pct: 75     # Close at 75% of premium received
+  exit_dte: 7               # Consider rolling at 7 DTE
+  roll_trigger_delta: 0.70  # Roll if delta > 0.70 (ITM risk)
+  let_expire_if_otm: true   # Let expire worthless if OTM
+
+# Rolling Rules
+rolling:
+  enabled: true
+  roll_for_credit: true     # Only roll if receiving net credit
+  min_roll_credit: 0.25     # Minimum credit to roll ($0.25)
+  roll_up_and_out: true     # Roll to higher strike, later date
+
+# Position Sizing
+position_sizing:
+  max_covered_call_positions: 10  # Max positions
+  min_shares_per_position: 100    # Standard lot
+  prefer_100_share_lots: true
+
+# Risk Management
+risk_management:
+  avoid_ex_dividend: true         # Don't let calls run into ex-div
+  dividend_buffer_days: 5         # Days before ex-div to exit
+  avoid_earnings: true            # Exit before earnings
+  earnings_buffer_days: 3         # Days before earnings
+
+# Schedule
+schedule:
+  trading_hours: "09:30-16:00"
+  check_frequency: 30             # Check every 30 minutes
+  best_entry_time: "10:00-11:00"  # Best time to sell calls (after open volatility)
+
+# Model Parameters
+model:
+  model_id: covered_call_strategy
+  model_type: options_signal
+  parameters:
+    enable_covered_call: true
+    enable_iron_condor: false
+    enable_csp: false
+    min_iv_rank: 25
+    target_delta_low: 0.25
+    target_delta_high: 0.40

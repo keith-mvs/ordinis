@@ -202,7 +202,7 @@ def render_overview():
         )
         st.dataframe(
             positions,
-            use_container_width=True,
+            width="stretch",
             hide_index=True,
             column_config={
                 "P&L": st.column_config.NumberColumn(format="$%.2f"),
@@ -221,7 +221,7 @@ def render_overview():
                 "Status": ["Working", "Working"],
             }
         )
-        st.dataframe(orders, use_container_width=True, hide_index=True)
+        st.dataframe(orders, width="stretch", hide_index=True)
 
     # Right rail: AI state + activity
     with side:
@@ -260,7 +260,7 @@ def render_overview():
                 "Score": [0.85, 0.50, 0.32],
             }
         )
-        st.dataframe(watchlist, use_container_width=True, hide_index=True)
+        st.dataframe(watchlist, width="stretch", hide_index=True)
 
 
 # -------------------------
@@ -402,7 +402,7 @@ def render_ai_system():
             ],
         }
     )
-    st.dataframe(prompt_df, use_container_width=True, hide_index=True)
+    st.dataframe(prompt_df, width="stretch", hide_index=True)
 
 
 # -------------------------
@@ -459,7 +459,7 @@ def render_benchmarks():
     )
     st.dataframe(
         leaderboard,
-        use_container_width=True,
+        width="stretch",
         hide_index=True,
         column_config={
             "Cost ($/1M)": st.column_config.NumberColumn(format="$%.2f"),
@@ -476,7 +476,7 @@ def render_benchmarks():
             "Status": ["Completed", "Completed", "Completed"],
         }
     )
-    st.dataframe(runs, use_container_width=True, hide_index=True)
+    st.dataframe(runs, width="stretch", hide_index=True)
 
 
 # -------------------------
@@ -501,7 +501,7 @@ def render_strategy_lab():
             "YTD": ["+24.5%", "+12.2%", "+4.5%"],
         }
     )
-    st.dataframe(strategies, use_container_width=True, hide_index=True)
+    st.dataframe(strategies, width="stretch", hide_index=True)
 
 
 # -------------------------

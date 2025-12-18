@@ -1,0 +1,83 @@
+# Iron Condor Strategy Configuration
+# Neutral premium collection strategy for range-bound markets
+
+name: Iron Condor Premium Strategy
+version: 1.0.0
+description: >
+  Sells OTM put spread and call spread to collect premium in neutral markets.
+  Best used when IV Rank > 30 and ADX < 25 (range-bound conditions).
+
+strategy_type: options
+sub_type: iron_condor
+
+# Universe: High-volume optionable stocks and ETFs
+symbols:
+  - SPY   # S&P 500 ETF
+  - QQQ   # Nasdaq 100 ETF
+  - IWM   # Russell 2000 ETF
+  - AAPL  # Apple
+  - MSFT  # Microsoft
+  - AMZN  # Amazon
+  - GOOGL # Alphabet
+  - NVDA  # NVIDIA
+  - META  # Meta
+  - TSLA  # Tesla
+
+# Entry Criteria
+entry:
+  min_iv_rank: 30           # Minimum IV rank for premium opportunity
+  min_iv_percentile: 25     # Minimum IV percentile
+  max_adx: 25               # Maximum ADX (want range-bound)
+  min_volume: 500000        # Minimum underlying volume
+  min_option_volume: 100    # Minimum option contract volume
+  min_open_interest: 500    # Minimum open interest
+
+# Strike Selection
+strikes:
+  target_delta_short: 0.15  # Target delta for short strikes (~15 delta)
+  spread_width: 5.0         # Width of each spread ($5)
+  min_credit_ratio: 0.25    # Minimum credit as % of spread width (25%)
+
+# Expiration Selection
+expiration:
+  min_dte: 30               # Minimum days to expiration
+  max_dte: 60               # Maximum days to expiration
+  target_dte: 45            # Ideal DTE
+
+# Exit Rules
+exit:
+  profit_target_pct: 50     # Close at 50% of max profit
+  exit_dte: 21              # Exit when DTE <= 21 (gamma risk)
+  max_loss_pct: 200         # Max loss as % of credit received
+  stop_if_breached: true    # Close if underlying breaches short strike
+
+# Position Sizing
+position_sizing:
+  max_position_risk_pct: 0.02    # Max 2% account risk per position
+  max_positions: 5                # Maximum concurrent iron condors
+  max_allocation_per_symbol: 0.10 # Max 10% in single underlying
+
+# Risk Management
+risk_management:
+  require_defined_risk: true      # Only defined risk trades
+  max_vega_exposure: 1000         # Max total vega exposure
+  max_delta_exposure: 50          # Max net delta per position
+
+# Schedule
+schedule:
+  trading_hours: "09:30-16:00"
+  check_frequency: 15             # Check every 15 minutes
+  avoid_earnings: true            # Don't enter before earnings
+  earnings_buffer_days: 7         # Days before earnings to avoid
+
+# Model Parameters (for OptionsSignalModel integration)
+model:
+  model_id: iron_condor_strategy
+  model_type: options_signal
+  parameters:
+    enable_iron_condor: true
+    enable_covered_call: false
+    enable_csp: false
+    min_iv_rank: 30
+    target_delta_low: 0.12
+    target_delta_high: 0.18

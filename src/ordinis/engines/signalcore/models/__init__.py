@@ -16,7 +16,9 @@ from .macd import MACDModel
 from .mi_ensemble import MIEnsembleModel
 from .momentum_breakout import MomentumBreakoutModel
 from .mtf_momentum import MTFMomentumModel
+from .multi_signal_confluence import MultiSignalConfluenceModel
 from .network_parity import NetworkRiskParityModel
+from .options_signal import OptionsSignalModel, OptionsStrategyType
 from .ou_pairs import OUPairsModel
 from .parabolic_sar import ParabolicSARModel
 from .rsi_mean_reversion import RSIMeanReversionModel
@@ -59,4 +61,9 @@ __all__ = [
     "LSTMModel",
     "SentimentMomentumModel",
     "StatisticalReversionModel",
+    # Multi-Signal
+    "MultiSignalConfluenceModel",
+    # Options
+    "OptionsSignalModel",
+    "OptionsStrategyType",
 ]

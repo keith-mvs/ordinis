@@ -1,0 +1,118 @@
+# Multi-Signal Confluence Strategy Configuration
+# Requires agreement from multiple oscillators for entry signals
+
+name: Multi-Signal Confluence Mean Reversion
+version: 1.0.0
+description: >
+  Mean reversion strategy requiring confluence from RSI and Stochastic oscillators.
+  Based on empirical analysis showing single-indicator strategies get whipsawed.
+  Entry requires 2+ oscillator agreement + ADX/volatility filter.
+
+strategy_type: equity
+sub_type: mean_reversion
+
+# Universe: High-volatility stocks suitable for mean reversion
+symbols:
+  - AMD
+  - CRWD
+  - NET
+  - DDOG
+  - ZS
+  - OKTA
+  - TWLO
+  - PATH
+  - BILL
+  - MDB
+  - SNOW
+  - PLTR
+  - COIN
+  - DKNG
+  - ROKU
+  - ABNB
+  - DASH
+  - ETSY
+  - W
+  - CHWY
+
+# RSI Parameters
+rsi:
+  period: 14
+  oversold: 30
+  overbought: 70
+
+# Stochastic Parameters
+stochastic:
+  period: 14
+  smooth: 3
+  d_period: 3
+  oversold: 20
+  overbought: 80
+
+# ADX Parameters (Trend Filter)
+adx:
+  period: 14
+  max_for_reversion: 30    # Only trade mean reversion when ADX < 30
+  min_for_trend: 25        # Used for trend-following mode
+
+# ATR-Based Stops
+atr:
+  period: 14
+  stop_mult: 2.0           # Stop loss at 2x ATR
+  tp_mult: 3.0             # Take profit at 3x ATR
+
+# Confluence Requirements
+confluence:
+  require_all_signals: false  # Require 2+ signals (not all)
+  min_signals_for_entry: 2    # Minimum signals to agree
+
+# Position Management
+position:
+  enable_longs: true
+  enable_shorts: true
+  max_position_size_pct: 0.05  # 5% max per position
+  max_concurrent_positions: 5
+
+# Risk Management
+risk:
+  max_daily_loss_pct: 0.02     # Stop trading after 2% daily loss
+  max_drawdown_pct: 0.10       # Alert at 10% drawdown
+  use_trailing_stop: false     # ATR-based stops instead
+
+# Regime Filter
+regime:
+  enabled: true
+  avoid_choppy: true           # Skip choppy regimes
+  avoid_quiet_choppy: true     # Skip quiet choppy regimes
+  volatility_lookback: 20
+
+# Model Configuration
+model:
+  model_id: multi_signal_confluence
+  model_type: multi_signal_confluence
+  version: "1.0.0"
+  min_data_points: 50
+  parameters:
+    rsi_period: 14
+    rsi_oversold: 30
+    rsi_overbought: 70
+    stoch_period: 14
+    stoch_smooth: 3
+    stoch_d_period: 3
+    stoch_oversold: 20
+    stoch_overbought: 80
+    adx_period: 14
+    adx_max_for_reversion: 30
+    atr_period: 14
+    atr_stop_mult: 2.0
+    atr_tp_mult: 3.0
+    require_all_signals: false
+    enable_shorts: true
+    enable_longs: true
+
+# Backtest Configuration
+backtest:
+  initial_capital: 100000
+  commission_per_share: 0.001
+  slippage_pct: 0.001
+  start_date: "2024-01-01"
+  end_date: "2024-12-31"
