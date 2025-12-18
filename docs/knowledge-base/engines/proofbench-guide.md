@@ -1,8 +1,18 @@
-# ProofBench - Backtesting Engine Guide
+---
+title: AnalyticsEngine (ProofBench) — Backtesting Guide
+date: 2025-12-18
+version: 1.0
+type: usage guide
+description: >
+  Practical guide for running backtests and interpreting results with AnalyticsEngine (ProofBench).
+source_of_truth: ../inbox/documents/system-specification.md
+---
+
+# AnalyticsEngine (ProofBench) — Backtesting Guide
 
 ## Overview
 
-ProofBench is an event-driven simulation engine for backtesting trading strategies with realistic execution modeling and comprehensive performance analytics.
+AnalyticsEngine (ProofBench) is an event-driven simulation engine for backtesting trading strategies with realistic execution modeling and comprehensive performance analytics.
 
 ## Features
 
@@ -52,7 +62,7 @@ pip install pandas numpy
 
 ```python
 import pandas as pd
-from src.engines.proofbench import (
+from ordinis.engines.proofbench import (
     SimulationEngine,
     SimulationConfig,
     Order,
@@ -134,7 +144,7 @@ config = SimulationConfig(
 ### Execution Configuration
 
 ```python
-from src.engines.proofbench import ExecutionConfig
+from ordinis.engines.proofbench import ExecutionConfig
 
 exec_config = ExecutionConfig(
     estimated_spread=0.001,             # Bid-ask spread (0.1%)

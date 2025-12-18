@@ -1,3 +1,13 @@
+---
+title: NVIDIA AI Integration
+date: 2025-11-29
+version: 1.0.0
+type: integration guide
+description: >
+  NVIDIA model integration across Cortex, SignalEngine (SignalCore), RiskEngine (RiskGuard), and AnalyticsEngine (ProofBench).
+source_of_truth: ../inbox/documents/system-specification.md
+---
+
 # NVIDIA AI Integration
 
 Complete NVIDIA AI model integration across all Ordinis engines, providing natural language insights, explanations, and optimizations throughout the trading workflow.

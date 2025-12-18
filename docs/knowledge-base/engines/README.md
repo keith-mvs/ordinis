@@ -1,3 +1,13 @@
+---
+title: Engines Knowledge Base
+date: 2025-12-18
+version: 1.0
+type: knowledge base index
+description: >
+  Navigation and terminology for engine documentation (canonical terms per the System Specification).
+source_of_truth: ../inbox/documents/system-specification.md
+---
+
 # Engines Knowledge Base
 
 This folder documents system engines. For canonical naming and engine roles, treat
@@ -30,20 +40,21 @@ Rule of thumb: on first mention, write `RoleName (Codename)`; afterwards use `Ro
 ### Architecture & Workflow
 
 - `docs/knowledge-base/engines/system-architecture.md`: Phase 1 production architecture (persistence, safety, observability)
-- `docs/knowledge-base/engines/execution-path.md`: path from research → backtesting → paper → live
+- `docs/knowledge-base/engines/execution-path.md`: path from research -> backtesting -> paper -> live
 
 ### Engine Implementations
 
-- `docs/knowledge-base/engines/signalcore-engine.md`: `SignalEngine (SignalCore)` architecture and responsibilities
+- `docs/knowledge-base/engines/signalcore.md`: `SignalEngine (SignalCore)` architecture and responsibilities
+- `docs/knowledge-base/engines/signalcore-api.md`: `SignalEngine (SignalCore)` Python API reference
 - `docs/knowledge-base/engines/proofbench.md`: `AnalyticsEngine (ProofBench)` simulation/backtesting architecture
 - `docs/knowledge-base/engines/proofbench-guide.md`: `AnalyticsEngine (ProofBench)` usage guide and examples
-- `docs/knowledge-base/engines/learning_engine.md`: `LearningEngine` API overview
+- `docs/knowledge-base/engines/learning-engine.md`: `LearningEngine` API overview
 
 ### AI / Retrieval Layer
 
 - `docs/knowledge-base/engines/helix.md`: `Helix` LLM provider layer (routing, caching, fallback)
 - `docs/knowledge-base/engines/nvidia-integration.md`: NVIDIA model integration across engines
-- `docs/knowledge-base/engines/rag-engine.md`: `Synapse` retrieval (RAG) architecture and integration points
+- `docs/knowledge-base/engines/synapse.md`: `Synapse` retrieval (RAG) architecture and integration points
 
 ### Observability
 

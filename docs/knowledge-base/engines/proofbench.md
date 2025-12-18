@@ -1,8 +1,18 @@
-# Simulation Engine Architecture
+---
+title: AnalyticsEngine (ProofBench) — Simulation Architecture
+date: 2025-12-18
+version: 1.0
+type: engine architecture
+description: >
+  Event-driven simulation and backtesting architecture used for strategy validation and performance analysis.
+source_of_truth: ../inbox/documents/system-specification.md
+---
+
+# AnalyticsEngine (ProofBench) — Simulation Architecture
 
 ## Overview
 
-The simulation engine is the **critical validation layer** that tests strategies against historical data before any capital is risked. It must accurately replicate market conditions, execution realities, and risk constraints.
+AnalyticsEngine (ProofBench) is the **critical validation layer** that tests strategies against historical data before any capital is risked. It must accurately replicate market conditions, execution realities, and risk constraints.
 
 **Priority**: This component is foundational - no strategy proceeds to paper/live trading without simulation validation.
 
@@ -19,6 +29,21 @@ The simulation engine is the **critical validation layer** that tests strategies
 ---
 
 ## System Architecture
+
+```mermaid
+flowchart TD
+  DL[Data Layer] --> EQ[Event Queue]
+  EQ --> STRAT[Strategy Engine]
+  STRAT --> EXEC[Execution Simulator]
+  EXEC --> PORT[Portfolio Engine]
+  PORT --> PERF[Performance Analytics]
+  PERF --> OUT[Reports / Metrics]
+
+  SE[SignalEngine (SignalCore)] -. optional .-> STRAT
+  RE[RiskEngine (RiskGuard)] -. constraints .-> EXEC
+```
+
+**Legacy diagram (below)**: kept for historical context; prefer the Mermaid diagram above for canonical naming.
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
@@ -405,7 +430,7 @@ class ExecutionConfig:
 
 ---
 
-### 4. Portfolio Manager
+### 4. PortfolioEngine
 
 ```python
 @dataclass

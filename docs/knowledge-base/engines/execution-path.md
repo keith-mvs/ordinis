@@ -1,3 +1,13 @@
+---
+title: Execution Path (Research → Live Trading)
+date: 2025-12-18
+version: 1.0
+type: knowledge base
+description: >
+  Phased approach for progressing from research and backtesting to paper and live trading.
+source_of_truth: ../inbox/documents/system-specification.md
+---
+
 # Path from Research to Automated Trade Execution
 
 ## Overview
@@ -57,12 +67,12 @@ This document outlines the phased approach to deploying an automated trading sys
 ## Phase 2: Code Implementation & Backtesting
 
 ### Objectives
-- Implement simulation engine
+- Implement AnalyticsEngine (ProofBench) simulation/backtesting
 - Code strategies from specifications
 - Run comprehensive backtests
 - Validate and refine strategies
 
-### 2.1 Simulation Engine Development
+### 2.1 AnalyticsEngine (ProofBench) Development
 
 **Tasks**:
 1. Build event-driven simulation core

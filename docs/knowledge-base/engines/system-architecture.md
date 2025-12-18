@@ -1,3 +1,13 @@
+---
+title: System Architecture (Phase 1 Production)
+date: 2025-12-12
+version: 1.0.0
+type: production architecture
+description: >
+  Phase 1 production architecture focusing on persistence, safety, orchestration, and observability.
+source_of_truth: ../inbox/documents/system-specification.md
+---
+
 # Production Architecture - Phase 1
 # Ordinis Trading System
 # Version: 1.0.0
@@ -7,7 +17,7 @@
 
 ## Executive Summary
 
-This document describes the production-ready architecture implemented in Phase 1, which addresses critical operational requirements for reliable paper and live trading. The implementation focuses on **persistence, safety, orchestration, and observability** while maintaining the core SignalCore engine design.
+This document describes the production-ready architecture implemented in Phase 1, which addresses critical operational requirements for reliable paper and live trading. The implementation focuses on **persistence, safety, orchestration, and observability** while maintaining the core SignalEngine (SignalCore) design.
 
 ### Phase 1 Achievements
 
@@ -151,7 +161,7 @@ ordinis/
     └── architecture/
         ├── production-architecture.md  # This file
         ├── layered-system-architecture.md
-        └── signalcore-system.md
+        └── signalcore.md
 ```
 
 ---
@@ -624,21 +634,21 @@ class Alert:
 
 ---
 
-## 6. Integration with SignalCore Engines
+## 6. Integration with System Engines
 
 ### 6.1 Engine Responsibilities
 
-The Phase 1 infrastructure integrates with the existing SignalCore 5-engine architecture:
+The Phase 1 infrastructure integrates with the system engine architecture defined in the System Specification (see `signalcore.md` for a SignalCore subsystem view):
 
 | Engine | Phase 1 Integration | New Responsibilities |
 |--------|-------------------|---------------------|
-| **Cortex** | No changes | Advisory layer (unchanged) |
-| **SignalCore** | No changes | Signal generation (unchanged) |
-| **RiskGuard** | ✅ Enhanced | Kill switch check, circuit breaker monitoring |
-| **FlowRoute** | ✅ Enhanced | Order persistence, reconciliation, kill switch enforcement |
-| **ProofBench** | 🟡 Partial | Backtest persistence (future) |
+| **Cortex (LLM Reasoning Engine)** | No changes | Advisory layer (unchanged) |
+| **SignalEngine (SignalCore)** | No changes | Signal generation (unchanged) |
+| **RiskEngine (RiskGuard)** | ✅ Enhanced | Kill switch check, circuit breaker monitoring |
+| **ExecutionEngine (FlowRoute)** | ✅ Enhanced | Order persistence, reconciliation, kill switch enforcement |
+| **AnalyticsEngine (ProofBench)** | 🟡 Partial | Backtest persistence (future) |
 
-### 6.2 RiskGuard Integration
+### 6.2 RiskEngine (RiskGuard) Integration
 
 **New Risk Checks**:
 ```python
@@ -672,7 +682,7 @@ async def evaluate_order(
     ...
 ```
 
-### 6.3 FlowRoute Integration
+### 6.3 ExecutionEngine (FlowRoute) Integration
 
 **Order Lifecycle with Persistence**:
 ```
@@ -1431,9 +1441,9 @@ Developer Machine
 
 ### 17.1 Internal Documentation
 
-- [SignalCore System Architecture](signalcore-system.md)
-- [Layered System Architecture](layered-system-architecture.md)
-- [Architecture Review Response](architecture-review-response.md) - Gap analysis addressing external architecture review
+- [SignalEngine (SignalCore) Architecture](signalcore.md)
+- [Layered System Architecture](../inbox/archive/layered-system-architecture.md)
+- [Architecture Review Response](../inbox/archive/architecture-review-response.md) - Gap analysis addressing external architecture review
 
 ### 17.2 External Resources
 
@@ -1494,7 +1504,7 @@ C:\Users\kjfle\Workspace\ordinis\
 └── docs\
     └── architecture\
         ├── production-architecture.md     # This file
-        ├── signalcore-system.md
+        ├── signalcore.md
         └── layered-system-architecture.md
 ```
 

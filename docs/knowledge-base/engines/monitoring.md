@@ -1,3 +1,13 @@
+---
+title: Monitoring and Logging
+date: 2025-11-29
+version: 1.0.0
+type: knowledge base
+description: >
+  Observability guidance for logging, metrics, and health checks.
+source_of_truth: ../inbox/documents/system-specification.md
+---
+
 # Monitoring and Logging
 
 Comprehensive monitoring and logging system for observability, debugging, and performance tracking.
@@ -207,7 +217,7 @@ report = health.get_health_report()
 
 ```python
 from monitoring import setup_logging, get_logger, get_metrics_collector
-from engines.proofbench import SimulationEngine, SimulationConfig
+from ordinis.engines.proofbench import SimulationEngine, SimulationConfig
 
 # Setup
 setup_logging(log_level="INFO", log_file="logs/backtest.log")

@@ -1,0 +1,117 @@
+strategy:
+  name: Multi-Timeframe Trend Following
+  version: 1.0.0
+  type: trend_following
+  description: Trend following strategy using ADX, moving averages, and momentum confirmation.
+
+global_params:
+  adx_period: 14
+  adx_threshold: 25
+  fast_ma_period: 20
+  slow_ma_period: 50
+  atr_period: 14
+  atr_stop_mult: 2.0
+  atr_tp_mult: 3.0
+  volume_confirm: true
+
+regime_filter:
+  enabled: true
+  avoid_regimes:
+    - quiet_choppy
+    - mean_reverting
+  prefer_regimes:
+    - trending
+    - volatile_trending
+
+risk_management:
+  max_position_size_pct: 3.0
+  max_daily_loss_pct: 2.0
+  max_concurrent_positions: 8
+  use_atr_position_sizing: true
+
+symbols:
+  # Large-cap momentum stocks
+  NVDA:
+    adx_threshold: 25
+    atr_stop_mult: 2.0
+    sector: technology
+  TSLA:
+    adx_threshold: 20
+    atr_stop_mult: 2.5
+    sector: consumer_discretionary
+  AMD:
+    adx_threshold: 25
+    atr_stop_mult: 2.0
+    sector: technology
+  META:
+    adx_threshold: 25
+    atr_stop_mult: 2.0
+    sector: technology
+  GOOGL:
+    adx_threshold: 25
+    atr_stop_mult: 2.0
+    sector: technology
+  AMZN:
+    adx_threshold: 25
+    atr_stop_mult: 2.0
+    sector: consumer_discretionary
+  MSFT:
+    adx_threshold: 25
+    atr_stop_mult: 1.5
+    sector: technology
+  AAPL:
+    adx_threshold: 25
+    atr_stop_mult: 1.5
+    sector: technology
+
+  # ETFs for trend confirmation
+  SPY:
+    adx_threshold: 20
+    atr_stop_mult: 1.5
+    sector: etf
+  QQQ:
+    adx_threshold: 20
+    atr_stop_mult: 1.5
+    sector: etf
+  IWM:
+    adx_threshold: 25
+    atr_stop_mult: 2.0
+    sector: etf
+
+  # Sector ETFs
+  XLK:
+    adx_threshold: 20
+    atr_stop_mult: 1.5
+    sector: etf
+  XLF:
+    adx_threshold: 20
+    atr_stop_mult: 1.5
+    sector: etf
+  XLE:
+    adx_threshold: 25
+    atr_stop_mult: 2.0
+    sector: etf
+
+  # High beta momentum
+  COIN:
+    adx_threshold: 20
+    atr_stop_mult: 3.0
+    sector: financials
+  MARA:
+    adx_threshold: 20
+    atr_stop_mult: 3.0
+    sector: financials
+  RIOT:
+    adx_threshold: 20
+    atr_stop_mult: 3.0
+    sector: financials
+  PLTR:
+    adx_threshold: 25
+    atr_stop_mult: 2.5
+    sector: technology
+
+performance_summary:
+  total_symbols: 19
+  strategy_type: trend_following
+  best_for: strong directional moves
+  notes: Complements mean reversion by capturing trends

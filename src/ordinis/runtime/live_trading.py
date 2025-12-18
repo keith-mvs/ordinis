@@ -35,7 +35,7 @@ from ordinis.adapters.broker.broker import (
     SimulatedBroker,
 )
 from ordinis.engines.flowroute.adapters.alpaca_data import AlpacaMarketDataAdapter
-from ordinis.engines.signalcore.core.signal import Signal, SignalType
+from ordinis.engines.signalcore.core.signal import Direction, Signal, SignalType
 from ordinis.engines.signalcore.strategy_loader import StrategyLoader
 
 logger = logging.getLogger(__name__)
@@ -128,10 +128,10 @@ class LiveTradingRuntime:
         try:
             logger.debug(f"Fetching {bars} bars for {symbol}...")
 
-            # Get historical bars (1-minute timeframe for intraday)
+            # Get historical bars (5-minute timeframe to match backtest)
             df = self._data_adapter.get_historical_bars(
                 symbol=symbol,
-                timeframe="1Min",
+                timeframe="5Min",
                 limit=bars,
             )
 
@@ -220,12 +220,18 @@ class LiveTradingRuntime:
             logger.warning(f"Position size too small for {symbol}")
             return False
 
-        # Determine order side
-        if signal.signal_type == SignalType.BUY:
-            side = OrderSide.BUY
-        elif signal.signal_type == SignalType.SELL:
-            side = OrderSide.SELL
+        # Determine order side based on signal direction
+        # ENTRY signals use direction (LONG=BUY, SHORT=SELL)
+        if signal.signal_type == SignalType.ENTRY:
+            if signal.direction == Direction.LONG:
+                side = OrderSide.BUY
+            elif signal.direction == Direction.SHORT:
+                side = OrderSide.SELL
+            else:
+                logger.warning(f"Unknown direction for {symbol}")
+                return False
         else:
+            # EXIT signals handled in manage_positions
             return False
 
         # Create order
@@ -298,19 +304,23 @@ class LiveTradingRuntime:
             try:
                 signal = await model.generate(symbol, df, datetime.now(UTC))
 
-                # Check for exit conditions
-                if signal and signal.signal_type == SignalType.SELL and position.quantity > 0:
+                # Check for exit conditions (EXIT signal or SELL for short positions)
+                if signal and signal.signal_type == SignalType.EXIT and position.quantity > 0:
                     # Exit long position
-                    await self.broker.submit_order(
+                    exit_order = Order(
                         symbol=symbol,
                         side=OrderSide.SELL,
                         quantity=int(position.quantity),
                         order_type=OrderType.MARKET,
+                        limit_price=None,
                     )
-                    logger.info(f"Exit signal: Sold {position.quantity} {symbol}")
+                    result = await self.broker.submit_order(exit_order)
+                    if result:
+                        logger.info(f"Exit signal: Sold {position.quantity} {symbol}")
+                        self.trade_count += 1
 
             except Exception as e:
-                logger.error(f"Error managing position {symbol}: {e}")
+                logger.error(f"Error managing position {symbol}: {e}", exc_info=True)
 
     async def run_loop(self):
         """Main trading loop."""

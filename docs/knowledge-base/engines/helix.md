@@ -1,3 +1,13 @@
+---
+title: Helix (LLM Provider Layer)
+date: 2025-12-18
+version: 1.0
+type: api reference
+description: >
+  Unified LLM provider layer used by Cortex and other AI-enabled workflows (routing, caching, fallback).
+source_of_truth: ../inbox/documents/system-specification.md
+---
+
 # ordinis.ai.helix.engine
 
 Helix - Unified LLM Provider Engine.
