@@ -21,6 +21,7 @@ from ordinis.engines.signalcore.core.config import SignalCoreEngineConfig
 from ordinis.engines.signalcore.core.ensemble import EnsembleStrategy, SignalEnsemble
 from ordinis.engines.signalcore.core.model import Model, ModelRegistry
 from ordinis.engines.signalcore.core.signal import Signal, SignalBatch
+from ordinis.optimizations.confidence_filter import ConfidenceFilter
 
 if False:  # TYPE_CHECKING
     from ordinis.ai.helix.engine import Helix
@@ -79,6 +80,15 @@ class SignalCoreEngine(BaseEngine[SignalCoreEngineConfig]):
         self._registry = ModelRegistry()
         self._last_generation: datetime | None = None
         self._signals_generated: int = 0
+
+        # Initialize confidence filter if enabled
+        self._confidence_filter: ConfidenceFilter | None = None
+        if self.config.enable_confidence_filter:
+            self._confidence_filter = ConfidenceFilter(
+                min_confidence=self.config.min_confidence,
+                min_agreeing_models=self.config.min_agreeing_models,
+                apply_volatility_adjustment=self.config.apply_volatility_adjustment,
+            )
 
     async def _do_initialize(self) -> None:
         """Initialize SignalCore engine resources."""
@@ -295,7 +305,7 @@ class SignalCoreEngine(BaseEngine[SignalCoreEngineConfig]):
         # Circuit breaker check - blocks if any engine has tripped
         # This prevents generating signals when system is in distress
         if self._feedback:
-            allowed, reason = self._feedback.should_allow_signals()
+            allowed, _reason = self._feedback.should_allow_signals()
             if not allowed:
                 return SignalBatch(
                     timestamp=timestamp,
@@ -389,16 +399,40 @@ class SignalCoreEngine(BaseEngine[SignalCoreEngineConfig]):
     def filter_actionable(self, batch: SignalBatch) -> list[Signal]:
         """Filter batch to only actionable signals.
 
+        Applies probability/score thresholds first, then confidence filter
+        if enabled. The confidence filter requires 80%+ model agreement.
+
         Args:
             batch: SignalBatch to filter
 
         Returns:
-            List of actionable signals meeting thresholds
+            List of actionable signals meeting all thresholds
         """
-        return batch.filter_actionable(
+        # First apply probability/score thresholds
+        signals = batch.filter_actionable(
             min_probability=self.config.min_probability,
             min_score=self.config.min_score,
         )
+
+        # Apply confidence filter if enabled
+        if self._confidence_filter and signals:
+            filtered = []
+            for signal in signals:
+                signal_dict = {
+                    "confidence_score": signal.probability,
+                    "num_agreeing_models": signal.metadata.get("agreeing_models", 5),
+                    "market_volatility": signal.metadata.get("volatility", 0),
+                }
+                if self._confidence_filter.should_execute(signal_dict):
+                    filtered.append(signal)
+
+            self._logger.debug(
+                f"Confidence filter: {len(filtered)}/{len(signals)} signals passed "
+                f"({self.config.min_confidence:.0%} threshold)"
+            )
+            signals = filtered
+
+        return signals
 
     def get_metrics(self) -> EngineMetrics:
         """Get SignalCore engine metrics.

@@ -50,6 +50,13 @@ class SignalCoreEngineConfig(BaseEngineConfig):
     enable_ensemble: bool = False
     ensemble_strategy: str = "voting"  # voting, weighted_average, highest_confidence
 
+    # Confidence filter settings (per optimization findings)
+    # Key Finding: 80%+ confidence has 51.3% win rate vs 44.7% baseline
+    enable_confidence_filter: bool = True
+    min_confidence: float = 0.80
+    min_agreeing_models: int = 4
+    apply_volatility_adjustment: bool = True
+
     # Model tracking
     registered_models: list[str] = field(default_factory=list)
 
