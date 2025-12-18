@@ -383,7 +383,21 @@ format the output.]
 
 ## Output Format
 
-
+<skill_name>/
+│
+├── <skill-name>.md                           # Main skill documentation (REQUIRED)
+├── references.md                              # Advanced reference material
+│
+├── scripts/                           # Python implementation scripts
+│   ├── .py     # Core calculations engine
+│   ├── strike_comparison.py          # Strike price analysis
+│   ├── expiration_analysis.py        # Expiration cycle comparison
+│   ├── position_sizer.py             # Position sizing logic
+│   └── visualizations.py             # Plotting and charts
+│
+└── assets/                            # Sample data and examples
+    ├── sample_positions.csv           # 5 real-world scenarios
+    └── sample_data.md                 # Examples documentation
 
 ## Examples
 

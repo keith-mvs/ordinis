@@ -41,12 +41,12 @@ Synapse is the Ordinis retrieval subsystem. It implements a RAG (Retrieval Augme
 
 | Component | Location | Description |
 |-----------|----------|-------------|
-| **Embedders** | `src/rag/embedders/` | NVIDIA NeMo Retriever models for text/code |
-| **Vector Database** | `src/rag/vectordb/` | ChromaDB with dual collections |
-| **Retrieval Engine** | `src/rag/retrieval/` | Query classification and search |
-| **Indexing Pipelines** | `src/rag/pipeline/` | KB and codebase indexers |
-| **API Server** | `src/rag/api/` | FastAPI REST endpoints |
-| **Engine Integration** | `src/engines/*/rag/` | Per-engine RAG adapters |
+| **Embedders** | `src/ordinis/rag/embedders/` | NVIDIA NeMo Retriever models for text/code |
+| **Vector Database** | `src/ordinis/rag/vectordb/` | ChromaDB with dual collections |
+| **Retrieval Engine** | `src/ordinis/rag/retrieval/` | Query classification and search |
+| **Indexing Pipelines** | `src/ordinis/rag/pipeline/` | KB and codebase indexers |
+| **API Server** | `src/ordinis/rag/api/` | FastAPI REST endpoints |
+| **Engine Integration** | `src/ordinis/engines/*/rag/` | Per-engine RAG adapters |
 
 ---
 
@@ -113,7 +113,7 @@ Synapse is the Ordinis retrieval subsystem. It implements a RAG (Retrieval Augme
 ### RAGConfig
 
 ```python
-from rag.config import get_config, set_config, RAGConfig
+from ordinis.rag.config import get_config, set_config, RAGConfig
 
 config = RAGConfig(
     # Embedding models
@@ -153,31 +153,29 @@ set_config(config)
 ### Indexing
 
 ```python
-from rag.pipeline.kb_indexer import KBIndexer
-from rag.pipeline.code_indexer import CodeIndexer
+from ordinis.rag.pipeline.kb_indexer import KBIndexer
+from ordinis.rag.pipeline.code_indexer import CodeIndexer
 from pathlib import Path
 
 # Index knowledge base
 kb_indexer = KBIndexer()
 kb_indexer.index_directory(
     kb_path=Path("docs/knowledge-base"),
-    collection_name="text_chunks",
+    batch_size=32,
 )
 
 # Index codebase
 code_indexer = CodeIndexer()
 code_indexer.index_directory(
-    code_base=Path("src"),
-    collection_name="code_chunks",
-    file_patterns=["**/*.py"],
-    exclude_patterns=["**/__pycache__/**"],
+    code_paths=Path("src"),
+    batch_size=16,
 )
 ```
 
 ### Querying
 
 ```python
-from rag.retrieval.engine import RetrievalEngine
+from ordinis.rag.retrieval import RetrievalEngine
 
 engine = RetrievalEngine()
 
@@ -213,7 +211,7 @@ for result in response.results:
 ### Cortex Integration
 
 ```python
-from engines.cortex.core.engine import CortexEngine
+from ordinis.engines.cortex import CortexEngine
 
 cortex = CortexEngine(
     nvidia_api_key="your-api-key",
