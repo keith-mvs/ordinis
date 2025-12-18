@@ -12,7 +12,7 @@ Run with:
 """
 
 import asyncio
-from datetime import datetime, timedelta
+from datetime import datetime
 from pathlib import Path
 
 import numpy as np
@@ -25,13 +25,10 @@ from ordinis.engines.learning import (
     LearningEvent,
 )
 from ordinis.engines.portfolio import (
-    PortfolioEngine,
-    PortfolioEngineConfig,
     RiskParityRebalancer,
     SignalDrivenRebalancer,
     SignalInput,
     SignalMethod,
-    StrategyType,
     TargetAllocation,
     TargetAllocationRebalancer,
 )
@@ -244,7 +241,7 @@ async def optimize_with_learning_engine():
             # Record in learning engine
             learning_engine.record_event(
                 LearningEvent(
-                    event_type=EventType.STRATEGY_PERFORMANCE,
+                    event_type=EventType.METRIC_RECORDED,
                     source_engine="optimization",
                     symbol="PORTFOLIO",
                     payload={
@@ -272,7 +269,7 @@ async def optimize_with_learning_engine():
             print(f"    Max Drawdown: {max_drawdown:.2%}")
 
         # Find best parameters
-        performance_events = learning_engine.get_events(event_type=EventType.STRATEGY_PERFORMANCE)
+        performance_events = learning_engine.get_events(event_type=EventType.METRIC_RECORDED)
 
         best_event = max(
             performance_events, key=lambda e: e.outcome if e.outcome else -float("inf")
