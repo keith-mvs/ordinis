@@ -192,14 +192,19 @@ class AlpacaBroker(BrokerAdapter):
 
             import alpaca_trade_api as tradeapi
 
+            from ordinis.utils.env import get_alpaca_credentials
+
+            # Get credentials from Windows User env (source of truth)
+            api_key, api_secret = get_alpaca_credentials()
+
             base_url = os.environ.get(
                 "APCA_API_BASE_URL",
                 "https://paper-api.alpaca.markets" if self.paper else "https://api.alpaca.markets",
             )
 
             self._api = tradeapi.REST(
-                key_id=os.environ.get("APCA_API_KEY_ID"),
-                secret_key=os.environ.get("APCA_API_SECRET_KEY"),
+                key_id=api_key,
+                secret_key=api_secret,
                 base_url=base_url,
             )
 

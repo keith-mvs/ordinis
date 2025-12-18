@@ -17,7 +17,6 @@ import argparse
 import asyncio
 from datetime import UTC, datetime
 import logging
-import os
 from pathlib import Path
 import sys
 
@@ -35,6 +34,7 @@ from ordinis.adapters.broker.broker import (
     OrderType,
     SimulatedBroker,
 )
+from ordinis.engines.flowroute.adapters.alpaca_data import AlpacaMarketDataAdapter
 from ordinis.engines.signalcore.core.signal import Signal, SignalType
 from ordinis.engines.signalcore.strategy_loader import StrategyLoader
 
@@ -57,6 +57,7 @@ class LiveTradingRuntime:
         self,
         broker: BrokerAdapter,
         strategy_loader: StrategyLoader,
+        data_adapter: AlpacaMarketDataAdapter | None = None,
         mode: str = "paper",
         poll_interval: int = 60,
     ):
@@ -66,6 +67,7 @@ class LiveTradingRuntime:
         Args:
             broker: Broker implementation.
             strategy_loader: Strategy loader with models.
+            data_adapter: Market data adapter (created automatically if None).
             mode: Trading mode (paper, simulated, live).
             poll_interval: Seconds between data polls.
         """
@@ -73,6 +75,7 @@ class LiveTradingRuntime:
         self.loader = strategy_loader
         self.mode = mode
         self.poll_interval = poll_interval
+        self._data_adapter = data_adapter
 
         self.running = False
         self.daily_pnl = 0.0
@@ -85,11 +88,20 @@ class LiveTradingRuntime:
         self.max_concurrent = 5
 
     async def connect(self) -> bool:
-        """Connect to broker."""
+        """Connect to broker and initialize data adapter."""
         if await self.broker.connect():
             account = await self.broker.get_account()
             self.start_equity = account.equity
             logger.info(f"Connected to broker. Equity: ${account.equity:,.2f}")
+
+            # Initialize data adapter if not provided
+            if self._data_adapter is None and self.mode != "simulated":
+                try:
+                    self._data_adapter = AlpacaMarketDataAdapter()
+                    logger.info("Initialized Alpaca market data adapter")
+                except Exception as e:
+                    logger.warning(f"Could not initialize data adapter: {e}")
+
             return True
         return False
 
@@ -100,21 +112,39 @@ class LiveTradingRuntime:
 
     async def get_market_data(self, symbol: str, bars: int = 100) -> pd.DataFrame | None:
         """
-        Fetch market data for a symbol.
+        Fetch market data for a symbol using Alpaca data adapter.
 
-        In a real implementation, this would connect to a data feed.
-        For now, returns None and logs a message.
+        Args:
+            symbol: Stock symbol (e.g., 'AAPL')
+            bars: Number of bars to fetch
+
+        Returns:
+            DataFrame with OHLCV data or None if unavailable
         """
-        # TODO: Integrate with actual data feed (Alpaca, Polygon, etc.)
-        logger.info(f"Fetching {bars} bars for {symbol}...")
+        if self._data_adapter is None:
+            logger.warning(f"No data adapter available for {symbol}")
+            return None
 
-        # Placeholder: In production, fetch from:
-        # - Alpaca Data API
-        # - Polygon.io
-        # - Yahoo Finance (delayed)
-        # - IEX Cloud
+        try:
+            logger.debug(f"Fetching {bars} bars for {symbol}...")
 
-        return None
+            # Get historical bars (1-minute timeframe for intraday)
+            df = self._data_adapter.get_historical_bars(
+                symbol=symbol,
+                timeframe="1Min",
+                limit=bars,
+            )
+
+            if df is None or df.empty:
+                logger.warning(f"No data returned for {symbol}")
+                return None
+
+            logger.info(f"Got {len(df)} bars for {symbol}")
+            return df
+
+        except Exception as e:
+            logger.error(f"Failed to fetch market data for {symbol}: {e}")
+            return None
 
     async def process_symbol(self, symbol: str) -> Signal | None:
         """
@@ -377,18 +407,9 @@ async def main():
         broker = SimulatedBroker(initial_cash=100_000)
         logger.info("Using simulated broker (no real trades)")
     elif args.mode == "paper":
-        api_key = os.environ.get("ALPACA_API_KEY")
-        api_secret = os.environ.get("ALPACA_API_SECRET")
-
-        if not api_key or not api_secret:
-            logger.error("ALPACA_API_KEY and ALPACA_API_SECRET required for paper trading")
-            return 1
-
-        broker = AlpacaBroker(
-            api_key=api_key,
-            api_secret=api_secret,
-            paper=True,
-        )
+        # AlpacaBroker handles credentials internally via ordinis.utils.env
+        # which reads from Windows User environment (source of truth)
+        broker = AlpacaBroker(paper=True)
         logger.info("Using Alpaca paper trading")
     elif args.mode == "live":
         logger.error("Live trading not enabled. Use paper mode for testing.")

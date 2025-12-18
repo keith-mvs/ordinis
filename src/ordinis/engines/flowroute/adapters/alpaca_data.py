@@ -8,7 +8,6 @@ import asyncio
 from collections.abc import Callable
 from datetime import datetime, timedelta
 import logging
-import os
 from typing import Any
 
 from alpaca.data.historical import StockHistoricalDataClient
@@ -20,6 +19,8 @@ from alpaca.data.requests import (
 )
 from alpaca.data.timeframe import TimeFrame
 import pandas as pd
+
+from ordinis.utils.env import get_alpaca_credentials
 
 logger = logging.getLogger(__name__)
 
@@ -44,16 +45,18 @@ class AlpacaMarketDataAdapter:
         Initialize Alpaca market data adapter.
 
         Args:
-            api_key: Alpaca API key (defaults to env var ALPACA_API_KEY)
-            api_secret: Alpaca API secret (defaults to env var ALPACA_API_SECRET)
+            api_key: Alpaca API key (defaults to APCA_API_KEY_ID from User env)
+            api_secret: Alpaca API secret (defaults to APCA_API_SECRET_KEY from User env)
         """
-        self.api_key = api_key or os.getenv("ALPACA_API_KEY")
-        self.api_secret = api_secret or os.getenv("ALPACA_API_SECRET")
+        # Use provided keys or get from environment (User env is source of truth)
+        default_key, default_secret = get_alpaca_credentials()
+        self.api_key = api_key or default_key
+        self.api_secret = api_secret or default_secret
 
         if not self.api_key or not self.api_secret:
             raise ValueError(
-                "Alpaca API credentials required. Set ALPACA_API_KEY and "
-                "ALPACA_API_SECRET environment variables."
+                "Alpaca API credentials required. Set APCA_API_KEY_ID and "
+                "APCA_API_SECRET_KEY in Windows User environment."
             )
 
         # Initialize historical data client
@@ -179,7 +182,8 @@ class AlpacaMarketDataAdapter:
             # Fetch bars
             bars = self._data_client.get_stock_bars(request)
 
-            if symbol in bars:
+            # Check if data exists (BarSet uses .data dict or .df)
+            if bars.df is not None and not bars.df.empty:
                 df = bars.df
 
                 # Reset index to get timestamp as column
