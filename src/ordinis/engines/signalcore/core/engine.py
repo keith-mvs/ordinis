@@ -24,6 +24,7 @@ from ordinis.engines.signalcore.core.signal import Signal, SignalBatch
 
 if False:  # TYPE_CHECKING
     from ordinis.ai.helix.engine import Helix
+    from ordinis.engines.learning.collectors.feedback import FeedbackCollector
 
 
 class SignalCoreEngine(BaseEngine[SignalCoreEngineConfig]):
@@ -61,6 +62,7 @@ class SignalCoreEngine(BaseEngine[SignalCoreEngineConfig]):
         config: SignalCoreEngineConfig | None = None,
         governance_hook: GovernanceHook | None = None,
         helix: "Helix | None" = None,
+        feedback_collector: "FeedbackCollector | None" = None,
     ) -> None:
         """Initialize the SignalCore engine.
 
@@ -68,10 +70,12 @@ class SignalCoreEngine(BaseEngine[SignalCoreEngineConfig]):
             config: Engine configuration (uses defaults if None)
             governance_hook: Optional governance hook for preflight/audit
             helix: Optional Helix engine for LLM features
+            feedback_collector: Feedback collector for signal batch recording
         """
         super().__init__(config or SignalCoreEngineConfig(), governance_hook)
 
         self.helix = helix
+        self._feedback = feedback_collector
         self._registry = ModelRegistry()
         self._last_generation: datetime | None = None
         self._signals_generated: int = 0
@@ -288,6 +292,17 @@ class SignalCoreEngine(BaseEngine[SignalCoreEngineConfig]):
         """
         timestamp = timestamp or datetime.now(tz=UTC)
 
+        # Circuit breaker check - blocks if any engine has tripped
+        # This prevents generating signals when system is in distress
+        if self._feedback:
+            allowed, reason = self._feedback.should_allow_signals()
+            if not allowed:
+                return SignalBatch(
+                    timestamp=timestamp,
+                    signals=[],
+                    universe=list(data.keys()),
+                )
+
         # Governance preflight check
         if self.config.enable_governance and self._governance:
             result = await self.preflight(
@@ -355,6 +370,18 @@ class SignalCoreEngine(BaseEngine[SignalCoreEngineConfig]):
                         "signals_generated": len(batch.signals),
                     },
                     latency_ms=0.0,
+                )
+
+            # Record signal batch for LearningEngine feedback
+            if self._feedback and batch.signals:
+                avg_prob = sum(s.probability for s in batch.signals) / len(batch.signals)
+                avg_score = sum(s.score for s in batch.signals) / len(batch.signals)
+                await self._feedback.record_signal_batch(
+                    batch_size=len(batch.signals),
+                    avg_probability=avg_prob,
+                    avg_score=avg_score,
+                    strategy="ensemble" if self.config.enable_ensemble else "single",
+                    symbols=[s.symbol for s in batch.signals],
                 )
 
             return batch

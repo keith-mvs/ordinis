@@ -404,10 +404,11 @@ pytest tests/test_rag/ -v -m integration
 
 | Document | Relationship |
 |----------|--------------|
-| [NVIDIA Integration](nvidia-integration.md) | LLM model setup for Cortex |
-| [NVIDIA Blueprint Integration](nvidia-blueprint-integration.md) | Distillery for model optimization |
-| [Layered System Architecture](layered-system-architecture.md) | RAG's role in orchestration |
-| [SignalCore System](signalcore-system.md) | Engine integration targets |
+| [System Specification](../inbox/documents/system-specification.md) | Source of truth for engine roles and naming |
+| [System Architecture](system-architecture.md) | Where Synapse fits operationally |
+| [SignalEngine (SignalCore)](signalcore-engine.md) | Retrieval integration targets |
+| [NVIDIA Integration](nvidia-integration.md) | Model setup for AI-enhanced engine workflows |
+| [NVIDIA Blueprint Integration](../../architecture/nvidia-blueprint-integration.md) | Distillery for model optimization |
 
 ---
 
