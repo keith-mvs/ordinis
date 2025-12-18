@@ -1,14 +1,3 @@
 {
-  "mcpServers": {
-    "Context7": {
-      "env": {
-        "input:arg1": "${env:CONTEXT7_INPUT_ARG1}"
-      }
-    },
-    "GitHub": {
-      "env": {
-        "input:arg0": "${env:GITHUB_INPUT_ARG0}"
-      }
-    }
-  }
+  "mcpServers": {}
 }

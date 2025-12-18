@@ -33,15 +33,35 @@ class OrderType(Enum):
 
 
 class OrderStatus(Enum):
-    """Order status."""
+    """Order status - includes all Alpaca API statuses."""
 
+    # Initial states
     NEW = "new"
-    PENDING = "pending"
+    PENDING_NEW = "pending_new"
+    ACCEPTED = "accepted"
+    ACCEPTED_FOR_BIDDING = "accepted_for_bidding"
+
+    # Fill states
     FILLED = "filled"
     PARTIALLY_FILLED = "partially_filled"
+
+    # Terminal states
     CANCELLED = "cancelled"
+    CANCELED = "canceled"  # Alpaca uses American spelling
     REJECTED = "rejected"
     EXPIRED = "expired"
+    REPLACED = "replaced"
+    DONE_FOR_DAY = "done_for_day"
+
+    # Pending states
+    PENDING = "pending"
+    PENDING_CANCEL = "pending_cancel"
+    PENDING_REPLACE = "pending_replace"
+
+    # Other states
+    STOPPED = "stopped"
+    SUSPENDED = "suspended"
+    CALCULATED = "calculated"
 
 
 class PositionSide(Enum):

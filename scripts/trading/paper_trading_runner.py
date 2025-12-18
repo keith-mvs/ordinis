@@ -409,7 +409,7 @@ async def main():
 
     # Print config
     print("\n" + "=" * 60)
-    print("📈 PAPER TRADING RUNNER")
+    print("PAPER TRADING RUNNER")
     print("=" * 60)
     print(f"Broker: {args.broker}")
     print(f"Config: {args.config}")
@@ -426,7 +426,7 @@ async def main():
     # 2. Run on each bar/tick
     # 3. Manage positions continuously
 
-    print("\n✅ Paper trading runner initialized successfully!")
+    print("\n[OK] Paper trading runner initialized successfully!")
     print("   In production, connect to real-time data feed.")
     print("   Use `runner.run_once(price_data)` on each bar.")
 

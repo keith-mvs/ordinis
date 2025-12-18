@@ -289,6 +289,9 @@ streamlit run src/ordinis/interface/dashboard/app.py
 - **Architecture Review Response** – `docs/architecture/ARCHITECTURE_REVIEW_RESPONSE.md`.
 - **Layered System Architecture** – `docs/architecture/LAYERED_SYSTEM_ARCHITECTURE.md`.
 - **SignalCore System** – `docs/architecture/SIGNALCORE_SYSTEM.md`.
+- **Position Sizing Logic** – `docs/POSITION_SIZING_LOGIC.md` (comprehensive guide to portfolio allocation and optimization).
+  - **Quick Reference** – `docs/POSITION_SIZING_QUICK_REF.md` (examples and common patterns).
+  - **Flow Diagrams** – `docs/diagrams/position_sizing_flow.md` (visual architecture and decision flows).
 - **Knowledge Base** – `docs/knowledge‑base/` (trading research, strategy notes, incident post‑mortems).
 - **Strategy Guides** – `docs/strategies/` (implementation templates and performance notes).
 - **User Guides** – `docs/guides/` (CLI usage, dashboard operation, deployment).

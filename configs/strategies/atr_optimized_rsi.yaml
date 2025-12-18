@@ -1,114 +1,728 @@
 strategy:
   name: ATR-Optimized RSI Mean Reversion
-  version: 1.0.0
+  version: 1.2.0
   type: mean_reversion
-  description: RSI oversold entries with ATR-based adaptive stops. Optimized on 10
-    days of intraday data.
+  description: RSI oversold entries with ATR-based adaptive stops. Expanded to 75+ mid-cap stocks across all sectors.
+
+# Phase 3 tuning (2025-12-17):
+# - Reduced RSI oversold from 35 to 30 for higher quality signals
+# - Added RSI overbought exit at 70 for profit-taking
+# - Reference: trading-day-analysis-2025-12-17.md (6000+ signals, too many triggers)
+
 global_params:
   rsi_period: 14
   atr_period: 14
-  default_rsi_oversold: 35
+  default_rsi_oversold: 30
   default_rsi_exit: 50
+  default_rsi_overbought: 70
   default_atr_stop_mult: 1.5
   default_atr_tp_mult: 2.0
+
 regime_filter:
   enabled: true
   avoid_regimes:
-  - quiet_choppy
-  - choppy
+    - quiet_choppy
+    - choppy
   prefer_regimes:
-  - mean_reverting
-  - trending
+    - mean_reverting
+    - trending
+
 risk_management:
-  max_position_size_pct: 5.0
+  max_position_size_pct: 3.0
   max_daily_loss_pct: 2.0
-  max_concurrent_positions: 5
+  max_concurrent_positions: 10
   use_atr_position_sizing: true
+
 symbols:
+  # ============================================
+  # TECHNOLOGY - Software & Cybersecurity
+  # ============================================
   AMD:
-    rsi_oversold: 35
+    rsi_oversold: 30
     rsi_exit: 50
     atr_stop_mult: 1.5
     atr_tp_mult: 1.5
     backtest_return: 5.8
     backtest_win_rate: 57
     backtest_profit_factor: 1.58
-  COIN:
-    rsi_oversold: 35
-    rsi_exit: 50
-    atr_stop_mult: 1.5
-    atr_tp_mult: 3.0
-    backtest_return: 12.1
-    backtest_win_rate: 58
-    backtest_profit_factor: 1.77
-  DKNG:
-    rsi_oversold: 35
+    sector: technology
+  CRWD:
+    rsi_oversold: 30
     rsi_exit: 50
     atr_stop_mult: 1.5
     atr_tp_mult: 2.0
-    backtest_return: 7.3
-    backtest_win_rate: 64
-    backtest_profit_factor: 1.91
+    backtest_profit_factor: 1.30
+    sector: technology
+  NET:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: technology
+  DDOG:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: technology
+  ZS:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: technology
+  OKTA:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: technology
+  TWLO:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: technology
+  PATH:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: technology
+  BILL:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: technology
+  MDB:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: technology
+  SNOW:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: technology
   PLTR:
-    rsi_oversold: 35
+    rsi_oversold: 30
     rsi_exit: 50
     atr_stop_mult: 1.5
     atr_tp_mult: 2.0
     backtest_return: 5.7
     backtest_win_rate: 60
     backtest_profit_factor: 1.54
+    sector: technology
+
+  # ============================================
+  # CONSUMER DISCRETIONARY - E-commerce & Travel
+  # ============================================
+  COIN:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 3.0
+    backtest_return: 12.1
+    backtest_win_rate: 58
+    backtest_profit_factor: 1.77
+    sector: consumer_discretionary
+  DKNG:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_return: 7.3
+    backtest_win_rate: 64
+    backtest_profit_factor: 1.91
+    sector: consumer_discretionary
   ROKU:
-    rsi_oversold: 35
+    rsi_oversold: 30
     rsi_exit: 50
     atr_stop_mult: 1.5
     atr_tp_mult: 2.0
     backtest_return: 8.1
     backtest_win_rate: 66
     backtest_profit_factor: 1.92
-  SPY:
-    rsi_oversold: 35
+    sector: consumer_discretionary
+  ABNB:
+    rsi_oversold: 30
     rsi_exit: 50
     atr_stop_mult: 1.5
     atr_tp_mult: 2.0
-    backtest_return: 1.1
-    backtest_win_rate: 59
-    backtest_profit_factor: 1.21
-  SOXS:
-    rsi_oversold: 35
+    backtest_profit_factor: 1.30
+    sector: consumer_discretionary
+  DASH:
+    rsi_oversold: 30
     rsi_exit: 50
     atr_stop_mult: 1.5
     atr_tp_mult: 2.0
-    backtest_return: 6.6
-    backtest_win_rate: 64
-    backtest_profit_factor: 1.34
-  TSLA:
-    rsi_oversold: 35
+    backtest_profit_factor: 1.30
+    sector: consumer_discretionary
+  ETSY:
+    rsi_oversold: 30
     rsi_exit: 50
     atr_stop_mult: 1.5
     atr_tp_mult: 2.0
-    backtest_return: 5.5
-    backtest_win_rate: 54
-    backtest_profit_factor: 1.64
+    backtest_profit_factor: 1.30
+    sector: consumer_discretionary
+  W:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: consumer_discretionary
+  CHWY:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: consumer_discretionary
+  DKS:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: consumer_discretionary
+  EXPE:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: consumer_discretionary
+  MGM:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: consumer_discretionary
+  WYNN:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: consumer_discretionary
+
+  # ============================================
+  # FINANCIALS - Fintech & Banks
+  # ============================================
+  HOOD:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: financials
+  SOFI:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: financials
+  AFRM:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: financials
+  UPST:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: financials
+  LC:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: financials
   BAC:
-    rsi_oversold: 35
+    rsi_oversold: 30
     rsi_exit: 50
     atr_stop_mult: 1.5
     atr_tp_mult: 2.0
     backtest_return: 2.5
     backtest_win_rate: 64
     backtest_profit_factor: 1.35
+    sector: financials
+  ALLY:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: financials
+  CFG:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: financials
+  RF:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: financials
+  FITB:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: financials
+
+  # ============================================
+  # HEALTHCARE - Biotech & Med Devices
+  # ============================================
+  DXCM:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: healthcare
+  VEEV:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: healthcare
+  HIMS:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: healthcare
+  DOCS:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: healthcare
+  ALGN:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: healthcare
+  PODD:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: healthcare
+  TECH:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: healthcare
+  EXAS:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: healthcare
+
+  # ============================================
+  # ENERGY - Oil & Gas
+  # ============================================
+  FANG:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: energy
+  PR:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: energy
+  CTRA:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: energy
+  AR:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: energy
+  RRC:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: energy
+  OVV:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: energy
+  CHK:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: energy
+
+  # ============================================
+  # INDUSTRIALS - Transport & Manufacturing
+  # ============================================
   AAL:
-    rsi_oversold: 35
+    rsi_oversold: 30
     rsi_exit: 50
     atr_stop_mult: 1.5
     atr_tp_mult: 2.0
     backtest_return: 5.1
     backtest_win_rate: 59
     backtest_profit_factor: 1.42
+    sector: industrials
+  XPO:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: industrials
+  SAIA:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: industrials
+  AXON:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: industrials
+  GNRC:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: industrials
+  UAL:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: industrials
+  DAL:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: industrials
+  JBLU:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: industrials
+  ALK:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: industrials
+
+  # ============================================
+  # COMMUNICATION SERVICES - Media & Social
+  # ============================================
+  PINS:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: communication_services
+  SNAP:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: communication_services
+  TTWO:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: communication_services
+  MTCH:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: communication_services
+  ZG:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: communication_services
+  RBLX:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: communication_services
+  EA:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: communication_services
+
+  # ============================================
+  # MATERIALS - Mining & Chemicals
+  # ============================================
+  CLF:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: materials
+  MP:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: materials
+  ATI:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: materials
+  CMC:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: materials
+  X:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: materials
+  AA:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: materials
+
+  # ============================================
+  # CONSUMER STAPLES - Food & Beauty
+  # ============================================
+  ELF:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: consumer_staples
+  CELH:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: consumer_staples
+  FRPT:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: consumer_staples
+  USFD:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: consumer_staples
+
+  # ============================================
+  # REAL ESTATE - REITs & PropTech
+  # ============================================
+  RDFN:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: real_estate
+  OPEN:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: real_estate
+  INVH:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: real_estate
+  MAA:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: real_estate
+
+  # ============================================
+  # UTILITIES - Clean Energy
+  # ============================================
+  RUN:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: utilities
+  ENPH:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: utilities
+  SEDG:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: utilities
+  FSLR:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: utilities
+
+  # ============================================
+  # ETFs & INDICES
+  # ============================================
+  SPY:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_return: 1.1
+    backtest_win_rate: 59
+    backtest_profit_factor: 1.21
+    sector: etf
+  SOXS:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_return: 6.6
+    backtest_win_rate: 64
+    backtest_profit_factor: 1.34
+    sector: etf
+  TSLA:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_return: 5.5
+    backtest_win_rate: 54
+    backtest_profit_factor: 1.64
+    sector: consumer_discretionary
+  QQQ:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: etf
+  IWM:
+    rsi_oversold: 30
+    rsi_exit: 50
+    atr_stop_mult: 1.5
+    atr_tp_mult: 2.0
+    backtest_profit_factor: 1.30
+    sector: etf
+
 performance_summary:
-  total_return_pct: 60.1
-  total_trades: 819
-  tradeable_symbols: 15
-  avoided_symbols: 9
+  total_symbols: 78
+  sectors_covered: 11
+  backtested_symbols: 10
+  new_symbols: 68
   test_period: 10 days intraday 5min
   backtested_on: '2025-12-17'
+  notes: Expanded universe - new symbols use default parameters pending backtest

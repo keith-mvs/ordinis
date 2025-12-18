@@ -3,22 +3,26 @@ FlowRoute execution engine for order management.
 
 Manages order lifecycle, broker routing, and execution quality tracking.
 Integrates with persistence, kill switch, and alerting for production safety.
+
+Phase 1 enhancements (2025-12-17):
+- Pre-trade buying power validation
+- Position sync on startup
+- Broker state reconciliation
 """
 
 from __future__ import annotations
 
+from dataclasses import dataclass, field
 from datetime import datetime
+from decimal import Decimal
 import logging
 from typing import TYPE_CHECKING, Any
 import uuid
 
-from .orders import (
-    ExecutionEvent,
-    Fill,
-    Order,
-    OrderIntent,
-    OrderStatus,
-)
+from ordinis.domain.enums import OrderStatus
+from ordinis.domain.orders import ExecutionEvent, Fill, Order
+
+from .orders import OrderIntent
 
 if TYPE_CHECKING:
     from ordinis.adapters.alerting import AlertManager
@@ -27,6 +31,47 @@ if TYPE_CHECKING:
     from ordinis.safety.kill_switch import KillSwitch
 
 logger = logging.getLogger(__name__)
+
+
+@dataclass
+class AccountState:
+    """Cached broker account state for pre-trade validation."""
+
+    equity: Decimal = Decimal("0")
+    cash: Decimal = Decimal("0")
+    buying_power: Decimal = Decimal("0")
+    portfolio_value: Decimal = Decimal("0")
+    last_sync: datetime | None = None
+
+    def is_stale(self, max_age_seconds: float = 5.0) -> bool:
+        """Check if account state is stale and needs refresh."""
+        if self.last_sync is None:
+            return True
+        age = (datetime.utcnow() - self.last_sync).total_seconds()
+        return age > max_age_seconds
+
+
+@dataclass
+class PositionState:
+    """Cached position state from broker."""
+
+    symbol: str
+    quantity: Decimal
+    side: str  # "long" or "short"
+    avg_entry_price: Decimal
+    market_value: Decimal
+    unrealized_pnl: Decimal
+
+
+@dataclass
+class BrokerSyncResult:
+    """Result of broker state synchronization."""
+
+    success: bool
+    positions_synced: int = 0
+    account_synced: bool = False
+    discrepancies: list[str] = field(default_factory=list)
+    error: str | None = None
 
 
 class FlowRouteEngine:
@@ -42,6 +87,8 @@ class FlowRouteEngine:
         kill_switch: KillSwitch | None = None,
         order_repository: OrderRepository | None = None,
         alert_manager: AlertManager | None = None,
+        max_positions: int = 20,
+        min_buying_power: Decimal = Decimal("1000"),
     ):
         """
         Initialize FlowRoute engine.
@@ -51,6 +98,8 @@ class FlowRouteEngine:
             kill_switch: Kill switch for emergency stop
             order_repository: Repository for order persistence
             alert_manager: Alert manager for notifications
+            max_positions: Maximum number of concurrent positions (default: 20)
+            min_buying_power: Minimum buying power to allow trading (default: $1000)
         """
         self._broker = broker_adapter
         self._kill_switch = kill_switch
@@ -58,6 +107,195 @@ class FlowRouteEngine:
         self._alert_manager = alert_manager
         self._orders: dict[str, Order] = {}
         self._active_orders: set[str] = set()
+
+        # Phase 1: Broker state tracking
+        self._account_state = AccountState()
+        self._positions: dict[str, PositionState] = {}
+        self._max_positions = max_positions
+        self._min_buying_power = min_buying_power
+        self._initialized = False
+
+    async def initialize(self) -> BrokerSyncResult:
+        """
+        Initialize engine by syncing with broker state.
+
+        Must be called before submitting orders. Fetches current
+        positions and account info from broker.
+
+        Returns:
+            BrokerSyncResult with sync status and any discrepancies
+        """
+        if not self._broker:
+            return BrokerSyncResult(
+                success=False,
+                error="No broker adapter configured",
+            )
+
+        result = await self.sync_broker_state()
+
+        if result.success:
+            self._initialized = True
+            logger.info(
+                f"FlowRoute initialized: {result.positions_synced} positions, "
+                f"buying_power=${self._account_state.buying_power:,.2f}"
+            )
+
+        return result
+
+    async def sync_broker_state(self) -> BrokerSyncResult:
+        """
+        Synchronize internal state with broker.
+
+        Fetches current positions and account info. Detects and logs
+        any discrepancies between internal tracking and broker state.
+
+        Returns:
+            BrokerSyncResult with sync details
+        """
+        if not self._broker:
+            return BrokerSyncResult(success=False, error="No broker configured")
+
+        discrepancies: list[str] = []
+
+        try:
+            # Sync account info
+            account = await self._broker.get_account()
+            old_buying_power = self._account_state.buying_power
+
+            self._account_state = AccountState(
+                equity=Decimal(str(account.equity)),
+                cash=Decimal(str(account.cash)),
+                buying_power=Decimal(str(account.buying_power)),
+                portfolio_value=Decimal(str(account.portfolio_value)),
+                last_sync=datetime.utcnow(),
+            )
+
+            if old_buying_power != Decimal("0"):
+                bp_change = self._account_state.buying_power - old_buying_power
+                if abs(bp_change) > Decimal("100"):
+                    discrepancies.append(
+                        f"Buying power changed: ${old_buying_power:,.2f} -> "
+                        f"${self._account_state.buying_power:,.2f}"
+                    )
+
+            # Sync positions
+            broker_positions = await self._broker.get_positions()
+            old_symbols = set(self._positions.keys())
+            new_symbols = {p.symbol for p in broker_positions}
+
+            # Detect position discrepancies
+            added = new_symbols - old_symbols
+            removed = old_symbols - new_symbols
+
+            if added:
+                discrepancies.append(f"New positions detected: {', '.join(added)}")
+            if removed:
+                discrepancies.append(f"Positions closed: {', '.join(removed)}")
+
+            # Update position cache
+            self._positions.clear()
+            for p in broker_positions:
+                self._positions[p.symbol] = PositionState(
+                    symbol=p.symbol,
+                    quantity=Decimal(str(p.quantity)),
+                    side=p.side.value if hasattr(p.side, "value") else str(p.side),
+                    avg_entry_price=Decimal(str(p.avg_entry_price)),
+                    market_value=Decimal(str(p.market_value)),
+                    unrealized_pnl=Decimal(str(p.unrealized_pnl)),
+                )
+
+            # Log discrepancies
+            for disc in discrepancies:
+                logger.warning(f"Broker sync discrepancy: {disc}")
+
+            return BrokerSyncResult(
+                success=True,
+                positions_synced=len(broker_positions),
+                account_synced=True,
+                discrepancies=discrepancies,
+            )
+
+        except Exception as e:
+            logger.exception("Failed to sync broker state")
+            return BrokerSyncResult(success=False, error=str(e))
+
+    async def _refresh_account_if_stale(self) -> bool:
+        """
+        Refresh account state if stale.
+
+        Returns:
+            True if refresh successful or not needed, False on error
+        """
+        if not self._account_state.is_stale():
+            return True
+
+        if not self._broker:
+            return False
+
+        try:
+            account = await self._broker.get_account()
+            self._account_state = AccountState(
+                equity=Decimal(str(account.equity)),
+                cash=Decimal(str(account.cash)),
+                buying_power=Decimal(str(account.buying_power)),
+                portfolio_value=Decimal(str(account.portfolio_value)),
+                last_sync=datetime.utcnow(),
+            )
+            return True
+        except Exception as e:
+            logger.error(f"Failed to refresh account state: {e}")
+            return False
+
+    def _validate_pre_trade(self, order: Order, estimated_cost: Decimal) -> tuple[bool, str]:
+        """
+        Validate order against account state before submission.
+
+        Checks:
+        - Buying power sufficient for order
+        - Position count within limits
+        - Minimum buying power threshold
+
+        Args:
+            order: Order to validate
+            estimated_cost: Estimated cost of order
+
+        Returns:
+            Tuple of (valid, rejection_reason)
+        """
+        # Check minimum buying power threshold
+        if self._account_state.buying_power < self._min_buying_power:
+            return False, (
+                f"Buying power ${self._account_state.buying_power:,.2f} "
+                f"below minimum ${self._min_buying_power:,.2f}"
+            )
+
+        # Check if sufficient buying power for this order
+        if estimated_cost > self._account_state.buying_power:
+            return False, (
+                f"Insufficient buying power: need ${estimated_cost:,.2f}, "
+                f"have ${self._account_state.buying_power:,.2f}"
+            )
+
+        # Check position count limit (for new positions only)
+        if order.symbol not in self._positions:
+            if len(self._positions) >= self._max_positions:
+                return False, (
+                    f"Position limit reached: {len(self._positions)}/{self._max_positions}"
+                )
+
+        return True, ""
+
+    def get_position(self, symbol: str) -> PositionState | None:
+        """Get cached position for symbol."""
+        return self._positions.get(symbol)
+
+    def get_all_positions(self) -> list[PositionState]:
+        """Get all cached positions."""
+        return list(self._positions.values())
+
+    def get_account_state(self) -> AccountState:
+        """Get cached account state."""
+        return self._account_state
 
     def create_order_from_intent(self, intent: OrderIntent) -> Order:
         """
@@ -173,7 +411,8 @@ class FlowRouteEngine:
         """
         Submit order to broker.
 
-        Checks kill switch before submission and persists order state.
+        Validates buying power and position limits before submission.
+        Checks kill switch and persists order state.
 
         Args:
             order: Order to submit
@@ -199,6 +438,55 @@ class FlowRouteEngine:
 
         if order.status != OrderStatus.CREATED:
             return False, f"Order must be in CREATED state, got {order.status.value}"
+
+        # PHASE 1: Pre-trade validation
+        # Refresh account state if stale
+        if not await self._refresh_account_if_stale():
+            logger.warning(f"Order {order.order_id} blocked: failed to refresh account state")
+            order.status = OrderStatus.REJECTED
+            order.error_message = "Failed to verify buying power - account state unavailable"
+            await self._persist_order(order)
+            return False, order.error_message
+
+        # Estimate order cost (quantity * limit_price or use a reasonable estimate)
+        price_estimate = order.limit_price or Decimal("0")
+        if price_estimate == Decimal("0"):
+            # For market orders without price, we need to estimate
+            # Use last known price from position or skip validation
+            existing_pos = self._positions.get(order.symbol)
+            if existing_pos:
+                price_estimate = existing_pos.avg_entry_price
+            else:
+                # Query current price would add latency; for now use conservative estimate
+                # In production, this should fetch current market price
+                price_estimate = Decimal("500")  # Conservative default
+
+        estimated_cost = Decimal(str(order.quantity)) * price_estimate
+
+        # Validate pre-trade conditions
+        valid, rejection_reason = self._validate_pre_trade(order, estimated_cost)
+        if not valid:
+            logger.warning(
+                f"Order {order.order_id} rejected pre-trade: {rejection_reason} "
+                f"[symbol={order.symbol}, qty={order.quantity}, "
+                f"estimated_cost=${estimated_cost:,.2f}]"
+            )
+            order.status = OrderStatus.REJECTED
+            order.error_message = rejection_reason
+            await self._persist_order(order)
+            await self._send_alert(
+                "Order Rejected (Pre-Trade)",
+                f"Order {order.symbol} rejected: {rejection_reason}",
+                severity="warning",
+                metadata={
+                    "order_id": order.order_id,
+                    "symbol": order.symbol,
+                    "quantity": str(order.quantity),
+                    "estimated_cost": str(estimated_cost),
+                    "buying_power": str(self._account_state.buying_power),
+                },
+            )
+            return False, rejection_reason
 
         # Update status
         order.status = OrderStatus.PENDING_SUBMIT
@@ -563,5 +851,27 @@ class FlowRouteEngine:
             "total_orders": len(self._orders),
             "active_orders": len(self._active_orders),
             "has_broker": self._broker is not None,
+            "initialized": self._initialized,
+            "account_state": {
+                "equity": str(self._account_state.equity),
+                "cash": str(self._account_state.cash),
+                "buying_power": str(self._account_state.buying_power),
+                "portfolio_value": str(self._account_state.portfolio_value),
+                "last_sync": self._account_state.last_sync.isoformat()
+                if self._account_state.last_sync
+                else None,
+            },
+            "positions": {
+                symbol: {
+                    "quantity": str(pos.quantity),
+                    "side": pos.side,
+                    "avg_entry_price": str(pos.avg_entry_price),
+                    "market_value": str(pos.market_value),
+                    "unrealized_pnl": str(pos.unrealized_pnl),
+                }
+                for symbol, pos in self._positions.items()
+            },
+            "position_count": len(self._positions),
+            "max_positions": self._max_positions,
             "execution_stats": self.get_execution_stats(),
         }

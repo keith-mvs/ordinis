@@ -46,6 +46,7 @@ governance.yml
 .serena/
 data/chromadb/
 src/data/
+src/ordinis/backtesting/
 bin/grafana/
 bin/prometheus/
 bin/alertmanager/
@@ -111,3 +112,20 @@ configs/loki/
 *.tmp
 *.log
 NUL
+
+# Session logs
+*_session-log_claude.txt
+
+# Data directories (runtime)
+data/alertmanager/
+data/backups/
+data/loki/
+data/massive/
+data/processed/
+data/prometheus/
+data/promtail/
+data/temp/
+data/*.sqlite
+
+# Large PDFs (use Git LFS or external storage)
+docs/publications/*.pdf

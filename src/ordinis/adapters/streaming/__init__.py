@@ -5,9 +5,11 @@ Provides:
 - Stream protocols and data types
 - WebSocket connection management with reconnection
 - Finnhub streaming provider
+- Massive/Polygon streaming provider
 """
 
 from ordinis.adapters.streaming.finnhub_stream import FinnhubStream
+from ordinis.adapters.streaming.massive_stream import MassiveStreamManager
 from ordinis.adapters.streaming.stream_protocol import (
     BaseStreamHandler,
     BufferedStreamHandler,
@@ -29,6 +31,7 @@ __all__ = [
     "CallbackStreamHandler",
     # Providers
     "FinnhubStream",
+    "MassiveStreamManager",
     # Data classes
     "StreamBar",
     "StreamConfig",

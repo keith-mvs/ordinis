@@ -349,6 +349,38 @@ class Synapse(BaseEngine):
         )
         return self.retrieve(query, ctx)
 
+    def search_publications(
+        self,
+        query: str,
+        source_type: str | None = None,
+        topic: str | None = None,
+        top_k: int = 5,
+    ) -> RetrievalResultSet:
+        """
+        Search research publications (parsed from docs/publications PDFs).
+
+        Args:
+            query: Query text
+            source_type: Filter by source (arxiv, ssrn, nber, aqr, paper)
+            topic: Filter by topic (technical-analysis, machine-learning, etc.)
+            top_k: Number of results
+
+        Returns:
+            Publication retrieval results
+        """
+        filters = {}
+        if source_type:
+            filters["source_type"] = source_type
+        if topic:
+            filters["topic"] = topic
+
+        ctx = RetrievalContext(
+            scope=SearchScope.TEXT,
+            filters=filters,
+            top_k=top_k,
+        )
+        return self.retrieve(query, ctx, collections=["publications"])
+
     async def synthesize(
         self,
         query: str,
