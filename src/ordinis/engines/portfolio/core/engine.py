@@ -76,7 +76,7 @@ class PortfolioEngine(BaseEngine[PortfolioEngineConfig]):
         self,
         config: PortfolioEngineConfig | None = None,
         governance_hook: GovernanceHook | None = None,
-        feedback_collector: FeedbackCollector | None = None,
+        feedback_collector: "FeedbackCollector | None" = None,
     ) -> None:
         """Initialize the portfolio rebalancing engine.
 

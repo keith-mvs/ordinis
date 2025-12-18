@@ -383,7 +383,7 @@ format the output.]
 
 ## Output Format
 
-[Template for expected output structure]
+
 
 ## Examples
 
@@ -399,19 +399,3 @@ Skills should reference the knowledge base for:
 - Risk parameters (limits, thresholds)
 - Indicator specifications (formulas, parameters)
 - Evaluation criteria (minimum thresholds)
-
-Example reference in skill:
-```
-Refer to docs/knowledge-base/02_technical_analysis/README.md for
-indicator definitions and rule templates when analyzing price action.
-```
-
----
-
-## Next Steps
-
-1. Create `.claude/commands/` directory
-2. Implement high-priority skills first
-3. Test each skill with real scenarios
-4. Iterate based on usage patterns
-5. Add more skills as needs emerge

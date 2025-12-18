@@ -301,6 +301,17 @@ class OrchestrationEngine(BaseEngine[OrchestrationEngineConfig]):
 
         try:
             async with self.track_operation("run_cycle", context):
+                # Phase 2: Circuit breaker check before any processing
+                # This prevents the 12/17 issue where 6,000+ signals were generated
+                # despite zero buying power
+                if self._feedback:
+                    allowed, reason = self._feedback.should_allow_signals()
+                    if not allowed:
+                        _logger.warning(f"Cycle blocked by circuit breaker: {reason}")
+                        result.status = CycleStatus.SKIPPED
+                        result.errors.append(f"Circuit breaker: {reason}")
+                        return result
+
                 # Governance preflight
                 if self.config.enable_governance and self._governance:
                     preflight_ctx = PreflightContext(

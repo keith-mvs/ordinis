@@ -572,7 +572,13 @@ class FeedbackCollector:
         Returns:
             (allowed, reason): If not allowed, reason explains why
         """
-        return self.circuit_breaker.should_allow_signal("signal_engine")
+        # Check ALL engines - any tripped breaker blocks signals
+        # This is the holistic protection that was missing on 12/17
+        for engine in self.circuit_breaker.engine_states:
+            allowed, reason = self.circuit_breaker.should_allow_signal(engine)
+            if not allowed:
+                return False, f"{engine}: {reason}"
+        return True, ""
 
     def should_allow_execution(self) -> tuple[bool, str]:
         """
@@ -586,7 +592,13 @@ class FeedbackCollector:
         Returns:
             (allowed, reason): If not allowed, reason explains why
         """
-        return self.circuit_breaker.should_allow_signal("execution_engine")
+        # Check ALL engines - risk/portfolio issues should block execution
+        # This prevents orders when capital is exhausted or positions mismatched
+        for engine in self.circuit_breaker.engine_states:
+            allowed, reason = self.circuit_breaker.should_allow_signal(engine)
+            if not allowed:
+                return False, f"{engine}: {reason}"
+        return True, ""
 
     def get_circuit_breaker_status(self) -> dict[str, Any]:
         """
@@ -973,6 +985,9 @@ class FeedbackCollector:
         Per SDR: "Governance Hooks: Ensure compliance at execution time...
         Every executed trade generates an audit record."
         """
+        # Notify circuit breaker about the rejection
+        self.circuit_breaker.record_error("order_rejected", "execution_engine")
+
         record = FeedbackRecord(
             feedback_type=FeedbackType.ORDER_REJECTED,
             priority=FeedbackPriority.HIGH,
@@ -1095,6 +1110,9 @@ class FeedbackCollector:
             summary=f"Insufficient capital: need ${required_capital:,.0f}, have ${available_capital:,.0f} (buying power: ${buying_power:,.0f}). {signal_count_blocked} signals blocked.",
         )
 
+        # CRITICAL: Notify circuit breaker - this would have stopped 12/17 disaster
+        self.circuit_breaker.record_error("insufficient_capital", "risk_engine")
+
         await self._store_record(record)
         return record
 
@@ -1129,6 +1147,10 @@ class FeedbackCollector:
         """
         quantity_diff = broker_quantity - internal_quantity
         cost_diff = broker_cost - internal_cost
+
+        # CRITICAL: Position mismatch trips circuit breaker immediately (threshold=1)
+        # This prevents further trading when reconciliation has failed
+        self.circuit_breaker.record_error("position_mismatch", "portfolio_engine")
 
         record = FeedbackRecord(
             feedback_type=FeedbackType.POSITION_MISMATCH,
