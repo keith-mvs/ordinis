@@ -1,5 +1,7 @@
 """Main retrieval engine coordinating embeddings, search, and reranking."""
 
+from dataclasses import dataclass
+from enum import Enum
 import re
 import time
 
@@ -18,6 +20,110 @@ try:
     HAS_RERANKER = True
 except ImportError:
     HAS_RERANKER = False
+
+
+# ============================================================================
+# Error Handling for Non-Vectored Data
+# ============================================================================
+
+
+class RAGErrorType(Enum):
+    """Types of RAG retrieval errors."""
+
+    EMPTY_COLLECTION = "empty_collection"
+    EMBEDDING_FAILED = "embedding_failed"
+    QUERY_TOO_SHORT = "query_too_short"
+    NO_RESULTS = "no_results"
+    CHROMA_ERROR = "chroma_error"
+    UNKNOWN = "unknown"
+
+
+@dataclass
+class RAGError:
+    """Structured RAG error with recovery suggestions."""
+
+    error_type: RAGErrorType
+    message: str
+    suggestion: str
+    recoverable: bool = True
+
+    def __str__(self) -> str:
+        return f"[{self.error_type.value}] {self.message}"
+
+
+class RAGErrorHandler:
+    """Handle errors when collections are empty or queries fail."""
+
+    @staticmethod
+    def check_collection_status(client: ChromaClient) -> RAGError | None:
+        """Check if collections are properly populated.
+
+        Returns:
+            RAGError if collection is empty/missing, None if OK
+        """
+        try:
+            text_count = client.get_text_collection().count()
+            code_count = client.get_code_collection().count()
+
+            if text_count == 0 and code_count == 0:
+                return RAGError(
+                    error_type=RAGErrorType.EMPTY_COLLECTION,
+                    message="Knowledge base not indexed - ChromaDB collections are empty",
+                    suggestion=(
+                        "Run: python scripts/index_knowledge_base.py\n"
+                        "Or: python -m ordinis.rag.pipeline.kb_indexer"
+                    ),
+                    recoverable=True,
+                )
+            return None
+        except Exception as e:
+            return RAGError(
+                error_type=RAGErrorType.CHROMA_ERROR,
+                message=f"ChromaDB connection failed: {e}",
+                suggestion="Check ChromaDB is running and persist directory exists",
+                recoverable=False,
+            )
+
+    @staticmethod
+    def validate_query(query: str, min_length: int = 3) -> RAGError | None:
+        """Validate query is suitable for vector search.
+
+        Returns:
+            RAGError if query is invalid, None if OK
+        """
+        if not query or not query.strip():
+            return RAGError(
+                error_type=RAGErrorType.QUERY_TOO_SHORT,
+                message="Query is empty",
+                suggestion="Provide a query with at least a few words",
+                recoverable=True,
+            )
+
+        stripped = query.strip()
+        if len(stripped) < min_length:
+            return RAGError(
+                error_type=RAGErrorType.QUERY_TOO_SHORT,
+                message=f"Query too short ({len(stripped)} chars)",
+                suggestion=f"Query should be at least {min_length} characters",
+                recoverable=True,
+            )
+
+        return None
+
+    @staticmethod
+    def handle_no_results(query: str) -> RAGError:
+        """Create error for no results found."""
+        return RAGError(
+            error_type=RAGErrorType.NO_RESULTS,
+            message=f"No results found for query: {query[:50]}...",
+            suggestion=(
+                "Try:\n"
+                "- Using different keywords\n"
+                "- Broadening the search terms\n"
+                "- Checking if the topic is in the knowledge base"
+            ),
+            recoverable=True,
+        )
 
 
 class RetrievalEngine:
@@ -377,3 +483,114 @@ class RetrievalEngine:
             execution_time_ms=0,  # Approximate
             total_candidates=len(all_results),
         )
+
+    def safe_query(
+        self,
+        query: str,
+        query_type: QueryType | str | None = None,
+        top_k: int | None = None,
+        filters: dict | None = None,
+        collections: list[str] | None = None,
+    ) -> tuple[QueryResponse | None, RAGError | None]:
+        """Execute query with comprehensive error handling.
+
+        Safe wrapper around query() that handles:
+        - Empty collections (not indexed)
+        - Invalid queries
+        - Embedding failures
+        - ChromaDB errors
+
+        Args:
+            query: Query text
+            query_type: Query type (auto-detected if None)
+            top_k: Number of results
+            filters: Metadata filters
+            collections: Specific collections to query
+
+        Returns:
+            Tuple of (QueryResponse, None) on success
+            Tuple of (None, RAGError) on failure
+
+        Example:
+            >>> response, error = engine.safe_query("options strategies")
+            >>> if error:
+            ...     print(f"Error: {error.message}")
+            ...     print(f"Suggestion: {error.suggestion}")
+            ... else:
+            ...     print(f"Found {len(response.results)} results")
+        """
+        # Validate query
+        query_error = RAGErrorHandler.validate_query(query)
+        if query_error:
+            logger.warning(f"Query validation failed: {query_error}")
+            return None, query_error
+
+        # Check collection status
+        collection_error = RAGErrorHandler.check_collection_status(self.chroma_client)
+        if collection_error:
+            logger.warning(f"Collection check failed: {collection_error}")
+            return None, collection_error
+
+        try:
+            # Execute query
+            response = self.query(
+                query=query,
+                query_type=query_type,
+                top_k=top_k,
+                filters=filters,
+                collections=collections,
+            )
+
+            # Check for empty results
+            if not response.results:
+                return None, RAGErrorHandler.handle_no_results(query)
+
+            return response, None
+
+        except Exception as e:
+            logger.error(f"Query execution failed: {e}")
+            return None, RAGError(
+                error_type=RAGErrorType.UNKNOWN,
+                message=f"Query failed: {e}",
+                suggestion="Check logs for details and ensure ChromaDB is running",
+                recoverable=False,
+            )
+
+    def get_collection_status(self) -> dict:
+        """Get detailed collection status for diagnostics.
+
+        Returns:
+            Dictionary with collection info and any errors
+        """
+        status = {
+            "healthy": True,
+            "text_collection": {"name": None, "count": 0, "error": None},
+            "code_collection": {"name": None, "count": 0, "error": None},
+            "suggestion": None,
+        }
+
+        try:
+            text_coll = self.chroma_client.get_text_collection()
+            status["text_collection"]["name"] = text_coll.name
+            status["text_collection"]["count"] = text_coll.count()
+        except Exception as e:
+            status["text_collection"]["error"] = str(e)
+            status["healthy"] = False
+
+        try:
+            code_coll = self.chroma_client.get_code_collection()
+            status["code_collection"]["name"] = code_coll.name
+            status["code_collection"]["count"] = code_coll.count()
+        except Exception as e:
+            status["code_collection"]["error"] = str(e)
+            status["healthy"] = False
+
+        total = status["text_collection"]["count"] + status["code_collection"]["count"]
+
+        if total == 0:
+            status["healthy"] = False
+            status["suggestion"] = (
+                "Collections are empty. Run:\n  python scripts/index_knowledge_base.py"
+            )
+
+        return status
