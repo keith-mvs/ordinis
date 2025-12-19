@@ -1,3 +1,12 @@
 {
-  "mcpServers": {}
+  "mcpServers": {
+    "ordinis": {
+      "command": "python",
+      "args": ["-m", "ordinis.mcp"],
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/src"
+      }
+    }
+  }
 }

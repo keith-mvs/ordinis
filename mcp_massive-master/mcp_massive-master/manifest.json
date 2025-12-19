@@ -1,0 +1,39 @@
+{
+  "manifest_version": "0.2",
+  "name": "mcp_massive",
+  "version": "0.6.0",
+  "description": "MCP server providing access to Massive.com financial market data API",
+  "author": {
+    "name": "Massive.com",
+    "email": "support@massive.com",
+    "url": "https://massive.com"
+  },
+  "privacy_policies": [
+    "https://massive.com/legal/privacy"
+  ],
+  "server": {
+    "type": "python",
+    "entry_point": "mcp_massive",
+    "mcp_config": {
+      "command": "uvx",
+      "args": [
+        "--from",
+        "git+https://github.com/massive-com/mcp_massive",
+        "mcp_massive"
+      ]
+    }
+  },
+  "user_config": {
+    "MASSIVE_API_KEY": {
+      "type": "string",
+      "description": "Your Massive.com API key for accessing market data",
+      "required": true,
+      "sensitive": true
+    }
+  },
+  "compatibility": {
+    "python": ">=3.10"
+  },
+  "repository": "https://github.com/massive-com/mcp_massive",
+  "license": "MIT"
+}

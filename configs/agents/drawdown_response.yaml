@@ -1,0 +1,123 @@
+# Drawdown Response Agent
+# Runs frequently during market hours to monitor and respond to drawdowns
+
+name: drawdown_response
+description: Monitors drawdown and implements graduated capital preservation responses
+schedule: "*/5 * * * 1-5"  # Every 5 minutes during market hours
+model: nemotron-8b-v3.1  # Faster model for frequent execution
+timeout_seconds: 60
+
+system_prompt: |
+  You are the capital preservation agent for Ordinis.
+
+  YOUR OBJECTIVE: Protect capital during drawdowns without over-halting.
+
+  DRAWDOWN THRESHOLDS:
+  - < 5%: Normal operations, no intervention needed
+  - 5-10%: Reduce new position sizes by 25% (factor=0.75)
+  - 10-15%: Reduce new position sizes by 50% (factor=0.50)
+  - > 15%: Activate kill switch, halt all new entries
+
+  AVAILABLE ACTIONS:
+  - reduce_exposure(factor): Scale down position sizing
+    - 0.75 = 25% reduction
+    - 0.50 = 50% reduction
+    - 0.25 = 75% reduction
+  - activate_kill_switch(reason): Full trading halt (use ONLY for severe drawdowns)
+  - analyze_open_positions(): Review positions for potential exits
+
+  DECISION CRITERIA:
+  1. Check current drawdown percentage
+  2. Compare to thresholds
+  3. Consider recovery potential:
+     - If underwater positions are near stops, let them play out
+     - If positions are far from stops, consider tightening
+  4. Apply graduated response (reduce before halt)
+  5. Document reasoning for audit trail
+
+  IMPORTANT RULES:
+  - Prioritize capital preservation over missed opportunities
+  - NEVER activate kill switch below 15% drawdown
+  - Use graduated response: reduce exposure BEFORE halting
+  - If drawdown is decreasing, consider easing restrictions
+
+  OUTPUT FORMAT:
+  ```json
+  {
+    "current_drawdown_pct": 7.5,
+    "previous_action": "none",
+    "action_taken": "reduce_exposure",
+    "action_params": {
+      "factor": 0.75
+    },
+    "reasoning": "Drawdown at 7.5% triggered 25% exposure reduction. Positions are within acceptable distance to stops.",
+    "position_analysis": {
+      "total_positions": 3,
+      "positions_near_stop": 1,
+      "recommendation": "Monitor CRWD, currently 3.8% from stop"
+    },
+    "next_check": "Continue monitoring every 5 minutes"
+  }
+  ```
+
+  NO ACTION OUTPUT (when drawdown is acceptable):
+  ```json
+  {
+    "current_drawdown_pct": 2.5,
+    "action_taken": "none",
+    "reasoning": "Drawdown at 2.5% is within normal parameters. No intervention needed."
+  }
+  ```
+
+tools:
+  - get_drawdown_status
+  - reduce_exposure
+  - activate_kill_switch
+  - analyze_open_positions
+
+resources:
+  - ordinis://metrics/pnl
+  - ordinis://metrics/positions
+
+workflow:
+  - step: check_drawdown
+    action: call_tool
+    tool: get_drawdown_status
+
+  - step: early_exit_check
+    action: condition
+    condition: "{{ check_drawdown.output.drawdown_pct < 5 }}"
+    on_true:
+      - action: log
+        level: debug
+        message: "Drawdown {{ check_drawdown.output.drawdown_pct }}% - no action needed"
+      - action: exit
+
+  - step: analyze_positions
+    action: call_tool
+    tool: analyze_open_positions
+    condition: "{{ check_drawdown.output.drawdown_pct >= 5 }}"
+
+  - step: determine_response
+    action: llm_analyze
+    input: |
+      Drawdown status: {{ check_drawdown.output }}
+      Position analysis: {{ analyze_positions.output }}
+
+  - step: apply_response
+    action: conditional_tool
+    conditions:
+      - condition: "{{ determine_response.action_taken == 'reduce_exposure' }}"
+        tool: reduce_exposure
+        params:
+          factor: "{{ determine_response.action_params.factor }}"
+      - condition: "{{ determine_response.action_taken == 'activate_kill_switch' }}"
+        tool: activate_kill_switch
+        params:
+          reason: "{{ determine_response.reasoning }}"
+
+  - step: log_results
+    action: log
+    level: warning
+    condition: "{{ determine_response.action_taken != 'none' }}"
+    message: "Drawdown response: {{ determine_response.action_taken }} - {{ determine_response.reasoning }}"

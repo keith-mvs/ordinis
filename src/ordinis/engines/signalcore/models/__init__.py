@@ -4,6 +4,7 @@ from .adx_trend import ADXTrendModel
 from .atr_breakout import ATRBreakoutModel
 from .atr_optimized_rsi import ATROptimizedRSIModel
 from .bollinger_bands import BollingerBandsModel
+from .bollinger_rsi_confluence import BollingerRSIConfluenceModel
 from .evt_risk_gate import EVTGatedStrategy, EVTRiskGate
 from .fibonacci_retracement import FibonacciRetracementModel
 from .fundamental_value import FundamentalValueModel
@@ -35,6 +36,7 @@ __all__ = [
     "ATRBreakoutModel",
     "ATROptimizedRSIModel",
     "BollingerBandsModel",
+    "BollingerRSIConfluenceModel",
     "FibonacciRetracementModel",
     "MACDModel",
     "MomentumBreakoutModel",

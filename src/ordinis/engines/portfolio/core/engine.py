@@ -7,6 +7,12 @@ Orchestrates multiple rebalancing strategies with governance hooks.
 Phase 2 enhancements (2025-12-17):
 - FeedbackCollector integration for portfolio state snapshots
 - Periodic state recording to LearningEngine
+
+Phase 3 enhancements (2025-12-19):
+- PortfolioOptAdapter integration for GPU-optimized weight rebalancing
+- ExecutionFeedbackCollector for closed-loop execution quality tracking
+- Drift-band and calendar-based rebalancing triggers
+- Transaction cost awareness in rebalancing decisions
 """
 
 from datetime import UTC, datetime
@@ -24,7 +30,9 @@ from ordinis.engines.base import (
     HealthStatus,
     PreflightContext,
 )
-from ordinis.engines.portfolio.core.config import PortfolioEngineConfig
+from ordinis.engines.portfolio.core.config import (
+    PortfolioEngineConfig,
+)
 from ordinis.engines.portfolio.core.models import (
     ExecutionResult,
     RebalancingHistory,
@@ -38,6 +46,16 @@ from ordinis.engines.portfolio.events import (
 
 if TYPE_CHECKING:
     from ordinis.engines.learning.collectors.feedback import FeedbackCollector
+    from ordinis.engines.portfolio.adapters.portfolioopt_adapter import (
+        DriftAnalysis,
+        PortfolioOptAdapter,
+        PortfolioWeight,
+        RebalanceCondition,
+    )
+    from ordinis.engines.portfolio.feedback.execution_feedback import (
+        ExecutionFeedbackCollector,
+    )
+    from ordinis.engines.portfolioopt.core.engine import OptimizationResult
 
 
 class PortfolioEngine(BaseEngine[PortfolioEngineConfig]):
@@ -45,6 +63,12 @@ class PortfolioEngine(BaseEngine[PortfolioEngineConfig]):
 
     Orchestrates multiple rebalancing strategies and manages execution history.
     Provides a unified interface for portfolio rebalancing regardless of strategy.
+
+    Phase 3 Features:
+    - PortfolioOptAdapter: Bridges GPU-optimized weights to rebalancing
+    - ExecutionFeedbackCollector: Tracks execution quality for learning
+    - Drift-band rebalancing: Triggers when positions deviate from targets
+    - Calendar rebalancing: Scheduled rebalancing (daily/weekly/monthly)
 
     Example:
         >>> from ordinis.engines.portfolio import (
@@ -77,6 +101,8 @@ class PortfolioEngine(BaseEngine[PortfolioEngineConfig]):
         config: PortfolioEngineConfig | None = None,
         governance_hook: GovernanceHook | None = None,
         feedback_collector: "FeedbackCollector | None" = None,
+        portfolioopt_adapter: "PortfolioOptAdapter | None" = None,
+        execution_feedback: "ExecutionFeedbackCollector | None" = None,
     ) -> None:
         """Initialize the portfolio rebalancing engine.
 
@@ -84,6 +110,8 @@ class PortfolioEngine(BaseEngine[PortfolioEngineConfig]):
             config: Engine configuration (uses defaults if None)
             governance_hook: Optional governance hook for preflight/audit
             feedback_collector: Feedback collector for portfolio state snapshots
+            portfolioopt_adapter: Adapter for GPU-optimized weight rebalancing
+            execution_feedback: Collector for execution quality tracking
         """
         super().__init__(config or PortfolioEngineConfig(), governance_hook)
 
@@ -92,6 +120,12 @@ class PortfolioEngine(BaseEngine[PortfolioEngineConfig]):
         self.last_rebalance_date: datetime | None = None
         self.event_hooks = EventHooks()
         self._feedback = feedback_collector
+
+        # Phase 3: PortfolioOpt integration
+        self._portfolioopt_adapter = portfolioopt_adapter
+        self._execution_feedback = execution_feedback
+        self._target_weights: list["PortfolioWeight"] = []
+        self._last_optimization_result: "OptimizationResult | None" = None
 
         # Portfolio State
         self.positions: dict[str, Position] = {}
@@ -728,3 +762,408 @@ class PortfolioEngine(BaseEngine[PortfolioEngineConfig]):
         if self.config.max_history_entries > 0:
             if len(self.history) > self.config.max_history_entries:
                 self.history = self.history[-self.config.max_history_entries :]
+
+    # -------------------------------------------------------------------------
+    # PortfolioOpt Integration (Phase 3)
+    # -------------------------------------------------------------------------
+
+    def set_portfolioopt_adapter(
+        self, adapter: "PortfolioOptAdapter"
+    ) -> None:
+        """Set the PortfolioOpt adapter for GPU-optimized rebalancing.
+
+        Args:
+            adapter: Configured PortfolioOptAdapter instance
+        """
+        self._portfolioopt_adapter = adapter
+
+    def set_execution_feedback(
+        self, collector: "ExecutionFeedbackCollector"
+    ) -> None:
+        """Set the execution feedback collector.
+
+        Args:
+            collector: ExecutionFeedbackCollector instance
+        """
+        self._execution_feedback = collector
+
+    def apply_optimization_result(
+        self,
+        optimization_result: "OptimizationResult",
+    ) -> list["PortfolioWeight"]:
+        """Apply optimization result from PortfolioOptEngine.
+
+        Converts GPU-optimized weights to target allocations using the
+        configured adapter settings.
+
+        Args:
+            optimization_result: Result from PortfolioOptEngine.optimize()
+
+        Returns:
+            List of PortfolioWeight targets
+
+        Raises:
+            RuntimeError: If PortfolioOptAdapter is not configured
+        """
+        if not self._portfolioopt_adapter:
+            raise RuntimeError(
+                "PortfolioOptAdapter not configured. "
+                "Call set_portfolioopt_adapter() first."
+            )
+
+        self._last_optimization_result = optimization_result
+        self._target_weights = self._portfolioopt_adapter.convert_to_targets(
+            optimization_result, total_equity=self.equity
+        )
+        return self._target_weights
+
+    def get_current_weights(
+        self,
+        prices: dict[str, float],
+    ) -> dict[str, float]:
+        """Calculate current portfolio weights.
+
+        Args:
+            prices: Current prices by symbol
+
+        Returns:
+            Weight percentages by symbol (including 'CASH')
+        """
+        if not self._portfolioopt_adapter:
+            # Fallback: simple calculation without adapter
+            positions = {
+                s: p.quantity for s, p in self.positions.items()
+            }
+            position_values = {
+                s: qty * prices.get(s, 0.0) for s, qty in positions.items()
+            }
+            total = sum(position_values.values()) + self.cash
+            if total <= 0:
+                return {"CASH": 100.0}
+            weights = {s: (v / total) * 100 for s, v in position_values.items()}
+            weights["CASH"] = (self.cash / total) * 100
+            return weights
+
+        positions = {s: p.quantity for s, p in self.positions.items()}
+        return self._portfolioopt_adapter.calculate_current_weights(
+            positions, prices, self.cash
+        )
+
+    def analyze_drift(
+        self,
+        prices: dict[str, float],
+        target_weights: list["PortfolioWeight"] | None = None,
+    ) -> "DriftAnalysis":
+        """Analyze portfolio drift from target weights.
+
+        Uses configured drift-band settings to determine if rebalancing
+        is warranted.
+
+        Args:
+            prices: Current prices by symbol
+            target_weights: Override target weights (default: use stored)
+
+        Returns:
+            DriftAnalysis with drift metrics and recommendations
+
+        Raises:
+            RuntimeError: If adapter not configured or no targets set
+        """
+        if not self._portfolioopt_adapter:
+            raise RuntimeError("PortfolioOptAdapter not configured")
+
+        targets = target_weights or self._target_weights
+        if not targets:
+            raise RuntimeError(
+                "No target weights set. Call apply_optimization_result() first."
+            )
+
+        current_weights = self.get_current_weights(prices)
+        return self._portfolioopt_adapter.analyze_drift(
+            current_weights, targets, self.cash
+        )
+
+    def should_rebalance_drift(
+        self,
+        prices: dict[str, float],
+    ) -> bool:
+        """Check if drift-based rebalancing should occur.
+
+        Evaluates current drift against configured threshold and cooldown.
+
+        Args:
+            prices: Current prices by symbol
+
+        Returns:
+            True if drift threshold exceeded and not in cooldown
+        """
+        if not self.config.drift_band.enabled:
+            return False
+
+        if not self._portfolioopt_adapter or not self._target_weights:
+            return False
+
+        try:
+            drift_analysis = self.analyze_drift(prices)
+            return drift_analysis.drift_triggered
+        except RuntimeError:
+            return False
+
+    def should_rebalance_calendar(
+        self,
+        now: datetime | None = None,
+    ) -> bool:
+        """Check if calendar-based rebalancing should occur.
+
+        Args:
+            now: Current timestamp (default: now)
+
+        Returns:
+            True if calendar rebalance is due
+        """
+        if not self.config.calendar.enabled:
+            return False
+
+        if not self._portfolioopt_adapter:
+            return False
+
+        return self._portfolioopt_adapter.should_calendar_rebalance(now)
+
+    async def generate_rebalance_trades(
+        self,
+        prices: dict[str, float],
+        target_weights: list["PortfolioWeight"] | None = None,
+        condition: "RebalanceCondition | None" = None,
+    ) -> list[dict[str, Any]]:
+        """Generate trades to rebalance portfolio to target weights.
+
+        Integrates with governance preflight and execution feedback.
+
+        Args:
+            prices: Current prices by symbol
+            target_weights: Override targets (default: use stored)
+            condition: What triggered this rebalance
+
+        Returns:
+            List of trade instructions ready for execution
+
+        Raises:
+            RuntimeError: If adapter not configured
+        """
+        if not self._portfolioopt_adapter:
+            raise RuntimeError("PortfolioOptAdapter not configured")
+
+        targets = target_weights or self._target_weights
+        if not targets:
+            raise RuntimeError("No target weights set")
+
+        # Governance preflight
+        timestamp = datetime.now(tz=UTC)
+        if self.config.enable_governance and self._governance_hook:
+            context = PreflightContext(
+                operation="generate_rebalance_trades",
+                parameters={
+                    "target_count": len(targets),
+                    "equity": self.equity,
+                    "condition": condition.name if condition else "MANUAL",
+                },
+                timestamp=timestamp,
+                trace_id=f"rebalance-{timestamp.timestamp()}",
+            )
+            result = await self.preflight(context)
+            if not result.allowed:
+                self._audit(
+                    AuditRecord(
+                        timestamp=timestamp,
+                        operation="generate_rebalance_trades",
+                        status="blocked",
+                        details={"reason": result.reason},
+                    )
+                )
+                return []
+
+        current_weights = self.get_current_weights(prices)
+
+        # Generate trades
+        trades = self._portfolioopt_adapter.calculate_rebalance_trades(
+            current_weights=current_weights,
+            target_weights=targets,
+            total_equity=self.equity,
+            prices=prices,
+            min_order_value=self.config.min_trade_value,
+        )
+
+        # Apply execution feedback adjustments if available
+        if self._execution_feedback and self.config.execution_feedback.enabled:
+            trades = self._apply_execution_feedback(trades)
+
+        # Emit event
+        self.event_hooks.emit(
+            RebalanceEvent(
+                timestamp=timestamp,
+                event_type=RebalanceEventType.DECISIONS_GENERATED,
+                data={
+                    "trade_count": len(trades),
+                    "total_notional": sum(t.get("notional", 0) for t in trades),
+                },
+            )
+        )
+
+        return trades
+
+    def _apply_execution_feedback(
+        self,
+        trades: list[dict[str, Any]],
+    ) -> list[dict[str, Any]]:
+        """Apply execution feedback adjustments to trades.
+
+        Reduces sizing for symbols with poor execution quality.
+
+        Args:
+            trades: Original trade list
+
+        Returns:
+            Adjusted trade list
+        """
+        if not self._execution_feedback:
+            return trades
+
+        adjusted = []
+        for trade in trades:
+            symbol = trade.get("symbol")
+            if not symbol:
+                adjusted.append(trade)
+                continue
+
+            # Check if sizing should be reduced for this symbol
+            recommendation = self._execution_feedback.should_adjust_sizing(symbol)
+
+            if recommendation and recommendation.should_reduce:
+                factor = self.config.execution_feedback.sizing_reduction_factor
+                trade = dict(trade)  # Copy
+                trade["notional"] = trade.get("notional", 0) * factor
+                trade["shares"] = trade.get("shares", 0) * factor
+                trade["sizing_adjusted"] = True
+                trade["adjustment_reason"] = recommendation.reason
+
+            adjusted.append(trade)
+
+        return adjusted
+
+    async def invest_cash(
+        self,
+        prices: dict[str, float],
+        cash_amount: float | None = None,
+    ) -> list[dict[str, Any]]:
+        """Create trades to invest available cash proportionally.
+
+        Alpaca-style invest_cash: Only buys, no sells. Requires minimum $10.
+
+        Args:
+            prices: Current prices by symbol
+            cash_amount: Override cash amount (default: available cash)
+
+        Returns:
+            List of buy orders to invest cash
+        """
+        if not self._portfolioopt_adapter:
+            raise RuntimeError("PortfolioOptAdapter not configured")
+
+        if not self._target_weights:
+            raise RuntimeError("No target weights set")
+
+        amount = cash_amount if cash_amount is not None else self.cash
+
+        return self._portfolioopt_adapter.create_invest_cash_trades(
+            cash_amount=amount,
+            target_weights=self._target_weights,
+            prices=prices,
+        )
+
+    def record_execution(
+        self,
+        order_id: str,
+        symbol: str,
+        side: str,
+        expected_price: float,
+        filled_price: float,
+        expected_qty: float,
+        filled_qty: float,
+        estimated_cost_bps: float = 0.0,
+        execution_time_ms: float = 0.0,
+    ) -> None:
+        """Record trade execution for feedback learning.
+
+        Args:
+            order_id: Unique order identifier
+            symbol: Traded symbol
+            side: 'buy' or 'sell'
+            expected_price: Price at order submission
+            filled_price: Actual fill price
+            expected_qty: Requested quantity
+            filled_qty: Actual filled quantity
+            estimated_cost_bps: Estimated transaction cost
+            execution_time_ms: Time to fill
+        """
+        if not self._execution_feedback:
+            return
+
+        self._execution_feedback.record_order_submission(
+            order_id=order_id,
+            symbol=symbol,
+            side=side,
+            expected_price=expected_price,
+            expected_qty=expected_qty,
+            estimated_cost_bps=estimated_cost_bps,
+        )
+
+        self._execution_feedback.record_fill(
+            order_id=order_id,
+            filled_avg_price=filled_price,
+            filled_qty=filled_qty,
+            execution_time_ms=execution_time_ms,
+        )
+
+    def get_execution_metrics(
+        self,
+        lookback_hours: int = 24,
+    ) -> Any:
+        """Get execution quality metrics.
+
+        Args:
+            lookback_hours: Hours of history to analyze
+
+        Returns:
+            ExecutionQualityMetrics or None if not available
+        """
+        if not self._execution_feedback:
+            return None
+
+        return self._execution_feedback.get_quality_metrics(
+            lookback_hours=lookback_hours
+        )
+
+    def estimate_rebalance_cost(
+        self,
+        prices: dict[str, float],
+    ) -> float:
+        """Estimate total transaction cost for rebalancing to targets.
+
+        Args:
+            prices: Current prices by symbol
+
+        Returns:
+            Estimated cost in dollars
+        """
+        if not self._portfolioopt_adapter or not self._target_weights:
+            return 0.0
+
+        current_weights = self.get_current_weights(prices)
+        trades = self._portfolioopt_adapter.calculate_rebalance_trades(
+            current_weights=current_weights,
+            target_weights=self._target_weights,
+            total_equity=self.equity,
+            prices=prices,
+        )
+
+        return self._portfolioopt_adapter.estimate_rebalance_cost(trades)

@@ -1,0 +1,26 @@
+{
+    "mcpServers": {
+        "ordinis": {
+            "command": "python",
+            "args": [
+                "-m",
+                "ordinis.mcp"
+            ],
+            "cwd": "C:\\Users\\kjfle\\Workspace\\ordinis\\src",
+            "env": {
+                "PYTHONPATH": "C:\\Users\\kjfle\\Workspace\\ordinis\\src"
+            }
+        },
+        "massive": {
+            "command": "uvx",
+            "args": [
+                "--from",
+                "git+https://github.com/massive-com/mcp_massive@v0.6.0",
+                "mcp_massive"
+            ],
+            "env": {
+                "MASSIVE_API_KEY": "${MASSIVE_API_KEY}"
+            }
+        }
+    }
+}

@@ -2,14 +2,44 @@
 Technical indicator calculations for feature engineering.
 
 All indicators are based on standard financial formulas.
+
+NOTE: This module delegates core calculations to ordinis.quant.gs_quant_adapter
+for consistency across the codebase. The wrapper methods here maintain backwards
+compatibility with existing call sites.
+
+TODO(refactor): Consider deprecating this class in favor of direct ordinis.quant imports.
+See docs/gs_quant_integration_analysis.md for consolidation recommendations.
 """
 
 import numpy as np
 import pandas as pd
 
+# Import canonical implementations from gs_quant_adapter
+from ordinis.quant import (
+    bollinger_bands as _gs_bollinger_bands,
+)
+from ordinis.quant import (
+    macd as _gs_macd,
+)
+from ordinis.quant import (
+    moving_average as _gs_moving_average,
+)
+from ordinis.quant import (
+    rsi as _gs_rsi,
+)
+from ordinis.quant import (
+    zscores as _gs_zscores,
+)
+
 
 class TechnicalIndicators:
-    """Technical indicator calculations."""
+    """
+    Technical indicator calculations.
+
+    NOTE: Core indicator functions (RSI, Bollinger Bands, MACD, etc.) now delegate
+    to ordinis.quant for canonical implementations. This class provides backwards-
+    compatible wrappers that preserve the original API signatures.
+    """
 
     @staticmethod
     def sma(data: pd.Series, window: int) -> pd.Series:
@@ -23,7 +53,10 @@ class TechnicalIndicators:
         Returns:
             SMA series
         """
-        return data.rolling(window=window).mean()
+        # Delegate to gs_quant_adapter, but preserve NaN behavior for compatibility
+        result = _gs_moving_average(data, w=window)
+        # Reindex to match original series length (gs_quant trims NaN)
+        return result.reindex(data.index)
 
     @staticmethod
     def ema(data: pd.Series, span: int) -> pd.Series:
@@ -51,18 +84,10 @@ class TechnicalIndicators:
         Returns:
             RSI series (0-100)
         """
-        delta = data.diff()
-
-        gain = delta.where(delta > 0, 0.0)  # type: ignore[operator]
-        loss = -delta.where(delta < 0, 0.0)  # type: ignore[operator]
-
-        avg_gain = gain.rolling(window=window).mean()
-        avg_loss = loss.rolling(window=window).mean()
-
-        rs = avg_gain / avg_loss
-        rsi = 100 - (100 / (1 + rs))
-
-        return rsi
+        # Delegate to gs_quant_adapter
+        result = _gs_rsi(data, w=window)
+        # Reindex to match original series length
+        return result.reindex(data.index)
 
     @staticmethod
     def bollinger_bands(
@@ -79,11 +104,13 @@ class TechnicalIndicators:
         Returns:
             (middle_band, upper_band, lower_band) tuple
         """
-        middle = data.rolling(window=window).mean()
-        std = data.rolling(window=window).std()
+        # Delegate to gs_quant_adapter (returns DataFrame)
+        bb_df = _gs_bollinger_bands(data, w=window, k=num_std)
 
-        upper = middle + (std * num_std)
-        lower = middle - (std * num_std)
+        # Convert to tuple format for backwards compatibility
+        middle = bb_df["middle"].reindex(data.index)
+        upper = bb_df["upper"].reindex(data.index)
+        lower = bb_df["lower"].reindex(data.index)
 
         return middle, upper, lower
 
@@ -103,12 +130,13 @@ class TechnicalIndicators:
         Returns:
             (macd, signal, histogram) tuple
         """
-        ema_fast = data.ewm(span=fast, adjust=False).mean()
-        ema_slow = data.ewm(span=slow, adjust=False).mean()
+        # Delegate to gs_quant_adapter (returns DataFrame)
+        macd_df = _gs_macd(data, fast=fast, slow=slow, signal=signal)
 
-        macd_line = ema_fast - ema_slow
-        signal_line = macd_line.ewm(span=signal, adjust=False).mean()
-        histogram = macd_line - signal_line
+        # Convert to tuple format for backwards compatibility
+        macd_line = macd_df["macd"].reindex(data.index)
+        signal_line = macd_df["signal"].reindex(data.index)
+        histogram = macd_df["histogram"].reindex(data.index)
 
         return macd_line, signal_line, histogram
 
@@ -149,9 +177,10 @@ class TechnicalIndicators:
         Returns:
             Z-Score series
         """
-        mean = data.rolling(window=window).mean()
-        std = data.rolling(window=window).std()
-        return (data - mean) / std
+        # Delegate to gs_quant_adapter
+        result = _gs_zscores(data, w=window)
+        # Reindex to match original series length
+        return result.reindex(data.index)
 
     @staticmethod
     def stochastic(

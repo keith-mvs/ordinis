@@ -17,8 +17,8 @@ The engine follows the standard Ordinis engine template with:
 """
 
 # Core engine components
-# Adapters
-from ordinis.engines.portfolio.adapters import (
+# Integration adapters
+from ordinis.engines.portfolio.integration import (
     FlowRouteAdapter,
     FlowRouteOrderRequest,
     ProofBenchAdapter,

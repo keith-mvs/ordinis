@@ -118,6 +118,11 @@ ai = [
     "openai>=1.12.0",  # For OpenAI-compatible APIs
 ]
 
+mcp = [
+    # Model Context Protocol
+    "mcp[cli]>=1.15.0",
+]
+
 visualization = [
     # Interactive charting and dashboards
     "plotly>=5.18.0",

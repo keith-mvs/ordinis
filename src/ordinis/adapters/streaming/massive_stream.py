@@ -125,14 +125,15 @@ class MassiveStreamManager(WebSocketManager):
         if not self._ws or not self._authenticated:
             return
 
-        # Subscribe to quotes, trades, and minute bars
+        # Subscribe to quotes, trades, second aggregates, and minute bars
         channels = []
         for symbol in symbols:
             channels.extend(
                 [
                     f"Q.{symbol}",  # Quotes
                     f"T.{symbol}",  # Trades
-                    f"AM.{symbol}",  # Minute aggregates
+                    f"A.{symbol}",  # Per-second aggregates (for fast signals)
+                    f"AM.{symbol}",  # Minute aggregates (for indicator calc)
                 ]
             )
 
@@ -151,6 +152,7 @@ class MassiveStreamManager(WebSocketManager):
                 [
                     f"Q.{symbol}",
                     f"T.{symbol}",
+                    f"A.{symbol}",
                     f"AM.{symbol}",
                 ]
             )
@@ -176,6 +178,10 @@ class MassiveStreamManager(WebSocketManager):
         if not isinstance(data, list):
             data = [data]
 
+        # Log first few messages for debugging
+        if self._message_count < 10:
+            logger.info("%s: Message #%d: %s", self.provider_name, self._message_count, data[:3] if len(data) > 3 else data)
+
         for msg in data:
             event_type = msg.get("ev")
 
@@ -183,6 +189,9 @@ class MassiveStreamManager(WebSocketManager):
                 await self._handle_quote(msg)
             elif event_type == "T":
                 await self._handle_trade(msg)
+            elif event_type == "A":
+                # Per-second aggregate - treat same as bar for fast signals
+                await self._handle_bar(msg)
             elif event_type == "AM":
                 await self._handle_bar(msg)
             elif event_type == "status":

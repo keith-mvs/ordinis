@@ -1,0 +1,315 @@
+# =============================================================================
+# Portfolio Governance Configuration
+# =============================================================================
+# Risk management rules and constraints for PortfolioEngine and related systems.
+# Loaded by GovernanceEngine for preflight checks and audit logging.
+# 
+# Reference: docs/architecture/PORTFOLIO_ARCHITECTURE_REVIEW.md
+# =============================================================================
+
+metadata:
+  title: Portfolio Governance Rules
+  version: 1.0.0
+  date: 2025-01-01
+  author: Ordinis AI
+  description: |
+    Defines risk limits, trading constraints, and governance rules
+    for portfolio management operations.
+
+# =============================================================================
+# POSITION LIMITS
+# =============================================================================
+position_limits:
+  # Maximum weight per single position
+  max_single_position_pct: 5.0
+  
+  # Minimum position weight (positions smaller are closed)
+  min_position_weight_pct: 0.5
+  
+  # Maximum number of concurrent positions
+  max_positions: 50
+  
+  # Maximum total long exposure as % of equity
+  max_long_exposure_pct: 100.0
+  
+  # Maximum total short exposure as % of equity  
+  max_short_exposure_pct: 30.0
+  
+  # Maximum gross exposure (long + short)
+  max_gross_exposure_pct: 130.0
+
+# =============================================================================
+# SECTOR LIMITS
+# =============================================================================
+sector_limits:
+  # Maximum concentration in any single sector
+  max_sector_concentration_pct: 25.0
+  
+  # Sector definitions (GICS)
+  sectors:
+    technology:
+      max_pct: 30.0
+      symbols_pattern: ["AAPL", "MSFT", "GOOGL", "META", "NVDA", "AMD", "INTC"]
+    
+    financial:
+      max_pct: 20.0
+      symbols_pattern: ["JPM", "BAC", "GS", "MS", "C", "WFC"]
+    
+    healthcare:
+      max_pct: 20.0
+      symbols_pattern: ["JNJ", "UNH", "PFE", "MRK", "ABBV"]
+    
+    energy:
+      max_pct: 15.0
+      symbols_pattern: ["XOM", "CVX", "COP", "SLB"]
+    
+    consumer:
+      max_pct: 20.0
+      symbols_pattern: ["AMZN", "TSLA", "HD", "MCD", "NKE"]
+
+# =============================================================================
+# DAILY LOSS LIMITS
+# =============================================================================
+daily_loss_limits:
+  # Maximum daily portfolio loss (triggers kill switch)
+  max_daily_loss_pct: 5.0
+  
+  # Warning threshold (logs warning, reduces sizing)
+  warning_threshold_pct: 3.0
+  
+  # Maximum single-trade loss
+  max_single_trade_loss_pct: 2.0
+  
+  # Drawdown tracking
+  drawdown:
+    max_drawdown_pct: 15.0
+    warning_threshold_pct: 10.0
+    measurement_window_days: 30
+
+# =============================================================================
+# VOLATILITY RULES
+# =============================================================================
+volatility_rules:
+  # VIX-based regime switching
+  vix_thresholds:
+    low: 15.0       # Normal regime - full sizing
+    medium: 25.0    # Caution regime - 70% sizing
+    high: 35.0      # High vol regime - 50% sizing
+    extreme: 50.0   # Extreme vol - 30% sizing or halt
+
+  # Realized volatility adjustments
+  realized_vol:
+    # Reduce sizing if realized > threshold
+    high_vol_threshold_pct: 40.0
+    high_vol_sizing_mult: 0.7
+    
+    # Can increase in low vol
+    low_vol_threshold_pct: 15.0
+    low_vol_sizing_mult: 1.2
+
+# =============================================================================
+# LIQUIDITY RULES
+# =============================================================================
+liquidity_rules:
+  # Minimum ADV ratio (order size / ADV)
+  max_adv_participation_pct: 5.0
+  
+  # Minimum daily volume
+  min_daily_volume: 100000
+  
+  # Minimum market cap (USD)
+  min_market_cap: 500000000
+  
+  # Spread threshold (skip if spread > threshold)
+  max_spread_bps: 50.0
+
+# =============================================================================
+# CORRELATION LIMITS
+# =============================================================================
+correlation_limits:
+  # Maximum correlation between any two positions
+  max_pairwise_correlation: 0.8
+  
+  # Maximum portfolio-wide correlation
+  max_portfolio_beta: 1.5
+  
+  # Minimum diversification ratio
+  min_diversification_ratio: 1.5
+
+# =============================================================================
+# REGIME-BASED RULES
+# =============================================================================
+regime_rules:
+  # Integration with RegimeSizingHook
+  enable_regime_sizing: true
+  
+  # Regime-specific multipliers (override defaults)
+  multipliers:
+    TRENDING: 1.2
+    VOLATILE_TRENDING: 1.1
+    MEAN_REVERTING: 0.9
+    CHOPPY: 0.7
+    QUIET_CHOPPY: 0.5
+    UNKNOWN: 1.0
+  
+  # Regimes to avoid entirely
+  avoid_regimes:
+    - QUIET_CHOPPY
+  
+  # Minimum confidence to apply regime adjustment
+  min_confidence: 0.6
+
+# =============================================================================
+# EXECUTION FEEDBACK RULES
+# =============================================================================
+execution_feedback:
+  # Slippage thresholds
+  slippage_thresholds:
+    excellent_bps: 5.0
+    good_bps: 15.0
+    acceptable_bps: 30.0
+    poor_bps: 50.0
+  
+  # Adjust sizing based on execution quality
+  quality_sizing_adjustment:
+    enabled: true
+    poor_quality_multiplier: 0.8
+    very_poor_multiplier: 0.5
+  
+  # Minimum samples before adjustment
+  min_samples_for_adjustment: 10
+
+# =============================================================================
+# REBALANCING RULES
+# =============================================================================
+rebalancing:
+  # Drift-based rebalancing
+  drift_bands:
+    type: RELATIVE  # ABSOLUTE or RELATIVE
+    threshold_pct: 5.0
+    check_interval_minutes: 5
+  
+  # Calendar-based rebalancing
+  calendar:
+    enabled: true
+    period: DAILY  # DAILY, WEEKLY, MONTHLY, QUARTERLY
+    time_utc: "14:00"  # 2 PM UTC
+  
+  # Cooldown between rebalances
+  cooldown_minutes: 15
+  
+  # Minimum trade value
+  min_trade_value_usd: 100.0
+
+# =============================================================================
+# INSTRUMENT TYPE RULES
+# =============================================================================
+instrument_types:
+  equity:
+    enabled: true
+    max_weight_pct: 100.0
+    margin_requirement_pct: 50.0
+  
+  options:
+    enabled: false  # Not yet supported
+    max_weight_pct: 10.0
+    margin_requirement_pct: 100.0
+  
+  futures:
+    enabled: false  # Not yet supported
+    max_weight_pct: 20.0
+    margin_requirement_pct: 10.0
+  
+  crypto:
+    enabled: false
+    max_weight_pct: 5.0
+    margin_requirement_pct: 100.0
+
+# =============================================================================
+# BLACKLIST / WHITELIST
+# =============================================================================
+symbol_lists:
+  # Symbols never to trade
+  blacklist:
+    - "EXAMPLE_BAD"
+  
+  # If set, only trade these symbols
+  whitelist: []  # Empty = all allowed
+  
+  # Symbols requiring extra approval
+  restricted:
+    - pattern: "*-USD"  # Crypto pairs
+      reason: "Crypto requires extra approval"
+
+# =============================================================================
+# AUDIT & COMPLIANCE
+# =============================================================================
+audit:
+  # Log all preflight decisions
+  log_preflight: true
+  
+  # Log all trade executions
+  log_executions: true
+  
+  # Log governance violations
+  log_violations: true
+  
+  # Retention period (days)
+  retention_days: 365
+  
+  # Include in audit
+  include:
+    - timestamp
+    - operation
+    - decision
+    - reasons
+    - model_version
+    - policy_version
+
+# =============================================================================
+# KILL SWITCH INTEGRATION
+# =============================================================================
+kill_switch:
+  # Conditions that trigger kill switch
+  triggers:
+    - type: DAILY_LOSS
+      threshold_pct: 5.0
+    
+    - type: CONSECUTIVE_LOSSES
+      count: 5
+    
+    - type: SYSTEM_ERROR
+      error_rate_pct: 10.0
+    
+    - type: LATENCY
+      threshold_ms: 5000
+  
+  # File-based fallback
+  file_path: "data/KILL_SWITCH"
+  
+  # Auto-reset
+  auto_reset_hours: 24
+
+# =============================================================================
+# GOVERNANCE ENGINE SETTINGS
+# =============================================================================
+governance_engine:
+  # Enable/disable governance checks
+  enabled: true
+  
+  # Fail-safe mode (deny all if governance fails)
+  fail_safe: true
+  
+  # Cache preflight decisions
+  cache_ttl_seconds: 60
+  
+  # Hooks to run (in order)
+  hooks:
+    - regime_sizing
+    - position_limits
+    - sector_limits
+    - daily_loss
+    - liquidity
+    - correlation
+    - blacklist
+    - execution_feedback

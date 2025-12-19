@@ -190,6 +190,17 @@ class LivePaperTradingRunner:
         """Handle incoming minute bar."""
         symbol = bar.symbol
 
+        # Log bar reception
+        logger.info(
+            "BAR | %s | O=%.2f H=%.2f L=%.2f C=%.2f V=%d",
+            symbol,
+            bar.open,
+            bar.high,
+            bar.low,
+            bar.close,
+            bar.volume,
+        )
+
         # Store bar data
         bar_data = {
             "timestamp": bar.timestamp,

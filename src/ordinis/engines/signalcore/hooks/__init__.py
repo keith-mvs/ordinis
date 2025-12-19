@@ -10,10 +10,19 @@ from ordinis.engines.signalcore.hooks.governance import (
     SignalCoreGovernanceHook,
     SignalThresholdRule,
 )
+from ordinis.engines.signalcore.hooks.news import (
+    NewsContextHook,
+    NewsItem,
+    NewsSentiment,
+)
 
 __all__ = [
     "DataQualityRule",
     "ModelValidationRule",
+    "NewsContextHook",
+    "NewsItem",
+    "NewsSentiment",
     "SignalCoreGovernanceHook",
     "SignalThresholdRule",
 ]
+

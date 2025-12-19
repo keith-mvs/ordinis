@@ -1,0 +1,28 @@
+[project]
+name = "mcp_massive"
+version = "0.7.0"
+description = "A MCP server project"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "mcp[cli]>=1.15.0",
+    "massive>=2.0.1",
+    "python-dotenv>=1.2.0",
+]
+[[project.authors]]
+name = "Massive"
+email = "support@massive.com"
+
+[build-system]
+requires = [ "hatchling",]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "ruff>=0.13.2",
+    "pytest>=8.4.0",
+    "rust-just>=1.42.4",
+]
+
+[project.scripts]
+mcp_massive = "mcp_massive:main"

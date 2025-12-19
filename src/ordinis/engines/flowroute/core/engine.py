@@ -13,6 +13,11 @@ Phase 2 enhancements (2025-12-17):
 - FeedbackCollector integration for closed-loop learning
 - Circuit breaker integration to halt trading on error spikes
 - Execution failure feedback to LearningEngine
+
+Phase 3 enhancements (2025-12-19):
+- ExecutionFeedbackCollector integration for execution quality tracking
+- Slippage and fill quality metrics
+- Transaction cost calibration feedback
 """
 
 from __future__ import annotations
@@ -34,6 +39,9 @@ if TYPE_CHECKING:
     from ordinis.adapters.storage.repositories.order import OrderRepository
     from ordinis.core.protocols import BrokerAdapter
     from ordinis.engines.learning.collectors import FeedbackCollector
+    from ordinis.engines.portfolio.feedback.execution_feedback import (
+        ExecutionFeedbackCollector,
+    )
     from ordinis.safety.kill_switch import KillSwitch
 
 logger = logging.getLogger(__name__)
@@ -85,6 +93,7 @@ class FlowRouteEngine:
     FlowRoute execution engine.
 
     Manages order lifecycle from intent to execution.
+    Phase 3: Integrates ExecutionFeedbackCollector for quality tracking.
     """
 
     def __init__(
@@ -94,6 +103,7 @@ class FlowRouteEngine:
         order_repository: OrderRepository | None = None,
         alert_manager: AlertManager | None = None,
         feedback_collector: FeedbackCollector | None = None,
+        execution_feedback: "ExecutionFeedbackCollector | None" = None,
         max_positions: int = 20,
         min_buying_power: Decimal = Decimal("1000"),
     ):
@@ -106,6 +116,7 @@ class FlowRouteEngine:
             order_repository: Repository for order persistence
             alert_manager: Alert manager for notifications
             feedback_collector: Feedback collector for closed-loop learning
+            execution_feedback: Collector for execution quality tracking (Phase 3)
             max_positions: Maximum number of concurrent positions (default: 20)
             min_buying_power: Minimum buying power to allow trading (default: $1000)
         """
@@ -114,6 +125,7 @@ class FlowRouteEngine:
         self._order_repo = order_repository
         self._alert_manager = alert_manager
         self._feedback = feedback_collector
+        self._execution_feedback = execution_feedback
         self._orders: dict[str, Order] = {}
         self._active_orders: set[str] = set()
 
@@ -123,6 +135,9 @@ class FlowRouteEngine:
         self._max_positions = max_positions
         self._min_buying_power = min_buying_power
         self._initialized = False
+
+        # Phase 3: Pending order submissions for execution feedback
+        self._pending_submissions: dict[str, dict[str, Any]] = {}
 
     async def initialize(self) -> BrokerSyncResult:
         """
@@ -771,6 +786,7 @@ class FlowRouteEngine:
         Process fill notification from broker.
 
         Persists fill and updates order state.
+        Phase 3: Records execution quality feedback.
 
         Args:
             fill: Fill to process
@@ -799,6 +815,10 @@ class FlowRouteEngine:
         )
         order.events.append(event)
 
+        # Phase 3: Record execution quality feedback
+        if self._execution_feedback:
+            self._record_execution_feedback(order, fill)
+
         # Persist fill and updated order
         await self._persist_fill(fill, order)
         await self._persist_order(order)
@@ -808,6 +828,116 @@ class FlowRouteEngine:
         # Remove from active if fully filled
         if order.status == OrderStatus.FILLED and fill.order_id in self._active_orders:
             self._active_orders.remove(fill.order_id)
+
+    def _record_execution_feedback(self, order: Order, fill: Fill) -> None:
+        """Record execution quality metrics for learning.
+
+        Args:
+            order: Order that was filled
+            fill: Fill details
+        """
+        if not self._execution_feedback:
+            return
+
+        # Get expected price from pending submission or order
+        pending = self._pending_submissions.pop(order.order_id, {})
+        expected_price = pending.get("expected_price") or float(
+            order.limit_price or order.stop_price or fill.price
+        )
+        expected_qty = pending.get("expected_qty") or float(order.quantity)
+        estimated_cost_bps = pending.get("estimated_cost_bps", 10.0)
+
+        # Calculate execution time
+        exec_time_ms = 0.0
+        if order.submitted_at and fill.timestamp:
+            exec_time_ms = (fill.timestamp - order.submitted_at).total_seconds() * 1000
+
+        try:
+            self._execution_feedback.record_execution(
+                symbol=order.symbol,
+                side=str(order.side.value).lower() if hasattr(order.side, "value") else str(order.side).lower(),
+                expected_price=expected_price,
+                filled_avg_price=float(fill.price),
+                expected_qty=expected_qty,
+                filled_qty=float(fill.quantity),
+                estimated_cost_bps=estimated_cost_bps,
+                execution_time_ms=exec_time_ms,
+                metadata={
+                    "order_id": order.order_id,
+                    "fill_id": fill.fill_id,
+                    "strategy_id": order.strategy_id,
+                },
+            )
+        except Exception as e:
+            logger.warning(f"Failed to record execution feedback: {e}")
+
+    def record_order_submission_for_feedback(
+        self,
+        order_id: str,
+        expected_price: float,
+        expected_qty: float,
+        estimated_cost_bps: float = 10.0,
+    ) -> None:
+        """Record order submission details for later fill comparison.
+
+        Call this when submitting an order to track expected execution.
+
+        Args:
+            order_id: Order identifier
+            expected_price: Expected fill price (e.g., current market price)
+            expected_qty: Expected fill quantity
+            estimated_cost_bps: Estimated transaction cost in basis points
+        """
+        self._pending_submissions[order_id] = {
+            "expected_price": expected_price,
+            "expected_qty": expected_qty,
+            "estimated_cost_bps": estimated_cost_bps,
+            "submitted_at": datetime.utcnow(),
+        }
+
+    def get_execution_quality_metrics(
+        self,
+        lookback_hours: float = 24.0,
+        symbol: str | None = None,
+    ) -> Any:
+        """Get execution quality metrics.
+
+        Args:
+            lookback_hours: Hours of history to analyze
+            symbol: Filter to specific symbol (optional)
+
+        Returns:
+            ExecutionQualityMetrics or None if not available
+        """
+        if not self._execution_feedback:
+            return None
+
+        return self._execution_feedback.get_quality_metrics(
+            lookback_hours=lookback_hours, symbol=symbol
+        )
+
+    def should_reduce_sizing(
+        self,
+        symbol: str,
+        threshold_bps: float = 30.0,
+    ) -> tuple[bool, float]:
+        """Check if position sizing should be reduced for a symbol.
+
+        Based on recent execution quality.
+
+        Args:
+            symbol: Symbol to check
+            threshold_bps: Slippage threshold
+
+        Returns:
+            Tuple of (should_reduce, recommended_multiplier)
+        """
+        if not self._execution_feedback:
+            return False, 1.0
+
+        return self._execution_feedback.should_adjust_sizing(
+            symbol=symbol, threshold_bps=threshold_bps
+        )
 
     async def _persist_order(self, order: Order) -> None:
         """Persist order state to repository if configured."""
