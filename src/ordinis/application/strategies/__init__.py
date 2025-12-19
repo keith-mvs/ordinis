@@ -7,6 +7,7 @@ integrated into the Ordinis trading system.
 Available Strategies:
 - ADXFilteredRSIStrategy: RSI strategy filtered by ADX trend strength
 - BollingerBandsStrategy: Volatility-based mean reversion using Bollinger Bands
+- BollingerRSIConfluenceStrategy: Multi-indicator confluence using gs-quant analytics
 - FibonacciADXStrategy: Fibonacci retracement with ADX confirmation
 - MACDStrategy: Momentum and trend identification using MACD
 - MomentumBreakoutStrategy: Breakout trading with momentum confirmation
@@ -18,6 +19,7 @@ Available Strategies:
 from .adx_filtered_rsi import ADXFilteredRSIStrategy
 from .base import BaseStrategy
 from .bollinger_bands import BollingerBandsStrategy
+from .bollinger_rsi_confluence import BollingerRSIConfluenceStrategy
 from .fibonacci_adx import FibonacciADXStrategy
 from .macd import MACDStrategy
 from .momentum_breakout import MomentumBreakoutStrategy
@@ -29,6 +31,7 @@ __all__ = [
     "ADXFilteredRSIStrategy",
     "BaseStrategy",
     "BollingerBandsStrategy",
+    "BollingerRSIConfluenceStrategy",
     "FibonacciADXStrategy",
     "MACDStrategy",
     "MomentumBreakoutStrategy",
