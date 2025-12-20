@@ -129,3 +129,4 @@ data/*.sqlite
 
 # Large PDFs (use Git LFS or external storage)
 docs/publications/*.pdf
+docs/external/
