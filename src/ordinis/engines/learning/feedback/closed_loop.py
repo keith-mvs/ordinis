@@ -209,8 +209,8 @@ class LearningConfig:
     min_samples_per_variant: int = 50
     significance_level: float = 0.05
     
-    # Auto-retraining
-    auto_retrain_enabled: bool = False
+    # Auto-retraining (G-LE-2: enabled by default with safeguards)
+    auto_retrain_enabled: bool = True
     min_retrain_samples: int = 1000
 
 

@@ -3,6 +3,7 @@ LSTM-based price prediction model.
 """
 
 from datetime import datetime
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
@@ -183,3 +184,86 @@ class LSTMModel(Model):
             model_id=self.config.model_id,
             metadata={"probability": prob},
         )
+
+    # -------------------------------------------------------------------------
+    # Persistence Methods (G-ML-1, G-ML-2 - scaler persistence)
+    # -------------------------------------------------------------------------
+
+    def save(self, path: Path) -> None:
+        """
+        Save model to disk including scaler parameters.
+
+        Persists:
+        - model_state.pt: PyTorch model weights
+        - scaler.pt: Normalization parameters (mean, std)
+        - config.json + metadata.json (via parent)
+
+        Args:
+            path: Directory to save model artifacts.
+        """
+        # Call parent to save config and metadata
+        super().save(path)
+
+        path = Path(path)
+
+        # Save model weights if trained
+        if self.model is not None:
+            model_path = path / "model_state.pt"
+            torch.save(self.model.state_dict(), model_path)
+
+        # Save scaler parameters (G-ML-2: critical for training/serving parity)
+        scaler_path = path / "scaler.pt"
+        scaler_state = {
+            "mean": getattr(self, "mean", None),
+            "std": getattr(self, "std", None),
+        }
+        torch.save(scaler_state, scaler_path)
+
+    @classmethod
+    def load(cls, path: Path) -> "LSTMModel":
+        """
+        Load model from disk including scaler parameters.
+
+        Args:
+            path: Directory containing model artifacts.
+
+        Returns:
+            Loaded LSTMModel instance with weights and scaler restored.
+        """
+        import json
+
+        path = Path(path)
+
+        # Load config
+        config_path = path / "config.json"
+        with open(config_path) as f:
+            config_dict = json.load(f)
+
+        config = ModelConfig(**config_dict)
+        model = cls(config)
+
+        # Load scaler parameters (G-ML-2: restore for inference parity)
+        scaler_path = path / "scaler.pt"
+        if scaler_path.exists():
+            scaler_state = torch.load(scaler_path, weights_only=True)
+            if scaler_state.get("mean") is not None:
+                model.mean = scaler_state["mean"]
+            if scaler_state.get("std") is not None:
+                model.std = scaler_state["std"]
+
+        # Load model weights if they exist
+        model_path = path / "model_state.pt"
+        if model_path.exists():
+            params = config.parameters
+            model.model = LSTMNet(
+                input_dim=params.get("input_dim", 5),
+                hidden_dim=params.get("hidden_dim", 64),
+                num_layers=params.get("num_layers", 2),
+                output_dim=params.get("output_dim", 1),
+            ).to(model.device)
+            model.model.load_state_dict(
+                torch.load(model_path, map_location=model.device, weights_only=True)
+            )
+            model.model.eval()
+
+        return model

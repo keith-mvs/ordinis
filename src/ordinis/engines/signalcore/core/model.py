@@ -5,8 +5,9 @@ All models must be testable, reproducible, and auditable.
 """
 
 from abc import ABC, abstractmethod
-from dataclasses import dataclass, field
-from datetime import datetime
+from dataclasses import asdict, dataclass, field
+from datetime import datetime, timezone
+from pathlib import Path
 from typing import Any
 
 import pandas as pd
@@ -133,6 +134,75 @@ class Model(ABC):
             f"version={self.config.version}, "
             f"enabled={self.config.enabled})"
         )
+
+    # -------------------------------------------------------------------------
+    # Persistence Methods (G-ML-1, G-ML-2)
+    # -------------------------------------------------------------------------
+
+    def save(self, path: Path) -> None:
+        """
+        Save model to disk.
+
+        Subclasses with trainable state (e.g., neural networks, scalers)
+        MUST override this method to persist their artifacts.
+
+        Args:
+            path: Directory to save model artifacts.
+        """
+        import json
+
+        path.mkdir(parents=True, exist_ok=True)
+
+        # Save config
+        config_path = path / "config.json"
+        config_dict = asdict(self.config)
+        with open(config_path, "w") as f:
+            json.dump(config_dict, f, indent=2, default=str)
+
+        # Save metadata
+        metadata_path = path / "metadata.json"
+        metadata = {
+            "class": self.__class__.__name__,
+            "module": self.__class__.__module__,
+            "saved_at": datetime.now(tz=timezone.utc).isoformat(),
+            "last_update": self._last_update.isoformat() if self._last_update else None,
+        }
+        with open(metadata_path, "w") as f:
+            json.dump(metadata, f, indent=2)
+
+    @classmethod
+    def load(cls, path: Path) -> "Model":
+        """
+        Load model from disk.
+
+        Subclasses with trainable state MUST override this method.
+
+        Args:
+            path: Directory containing model artifacts.
+
+        Returns:
+            Loaded model instance.
+        """
+        import json
+
+        config_path = path / "config.json"
+        with open(config_path) as f:
+            config_dict = json.load(f)
+
+        config = ModelConfig(**config_dict)
+        return cls(config)
+
+    def get_artifact_path(self, base_dir: Path) -> Path:
+        """
+        Get the standard artifact path for this model.
+
+        Args:
+            base_dir: Base directory for model artifacts.
+
+        Returns:
+            Path: models/{model_id}/{version}/
+        """
+        return base_dir / "models" / self.config.model_id / self.config.version
 
 
 class ModelRegistry:
@@ -270,6 +340,91 @@ class ModelRegistry:
             "total_models": len(self._models),
             "enabled_models": len(self.list_models(enabled_only=True)),
         }
+
+    # -------------------------------------------------------------------------
+    # Persistence Methods (G-ML-1)
+    # -------------------------------------------------------------------------
+
+    def save_all(self, base_dir: Path) -> dict[str, Path]:
+        """
+        Save all registered models to disk.
+
+        Args:
+            base_dir: Base directory for model artifacts.
+
+        Returns:
+            Dictionary mapping model_id -> save path.
+        """
+        import json
+
+        saved = {}
+        base_dir = Path(base_dir)
+        base_dir.mkdir(parents=True, exist_ok=True)
+
+        for model_id, model in self._models.items():
+            model_path = model.get_artifact_path(base_dir)
+            model.save(model_path)
+            saved[model_id] = model_path
+
+        # Save registry index
+        index_path = base_dir / "registry_index.json"
+        index = {
+            "models": {
+                model_id: {
+                    "path": str(path.relative_to(base_dir)),
+                    "class": self._models[model_id].__class__.__name__,
+                    "module": self._models[model_id].__class__.__module__,
+                }
+                for model_id, path in saved.items()
+            },
+            "saved_at": datetime.now(tz=timezone.utc).isoformat(),
+        }
+        with open(index_path, "w") as f:
+            json.dump(index, f, indent=2)
+
+        return saved
+
+    def load_all(self, base_dir: Path, model_classes: dict[str, type]) -> list[str]:
+        """
+        Load all models from disk.
+
+        Args:
+            base_dir: Base directory containing model artifacts.
+            model_classes: Dictionary mapping class names to model classes.
+
+        Returns:
+            List of loaded model IDs.
+        """
+        import json
+
+        base_dir = Path(base_dir)
+        index_path = base_dir / "registry_index.json"
+
+        if not index_path.exists():
+            return []
+
+        with open(index_path) as f:
+            index = json.load(f)
+
+        loaded = []
+        for model_id, info in index.get("models", {}).items():
+            class_name = info["class"]
+            if class_name not in model_classes:
+                print(f"[WARN] Unknown model class: {class_name}, skipping {model_id}")
+                continue
+
+            model_path = base_dir / info["path"]
+            if not model_path.exists():
+                print(f"[WARN] Model path not found: {model_path}, skipping {model_id}")
+                continue
+
+            model_cls = model_classes[class_name]
+            model = model_cls.load(model_path)
+            self._models[model_id] = model
+            self._configs[model_id] = model.config
+            loaded.append(model_id)
+
+        return loaded
 
 
 # Global registry instance

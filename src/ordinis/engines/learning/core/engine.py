@@ -589,7 +589,119 @@ class LearningEngine(BaseEngine[LearningEngineConfig]):
                     change_pct * 100,
                 )
 
+        # G-LE-3: Wire drift detection to concrete actions
+        for alert in alerts:
+            self._handle_drift_alert(alert, current_metrics)
+
         return alerts
+
+    def _handle_drift_alert(
+        self,
+        alert: DriftAlert,
+        current_metrics: dict[str, float],
+    ) -> None:
+        """
+        Handle a drift alert with concrete actions (G-LE-3).
+
+        Actions based on severity:
+        - warning: Log, update monitoring with exponential smoothing
+        - critical: Trigger evaluation, mark for retraining
+
+        Args:
+            alert: The drift alert to handle.
+            current_metrics: Current metric values for context.
+        """
+        model_name = alert.model_name
+        severity = alert.severity
+
+        _logger.info(
+            "Handling drift alert for %s (severity=%s, metric=%s)",
+            model_name,
+            severity,
+            alert.metric_name,
+        )
+
+        if severity == "warning":
+            self._handle_warning_drift(model_name, current_metrics)
+        elif severity == "critical":
+            self._handle_critical_drift(model_name, alert)
+
+    def _handle_warning_drift(
+        self,
+        model_name: str,
+        current_metrics: dict[str, float],
+    ) -> None:
+        """Handle warning-level drift with exponential smoothing."""
+        if model_name not in self._baseline_metrics:
+            return
+
+        alpha = 0.1  # Smoothing factor
+        baseline = self._baseline_metrics[model_name]
+        for metric, value in current_metrics.items():
+            if metric in baseline:
+                baseline[metric] = alpha * value + (1 - alpha) * baseline[metric]
+
+    def _handle_critical_drift(self, model_name: str, alert: DriftAlert) -> None:
+        """Handle critical drift by marking model for retraining."""
+        if model_name not in self._production_models:
+            _logger.warning("Drift alert for non-production model %s, skipping", model_name)
+            return
+
+        production_version = self._production_models[model_name]
+
+        # Initialize pending retrain set if needed
+        if not hasattr(self, "_pending_retrain"):
+            self._pending_retrain: set[str] = set()
+
+        self._pending_retrain.add(model_name)
+        _logger.info(
+            "Model %s (version=%s) marked for retraining due to critical drift",
+            model_name,
+            production_version.version,
+        )
+
+        # Emit audit record for governance
+        self._audit_drift_action(model_name, alert)
+
+    def _audit_drift_action(self, model_name: str, alert: DriftAlert) -> None:
+        """Emit audit record for drift-triggered action."""
+        if not self._governance:
+            return
+
+        import asyncio
+
+        record = AuditRecord(
+            engine_id=self.config.engine_id,
+            operation="drift_action",
+            details={
+                "model_name": model_name,
+                "severity": alert.severity,
+                "alert": alert.to_dict(),
+                "action": "marked_for_retraining",
+            },
+        )
+
+        try:
+            loop = asyncio.get_event_loop()
+            if loop.is_running():
+                _task = asyncio.create_task(self._governance.audit(record))
+        except RuntimeError:
+            pass  # No event loop available
+
+    def get_pending_retrain_models(self) -> list[str]:
+        """Get models marked for retraining due to drift."""
+        if not hasattr(self, "_pending_retrain"):
+            return []
+        return list(self._pending_retrain)
+
+    def clear_pending_retrain(self, model_name: str) -> bool:
+        """Clear a model from the pending retrain queue after retraining."""
+        if not hasattr(self, "_pending_retrain"):
+            return False
+        if model_name in self._pending_retrain:
+            self._pending_retrain.discard(model_name)
+            return True
+        return False
 
     def get_drift_alerts(
         self,
