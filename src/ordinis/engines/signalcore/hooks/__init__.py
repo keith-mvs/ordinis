@@ -15,13 +15,21 @@ from ordinis.engines.signalcore.hooks.news import (
     NewsItem,
     NewsSentiment,
 )
+from ordinis.engines.signalcore.hooks.regime import (
+    MarketRegime,
+    RegimeHook,
+    RegimeState,
+)
 
 __all__ = [
     "DataQualityRule",
+    "MarketRegime",
     "ModelValidationRule",
     "NewsContextHook",
     "NewsItem",
     "NewsSentiment",
+    "RegimeHook",
+    "RegimeState",
     "SignalCoreGovernanceHook",
     "SignalThresholdRule",
 ]

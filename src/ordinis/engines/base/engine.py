@@ -12,6 +12,8 @@ from datetime import datetime
 from typing import Any, Generic, TypeVar
 import uuid
 
+from opentelemetry import trace
+
 from ordinis.core.logging import get_logger
 from ordinis.engines.base.config import BaseEngineConfig
 from ordinis.engines.base.hooks import (
@@ -32,6 +34,9 @@ from ordinis.engines.base.requirements import RequirementRegistry
 
 # Type variable for config
 ConfigT = TypeVar("ConfigT", bound=BaseEngineConfig)
+
+# OpenTelemetry tracer for engine operations
+_tracer = trace.get_tracer("ordinis.engines")
 
 
 class BaseEngine(ABC, Generic[ConfigT]):
@@ -340,9 +345,9 @@ class BaseEngine(ABC, Generic[ConfigT]):
         action: str,
         inputs: dict[str, Any] | None = None,
     ) -> AsyncIterator[dict[str, Any]]:
-        """Context manager for tracking operations.
+        """Context manager for tracking operations with OpenTelemetry tracing.
 
-        Handles preflight, metrics, and audit automatically.
+        Handles preflight, metrics, audit, and distributed tracing automatically.
 
         Args:
             action: The action being performed.
@@ -359,51 +364,73 @@ class BaseEngine(ABC, Generic[ConfigT]):
                 result = await self._generate_signal("AAPL")
                 ctx["outputs"] = {"signal": result}
         """
-        # Preflight check
-        preflight_result = await self.preflight(action, inputs)
-        if preflight_result.blocked:
-            raise PermissionError(
-                f"Operation denied: {preflight_result.reason} "
-                f"(policy={preflight_result.policy_id})"
-            )
+        # Create OpenTelemetry span for visualization
+        span_name = f"{self.name}.{action}"
+        with _tracer.start_as_current_span(span_name) as span:
+            # Set span attributes for trace visualization
+            span.set_attribute("engine.name", self.name)
+            span.set_attribute("engine.action", action)
+            span.set_attribute("engine.state", self._state.value)
+            if inputs:
+                for key, value in inputs.items():
+                    if isinstance(value, (str, int, float, bool)):
+                        span.set_attribute(f"input.{key}", value)
 
-        # Track timing
-        start = datetime.utcnow()
-        context: dict[str, Any] = {"outputs": {}, "model_used": None}
-        self._requests_total += 1
-        error_occurred = False
-
-        try:
-            yield context
-        except Exception as e:
-            error_occurred = True
-            self._requests_failed += 1
-            await self._governance.on_error(
-                EngineError(
-                    code="OPERATION_FAILED",
-                    message=str(e),
-                    engine=self.name,
-                    details={"action": action, "inputs": inputs},
+            # Preflight check
+            preflight_result = await self.preflight(action, inputs)
+            span.set_attribute("governance.decision", preflight_result.decision.value)
+            if preflight_result.blocked:
+                span.set_attribute("governance.blocked", True)
+                span.set_attribute("governance.reason", preflight_result.reason or "")
+                raise PermissionError(
+                    f"Operation denied: {preflight_result.reason} "
+                    f"(policy={preflight_result.policy_id})"
                 )
-            )
-            raise
-        finally:
-            # Record latency
-            latency_ms = (datetime.utcnow() - start).total_seconds() * 1000
-            self._latencies.append(latency_ms)
-            # Keep only last 1000 latencies
-            if len(self._latencies) > 1000:
-                self._latencies = self._latencies[-1000:]
 
-            # Audit (even on error)
-            await self.audit(
-                action=action,
-                inputs=inputs,
-                outputs=context.get("outputs"),
-                model_used=context.get("model_used"),
-                latency_ms=latency_ms,
-                error=error_occurred,
-            )
+            # Track timing
+            start = datetime.utcnow()
+            context: dict[str, Any] = {"outputs": {}, "model_used": None}
+            self._requests_total += 1
+            error_occurred = False
+
+            try:
+                yield context
+                # Record model used if applicable
+                if context.get("model_used"):
+                    span.set_attribute("ai.model", context["model_used"])
+            except Exception as e:
+                error_occurred = True
+                self._requests_failed += 1
+                span.set_attribute("error", True)
+                span.set_attribute("error.message", str(e))
+                span.record_exception(e)
+                await self._governance.on_error(
+                    EngineError(
+                        code="OPERATION_FAILED",
+                        message=str(e),
+                        engine=self.name,
+                        details={"action": action, "inputs": inputs},
+                    )
+                )
+                raise
+            finally:
+                # Record latency
+                latency_ms = (datetime.utcnow() - start).total_seconds() * 1000
+                self._latencies.append(latency_ms)
+                span.set_attribute("latency_ms", latency_ms)
+                # Keep only last 1000 latencies
+                if len(self._latencies) > 1000:
+                    self._latencies = self._latencies[-1000:]
+
+                # Audit (even on error)
+                await self.audit(
+                    action=action,
+                    inputs=inputs,
+                    outputs=context.get("outputs"),
+                    model_used=context.get("model_used"),
+                    latency_ms=latency_ms,
+                    error=error_occurred,
+                )
 
     # ─────────────────────────────────────────────────────────────────
     # String Representation

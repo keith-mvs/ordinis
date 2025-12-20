@@ -9,15 +9,40 @@ import logging
 import os
 from typing import Any
 
-from opentelemetry import _events, _logs, trace
-from opentelemetry.exporter.otlp.proto.http._log_exporter import OTLPLogExporter
-from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
-from opentelemetry.sdk._events import EventLoggerProvider
-from opentelemetry.sdk._logs import LoggerProvider
-from opentelemetry.sdk._logs.export import BatchLogRecordProcessor
+from opentelemetry import trace
 from opentelemetry.sdk.resources import Resource
 from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import BatchSpanProcessor
+
+# Try different import paths for OTLP exporters (API changed across versions)
+try:
+    from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExporter
+except ImportError:
+    from opentelemetry.exporter.otlp.proto.http import OTLPSpanExporter  # type: ignore
+
+# Log exporter is optional - only needed for LLM content capture
+OTLPLogExporter = None
+LoggerProvider = None
+BatchLogRecordProcessor = None
+EventLoggerProvider = None
+_logs = None
+_events = None
+
+try:
+    from opentelemetry import _events, _logs
+    from opentelemetry.sdk._events import EventLoggerProvider
+    from opentelemetry.sdk._logs import LoggerProvider
+    from opentelemetry.sdk._logs.export import BatchLogRecordProcessor
+    # Try different paths for log exporter
+    try:
+        from opentelemetry.exporter.otlp.proto.http._log_exporter import OTLPLogExporter
+    except ImportError:
+        try:
+            from opentelemetry.exporter.otlp.proto.http.log_exporter import OTLPLogExporter  # type: ignore
+        except ImportError:
+            pass  # Log exporter not available
+except ImportError:
+    pass  # Logging components not available
 
 _logger = logging.getLogger(__name__)
 
@@ -28,7 +53,7 @@ class TracingConfig:
     def __init__(
         self,
         service_name: str = "ordinis",
-        otlp_endpoint: str = "http://localhost:4318",
+        otlp_endpoint: str | None = None,
         capture_message_content: bool = True,
         enabled: bool = True,
     ):
@@ -37,10 +62,16 @@ class TracingConfig:
 
         Args:
             service_name: Name of the service for trace identification
-            otlp_endpoint: OTLP collector endpoint (AI Toolkit default: http://localhost:4318)
+            otlp_endpoint: OTLP collector endpoint. Defaults to OTEL_EXPORTER_OTLP_ENDPOINT
+                          env var, or http://localhost:4319 for AI Toolkit visualization.
             capture_message_content: Whether to capture LLM message content (prompts/completions)
             enabled: Whether tracing is enabled
         """
+        # Use environment variable or default to AI Toolkit's visualization endpoint
+        if otlp_endpoint is None:
+            otlp_endpoint = os.environ.get(
+                "OTEL_EXPORTER_OTLP_ENDPOINT", "http://localhost:4319"
+            )
         self.service_name = service_name
         self.otlp_endpoint = otlp_endpoint
         self.capture_message_content = capture_message_content
@@ -54,7 +85,7 @@ def setup_tracing(config: TracingConfig | None = None) -> bool:
     This function:
     1. Configures OpenTelemetry with AI Toolkit's OTLP endpoint
     2. Instruments the OpenAI SDK for automatic trace generation
-    3. Sets up logging and event providers for LLM message content capture
+    3. Sets up logging and event providers for LLM message content capture (if available)
 
     Args:
         config: Tracing configuration. Uses defaults if None.
@@ -77,7 +108,7 @@ def setup_tracing(config: TracingConfig | None = None) -> bool:
         # Create resource with service name
         resource = Resource(attributes={"service.name": config.service_name})
 
-        # Configure trace provider
+        # Configure trace provider (required)
         provider = TracerProvider(resource=resource)
         otlp_trace_exporter = OTLPSpanExporter(
             endpoint=f"{config.otlp_endpoint}/v1/traces",
@@ -86,14 +117,25 @@ def setup_tracing(config: TracingConfig | None = None) -> bool:
         provider.add_span_processor(trace_processor)
         trace.set_tracer_provider(provider)
 
-        # Configure logging and events for LLM message content
-        _logs.set_logger_provider(LoggerProvider(resource=resource))
-        _logs.get_logger_provider().add_log_record_processor(
-            BatchLogRecordProcessor(
-                OTLPLogExporter(endpoint=f"{config.otlp_endpoint}/v1/logs")
+        # Configure logging and events for LLM message content (optional)
+        if _logs is not None and LoggerProvider is not None and OTLPLogExporter is not None:
+            try:
+                _logs.set_logger_provider(LoggerProvider(resource=resource))
+                _logs.get_logger_provider().add_log_record_processor(
+                    BatchLogRecordProcessor(
+                        OTLPLogExporter(endpoint=f"{config.otlp_endpoint}/v1/logs")
+                    )
+                )
+                if _events is not None and EventLoggerProvider is not None:
+                    _events.set_event_logger_provider(EventLoggerProvider())
+                _logger.info("OpenTelemetry logging/events configured for LLM content capture")
+            except Exception as log_err:
+                _logger.warning("Could not configure log exporter: %s", log_err)
+        else:
+            _logger.info(
+                "Log exporter not available - traces will work but LLM message content "
+                "capture may be limited. This is fine for basic tracing."
             )
-        )
-        _events.set_event_logger_provider(EventLoggerProvider())
 
         # Instrument OpenAI SDK
         try:

@@ -18,6 +18,8 @@ from mcp.types import ToolAnnotations
 import yaml
 
 if TYPE_CHECKING:
+    from ordinis.engines.portfolio.core.engine import PortfolioEngine
+    from ordinis.plugins.massive import MassivePlugin
     from ordinis.safety.kill_switch import KillSwitch
 
 # Configure logging
@@ -50,6 +52,8 @@ class OrdinisState:
         self.is_initialized = False
         # Live components
         self._kill_switch: KillSwitch | None = None
+        self._portfolio_engine: PortfolioEngine | None = None
+        self._news_plugin: MassivePlugin | None = None
         # Market context for signal generation
         self._market_context: str = ""
         self._market_context_timestamp: datetime | None = None
@@ -69,12 +73,45 @@ class OrdinisState:
             # Try to initialize kill switch
             await self._init_kill_switch()
 
+            # Initialize portfolio engine
+            await self._init_portfolio_engine()
+
+            # Initialize news plugin
+            await self._init_news_plugin()
+
             self.is_initialized = True
             logger.info("[MCP] Ordinis state initialized")
             return True
         except Exception as e:
             logger.error(f"[MCP] Failed to initialize: {e}")
             return False
+
+    async def _init_portfolio_engine(self) -> None:
+        """Initialize connection to PortfolioEngine."""
+        try:
+            from ordinis.engines.portfolio.core.config import PortfolioEngineConfig
+            from ordinis.engines.portfolio.core.engine import PortfolioEngine
+
+            config = PortfolioEngineConfig(initial_capital=100000.0)
+            self._portfolio_engine = PortfolioEngine(config)
+            await self._portfolio_engine.initialize()
+            logger.info("[MCP] PortfolioEngine connected")
+        except Exception as e:
+            logger.warning(f"[MCP] PortfolioEngine not available: {e}")
+            self._portfolio_engine = None
+
+    async def _init_news_plugin(self) -> None:
+        """Initialize news plugin for market news."""
+        try:
+            from ordinis.plugins.massive import MassivePlugin, MassivePluginConfig
+
+            config = MassivePluginConfig(name="massive", use_mock=True)
+            self._news_plugin = MassivePlugin(config)
+            await self._news_plugin.initialize()
+            logger.info("[MCP] MassivePlugin connected")
+        except Exception as e:
+            logger.warning(f"[MCP] MassivePlugin not available: {e}")
+            self._news_plugin = None
 
     async def _init_kill_switch(self) -> None:
         """Initialize connection to live KillSwitch."""
@@ -411,6 +448,170 @@ async def get_market_context() -> str:
 
 
 # =============================================================================
+# TOOLS - Market News & External Data (Phase 3)
+# =============================================================================
+
+
+@ordinis_mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
+async def get_market_news(
+    symbols: list[str] | None = None,
+    limit: int = 10,
+) -> str:
+    """
+    Get recent market news for specified symbols or general market news.
+
+    Uses Massive MCP for news data with fallback to mock data for development.
+
+    Args:
+        symbols: List of stock symbols to get news for (None = market-wide news)
+        limit: Maximum number of articles to return
+
+    Returns:
+        JSON with news articles including headlines, sentiment, and timestamps
+    """
+    try:
+        if _state._news_plugin:
+            articles = await _state._news_plugin.get_news(symbols=symbols, limit=limit)
+            return json.dumps(
+                {
+                    "articles": articles,
+                    "count": len(articles),
+                    "symbols_queried": symbols or ["MARKET"],
+                    "source": "massive",
+                    "timestamp": datetime.now(UTC).isoformat(),
+                },
+                indent=2,
+            )
+
+        # Fallback mock data
+        mock_articles = [
+            {
+                "headline": "Markets rally on positive economic data",
+                "sentiment": "POSITIVE",
+                "sentiment_score": 0.6,
+                "timestamp": datetime.now(UTC).isoformat(),
+                "source": "Mock",
+                "category": "market",
+            },
+            {
+                "headline": "Tech sector leads gains amid AI optimism",
+                "sentiment": "POSITIVE",
+                "sentiment_score": 0.5,
+                "timestamp": datetime.now(UTC).isoformat(),
+                "source": "Mock",
+                "category": "technology",
+            },
+        ]
+
+        return json.dumps(
+            {
+                "articles": mock_articles[:limit],
+                "count": min(limit, len(mock_articles)),
+                "symbols_queried": symbols or ["MARKET"],
+                "source": "mock",
+                "timestamp": datetime.now(UTC).isoformat(),
+            },
+            indent=2,
+        )
+
+    except Exception as e:
+        return json.dumps({"error": str(e)})
+
+
+@ordinis_mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
+async def get_earnings_calendar(
+    symbols: list[str] | None = None,
+    days_ahead: int = 5,
+) -> str:
+    """
+    Get upcoming earnings announcements for portfolio symbols.
+
+    Args:
+        symbols: List of symbols to check (None = all portfolio symbols)
+        days_ahead: Number of days to look ahead
+
+    Returns:
+        JSON with upcoming earnings including dates, estimates, and timing
+    """
+    try:
+        if _state._news_plugin:
+            earnings = await _state._news_plugin.get_earnings_calendar(
+                symbols=symbols, days_ahead=days_ahead
+            )
+            return json.dumps(
+                {
+                    "earnings": earnings,
+                    "count": len(earnings),
+                    "days_ahead": days_ahead,
+                    "timestamp": datetime.now(UTC).isoformat(),
+                },
+                indent=2,
+            )
+
+        # Fallback mock data
+        return json.dumps(
+            {
+                "earnings": [
+                    {
+                        "symbol": "AAPL",
+                        "company_name": "Apple Inc.",
+                        "earnings_date": (datetime.now(UTC)).date().isoformat(),
+                        "time": "AMC",
+                        "eps_estimate": 2.35,
+                    }
+                ],
+                "count": 1,
+                "days_ahead": days_ahead,
+                "source": "mock",
+                "timestamp": datetime.now(UTC).isoformat(),
+            },
+            indent=2,
+        )
+
+    except Exception as e:
+        return json.dumps({"error": str(e)})
+
+
+@ordinis_mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
+async def get_sentiment(symbol: str) -> str:
+    """
+    Get sentiment analysis for a specific symbol.
+
+    Aggregates news sentiment to provide overall market sentiment.
+
+    Args:
+        symbol: Stock symbol to analyze
+
+    Returns:
+        JSON with sentiment classification, score, and supporting data
+    """
+    try:
+        if _state._news_plugin:
+            sentiment = await _state._news_plugin.get_sentiment(symbol)
+            return json.dumps(sentiment, indent=2)
+
+        # Fallback mock data
+        return json.dumps(
+            {
+                "symbol": symbol.upper(),
+                "sentiment": "NEUTRAL",
+                "score": 0.1,
+                "article_count": 5,
+                "confidence": 0.6,
+                "recent_headlines": [
+                    f"{symbol} trades steadily amid sector rotation",
+                    f"Analysts maintain hold rating on {symbol}",
+                ],
+                "source": "mock",
+            },
+            indent=2,
+        )
+
+    except Exception as e:
+        return json.dumps({"error": str(e)})
+
+
+# =============================================================================
 # TOOLS - Capital Preservation (Phase 1)
 # =============================================================================
 
@@ -581,51 +782,108 @@ async def analyze_open_positions() -> str:
         JSON with position analysis and recommendations
     """
     try:
-        # Get current positions (in production, from PortfolioEngine)
-        positions = [
-            {
-                "symbol": "AAPL",
-                "side": "long",
-                "quantity": 50,
-                "avg_price": 175.50,
-                "current_price": 178.25,
-                "unrealized_pnl": 137.50,
-                "unrealized_pnl_pct": 1.56,
-                "stop_price": 172.00,
-                "distance_to_stop_pct": 3.51,
-                "time_held_hours": 24,
-                "recommendation": "hold",
-                "reason": "In profit, not near stop",
-            },
-            {
-                "symbol": "AMD",
-                "side": "long",
-                "quantity": 100,
-                "avg_price": 135.00,
-                "current_price": 138.50,
-                "unrealized_pnl": 350.00,
-                "unrealized_pnl_pct": 2.59,
-                "stop_price": 130.00,
-                "distance_to_stop_pct": 6.14,
-                "time_held_hours": 48,
-                "recommendation": "tighten_stop",
-                "reason": "Profitable position, consider trailing stop",
-            },
-            {
-                "symbol": "CRWD",
-                "side": "long",
-                "quantity": 25,
-                "avg_price": 355.00,
-                "current_price": 353.50,
-                "unrealized_pnl": -37.50,
-                "unrealized_pnl_pct": -0.42,
-                "stop_price": 340.00,
-                "distance_to_stop_pct": 3.82,
-                "time_held_hours": 8,
-                "recommendation": "monitor",
-                "reason": "Slightly underwater, stop intact",
-            },
-        ]
+        positions = []
+
+        # Get from live PortfolioEngine if available
+        if _state._portfolio_engine and _state._portfolio_engine.positions:
+            now = datetime.now(UTC)
+            for symbol, pos in _state._portfolio_engine.positions.items():
+                # Calculate time held
+                entry_time = pos.entry_time or pos.last_update_time
+                time_held_hours = (now - entry_time).total_seconds() / 3600 if entry_time else 0
+
+                # Calculate distance to stop (estimate if not set)
+                stop_price = pos.avg_entry_price * 0.95  # Default 5% stop
+                distance_to_stop_pct = (
+                    (pos.current_price - stop_price) / pos.current_price * 100
+                    if pos.current_price > 0
+                    else 0
+                )
+
+                # Generate recommendation
+                if pos.unrealized_pnl > 0:
+                    if pos.pnl_pct > 5:
+                        recommendation = "tighten_stop"
+                        reason = "Profitable position, consider trailing stop"
+                    else:
+                        recommendation = "hold"
+                        reason = "In profit, not near stop"
+                elif pos.unrealized_pnl < 0:
+                    if pos.pnl_pct < -3:
+                        recommendation = "exit"
+                        reason = "Position significantly underwater"
+                    else:
+                        recommendation = "monitor"
+                        reason = "Slightly underwater, stop intact"
+                else:
+                    recommendation = "hold"
+                    reason = "At breakeven"
+
+                positions.append({
+                    "symbol": symbol,
+                    "side": pos.side.value if hasattr(pos.side, "value") else str(pos.side),
+                    "quantity": pos.quantity,
+                    "avg_price": pos.avg_entry_price,
+                    "current_price": pos.current_price,
+                    "unrealized_pnl": pos.unrealized_pnl,
+                    "unrealized_pnl_pct": pos.pnl_pct,
+                    "stop_price": round(stop_price, 2),
+                    "distance_to_stop_pct": round(distance_to_stop_pct, 2),
+                    "time_held_hours": round(time_held_hours, 1),
+                    "recommendation": recommendation,
+                    "reason": reason,
+                })
+
+            # Update tracked equity
+            _state._current_equity = _state._portfolio_engine.equity
+            _state._peak_equity = max(_state._peak_equity, _state._current_equity)
+
+        else:
+            # Fallback mock data
+            positions = [
+                {
+                    "symbol": "AAPL",
+                    "side": "long",
+                    "quantity": 50,
+                    "avg_price": 175.50,
+                    "current_price": 178.25,
+                    "unrealized_pnl": 137.50,
+                    "unrealized_pnl_pct": 1.56,
+                    "stop_price": 172.00,
+                    "distance_to_stop_pct": 3.51,
+                    "time_held_hours": 24,
+                    "recommendation": "hold",
+                    "reason": "In profit, not near stop",
+                },
+                {
+                    "symbol": "AMD",
+                    "side": "long",
+                    "quantity": 100,
+                    "avg_price": 135.00,
+                    "current_price": 138.50,
+                    "unrealized_pnl": 350.00,
+                    "unrealized_pnl_pct": 2.59,
+                    "stop_price": 130.00,
+                    "distance_to_stop_pct": 6.14,
+                    "time_held_hours": 48,
+                    "recommendation": "tighten_stop",
+                    "reason": "Profitable position, consider trailing stop",
+                },
+                {
+                    "symbol": "CRWD",
+                    "side": "long",
+                    "quantity": 25,
+                    "avg_price": 355.00,
+                    "current_price": 353.50,
+                    "unrealized_pnl": -37.50,
+                    "unrealized_pnl_pct": -0.42,
+                    "stop_price": 340.00,
+                    "distance_to_stop_pct": 3.82,
+                    "time_held_hours": 8,
+                    "recommendation": "monitor",
+                    "reason": "Slightly underwater, stop intact",
+                },
+            ]
 
         total_unrealized = sum(p["unrealized_pnl"] for p in positions)
         winners = [p for p in positions if p["unrealized_pnl"] > 0]
@@ -646,6 +904,7 @@ async def analyze_open_positions() -> str:
                     "monitor": len([p for p in positions if p["recommendation"] == "monitor"]),
                     "exit": len([p for p in positions if p["recommendation"] == "exit"]),
                 },
+                "source": "live" if _state._portfolio_engine else "mock",
                 "timestamp": datetime.now(UTC).isoformat(),
             },
             indent=2,

@@ -1,0 +1,50 @@
+{
+	"folders": [
+		{
+			"name": "ordinis",
+			"path": "."
+		}
+	],
+	"settings": {
+		"workbench.editor.enablePreview": false,
+		"workbench.editor.limit.enabled": true,
+		"workbench.editor.limit.value": 15,
+		"workbench.list.smoothScrolling": false,
+		"workbench.tree.renderIndentGuides": "onHover",
+		"workbench.reduceMotion": "on",
+		"explorer.autoReveal": false,
+		"explorer.confirmDelete": false,
+		"explorer.confirmDragAndDrop": false,
+		"explorer.sortOrder": "type",
+		"explorer.sortOrderLexicographicOptions": "upper",
+		"terminal.integrated.scrollback": 5000,
+		"terminal.integrated.enablePersistentSessions": false,
+		"terminal.integrated.gpuAcceleration": "auto",
+		"terminal.integrated.defaultProfile.windows": "Ubuntu-24.04 (WSL)",
+		"terminal.integrated.profiles.windows": {
+			"PowerShell": {
+				"path": [
+					"C:\\Program Files\\PowerShell\\7\\pwsh.exe"
+				],
+				"source": "PowerShell",
+				"icon": "terminal-powershell",
+				"args": [
+					"-NoLogo"
+				]
+			},
+			"Command Prompt": {
+				"path": [
+					"${env:windir}\\System32\\cmd.exe"
+				],
+				"icon": "terminal-cmd"
+			}
+		},
+		"git.autorefresh": false,
+		"git.autoRepositoryDetection": "openEditors",
+		"git.decorations.enabled": false,
+		"redhat.telemetry.enabled": false,
+		"search.followSymlinks": false,
+		"search.maxResults": 10000,
+		"search.smartCase": true
+	}
+}
