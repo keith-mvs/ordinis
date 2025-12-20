@@ -12,7 +12,7 @@ A demonstration of how to use the MCP Python SDK with OAuth authentication over 
 
 ```bash
 cd examples/clients/simple-auth-client
-uv sync --reinstall 
+uv sync --reinstall
 ```
 
 ## Usage
@@ -42,7 +42,7 @@ MCP_TRANSPORT_TYPE=sse uv run mcp-simple-auth-client
 The client will open your browser for authentication. After completing OAuth, you can use commands:
 
 - `list` - List available tools
-- `call <tool_name> [args]` - Call a tool with optional JSON arguments  
+- `call <tool_name> [args]` - Call a tool with optional JSON arguments
 - `quit` - Exit
 
 ## Example

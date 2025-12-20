@@ -1,10 +1,7 @@
-import json
 import csv
 import io
 
-import pytest
-
-from mcp_massive.formatters import json_to_csv, _flatten_dict
+from mcp_massive.formatters import _flatten_dict, json_to_csv
 
 
 class TestFlattenDict:
@@ -285,9 +282,7 @@ class TestJsonToCsvStdlib:
         assert len(rows) == 1
         # CSV library should handle escaping
         assert "Company, Inc." in rows[0]["name"]
-        assert (
-            '"quotes"' in rows[0]["description"] or "quotes" in rows[0]["description"]
-        )
+        assert '"quotes"' in rows[0]["description"] or "quotes" in rows[0]["description"]
 
     def test_numeric_types_preserved(self):
         """Test that various numeric types are handled."""
@@ -329,9 +324,7 @@ class TestJsonToCsvStdlib:
 
     def test_null_values(self):
         """Test handling of null/None values."""
-        json_input = {
-            "results": [{"field1": "value", "field2": None, "field3": "another"}]
-        }
+        json_input = {"results": [{"field1": "value", "field2": None, "field3": "another"}]}
 
         results = json_to_csv(json_input)
         reader = csv.DictReader(io.StringIO(results))
@@ -357,9 +350,7 @@ class TestJsonToCsvStdlib:
 
     def test_list_with_nested_objects(self):
         """Test that lists containing objects are stringified."""
-        json_input = {
-            "results": [{"id": 1, "tags": [{"name": "tag1"}, {"name": "tag2"}]}]
-        }
+        json_input = {"results": [{"id": 1, "tags": [{"name": "tag1"}, {"name": "tag2"}]}]}
 
         results = json_to_csv(json_input)
         reader = csv.DictReader(io.StringIO(results))

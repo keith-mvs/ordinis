@@ -19,7 +19,7 @@ uv run mcp-simple-auth-as --port=9000
 **What it provides:**
 
 - OAuth 2.0 flows (registration, authorization, token exchange)
-- Simple credential-based authentication (no external provider needed)  
+- Simple credential-based authentication (no external provider needed)
 - Token introspection endpoint for Resource Servers (`/introspect`)
 
 ---

@@ -143,9 +143,9 @@ async def test_stateful_session_cleanup_on_graceful_exit(running_manager: tuple[
     # Give other tasks a chance to run. This is important for the finally block.
     await anyio.sleep(0.01)
 
-    assert session_id not in manager._server_instances, (
-        "Session ID should be removed from _server_instances after graceful exit"
-    )
+    assert (
+        session_id not in manager._server_instances
+    ), "Session ID should be removed from _server_instances after graceful exit"
     assert not manager._server_instances, "No sessions should be tracked after the only session exits gracefully"
 
 
@@ -196,9 +196,9 @@ async def test_stateful_session_cleanup_on_exception(running_manager: tuple[Stre
     # Give other tasks a chance to run to ensure the finally block executes
     await anyio.sleep(0.01)
 
-    assert session_id not in manager._server_instances, (
-        "Session ID should be removed from _server_instances after an exception"
-    )
+    assert (
+        session_id not in manager._server_instances
+    ), "Session ID should be removed from _server_instances after an exception"
     assert not manager._server_instances, "No sessions should be tracked after the only session crashes"
 
 

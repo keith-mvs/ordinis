@@ -52,9 +52,9 @@ async def test_send_request_stream_cleanup():
             await session.send_request(request, EmptyResult)
 
     # Verify that no response streams were leaked
-    assert len(session._response_streams) == initial_stream_count, (
-        f"Expected {initial_stream_count} response streams after request, but found {len(session._response_streams)}"
-    )
+    assert (
+        len(session._response_streams) == initial_stream_count
+    ), f"Expected {initial_stream_count} response streams after request, but found {len(session._response_streams)}"
 
     # Clean up
     await write_stream_send.aclose()

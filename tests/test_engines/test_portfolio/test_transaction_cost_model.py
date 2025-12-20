@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from decimal import Decimal
+
 import pytest
 
 from ordinis.engines.portfolio.costs.transaction_cost_model import (

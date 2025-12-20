@@ -1,6 +1,8 @@
 import os
 from typing import Literal
+
 from dotenv import load_dotenv
+
 from .server import run
 
 # Load environment variables from .env file if it exists
@@ -34,7 +36,9 @@ def main() -> None:
         print("Starting Massive MCP server with API key configured.")
     elif polygon_api_key:
         print("Warning: POLYGON_API_KEY is deprecated. Please migrate to MASSIVE_API_KEY.")
-        print("Starting Massive MCP server with API key configured (using deprecated POLYGON_API_KEY).")
+        print(
+            "Starting Massive MCP server with API key configured (using deprecated POLYGON_API_KEY)."
+        )
         # Set MASSIVE_API_KEY from POLYGON_API_KEY for backward compatibility
         os.environ["MASSIVE_API_KEY"] = polygon_api_key
     else:

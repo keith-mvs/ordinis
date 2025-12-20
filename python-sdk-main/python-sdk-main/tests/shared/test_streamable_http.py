@@ -2004,9 +2004,9 @@ async def test_streamable_http_client_auto_reconnects(
             result = await session.call_tool("tool_with_stream_close", {})
 
             # Client should have auto-reconnected and received ALL notifications
-            assert len(captured_notifications) >= 2, (
-                "Client should auto-reconnect and receive notifications sent both before and after stream close"
-            )
+            assert (
+                len(captured_notifications) >= 2
+            ), "Client should auto-reconnect and receive notifications sent both before and after stream close"
             assert result.content[0].type == "text"
             assert isinstance(result.content[0], TextContent)
             assert result.content[0].text == "Done"
@@ -2083,9 +2083,9 @@ async def test_streamable_http_sse_polling_full_cycle(
 
             # Verify all notifications received in order
             assert "Before close" in all_notifications, "Should receive notification sent before stream close"
-            assert "After close" in all_notifications, (
-                "Should receive notification sent after stream close (via auto-reconnect)"
-            )
+            assert (
+                "After close" in all_notifications
+            ), "Should receive notification sent after stream close (via auto-reconnect)"
             assert result.content[0].type == "text"
             assert isinstance(result.content[0], TextContent)
             assert result.content[0].text == "Done"
@@ -2245,12 +2245,12 @@ async def test_standalone_get_stream_reconnection(
             assert result.content[0].text == "Standalone stream close test done"
 
             # Verify both notifications were received
-            assert "http://notification_1/" in received_notifications, (
-                f"Should receive notification 1 (sent before GET stream close), got: {received_notifications}"
-            )
-            assert "http://notification_2/" in received_notifications, (
-                f"Should receive notification 2 after reconnect, got: {received_notifications}"
-            )
+            assert (
+                "http://notification_1/" in received_notifications
+            ), f"Should receive notification 1 (sent before GET stream close), got: {received_notifications}"
+            assert (
+                "http://notification_2/" in received_notifications
+            ), f"Should receive notification 2 after reconnect, got: {received_notifications}"
 
 
 @pytest.mark.anyio

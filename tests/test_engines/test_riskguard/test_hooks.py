@@ -52,7 +52,7 @@ class TestDrawdownHook:
         """Test DrawdownThreshold validates inputs."""
         with pytest.raises(ValueError, match="drawdown_pct"):
             DrawdownThreshold(150.0, 0.5, "Invalid")
-        
+
         with pytest.raises(ValueError, match="exposure_factor"):
             DrawdownThreshold(10.0, 1.5, "Invalid")
 
@@ -64,7 +64,7 @@ class TestDrawdownHook:
             action="get_status",
             inputs={},
         )
-        
+
         result = await hook.preflight(context)
         assert result.decision == Decision.ALLOW
 
@@ -73,13 +73,13 @@ class TestDrawdownHook:
         """Test hook denies when kill switch is active."""
         mock_kill_switch.is_active = True
         mock_kill_switch.state.message = "Daily loss limit"
-        
+
         context = PreflightContext(
             engine="riskguard",
             action="calculate_position_size",
             inputs={},
         )
-        
+
         result = await hook.preflight(context)
         assert result.decision == Decision.DENY
         assert "Kill switch active" in result.reason
@@ -88,13 +88,13 @@ class TestDrawdownHook:
     async def test_allows_low_drawdown(self, hook, mock_kill_switch):
         """Test hook allows operations with low drawdown."""
         mock_kill_switch._current_equity = 98000.0  # 2% drawdown
-        
+
         context = PreflightContext(
             engine="riskguard",
             action="calculate_position_size",
             inputs={},
         )
-        
+
         result = await hook.preflight(context)
         assert result.decision == Decision.ALLOW
         assert "within acceptable limits" in result.reason
@@ -103,13 +103,13 @@ class TestDrawdownHook:
     async def test_warns_on_moderate_drawdown(self, hook, mock_kill_switch):
         """Test hook warns and reduces exposure on moderate drawdown."""
         mock_kill_switch._current_equity = 93000.0  # 7% drawdown
-        
+
         context = PreflightContext(
             engine="riskguard",
             action="calculate_position_size",
             inputs={},
         )
-        
+
         result = await hook.preflight(context)
         assert result.decision == Decision.WARN
         assert "exposure_factor" in result.adjustments
@@ -119,13 +119,13 @@ class TestDrawdownHook:
     async def test_denies_on_severe_drawdown(self, hook, mock_kill_switch):
         """Test hook denies on severe drawdown."""
         mock_kill_switch._current_equity = 84000.0  # 16% drawdown
-        
+
         context = PreflightContext(
             engine="riskguard",
             action="calculate_position_size",
             inputs={},
         )
-        
+
         result = await hook.preflight(context)
         assert result.decision == Decision.DENY
         assert "halt threshold" in result.reason
@@ -160,7 +160,7 @@ class TestPositionLimitHook:
                 "sector": "technology",
             },
         )
-        
+
         result = await hook.preflight(context)
         assert result.decision == Decision.ALLOW
 
@@ -176,7 +176,7 @@ class TestPositionLimitHook:
                 "sector": "technology",
             },
         )
-        
+
         result = await hook.preflight(context)
         assert result.decision == Decision.DENY
         assert "exceeds" in result.reason
@@ -185,10 +185,8 @@ class TestPositionLimitHook:
     async def test_denies_too_many_positions(self, hook):
         """Test hook denies when at max concurrent positions."""
         # Set 5 existing positions
-        hook._current_positions = {
-            f"SYM{i}": {"market_value": 5000.0} for i in range(5)
-        }
-        
+        hook._current_positions = {f"SYM{i}": {"market_value": 5000.0} for i in range(5)}
+
         context = PreflightContext(
             engine="riskguard",
             action="calculate_position_size",
@@ -198,7 +196,7 @@ class TestPositionLimitHook:
                 "sector": "technology",
             },
         )
-        
+
         result = await hook.preflight(context)
         assert result.decision == Decision.DENY
         assert "max 5 positions" in result.reason
@@ -210,7 +208,7 @@ class TestPositionLimitHook:
             "AAPL": {"market_value": 10000.0, "sector": "technology"},
             "MSFT": {"market_value": 15000.0, "sector": "technology"},
         }
-        
+
         context = PreflightContext(
             engine="riskguard",
             action="calculate_position_size",
@@ -220,7 +218,7 @@ class TestPositionLimitHook:
                 "sector": "technology",
             },
         )
-        
+
         result = await hook.preflight(context)
         assert result.decision == Decision.WARN
         assert "concentration" in result.reason

@@ -259,9 +259,9 @@ async def test_elicit_complete_notification():
 async def test_url_elicitation_required_error_code():
     """Test that the URL_ELICITATION_REQUIRED error code is correct."""
     # Verify the error code matches the specification (SEP 1036)
-    assert types.URL_ELICITATION_REQUIRED == -32042, (
-        "URL_ELICITATION_REQUIRED error code must be -32042 per SEP 1036 specification"
-    )
+    assert (
+        types.URL_ELICITATION_REQUIRED == -32042
+    ), "URL_ELICITATION_REQUIRED error code must be -32042 per SEP 1036 specification"
 
 
 @pytest.mark.anyio

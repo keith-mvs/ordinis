@@ -42,13 +42,15 @@ class TestRiskAttributionEngine:
         n = len(symbols)
 
         # Create correlation matrix with sector clustering
-        corr = np.array([
-            [1.0, 0.7, 0.6, 0.3, 0.2],  # AAPL
-            [0.7, 1.0, 0.65, 0.35, 0.25],  # MSFT
-            [0.6, 0.65, 1.0, 0.3, 0.2],  # GOOGL
-            [0.3, 0.35, 0.3, 1.0, 0.4],  # JPM
-            [0.2, 0.25, 0.2, 0.4, 1.0],  # XOM
-        ])
+        corr = np.array(
+            [
+                [1.0, 0.7, 0.6, 0.3, 0.2],  # AAPL
+                [0.7, 1.0, 0.65, 0.35, 0.25],  # MSFT
+                [0.6, 0.65, 1.0, 0.3, 0.2],  # GOOGL
+                [0.3, 0.35, 0.3, 1.0, 0.4],  # JPM
+                [0.2, 0.25, 0.2, 0.4, 1.0],  # XOM
+            ]
+        )
 
         # Volatilities (annualized)
         vols = np.array([0.25, 0.22, 0.28, 0.20, 0.30])

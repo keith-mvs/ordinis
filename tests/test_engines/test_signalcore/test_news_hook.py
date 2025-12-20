@@ -43,7 +43,7 @@ class TestNewsItem:
             category="earnings",
             relevance_score=0.85,
         )
-        
+
         assert item.headline == "Company reports earnings"
         assert item.sentiment == NewsSentiment.POSITIVE
         assert item.category == "earnings"
@@ -56,6 +56,7 @@ class TestNewsContextHook:
     @pytest.fixture
     def mock_news_fetcher(self):
         """Create mock news fetcher."""
+
         async def fetcher(symbol: str, lookback_hours: int):
             return [
                 NewsItem(
@@ -67,6 +68,7 @@ class TestNewsContextHook:
                     relevance_score=0.7,
                 )
             ]
+
         return fetcher
 
     @pytest.fixture
@@ -87,10 +89,10 @@ class TestNewsContextHook:
             action="generate_signal",
             inputs={"symbol": "AAPL"},
         )
-        
+
         result = await hook.preflight(context)
         assert result.decision == Decision.ALLOW
-        
+
         # Check cache
         assert "AAPL" in hook._cache
         assert len(hook._cache["AAPL"]["news"]) == 1
@@ -112,28 +114,30 @@ class TestNewsContextHook:
             ],
             "timestamp": datetime.now(),
         }
-        
+
         context = PreflightContext(
             engine="signalcore",
             action="generate_signal",
             inputs={"symbol": "AAPL"},
         )
-        
+
         # Replace fetcher to track calls
         call_count = 0
+
         async def counting_fetcher(symbol, lookback):
             nonlocal call_count
             call_count += 1
             return []
-        
+
         hook._news_fetcher = counting_fetcher
-        
+
         await hook.preflight(context)
         assert call_count == 0  # Used cache, didn't call fetcher
 
     @pytest.mark.asyncio
     async def test_blocks_on_very_negative_blocking_category(self, hook):
         """Test hook blocks on very negative news in blocking category."""
+
         async def negative_fetcher(symbol, lookback):
             return [
                 NewsItem(
@@ -145,15 +149,15 @@ class TestNewsContextHook:
                     relevance_score=0.95,
                 )
             ]
-        
+
         hook._news_fetcher = negative_fetcher
-        
+
         context = PreflightContext(
             engine="signalcore",
             action="generate_signal",
             inputs={"symbol": "AAPL"},
         )
-        
+
         result = await hook.preflight(context)
         assert result.decision == Decision.DENY
         assert "bankruptcy" in result.reason.lower()
@@ -161,6 +165,7 @@ class TestNewsContextHook:
     @pytest.mark.asyncio
     async def test_allows_negative_non_blocking_category(self, hook):
         """Test hook allows negative news if not in blocking category."""
+
         async def negative_fetcher(symbol, lookback):
             return [
                 NewsItem(
@@ -172,15 +177,15 @@ class TestNewsContextHook:
                     relevance_score=0.95,
                 )
             ]
-        
+
         hook._news_fetcher = negative_fetcher
-        
+
         context = PreflightContext(
             engine="signalcore",
             action="generate_signal",
             inputs={"symbol": "AAPL"},
         )
-        
+
         result = await hook.preflight(context)
         assert result.decision == Decision.ALLOW
 
@@ -192,7 +197,7 @@ class TestNewsContextHook:
             action="generate_signal",
             inputs={"symbol": "AAPL"},
         )
-        
+
         result = await hook.preflight(context)
         assert "news_context" in result.adjustments
         assert isinstance(result.adjustments["news_context"], list)
@@ -205,24 +210,25 @@ class TestNewsContextHook:
             action="generate_signal",
             inputs={},  # No symbol
         )
-        
+
         result = await hook.preflight(context)
         assert result.decision == Decision.ALLOW
 
     @pytest.mark.asyncio
     async def test_handles_fetcher_error(self, hook):
         """Test hook handles news fetcher errors gracefully."""
+
         async def failing_fetcher(symbol, lookback):
             raise ConnectionError("API unavailable")
-        
+
         hook._news_fetcher = failing_fetcher
-        
+
         context = PreflightContext(
             engine="signalcore",
             action="generate_signal",
             inputs={"symbol": "AAPL"},
         )
-        
+
         result = await hook.preflight(context)
         # Should allow with warning, not crash
         assert result.decision in (Decision.ALLOW, Decision.WARN)
@@ -230,6 +236,7 @@ class TestNewsContextHook:
     @pytest.mark.asyncio
     async def test_respects_relevance_threshold(self, hook):
         """Test hook respects minimum relevance for blocking."""
+
         async def low_relevance_fetcher(symbol, lookback):
             return [
                 NewsItem(
@@ -241,15 +248,15 @@ class TestNewsContextHook:
                     relevance_score=0.5,  # Below 0.8 threshold
                 )
             ]
-        
+
         hook._news_fetcher = low_relevance_fetcher
-        
+
         context = PreflightContext(
             engine="signalcore",
             action="generate_signal",
             inputs={"symbol": "AAPL"},
         )
-        
+
         result = await hook.preflight(context)
         # Low relevance shouldn't block
         assert result.decision == Decision.ALLOW
@@ -258,17 +265,17 @@ class TestNewsContextHook:
         """Test clearing the news cache."""
         hook._cache["AAPL"] = {"news": [], "timestamp": datetime.now()}
         hook._cache["MSFT"] = {"news": [], "timestamp": datetime.now()}
-        
+
         hook.clear_cache()
-        
+
         assert len(hook._cache) == 0
 
     def test_clear_cache_for_symbol(self, hook):
         """Test clearing cache for specific symbol."""
         hook._cache["AAPL"] = {"news": [], "timestamp": datetime.now()}
         hook._cache["MSFT"] = {"news": [], "timestamp": datetime.now()}
-        
+
         hook.clear_cache("AAPL")
-        
+
         assert "AAPL" not in hook._cache
         assert "MSFT" in hook._cache

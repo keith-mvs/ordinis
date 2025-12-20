@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from datetime import date
 from decimal import Decimal
+
 import pytest
 
 from ordinis.engines.portfolio.assets.instrument_types import (
@@ -374,19 +375,23 @@ class TestInstrumentRegistry:
         """Create registry with sample instruments."""
         registry = InstrumentRegistry()
 
-        registry.register_spec(EquitySpec(
-            symbol="AAPL",
-            instrument_type=InstrumentType.EQUITY,
-            sector="Technology",
-        ))
-        registry.register_spec(FuturesSpec(
-            symbol="ESH24",
-            underlying="ES",
-            contract_size=Decimal("50"),
-            expiration_date=date(2025, 3, 15),
-            margin_initial=Decimal("12000"),
-            margin_maintenance=Decimal("10000"),
-        ))
+        registry.register_spec(
+            EquitySpec(
+                symbol="AAPL",
+                instrument_type=InstrumentType.EQUITY,
+                sector="Technology",
+            )
+        )
+        registry.register_spec(
+            FuturesSpec(
+                symbol="ESH24",
+                underlying="ES",
+                contract_size=Decimal("50"),
+                expiration_date=date(2025, 3, 15),
+                margin_initial=Decimal("12000"),
+                margin_maintenance=Decimal("10000"),
+            )
+        )
 
         return registry
 

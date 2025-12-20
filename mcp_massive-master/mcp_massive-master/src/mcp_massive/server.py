@@ -1,13 +1,14 @@
+from datetime import date, datetime
+from importlib.metadata import PackageNotFoundError, version
 import os
-from typing import Optional, Any, Dict, Union, List, Literal
+from typing import Any, Literal
+
+from dotenv import load_dotenv
+from massive import RESTClient
 from mcp.server.fastmcp import FastMCP
 from mcp.types import ToolAnnotations
-from massive import RESTClient
-from importlib.metadata import version, PackageNotFoundError
-from dotenv import load_dotenv
-from .formatters import json_to_csv
 
-from datetime import datetime, date
+from .formatters import json_to_csv
 
 # Load environment variables from .env file if it exists
 load_dotenv()
@@ -34,12 +35,12 @@ async def get_aggs(
     ticker: str,
     multiplier: int,
     timespan: str,
-    from_: Union[str, int, datetime, date],
-    to: Union[str, int, datetime, date],
-    adjusted: Optional[bool] = None,
-    sort: Optional[str] = None,
-    limit: Optional[int] = 10,
-    params: Optional[Dict[str, Any]] = None,
+    from_: str | int | datetime | date,
+    to: str | int | datetime | date,
+    adjusted: bool | None = None,
+    sort: str | None = None,
+    limit: int | None = 10,
+    params: dict[str, Any] | None = None,
 ) -> str:
     """
     List aggregate bars for a ticker over a given date range in custom time window sizes.
@@ -69,12 +70,12 @@ async def list_aggs(
     ticker: str,
     multiplier: int,
     timespan: str,
-    from_: Union[str, int, datetime, date],
-    to: Union[str, int, datetime, date],
-    adjusted: Optional[bool] = None,
-    sort: Optional[str] = None,
-    limit: Optional[int] = 10,
-    params: Optional[Dict[str, Any]] = None,
+    from_: str | int | datetime | date,
+    to: str | int | datetime | date,
+    adjusted: bool | None = None,
+    sort: str | None = None,
+    limit: int | None = 10,
+    params: dict[str, Any] | None = None,
 ) -> str:
     """
     Iterate through aggregate bars for a ticker over a given date range.
@@ -101,11 +102,11 @@ async def list_aggs(
 @poly_mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def get_grouped_daily_aggs(
     date: str,
-    adjusted: Optional[bool] = None,
-    include_otc: Optional[bool] = None,
-    locale: Optional[str] = None,
-    market_type: Optional[str] = None,
-    params: Optional[Dict[str, Any]] = None,
+    adjusted: bool | None = None,
+    include_otc: bool | None = None,
+    locale: str | None = None,
+    market_type: str | None = None,
+    params: dict[str, Any] | None = None,
 ) -> str:
     """
     Get grouped daily bars for entire market for a specific date.
@@ -130,8 +131,8 @@ async def get_grouped_daily_aggs(
 async def get_daily_open_close_agg(
     ticker: str,
     date: str,
-    adjusted: Optional[bool] = None,
-    params: Optional[Dict[str, Any]] = None,
+    adjusted: bool | None = None,
+    params: dict[str, Any] | None = None,
 ) -> str:
     """
     Get daily open, close, high, and low for a specific ticker and date.
@@ -149,8 +150,8 @@ async def get_daily_open_close_agg(
 @poly_mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def get_previous_close_agg(
     ticker: str,
-    adjusted: Optional[bool] = None,
-    params: Optional[Dict[str, Any]] = None,
+    adjusted: bool | None = None,
+    params: dict[str, Any] | None = None,
 ) -> str:
     """
     Get previous day's open, close, high, and low for a specific ticker.
@@ -168,15 +169,15 @@ async def get_previous_close_agg(
 @poly_mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def list_trades(
     ticker: str,
-    timestamp: Optional[Union[str, int, datetime, date]] = None,
-    timestamp_lt: Optional[Union[str, int, datetime, date]] = None,
-    timestamp_lte: Optional[Union[str, int, datetime, date]] = None,
-    timestamp_gt: Optional[Union[str, int, datetime, date]] = None,
-    timestamp_gte: Optional[Union[str, int, datetime, date]] = None,
-    limit: Optional[int] = 10,
-    sort: Optional[str] = None,
-    order: Optional[str] = None,
-    params: Optional[Dict[str, Any]] = None,
+    timestamp: str | int | datetime | date | None = None,
+    timestamp_lt: str | int | datetime | date | None = None,
+    timestamp_lte: str | int | datetime | date | None = None,
+    timestamp_gt: str | int | datetime | date | None = None,
+    timestamp_gte: str | int | datetime | date | None = None,
+    limit: int | None = 10,
+    sort: str | None = None,
+    order: str | None = None,
+    params: dict[str, Any] | None = None,
 ) -> str:
     """
     Get trades for a ticker symbol.
@@ -219,15 +220,13 @@ async def get_last_trade(
 async def get_last_crypto_trade(
     from_: str,
     to: str,
-    params: Optional[Dict[str, Any]] = None,
+    params: dict[str, Any] | None = None,
 ) -> str:
     """
     Get the most recent trade for a crypto pair.
     """
     try:
-        results = massive_client.get_last_crypto_trade(
-            from_=from_, to=to, params=params, raw=True
-        )
+        results = massive_client.get_last_crypto_trade(from_=from_, to=to, params=params, raw=True)
 
         return json_to_csv(results.data.decode("utf-8"))
     except Exception as e:
@@ -237,15 +236,15 @@ async def get_last_crypto_trade(
 @poly_mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def list_quotes(
     ticker: str,
-    timestamp: Optional[Union[str, int, datetime, date]] = None,
-    timestamp_lt: Optional[Union[str, int, datetime, date]] = None,
-    timestamp_lte: Optional[Union[str, int, datetime, date]] = None,
-    timestamp_gt: Optional[Union[str, int, datetime, date]] = None,
-    timestamp_gte: Optional[Union[str, int, datetime, date]] = None,
-    limit: Optional[int] = 10,
-    sort: Optional[str] = None,
-    order: Optional[str] = None,
-    params: Optional[Dict[str, Any]] = None,
+    timestamp: str | int | datetime | date | None = None,
+    timestamp_lt: str | int | datetime | date | None = None,
+    timestamp_lte: str | int | datetime | date | None = None,
+    timestamp_gt: str | int | datetime | date | None = None,
+    timestamp_gte: str | int | datetime | date | None = None,
+    limit: int | None = 10,
+    sort: str | None = None,
+    order: str | None = None,
+    params: dict[str, Any] | None = None,
 ) -> str:
     """
     Get quotes for a ticker symbol.
@@ -273,7 +272,7 @@ async def list_quotes(
 @poly_mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def get_last_quote(
     ticker: str,
-    params: Optional[Dict[str, Any]] = None,
+    params: dict[str, Any] | None = None,
 ) -> str:
     """
     Get the most recent quote for a ticker symbol.
@@ -290,15 +289,13 @@ async def get_last_quote(
 async def get_last_forex_quote(
     from_: str,
     to: str,
-    params: Optional[Dict[str, Any]] = None,
+    params: dict[str, Any] | None = None,
 ) -> str:
     """
     Get the most recent forex quote.
     """
     try:
-        results = massive_client.get_last_forex_quote(
-            from_=from_, to=to, params=params, raw=True
-        )
+        results = massive_client.get_last_forex_quote(from_=from_, to=to, params=params, raw=True)
 
         return json_to_csv(results.data.decode("utf-8"))
     except Exception as e:
@@ -309,9 +306,9 @@ async def get_last_forex_quote(
 async def get_real_time_currency_conversion(
     from_: str,
     to: str,
-    amount: Optional[float] = None,
-    precision: Optional[int] = None,
-    params: Optional[Dict[str, Any]] = None,
+    amount: float | None = None,
+    precision: int | None = None,
+    params: dict[str, Any] | None = None,
 ) -> str:
     """
     Get real-time currency conversion.
@@ -334,11 +331,11 @@ async def get_real_time_currency_conversion(
 @poly_mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def list_universal_snapshots(
     type: str,
-    ticker_any_of: Optional[List[str]] = None,
-    order: Optional[str] = None,
-    limit: Optional[int] = 10,
-    sort: Optional[str] = None,
-    params: Optional[Dict[str, Any]] = None,
+    ticker_any_of: list[str] | None = None,
+    order: str | None = None,
+    limit: int | None = 10,
+    sort: str | None = None,
+    params: dict[str, Any] | None = None,
 ) -> str:
     """
     Get universal snapshots for multiple assets of a specific type.
@@ -362,9 +359,9 @@ async def list_universal_snapshots(
 @poly_mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def get_snapshot_all(
     market_type: str,
-    tickers: Optional[List[str]] = None,
-    include_otc: Optional[bool] = None,
-    params: Optional[Dict[str, Any]] = None,
+    tickers: list[str] | None = None,
+    include_otc: bool | None = None,
+    params: dict[str, Any] | None = None,
 ) -> str:
     """
     Get a snapshot of all tickers in a market.
@@ -387,8 +384,8 @@ async def get_snapshot_all(
 async def get_snapshot_direction(
     market_type: str,
     direction: str,
-    include_otc: Optional[bool] = None,
-    params: Optional[Dict[str, Any]] = None,
+    include_otc: bool | None = None,
+    params: dict[str, Any] | None = None,
 ) -> str:
     """
     Get gainers or losers for a market.
@@ -411,7 +408,7 @@ async def get_snapshot_direction(
 async def get_snapshot_ticker(
     market_type: str,
     ticker: str,
-    params: Optional[Dict[str, Any]] = None,
+    params: dict[str, Any] | None = None,
 ) -> str:
     """
     Get snapshot for a specific ticker.
@@ -430,7 +427,7 @@ async def get_snapshot_ticker(
 async def get_snapshot_option(
     underlying_asset: str,
     option_contract: str,
-    params: Optional[Dict[str, Any]] = None,
+    params: dict[str, Any] | None = None,
 ) -> str:
     """
     Get snapshot for a specific option contract.
@@ -451,15 +448,13 @@ async def get_snapshot_option(
 @poly_mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def get_snapshot_crypto_book(
     ticker: str,
-    params: Optional[Dict[str, Any]] = None,
+    params: dict[str, Any] | None = None,
 ) -> str:
     """
     Get snapshot for a crypto ticker's order book.
     """
     try:
-        results = massive_client.get_snapshot_crypto_book(
-            ticker=ticker, params=params, raw=True
-        )
+        results = massive_client.get_snapshot_crypto_book(ticker=ticker, params=params, raw=True)
 
         return json_to_csv(results.data.decode("utf-8"))
     except Exception as e:
@@ -468,7 +463,7 @@ async def get_snapshot_crypto_book(
 
 @poly_mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def get_market_holidays(
-    params: Optional[Dict[str, Any]] = None,
+    params: dict[str, Any] | None = None,
 ) -> str:
     """
     Get upcoming market holidays and their open/close times.
@@ -483,7 +478,7 @@ async def get_market_holidays(
 
 @poly_mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def get_market_status(
-    params: Optional[Dict[str, Any]] = None,
+    params: dict[str, Any] | None = None,
 ) -> str:
     """
     Get current trading status of exchanges and financial markets.
@@ -498,19 +493,19 @@ async def get_market_status(
 
 @poly_mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def list_tickers(
-    ticker: Optional[str] = None,
-    type: Optional[str] = None,
-    market: Optional[str] = None,
-    exchange: Optional[str] = None,
-    cusip: Optional[str] = None,
-    cik: Optional[str] = None,
-    date: Optional[Union[str, datetime, date]] = None,
-    search: Optional[str] = None,
-    active: Optional[bool] = None,
-    sort: Optional[str] = None,
-    order: Optional[str] = None,
-    limit: Optional[int] = 10,
-    params: Optional[Dict[str, Any]] = None,
+    ticker: str | None = None,
+    type: str | None = None,
+    market: str | None = None,
+    exchange: str | None = None,
+    cusip: str | None = None,
+    cik: str | None = None,
+    date: str | datetime | date | None = None,
+    search: str | None = None,
+    active: bool | None = None,
+    sort: str | None = None,
+    order: str | None = None,
+    limit: int | None = 10,
+    params: dict[str, Any] | None = None,
 ) -> str:
     """
     Query supported ticker symbols across stocks, indices, forex, and crypto.
@@ -541,8 +536,8 @@ async def list_tickers(
 @poly_mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def get_ticker_details(
     ticker: str,
-    date: Optional[Union[str, datetime, date]] = None,
-    params: Optional[Dict[str, Any]] = None,
+    date: str | datetime | date | None = None,
+    params: dict[str, Any] | None = None,
 ) -> str:
     """
     Get detailed information about a specific ticker.
@@ -559,12 +554,12 @@ async def get_ticker_details(
 
 @poly_mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def list_ticker_news(
-    ticker: Optional[str] = None,
-    published_utc: Optional[Union[str, datetime, date]] = None,
-    limit: Optional[int] = 10,
-    sort: Optional[str] = None,
-    order: Optional[str] = None,
-    params: Optional[Dict[str, Any]] = None,
+    ticker: str | None = None,
+    published_utc: str | datetime | date | None = None,
+    limit: int | None = 10,
+    sort: str | None = None,
+    order: str | None = None,
+    params: dict[str, Any] | None = None,
 ) -> str:
     """
     Get recent news articles for a stock ticker.
@@ -587,9 +582,9 @@ async def list_ticker_news(
 
 @poly_mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def get_ticker_types(
-    asset_class: Optional[str] = None,
-    locale: Optional[str] = None,
-    params: Optional[Dict[str, Any]] = None,
+    asset_class: str | None = None,
+    locale: str | None = None,
+    params: dict[str, Any] | None = None,
 ) -> str:
     """
     List all ticker types supported by Massive.com.
@@ -606,11 +601,11 @@ async def get_ticker_types(
 
 @poly_mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def list_splits(
-    ticker: Optional[str] = None,
-    execution_date: Optional[Union[str, datetime, date]] = None,
-    reverse_split: Optional[bool] = None,
-    limit: Optional[int] = 10,
-    params: Optional[Dict[str, Any]] = None,
+    ticker: str | None = None,
+    execution_date: str | datetime | date | None = None,
+    reverse_split: bool | None = None,
+    limit: int | None = 10,
+    params: dict[str, Any] | None = None,
 ) -> str:
     """
     Get historical stock splits.
@@ -632,12 +627,12 @@ async def list_splits(
 
 @poly_mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def list_dividends(
-    ticker: Optional[str] = None,
-    ex_dividend_date: Optional[Union[str, datetime, date]] = None,
-    frequency: Optional[int] = None,
-    dividend_type: Optional[str] = None,
-    limit: Optional[int] = 10,
-    params: Optional[Dict[str, Any]] = None,
+    ticker: str | None = None,
+    ex_dividend_date: str | datetime | date | None = None,
+    frequency: int | None = None,
+    dividend_type: str | None = None,
+    limit: int | None = 10,
+    params: dict[str, Any] | None = None,
 ) -> str:
     """
     Get historical cash dividends.
@@ -660,11 +655,11 @@ async def list_dividends(
 
 @poly_mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def list_conditions(
-    asset_class: Optional[str] = None,
-    data_type: Optional[str] = None,
-    id: Optional[int] = None,
-    sip: Optional[str] = None,
-    params: Optional[Dict[str, Any]] = None,
+    asset_class: str | None = None,
+    data_type: str | None = None,
+    id: int | None = None,
+    sip: str | None = None,
+    params: dict[str, Any] | None = None,
 ) -> str:
     """
     List conditions used by Massive.com.
@@ -686,9 +681,9 @@ async def list_conditions(
 
 @poly_mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def get_exchanges(
-    asset_class: Optional[str] = None,
-    locale: Optional[str] = None,
-    params: Optional[Dict[str, Any]] = None,
+    asset_class: str | None = None,
+    locale: str | None = None,
+    params: dict[str, Any] | None = None,
 ) -> str:
     """
     List exchanges known by Massive.com.
@@ -705,27 +700,27 @@ async def get_exchanges(
 
 @poly_mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def list_stock_financials(
-    ticker: Optional[str] = None,
-    cik: Optional[str] = None,
-    company_name: Optional[str] = None,
-    company_name_search: Optional[str] = None,
-    sic: Optional[str] = None,
-    filing_date: Optional[Union[str, datetime, date]] = None,
-    filing_date_lt: Optional[Union[str, datetime, date]] = None,
-    filing_date_lte: Optional[Union[str, datetime, date]] = None,
-    filing_date_gt: Optional[Union[str, datetime, date]] = None,
-    filing_date_gte: Optional[Union[str, datetime, date]] = None,
-    period_of_report_date: Optional[Union[str, datetime, date]] = None,
-    period_of_report_date_lt: Optional[Union[str, datetime, date]] = None,
-    period_of_report_date_lte: Optional[Union[str, datetime, date]] = None,
-    period_of_report_date_gt: Optional[Union[str, datetime, date]] = None,
-    period_of_report_date_gte: Optional[Union[str, datetime, date]] = None,
-    timeframe: Optional[str] = None,
-    include_sources: Optional[bool] = None,
-    limit: Optional[int] = 10,
-    sort: Optional[str] = None,
-    order: Optional[str] = None,
-    params: Optional[Dict[str, Any]] = None,
+    ticker: str | None = None,
+    cik: str | None = None,
+    company_name: str | None = None,
+    company_name_search: str | None = None,
+    sic: str | None = None,
+    filing_date: str | datetime | date | None = None,
+    filing_date_lt: str | datetime | date | None = None,
+    filing_date_lte: str | datetime | date | None = None,
+    filing_date_gt: str | datetime | date | None = None,
+    filing_date_gte: str | datetime | date | None = None,
+    period_of_report_date: str | datetime | date | None = None,
+    period_of_report_date_lt: str | datetime | date | None = None,
+    period_of_report_date_lte: str | datetime | date | None = None,
+    period_of_report_date_gt: str | datetime | date | None = None,
+    period_of_report_date_gte: str | datetime | date | None = None,
+    timeframe: str | None = None,
+    include_sources: bool | None = None,
+    limit: int | None = 10,
+    sort: str | None = None,
+    order: str | None = None,
+    params: dict[str, Any] | None = None,
 ) -> str:
     """
     Get fundamental financial data for companies.
@@ -763,17 +758,17 @@ async def list_stock_financials(
 
 @poly_mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def list_ipos(
-    ticker: Optional[str] = None,
-    listing_date: Optional[Union[str, datetime, date]] = None,
-    listing_date_lt: Optional[Union[str, datetime, date]] = None,
-    listing_date_lte: Optional[Union[str, datetime, date]] = None,
-    listing_date_gt: Optional[Union[str, datetime, date]] = None,
-    listing_date_gte: Optional[Union[str, datetime, date]] = None,
-    ipo_status: Optional[str] = None,
-    limit: Optional[int] = 10,
-    sort: Optional[str] = None,
-    order: Optional[str] = None,
-    params: Optional[Dict[str, Any]] = None,
+    ticker: str | None = None,
+    listing_date: str | datetime | date | None = None,
+    listing_date_lt: str | datetime | date | None = None,
+    listing_date_lte: str | datetime | date | None = None,
+    listing_date_gt: str | datetime | date | None = None,
+    listing_date_gte: str | datetime | date | None = None,
+    ipo_status: str | None = None,
+    limit: int | None = 10,
+    sort: str | None = None,
+    order: str | None = None,
+    params: dict[str, Any] | None = None,
 ) -> str:
     """
     Retrieve upcoming or historical IPOs.
@@ -801,16 +796,16 @@ async def list_ipos(
 
 @poly_mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def list_short_interest(
-    ticker: Optional[str] = None,
-    settlement_date: Optional[Union[str, datetime, date]] = None,
-    settlement_date_lt: Optional[Union[str, datetime, date]] = None,
-    settlement_date_lte: Optional[Union[str, datetime, date]] = None,
-    settlement_date_gt: Optional[Union[str, datetime, date]] = None,
-    settlement_date_gte: Optional[Union[str, datetime, date]] = None,
-    limit: Optional[int] = 10,
-    sort: Optional[str] = None,
-    order: Optional[str] = None,
-    params: Optional[Dict[str, Any]] = None,
+    ticker: str | None = None,
+    settlement_date: str | datetime | date | None = None,
+    settlement_date_lt: str | datetime | date | None = None,
+    settlement_date_lte: str | datetime | date | None = None,
+    settlement_date_gt: str | datetime | date | None = None,
+    settlement_date_gte: str | datetime | date | None = None,
+    limit: int | None = 10,
+    sort: str | None = None,
+    order: str | None = None,
+    params: dict[str, Any] | None = None,
 ) -> str:
     """
     Retrieve short interest data for stocks.
@@ -837,16 +832,16 @@ async def list_short_interest(
 
 @poly_mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def list_short_volume(
-    ticker: Optional[str] = None,
-    date: Optional[Union[str, datetime, date]] = None,
-    date_lt: Optional[Union[str, datetime, date]] = None,
-    date_lte: Optional[Union[str, datetime, date]] = None,
-    date_gt: Optional[Union[str, datetime, date]] = None,
-    date_gte: Optional[Union[str, datetime, date]] = None,
-    limit: Optional[int] = 10,
-    sort: Optional[str] = None,
-    order: Optional[str] = None,
-    params: Optional[Dict[str, Any]] = None,
+    ticker: str | None = None,
+    date: str | datetime | date | None = None,
+    date_lt: str | datetime | date | None = None,
+    date_lte: str | datetime | date | None = None,
+    date_gt: str | datetime | date | None = None,
+    date_gte: str | datetime | date | None = None,
+    limit: int | None = 10,
+    sort: str | None = None,
+    order: str | None = None,
+    params: dict[str, Any] | None = None,
 ) -> str:
     """
     Retrieve short volume data for stocks.
@@ -873,16 +868,16 @@ async def list_short_volume(
 
 @poly_mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def list_treasury_yields(
-    date: Optional[Union[str, datetime, date]] = None,
-    date_any_of: Optional[str] = None,
-    date_lt: Optional[Union[str, datetime, date]] = None,
-    date_lte: Optional[Union[str, datetime, date]] = None,
-    date_gt: Optional[Union[str, datetime, date]] = None,
-    date_gte: Optional[Union[str, datetime, date]] = None,
-    limit: Optional[int] = 10,
-    sort: Optional[str] = None,
-    order: Optional[str] = None,
-    params: Optional[Dict[str, Any]] = None,
+    date: str | datetime | date | None = None,
+    date_any_of: str | None = None,
+    date_lt: str | datetime | date | None = None,
+    date_lte: str | datetime | date | None = None,
+    date_gt: str | datetime | date | None = None,
+    date_gte: str | datetime | date | None = None,
+    limit: int | None = 10,
+    sort: str | None = None,
+    order: str | None = None,
+    params: dict[str, Any] | None = None,
 ) -> str:
     """
     Retrieve treasury yield data.
@@ -908,15 +903,15 @@ async def list_treasury_yields(
 
 @poly_mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def list_inflation(
-    date: Optional[Union[str, datetime, date]] = None,
-    date_any_of: Optional[str] = None,
-    date_gt: Optional[Union[str, datetime, date]] = None,
-    date_gte: Optional[Union[str, datetime, date]] = None,
-    date_lt: Optional[Union[str, datetime, date]] = None,
-    date_lte: Optional[Union[str, datetime, date]] = None,
-    limit: Optional[int] = 10,
-    sort: Optional[str] = None,
-    params: Optional[Dict[str, Any]] = None,
+    date: str | datetime | date | None = None,
+    date_any_of: str | None = None,
+    date_gt: str | datetime | date | None = None,
+    date_gte: str | datetime | date | None = None,
+    date_lt: str | datetime | date | None = None,
+    date_lte: str | datetime | date | None = None,
+    limit: int | None = 10,
+    sort: str | None = None,
+    params: dict[str, Any] | None = None,
 ) -> str:
     """
     Get inflation data from the Federal Reserve.
@@ -942,51 +937,51 @@ async def list_inflation(
 
 @poly_mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def list_benzinga_analyst_insights(
-    date: Optional[Union[str, date]] = None,
-    date_any_of: Optional[str] = None,
-    date_gt: Optional[Union[str, date]] = None,
-    date_gte: Optional[Union[str, date]] = None,
-    date_lt: Optional[Union[str, date]] = None,
-    date_lte: Optional[Union[str, date]] = None,
-    ticker: Optional[str] = None,
-    ticker_any_of: Optional[str] = None,
-    ticker_gt: Optional[str] = None,
-    ticker_gte: Optional[str] = None,
-    ticker_lt: Optional[str] = None,
-    ticker_lte: Optional[str] = None,
-    last_updated: Optional[str] = None,
-    last_updated_any_of: Optional[str] = None,
-    last_updated_gt: Optional[str] = None,
-    last_updated_gte: Optional[str] = None,
-    last_updated_lt: Optional[str] = None,
-    last_updated_lte: Optional[str] = None,
-    firm: Optional[str] = None,
-    firm_any_of: Optional[str] = None,
-    firm_gt: Optional[str] = None,
-    firm_gte: Optional[str] = None,
-    firm_lt: Optional[str] = None,
-    firm_lte: Optional[str] = None,
-    rating_action: Optional[str] = None,
-    rating_action_any_of: Optional[str] = None,
-    rating_action_gt: Optional[str] = None,
-    rating_action_gte: Optional[str] = None,
-    rating_action_lt: Optional[str] = None,
-    rating_action_lte: Optional[str] = None,
-    benzinga_firm_id: Optional[str] = None,
-    benzinga_firm_id_any_of: Optional[str] = None,
-    benzinga_firm_id_gt: Optional[str] = None,
-    benzinga_firm_id_gte: Optional[str] = None,
-    benzinga_firm_id_lt: Optional[str] = None,
-    benzinga_firm_id_lte: Optional[str] = None,
-    benzinga_rating_id: Optional[str] = None,
-    benzinga_rating_id_any_of: Optional[str] = None,
-    benzinga_rating_id_gt: Optional[str] = None,
-    benzinga_rating_id_gte: Optional[str] = None,
-    benzinga_rating_id_lt: Optional[str] = None,
-    benzinga_rating_id_lte: Optional[str] = None,
-    limit: Optional[int] = 10,
-    sort: Optional[str] = None,
-    params: Optional[Dict[str, Any]] = None,
+    date: str | date | None = None,
+    date_any_of: str | None = None,
+    date_gt: str | date | None = None,
+    date_gte: str | date | None = None,
+    date_lt: str | date | None = None,
+    date_lte: str | date | None = None,
+    ticker: str | None = None,
+    ticker_any_of: str | None = None,
+    ticker_gt: str | None = None,
+    ticker_gte: str | None = None,
+    ticker_lt: str | None = None,
+    ticker_lte: str | None = None,
+    last_updated: str | None = None,
+    last_updated_any_of: str | None = None,
+    last_updated_gt: str | None = None,
+    last_updated_gte: str | None = None,
+    last_updated_lt: str | None = None,
+    last_updated_lte: str | None = None,
+    firm: str | None = None,
+    firm_any_of: str | None = None,
+    firm_gt: str | None = None,
+    firm_gte: str | None = None,
+    firm_lt: str | None = None,
+    firm_lte: str | None = None,
+    rating_action: str | None = None,
+    rating_action_any_of: str | None = None,
+    rating_action_gt: str | None = None,
+    rating_action_gte: str | None = None,
+    rating_action_lt: str | None = None,
+    rating_action_lte: str | None = None,
+    benzinga_firm_id: str | None = None,
+    benzinga_firm_id_any_of: str | None = None,
+    benzinga_firm_id_gt: str | None = None,
+    benzinga_firm_id_gte: str | None = None,
+    benzinga_firm_id_lt: str | None = None,
+    benzinga_firm_id_lte: str | None = None,
+    benzinga_rating_id: str | None = None,
+    benzinga_rating_id_any_of: str | None = None,
+    benzinga_rating_id_gt: str | None = None,
+    benzinga_rating_id_gte: str | None = None,
+    benzinga_rating_id_lt: str | None = None,
+    benzinga_rating_id_lte: str | None = None,
+    limit: int | None = 10,
+    sort: str | None = None,
+    params: dict[str, Any] | None = None,
 ) -> str:
     """
     List Benzinga analyst insights.
@@ -1048,33 +1043,33 @@ async def list_benzinga_analyst_insights(
 
 @poly_mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def list_benzinga_analysts(
-    benzinga_id: Optional[str] = None,
-    benzinga_id_any_of: Optional[str] = None,
-    benzinga_id_gt: Optional[str] = None,
-    benzinga_id_gte: Optional[str] = None,
-    benzinga_id_lt: Optional[str] = None,
-    benzinga_id_lte: Optional[str] = None,
-    benzinga_firm_id: Optional[str] = None,
-    benzinga_firm_id_any_of: Optional[str] = None,
-    benzinga_firm_id_gt: Optional[str] = None,
-    benzinga_firm_id_gte: Optional[str] = None,
-    benzinga_firm_id_lt: Optional[str] = None,
-    benzinga_firm_id_lte: Optional[str] = None,
-    firm_name: Optional[str] = None,
-    firm_name_any_of: Optional[str] = None,
-    firm_name_gt: Optional[str] = None,
-    firm_name_gte: Optional[str] = None,
-    firm_name_lt: Optional[str] = None,
-    firm_name_lte: Optional[str] = None,
-    full_name: Optional[str] = None,
-    full_name_any_of: Optional[str] = None,
-    full_name_gt: Optional[str] = None,
-    full_name_gte: Optional[str] = None,
-    full_name_lt: Optional[str] = None,
-    full_name_lte: Optional[str] = None,
-    limit: Optional[int] = 10,
-    sort: Optional[str] = None,
-    params: Optional[Dict[str, Any]] = None,
+    benzinga_id: str | None = None,
+    benzinga_id_any_of: str | None = None,
+    benzinga_id_gt: str | None = None,
+    benzinga_id_gte: str | None = None,
+    benzinga_id_lt: str | None = None,
+    benzinga_id_lte: str | None = None,
+    benzinga_firm_id: str | None = None,
+    benzinga_firm_id_any_of: str | None = None,
+    benzinga_firm_id_gt: str | None = None,
+    benzinga_firm_id_gte: str | None = None,
+    benzinga_firm_id_lt: str | None = None,
+    benzinga_firm_id_lte: str | None = None,
+    firm_name: str | None = None,
+    firm_name_any_of: str | None = None,
+    firm_name_gt: str | None = None,
+    firm_name_gte: str | None = None,
+    firm_name_lt: str | None = None,
+    firm_name_lte: str | None = None,
+    full_name: str | None = None,
+    full_name_any_of: str | None = None,
+    full_name_gt: str | None = None,
+    full_name_gte: str | None = None,
+    full_name_lt: str | None = None,
+    full_name_lte: str | None = None,
+    limit: int | None = 10,
+    sort: str | None = None,
+    params: dict[str, Any] | None = None,
 ) -> str:
     """
     List Benzinga analysts.
@@ -1119,13 +1114,13 @@ async def list_benzinga_analysts(
 @poly_mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def list_benzinga_consensus_ratings(
     ticker: str,
-    date: Optional[Union[str, date]] = None,
-    date_gt: Optional[Union[str, date]] = None,
-    date_gte: Optional[Union[str, date]] = None,
-    date_lt: Optional[Union[str, date]] = None,
-    date_lte: Optional[Union[str, date]] = None,
-    limit: Optional[int] = 10,
-    params: Optional[Dict[str, Any]] = None,
+    date: str | date | None = None,
+    date_gt: str | date | None = None,
+    date_gte: str | date | None = None,
+    date_lt: str | date | None = None,
+    date_lte: str | date | None = None,
+    limit: int | None = 10,
+    params: dict[str, Any] | None = None,
 ) -> str:
     """
     List Benzinga consensus ratings for a ticker.
@@ -1150,63 +1145,63 @@ async def list_benzinga_consensus_ratings(
 
 @poly_mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def list_benzinga_earnings(
-    date: Optional[Union[str, date]] = None,
-    date_any_of: Optional[str] = None,
-    date_gt: Optional[Union[str, date]] = None,
-    date_gte: Optional[Union[str, date]] = None,
-    date_lt: Optional[Union[str, date]] = None,
-    date_lte: Optional[Union[str, date]] = None,
-    ticker: Optional[str] = None,
-    ticker_any_of: Optional[str] = None,
-    ticker_gt: Optional[str] = None,
-    ticker_gte: Optional[str] = None,
-    ticker_lt: Optional[str] = None,
-    ticker_lte: Optional[str] = None,
-    importance: Optional[int] = None,
-    importance_any_of: Optional[str] = None,
-    importance_gt: Optional[int] = None,
-    importance_gte: Optional[int] = None,
-    importance_lt: Optional[int] = None,
-    importance_lte: Optional[int] = None,
-    last_updated: Optional[str] = None,
-    last_updated_any_of: Optional[str] = None,
-    last_updated_gt: Optional[str] = None,
-    last_updated_gte: Optional[str] = None,
-    last_updated_lt: Optional[str] = None,
-    last_updated_lte: Optional[str] = None,
-    date_status: Optional[str] = None,
-    date_status_any_of: Optional[str] = None,
-    date_status_gt: Optional[str] = None,
-    date_status_gte: Optional[str] = None,
-    date_status_lt: Optional[str] = None,
-    date_status_lte: Optional[str] = None,
-    eps_surprise_percent: Optional[float] = None,
-    eps_surprise_percent_any_of: Optional[str] = None,
-    eps_surprise_percent_gt: Optional[float] = None,
-    eps_surprise_percent_gte: Optional[float] = None,
-    eps_surprise_percent_lt: Optional[float] = None,
-    eps_surprise_percent_lte: Optional[float] = None,
-    revenue_surprise_percent: Optional[float] = None,
-    revenue_surprise_percent_any_of: Optional[str] = None,
-    revenue_surprise_percent_gt: Optional[float] = None,
-    revenue_surprise_percent_gte: Optional[float] = None,
-    revenue_surprise_percent_lt: Optional[float] = None,
-    revenue_surprise_percent_lte: Optional[float] = None,
-    fiscal_year: Optional[int] = None,
-    fiscal_year_any_of: Optional[str] = None,
-    fiscal_year_gt: Optional[int] = None,
-    fiscal_year_gte: Optional[int] = None,
-    fiscal_year_lt: Optional[int] = None,
-    fiscal_year_lte: Optional[int] = None,
-    fiscal_period: Optional[str] = None,
-    fiscal_period_any_of: Optional[str] = None,
-    fiscal_period_gt: Optional[str] = None,
-    fiscal_period_gte: Optional[str] = None,
-    fiscal_period_lt: Optional[str] = None,
-    fiscal_period_lte: Optional[str] = None,
-    limit: Optional[int] = 10,
-    sort: Optional[str] = None,
-    params: Optional[Dict[str, Any]] = None,
+    date: str | date | None = None,
+    date_any_of: str | None = None,
+    date_gt: str | date | None = None,
+    date_gte: str | date | None = None,
+    date_lt: str | date | None = None,
+    date_lte: str | date | None = None,
+    ticker: str | None = None,
+    ticker_any_of: str | None = None,
+    ticker_gt: str | None = None,
+    ticker_gte: str | None = None,
+    ticker_lt: str | None = None,
+    ticker_lte: str | None = None,
+    importance: int | None = None,
+    importance_any_of: str | None = None,
+    importance_gt: int | None = None,
+    importance_gte: int | None = None,
+    importance_lt: int | None = None,
+    importance_lte: int | None = None,
+    last_updated: str | None = None,
+    last_updated_any_of: str | None = None,
+    last_updated_gt: str | None = None,
+    last_updated_gte: str | None = None,
+    last_updated_lt: str | None = None,
+    last_updated_lte: str | None = None,
+    date_status: str | None = None,
+    date_status_any_of: str | None = None,
+    date_status_gt: str | None = None,
+    date_status_gte: str | None = None,
+    date_status_lt: str | None = None,
+    date_status_lte: str | None = None,
+    eps_surprise_percent: float | None = None,
+    eps_surprise_percent_any_of: str | None = None,
+    eps_surprise_percent_gt: float | None = None,
+    eps_surprise_percent_gte: float | None = None,
+    eps_surprise_percent_lt: float | None = None,
+    eps_surprise_percent_lte: float | None = None,
+    revenue_surprise_percent: float | None = None,
+    revenue_surprise_percent_any_of: str | None = None,
+    revenue_surprise_percent_gt: float | None = None,
+    revenue_surprise_percent_gte: float | None = None,
+    revenue_surprise_percent_lt: float | None = None,
+    revenue_surprise_percent_lte: float | None = None,
+    fiscal_year: int | None = None,
+    fiscal_year_any_of: str | None = None,
+    fiscal_year_gt: int | None = None,
+    fiscal_year_gte: int | None = None,
+    fiscal_year_lt: int | None = None,
+    fiscal_year_lte: int | None = None,
+    fiscal_period: str | None = None,
+    fiscal_period_any_of: str | None = None,
+    fiscal_period_gt: str | None = None,
+    fiscal_period_gte: str | None = None,
+    fiscal_period_lt: str | None = None,
+    fiscal_period_lte: str | None = None,
+    limit: int | None = 10,
+    sort: str | None = None,
+    params: dict[str, Any] | None = None,
 ) -> str:
     """
     List Benzinga earnings.
@@ -1280,15 +1275,15 @@ async def list_benzinga_earnings(
 
 @poly_mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def list_benzinga_firms(
-    benzinga_id: Optional[str] = None,
-    benzinga_id_any_of: Optional[str] = None,
-    benzinga_id_gt: Optional[str] = None,
-    benzinga_id_gte: Optional[str] = None,
-    benzinga_id_lt: Optional[str] = None,
-    benzinga_id_lte: Optional[str] = None,
-    limit: Optional[int] = 10,
-    sort: Optional[str] = None,
-    params: Optional[Dict[str, Any]] = None,
+    benzinga_id: str | None = None,
+    benzinga_id_any_of: str | None = None,
+    benzinga_id_gt: str | None = None,
+    benzinga_id_gte: str | None = None,
+    benzinga_id_lt: str | None = None,
+    benzinga_id_lte: str | None = None,
+    limit: int | None = 10,
+    sort: str | None = None,
+    params: dict[str, Any] | None = None,
 ) -> str:
     """
     List Benzinga firms.
@@ -1314,51 +1309,51 @@ async def list_benzinga_firms(
 
 @poly_mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def list_benzinga_guidance(
-    date: Optional[Union[str, date]] = None,
-    date_any_of: Optional[str] = None,
-    date_gt: Optional[Union[str, date]] = None,
-    date_gte: Optional[Union[str, date]] = None,
-    date_lt: Optional[Union[str, date]] = None,
-    date_lte: Optional[Union[str, date]] = None,
-    ticker: Optional[str] = None,
-    ticker_any_of: Optional[str] = None,
-    ticker_gt: Optional[str] = None,
-    ticker_gte: Optional[str] = None,
-    ticker_lt: Optional[str] = None,
-    ticker_lte: Optional[str] = None,
-    positioning: Optional[str] = None,
-    positioning_any_of: Optional[str] = None,
-    positioning_gt: Optional[str] = None,
-    positioning_gte: Optional[str] = None,
-    positioning_lt: Optional[str] = None,
-    positioning_lte: Optional[str] = None,
-    importance: Optional[int] = None,
-    importance_any_of: Optional[str] = None,
-    importance_gt: Optional[int] = None,
-    importance_gte: Optional[int] = None,
-    importance_lt: Optional[int] = None,
-    importance_lte: Optional[int] = None,
-    last_updated: Optional[str] = None,
-    last_updated_any_of: Optional[str] = None,
-    last_updated_gt: Optional[str] = None,
-    last_updated_gte: Optional[str] = None,
-    last_updated_lt: Optional[str] = None,
-    last_updated_lte: Optional[str] = None,
-    fiscal_year: Optional[int] = None,
-    fiscal_year_any_of: Optional[str] = None,
-    fiscal_year_gt: Optional[int] = None,
-    fiscal_year_gte: Optional[int] = None,
-    fiscal_year_lt: Optional[int] = None,
-    fiscal_year_lte: Optional[int] = None,
-    fiscal_period: Optional[str] = None,
-    fiscal_period_any_of: Optional[str] = None,
-    fiscal_period_gt: Optional[str] = None,
-    fiscal_period_gte: Optional[str] = None,
-    fiscal_period_lt: Optional[str] = None,
-    fiscal_period_lte: Optional[str] = None,
-    limit: Optional[int] = 10,
-    sort: Optional[str] = None,
-    params: Optional[Dict[str, Any]] = None,
+    date: str | date | None = None,
+    date_any_of: str | None = None,
+    date_gt: str | date | None = None,
+    date_gte: str | date | None = None,
+    date_lt: str | date | None = None,
+    date_lte: str | date | None = None,
+    ticker: str | None = None,
+    ticker_any_of: str | None = None,
+    ticker_gt: str | None = None,
+    ticker_gte: str | None = None,
+    ticker_lt: str | None = None,
+    ticker_lte: str | None = None,
+    positioning: str | None = None,
+    positioning_any_of: str | None = None,
+    positioning_gt: str | None = None,
+    positioning_gte: str | None = None,
+    positioning_lt: str | None = None,
+    positioning_lte: str | None = None,
+    importance: int | None = None,
+    importance_any_of: str | None = None,
+    importance_gt: int | None = None,
+    importance_gte: int | None = None,
+    importance_lt: int | None = None,
+    importance_lte: int | None = None,
+    last_updated: str | None = None,
+    last_updated_any_of: str | None = None,
+    last_updated_gt: str | None = None,
+    last_updated_gte: str | None = None,
+    last_updated_lt: str | None = None,
+    last_updated_lte: str | None = None,
+    fiscal_year: int | None = None,
+    fiscal_year_any_of: str | None = None,
+    fiscal_year_gt: int | None = None,
+    fiscal_year_gte: int | None = None,
+    fiscal_year_lt: int | None = None,
+    fiscal_year_lte: int | None = None,
+    fiscal_period: str | None = None,
+    fiscal_period_any_of: str | None = None,
+    fiscal_period_gt: str | None = None,
+    fiscal_period_gte: str | None = None,
+    fiscal_period_lt: str | None = None,
+    fiscal_period_lte: str | None = None,
+    limit: int | None = 10,
+    sort: str | None = None,
+    params: dict[str, Any] | None = None,
 ) -> str:
     """
     List Benzinga guidance.
@@ -1420,35 +1415,35 @@ async def list_benzinga_guidance(
 
 @poly_mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def list_benzinga_news(
-    published: Optional[str] = None,
-    channels: Optional[str] = None,
-    tags: Optional[str] = None,
-    author: Optional[str] = None,
-    stocks: Optional[str] = None,
-    tickers: Optional[str] = None,
-    limit: Optional[int] = 100,
-    sort: Optional[str] = None,
+    published: str | None = None,
+    channels: str | None = None,
+    tags: str | None = None,
+    author: str | None = None,
+    stocks: str | None = None,
+    tickers: str | None = None,
+    limit: int | None = 100,
+    sort: str | None = None,
 ) -> str:
     """
-    Retrieve real-time structured, timestamped news articles from Benzinga v2 API, including headlines, 
-    full-text content, tickers, categories, and more. Each article entry contains metadata such as author, 
-    publication time, and topic channels, as well as optional elements like teaser summaries, article body text, 
-    and images. Articles can be filtered by ticker and time, and are returned in a consistent format for easy 
-    parsing and integration. This endpoint is ideal for building alerting systems, autonomous risk analysis, 
+    Retrieve real-time structured, timestamped news articles from Benzinga v2 API, including headlines,
+    full-text content, tickers, categories, and more. Each article entry contains metadata such as author,
+    publication time, and topic channels, as well as optional elements like teaser summaries, article body text,
+    and images. Articles can be filtered by ticker and time, and are returned in a consistent format for easy
+    parsing and integration. This endpoint is ideal for building alerting systems, autonomous risk analysis,
     and sentiment-driven trading strategies.
-    
+
     Args:
-        published: The timestamp (formatted as an ISO 8601 timestamp) when the news article was originally 
+        published: The timestamp (formatted as an ISO 8601 timestamp) when the news article was originally
                   published. Value must be an integer timestamp in seconds or formatted 'yyyy-mm-dd'.
         channels: Filter for arrays that contain the value (e.g., 'News', 'Price Target').
         tags: Filter for arrays that contain the value.
         author: The name of the journalist or entity that authored the news article.
         stocks: Filter for arrays that contain the value.
         tickers: Filter for arrays that contain the value.
-        limit: Limit the maximum number of results returned. Defaults to 100 if not specified. 
+        limit: Limit the maximum number of results returned. Defaults to 100 if not specified.
                The maximum allowed limit is 50000.
-        sort: A comma separated list of sort columns. For each column, append '.asc' or '.desc' to specify 
-              the sort direction. The sort column defaults to 'published' if not specified. 
+        sort: A comma separated list of sort columns. For each column, append '.asc' or '.desc' to specify
+              the sort direction. The sort column defaults to 'published' if not specified.
               The sort order defaults to 'desc' if not specified.
     """
     try:
@@ -1473,63 +1468,63 @@ async def list_benzinga_news(
 
 @poly_mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def list_benzinga_ratings(
-    date: Optional[Union[str, date]] = None,
-    date_any_of: Optional[str] = None,
-    date_gt: Optional[Union[str, date]] = None,
-    date_gte: Optional[Union[str, date]] = None,
-    date_lt: Optional[Union[str, date]] = None,
-    date_lte: Optional[Union[str, date]] = None,
-    ticker: Optional[str] = None,
-    ticker_any_of: Optional[str] = None,
-    ticker_gt: Optional[str] = None,
-    ticker_gte: Optional[str] = None,
-    ticker_lt: Optional[str] = None,
-    ticker_lte: Optional[str] = None,
-    importance: Optional[int] = None,
-    importance_any_of: Optional[str] = None,
-    importance_gt: Optional[int] = None,
-    importance_gte: Optional[int] = None,
-    importance_lt: Optional[int] = None,
-    importance_lte: Optional[int] = None,
-    last_updated: Optional[str] = None,
-    last_updated_any_of: Optional[str] = None,
-    last_updated_gt: Optional[str] = None,
-    last_updated_gte: Optional[str] = None,
-    last_updated_lt: Optional[str] = None,
-    last_updated_lte: Optional[str] = None,
-    rating_action: Optional[str] = None,
-    rating_action_any_of: Optional[str] = None,
-    rating_action_gt: Optional[str] = None,
-    rating_action_gte: Optional[str] = None,
-    rating_action_lt: Optional[str] = None,
-    rating_action_lte: Optional[str] = None,
-    price_target_action: Optional[str] = None,
-    price_target_action_any_of: Optional[str] = None,
-    price_target_action_gt: Optional[str] = None,
-    price_target_action_gte: Optional[str] = None,
-    price_target_action_lt: Optional[str] = None,
-    price_target_action_lte: Optional[str] = None,
-    benzinga_id: Optional[str] = None,
-    benzinga_id_any_of: Optional[str] = None,
-    benzinga_id_gt: Optional[str] = None,
-    benzinga_id_gte: Optional[str] = None,
-    benzinga_id_lt: Optional[str] = None,
-    benzinga_id_lte: Optional[str] = None,
-    benzinga_analyst_id: Optional[str] = None,
-    benzinga_analyst_id_any_of: Optional[str] = None,
-    benzinga_analyst_id_gt: Optional[str] = None,
-    benzinga_analyst_id_gte: Optional[str] = None,
-    benzinga_analyst_id_lt: Optional[str] = None,
-    benzinga_analyst_id_lte: Optional[str] = None,
-    benzinga_firm_id: Optional[str] = None,
-    benzinga_firm_id_any_of: Optional[str] = None,
-    benzinga_firm_id_gt: Optional[str] = None,
-    benzinga_firm_id_gte: Optional[str] = None,
-    benzinga_firm_id_lt: Optional[str] = None,
-    benzinga_firm_id_lte: Optional[str] = None,
-    limit: Optional[int] = 10,
-    sort: Optional[str] = None,
-    params: Optional[Dict[str, Any]] = None,
+    date: str | date | None = None,
+    date_any_of: str | None = None,
+    date_gt: str | date | None = None,
+    date_gte: str | date | None = None,
+    date_lt: str | date | None = None,
+    date_lte: str | date | None = None,
+    ticker: str | None = None,
+    ticker_any_of: str | None = None,
+    ticker_gt: str | None = None,
+    ticker_gte: str | None = None,
+    ticker_lt: str | None = None,
+    ticker_lte: str | None = None,
+    importance: int | None = None,
+    importance_any_of: str | None = None,
+    importance_gt: int | None = None,
+    importance_gte: int | None = None,
+    importance_lt: int | None = None,
+    importance_lte: int | None = None,
+    last_updated: str | None = None,
+    last_updated_any_of: str | None = None,
+    last_updated_gt: str | None = None,
+    last_updated_gte: str | None = None,
+    last_updated_lt: str | None = None,
+    last_updated_lte: str | None = None,
+    rating_action: str | None = None,
+    rating_action_any_of: str | None = None,
+    rating_action_gt: str | None = None,
+    rating_action_gte: str | None = None,
+    rating_action_lt: str | None = None,
+    rating_action_lte: str | None = None,
+    price_target_action: str | None = None,
+    price_target_action_any_of: str | None = None,
+    price_target_action_gt: str | None = None,
+    price_target_action_gte: str | None = None,
+    price_target_action_lt: str | None = None,
+    price_target_action_lte: str | None = None,
+    benzinga_id: str | None = None,
+    benzinga_id_any_of: str | None = None,
+    benzinga_id_gt: str | None = None,
+    benzinga_id_gte: str | None = None,
+    benzinga_id_lt: str | None = None,
+    benzinga_id_lte: str | None = None,
+    benzinga_analyst_id: str | None = None,
+    benzinga_analyst_id_any_of: str | None = None,
+    benzinga_analyst_id_gt: str | None = None,
+    benzinga_analyst_id_gte: str | None = None,
+    benzinga_analyst_id_lt: str | None = None,
+    benzinga_analyst_id_lte: str | None = None,
+    benzinga_firm_id: str | None = None,
+    benzinga_firm_id_any_of: str | None = None,
+    benzinga_firm_id_gt: str | None = None,
+    benzinga_firm_id_gte: str | None = None,
+    benzinga_firm_id_lt: str | None = None,
+    benzinga_firm_id_lte: str | None = None,
+    limit: int | None = 10,
+    sort: str | None = None,
+    params: dict[str, Any] | None = None,
 ) -> str:
     """
     List Benzinga ratings.
@@ -1605,14 +1600,14 @@ async def list_benzinga_ratings(
 async def list_futures_aggregates(
     ticker: str,
     resolution: str,
-    window_start: Optional[str] = None,
-    window_start_lt: Optional[str] = None,
-    window_start_lte: Optional[str] = None,
-    window_start_gt: Optional[str] = None,
-    window_start_gte: Optional[str] = None,
-    limit: Optional[int] = 10,
-    sort: Optional[str] = None,
-    params: Optional[Dict[str, Any]] = None,
+    window_start: str | None = None,
+    window_start_lt: str | None = None,
+    window_start_lte: str | None = None,
+    window_start_gt: str | None = None,
+    window_start_gte: str | None = None,
+    limit: int | None = 10,
+    sort: str | None = None,
+    params: dict[str, Any] | None = None,
 ) -> str:
     """
     Get aggregates for a futures contract in a given time range.
@@ -1639,15 +1634,15 @@ async def list_futures_aggregates(
 
 @poly_mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def list_futures_contracts(
-    product_code: Optional[str] = None,
-    first_trade_date: Optional[Union[str, date]] = None,
-    last_trade_date: Optional[Union[str, date]] = None,
-    as_of: Optional[Union[str, date]] = None,
-    active: Optional[str] = None,
-    type: Optional[str] = None,
-    limit: Optional[int] = 10,
-    sort: Optional[str] = None,
-    params: Optional[Dict[str, Any]] = None,
+    product_code: str | None = None,
+    first_trade_date: str | date | None = None,
+    last_trade_date: str | date | None = None,
+    as_of: str | date | None = None,
+    active: str | None = None,
+    type: str | None = None,
+    limit: int | None = 10,
+    sort: str | None = None,
+    params: dict[str, Any] | None = None,
 ) -> str:
     """
     Get a paginated list of futures contracts.
@@ -1674,8 +1669,8 @@ async def list_futures_contracts(
 @poly_mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def get_futures_contract_details(
     ticker: str,
-    as_of: Optional[Union[str, date]] = None,
-    params: Optional[Dict[str, Any]] = None,
+    as_of: str | date | None = None,
+    params: dict[str, Any] | None = None,
 ) -> str:
     """
     Get details for a single futures contract at a specified point in time.
@@ -1695,18 +1690,18 @@ async def get_futures_contract_details(
 
 @poly_mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def list_futures_products(
-    name: Optional[str] = None,
-    name_search: Optional[str] = None,
-    as_of: Optional[Union[str, date]] = None,
-    trading_venue: Optional[str] = None,
-    sector: Optional[str] = None,
-    sub_sector: Optional[str] = None,
-    asset_class: Optional[str] = None,
-    asset_sub_class: Optional[str] = None,
-    type: Optional[str] = None,
-    limit: Optional[int] = 10,
-    sort: Optional[str] = None,
-    params: Optional[Dict[str, Any]] = None,
+    name: str | None = None,
+    name_search: str | None = None,
+    as_of: str | date | None = None,
+    trading_venue: str | None = None,
+    sector: str | None = None,
+    sub_sector: str | None = None,
+    asset_class: str | None = None,
+    asset_sub_class: str | None = None,
+    type: str | None = None,
+    limit: int | None = 10,
+    sort: str | None = None,
+    params: dict[str, Any] | None = None,
 ) -> str:
     """
     Get a list of futures products (including combos).
@@ -1736,9 +1731,9 @@ async def list_futures_products(
 @poly_mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def get_futures_product_details(
     product_code: str,
-    type: Optional[str] = None,
-    as_of: Optional[Union[str, date]] = None,
-    params: Optional[Dict[str, Any]] = None,
+    type: str | None = None,
+    as_of: str | date | None = None,
+    params: dict[str, Any] | None = None,
 ) -> str:
     """
     Get details for a single futures product as it was at a specific day.
@@ -1760,19 +1755,19 @@ async def get_futures_product_details(
 @poly_mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def list_futures_quotes(
     ticker: str,
-    timestamp: Optional[str] = None,
-    timestamp_lt: Optional[str] = None,
-    timestamp_lte: Optional[str] = None,
-    timestamp_gt: Optional[str] = None,
-    timestamp_gte: Optional[str] = None,
-    session_end_date: Optional[str] = None,
-    session_end_date_lt: Optional[str] = None,
-    session_end_date_lte: Optional[str] = None,
-    session_end_date_gt: Optional[str] = None,
-    session_end_date_gte: Optional[str] = None,
-    limit: Optional[int] = 10,
-    sort: Optional[str] = None,
-    params: Optional[Dict[str, Any]] = None,
+    timestamp: str | None = None,
+    timestamp_lt: str | None = None,
+    timestamp_lte: str | None = None,
+    timestamp_gt: str | None = None,
+    timestamp_gte: str | None = None,
+    session_end_date: str | None = None,
+    session_end_date_lt: str | None = None,
+    session_end_date_lte: str | None = None,
+    session_end_date_gt: str | None = None,
+    session_end_date_gte: str | None = None,
+    limit: int | None = 10,
+    sort: str | None = None,
+    params: dict[str, Any] | None = None,
 ) -> str:
     """
     Get quotes for a futures contract in a given time range.
@@ -1804,19 +1799,19 @@ async def list_futures_quotes(
 @poly_mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def list_futures_trades(
     ticker: str,
-    timestamp: Optional[str] = None,
-    timestamp_lt: Optional[str] = None,
-    timestamp_lte: Optional[str] = None,
-    timestamp_gt: Optional[str] = None,
-    timestamp_gte: Optional[str] = None,
-    session_end_date: Optional[str] = None,
-    session_end_date_lt: Optional[str] = None,
-    session_end_date_lte: Optional[str] = None,
-    session_end_date_gt: Optional[str] = None,
-    session_end_date_gte: Optional[str] = None,
-    limit: Optional[int] = 10,
-    sort: Optional[str] = None,
-    params: Optional[Dict[str, Any]] = None,
+    timestamp: str | None = None,
+    timestamp_lt: str | None = None,
+    timestamp_lte: str | None = None,
+    timestamp_gt: str | None = None,
+    timestamp_gte: str | None = None,
+    session_end_date: str | None = None,
+    session_end_date_lt: str | None = None,
+    session_end_date_lte: str | None = None,
+    session_end_date_gt: str | None = None,
+    session_end_date_gte: str | None = None,
+    limit: int | None = 10,
+    sort: str | None = None,
+    params: dict[str, Any] | None = None,
 ) -> str:
     """
     Get trades for a futures contract in a given time range.
@@ -1847,11 +1842,11 @@ async def list_futures_trades(
 
 @poly_mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def list_futures_schedules(
-    session_end_date: Optional[str] = None,
-    trading_venue: Optional[str] = None,
-    limit: Optional[int] = 10,
-    sort: Optional[str] = None,
-    params: Optional[Dict[str, Any]] = None,
+    session_end_date: str | None = None,
+    trading_venue: str | None = None,
+    limit: int | None = 10,
+    sort: str | None = None,
+    params: dict[str, Any] | None = None,
 ) -> str:
     """
     Get trading schedules for multiple futures products on a specific date.
@@ -1874,14 +1869,14 @@ async def list_futures_schedules(
 @poly_mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def list_futures_schedules_by_product_code(
     product_code: str,
-    session_end_date: Optional[str] = None,
-    session_end_date_lt: Optional[str] = None,
-    session_end_date_lte: Optional[str] = None,
-    session_end_date_gt: Optional[str] = None,
-    session_end_date_gte: Optional[str] = None,
-    limit: Optional[int] = 10,
-    sort: Optional[str] = None,
-    params: Optional[Dict[str, Any]] = None,
+    session_end_date: str | None = None,
+    session_end_date_lt: str | None = None,
+    session_end_date_lte: str | None = None,
+    session_end_date_gt: str | None = None,
+    session_end_date_gte: str | None = None,
+    limit: int | None = 10,
+    sort: str | None = None,
+    params: dict[str, Any] | None = None,
 ) -> str:
     """
     Get schedule data for a single futures product across many trading dates.
@@ -1907,11 +1902,11 @@ async def list_futures_schedules_by_product_code(
 
 @poly_mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def list_futures_market_statuses(
-    product_code_any_of: Optional[str] = None,
-    product_code: Optional[str] = None,
-    limit: Optional[int] = 10,
-    sort: Optional[str] = None,
-    params: Optional[Dict[str, Any]] = None,
+    product_code_any_of: str | None = None,
+    product_code: str | None = None,
+    limit: int | None = 10,
+    sort: str | None = None,
+    params: dict[str, Any] | None = None,
 ) -> str:
     """
     Get market statuses for futures products.
@@ -1933,21 +1928,21 @@ async def list_futures_market_statuses(
 
 @poly_mcp.tool(annotations=ToolAnnotations(readOnlyHint=True))
 async def get_futures_snapshot(
-    ticker: Optional[str] = None,
-    ticker_any_of: Optional[str] = None,
-    ticker_gt: Optional[str] = None,
-    ticker_gte: Optional[str] = None,
-    ticker_lt: Optional[str] = None,
-    ticker_lte: Optional[str] = None,
-    product_code: Optional[str] = None,
-    product_code_any_of: Optional[str] = None,
-    product_code_gt: Optional[str] = None,
-    product_code_gte: Optional[str] = None,
-    product_code_lt: Optional[str] = None,
-    product_code_lte: Optional[str] = None,
-    limit: Optional[int] = 10,
-    sort: Optional[str] = None,
-    params: Optional[Dict[str, Any]] = None,
+    ticker: str | None = None,
+    ticker_any_of: str | None = None,
+    ticker_gt: str | None = None,
+    ticker_gte: str | None = None,
+    ticker_lt: str | None = None,
+    ticker_lte: str | None = None,
+    product_code: str | None = None,
+    product_code_any_of: str | None = None,
+    product_code_gt: str | None = None,
+    product_code_gte: str | None = None,
+    product_code_lt: str | None = None,
+    product_code_lte: str | None = None,
+    limit: int | None = 10,
+    sort: str | None = None,
+    params: dict[str, Any] | None = None,
 ) -> str:
     """
     Get snapshots for futures contracts.

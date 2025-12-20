@@ -1,6 +1,6 @@
-import json
 import csv
 import io
+import json
 from typing import Any
 
 
@@ -74,9 +74,7 @@ def json_to_csv(json_input: str | dict) -> str:
     return output.getvalue()
 
 
-def _flatten_dict(
-    d: dict[str, Any], parent_key: str = "", sep: str = "_"
-) -> dict[str, Any]:
+def _flatten_dict(d: dict[str, Any], parent_key: str = "", sep: str = "_") -> dict[str, Any]:
     """
     Flatten a nested dictionary by joining keys with separator.
 

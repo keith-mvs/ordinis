@@ -1,7 +1,7 @@
 # PortfolioEngine & PortfolioOpt Architecture Review
 
-**Date:** December 2024  
-**Reviewer:** Architecture Analysis  
+**Date:** December 2024
+**Reviewer:** Architecture Analysis
 **Status:** Implementation Complete
 
 ---
@@ -26,115 +26,115 @@ This document presents a comprehensive architecture review of the PortfolioEngin
 
 ### Gap 1: Weak PortfolioOpt Integration (Critical)
 
-**Current State:**  
+**Current State:**
 PortfolioOptEngine produces optimized weights but there is no bridge to convert these into executable rebalancing trades within PortfolioEngine.
 
-**Impact:**  
+**Impact:**
 
 - GPU optimization results cannot flow seamlessly to execution
 - Manual intervention required to translate weights to orders
 - No drift detection or calendar-based rebalancing triggers
 
-**Recommendation:**  
+**Recommendation:**
 Create `PortfolioOptAdapter` that bridges GPU-optimized weights to PortfolioEngine's rebalancing workflow with Alpaca-style drift bands.
 
 ---
 
 ### Gap 2: Inconsistent State Management (Significant)
 
-**Current State:**  
+**Current State:**
 PortfolioEngine maintains positions, cash, and equity in separate dictionaries without atomic update guarantees.
 
-**Impact:**  
+**Impact:**
 
 - Risk of state inconsistency during concurrent operations
 - Difficulty in rollback scenarios
 - Potential for phantom positions or cash discrepancies
 
-**Recommendation:**  
+**Recommendation:**
 Implement transactional state updates with snapshot/restore capability.
 
 ---
 
 ### Gap 3: Simplistic Transaction Cost Model (Moderate)
 
-**Current State:**  
+**Current State:**
 Transaction costs modeled as fixed basis points without consideration of:
 
 - Market impact (Almgren-Chriss model)
 - Bid-ask spread dynamics
 - Order size relative to ADV
 
-**Impact:**  
+**Impact:**
 
 - Unrealistic backtest results
 - Suboptimal execution decisions
 - Over-trading in illiquid positions
 
-**Recommendation:**  
+**Recommendation:**
 Implement production-grade `TransactionCostModel` with Almgren-Chriss market impact and adaptive learning from execution.
 
 ---
 
 ### Gap 4: No Multi-Asset Support (Significant)
 
-**Current State:**  
+**Current State:**
 System assumes equity-only universe with no handling for:
 
 - Futures (margin requirements, contract specifications, expiration)
 - Options (Greeks, exercise, assignment)
 - Crypto (24/7 trading, fractional quantities)
 
-**Impact:**  
+**Impact:**
 
 - Cannot expand to derivatives trading
 - No margin calculation for leveraged instruments
 - Missing contract roll logic for futures
 
-**Recommendation:**  
+**Recommendation:**
 Create `InstrumentRegistry` with `InstrumentHandler` protocol for asset-class-specific logic.
 
 ---
 
 ### Gap 5: Missing Risk Attribution (Significant)
 
-**Current State:**  
+**Current State:**
 Risk metrics calculated at portfolio level only. No decomposition to:
 
 - Factor exposures (market, size, value, momentum)
 - Sector contributions
 - Individual security marginal risk
 
-**Impact:**  
+**Impact:**
 
 - Cannot identify risk concentrations
 - No factor-based hedging capability
 - Limited risk reporting for compliance
 
-**Recommendation:**  
+**Recommendation:**
 Implement `RiskAttributionEngine` with Fama-French factor regression and marginal VaR calculation.
 
 ---
 
 ### Gap 6: Missing Regime Detection Integration (Moderate)
 
-**Current State:**  
+**Current State:**
 SignalCore has `RegimeDetector` but PortfolioEngine's sizing decisions don't incorporate regime awareness.
 
-**Impact:**  
+**Impact:**
 
 - Constant position sizes regardless of market conditions
 - Over-exposure in choppy/volatile regimes
 - Missed opportunities in trending regimes
 
-**Recommendation:**  
+**Recommendation:**
 Create `RegimeSizingHook` that adjusts position sizes based on detected market regime.
 
 ---
 
 ### Gap 7: Limited Governance Hooks (Moderate)
 
-**Current State:**  
+**Current State:**
 Governance limited to:
 
 - Position percentage limits
@@ -147,33 +147,33 @@ Missing:
 - Liquidity-adjusted position sizing
 - Drawdown-based exposure reduction
 
-**Impact:**  
+**Impact:**
 
 - Concentration risk not controlled
 - Correlated positions can compound losses
 - No defensive posture during drawdowns
 
-**Recommendation:**  
+**Recommendation:**
 Implement enhanced governance rules: `SectorConcentrationRule`, `CorrelationClusterRule`, `LiquidityAdjustedRule`, `DrawdownRule`.
 
 ---
 
 ### Gap 8: No Execution Feedback Loop (Critical)
 
-**Current State:**  
+**Current State:**
 No mechanism to:
 
 - Track expected vs actual execution costs
 - Learn from slippage patterns
 - Adjust sizing based on execution quality
 
-**Impact:**  
+**Impact:**
 
 - Repeated execution mistakes
 - No model calibration
 - Transaction cost estimates diverge from reality
 
-**Recommendation:**  
+**Recommendation:**
 Implement `ExecutionFeedbackCollector` with closed-loop learning to calibrate cost models.
 
 ---
