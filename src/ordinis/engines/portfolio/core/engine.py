@@ -124,8 +124,8 @@ class PortfolioEngine(BaseEngine[PortfolioEngineConfig]):
         # Phase 3: PortfolioOpt integration
         self._portfolioopt_adapter = portfolioopt_adapter
         self._execution_feedback = execution_feedback
-        self._target_weights: list["PortfolioWeight"] = []
-        self._last_optimization_result: "OptimizationResult | None" = None
+        self._target_weights: list[PortfolioWeight] = []
+        self._last_optimization_result: OptimizationResult | None = None
 
         # Portfolio State
         self.positions: dict[str, Position] = {}
@@ -767,9 +767,7 @@ class PortfolioEngine(BaseEngine[PortfolioEngineConfig]):
     # PortfolioOpt Integration (Phase 3)
     # -------------------------------------------------------------------------
 
-    def set_portfolioopt_adapter(
-        self, adapter: "PortfolioOptAdapter"
-    ) -> None:
+    def set_portfolioopt_adapter(self, adapter: "PortfolioOptAdapter") -> None:
         """Set the PortfolioOpt adapter for GPU-optimized rebalancing.
 
         Args:
@@ -777,9 +775,7 @@ class PortfolioEngine(BaseEngine[PortfolioEngineConfig]):
         """
         self._portfolioopt_adapter = adapter
 
-    def set_execution_feedback(
-        self, collector: "ExecutionFeedbackCollector"
-    ) -> None:
+    def set_execution_feedback(self, collector: "ExecutionFeedbackCollector") -> None:
         """Set the execution feedback collector.
 
         Args:
@@ -807,8 +803,7 @@ class PortfolioEngine(BaseEngine[PortfolioEngineConfig]):
         """
         if not self._portfolioopt_adapter:
             raise RuntimeError(
-                "PortfolioOptAdapter not configured. "
-                "Call set_portfolioopt_adapter() first."
+                "PortfolioOptAdapter not configured. " "Call set_portfolioopt_adapter() first."
             )
 
         self._last_optimization_result = optimization_result
@@ -831,12 +826,8 @@ class PortfolioEngine(BaseEngine[PortfolioEngineConfig]):
         """
         if not self._portfolioopt_adapter:
             # Fallback: simple calculation without adapter
-            positions = {
-                s: p.quantity for s, p in self.positions.items()
-            }
-            position_values = {
-                s: qty * prices.get(s, 0.0) for s, qty in positions.items()
-            }
+            positions = {s: p.quantity for s, p in self.positions.items()}
+            position_values = {s: qty * prices.get(s, 0.0) for s, qty in positions.items()}
             total = sum(position_values.values()) + self.cash
             if total <= 0:
                 return {"CASH": 100.0}
@@ -845,9 +836,7 @@ class PortfolioEngine(BaseEngine[PortfolioEngineConfig]):
             return weights
 
         positions = {s: p.quantity for s, p in self.positions.items()}
-        return self._portfolioopt_adapter.calculate_current_weights(
-            positions, prices, self.cash
-        )
+        return self._portfolioopt_adapter.calculate_current_weights(positions, prices, self.cash)
 
     def analyze_drift(
         self,
@@ -874,14 +863,10 @@ class PortfolioEngine(BaseEngine[PortfolioEngineConfig]):
 
         targets = target_weights or self._target_weights
         if not targets:
-            raise RuntimeError(
-                "No target weights set. Call apply_optimization_result() first."
-            )
+            raise RuntimeError("No target weights set. Call apply_optimization_result() first.")
 
         current_weights = self.get_current_weights(prices)
-        return self._portfolioopt_adapter.analyze_drift(
-            current_weights, targets, self.cash
-        )
+        return self._portfolioopt_adapter.analyze_drift(current_weights, targets, self.cash)
 
     def should_rebalance_drift(
         self,
@@ -1139,9 +1124,7 @@ class PortfolioEngine(BaseEngine[PortfolioEngineConfig]):
         if not self._execution_feedback:
             return None
 
-        return self._execution_feedback.get_quality_metrics(
-            lookback_hours=lookback_hours
-        )
+        return self._execution_feedback.get_quality_metrics(lookback_hours=lookback_hours)
 
     def estimate_rebalance_cost(
         self,

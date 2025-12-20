@@ -12,8 +12,8 @@ having RegimeDetector capability.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import TYPE_CHECKING, Any
 import logging
+from typing import TYPE_CHECKING, Any
 
 from ordinis.engines.base import (
     AuditRecord,
@@ -25,8 +25,6 @@ from ordinis.engines.base import (
 
 if TYPE_CHECKING:
     from ordinis.engines.signalcore.regime_detector import (
-        MarketRegime,
-        RegimeAnalysis,
         RegimeDetector,
     )
 
@@ -127,7 +125,7 @@ class RegimeSizingHook(GovernanceHook):
 
     def __init__(
         self,
-        regime_detector: "RegimeDetector | None" = None,
+        regime_detector: RegimeDetector | None = None,
         config: RegimeSizingConfig | None = None,
         custom_multipliers: dict[str, float] | None = None,
     ) -> None:
@@ -148,7 +146,7 @@ class RegimeSizingHook(GovernanceHook):
         self._regime_cache: dict[str, RegimeAdjustment] = {}
         self._audit_log: list[AuditRecord] = []
 
-    def _get_detector(self) -> "RegimeDetector":
+    def _get_detector(self) -> RegimeDetector:
         """Lazy-load regime detector."""
         if self._detector is None:
             from ordinis.engines.signalcore.regime_detector import RegimeDetector
@@ -275,9 +273,7 @@ class RegimeSizingHook(GovernanceHook):
 
             # Check confidence threshold
             if adjustment.confidence < self.config.min_confidence:
-                warnings.append(
-                    f"{sym}: Low regime confidence ({adjustment.confidence:.1%})"
-                )
+                warnings.append(f"{sym}: Low regime confidence ({adjustment.confidence:.1%})")
                 continue
 
             # Check if trade should be blocked
@@ -296,9 +292,7 @@ class RegimeSizingHook(GovernanceHook):
                 }
 
             if adjustment.trade_recommendation == "CAUTION":
-                warnings.append(
-                    f"{sym}: {adjustment.regime} regime - reduced sizing recommended"
-                )
+                warnings.append(f"{sym}: {adjustment.regime} regime - reduced sizing recommended")
 
         # Block if any symbols should be avoided
         if blocked_symbols:

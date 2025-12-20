@@ -19,12 +19,9 @@ from datetime import UTC, datetime, timedelta
 from enum import Enum, auto
 from typing import TYPE_CHECKING, Any
 
-
 if TYPE_CHECKING:
-    from ordinis.engines.portfolio.core.engine import PortfolioEngine
     from ordinis.engines.portfolioopt.core.engine import (
         OptimizationResult,
-        PortfolioOptEngine,
     )
 
 
@@ -238,7 +235,7 @@ class PortfolioOptAdapter:
 
     def convert_to_targets(
         self,
-        optimization_result: "OptimizationResult",
+        optimization_result: OptimizationResult,
         total_equity: float | None = None,
     ) -> list[PortfolioWeight]:
         """Convert optimization result to target portfolio weights.
@@ -348,8 +345,7 @@ class PortfolioOptAdapter:
             weight_analysis.append(updated)
 
             abs_drift = abs(updated.drift)
-            if abs_drift > max_drift:
-                max_drift = abs_drift
+            max_drift = max(abs_drift, max_drift)
 
             rel_drift = abs(updated.relative_drift)
             if rel_drift > max_relative_drift and rel_drift != float("inf"):
@@ -364,9 +360,7 @@ class PortfolioOptAdapter:
         # Check cooldown
         cooldown_remaining = None
         if self._last_rebalance and self.drift_config.cooldown_days > 0:
-            cooldown_end = self._last_rebalance + timedelta(
-                days=self.drift_config.cooldown_days
-            )
+            cooldown_end = self._last_rebalance + timedelta(days=self.drift_config.cooldown_days)
             if datetime.now(UTC) < cooldown_end:
                 drift_triggered = False  # Don't trigger during cooldown
                 cooldown_remaining = cooldown_end - datetime.now(UTC)
@@ -472,9 +466,7 @@ class PortfolioOptAdapter:
         investable = cash_amount * (1 - self.cash_reserve_pct / 100.0)
 
         # Allocate proportionally to target weights
-        total_asset_weight = sum(
-            w.target_pct for w in target_weights if w.weight_type == "asset"
-        )
+        total_asset_weight = sum(w.target_pct for w in target_weights if w.weight_type == "asset")
 
         trades = []
         for target in target_weights:
@@ -578,11 +570,11 @@ class PortfolioOptAdapter:
 
         if freq == "daily":
             return True
-        elif freq == "weekly":
+        if freq == "weekly":
             return now.weekday() == self.calendar_config.day_of_week
-        elif freq == "monthly":
+        if freq == "monthly":
             return now.day == self.calendar_config.day_of_month
-        elif freq == "quarterly":
+        if freq == "quarterly":
             return now.day == self.calendar_config.day_of_month and now.month in (
                 1,
                 4,
@@ -612,7 +604,5 @@ class PortfolioOptAdapter:
         if not self._last_rebalance or self.drift_config.cooldown_days <= 0:
             return False
 
-        cooldown_end = self._last_rebalance + timedelta(
-            days=self.drift_config.cooldown_days
-        )
+        cooldown_end = self._last_rebalance + timedelta(days=self.drift_config.cooldown_days)
         return datetime.now(UTC) < cooldown_end

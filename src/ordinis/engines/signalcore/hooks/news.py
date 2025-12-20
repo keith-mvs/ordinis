@@ -192,21 +192,18 @@ class NewsContextHook(BaseGovernanceHook):
         for item in news:
             if item.category in self._blocking_categories:
                 if item.sentiment in (NewsSentiment.NEGATIVE, NewsSentiment.VERY_NEGATIVE):
-                    blocking_reasons.append(
-                        f"{item.category}: {item.headline[:50]}..."
-                    )
+                    blocking_reasons.append(f"{item.category}: {item.headline[:50]}...")
 
         # Determine overall sentiment
         if avg_sentiment <= -1.5:
             return NewsSentiment.VERY_NEGATIVE, blocking_reasons
-        elif avg_sentiment <= -0.5:
+        if avg_sentiment <= -0.5:
             return NewsSentiment.NEGATIVE, blocking_reasons
-        elif avg_sentiment >= 1.5:
+        if avg_sentiment >= 1.5:
             return NewsSentiment.VERY_POSITIVE, blocking_reasons
-        elif avg_sentiment >= 0.5:
+        if avg_sentiment >= 0.5:
             return NewsSentiment.POSITIVE, blocking_reasons
-        else:
-            return NewsSentiment.NEUTRAL, blocking_reasons
+        return NewsSentiment.NEUTRAL, blocking_reasons
 
     async def preflight(self, context: PreflightContext) -> PreflightResult:
         """Check news before signal generation.
@@ -249,7 +246,10 @@ class NewsContextHook(BaseGovernanceHook):
                 )
 
         # For long signals, warn on negative sentiment
-        if direction == "long" and sentiment in (NewsSentiment.NEGATIVE, NewsSentiment.VERY_NEGATIVE):
+        if direction == "long" and sentiment in (
+            NewsSentiment.NEGATIVE,
+            NewsSentiment.VERY_NEGATIVE,
+        ):
             return PreflightResult(
                 decision=Decision.WARN,
                 reason=f"Negative news sentiment for {symbol}",
@@ -260,7 +260,10 @@ class NewsContextHook(BaseGovernanceHook):
             )
 
         # For short signals, warn on positive sentiment
-        if direction == "short" and sentiment in (NewsSentiment.POSITIVE, NewsSentiment.VERY_POSITIVE):
+        if direction == "short" and sentiment in (
+            NewsSentiment.POSITIVE,
+            NewsSentiment.VERY_POSITIVE,
+        ):
             return PreflightResult(
                 decision=Decision.WARN,
                 reason=f"Positive news sentiment for {symbol}",

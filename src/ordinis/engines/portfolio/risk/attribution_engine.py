@@ -15,8 +15,8 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from enum import Enum
-from typing import Any
 import logging
+from typing import Any
 
 import numpy as np
 
@@ -147,10 +147,7 @@ class RiskAttributionResult:
 
     def get_factor_summary(self) -> dict[str, float]:
         """Get summary of factor contributions."""
-        return {
-            exp.factor.value: exp.contribution_pct
-            for exp in self.factor_exposures
-        }
+        return {exp.factor.value: exp.contribution_pct for exp in self.factor_exposures}
 
 
 # ============================================================================
@@ -339,10 +336,7 @@ class RiskAttributionEngine:
             Symbol -> component VaR mapping
         """
         marginal = self.calculate_marginal_risk(weights)
-        return {
-            sym: marginal.get(sym, 0) * weights.get(sym, 0)
-            for sym in weights
-        }
+        return {sym: marginal.get(sym, 0) * weights.get(sym, 0) for sym in weights}
 
     def run_factor_regression(
         self,
@@ -369,7 +363,7 @@ class RiskAttributionEngine:
             residuals = y - predictions
 
             ss_res = np.sum(residuals**2)
-            ss_tot = np.sum((y - np.mean(y))**2)
+            ss_tot = np.sum((y - np.mean(y)) ** 2)
             r_squared = 1 - (ss_res / ss_tot) if ss_tot > 0 else 0
 
             return betas[1:], residuals, float(r_squared)
@@ -429,9 +423,7 @@ class RiskAttributionEngine:
 
         # Factor attribution if returns available
         if returns is not None and symbols is not None and self._factor_returns:
-            result.factor_exposures = self._calculate_factor_exposures(
-                weights, returns, symbols
-            )
+            result.factor_exposures = self._calculate_factor_exposures(weights, returns, symbols)
 
         # Sector attribution
         if sector_mapping:
@@ -443,9 +435,7 @@ class RiskAttributionEngine:
         result.herfindahl_index = sum(w**2 for w in weights.values())
 
         top_contributors = result.get_top_risk_contributors(5)
-        result.top_5_risk_contribution = sum(
-            c.total_risk_contribution for c in top_contributors
-        )
+        result.top_5_risk_contribution = sum(c.total_risk_contribution for c in top_contributors)
 
         # Systematic vs idiosyncratic split
         if result.factor_exposures:
@@ -476,7 +466,7 @@ class RiskAttributionEngine:
         for factor, factor_data in self._factor_returns.items():
             if len(factor_data.returns) >= len(port_returns):
                 available_factors.append(factor)
-                factor_list.append(factor_data.returns[:len(port_returns)])
+                factor_list.append(factor_data.returns[: len(port_returns)])
 
         if not available_factors:
             return exposures
@@ -484,15 +474,13 @@ class RiskAttributionEngine:
         factor_matrix = np.column_stack(factor_list)
 
         # Run regression
-        betas, _, r_squared = self.run_factor_regression(
-            port_returns, factor_matrix
-        )
+        betas, _, r_squared = self.run_factor_regression(port_returns, factor_matrix)
 
         # Calculate contribution of each factor
         total_var = np.var(port_returns)
         if total_var > 0:
             for i, factor in enumerate(available_factors):
-                factor_var = betas[i]**2 * np.var(factor_matrix[:, i])
+                factor_var = betas[i] ** 2 * np.var(factor_matrix[:, i])
                 contribution = factor_var / total_var * 100
 
                 exposures.append(

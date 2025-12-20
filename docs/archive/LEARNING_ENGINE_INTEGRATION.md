@@ -64,6 +64,7 @@ def setup_learning_engine(data_dir: Path | None = None) -> LearningEngine:
 ### 2. Event Recording
 
 **Signal Generation Event:**
+
 ```python
 LearningEvent(
     event_type=EventType.SIGNAL_GENERATED,
@@ -83,6 +84,7 @@ LearningEvent(
 ```
 
 **Signal Accuracy Event (Outcome):**
+
 ```python
 LearningEvent(
     event_type=EventType.SIGNAL_ACCURACY,
@@ -101,6 +103,7 @@ LearningEvent(
 ```
 
 **Metrics Summary Event:**
+
 ```python
 LearningEvent(
     event_type=EventType.METRIC_RECORDED,
@@ -133,6 +136,7 @@ def run_real_market_backtest(
 ```
 
 **Parameters:**
+
 - `use_learning_engine`: Enable/disable LearningEngine feedback recording
 - `learning_data_dir`: Custom directory for learning engine artifacts
 
@@ -279,6 +283,7 @@ stats = engine.get_stats()
 ## Future Enhancements
 
 ### 1. Automated Model Training
+
 ```python
 # After sufficient events collected:
 job = await engine.submit_training_job(
@@ -293,6 +298,7 @@ job = await engine.submit_training_job(
 ```
 
 ### 2. Evaluation & Promotion
+
 ```python
 # Evaluate trained model
 eval = await engine.evaluate_model(
@@ -312,6 +318,7 @@ if eval.passed:
 ```
 
 ### 3. Drift Monitoring
+
 ```python
 # Set baseline performance metrics
 engine.set_baseline("confidence_calibrator", {
@@ -338,6 +345,7 @@ conda run -n ordinis-env python scripts/test_learning_engine_integration.py
 ```
 
 **Tests included:**
+
 1. **Basic Operations** - Initialize, record events, query
 2. **Backtest Integration** - Trade data, signals, accuracy
 3. **Model Lifecycle** - Register, evaluate, promote, drift detection
@@ -353,9 +361,11 @@ conda run -n ordinis-env python scripts/phase1_real_market_backtest.py \
 ```
 
 **Output includes:**
+
 - `reports/phase1_real_market_backtest.json` - Full backtest report
 - `artifacts/learning_engine/` - Learning event buffer
 - Learning event statistics in report:
+
   ```json
   {
     "use_learning_engine": true,
@@ -368,12 +378,14 @@ conda run -n ordinis-env python scripts/phase1_real_market_backtest.py \
 ## Performance Metrics
 
 ### Event Recording Overhead
+
 - **Per-trade overhead**: ~2 events (entry + exit)
 - **1000 trades**: ~2000 events in memory
 - **Memory usage**: ~2KB per event (metadata + payload)
 - **Total for backtest**: ~4-5 MB buffer
 
 ### Query Performance
+
 - Event lookups: O(n) linear scan (for now)
 - Type filtering: O(n) with pre-indexed dict
 - Time range filtering: O(n) sequential scan
@@ -395,6 +407,7 @@ await orchestration.run_cycle(symbols=["AAPL", "MSFT"])
 ```
 
 **Protocol compliance:**
+
 ```python
 class LearningEngineProtocol(Protocol):
     async def update(self, results: list[Any]) -> None:

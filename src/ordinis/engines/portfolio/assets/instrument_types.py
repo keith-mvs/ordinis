@@ -13,12 +13,11 @@ Gap Addressed: No multi-asset support (futures margin, options Greeks).
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from datetime import UTC, datetime, date
+from datetime import UTC, date, datetime
 from decimal import Decimal
 from enum import Enum
-from typing import Protocol, runtime_checkable
-
 import logging
+from typing import Protocol, runtime_checkable
 
 logger = logging.getLogger(__name__)
 
@@ -203,8 +202,8 @@ class OptionsGreeks:
     delta: float = 0.0  # Price sensitivity to underlying
     gamma: float = 0.0  # Rate of delta change
     theta: float = 0.0  # Time decay ($/day)
-    vega: float = 0.0   # Volatility sensitivity
-    rho: float = 0.0    # Interest rate sensitivity
+    vega: float = 0.0  # Volatility sensitivity
+    rho: float = 0.0  # Interest rate sensitivity
     timestamp: datetime = field(default_factory=lambda: datetime.now(UTC))
 
     def portfolio_delta(self, qty: int, multiplier: int = 100) -> float:
@@ -259,8 +258,7 @@ class OptionsSpec(InstrumentSpec):
         """
         if self.option_type == OptionType.CALL:
             return max(Decimal("0"), underlying_price - self.strike)
-        else:
-            return max(Decimal("0"), self.strike - underlying_price)
+        return max(Decimal("0"), self.strike - underlying_price)
 
     def get_time_value(self, option_price: Decimal, underlying_price: Decimal) -> Decimal:
         """Calculate time value.
@@ -476,9 +474,7 @@ class FuturesHandler:
 
         import math
 
-        notional = float(
-            abs(qty) * price * spec.contract_size
-        )
+        notional = float(abs(qty) * price * spec.contract_size)
         daily_vol = volatility / math.sqrt(252)
 
         var_95 = notional * daily_vol * 1.645
@@ -559,8 +555,6 @@ class OptionsHandler:
         """Calculate options position risk using Greeks."""
         if not isinstance(spec, OptionsSpec):
             raise TypeError("Expected OptionsSpec")
-
-        import math
 
         notional = float(abs(qty) * price * spec.multiplier)
         greeks = spec.greeks

@@ -103,7 +103,7 @@ class FlowRouteEngine:
         order_repository: OrderRepository | None = None,
         alert_manager: AlertManager | None = None,
         feedback_collector: FeedbackCollector | None = None,
-        execution_feedback: "ExecutionFeedbackCollector | None" = None,
+        execution_feedback: ExecutionFeedbackCollector | None = None,
         max_positions: int = 20,
         min_buying_power: Decimal = Decimal("1000"),
     ):
@@ -855,7 +855,9 @@ class FlowRouteEngine:
         try:
             self._execution_feedback.record_execution(
                 symbol=order.symbol,
-                side=str(order.side.value).lower() if hasattr(order.side, "value") else str(order.side).lower(),
+                side=str(order.side.value).lower()
+                if hasattr(order.side, "value")
+                else str(order.side).lower(),
                 expected_price=expected_price,
                 filled_avg_price=float(fill.price),
                 expected_qty=expected_qty,

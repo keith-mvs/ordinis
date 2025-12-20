@@ -15,10 +15,10 @@ Usage:
 
 from __future__ import annotations
 
-import asyncio
 from abc import ABC, abstractmethod
+import asyncio
 from collections import defaultdict
-from dataclasses import dataclass, field, asdict
+from dataclasses import asdict, dataclass, field
 from datetime import UTC, datetime
 from decimal import Decimal
 from enum import Enum, auto
@@ -44,12 +44,12 @@ from ordinis.adapters.streaming.stream_protocol import (
     StreamQuote,
     StreamStatus,
 )
-from ordinis.engines.signalcore.features.technical import TechnicalIndicators
 from ordinis.engines.portfolio.sizing import (
     PositionSizer,
     SizingConfig,
     SizingMethod,
 )
+from ordinis.engines.signalcore.features.technical import TechnicalIndicators
 
 # Configure logging
 logging.basicConfig(
@@ -131,6 +131,7 @@ def log_positions(positions: dict, equity: float) -> None:
 
 class SignalType(Enum):
     """Trading signal types."""
+
     LONG = auto()
     SHORT = auto()
     EXIT_LONG = auto()
@@ -141,6 +142,7 @@ class SignalType(Enum):
 @dataclass
 class TradingSignal:
     """Trading signal from a strategy."""
+
     symbol: str
     signal_type: SignalType
     price: float
@@ -155,6 +157,7 @@ class TradingSignal:
 @dataclass
 class StrategyPosition:
     """Position tracked by a strategy."""
+
     symbol: str
     direction: str  # "long" or "short"
     entry_price: float
@@ -169,6 +172,7 @@ class StrategyPosition:
 @dataclass
 class StrategyConfig:
     """Configuration for a strategy."""
+
     name: str
     config_path: str
     capital_allocation_pct: float  # % of total equity for this strategy
@@ -180,6 +184,7 @@ class StrategyConfig:
 @dataclass
 class StrategyState:
     """Runtime state for a strategy."""
+
     config: StrategyConfig
     positions: dict[str, StrategyPosition] = field(default_factory=dict)
     allocated_capital: Decimal = Decimal("0")
@@ -205,7 +210,7 @@ class Strategy(ABC):
         symbols = config.get("symbols", {})
         if isinstance(symbols, dict):
             return list(symbols.keys())
-        elif isinstance(symbols, list):
+        if isinstance(symbols, list):
             return symbols
         return []
 
@@ -245,11 +250,9 @@ class ATRRSIStrategy(Strategy):
 
         # Calculate indicators
         rsi = TechnicalIndicators.rsi(close, 14)
-        tr = pd.concat([
-            high - low,
-            abs(high - close.shift(1)),
-            abs(low - close.shift(1))
-        ], axis=1).max(axis=1)
+        tr = pd.concat(
+            [high - low, abs(high - close.shift(1)), abs(low - close.shift(1))], axis=1
+        ).max(axis=1)
         atr = tr.rolling(14).mean()
 
         current_rsi = rsi.iloc[-1]
@@ -261,10 +264,16 @@ class ATRRSIStrategy(Strategy):
 
         # Get symbol-specific params
         sym_config = self.symbol_configs.get(symbol, {})
-        rsi_oversold = sym_config.get("rsi_oversold", self.global_params.get("default_rsi_oversold", 30))
+        rsi_oversold = sym_config.get(
+            "rsi_oversold", self.global_params.get("default_rsi_oversold", 30)
+        )
         rsi_exit = sym_config.get("rsi_exit", self.global_params.get("default_rsi_exit", 50))
-        atr_stop_mult = sym_config.get("atr_stop_mult", self.global_params.get("default_atr_stop_mult", 1.5))
-        atr_tp_mult = sym_config.get("atr_tp_mult", self.global_params.get("default_atr_tp_mult", 2.0))
+        atr_stop_mult = sym_config.get(
+            "atr_stop_mult", self.global_params.get("default_atr_stop_mult", 1.5)
+        )
+        atr_tp_mult = sym_config.get(
+            "atr_tp_mult", self.global_params.get("default_atr_tp_mult", 2.0)
+        )
 
         # Scale ATR for minute bars
         scaled_atr = current_atr * 20
@@ -302,23 +311,21 @@ class ATRRSIStrategy(Strategy):
                         strategy_name=self.name,
                         reason=f"Take profit hit (${current_price:.2f} >= ${current_position.take_profit:.2f})",
                     )
-        else:
-            # Check for entry
-            if current_rsi < rsi_oversold:
-                # Signal strength based on how oversold
-                strength = min(1.0, (rsi_oversold - current_rsi) / 10)
+        elif current_rsi < rsi_oversold:
+            # Signal strength based on how oversold
+            strength = min(1.0, (rsi_oversold - current_rsi) / 10)
 
-                return TradingSignal(
-                    symbol=symbol,
-                    signal_type=SignalType.LONG,
-                    price=current_price,
-                    strength=strength,
-                    strategy_name=self.name,
-                    reason=f"RSI oversold ({current_rsi:.1f} < {rsi_oversold})",
-                    stop_loss=current_price - (scaled_atr * atr_stop_mult),
-                    take_profit=current_price + (scaled_atr * atr_tp_mult),
-                    metadata={"rsi": current_rsi, "atr": current_atr},
-                )
+            return TradingSignal(
+                symbol=symbol,
+                signal_type=SignalType.LONG,
+                price=current_price,
+                strength=strength,
+                strategy_name=self.name,
+                reason=f"RSI oversold ({current_rsi:.1f} < {rsi_oversold})",
+                stop_loss=current_price - (scaled_atr * atr_stop_mult),
+                take_profit=current_price + (scaled_atr * atr_tp_mult),
+                metadata={"rsi": current_rsi, "atr": current_atr},
+            )
 
         return None
 
@@ -354,11 +361,9 @@ class TrendFollowingStrategy(Strategy):
         adx = self._calculate_adx(high, low, close, self.global_params.get("adx_period", 14))
 
         # ATR for stops
-        tr = pd.concat([
-            high - low,
-            abs(high - close.shift(1)),
-            abs(low - close.shift(1))
-        ], axis=1).max(axis=1)
+        tr = pd.concat(
+            [high - low, abs(high - close.shift(1)), abs(low - close.shift(1))], axis=1
+        ).max(axis=1)
         atr = tr.rolling(14).mean()
 
         current_fast_ma = fast_ma.iloc[-1]
@@ -373,7 +378,9 @@ class TrendFollowingStrategy(Strategy):
         # Get symbol-specific params
         sym_config = self.symbol_configs.get(symbol, {})
         adx_threshold = sym_config.get("adx_threshold", self.global_params.get("adx_threshold", 25))
-        atr_stop_mult = sym_config.get("atr_stop_mult", self.global_params.get("atr_stop_mult", 2.0))
+        atr_stop_mult = sym_config.get(
+            "atr_stop_mult", self.global_params.get("atr_stop_mult", 2.0)
+        )
         atr_tp_mult = sym_config.get("atr_tp_mult", self.global_params.get("atr_tp_mult", 3.0))
 
         # Scale ATR
@@ -434,19 +441,23 @@ class TrendFollowingStrategy(Strategy):
                     reason=f"{'MA crossover' if crossover else 'Strong uptrend'} (ADX={current_adx:.1f})",
                     stop_loss=current_price - (scaled_atr * atr_stop_mult),
                     take_profit=current_price + (scaled_atr * atr_tp_mult),
-                    metadata={"adx": current_adx, "fast_ma": current_fast_ma, "slow_ma": current_slow_ma},
+                    metadata={
+                        "adx": current_adx,
+                        "fast_ma": current_fast_ma,
+                        "slow_ma": current_slow_ma,
+                    },
                 )
 
         return None
 
-    def _calculate_adx(self, high: pd.Series, low: pd.Series, close: pd.Series, period: int = 14) -> pd.Series:
+    def _calculate_adx(
+        self, high: pd.Series, low: pd.Series, close: pd.Series, period: int = 14
+    ) -> pd.Series:
         """Calculate ADX indicator."""
         # True Range
-        tr = pd.concat([
-            high - low,
-            abs(high - close.shift(1)),
-            abs(low - close.shift(1))
-        ], axis=1).max(axis=1)
+        tr = pd.concat(
+            [high - low, abs(high - close.shift(1)), abs(low - close.shift(1))], axis=1
+        ).max(axis=1)
 
         # +DM and -DM
         plus_dm = high.diff()
@@ -490,13 +501,15 @@ class MultiStrategyOrchestrator:
         self.latest_quotes: dict[str, StreamQuote] = {}
 
         # Position sizer
-        self.sizer = PositionSizer(SizingConfig(
-            method=SizingMethod.VOLATILITY_ADJUSTED,
-            max_position_pct=0.03,  # Max 3% per position (even with vol adjustment)
-            min_position_pct=0.005,  # Min 0.5%
-            vol_target=0.15,  # Target 15% annualized vol
-            vol_lookback_days=20,
-        ))
+        self.sizer = PositionSizer(
+            SizingConfig(
+                method=SizingMethod.VOLATILITY_ADJUSTED,
+                max_position_pct=0.03,  # Max 3% per position (even with vol adjustment)
+                min_position_pct=0.005,  # Min 0.5%
+                vol_target=0.15,  # Target 15% annualized vol
+                vol_lookback_days=20,
+            )
+        )
 
         # Global tracking
         self.global_positions: dict[str, str] = {}  # symbol -> strategy_name
@@ -566,7 +579,8 @@ class MultiStrategyOrchestrator:
             if pos.quantity <= 0:
                 logger.warning(
                     "SKIP SYNC | %s | Short position (%d shares) - not tracking",
-                    symbol, pos.quantity
+                    symbol,
+                    pos.quantity,
                 )
                 continue
 
@@ -600,32 +614,42 @@ class MultiStrategyOrchestrator:
 
                     logger.info(
                         "Synced %s to %s: %d shares @ $%.2f",
-                        symbol, name, pos.quantity, entry_price
+                        symbol,
+                        name,
+                        pos.quantity,
+                        entry_price,
                     )
 
                     # Log position sync event
-                    log_event("POSITION_SYNCED", {
-                        "symbol": symbol,
-                        "strategy": name,
-                        "quantity": int(pos.quantity),
-                        "entry_price": float(entry_price),
-                        "current_price": float(current_price),
-                        "stop_loss": float(stop_loss),
-                        "take_profit": float(take_profit),
-                        "unrealized_pnl": float(pos.unrealized_pnl) if hasattr(pos, 'unrealized_pnl') else None,
-                    })
+                    log_event(
+                        "POSITION_SYNCED",
+                        {
+                            "symbol": symbol,
+                            "strategy": name,
+                            "quantity": int(pos.quantity),
+                            "entry_price": float(entry_price),
+                            "current_price": float(current_price),
+                            "stop_loss": float(stop_loss),
+                            "take_profit": float(take_profit),
+                            "unrealized_pnl": float(pos.unrealized_pnl)
+                            if hasattr(pos, "unrealized_pnl")
+                            else None,
+                        },
+                    )
                     break
 
             if not assigned:
                 logger.warning(
-                    "Position %s not assigned to any strategy (not in symbol lists)",
-                    symbol
+                    "Position %s not assigned to any strategy (not in symbol lists)", symbol
                 )
-                log_event("POSITION_UNASSIGNED", {
-                    "symbol": symbol,
-                    "quantity": int(pos.quantity),
-                    "reason": "not in any strategy symbol list",
-                })
+                log_event(
+                    "POSITION_UNASSIGNED",
+                    {
+                        "symbol": symbol,
+                        "quantity": int(pos.quantity),
+                        "reason": "not in any strategy symbol list",
+                    },
+                )
 
     async def _allocate_capital(self) -> None:
         """Allocate capital to each strategy."""
@@ -641,7 +665,9 @@ class MultiStrategyOrchestrator:
 
             logger.info(
                 "Allocated $%.2f to %s (%.0f%%)",
-                allocation, name, state.config.capital_allocation_pct * 100
+                allocation,
+                name,
+                state.config.capital_allocation_pct * 100,
             )
 
         self.sizer.set_portfolio_value(total_equity)
@@ -660,9 +686,12 @@ class MultiStrategyOrchestrator:
         logger.info("=" * 60)
 
         # Log startup event
-        log_event("SYSTEM_START", {
-            "strategies": [c.name for c in self.strategy_configs],
-        })
+        log_event(
+            "SYSTEM_START",
+            {
+                "strategies": [c.name for c in self.strategy_configs],
+            },
+        )
 
         # Initialize strategies
         self._initialize_strategies()
@@ -674,13 +703,16 @@ class MultiStrategyOrchestrator:
         # Log strategy initialization
         for name, strategy in self.strategies.items():
             state = self.strategy_states[name]
-            log_event("STRATEGY_INIT", {
-                "strategy": name,
-                "symbols": len(strategy.symbols),
-                "capital_allocation_pct": state.config.capital_allocation_pct,
-                "max_positions": state.config.max_positions,
-                "position_size_pct": state.config.position_size_pct,
-            })
+            log_event(
+                "STRATEGY_INIT",
+                {
+                    "strategy": name,
+                    "symbols": len(strategy.symbols),
+                    "capital_allocation_pct": state.config.capital_allocation_pct,
+                    "max_positions": state.config.max_positions,
+                    "position_size_pct": state.config.position_size_pct,
+                },
+            )
 
         # Initialize broker
         self.broker = AlpacaBroker(paper=True)
@@ -691,11 +723,14 @@ class MultiStrategyOrchestrator:
         account = await self.broker.get_account()
         logger.info("Connected to Alpaca - Equity: $%.2f", account.equity)
 
-        log_event("BROKER_CONNECTED", {
-            "equity": float(account.equity),
-            "cash": float(account.cash),
-            "buying_power": float(account.buying_power),
-        })
+        log_event(
+            "BROKER_CONNECTED",
+            {
+                "equity": float(account.equity),
+                "cash": float(account.cash),
+                "buying_power": float(account.buying_power),
+            },
+        )
 
         # Sync existing positions
         await self._sync_broker_positions()
@@ -732,7 +767,9 @@ class MultiStrategyOrchestrator:
         await self.stream.connect()
         await self.stream.subscribe(all_symbols)
 
-        logger.info("Subscribed to %d symbols across %d strategies", len(all_symbols), len(self.strategies))
+        logger.info(
+            "Subscribed to %d symbols across %d strategies", len(all_symbols), len(self.strategies)
+        )
 
         self._running = True
 
@@ -846,17 +883,16 @@ class MultiStrategyOrchestrator:
 
         # Check if symbol already owned by another strategy
         if symbol in self.global_positions:
-            logger.info(
-                "SKIP | %s already owned by %s",
-                symbol, self.global_positions[symbol]
-            )
+            logger.info("SKIP | %s already owned by %s", symbol, self.global_positions[symbol])
             return
 
         # Check max positions for this strategy
         if len(state.positions) >= state.config.max_positions:
             logger.info(
                 "SKIP | %s at max positions (%d/%d)",
-                state.config.name, len(state.positions), state.config.max_positions
+                state.config.name,
+                len(state.positions),
+                state.config.max_positions,
             )
             return
 
@@ -916,28 +952,34 @@ class MultiStrategyOrchestrator:
 
             logger.info(
                 "ENTRY | %s | %s | %d shares @ $%.2f ($%.0f, %.1f%% of allocation) | SL=$%.2f TP=$%.2f",
-                signal.strategy_name, symbol, quantity, signal.price,
-                position_value, pct_of_allocation,
+                signal.strategy_name,
+                symbol,
+                quantity,
+                signal.price,
+                position_value,
+                pct_of_allocation,
                 state.positions[symbol].stop_loss,
                 state.positions[symbol].take_profit,
             )
 
             # Log trade for post-market analysis
-            log_trade({
-                "action": "ENTRY",
-                "strategy": signal.strategy_name,
-                "symbol": symbol,
-                "side": "long",
-                "quantity": int(quantity),
-                "price": float(signal.price),
-                "value": float(position_value),
-                "pct_of_allocation": float(pct_of_allocation),
-                "stop_loss": float(state.positions[symbol].stop_loss),
-                "take_profit": float(state.positions[symbol].take_profit),
-                "signal_strength": float(signal.strength) if signal.strength else 0.0,
-                "reason": signal.reason,
-                "metadata": signal.metadata,
-            })
+            log_trade(
+                {
+                    "action": "ENTRY",
+                    "strategy": signal.strategy_name,
+                    "symbol": symbol,
+                    "side": "long",
+                    "quantity": int(quantity),
+                    "price": float(signal.price),
+                    "value": float(position_value),
+                    "pct_of_allocation": float(pct_of_allocation),
+                    "stop_loss": float(state.positions[symbol].stop_loss),
+                    "take_profit": float(state.positions[symbol].take_profit),
+                    "signal_strength": float(signal.strength) if signal.strength else 0.0,
+                    "reason": signal.reason,
+                    "metadata": signal.metadata,
+                }
+            )
 
         except Exception as e:
             logger.error("Error executing entry for %s: %s", symbol, e)
@@ -961,8 +1003,7 @@ class MultiStrategyOrchestrator:
             broker_pos = await self.broker.get_position(symbol)
             if broker_pos is None:
                 logger.warning(
-                    "SKIP EXIT | %s | Position not found on broker - removing from tracking",
-                    symbol
+                    "SKIP EXIT | %s | Position not found on broker - removing from tracking", symbol
                 )
                 # Clean up stale position from tracking
                 del state.positions[symbol]
@@ -975,7 +1016,8 @@ class MultiStrategyOrchestrator:
             if broker_qty <= 0:
                 logger.warning(
                     "SKIP EXIT | %s | Broker shows %d shares (not long) - removing from tracking",
-                    symbol, broker_qty
+                    symbol,
+                    broker_qty,
                 )
                 del state.positions[symbol]
                 if symbol in self.global_positions:
@@ -987,7 +1029,10 @@ class MultiStrategyOrchestrator:
             if sell_qty != quantity:
                 logger.warning(
                     "EXIT QTY ADJUSTED | %s | Tracked=%d, Broker=%d, Selling=%d",
-                    symbol, quantity, broker_qty, sell_qty
+                    symbol,
+                    quantity,
+                    broker_qty,
+                    sell_qty,
                 )
 
             # Submit exit order
@@ -1017,29 +1062,38 @@ class MultiStrategyOrchestrator:
 
             logger.info(
                 "EXIT | %s | %s | %d shares @ $%.2f | P&L: %+.2f%% ($%+.2f) | %s",
-                signal.strategy_name, symbol, quantity, signal.price,
-                pnl_pct, pnl_abs, signal.reason,
+                signal.strategy_name,
+                symbol,
+                quantity,
+                signal.price,
+                pnl_pct,
+                pnl_abs,
+                signal.reason,
             )
 
             # Log trade for post-market analysis
-            hold_time_minutes = (datetime.now(UTC) - pos.entry_time).total_seconds() / 60 if pos.entry_time else 0
-            log_trade({
-                "action": "EXIT",
-                "strategy": signal.strategy_name,
-                "symbol": symbol,
-                "side": "long",
-                "quantity": int(quantity),
-                "entry_price": float(pos.entry_price),
-                "exit_price": float(signal.price),
-                "pnl_pct": float(pnl_pct),
-                "pnl_abs": float(pnl_abs),
-                "hold_time_minutes": float(hold_time_minutes),
-                "reason": signal.reason,
-                "win": pnl_pct > 0,
-                "strategy_total_trades": int(state.total_trades),
-                "strategy_win_rate": float(state.win_rate),
-                "strategy_realized_pnl": float(state.realized_pnl),
-            })
+            hold_time_minutes = (
+                (datetime.now(UTC) - pos.entry_time).total_seconds() / 60 if pos.entry_time else 0
+            )
+            log_trade(
+                {
+                    "action": "EXIT",
+                    "strategy": signal.strategy_name,
+                    "symbol": symbol,
+                    "side": "long",
+                    "quantity": int(quantity),
+                    "entry_price": float(pos.entry_price),
+                    "exit_price": float(signal.price),
+                    "pnl_pct": float(pnl_pct),
+                    "pnl_abs": float(pnl_abs),
+                    "hold_time_minutes": float(hold_time_minutes),
+                    "reason": signal.reason,
+                    "win": pnl_pct > 0,
+                    "strategy_total_trades": int(state.total_trades),
+                    "strategy_win_rate": float(state.win_rate),
+                    "strategy_realized_pnl": float(state.realized_pnl),
+                }
+            )
 
             # Remove from tracking
             del state.positions[symbol]

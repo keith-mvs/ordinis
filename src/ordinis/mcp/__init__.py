@@ -3,7 +3,7 @@ Ordinis MCP Server - Model Context Protocol integration.
 
 Exposes Ordinis trading system capabilities through MCP:
 - Trading signals as tools
-- Portfolio state as resources  
+- Portfolio state as resources
 - Strategy configurations as prompts
 """
 

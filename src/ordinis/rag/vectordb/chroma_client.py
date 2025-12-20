@@ -1,5 +1,6 @@
 """ChromaDB client wrapper for vector storage and retrieval."""
 
+from datetime import datetime, timezone
 import json
 from pathlib import Path
 import time
@@ -15,6 +16,17 @@ from ordinis.rag.vectordb.base import VectorDatabaseInterface
 from ordinis.rag.vectordb.schema import RetrievalResult
 
 
+# Default embedding configuration (R4: versioning)
+DEFAULT_EMBEDDING_MODEL = "nvidia/llama-3.2-nemoretriever-300m-embed-v2"
+DEFAULT_EMBEDDING_DIM = 1024
+SCHEMA_VERSION = "2.0"
+
+
+def _utcnow() -> datetime:
+    """Get current UTC time (timezone-aware)."""
+    return datetime.now(timezone.utc)
+
+
 class ChromaClient(VectorDatabaseInterface):
     """ChromaDB client for managing text and code collections."""
 
@@ -25,6 +37,8 @@ class ChromaClient(VectorDatabaseInterface):
         persist_directory: Path | None = None,
         text_collection: str | None = None,
         code_collection: str | None = None,
+        embedding_model: str = DEFAULT_EMBEDDING_MODEL,
+        embedding_dim: int = DEFAULT_EMBEDDING_DIM,
     ):
         """Initialize ChromaDB client.
 
@@ -32,11 +46,17 @@ class ChromaClient(VectorDatabaseInterface):
             persist_directory: Directory for ChromaDB persistence
             text_collection: Name of text embedding collection
             code_collection: Name of code embedding collection
+            embedding_model: Embedding model identifier for versioning (R4)
+            embedding_dim: Embedding dimension for validation (R4)
         """
         config = get_config()
         self.persist_directory = persist_directory or config.chroma_persist_directory
         self.text_collection_name = text_collection or config.text_collection_name
         self.code_collection_name = code_collection or config.code_collection_name
+        
+        # R4: Track embedding model for versioning
+        self.embedding_model = embedding_model
+        self.embedding_dim = embedding_dim
 
         # Create persist directory if it doesn't exist
         self.persist_directory.mkdir(parents=True, exist_ok=True)
@@ -52,15 +72,34 @@ class ChromaClient(VectorDatabaseInterface):
 
         self._text_collection = None
         self._code_collection = None
+        self._collections_cache: dict[str, Any] = {}
 
         logger.info(f"ChromaDB client initialized at {self.persist_directory}")
+
+    def _get_collection_metadata(self, description: str) -> dict[str, Any]:
+        """Generate collection metadata with versioning info (R4).
+        
+        Args:
+            description: Collection description
+            
+        Returns:
+            Metadata dict with versioning info
+        """
+        return {
+            "description": description,
+            "embedding_model": self.embedding_model,
+            "embedding_dim": self.embedding_dim,
+            "schema_version": SCHEMA_VERSION,
+            "created_at": _utcnow().isoformat(),
+            "hnsw:space": "cosine",  # Use cosine similarity directly
+        }
 
     def get_text_collection(self):
         """Get or create text embedding collection."""
         if self._text_collection is None:
             self._text_collection = self.client.get_or_create_collection(
                 name=self.text_collection_name,
-                metadata={"description": "Knowledge base text embeddings"},
+                metadata=self._get_collection_metadata("Knowledge base text embeddings"),
             )
             logger.info(f"Text collection '{self.text_collection_name}' loaded/created")
         return self._text_collection
@@ -70,10 +109,66 @@ class ChromaClient(VectorDatabaseInterface):
         if self._code_collection is None:
             self._code_collection = self.client.get_or_create_collection(
                 name=self.code_collection_name,
-                metadata={"description": "Codebase embeddings"},
+                metadata=self._get_collection_metadata("Codebase embeddings"),
             )
             logger.info(f"Code collection '{self.code_collection_name}' loaded/created")
         return self._code_collection
+    
+    def get_or_create_collection(
+        self,
+        name: str,
+        description: str | None = None,
+    ):
+        """Get or create a named collection with versioned metadata.
+        
+        Args:
+            name: Collection name
+            description: Optional description
+            
+        Returns:
+            ChromaDB collection
+        """
+        if name not in self._collections_cache:
+            metadata = self._get_collection_metadata(description or f"Collection: {name}")
+            self._collections_cache[name] = self.client.get_or_create_collection(
+                name=name,
+                metadata=metadata,
+            )
+            logger.info(f"Collection '{name}' loaded/created")
+        return self._collections_cache[name]
+    
+    def validate_embedding_compatibility(self, collection_name: str) -> bool:
+        """Check if current embedding model matches collection (R4).
+        
+        Args:
+            collection_name: Name of collection to check
+            
+        Returns:
+            True if compatible, False if re-embedding needed
+        """
+        try:
+            collection = self.client.get_collection(collection_name)
+            stored_model = collection.metadata.get("embedding_model")
+            stored_dim = collection.metadata.get("embedding_dim")
+            
+            if stored_model and stored_model != self.embedding_model:
+                logger.warning(
+                    f"Collection '{collection_name}' uses {stored_model}, "
+                    f"but current model is {self.embedding_model}"
+                )
+                return False
+            
+            if stored_dim and stored_dim != self.embedding_dim:
+                logger.warning(
+                    f"Collection '{collection_name}' has dim={stored_dim}, "
+                    f"but current dim is {self.embedding_dim}"
+                )
+                return False
+                
+            return True
+        except Exception as e:
+            logger.warning(f"Could not validate collection '{collection_name}': {e}")
+            return True  # Assume compatible if can't check
 
     def add_texts(
         self,
@@ -81,7 +176,8 @@ class ChromaClient(VectorDatabaseInterface):
         embeddings: np.ndarray,
         metadata: list[dict[str, Any]],
         ids: list[str] | None = None,
-    ) -> None:
+        collection_name: str | None = None,
+    ) -> list[str]:
         """Add text documents to collection.
 
         Args:
@@ -89,25 +185,49 @@ class ChromaClient(VectorDatabaseInterface):
             embeddings: Numpy array of embeddings (n_docs, embedding_dim)
             metadata: List of metadata dicts
             ids: Optional list of document IDs (auto-generated if None)
+            collection_name: Optional collection name (defaults to text collection)
+            
+        Returns:
+            List of document IDs that were added
         """
         if len(texts) != len(embeddings) or len(texts) != len(metadata):
             msg = "Texts, embeddings, and metadata must have same length"
             raise ValueError(msg)
 
-        collection = self.get_text_collection()
+        if collection_name:
+            collection = self.get_or_create_collection(collection_name)
+        else:
+            collection = self.get_text_collection()
 
-        # Generate IDs if not provided
+        # R5: Use deterministic IDs if not provided
         if ids is None:
-            ids = [f"text_{i}" for i in range(collection.count(), collection.count() + len(texts))]
+            from ordinis.rag.vectordb.id_generator import generate_kb_chunk_id
+            ids = []
+            for i, (text, meta) in enumerate(zip(texts, metadata)):
+                source = meta.get("source", f"unknown_{i}")
+                chunk_idx = meta.get("chunk_index", i)
+                ids.append(generate_kb_chunk_id(source, text, chunk_idx))
+        
+        # R6: Enrich metadata with indexing info
+        enriched_metadata = []
+        indexed_at = _utcnow().isoformat()
+        for meta in metadata:
+            enriched = {
+                **meta,
+                "indexed_at": indexed_at,
+                "embedding_model": self.embedding_model,
+            }
+            enriched_metadata.append(enriched)
 
-        collection.add(
+        collection.upsert(  # Use upsert for idempotency
             documents=texts,
             embeddings=embeddings if isinstance(embeddings, list) else embeddings.tolist(),
-            metadatas=metadata,
+            metadatas=enriched_metadata,
             ids=ids,
         )
 
-        logger.info(f"Added {len(texts)} text documents to collection")
+        logger.info(f"Added/updated {len(texts)} text documents to collection")
+        return ids
 
     def add_code(
         self,
@@ -115,7 +235,7 @@ class ChromaClient(VectorDatabaseInterface):
         embeddings: np.ndarray,
         metadata: list[dict[str, Any]],
         ids: list[str] | None = None,
-    ) -> None:
+    ) -> list[str]:
         """Add code documents to collection.
 
         Args:
@@ -123,6 +243,9 @@ class ChromaClient(VectorDatabaseInterface):
             embeddings: Numpy array of embeddings (n_docs, embedding_dim)
             metadata: List of metadata dicts
             ids: Optional list of document IDs (auto-generated if None)
+            
+        Returns:
+            List of document IDs that were added
         """
         if len(code) != len(embeddings) or len(code) != len(metadata):
             msg = "Code, embeddings, and metadata must have same length"
@@ -130,18 +253,35 @@ class ChromaClient(VectorDatabaseInterface):
 
         collection = self.get_code_collection()
 
-        # Generate IDs if not provided
+        # R5: Use deterministic IDs if not provided
         if ids is None:
-            ids = [f"code_{i}" for i in range(collection.count(), collection.count() + len(code))]
+            from ordinis.rag.vectordb.id_generator import generate_code_chunk_id
+            ids = []
+            for i, (snippet, meta) in enumerate(zip(code, metadata)):
+                file_path = meta.get("file_path", f"unknown_{i}")
+                chunk_idx = meta.get("chunk_index", i)
+                ids.append(generate_code_chunk_id(file_path, snippet, chunk_idx))
+        
+        # R6: Enrich metadata with indexing info
+        enriched_metadata = []
+        indexed_at = _utcnow().isoformat()
+        for meta in metadata:
+            enriched = {
+                **meta,
+                "indexed_at": indexed_at,
+                "embedding_model": self.embedding_model,
+            }
+            enriched_metadata.append(enriched)
 
-        collection.add(
+        collection.upsert(  # Use upsert for idempotency
             documents=code,
             embeddings=embeddings if isinstance(embeddings, list) else embeddings.tolist(),
-            metadatas=metadata,
+            metadatas=enriched_metadata,
             ids=ids,
         )
 
-        logger.info(f"Added {len(code)} code documents to collection")
+        logger.info(f"Added/updated {len(code)} code documents to collection")
+        return ids
 
     def query_texts(
         self,

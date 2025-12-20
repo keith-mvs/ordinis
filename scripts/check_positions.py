@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 """Quick position check."""
+
 import asyncio
-import sys
 from pathlib import Path
+import sys
 
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
@@ -28,8 +29,7 @@ async def check():
             pct = (mv / float(account.equity)) * 100
             total_value += mv
             print(
-                f"{p.symbol:6} | {p.quantity:4} shares | "
-                f"${mv:>8,.2f} | {pct:5.1f}% of equity"
+                f"{p.symbol:6} | {p.quantity:4} shares | " f"${mv:>8,.2f} | {pct:5.1f}% of equity"
             )
         print("-" * 60)
         print(f"Total deployed: ${total_value:,.2f} ({total_value/float(account.equity)*100:.1f}%)")

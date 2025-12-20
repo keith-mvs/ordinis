@@ -18,17 +18,15 @@ from dataclasses import dataclass, field
 from datetime import UTC, datetime, timedelta
 from decimal import Decimal
 from enum import Enum, auto
-from typing import TYPE_CHECKING, Any, Callable
 import logging
+from typing import TYPE_CHECKING, Any, Callable
 import uuid
 
 import numpy as np
 
 if TYPE_CHECKING:
-    from ordinis.engines.learning.collectors.feedback import FeedbackCollector
     from ordinis.engines.portfolio.costs.transaction_cost_model import (
         AdaptiveCostModel,
-        TransactionCostEstimate,
     )
 
 logger = logging.getLogger(__name__)
@@ -94,14 +92,13 @@ class ExecutionRecord:
         """Assess execution quality based on slippage."""
         if self.slippage_bps < 5:
             return ExecutionQualityLevel.EXCELLENT
-        elif self.slippage_bps < 15:
+        if self.slippage_bps < 15:
             return ExecutionQualityLevel.GOOD
-        elif self.slippage_bps < 30:
+        if self.slippage_bps < 30:
             return ExecutionQualityLevel.ACCEPTABLE
-        elif self.slippage_bps < 50:
+        if self.slippage_bps < 50:
             return ExecutionQualityLevel.POOR
-        else:
-            return ExecutionQualityLevel.VERY_POOR
+        return ExecutionQualityLevel.VERY_POOR
 
     @property
     def fill_rate(self) -> float:
@@ -155,14 +152,13 @@ class ExecutionQualityMetrics:
         """Assess overall execution quality."""
         if self.avg_slippage_bps < 5:
             return ExecutionQualityLevel.EXCELLENT
-        elif self.avg_slippage_bps < 15:
+        if self.avg_slippage_bps < 15:
             return ExecutionQualityLevel.GOOD
-        elif self.avg_slippage_bps < 30:
+        if self.avg_slippage_bps < 30:
             return ExecutionQualityLevel.ACCEPTABLE
-        elif self.avg_slippage_bps < 50:
+        if self.avg_slippage_bps < 50:
             return ExecutionQualityLevel.POOR
-        else:
-            return ExecutionQualityLevel.VERY_POOR
+        return ExecutionQualityLevel.VERY_POOR
 
 
 class ExecutionFeedbackCollector:
@@ -202,7 +198,7 @@ class ExecutionFeedbackCollector:
     def __init__(
         self,
         max_history_size: int = 10000,
-        adaptive_cost_model: "AdaptiveCostModel | None" = None,
+        adaptive_cost_model: AdaptiveCostModel | None = None,
         learning_engine_callback: Callable[[dict[str, Any]], None] | None = None,
     ) -> None:
         """Initialize execution feedback collector.
@@ -473,9 +469,7 @@ class ExecutionFeedbackCollector:
 
         # Cost estimate errors
         estimate_errors = [
-            r.actual_cost_bps - r.expected_cost_bps
-            for r in filtered
-            if r.expected_cost_bps > 0
+            r.actual_cost_bps - r.expected_cost_bps for r in filtered if r.expected_cost_bps > 0
         ]
 
         # Per-symbol breakdown
@@ -485,9 +479,7 @@ class ExecutionFeedbackCollector:
                 symbol_breakdown[r.symbol] = {"n": 0, "avg_slippage": 0.0, "notional": 0.0}
             sb = symbol_breakdown[r.symbol]
             sb["n"] += 1
-            sb["avg_slippage"] = (
-                sb["avg_slippage"] * (sb["n"] - 1) + r.slippage_bps
-            ) / sb["n"]
+            sb["avg_slippage"] = (sb["avg_slippage"] * (sb["n"] - 1) + r.slippage_bps) / sb["n"]
             sb["notional"] += float(r.notional_value)
 
         return ExecutionQualityMetrics(
@@ -500,9 +492,7 @@ class ExecutionFeedbackCollector:
             avg_fill_rate=float(np.mean(fill_rates)),
             total_notional=sum(notionals, Decimal("0")),
             cost_estimate_rmse=(
-                float(np.sqrt(np.mean(np.square(estimate_errors))))
-                if estimate_errors
-                else 0.0
+                float(np.sqrt(np.mean(np.square(estimate_errors)))) if estimate_errors else 0.0
             ),
             cost_estimate_bias=float(np.mean(estimate_errors)) if estimate_errors else 0.0,
             symbol_breakdown=symbol_breakdown,
@@ -578,7 +568,7 @@ class ExecutionFeedbackCollector:
             # Scale down proportionally to slippage
             multiplier = max(0.5, threshold_bps / avg_slippage)
             return True, multiplier
-        elif avg_slippage < threshold_bps * 0.5:
+        if avg_slippage < threshold_bps * 0.5:
             # Very low slippage: could potentially increase size
             multiplier = min(1.5, threshold_bps / (avg_slippage + 1))
             return True, multiplier

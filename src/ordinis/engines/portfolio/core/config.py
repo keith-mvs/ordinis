@@ -160,12 +160,8 @@ class PortfolioEngineConfig(BaseEngineConfig):
     calendar: CalendarSettings = field(default_factory=CalendarSettings)
 
     # Cost and feedback settings
-    transaction_costs: TransactionCostSettings = field(
-        default_factory=TransactionCostSettings
-    )
-    execution_feedback: ExecutionFeedbackSettings = field(
-        default_factory=ExecutionFeedbackSettings
-    )
+    transaction_costs: TransactionCostSettings = field(default_factory=TransactionCostSettings)
+    execution_feedback: ExecutionFeedbackSettings = field(default_factory=ExecutionFeedbackSettings)
 
     def validate(self) -> list[str]:
         """Validate portfolio engine configuration.
@@ -201,8 +197,6 @@ class PortfolioEngineConfig(BaseEngineConfig):
             errors.append("transaction_costs.fixed_cost_bps must be non-negative")
 
         if not 0 < self.execution_feedback.sizing_reduction_factor <= 1:
-            errors.append(
-                "execution_feedback.sizing_reduction_factor must be between 0 and 1"
-            )
+            errors.append("execution_feedback.sizing_reduction_factor must be between 0 and 1")
 
         return errors

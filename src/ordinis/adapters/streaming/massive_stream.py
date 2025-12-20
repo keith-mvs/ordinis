@@ -180,7 +180,12 @@ class MassiveStreamManager(WebSocketManager):
 
         # Log first few messages for debugging
         if self._message_count < 10:
-            logger.info("%s: Message #%d: %s", self.provider_name, self._message_count, data[:3] if len(data) > 3 else data)
+            logger.info(
+                "%s: Message #%d: %s",
+                self.provider_name,
+                self._message_count,
+                data[:3] if len(data) > 3 else data,
+            )
 
         for msg in data:
             event_type = msg.get("ev")

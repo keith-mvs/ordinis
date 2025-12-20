@@ -163,23 +163,20 @@ class DrawdownHook(BaseGovernanceHook):
                         policy_id="drawdown_hook",
                         policy_version=self.policy_version,
                     )
-                else:
-                    # Reduce exposure
-                    _logger.info(
-                        "DrawdownHook: Reducing exposure to %.0f%% due to %.1f%% drawdown",
-                        threshold.exposure_factor * 100,
-                        drawdown,
-                    )
-                    return PreflightResult(
-                        decision=Decision.WARN,
-                        reason=f"Drawdown {drawdown:.1f}%: {threshold.action}",
-                        policy_id="drawdown_hook",
-                        policy_version=self.policy_version,
-                        adjustments={"exposure_factor": threshold.exposure_factor},
-                        warnings=[
-                            f"Position sizing reduced to {threshold.exposure_factor * 100:.0f}%"
-                        ],
-                    )
+                # Reduce exposure
+                _logger.info(
+                    "DrawdownHook: Reducing exposure to %.0f%% due to %.1f%% drawdown",
+                    threshold.exposure_factor * 100,
+                    drawdown,
+                )
+                return PreflightResult(
+                    decision=Decision.WARN,
+                    reason=f"Drawdown {drawdown:.1f}%: {threshold.action}",
+                    policy_id="drawdown_hook",
+                    policy_version=self.policy_version,
+                    adjustments={"exposure_factor": threshold.exposure_factor},
+                    warnings=[f"Position sizing reduced to {threshold.exposure_factor * 100:.0f}%"],
+                )
 
         # No threshold hit, normal operation
         self._current_exposure_factor = 1.0

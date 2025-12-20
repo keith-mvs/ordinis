@@ -18,12 +18,6 @@ The engine follows the standard Ordinis engine template with:
 
 # Core engine components
 # Integration adapters
-from ordinis.engines.portfolio.integration import (
-    FlowRouteAdapter,
-    FlowRouteOrderRequest,
-    ProofBenchAdapter,
-    SignalCoreAdapter,
-)
 from ordinis.engines.portfolio.core import (
     ExecutionResult,
     PortfolioEngine,
@@ -41,6 +35,12 @@ from ordinis.engines.portfolio.hooks import (
     PositionLimitRule,
     RebalanceFrequencyRule,
     TradeValueRule,
+)
+from ordinis.engines.portfolio.integration import (
+    FlowRouteAdapter,
+    FlowRouteOrderRequest,
+    ProofBenchAdapter,
+    SignalCoreAdapter,
 )
 
 # Strategies

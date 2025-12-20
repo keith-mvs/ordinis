@@ -18,7 +18,6 @@ from dataclasses import dataclass, field
 from datetime import UTC, datetime
 import logging
 
-
 from ordinis.engines.base import PreflightContext
 from ordinis.engines.portfolio.hooks.governance import PortfolioRule
 
@@ -55,10 +54,7 @@ class SectorMapping:
         Returns:
             Sector exposure as percentage of total
         """
-        total_value = sum(
-            positions.get(s, 0) * prices.get(s, 0)
-            for s in positions
-        )
+        total_value = sum(positions.get(s, 0) * prices.get(s, 0) for s in positions)
 
         if total_value <= 0:
             return {}
@@ -207,18 +203,14 @@ class CorrelationClusterRule(PortfolioRule):
             return True, "No correlated clusters found"
 
         # Calculate total portfolio value
-        total_value = sum(
-            positions.get(s, 0) * prices.get(s, 0) for s in positions
-        )
+        total_value = sum(positions.get(s, 0) * prices.get(s, 0) for s in positions)
 
         if total_value <= 0:
             return True, "Portfolio value is zero"
 
         violations = []
         for cluster in clusters:
-            cluster_value = sum(
-                positions.get(s, 0) * prices.get(s, 0) for s in cluster
-            )
+            cluster_value = sum(positions.get(s, 0) * prices.get(s, 0) for s in cluster)
             cluster_pct = (cluster_value / total_value) * 100
 
             if cluster_pct > self.max_cluster_pct:
@@ -318,9 +310,7 @@ class LiquidityAdjustedRule(PortfolioRule):
         if not positions or not self.liquidity_data:
             return True, "No liquidity data configured"
 
-        total_value = sum(
-            positions.get(s, 0) * prices.get(s, 0) for s in positions
-        )
+        total_value = sum(positions.get(s, 0) * prices.get(s, 0) for s in positions)
 
         if total_value <= 0:
             return True, "Portfolio value is zero"
@@ -357,9 +347,7 @@ class LiquidityAdjustedRule(PortfolioRule):
                         f"{self.max_illiquid_position_pct}%"
                     )
                 elif position_pct > self.max_illiquid_position_pct * 0.8:
-                    warnings.append(
-                        f"{symbol}: {position_pct:.1f}% approaching illiquid limit"
-                    )
+                    warnings.append(f"{symbol}: {position_pct:.1f}% approaching illiquid limit")
 
         if violations:
             return False, f"Liquidity limits exceeded: {'; '.join(violations)}"
@@ -409,9 +397,7 @@ class DrawdownRule(PortfolioRule):
             self.peak_equity = current_equity
             self.current_drawdown_pct = 0.0
         elif self.peak_equity > 0:
-            self.current_drawdown_pct = (
-                (self.peak_equity - current_equity) / self.peak_equity * 100
-            )
+            self.current_drawdown_pct = (self.peak_equity - current_equity) / self.peak_equity * 100
         return self.current_drawdown_pct
 
     def get_sizing_multiplier(self) -> float:
@@ -429,9 +415,7 @@ class DrawdownRule(PortfolioRule):
         # Linear interpolation between thresholds
         range_dd = self.max_drawdown_limit - self.max_drawdown_for_full_size
         range_size = 1.0 - self.min_size_at_max_drawdown
-        position_in_range = (
-            self.current_drawdown_pct - self.max_drawdown_for_full_size
-        ) / range_dd
+        position_in_range = (self.current_drawdown_pct - self.max_drawdown_for_full_size) / range_dd
 
         return 1.0 - (position_in_range * range_size)
 
@@ -539,10 +523,9 @@ class VolatilityRegimeRule(PortfolioRule):
                 f"High volatility regime (VIX={self.current_vix:.1f}) - "
                 f"sizing reduced to {multiplier:.0%}"
             )
-        elif vol_metric >= self.low_vol_threshold:
+        if vol_metric >= self.low_vol_threshold:
             return True, (
-                f"Moderate volatility (VIX={self.current_vix:.1f}) - "
-                f"sizing at {multiplier:.0%}"
+                f"Moderate volatility (VIX={self.current_vix:.1f}) - " f"sizing at {multiplier:.0%}"
             )
 
         return True, f"Low volatility regime (VIX={self.current_vix:.1f}) - full sizing"
@@ -589,19 +572,15 @@ class MarketHoursRule(PortfolioRule):
         et_minute = now.minute
 
         is_regular_hours = (
-            (et_hour > self.market_open_hour or
-             (et_hour == self.market_open_hour and et_minute >= self.market_open_minute))
-            and et_hour < self.market_close_hour
-        )
+            et_hour > self.market_open_hour
+            or (et_hour == self.market_open_hour and et_minute >= self.market_open_minute)
+        ) and et_hour < self.market_close_hour
 
         if is_regular_hours:
             return True, "Within regular market hours"
 
         if self.allow_extended_hours:
-            is_extended = (
-                et_hour >= self.extended_open_hour and
-                et_hour < self.extended_close_hour
-            )
+            is_extended = et_hour >= self.extended_open_hour and et_hour < self.extended_close_hour
             if is_extended:
                 return True, "Within extended hours (allowed)"
 

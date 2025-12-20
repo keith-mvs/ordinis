@@ -242,9 +242,7 @@ class AlmgrenChrissModel(TransactionCostModel):
         if adv > 0:
             participation_rate = order_size / adv
             # Temporary impact (execution cost)
-            temp_impact = (
-                self.gamma * volatility * np.sqrt(participation_rate) * float(notional)
-            )
+            temp_impact = self.gamma * volatility * np.sqrt(participation_rate) * float(notional)
             # Permanent impact (information leakage)
             perm_impact = self.eta * volatility * participation_rate * float(notional)
             market_impact = temp_impact + perm_impact
@@ -252,9 +250,7 @@ class AlmgrenChrissModel(TransactionCostModel):
             market_impact = 0.0
 
         # 3. Commission
-        commission = max(
-            self.min_commission, order_size * self.commission_per_share
-        )
+        commission = max(self.min_commission, order_size * self.commission_per_share)
 
         # Adjust for order type
         if order_type == OrderType.LIMIT:
@@ -522,9 +518,7 @@ class AdaptiveCostModel(TransactionCostModel):
             }
         )
 
-        logger.debug(
-            f"Updated cost adjustment for {symbol}: {current:.3f} -> {updated:.3f}"
-        )
+        logger.debug(f"Updated cost adjustment for {symbol}: {current:.3f} -> {updated:.3f}")
 
     def get_model_accuracy(self) -> dict[str, Any]:
         """Get model accuracy statistics.
@@ -535,9 +529,7 @@ class AdaptiveCostModel(TransactionCostModel):
         if not self._execution_history:
             return {"rmse": 0.0, "bias": 0.0, "n_observations": 0}
 
-        errors = [
-            h["actual_bps"] - h["estimated_bps"] for h in self._execution_history
-        ]
+        errors = [h["actual_bps"] - h["estimated_bps"] for h in self._execution_history]
 
         return {
             "rmse": float(np.sqrt(np.mean(np.square(errors)))),
@@ -563,10 +555,9 @@ def create_cost_model(
     """
     if model_type == "almgren_chriss":
         return AlmgrenChrissModel(**kwargs)
-    elif model_type == "simple":
+    if model_type == "simple":
         return SimpleCostModel(**kwargs)
-    elif model_type == "adaptive":
+    if model_type == "adaptive":
         base = AlmgrenChrissModel()
         return AdaptiveCostModel(base_model=base, **kwargs)
-    else:
-        raise ValueError(f"Unknown model type: {model_type}")
+    raise ValueError(f"Unknown model type: {model_type}")

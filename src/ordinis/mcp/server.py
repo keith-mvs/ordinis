@@ -7,15 +7,15 @@ enabling LLM-driven trading analysis, signal generation, and portfolio managemen
 
 from __future__ import annotations
 
+from datetime import UTC, datetime
 import json
 import logging
-from datetime import UTC, datetime
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, Literal
 
-import yaml
 from mcp.server.fastmcp import FastMCP
 from mcp.types import ToolAnnotations
+import yaml
 
 if TYPE_CHECKING:
     from ordinis.safety.kill_switch import KillSwitch
@@ -65,10 +65,10 @@ class OrdinisState:
         try:
             # Load strategy configurations
             self.strategies_config = self._load_strategies()
-            
+
             # Try to initialize kill switch
             await self._init_kill_switch()
-            
+
             self.is_initialized = True
             logger.info("[MCP] Ordinis state initialized")
             return True
@@ -80,6 +80,7 @@ class OrdinisState:
         """Initialize connection to live KillSwitch."""
         try:
             from ordinis.safety.kill_switch import KillSwitch
+
             self._kill_switch = KillSwitch(
                 daily_loss_limit=1000.0,
                 max_drawdown_pct=15.0,
@@ -151,10 +152,12 @@ async def get_signal(
         symbol_config = strategy_config.get("symbols", {}).get(symbol.upper(), {})
 
         if not symbol_config:
-            return json.dumps({
-                "error": f"Symbol {symbol} not configured for strategy {strategy}",
-                "available_symbols": list(strategy_config.get("symbols", {}).keys())[:20],
-            })
+            return json.dumps(
+                {
+                    "error": f"Symbol {symbol} not configured for strategy {strategy}",
+                    "available_symbols": list(strategy_config.get("symbols", {}).keys())[:20],
+                }
+            )
 
         # Generate signal (simplified - in production, this would call SignalCore)
         signal = {
@@ -222,35 +225,45 @@ async def get_strategy_config(
     try:
         config = _state.strategies_config.get(strategy)
         if not config:
-            return json.dumps({
-                "error": f"Strategy '{strategy}' not found",
-                "available": list(_state.strategies_config.keys()),
-            })
+            return json.dumps(
+                {
+                    "error": f"Strategy '{strategy}' not found",
+                    "available": list(_state.strategies_config.keys()),
+                }
+            )
 
         if symbol:
             symbol_config = config.get("symbols", {}).get(symbol.upper())
             if not symbol_config:
-                return json.dumps({
-                    "error": f"Symbol '{symbol}' not found in strategy '{strategy}'",
-                    "available_symbols": list(config.get("symbols", {}).keys())[:20],
-                })
-            return json.dumps({
-                "strategy": strategy,
-                "symbol": symbol.upper(),
-                "global_params": config.get("global_params", {}),
-                "symbol_config": symbol_config,
-                "risk_management": config.get("risk_management", {}),
-            }, indent=2)
+                return json.dumps(
+                    {
+                        "error": f"Symbol '{symbol}' not found in strategy '{strategy}'",
+                        "available_symbols": list(config.get("symbols", {}).keys())[:20],
+                    }
+                )
+            return json.dumps(
+                {
+                    "strategy": strategy,
+                    "symbol": symbol.upper(),
+                    "global_params": config.get("global_params", {}),
+                    "symbol_config": symbol_config,
+                    "risk_management": config.get("risk_management", {}),
+                },
+                indent=2,
+            )
 
-        return json.dumps({
-            "strategy": strategy,
-            "name": config.get("strategy", {}).get("name", strategy),
-            "version": config.get("strategy", {}).get("version", "unknown"),
-            "global_params": config.get("global_params", {}),
-            "risk_management": config.get("risk_management", {}),
-            "regime_filter": config.get("regime_filter", {}),
-            "symbol_count": len(config.get("symbols", {})),
-        }, indent=2)
+        return json.dumps(
+            {
+                "strategy": strategy,
+                "name": config.get("strategy", {}).get("name", strategy),
+                "version": config.get("strategy", {}).get("version", "unknown"),
+                "global_params": config.get("global_params", {}),
+                "risk_management": config.get("risk_management", {}),
+                "regime_filter": config.get("regime_filter", {}),
+                "symbol_count": len(config.get("symbols", {})),
+            },
+            indent=2,
+        )
 
     except Exception as e:
         return json.dumps({"error": str(e)})
@@ -278,29 +291,35 @@ async def update_strategy_config(
     try:
         config = _state.strategies_config.get(strategy)
         if not config:
-            return json.dumps({
-                "error": f"Strategy '{strategy}' not found",
-                "available": list(_state.strategies_config.keys()),
-            })
+            return json.dumps(
+                {
+                    "error": f"Strategy '{strategy}' not found",
+                    "available": list(_state.strategies_config.keys()),
+                }
+            )
 
         # Validate bounds if applicable
         if key in PARAM_BOUNDS:
             min_val, max_val = PARAM_BOUNDS[key]
             if not (min_val <= float(value) <= max_val):
-                return json.dumps({
-                    "error": f"Value {value} out of bounds for '{key}'",
-                    "bounds": {"min": min_val, "max": max_val},
-                    "rejected": True,
-                })
+                return json.dumps(
+                    {
+                        "error": f"Value {value} out of bounds for '{key}'",
+                        "bounds": {"min": min_val, "max": max_val},
+                        "rejected": True,
+                    }
+                )
 
         old_value = None
         if symbol:
             # Update symbol-specific config
             symbol_config = config.get("symbols", {}).get(symbol.upper())
             if not symbol_config:
-                return json.dumps({
-                    "error": f"Symbol '{symbol}' not found in strategy '{strategy}'",
-                })
+                return json.dumps(
+                    {
+                        "error": f"Symbol '{symbol}' not found in strategy '{strategy}'",
+                    }
+                )
             old_value = symbol_config.get(key)
             config["symbols"][symbol.upper()][key] = value
             logger.info(f"[MCP] Updated {strategy}/{symbol}/{key}: {old_value} -> {value}")
@@ -315,16 +334,19 @@ async def update_strategy_config(
         # Persist to disk
         saved = _state._save_strategy(strategy)
 
-        return json.dumps({
-            "success": True,
-            "strategy": strategy,
-            "symbol": symbol.upper() if symbol else "global",
-            "key": key,
-            "old_value": old_value,
-            "new_value": value,
-            "persisted": saved,
-            "timestamp": datetime.now(UTC).isoformat(),
-        }, indent=2)
+        return json.dumps(
+            {
+                "success": True,
+                "strategy": strategy,
+                "symbol": symbol.upper() if symbol else "global",
+                "key": key,
+                "old_value": old_value,
+                "new_value": value,
+                "persisted": saved,
+                "timestamp": datetime.now(UTC).isoformat(),
+            },
+            indent=2,
+        )
 
     except Exception as e:
         return json.dumps({"error": str(e)})
@@ -347,15 +369,18 @@ async def inject_market_context(context: str) -> str:
     try:
         _state._market_context = context
         _state._market_context_timestamp = datetime.now(UTC)
-        
+
         logger.info(f"[MCP] Market context injected: {context[:100]}...")
-        
-        return json.dumps({
-            "success": True,
-            "context": context,
-            "timestamp": _state._market_context_timestamp.isoformat(),
-            "message": "Context will be considered in signal generation",
-        }, indent=2)
+
+        return json.dumps(
+            {
+                "success": True,
+                "context": context,
+                "timestamp": _state._market_context_timestamp.isoformat(),
+                "message": "Context will be considered in signal generation",
+            },
+            indent=2,
+        )
 
     except Exception as e:
         return json.dumps({"error": str(e)})
@@ -369,14 +394,20 @@ async def get_market_context() -> str:
     Returns:
         JSON with current market context and timestamp
     """
-    return json.dumps({
-        "context": _state._market_context or "No context set",
-        "timestamp": _state._market_context_timestamp.isoformat() if _state._market_context_timestamp else None,
-        "age_minutes": (
-            (datetime.now(UTC) - _state._market_context_timestamp).total_seconds() / 60
-            if _state._market_context_timestamp else None
-        ),
-    }, indent=2)
+    return json.dumps(
+        {
+            "context": _state._market_context or "No context set",
+            "timestamp": _state._market_context_timestamp.isoformat()
+            if _state._market_context_timestamp
+            else None,
+            "age_minutes": (
+                (datetime.now(UTC) - _state._market_context_timestamp).total_seconds() / 60
+                if _state._market_context_timestamp
+                else None
+            ),
+        },
+        indent=2,
+    )
 
 
 # =============================================================================
@@ -403,34 +434,40 @@ async def get_drawdown_status() -> str:
                 current = _state._current_equity
                 if peak > 0:
                     drawdown_pct = ((peak - current) / peak) * 100
-            
-            return json.dumps({
-                "kill_switch_active": status.get("active", False),
-                "kill_switch_reason": status.get("reason"),
-                "drawdown_pct": round(drawdown_pct, 2),
-                "daily_pnl": status.get("daily_pnl", 0.0),
-                "consecutive_losses": status.get("consecutive_losses", 0),
-                "limits": status.get("limits", {}),
-                "can_trade": not status.get("active", False),
-                "timestamp": datetime.now(UTC).isoformat(),
-            }, indent=2)
-        
+
+            return json.dumps(
+                {
+                    "kill_switch_active": status.get("active", False),
+                    "kill_switch_reason": status.get("reason"),
+                    "drawdown_pct": round(drawdown_pct, 2),
+                    "daily_pnl": status.get("daily_pnl", 0.0),
+                    "consecutive_losses": status.get("consecutive_losses", 0),
+                    "limits": status.get("limits", {}),
+                    "can_trade": not status.get("active", False),
+                    "timestamp": datetime.now(UTC).isoformat(),
+                },
+                indent=2,
+            )
+
         # Fallback to simulated data
-        return json.dumps({
-            "kill_switch_active": False,
-            "kill_switch_reason": None,
-            "drawdown_pct": 2.5,
-            "daily_pnl": -150.0,
-            "consecutive_losses": 1,
-            "limits": {
-                "daily_loss": 1000.0,
-                "max_drawdown_pct": 15.0,
-                "consecutive_loss": 5,
+        return json.dumps(
+            {
+                "kill_switch_active": False,
+                "kill_switch_reason": None,
+                "drawdown_pct": 2.5,
+                "daily_pnl": -150.0,
+                "consecutive_losses": 1,
+                "limits": {
+                    "daily_loss": 1000.0,
+                    "max_drawdown_pct": 15.0,
+                    "consecutive_loss": 5,
+                },
+                "can_trade": True,
+                "mode": "simulated",
+                "timestamp": datetime.now(UTC).isoformat(),
             },
-            "can_trade": True,
-            "mode": "simulated",
-            "timestamp": datetime.now(UTC).isoformat(),
-        }, indent=2)
+            indent=2,
+        )
 
     except Exception as e:
         return json.dumps({"error": str(e)})
@@ -453,10 +490,12 @@ async def reduce_exposure(factor: float) -> str:
     """
     try:
         if not (0.0 <= factor <= 1.0):
-            return json.dumps({
-                "error": "Factor must be between 0.0 and 1.0",
-                "rejected": True,
-            })
+            return json.dumps(
+                {
+                    "error": "Factor must be between 0.0 and 1.0",
+                    "rejected": True,
+                }
+            )
 
         # Update risk management in all strategies
         for strategy_id, config in _state.strategies_config.items():
@@ -469,14 +508,17 @@ async def reduce_exposure(factor: float) -> str:
 
         logger.warning(f"[MCP] Exposure reduced to {factor * 100:.0f}% across all strategies")
 
-        return json.dumps({
-            "success": True,
-            "exposure_factor": factor,
-            "exposure_pct": factor * 100,
-            "message": f"Position sizing reduced to {factor * 100:.0f}% of normal",
-            "strategies_affected": list(_state.strategies_config.keys()),
-            "timestamp": datetime.now(UTC).isoformat(),
-        }, indent=2)
+        return json.dumps(
+            {
+                "success": True,
+                "exposure_factor": factor,
+                "exposure_pct": factor * 100,
+                "message": f"Position sizing reduced to {factor * 100:.0f}% of normal",
+                "strategies_affected": list(_state.strategies_config.keys()),
+                "timestamp": datetime.now(UTC).isoformat(),
+            },
+            indent=2,
+        )
 
     except Exception as e:
         return json.dumps({"error": str(e)})
@@ -498,25 +540,31 @@ async def activate_kill_switch(reason: str) -> str:
     try:
         if _state._kill_switch:
             from ordinis.safety.kill_switch import KillSwitchReason
+
             await _state._kill_switch.trigger(
                 reason=KillSwitchReason.MANUAL,
                 message=f"MCP Agent: {reason}",
                 triggered_by="mcp_agent",
             )
             logger.critical(f"[MCP] Kill switch activated by agent: {reason}")
-            
-            return json.dumps({
-                "success": True,
-                "kill_switch_active": True,
-                "reason": reason,
-                "message": "Trading halted - kill switch activated",
-                "timestamp": datetime.now(UTC).isoformat(),
-            }, indent=2)
-        
-        return json.dumps({
-            "success": False,
-            "error": "Kill switch not available in current mode",
-        })
+
+            return json.dumps(
+                {
+                    "success": True,
+                    "kill_switch_active": True,
+                    "reason": reason,
+                    "message": "Trading halted - kill switch activated",
+                    "timestamp": datetime.now(UTC).isoformat(),
+                },
+                indent=2,
+            )
+
+        return json.dumps(
+            {
+                "success": False,
+                "error": "Kill switch not available in current mode",
+            }
+        )
 
     except Exception as e:
         return json.dumps({"error": str(e)})
@@ -578,25 +626,30 @@ async def analyze_open_positions() -> str:
                 "reason": "Slightly underwater, stop intact",
             },
         ]
-        
+
         total_unrealized = sum(p["unrealized_pnl"] for p in positions)
         winners = [p for p in positions if p["unrealized_pnl"] > 0]
         losers = [p for p in positions if p["unrealized_pnl"] < 0]
-        
-        return json.dumps({
-            "position_count": len(positions),
-            "total_unrealized_pnl": total_unrealized,
-            "winners": len(winners),
-            "losers": len(losers),
-            "positions": positions,
-            "summary": {
-                "hold": len([p for p in positions if p["recommendation"] == "hold"]),
-                "tighten_stop": len([p for p in positions if p["recommendation"] == "tighten_stop"]),
-                "monitor": len([p for p in positions if p["recommendation"] == "monitor"]),
-                "exit": len([p for p in positions if p["recommendation"] == "exit"]),
+
+        return json.dumps(
+            {
+                "position_count": len(positions),
+                "total_unrealized_pnl": total_unrealized,
+                "winners": len(winners),
+                "losers": len(losers),
+                "positions": positions,
+                "summary": {
+                    "hold": len([p for p in positions if p["recommendation"] == "hold"]),
+                    "tighten_stop": len(
+                        [p for p in positions if p["recommendation"] == "tighten_stop"]
+                    ),
+                    "monitor": len([p for p in positions if p["recommendation"] == "monitor"]),
+                    "exit": len([p for p in positions if p["recommendation"] == "exit"]),
+                },
+                "timestamp": datetime.now(UTC).isoformat(),
             },
-            "timestamp": datetime.now(UTC).isoformat(),
-        }, indent=2)
+            indent=2,
+        )
 
     except Exception as e:
         return json.dumps({"error": str(e)})
@@ -644,7 +697,11 @@ async def get_multi_signal(
             "buy_signals": buy_count,
             "sell_signals": sell_count,
             "consensus": buy_count / len(valid_signals) if valid_signals else 0,
-            "recommendation": "buy" if buy_count > sell_count else "sell" if sell_count > buy_count else "hold",
+            "recommendation": "buy"
+            if buy_count > sell_count
+            else "sell"
+            if sell_count > buy_count
+            else "hold",
             "individual_signals": signals,
         }
 
@@ -734,28 +791,34 @@ async def evaluate_risk(
         if position_size_usd <= 100000 * (max_position_pct / 100):
             rules_passed.append("position_size_limit")
         else:
-            rules_failed.append({
-                "rule": "position_size_limit",
-                "reason": f"Position exceeds {max_position_pct}% limit",
-            })
+            rules_failed.append(
+                {
+                    "rule": "position_size_limit",
+                    "reason": f"Position exceeds {max_position_pct}% limit",
+                }
+            )
 
         # Risk per trade check (max 1%)
         if risk_pct <= 1.0:
             rules_passed.append("risk_per_trade")
         else:
-            rules_failed.append({
-                "rule": "risk_per_trade",
-                "reason": f"Risk {risk_pct:.2f}% exceeds 1% limit",
-            })
+            rules_failed.append(
+                {
+                    "rule": "risk_per_trade",
+                    "reason": f"Risk {risk_pct:.2f}% exceeds 1% limit",
+                }
+            )
 
         # Stop loss required
         if stop_price:
             rules_passed.append("stop_loss_required")
         else:
-            rules_failed.append({
-                "rule": "stop_loss_required",
-                "reason": "Stop loss not specified",
-            })
+            rules_failed.append(
+                {
+                    "rule": "stop_loss_required",
+                    "reason": "Stop loss not specified",
+                }
+            )
 
         evaluation = {
             "symbol": symbol.upper(),
@@ -892,10 +955,13 @@ async def get_signal_history() -> str:
     """
     Get recent signal history generated by the server.
     """
-    return json.dumps({
-        "count": len(_state.signal_history),
-        "signals": _state.signal_history[-20:],  # Last 20 signals
-    }, indent=2)
+    return json.dumps(
+        {
+            "count": len(_state.signal_history),
+            "signals": _state.signal_history[-20:],  # Last 20 signals
+        },
+        indent=2,
+    )
 
 
 # =============================================================================
@@ -907,25 +973,29 @@ async def get_signal_history() -> str:
 async def get_pnl_metrics() -> str:
     """
     Get P&L and performance metrics for agent decision-making.
-    
+
     Includes daily P&L, win rate, average win/loss, and Sharpe estimate.
     """
     # Calculate metrics from signal history with outcomes
     signals_with_outcomes = [s for s in _state.signal_history if s.get("outcome")]
     wins = [s for s in signals_with_outcomes if s.get("outcome", {}).get("pnl", 0) > 0]
     losses = [s for s in signals_with_outcomes if s.get("outcome", {}).get("pnl", 0) < 0]
-    
+
     total_pnl = sum(s.get("outcome", {}).get("pnl", 0) for s in signals_with_outcomes)
     win_rate = len(wins) / len(signals_with_outcomes) * 100 if signals_with_outcomes else 0
     avg_win = sum(s.get("outcome", {}).get("pnl", 0) for s in wins) / len(wins) if wins else 0
-    avg_loss = sum(s.get("outcome", {}).get("pnl", 0) for s in losses) / len(losses) if losses else 0
-    
+    avg_loss = (
+        sum(s.get("outcome", {}).get("pnl", 0) for s in losses) / len(losses) if losses else 0
+    )
+
     # Simulated data for demo
     metrics = {
         "timestamp": datetime.now(UTC).isoformat(),
         "daily": {
             "pnl": _state._daily_pnl,
-            "pnl_pct": (_state._daily_pnl / _state._current_equity * 100) if _state._current_equity else 0,
+            "pnl_pct": (_state._daily_pnl / _state._current_equity * 100)
+            if _state._current_equity
+            else 0,
             "trades": len(signals_with_outcomes),
             "wins": len(wins) or _state._win_count,
             "losses": len(losses) or _state._loss_count,
@@ -935,7 +1005,9 @@ async def get_pnl_metrics() -> str:
             "avg_win": avg_win or 125.50,
             "avg_loss": avg_loss or -85.25,
             "profit_factor": abs(avg_win / avg_loss) if avg_loss else 1.47,
-            "expectancy": (win_rate / 100 * avg_win + (1 - win_rate / 100) * avg_loss) if signals_with_outcomes else 32.15,
+            "expectancy": (win_rate / 100 * avg_win + (1 - win_rate / 100) * avg_loss)
+            if signals_with_outcomes
+            else 32.15,
         },
         "risk_adjusted": {
             "sharpe_estimate": 2.1,
@@ -943,7 +1015,11 @@ async def get_pnl_metrics() -> str:
             "calmar_ratio": 3.2,
         },
         "drawdown": {
-            "current_pct": (((_state._peak_equity - _state._current_equity) / _state._peak_equity) * 100) if _state._peak_equity else 0,
+            "current_pct": (
+                ((_state._peak_equity - _state._current_equity) / _state._peak_equity) * 100
+            )
+            if _state._peak_equity
+            else 0,
             "max_pct": 3.5,
             "recovery_days": 0,
         },
@@ -955,12 +1031,12 @@ async def get_pnl_metrics() -> str:
 async def get_signal_metrics() -> str:
     """
     Get signal performance metrics by strategy.
-    
+
     Shows hit rate, average outcome, and recent performance for each strategy.
     """
     # Group signals by strategy
     strategy_stats: dict[str, dict] = {}
-    
+
     for signal in _state.signal_history:
         strategy = signal.get("strategy", "unknown")
         if strategy not in strategy_stats:
@@ -972,11 +1048,11 @@ async def get_signal_metrics() -> str:
                 "total_pnl": 0.0,
                 "symbols": set(),
             }
-        
+
         stats = strategy_stats[strategy]
         stats["total_signals"] += 1
         stats["symbols"].add(signal.get("symbol", ""))
-        
+
         if signal.get("outcome"):
             stats["with_outcome"] += 1
             pnl = signal.get("outcome", {}).get("pnl", 0)
@@ -985,22 +1061,24 @@ async def get_signal_metrics() -> str:
                 stats["wins"] += 1
             elif pnl < 0:
                 stats["losses"] += 1
-    
+
     # Convert to output format
     strategies = []
     for strategy_id, stats in strategy_stats.items():
         hit_rate = (stats["wins"] / stats["with_outcome"] * 100) if stats["with_outcome"] else None
-        strategies.append({
-            "strategy": strategy_id,
-            "total_signals": stats["total_signals"],
-            "evaluated": stats["with_outcome"],
-            "hit_rate_pct": round(hit_rate, 1) if hit_rate else None,
-            "wins": stats["wins"],
-            "losses": stats["losses"],
-            "total_pnl": round(stats["total_pnl"], 2),
-            "symbols_traded": len(stats["symbols"]),
-        })
-    
+        strategies.append(
+            {
+                "strategy": strategy_id,
+                "total_signals": stats["total_signals"],
+                "evaluated": stats["with_outcome"],
+                "hit_rate_pct": round(hit_rate, 1) if hit_rate else None,
+                "wins": stats["wins"],
+                "losses": stats["losses"],
+                "total_pnl": round(stats["total_pnl"], 2),
+                "symbols_traded": len(stats["symbols"]),
+            }
+        )
+
     # Add demo data if no real signals
     if not strategies:
         strategies = [
@@ -1025,20 +1103,23 @@ async def get_signal_metrics() -> str:
                 "symbols_traded": 5,
             },
         ]
-    
-    return json.dumps({
-        "timestamp": datetime.now(UTC).isoformat(),
-        "strategies": strategies,
-        "total_signals": sum(s["total_signals"] for s in strategies),
-        "overall_hit_rate_pct": 56.5,
-    }, indent=2)
+
+    return json.dumps(
+        {
+            "timestamp": datetime.now(UTC).isoformat(),
+            "strategies": strategies,
+            "total_signals": sum(s["total_signals"] for s in strategies),
+            "overall_hit_rate_pct": 56.5,
+        },
+        indent=2,
+    )
 
 
 @ordinis_mcp.resource("ordinis://metrics/positions")
 async def get_position_metrics() -> str:
     """
     Get current position metrics for portfolio analysis.
-    
+
     Shows positions with unrealized P&L, time in trade, and sector allocation.
     """
     # Get positions (in production, from PortfolioEngine)
@@ -1080,29 +1161,36 @@ async def get_position_metrics() -> str:
             "sector": "technology",
         },
     ]
-    
+
     total_value = sum(p["market_value"] for p in positions)
     total_unrealized = sum(p["unrealized_pnl"] for p in positions)
-    
+
     # Sector allocation
     sectors: dict[str, float] = {}
     for p in positions:
         sector = p.get("sector", "other")
         sectors[sector] = sectors.get(sector, 0) + p["market_value"]
-    
-    sector_allocation = {k: round(v / total_value * 100, 1) for k, v in sectors.items()} if total_value else {}
-    
-    return json.dumps({
-        "timestamp": datetime.now(UTC).isoformat(),
-        "position_count": len(positions),
-        "total_market_value": round(total_value, 2),
-        "total_unrealized_pnl": round(total_unrealized, 2),
-        "total_unrealized_pnl_pct": round(total_unrealized / total_value * 100, 2) if total_value else 0,
-        "winners": len([p for p in positions if p["unrealized_pnl"] > 0]),
-        "losers": len([p for p in positions if p["unrealized_pnl"] < 0]),
-        "sector_allocation": sector_allocation,
-        "positions": positions,
-    }, indent=2)
+
+    sector_allocation = (
+        {k: round(v / total_value * 100, 1) for k, v in sectors.items()} if total_value else {}
+    )
+
+    return json.dumps(
+        {
+            "timestamp": datetime.now(UTC).isoformat(),
+            "position_count": len(positions),
+            "total_market_value": round(total_value, 2),
+            "total_unrealized_pnl": round(total_unrealized, 2),
+            "total_unrealized_pnl_pct": round(total_unrealized / total_value * 100, 2)
+            if total_value
+            else 0,
+            "winners": len([p for p in positions if p["unrealized_pnl"] > 0]),
+            "losers": len([p for p in positions if p["unrealized_pnl"] < 0]),
+            "sector_allocation": sector_allocation,
+            "positions": positions,
+        },
+        indent=2,
+    )
 
 
 @ordinis_mcp.resource("ordinis://strategies/list")
@@ -1114,14 +1202,16 @@ async def get_strategies_list() -> str:
     for name, config in _state.strategies_config.items():
         strategy_info = config.get("strategy", {})
         symbols = config.get("symbols", {})
-        strategies.append({
-            "id": name,
-            "name": strategy_info.get("name", name),
-            "type": strategy_info.get("type", "unknown"),
-            "version": strategy_info.get("version", "1.0.0"),
-            "description": strategy_info.get("description", ""),
-            "symbol_count": len(symbols),
-        })
+        strategies.append(
+            {
+                "id": name,
+                "name": strategy_info.get("name", name),
+                "type": strategy_info.get("type", "unknown"),
+                "version": strategy_info.get("version", "1.0.0"),
+                "description": strategy_info.get("description", ""),
+                "symbol_count": len(symbols),
+            }
+        )
 
     return json.dumps({"strategies": strategies, "count": len(strategies)}, indent=2)
 

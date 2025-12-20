@@ -18,11 +18,11 @@ from dataclasses import dataclass
 from datetime import UTC, datetime
 from decimal import Decimal
 from enum import Enum, auto
-from typing import TYPE_CHECKING, Any
 import hashlib
 import json
 import logging
 import threading
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from ordinis.domain.positions import Position
@@ -33,13 +33,9 @@ logger = logging.getLogger(__name__)
 class StateValidationError(Exception):
     """Raised when state validation fails."""
 
-    pass
-
 
 class OptimisticLockError(Exception):
     """Raised when concurrent modification detected."""
-
-    pass
 
 
 class TransactionState(Enum):
@@ -69,7 +65,7 @@ class PositionSnapshot:
     multiplier: Decimal = Decimal("1")
 
     @classmethod
-    def from_position(cls, position: "Position") -> PositionSnapshot:
+    def from_position(cls, position: Position) -> PositionSnapshot:
         """Create snapshot from Position object.
 
         Args:
@@ -123,7 +119,7 @@ class PortfolioStateSnapshot:
         cash: Decimal,
         equity: Decimal,
         margin_used: Decimal,
-        positions: dict[str, "Position"],
+        positions: dict[str, Position],
         version: int = 0,
     ) -> PortfolioStateSnapshot:
         """Create a new state snapshot.
@@ -139,9 +135,7 @@ class PortfolioStateSnapshot:
             Immutable PortfolioStateSnapshot
         """
         # Convert positions to immutable snapshots
-        pos_snapshots = tuple(
-            PositionSnapshot.from_position(p) for p in positions.values()
-        )
+        pos_snapshots = tuple(PositionSnapshot.from_position(p) for p in positions.values())
 
         # Calculate derived metrics
         total_market_value = sum((p.market_value for p in pos_snapshots), Decimal("0"))
@@ -161,9 +155,9 @@ class PortfolioStateSnapshot:
             ],
             "version": version,
         }
-        state_hash = hashlib.sha256(
-            json.dumps(state_data, sort_keys=True).encode()
-        ).hexdigest()[:16]
+        state_hash = hashlib.sha256(json.dumps(state_data, sort_keys=True).encode()).hexdigest()[
+            :16
+        ]
 
         return cls(
             snapshot_id=snapshot_id,
@@ -535,9 +529,7 @@ class PortfolioStateManager:
         with self._lock:
             old_value = self._positions.pop(symbol, None)
             if old_value:
-                self._record_change(
-                    "position_remove", {"symbol": symbol}, old_value, None
-                )
+                self._record_change("position_remove", {"symbol": symbol}, old_value, None)
             return old_value
 
     def update_prices(self, prices: dict[str, float]) -> None:
