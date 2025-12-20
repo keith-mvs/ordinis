@@ -105,5 +105,16 @@ class MyStrategy(BaseStrategy):
 Required: `APCA_API_KEY_ID`, `APCA_API_SECRET_KEY`, `NVIDIA_API_KEY`
 Optional: `ORDINIS_ENVIRONMENT=dev`, `ORDINIS_LOG_LEVEL=INFO`
 
+## Git Operations
+
+For git push operations, use credentials from environment variables:
+- `GITHUB_USERNAME` - GitHub username for authentication
+- `GITHUB_PAT` - GitHub Personal Access Token
+
+Example push command:
+```bash
+git push https://${GITHUB_USERNAME}:${GITHUB_PAT}@github.com/keith-mvs/ordinis.git master
+```
+
 ---
 *See [AGENTS.md](../AGENTS.md) for coding style and [README.md](../README.md) for full architecture.*
