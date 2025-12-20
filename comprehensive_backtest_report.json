@@ -97,7 +97,7 @@
       "recommended_position_size": "5-10%",
       "recommended_max_portfolio_exposure": "80-100%",
       "recommended_stop_loss": "8-10%",
-      "overall_strategy_sharpe": NaN
+      "overall_strategy_sharpe": null
     },
     "model_selection": {}
   }

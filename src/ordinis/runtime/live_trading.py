@@ -34,6 +34,7 @@ from ordinis.adapters.broker.broker import (
     OrderType,
     SimulatedBroker,
 )
+from ordinis.adapters.telemetry import setup_tracing, shutdown_tracing, TracingConfig
 from ordinis.engines.flowroute.adapters.alpaca_data import AlpacaMarketDataAdapter
 from ordinis.engines.signalcore.core.signal import Direction, Signal, SignalType
 from ordinis.engines.signalcore.strategy_loader import StrategyLoader
@@ -374,81 +375,97 @@ class LiveTradingRuntime:
 
 async def main():
     """Main entry point."""
-    parser = argparse.ArgumentParser(description="Live Trading Runtime")
-    parser.add_argument(
-        "--mode",
-        choices=["paper", "simulated", "live"],
-        default="simulated",
-        help="Trading mode",
+    # Initialize tracing
+    tracing_enabled = setup_tracing(
+        TracingConfig(
+            service_name="ordinis-live-trading",
+            enabled=True,
+        )
     )
-    parser.add_argument(
-        "--config",
-        default="configs/strategies/atr_optimized_rsi.yaml",
-        help="Strategy config path",
-    )
-    parser.add_argument(
-        "--poll-interval",
-        type=int,
-        default=60,
-        help="Seconds between data polls",
-    )
-    parser.add_argument(
-        "--log-level",
-        default="INFO",
-        help="Logging level",
-    )
-
-    args = parser.parse_args()
-
-    # Setup logging
-    logging.basicConfig(
-        level=getattr(logging, args.log_level.upper()),
-        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    )
-
-    # Load strategy
-    loader = StrategyLoader()
-    if not loader.load_strategy(args.config):
-        logger.error(f"Failed to load strategy from {args.config}")
-        return 1
-
-    # Create broker
-    if args.mode == "simulated":
-        broker = SimulatedBroker(initial_cash=100_000)
-        logger.info("Using simulated broker (no real trades)")
-    elif args.mode == "paper":
-        # AlpacaBroker handles credentials internally via ordinis.utils.env
-        # which reads from Windows User environment (source of truth)
-        broker = AlpacaBroker(paper=True)
-        logger.info("Using Alpaca paper trading")
-    elif args.mode == "live":
-        logger.error("Live trading not enabled. Use paper mode for testing.")
-        return 1
-    else:
-        logger.error(f"Unknown mode: {args.mode}")
-        return 1
-
-    # Create runtime
-    runtime = LiveTradingRuntime(
-        broker=broker,
-        strategy_loader=loader,
-        mode=args.mode,
-        poll_interval=args.poll_interval,
-    )
-
-    # Connect and run
-    if not await runtime.connect():
-        logger.error("Failed to connect to broker")
-        return 1
+    if tracing_enabled:
+        logger.info("Distributed tracing enabled - view traces in AI Toolkit")
 
     try:
-        await runtime.run_loop()
-    except KeyboardInterrupt:
-        logger.info("Interrupted by user")
-    finally:
-        await runtime.disconnect()
+        parser = argparse.ArgumentParser(description="Live Trading Runtime")
+        parser.add_argument(
+            "--mode",
+            choices=["paper", "simulated", "live"],
+            default="simulated",
+            help="Trading mode",
+        )
+        parser.add_argument(
+            "--config",
+            default="configs/strategies/atr_optimized_rsi.yaml",
+            help="Strategy config path",
+        )
+        parser.add_argument(
+            "--poll-interval",
+            type=int,
+            default=60,
+            help="Seconds between data polls",
+        )
+        parser.add_argument(
+            "--log-level",
+            default="INFO",
+            help="Logging level",
+        )
 
-    return 0
+        args = parser.parse_args()
+
+        # Setup logging
+        logging.basicConfig(
+            level=getattr(logging, args.log_level.upper()),
+            format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+        )
+
+        # Load strategy
+        loader = StrategyLoader()
+        if not loader.load_strategy(args.config):
+            logger.error(f"Failed to load strategy from {args.config}")
+            return 1
+
+        # Create broker
+        if args.mode == "simulated":
+            broker = SimulatedBroker(initial_cash=100_000)
+            logger.info("Using simulated broker (no real trades)")
+        elif args.mode == "paper":
+            # AlpacaBroker handles credentials internally via ordinis.utils.env
+            # which reads from Windows User environment (source of truth)
+            broker = AlpacaBroker(paper=True)
+            logger.info("Using Alpaca paper trading")
+        elif args.mode == "live":
+            logger.error("Live trading not enabled. Use paper mode for testing.")
+            return 1
+        else:
+            logger.error(f"Unknown mode: {args.mode}")
+            return 1
+
+        # Create runtime
+        runtime = LiveTradingRuntime(
+            broker=broker,
+            strategy_loader=loader,
+            mode=args.mode,
+            poll_interval=args.poll_interval,
+        )
+
+        # Connect and run
+        if not await runtime.connect():
+            logger.error("Failed to connect to broker")
+            return 1
+
+        try:
+            await runtime.run_loop()
+        except KeyboardInterrupt:
+            logger.info("Interrupted by user")
+        finally:
+            await runtime.disconnect()
+
+        return 0
+
+    finally:
+        # Shutdown tracing gracefully
+        if tracing_enabled:
+            shutdown_tracing()
 
 
 if __name__ == "__main__":

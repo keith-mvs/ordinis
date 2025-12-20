@@ -6,6 +6,7 @@ and analyzing results.
 """
 
 import argparse
+import logging
 from pathlib import Path
 import sys
 
@@ -27,6 +28,8 @@ from ordinis.application.strategies import (
 from ordinis.engines.proofbench import SimulationConfig, SimulationEngine
 from ordinis.engines.proofbench.analytics import LLMPerformanceNarrator
 from ordinis.visualization.indicators import IndicatorChart
+
+_logger = logging.getLogger(__name__)
 
 
 def load_market_data(file_path: str) -> tuple[str, pd.DataFrame]:
@@ -421,10 +424,21 @@ def analyze_market(args):
 
 def main():
     """Main CLI entry point."""
-    parser = argparse.ArgumentParser(
-        description="Intelligent Investor - AI-Powered Trading System",
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog="""
+    # Initialize tracing
+    tracing_enabled = setup_tracing(
+        TracingConfig(
+            service_name="ordinis-cli",
+            enabled=True,  # Can be controlled via environment variable
+        )
+    )
+    if tracing_enabled:
+        _logger.info("Distributed tracing enabled - view traces in AI Toolkit")
+
+    try:
+        parser = argparse.ArgumentParser(
+            description="Intelligent Investor - AI-Powered Trading System",
+            formatter_class=argparse.RawDescriptionHelpFormatter,
+            epilog="""
 Examples:
   # Run RSI backtest
   intelligent-investor backtest --data data.csv --strategy rsi
@@ -438,9 +452,9 @@ Examples:
   # Save results to file
   intelligent-investor backtest --data data.csv --strategy rsi --output results.csv
         """,
-    )
+        )
 
-    subparsers = parser.add_subparsers(dest="command", help="Available commands")
+        subparsers = parser.add_subparsers(dest="command", help="Available commands")
 
     # Backtest command
     backtest_parser = subparsers.add_parser("backtest", help="Run strategy backtest")
@@ -530,14 +544,22 @@ Examples:
     args = parser.parse_args()
 
     # Execute command
+    result = 0
     if args.command == "backtest":
-        return run_backtest(args)
-    if args.command == "list":
-        return list_strategies(args)
-    if args.command == "analyze":
-        return analyze_market(args)
-    parser.print_help()
-    return 0
+        result = run_backtest(args)
+    elif args.command == "list":
+        result = list_strategies(args)
+    elif args.command == "analyze":
+        result = analyze_market(args)
+    else:
+        parser.print_help()
+
+    return result
+
+    finally:
+        # Shutdown tracing gracefully
+        if tracing_enabled:
+            shutdown_tracing()
 
 
 if __name__ == "__main__":
