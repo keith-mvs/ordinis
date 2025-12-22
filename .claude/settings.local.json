@@ -28,5 +28,5 @@
   "enableAllProjectMcpServers": true,
   "enabledMcpjsonServers": [
     "Microsoft Learn"
-  ],
+  ]
 }
