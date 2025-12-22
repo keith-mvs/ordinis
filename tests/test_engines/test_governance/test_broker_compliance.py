@@ -1,6 +1,6 @@
 """Tests for Broker Compliance Engine."""
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 from ordinis.engines.governance.core.broker_compliance import (
     Broker,
@@ -137,11 +137,12 @@ class TestBrokerComplianceEngine:
         engine = BrokerComplianceEngine(broker=Broker.ALPACA)
 
         # Record 3 day trades
+        now = datetime.now(timezone.utc)
         for i in range(3):
             engine.record_day_trade(
                 symbol=f"TEST{i}",
-                buy_time=datetime.utcnow(),
-                sell_time=datetime.utcnow(),
+                buy_time=now,
+                sell_time=now,
                 profit_loss=100.0,
             )
 
@@ -347,10 +348,11 @@ class TestBrokerComplianceEngine:
         engine._api_calls_today = 100
 
         # Old day trade (should be kept)
+        now = datetime.now(timezone.utc)
         engine._day_trades.append(
             {
                 "symbol": "TEST",
-                "timestamp": datetime.utcnow() - timedelta(days=3),
+                "timestamp": now - timedelta(days=3),
             }
         )
 
@@ -358,7 +360,7 @@ class TestBrokerComplianceEngine:
         engine._day_trades.append(
             {
                 "symbol": "OLD",
-                "timestamp": datetime.utcnow() - timedelta(days=10),
+                "timestamp": now - timedelta(days=10),
             }
         )
 

@@ -14,6 +14,7 @@ import numpy as np
 from ordinis.rag.config import get_config
 from ordinis.rag.vectordb.base import VectorDatabaseInterface
 from ordinis.rag.vectordb.schema import RetrievalResult
+from ordinis.utils.paths import resolve_project_path
 
 
 # Default embedding configuration (R4: versioning)
@@ -50,7 +51,8 @@ class ChromaClient(VectorDatabaseInterface):
             embedding_dim: Embedding dimension for validation (R4)
         """
         config = get_config()
-        self.persist_directory = persist_directory or config.chroma_persist_directory
+        persist_path = persist_directory or config.chroma_persist_directory
+        self.persist_directory = resolve_project_path(persist_path)
         self.text_collection_name = text_collection or config.text_collection_name
         self.code_collection_name = code_collection or config.code_collection_name
         

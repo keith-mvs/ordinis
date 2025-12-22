@@ -3,6 +3,7 @@
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
+import random
 import uuid
 
 from ordinis.domain.enums import OrderSide, OrderStatus, OrderType
@@ -92,6 +93,11 @@ class ExecutionSimulator:
         if order.status == OrderStatus.FILLED:
             return None
 
+        # Apply fill probability check for limit orders
+        if order.order_type == OrderType.LIMIT and self.config.fill_probability < 1.0:
+            if random.random() > self.config.fill_probability:
+                return None  # Order not filled due to probability
+
         if order.order_type == OrderType.MARKET:
             return self._fill_market_order(order, bar, timestamp, multiplier)
         if order.order_type == OrderType.LIMIT:
@@ -144,12 +150,20 @@ class ExecutionSimulator:
         # Calculate commission
         commission = self._calculate_commission(order.remaining_quantity, fill_price, multiplier)
 
+        # Determine fill quantity (support partial fills)
+        if self.config.partial_fills and order.remaining_quantity > 1:
+            # Simulate partial fill: fill between 50% and 100% of remaining
+            fill_ratio = 0.5 + random.random() * 0.5
+            fill_quantity = max(1, int(order.remaining_quantity * fill_ratio))
+        else:
+            fill_quantity = order.remaining_quantity
+
         return Fill(
             fill_id=str(uuid.uuid4()),
             order_id=order.order_id,
             symbol=order.symbol,
             side=order.side,
-            quantity=order.remaining_quantity,
+            quantity=fill_quantity,
             price=fill_price,
             commission=commission,
             slippage=slippage,

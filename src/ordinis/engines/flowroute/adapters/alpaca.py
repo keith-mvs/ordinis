@@ -15,8 +15,7 @@ from alpaca.trading.enums import OrderSide, TimeInForce
 from alpaca.trading.requests import LimitOrderRequest, MarketOrderRequest
 
 from ordinis.core.protocols import BrokerAdapter
-
-from ..core.orders import Fill, Order
+from ordinis.domain.orders import Fill, Order
 
 logger = logging.getLogger(__name__)
 

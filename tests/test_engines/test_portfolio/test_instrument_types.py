@@ -161,6 +161,7 @@ class TestOptionsSpec:
         """Test put option intrinsic value."""
         put = OptionsSpec(
             symbol="AAPL240315P00150000",
+            instrument_type=InstrumentType.OPTION,
             underlying="AAPL",
             option_type=OptionType.PUT,
             strike=Decimal("150"),
@@ -180,6 +181,7 @@ class TestCryptoSpec:
         """Test crypto specification."""
         btc = CryptoSpec(
             symbol="BTC/USD",
+            instrument_type=InstrumentType.CRYPTO,
             base_currency="BTC",
             quote_currency="USD",
         )
@@ -274,6 +276,7 @@ class TestFuturesHandler:
         """Create futures spec."""
         return FuturesSpec(
             symbol="ESH24",
+            instrument_type=InstrumentType.FUTURE,
             underlying="ES",
             contract_size=Decimal("50"),
             expiration_date=date(2025, 3, 15),
@@ -326,6 +329,7 @@ class TestOptionsHandler:
         """Create call option."""
         return OptionsSpec(
             symbol="AAPL240315C00150000",
+            instrument_type=InstrumentType.OPTION,
             underlying="AAPL",
             option_type=OptionType.CALL,
             strike=Decimal("150"),
@@ -385,6 +389,7 @@ class TestInstrumentRegistry:
         registry.register_spec(
             FuturesSpec(
                 symbol="ESH24",
+                instrument_type=InstrumentType.FUTURE,
                 underlying="ES",
                 contract_size=Decimal("50"),
                 expiration_date=date(2025, 3, 15),

@@ -7,12 +7,12 @@ Simulates order execution for testing and paper trading.
 import asyncio
 from datetime import datetime
 import logging
+from types import SimpleNamespace
 from typing import Any
 import uuid
 
 from ordinis.core.protocols import BrokerAdapter
-
-from ..core.orders import Fill, Order
+from ordinis.domain.orders import Fill, Order
 
 logger = logging.getLogger(__name__)
 
@@ -76,7 +76,7 @@ class PaperBrokerAdapter(BrokerAdapter):
                 price_data = await self._fetch_current_price(order.symbol)
                 if price_data:
                     # Use appropriate price based on side
-                    fill_price = price_data["ask"] if order.side == "buy" else price_data["bid"]
+                    fill_price = price_data["ask"] if order.side == "BUY" else price_data["bid"]
                     if fill_price and fill_price > 0:
                         # Simulate fill with delay
                         await asyncio.sleep(self.fill_delay_ms / 1000.0)
@@ -145,24 +145,27 @@ class PaperBrokerAdapter(BrokerAdapter):
             for symbol, position in self._positions.items()
         ]
 
-    async def get_account(self) -> dict[str, Any]:
+    async def get_account(self) -> SimpleNamespace:
         """
         Get paper trading account information.
 
         Returns:
-            Account info dict
+            Account info object with equity, cash, buying_power, portfolio_value
         """
         total_position_value = sum(
             pos.get("quantity", 0) * pos.get("current_price", 0) for pos in self._positions.values()
         )
+        total_equity = self._cash + total_position_value
 
-        return {
-            "cash": self._cash,
-            "total_position_value": total_position_value,
-            "total_equity": self._cash + total_position_value,
-            "positions": len(self._positions),
-            "buying_power": self._cash,
-        }
+        return SimpleNamespace(
+            cash=self._cash,
+            equity=total_equity,
+            total_equity=total_equity,
+            buying_power=self._cash,
+            portfolio_value=total_position_value,
+            total_position_value=total_position_value,
+            positions=len(self._positions),
+        )
 
     def simulate_fill(
         self, order: Order, fill_price: float, current_price: float | None = None
@@ -182,10 +185,10 @@ class PaperBrokerAdapter(BrokerAdapter):
             current_price = fill_price
 
         # Calculate slippage
-        if order.side == "buy":
+        if order.side == "BUY":
             expected_price = current_price * (1 + self.slippage_bps / 10000)
             slippage_bps = ((fill_price - current_price) / current_price) * 10000
-        else:  # sell
+        else:  # SELL
             expected_price = current_price * (1 - self.slippage_bps / 10000)
             slippage_bps = ((current_price - fill_price) / current_price) * 10000
 
@@ -228,7 +231,7 @@ class PaperBrokerAdapter(BrokerAdapter):
 
         position = self._positions[symbol]
 
-        if side == "buy":
+        if side == "BUY":
             # Add to position
             total_cost = (position["quantity"] * position["avg_price"]) + (quantity * price)
             position["quantity"] += quantity
@@ -237,7 +240,7 @@ class PaperBrokerAdapter(BrokerAdapter):
             )
             self._cash -= (quantity * price) + commission
 
-        else:  # sell
+        else:  # SELL
             # Reduce position
             position["quantity"] -= quantity
             self._cash += (quantity * price) - commission
@@ -328,7 +331,7 @@ class PaperBrokerAdapter(BrokerAdapter):
                 price_data = await self._fetch_current_price(order.symbol)
                 if price_data:
                     # Use bid/ask if available, otherwise fallback to last price with slippage
-                    fill_price = price_data["ask"] if order.side == "buy" else price_data["bid"]
+                    fill_price = price_data["ask"] if order.side == "BUY" else price_data["bid"]
 
                     if not fill_price or fill_price <= 0:
                         # Fallback to last price with slippage simulation
@@ -337,7 +340,7 @@ class PaperBrokerAdapter(BrokerAdapter):
                             slippage_factor = self.slippage_bps / 10000.0
                             fill_price = (
                                 last_price * (1 + slippage_factor)
-                                if order.side == "buy"
+                                if order.side == "BUY"
                                 else last_price * (1 - slippage_factor)
                             )
 

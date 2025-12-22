@@ -21,7 +21,7 @@ import numpy as np
 import pandas as pd
 
 from ordinis.engines.signalcore.core.model import Model, ModelConfig
-from ordinis.engines.signalcore.core.signal import Signal, SignalType
+from ordinis.engines.signalcore.core.signal import Direction, Signal, SignalType
 
 logger = logging.getLogger(__name__)
 
@@ -268,6 +268,13 @@ class MIEnsembleModel(Model):
         """
         Calculate MI-based weights for each signal.
 
+        IMPORTANT: Uses only PAST data to avoid lookahead bias.
+        The MI is calculated on a rolling historical window where
+        we know both the signal and the subsequent realized return.
+
+        At time T, we only use data from [T - lookback - forward_period, T - forward_period]
+        so that forward_period is the "gap" ensuring all returns are realized.
+
         Args:
             df: OHLCV DataFrame
             symbol: Symbol for caching
@@ -275,19 +282,37 @@ class MIEnsembleModel(Model):
         Returns:
             Dictionary of signal name to weight
         """
-        # Calculate forward returns
-        forward_ret = (
-            df["close"]
-            .pct_change(self.mi_config.forward_period)
-            .shift(-self.mi_config.forward_period)
-        )
+        lookback = self.mi_config.mi_lookback
+        fwd = self.mi_config.forward_period
+
+        # Minimum required data
+        min_required = lookback + fwd + 50
+        if len(df) < min_required:
+            # Equal weights if insufficient data
+            return {sig.name: 1.0 / len(self.signals) for sig in self.signals}
+
+        # Use only the historical window where returns are realized:
+        # Signal at t, return from t to t+fwd. So we stop at -fwd from end.
+        # df_hist excludes the last fwd bars where we don't know the forward return.
+        df_hist = df.iloc[:-fwd]
+
+        # Forward returns: return from t to t+fwd (now fully realized in df_hist)
+        forward_ret = df_hist["close"].pct_change(fwd).shift(-fwd)
+
+        # Further limit to lookback window to avoid using very old data
+        # Take the most recent 'lookback' bars from df_hist
+        if len(df_hist) > lookback:
+            df_hist = df_hist.iloc[-lookback:]
+            forward_ret = forward_ret.iloc[-lookback:]
 
         weights = {}
         mi_values = {}
 
         for sig_def in self.signals:
             try:
-                signal_values = sig_def.compute(df)
+                # CRITICAL: Use df_hist (not df) to avoid lookahead bias
+                # Signal values must be computed on the same historical window
+                signal_values = sig_def.compute(df_hist)
 
                 # Align and get valid portion
                 valid_idx = ~(signal_values.isna() | forward_ret.isna())
@@ -407,20 +432,21 @@ class MIEnsembleModel(Model):
             ensemble > self.mi_config.ensemble_threshold
             and signals_long >= self.mi_config.min_signals_agree
         ):
-            signal_type = SignalType.BUY
-            direction = 1
+            signal_type = SignalType.ENTRY
+            direction = Direction.LONG
         elif (
             ensemble < -self.mi_config.ensemble_threshold
             and signals_short >= self.mi_config.min_signals_agree
         ):
-            signal_type = SignalType.SELL
-            direction = -1
+            signal_type = SignalType.ENTRY
+            direction = Direction.SHORT
 
         current_price = data["close"].iloc[-1]
 
         if signal_type == SignalType.HOLD:
             return Signal(
                 signal_type=SignalType.HOLD,
+                direction=Direction.NEUTRAL,
                 symbol=symbol,
                 timestamp=timestamp,
                 confidence=0.0,
@@ -436,7 +462,7 @@ class MIEnsembleModel(Model):
         # Calculate stops
         atr = self._calculate_atr(data)
 
-        if direction > 0:
+        if direction == Direction.LONG:
             stop_loss = current_price - (atr * self.mi_config.atr_stop_mult)
             take_profit = current_price + (atr * self.mi_config.atr_tp_mult)
         else:
@@ -450,13 +476,14 @@ class MIEnsembleModel(Model):
 
         return Signal(
             signal_type=signal_type,
+            direction=direction,
             symbol=symbol,
             timestamp=timestamp,
             confidence=confidence,
             metadata={
                 "strategy": "mi_ensemble",
                 "ensemble_value": ensemble,
-                "direction": direction,
+                "direction": direction.value,
                 "signal_values": signal_values,
                 "weights": weights,
                 "signals_long": signals_long,

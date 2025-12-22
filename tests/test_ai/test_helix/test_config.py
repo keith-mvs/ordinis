@@ -184,10 +184,11 @@ class TestHelixConfig:
         config = HelixConfig()
 
         assert config.nvidia_api_key == os.getenv("NVIDIA_API_KEY")
-        assert config.default_chat_model == "nemotron-super"
-        assert config.fallback_chat_model == "nemotron-8b"
-        assert config.default_embedding_model == "nv-embedqa"
-        assert config.fallback_embedding_model == "nemoretriever"
+        # Defaults use aliases that map to actual models
+        assert config.default_chat_model == "default"  # Alias for nemotron-super
+        assert config.fallback_chat_model == "fast"  # Alias for nemotron-8b
+        assert config.default_embedding_model == "embedding"
+        assert config.fallback_embedding_model == "embedding_fallback"
         assert config.default_temperature == 0.2
         assert config.default_max_tokens == 2048
         assert config.prefer_local is False

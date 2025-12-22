@@ -98,10 +98,12 @@ class OrderRow(BaseModel):
     intent_id: str | None = None
     signal_id: str | None = None
     strategy_id: str | None = None
+    session_id: str | None = None  # R1: Link to session
     broker_order_id: str | None = None
     broker_response: str | None = None  # JSON
     error_message: str | None = None
     retry_count: int = 0
+    chroma_synced: int = 0  # R3: Dual-write tracking
     metadata: str | None = None  # JSON
     updated_at: str | None = None
 
@@ -128,12 +130,14 @@ class OrderRow(BaseModel):
             intent_id=row[16],
             signal_id=row[17],
             strategy_id=row[18],
-            broker_order_id=row[19],
-            broker_response=row[20],
-            error_message=row[21],
-            retry_count=row[22],
-            metadata=row[23],
-            updated_at=row[24],
+            session_id=row[19],
+            broker_order_id=row[20],
+            broker_response=row[21],
+            error_message=row[22],
+            retry_count=row[23] if row[23] is not None else 0,
+            chroma_synced=row[24] if row[24] is not None else 0,
+            metadata=row[25] if len(row) > 25 else None,
+            updated_at=row[26] if len(row) > 26 else None,
         )
 
     def to_insert_tuple(self) -> tuple[Any, ...]:
@@ -157,10 +161,12 @@ class OrderRow(BaseModel):
             self.intent_id,
             self.signal_id,
             self.strategy_id,
+            self.session_id,
             self.broker_order_id,
             self.broker_response,
             self.error_message,
             self.retry_count,
+            self.chroma_synced,
             self.metadata,
         )
 
@@ -252,6 +258,9 @@ class TradeRow(BaseModel):
     entry_order_id: str | None = None
     exit_order_id: str | None = None
     strategy_id: str | None = None
+    session_id: str | None = None  # R1: Link to session
+    chroma_synced: int = 0  # R3: Dual-write tracking
+    chroma_id: str | None = None  # R3: Vector ID for linkage
     metadata: str | None = None
     created_at: str | None = None
 
@@ -275,8 +284,11 @@ class TradeRow(BaseModel):
             entry_order_id=row[13],
             exit_order_id=row[14],
             strategy_id=row[15],
-            metadata=row[16],
-            created_at=row[17],
+            session_id=row[16],
+            chroma_synced=row[17] if row[17] is not None else 0,
+            chroma_id=row[18],
+            metadata=row[19] if len(row) > 19 else None,
+            created_at=row[20] if len(row) > 20 else None,
         )
 
     def to_insert_tuple(self) -> tuple[Any, ...]:
@@ -297,6 +309,9 @@ class TradeRow(BaseModel):
             self.entry_order_id,
             self.exit_order_id,
             self.strategy_id,
+            self.session_id,
+            self.chroma_synced,
+            self.chroma_id,
             self.metadata,
         )
 

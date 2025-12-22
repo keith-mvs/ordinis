@@ -49,6 +49,21 @@ class PreflightContext:
     user_id: str | None = None
     metadata: dict[str, Any] = field(default_factory=dict)
 
+    @property
+    def parameters(self) -> dict[str, Any]:
+        """Alias for inputs (backward compatibility)."""
+        return self.inputs
+
+    @property
+    def operation(self) -> str:
+        """Alias for action (backward compatibility)."""
+        return self.action
+
+    @property
+    def timestamp(self) -> Any:
+        """Get timestamp from metadata."""
+        return self.metadata.get("timestamp")
+
 
 @dataclass
 class PreflightResult:

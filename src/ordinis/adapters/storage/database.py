@@ -24,6 +24,7 @@ from ordinis.adapters.storage.schema import (
     get_create_schema_sql,
     get_initial_state_sql,
 )
+from ordinis.utils.paths import resolve_project_path
 
 logger = logging.getLogger(__name__)
 
@@ -54,8 +55,12 @@ class DatabaseManager:
             backup_dir: Directory for automatic backups
             auto_backup: Whether to backup on initialize
         """
-        self.db_path = Path(db_path) if db_path else DEFAULT_DB_PATH
-        self.backup_dir = Path(backup_dir) if backup_dir else DEFAULT_BACKUP_DIR
+        self.db_path = resolve_project_path(db_path) if db_path else resolve_project_path(
+            DEFAULT_DB_PATH
+        )
+        self.backup_dir = resolve_project_path(backup_dir) if backup_dir else resolve_project_path(
+            DEFAULT_BACKUP_DIR
+        )
         self.auto_backup = auto_backup
         self._connection: aiosqlite.Connection | None = None
         self._lock = asyncio.Lock()

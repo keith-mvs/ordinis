@@ -9,6 +9,7 @@ from ordinis.ai.helix.engine import Helix
 async def test_code_review():
     """Test code review on actual Ordinis code."""
     helix = Helix(HelixConfig(default_temperature=0.1))
+    await helix.initialize()
 
     # Read actual code from Ordinis
     from pathlib import Path
@@ -42,6 +43,7 @@ async def test_code_review():
 async def test_strategy_design():
     """Test strategy design generation."""
     helix = Helix(HelixConfig(default_temperature=0.2))
+    await helix.initialize()
 
     print("\nDesigning: Iron Condor Strategy\n")
 
@@ -77,6 +79,7 @@ async def test_strategy_design():
 async def test_architecture_question():
     """Test architectural guidance."""
     helix = Helix(HelixConfig(default_temperature=0.1))
+    await helix.initialize()
 
     print("\nArchitecture Question: Engine Communication\n")
 

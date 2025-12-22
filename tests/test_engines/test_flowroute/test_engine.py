@@ -10,15 +10,11 @@ Tests cover:
 
 import pytest
 
+from ordinis.domain.enums import OrderSide, OrderStatus, OrderType
+from ordinis.domain.orders import Fill
 from ordinis.engines.flowroute.adapters.paper import PaperBrokerAdapter
 from ordinis.engines.flowroute.core.engine import FlowRouteEngine
-from ordinis.engines.flowroute.core.orders import (
-    Fill,
-    OrderIntent,
-    OrderSide,
-    OrderStatus,
-    OrderType,
-)
+from ordinis.engines.flowroute.core.orders import OrderIntent
 
 
 @pytest.fixture

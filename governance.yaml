@@ -1,0 +1,156 @@
+# --------
+metadata:
+  title: AI Governance
+  description: Governance framework for AI-embedded trading systems
+  author: Ordinis AI
+  version: 1.0.1
+  date: 2025-12-15
+  tags:
+    - governance
+    - policies
+    - ai-safety
+  references:
+    - "docs/knowledge-base/inbox/documents/governance-policies.md"
+    - "docs/knowledge-base/inbox/documents/security-policies.md"
+    - "docs/knowledge-base/inbox/documents/privacy-policies.md"
+    - "docs/knowledge-base/inbox/documents/privacy-policies.md"
+    - "docs/knowledge-base/inbox/documents/risk-management-policies.md"
+
+  #=============================================================================
+  # OVERARCHING PRINCIPLES
+  #=============================================================================
+  principles:
+    transparency: true
+    accountability: true
+    privacy: true
+    security: true
+    reliability: true
+    
+#==============================================================================
+# SECURITY
+#==============================================================================
+      
+  api_security:
+    require_api_keys: true
+    ip_whitelisting: false  # Set to true for production
+
+# ==============================================================================
+# RISK MANAGEMENT POLICIES 
+# ==============================================================================    
+  
+  network:
+    allow_external_connections: true  # For market data
+    require_tls_version: "1.3"
+    validate_certificates: true
+    
+  secrets_management:
+    use_vault: true
+    never_log_secrets: true
+    encrypt_config_files: true
+    
+# ==============================================================================
+# OPERATIONAL POLICIES
+# ==============================================================================
+    
+  monitoring:
+    system_health:
+      enabled: true
+      alert_on_anomaly: true
+      track_uptime: true
+      target_uptime_pct: 99.9
+      
+    performance:
+      track_latency: true
+      track_throughput: true
+      alert_on_degradation: true
+      sla_p95_latency_ms: 500
+
+# ==============================================================================
+# AI-SPECIFIC SAFETY CONTROLS
+# ==============================================================================
+ai_safety:
+  guardrails:
+    enabled: true
+    input_validation: false  # Not needed for trading system
+    output_validation: true # Ensure outputs are within expected ranges
+    content_filtering: false  # Not needed for trading system
+    
+  testing:
+    test_edge_cases: true
+    continuous_validation: true
+    accurate model_performance: true
+    accurate drift_detection: true
+    accurate_performance_metrics: true
+
+# ==============================================================================
+# DOCUMENTATION REQUIREMENTS
+# ==============================================================================
+documentation:
+  document_style_standards:
+    markdown: true
+    name: "google"
+    url: "https://google.github.io/styleguide/docguide/style.html"
+    code_blocks: true
+    content:
+      include_code: true
+      include_images: true
+      include_tables: true
+      include_links: true
+      include_code_blocks:
+        enabled: true
+        use_fenced_code_blocks: true
+        declare_language: true
+      include_code_comments: true
+      include_code_docstrings: true
+      include_code_annotations: true
+      include_code_metadata: true
+      include_code_metadata_fields:
+        - "title"
+        - "description"
+        - "author"
+        - "license"
+        - "version/revision"
+        - "date"
+        - "tags/keywords"
+        - "references"
+    use_standard_nomenclature: true
+    use_consistent_formatting: true
+    use_consistent_terminology: true
+
+  # =============================================================================
+  # FILENAME CONVENTIONS
+  # =============================================================================
+    
+  filename_conventions:
+    use_standard_volume_names: true
+    use_standard_prefixes: true
+    use_standard_suffixes: true
+    use_lowercase_for_code: true
+    use_uppercase_for_markdown: true
+    use_underscores: true
+    no_spaces: true
+    no_symbols: true
+
+# ==============================================================================
+# REVIEW & UPDATES
+# ==============================================================================
+    
+  metrics:
+    track_compliance_rate: true
+    track_violation_count: true
+    track_override_frequency: true
+
+    # ==============================================================================
+    # DESIGN SPECIFICATIONS
+    # ==============================================================================
+    # It is not recommended to include detailed system design (such as architecture diagrams, component interactions, or implementation specifics) directly in this governance YAML file.
+    # Instead, reference external design documentation here for traceability and clarity.
+
+    design:
+      reference_docs:
+        - "docs/knowledge-base/inbox/documents/system-specification.md"
+        - "docs/knowledge-base/inbox/documents/configuration-management.md"
+
+      notes: |
+        Keep this YAML focused on governance, policies, and high-level requirements.
+        Place detailed design information in dedicated documentation files and link them here for maintainability.

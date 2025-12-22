@@ -710,7 +710,7 @@ class BrokerComplianceEngine:
                 "buy_time": buy_time,
                 "sell_time": sell_time,
                 "profit_loss": profit_loss,
-                "timestamp": datetime.utcnow(),
+                "timestamp": datetime.now(UTC),
             }
         )
 

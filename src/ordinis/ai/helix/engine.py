@@ -219,19 +219,26 @@ class Helix(BaseEngine[HelixConfig]):
                 raise ModelNotFoundError(name, available)
             return model
 
-        # Get default for type
+        # Get default for type (use get_model to resolve aliases)
         if model_type == ModelType.EMBEDDING:
-            return self.config.models[self.config.default_embedding_model]
-        return self.config.models[self.config.default_chat_model]
+            resolved = self.config.get_model(self.config.default_embedding_model)
+            if resolved:
+                return resolved
+            raise KeyError(f"Default embedding model '{self.config.default_embedding_model}' not found")
+        resolved = self.config.get_model(self.config.default_chat_model)
+        if resolved:
+            return resolved
+        raise KeyError(f"Default chat model '{self.config.default_chat_model}' not found")
 
     def _get_fallback_model(self, model_type: ModelType) -> ModelInfo | None:
         """Get fallback model for type."""
         if not self.config.allow_fallback:
             return None
 
+        # Use get_model to resolve aliases
         if model_type == ModelType.EMBEDDING:
-            return self.config.models.get(self.config.fallback_embedding_model)
-        return self.config.models.get(self.config.fallback_chat_model)
+            return self.config.get_model(self.config.fallback_embedding_model)
+        return self.config.get_model(self.config.fallback_chat_model)
 
     def _cache_key(self, messages: list[ChatMessage], model: str, **kwargs: Any) -> str:
         """Generate cache key for request."""

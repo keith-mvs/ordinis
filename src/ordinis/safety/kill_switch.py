@@ -24,6 +24,8 @@ import logging
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
+from ordinis.utils.paths import resolve_project_path
+
 if TYPE_CHECKING:
     from ordinis.adapters.storage.database import DatabaseManager
     from ordinis.adapters.storage.repositories.system_state import SystemStateRepository
@@ -98,7 +100,7 @@ class KillSwitch:
         """
         self._db = db
         self._repo = system_state_repo
-        self._kill_file = kill_file or DEFAULT_KILL_FILE
+        self._kill_file = resolve_project_path(kill_file or DEFAULT_KILL_FILE)
         self._daily_loss_limit = daily_loss_limit
         self._max_drawdown_pct = max_drawdown_pct
         self._consecutive_loss_limit = consecutive_loss_limit

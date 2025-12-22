@@ -11,15 +11,9 @@ from datetime import datetime
 
 import pytest
 
-from ordinis.engines.flowroute.core.orders import (
-    ExecutionEvent,
-    Fill,
-    Order,
-    OrderIntent,
-    OrderSide,
-    OrderStatus,
-    OrderType,
-)
+from ordinis.domain.enums import OrderSide, OrderStatus, OrderType
+from ordinis.domain.orders import ExecutionEvent, Fill, Order
+from ordinis.engines.flowroute.core.orders import OrderIntent
 
 
 @pytest.mark.unit

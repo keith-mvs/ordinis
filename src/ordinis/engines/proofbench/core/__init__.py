@@ -13,6 +13,7 @@ from ordinis.engines.proofbench.core.execution import (
     OrderStatus,
     OrderType,
 )
+from ordinis.engines.proofbench.core.models import StrategyProtocol, TradeResult
 from ordinis.engines.proofbench.core.portfolio import Portfolio, Position, PositionSide, Trade
 from ordinis.engines.proofbench.core.simulator import (
     SimulationConfig,
@@ -45,5 +46,8 @@ __all__ = [
     "SimulationConfig",
     "SimulationEngine",
     "SimulationResults",
+    # Models
+    "StrategyProtocol",
     "Trade",
+    "TradeResult",
 ]

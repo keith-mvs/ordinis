@@ -10,8 +10,9 @@ Tests cover:
 
 import pytest
 
+from ordinis.domain.enums import OrderType
+from ordinis.domain.orders import Order
 from ordinis.engines.flowroute.adapters.paper import PaperBrokerAdapter
-from ordinis.engines.flowroute.core.orders import Order, OrderType
 
 
 @pytest.fixture
@@ -35,7 +36,7 @@ async def test_submit_order(paper_broker):
     order = Order(
         order_id="order-001",
         symbol="AAPL",
-        side="buy",
+        side="BUY",
         quantity=100,
         order_type=OrderType.MARKET,
     )
@@ -72,9 +73,9 @@ async def test_get_account(paper_broker):
     """Test getting account information."""
     account = await paper_broker.get_account()
 
-    assert account["cash"] == 100000.0
-    assert account["total_equity"] == 100000.0
-    assert account["positions"] == 0
+    assert account.cash == 100000.0
+    assert account.total_equity == 100000.0
+    assert account.positions == 0
 
 
 @pytest.mark.unit
@@ -83,7 +84,7 @@ def test_simulate_fill_buy(paper_broker):
     order = Order(
         order_id="order-001",
         symbol="AAPL",
-        side="buy",
+        side="BUY",
         quantity=100,
         order_type=OrderType.MARKET,
     )
@@ -112,7 +113,7 @@ def test_simulate_fill_sell(paper_broker):
     buy_order = Order(
         order_id="order-001",
         symbol="AAPL",
-        side="buy",
+        side="BUY",
         quantity=100,
         order_type=OrderType.MARKET,
     )
@@ -122,7 +123,7 @@ def test_simulate_fill_sell(paper_broker):
     sell_order = Order(
         order_id="order-002",
         symbol="AAPL",
-        side="sell",
+        side="SELL",
         quantity=100,
         order_type=OrderType.MARKET,
     )
@@ -146,7 +147,7 @@ def test_simulate_partial_sell(paper_broker):
     buy_order = Order(
         order_id="order-001",
         symbol="AAPL",
-        side="buy",
+        side="BUY",
         quantity=100,
         order_type=OrderType.MARKET,
     )
@@ -156,7 +157,7 @@ def test_simulate_partial_sell(paper_broker):
     sell_order = Order(
         order_id="order-002",
         symbol="AAPL",
-        side="sell",
+        side="SELL",
         quantity=50,
         order_type=OrderType.MARKET,
     )
@@ -174,7 +175,7 @@ def test_multiple_fills_average_price(paper_broker):
     order1 = Order(
         order_id="order-001",
         symbol="AAPL",
-        side="buy",
+        side="BUY",
         quantity=100,
         order_type=OrderType.MARKET,
     )
@@ -184,7 +185,7 @@ def test_multiple_fills_average_price(paper_broker):
     order2 = Order(
         order_id="order-002",
         symbol="AAPL",
-        side="buy",
+        side="BUY",
         quantity=100,
         order_type=OrderType.MARKET,
     )
@@ -202,7 +203,7 @@ def test_get_fills(paper_broker):
     order = Order(
         order_id="order-001",
         symbol="AAPL",
-        side="buy",
+        side="BUY",
         quantity=100,
         order_type=OrderType.MARKET,
     )
@@ -222,7 +223,7 @@ def test_reset(paper_broker):
     order = Order(
         order_id="order-001",
         symbol="AAPL",
-        side="buy",
+        side="BUY",
         quantity=100,
         order_type=OrderType.MARKET,
     )
@@ -243,7 +244,7 @@ async def test_get_positions_with_position(paper_broker):
     order = Order(
         order_id="order-001",
         symbol="AAPL",
-        side="buy",
+        side="BUY",
         quantity=100,
         order_type=OrderType.MARKET,
     )

@@ -94,7 +94,7 @@ class NVIDIAAdapter:
                     model=self._chat_model,
                     nvidia_api_key=self._api_key,
                     temperature=self._temperature,
-                    max_tokens=self._max_tokens,
+                    max_completion_tokens=self._max_tokens,
                     timeout=self._timeout,
                     max_retries=self._max_retries,
                 )

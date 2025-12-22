@@ -18,7 +18,7 @@ import logging
 import pandas as pd
 
 from ordinis.engines.signalcore.core.model import Model, ModelConfig
-from ordinis.engines.signalcore.core.signal import Signal, SignalType
+from ordinis.engines.signalcore.core.signal import Direction, Signal, SignalType
 
 logger = logging.getLogger(__name__)
 
@@ -225,19 +225,20 @@ class MTFMomentumModel(Model):
 
         # LONG: Winner + bullish cross in oversold
         if is_winner and bullish_cross and is_oversold:
-            signal_type = SignalType.BUY
-            direction = 1
+            signal_type = SignalType.ENTRY
+            direction = Direction.LONG
 
         # SHORT: Loser + bearish cross in overbought
         elif is_loser and bearish_cross and is_overbought:
-            signal_type = SignalType.SELL
-            direction = -1
+            signal_type = SignalType.ENTRY
+            direction = Direction.SHORT
 
         if signal_type == SignalType.HOLD:
             return Signal(
-                signal_type=SignalType.HOLD,
                 symbol=symbol,
                 timestamp=timestamp,
+                signal_type=SignalType.HOLD,
+                direction=Direction.NEUTRAL,
                 confidence=0.0,
                 metadata={
                     "momentum": momentum,
@@ -252,7 +253,7 @@ class MTFMomentumModel(Model):
         atr = self._calculate_atr(data)
         current_price = data["close"].iloc[-1]
 
-        if direction > 0:
+        if direction == Direction.LONG:
             stop_loss = current_price - (atr * self.mtf_config.atr_stop_mult)
             take_profit = current_price + (atr * self.mtf_config.atr_tp_mult)
         else:
@@ -264,10 +265,14 @@ class MTFMomentumModel(Model):
         stoch_extremity = abs(stoch_k - 50) / 50
         confidence = 0.5 + 0.25 * momentum_strength + 0.25 * stoch_extremity
 
+        # Store numeric direction in metadata for backwards compat
+        numeric_direction = 1 if direction == Direction.LONG else -1
+
         return Signal(
-            signal_type=signal_type,
             symbol=symbol,
             timestamp=timestamp,
+            signal_type=signal_type,
+            direction=direction,
             confidence=confidence,
             metadata={
                 "strategy": "mtf_momentum",
@@ -278,7 +283,7 @@ class MTFMomentumModel(Model):
                 "bearish_cross": bearish_cross,
                 "is_winner": is_winner,
                 "is_loser": is_loser,
-                "direction": direction,
+                "direction": numeric_direction,
                 "entry_price": current_price,
                 "stop_loss": stop_loss,
                 "take_profit": take_profit,
@@ -391,7 +396,7 @@ def backtest(
 
         # New entry
         if position is None and signal.signal_type != SignalType.HOLD:
-            direction = 1 if signal.signal_type == SignalType.BUY else -1
+            direction = 1 if signal.direction == Direction.LONG else -1
             position = {
                 "entry": current_price,
                 "entry_time": timestamp,

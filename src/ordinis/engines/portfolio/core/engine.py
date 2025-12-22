@@ -454,7 +454,7 @@ class PortfolioEngine(BaseEngine[PortfolioEngineConfig]):
         timestamp = datetime.now(tz=UTC)
 
         # Governance preflight check
-        if self.config.enable_governance and self._governance_hook:
+        if self.config.enable_governance and self._governance:
             context = PreflightContext(
                 operation="generate_rebalancing_decisions",
                 parameters={
@@ -944,7 +944,7 @@ class PortfolioEngine(BaseEngine[PortfolioEngineConfig]):
 
         # Governance preflight
         timestamp = datetime.now(tz=UTC)
-        if self.config.enable_governance and self._governance_hook:
+        if self.config.enable_governance and self._governance:
             context = PreflightContext(
                 operation="generate_rebalance_trades",
                 parameters={

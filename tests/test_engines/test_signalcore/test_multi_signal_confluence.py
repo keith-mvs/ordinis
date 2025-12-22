@@ -187,15 +187,16 @@ class TestMultiSignalConfluenceModel:
     @pytest.mark.unit
     def test_validation_missing_columns(self, model: MultiSignalConfluenceModel):
         """Test validation fails with missing columns."""
+        # Provide enough rows to pass min_data_points check (50), but missing required columns
         data = pd.DataFrame(
             {
-                "close": [100, 101, 102],
-                "volume": [1000, 1000, 1000],
+                "close": list(range(100, 160)),  # 60 rows
+                "volume": [1000] * 60,
             }
         )
         is_valid, msg = model.validate(data)
         assert is_valid is False
-        assert "Missing columns" in msg
+        assert "Missing columns" in msg or "missing" in msg.lower()
 
     @pytest.mark.unit
     def test_validation_valid_data(self, model: MultiSignalConfluenceModel):

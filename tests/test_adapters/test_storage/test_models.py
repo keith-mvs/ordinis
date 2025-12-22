@@ -226,10 +226,12 @@ def test_order_row_from_row():
         "INTENT001",  # intent_id
         "SIG001",  # signal_id
         "STRAT001",  # strategy_id
+        "SESSION001",  # session_id
         "BRK001",  # broker_order_id
         '{"status": "filled"}',  # broker_response
         None,  # error_message
         0,  # retry_count
+        1,  # chroma_synced
         '{"notes": "test"}',  # metadata
         "2025-01-01T10:00:05",  # updated_at
     )
@@ -252,10 +254,12 @@ def test_order_row_from_row():
     assert row.intent_id == "INTENT001"
     assert row.signal_id == "SIG001"
     assert row.strategy_id == "STRAT001"
+    assert row.session_id == "SESSION001"
     assert row.broker_order_id == "BRK001"
     assert row.broker_response == '{"status": "filled"}'
     assert row.error_message is None
     assert row.retry_count == 0
+    assert row.chroma_synced == 1
     assert row.metadata == '{"notes": "test"}'
 
 
@@ -282,18 +286,20 @@ def test_order_row_to_insert_tuple():
         intent_id="INTENT001",
         signal_id="SIG001",
         strategy_id="STRAT001",
+        session_id=None,
         broker_order_id=None,
         broker_response=None,
         error_message=None,
         retry_count=0,
+        chroma_synced=0,
         metadata='{"test": true}',
         updated_at="2025-01-01T10:00:00",
     )
 
     result = row.to_insert_tuple()
 
-    # Should exclude id and updated_at
-    assert len(result) == 23
+    # Should exclude id and updated_at, include session_id and chroma_synced
+    assert len(result) == 25
     assert 999 not in result
     assert result[0] == "ORD001"
     assert result[-1] == '{"test": true}'
@@ -521,6 +527,9 @@ def test_trade_row_from_row():
         "ORD001",  # entry_order_id
         "ORD002",  # exit_order_id
         "STRAT001",  # strategy_id
+        "SESSION001",  # session_id
+        1,  # chroma_synced
+        "CHROMA001",  # chroma_id
         '{"reason": "target"}',  # metadata
         "2025-01-01T11:00:00",  # created_at
     )
@@ -543,6 +552,9 @@ def test_trade_row_from_row():
     assert row.entry_order_id == "ORD001"
     assert row.exit_order_id == "ORD002"
     assert row.strategy_id == "STRAT001"
+    assert row.session_id == "SESSION001"
+    assert row.chroma_synced == 1
+    assert row.chroma_id == "CHROMA001"
     assert row.metadata == '{"reason": "target"}'
     assert row.created_at == "2025-01-01T11:00:00"
 
@@ -567,14 +579,17 @@ def test_trade_row_to_insert_tuple():
         entry_order_id="ORD001",
         exit_order_id="ORD002",
         strategy_id="STRAT001",
+        session_id=None,
+        chroma_synced=0,
+        chroma_id=None,
         metadata='{"reason": "target"}',
         created_at="2025-01-01T11:00:00",
     )
 
     result = row.to_insert_tuple()
 
-    # Should exclude id and created_at
-    assert len(result) == 16
+    # Should exclude id and created_at, include session_id, chroma_synced, chroma_id
+    assert len(result) == 19
     assert 999 not in result
     assert result[0] == "TRADE001"
     assert result[-1] == '{"reason": "target"}'
@@ -845,9 +860,12 @@ def test_order_row_with_all_optional_fields_none():
         intent_id=None,
         signal_id=None,
         strategy_id=None,
+        session_id=None,
         broker_order_id=None,
         broker_response=None,
         error_message=None,
+        retry_count=0,
+        chroma_synced=0,
         metadata=None,
     )
 
@@ -855,8 +873,12 @@ def test_order_row_with_all_optional_fields_none():
     assert row.get_metadata_dict() == {}
 
     # Should still be able to create insert tuple
+    # Includes: order_id, symbol, side, quantity, order_type, limit_price, stop_price,
+    # time_in_force, status, filled_quantity, remaining_quantity, avg_fill_price,
+    # created_at, submitted_at, filled_at, intent_id, signal_id, strategy_id,
+    # session_id, broker_order_id, broker_response, error_message, retry_count, chroma_synced, metadata
     result = row.to_insert_tuple()
-    assert len(result) == 23
+    assert len(result) == 25
 
 
 @pytest.mark.unit

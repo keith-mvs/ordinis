@@ -159,6 +159,9 @@ class FuturesSpec(InstrumentSpec):
     def __post_init__(self) -> None:
         if not self.instrument_type:
             self.instrument_type = InstrumentType.FUTURE
+        # Use contract_size as multiplier for notional value calculations
+        if self.multiplier == Decimal("1") and self.contract_size != Decimal("1"):
+            self.multiplier = self.contract_size
         if self.tick_value == 0 and self.tick_size > 0:
             self.tick_value = self.tick_size * self.contract_size
 

@@ -19,7 +19,7 @@ import numpy as np
 import pandas as pd
 
 from ordinis.engines.signalcore.core.model import Model, ModelConfig
-from ordinis.engines.signalcore.core.signal import Signal, SignalType
+from ordinis.engines.signalcore.core.signal import Direction, Signal, SignalType
 
 logger = logging.getLogger(__name__)
 
@@ -264,29 +264,30 @@ class KalmanHybridModel(Model):
 
         # Determine signal
         signal_type = SignalType.HOLD
-        direction = 0
+        direction = Direction.NEUTRAL
 
         # LONG: Oversold residual in uptrend
         if (
             residual_z < -self.kalman_config.residual_z_entry
             and trend_slope > self.kalman_config.trend_slope_min
         ):
-            signal_type = SignalType.BUY
-            direction = 1
+            signal_type = SignalType.ENTRY
+            direction = Direction.LONG
 
         # SHORT: Overbought residual in downtrend
         elif (
             residual_z > self.kalman_config.residual_z_entry
             and trend_slope < -self.kalman_config.trend_slope_min
         ):
-            signal_type = SignalType.SELL
-            direction = -1
+            signal_type = SignalType.ENTRY
+            direction = Direction.SHORT
 
         if signal_type == SignalType.HOLD:
             return Signal(
-                signal_type=SignalType.HOLD,
                 symbol=symbol,
                 timestamp=timestamp,
+                signal_type=SignalType.HOLD,
+                direction=Direction.NEUTRAL,
                 confidence=0.0,
                 metadata={
                     "residual_z": residual_z,
@@ -299,7 +300,7 @@ class KalmanHybridModel(Model):
         # Calculate ATR for stops
         atr = self._calculate_atr(data)
 
-        if direction > 0:
+        if direction == Direction.LONG:
             stop_loss = current_price - (atr * self.kalman_config.atr_stop_mult)
             take_profit = current_price + (atr * self.kalman_config.atr_tp_mult)
         else:
@@ -308,12 +309,16 @@ class KalmanHybridModel(Model):
 
         # Confidence based on z-score extremity and filter confidence
         z_extremity = min(1.0, abs(residual_z) / 4.0)
-        signal_confidence = 0.4 + 0.3 * z_extremity + 0.3 * min(1.0, confidence / confidence)
+        signal_confidence = 0.4 + 0.3 * z_extremity + 0.3 * min(1.0, confidence)
+
+        # Store numeric direction in metadata for backwards compat
+        numeric_direction = 1 if direction == Direction.LONG else -1
 
         return Signal(
-            signal_type=signal_type,
             symbol=symbol,
             timestamp=timestamp,
+            signal_type=signal_type,
+            direction=direction,
             confidence=signal_confidence,
             metadata={
                 "strategy": "kalman_hybrid",
@@ -321,7 +326,7 @@ class KalmanHybridModel(Model):
                 "trend_slope": trend_slope,
                 "trend_level": trend_level,
                 "kalman_confidence": confidence,
-                "direction": direction,
+                "direction": numeric_direction,
                 "entry_price": current_price,
                 "stop_loss": stop_loss,
                 "take_profit": take_profit,
@@ -470,7 +475,7 @@ def backtest(
 
         # New entry
         if position is None and signal.signal_type != SignalType.HOLD:
-            direction = 1 if signal.signal_type == SignalType.BUY else -1
+            direction = 1 if signal.direction == Direction.LONG else -1
             position = {
                 "entry": current_price,
                 "entry_time": timestamp,

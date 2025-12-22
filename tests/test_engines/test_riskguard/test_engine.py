@@ -151,6 +151,68 @@ def test_evaluate_signal_passes(mock_portfolio, mock_signal):
 
 
 @pytest.mark.unit
+def test_evaluate_signal_reasons_standardized(mock_portfolio, mock_signal):
+    """RiskCheckResult should include standardized identifiers and thresholds."""
+    engine = RiskGuardEngine(rules=STANDARD_RISK_RULES)
+
+    proposed = ProposedTrade(
+        symbol="AAPL",
+        direction="long",
+        quantity=25,
+        entry_price=150.0,
+        stop_price=145.0,
+    )
+
+    passed, results, adjusted = engine.evaluate_signal(mock_signal, proposed, mock_portfolio)
+
+    assert len(results) > 0
+    for result in results:
+        assert result.rule_id
+        assert result.rule_name
+        assert result.comparison
+        assert result.threshold is not None
+        assert result.action_taken
+
+
+@pytest.mark.unit
+def test_evaluate_signal_deterministic(mock_portfolio, mock_signal):
+    """Risk evaluation should be deterministic for fixed inputs."""
+    engine = RiskGuardEngine(rules=STANDARD_RISK_RULES)
+
+    proposed = ProposedTrade(
+        symbol="AAPL",
+        direction="long",
+        quantity=75,
+        entry_price=150.0,
+        stop_price=145.0,
+    )
+
+    first_passed, first_results, _ = engine.evaluate_signal(
+        mock_signal, proposed, mock_portfolio
+    )
+    second_passed, second_results, _ = engine.evaluate_signal(
+        mock_signal, proposed, mock_portfolio
+    )
+
+    def normalize(results):
+        return [
+            (
+                result.rule_id,
+                result.passed,
+                result.current_value,
+                result.threshold,
+                result.comparison,
+                result.action_taken,
+                result.severity,
+                result.message,
+            )
+            for result in results
+        ]
+
+    assert first_passed == second_passed
+    assert normalize(first_results) == normalize(second_results)
+
+@pytest.mark.unit
 def test_evaluate_signal_position_too_large(mock_portfolio, mock_signal):
     """Test signal rejection when position size exceeds limit."""
     engine = RiskGuardEngine(rules=STANDARD_RISK_RULES)

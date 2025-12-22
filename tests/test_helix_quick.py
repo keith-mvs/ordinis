@@ -10,6 +10,7 @@ async def test_basic():
     """Test basic Helix functionality."""
     config = HelixConfig(default_temperature=0.1)
     helix = Helix(config)
+    await helix.initialize()
 
     # Health check
     print("Checking health...")

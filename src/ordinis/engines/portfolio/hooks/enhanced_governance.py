@@ -93,7 +93,7 @@ class SectorConcentrationRule(PortfolioRule):
         Returns:
             Tuple of (passed, reason)
         """
-        params = context.parameters
+        params = context.inputs
         positions = params.get("positions", {})
         prices = params.get("prices", {})
 
@@ -189,7 +189,7 @@ class CorrelationClusterRule(PortfolioRule):
         Returns:
             Tuple of (passed, reason)
         """
-        params = context.parameters
+        params = context.inputs
         positions = params.get("positions", {})
         prices = params.get("prices", {})
 
@@ -303,7 +303,7 @@ class LiquidityAdjustedRule(PortfolioRule):
         Returns:
             Tuple of (passed, reason)
         """
-        params = context.parameters
+        params = context.inputs
         positions = params.get("positions", {})
         prices = params.get("prices", {})
 

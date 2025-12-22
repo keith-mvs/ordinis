@@ -148,8 +148,9 @@ class OrderRepository:
                     order_id, symbol, side, quantity, order_type, limit_price, stop_price,
                     time_in_force, status, filled_quantity, remaining_quantity, avg_fill_price,
                     created_at, submitted_at, filled_at, intent_id, signal_id, strategy_id,
-                    broker_order_id, broker_response, error_message, retry_count, metadata
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    session_id, broker_order_id, broker_response, error_message, retry_count,
+                    chroma_synced, metadata
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """,
                 order.to_insert_tuple(),
             )

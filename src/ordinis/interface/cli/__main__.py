@@ -456,105 +456,105 @@ Examples:
 
         subparsers = parser.add_subparsers(dest="command", help="Available commands")
 
-    # Backtest command
-    backtest_parser = subparsers.add_parser("backtest", help="Run strategy backtest")
-    backtest_parser.add_argument(
-        "--data", required=True, help="Path to CSV file with market data (OHLCV)"
-    )
-    backtest_parser.add_argument(
-        "--strategy",
-        required=True,
-        choices=["rsi", "ma", "momentum"],
-        help="Strategy to backtest",
-    )
-    backtest_parser.add_argument(
-        "--params",
-        nargs="*",
-        help="Strategy parameters (e.g., rsi_period=14 oversold_threshold=30)",
-    )
-    backtest_parser.add_argument(
-        "--capital",
-        type=float,
-        default=100000.0,
-        help="Initial capital (default: 100000)",
-    )
-    backtest_parser.add_argument(
-        "--position-size",
-        type=float,
-        default=0.1,
-        help="Position size as fraction of capital (default: 0.1)",
-    )
-    backtest_parser.add_argument(
-        "--signal-frequency",
-        type=int,
-        default=1,
-        help="Check for signals every N bars (default: 1)",
-    )
-    backtest_parser.add_argument(
-        "--risk-free",
-        type=float,
-        default=0.02,
-        help="Risk-free rate for Sharpe calculation (default: 0.02)",
-    )
-    backtest_parser.add_argument("--ai", action="store_true", help="Enable AI-powered analysis")
-    backtest_parser.add_argument("--nvidia-key", help="NVIDIA API key for AI features")
-    backtest_parser.add_argument(
-        "--suggestions",
-        action="store_true",
-        help="Generate optimization suggestions (requires --ai)",
-    )
-    backtest_parser.add_argument(
-        "--focus",
-        choices=["returns", "risk", "consistency", "general"],
-        default="general",
-        help="Focus area for optimization suggestions",
-    )
-    backtest_parser.add_argument("--output", help="Save results to CSV file")
+        # Backtest command
+        backtest_parser = subparsers.add_parser("backtest", help="Run strategy backtest")
+        backtest_parser.add_argument(
+            "--data", required=True, help="Path to CSV file with market data (OHLCV)"
+        )
+        backtest_parser.add_argument(
+            "--strategy",
+            required=True,
+            choices=["rsi", "ma", "momentum"],
+            help="Strategy to backtest",
+        )
+        backtest_parser.add_argument(
+            "--params",
+            nargs="*",
+            help="Strategy parameters (e.g., rsi_period=14 oversold_threshold=30)",
+        )
+        backtest_parser.add_argument(
+            "--capital",
+            type=float,
+            default=100000.0,
+            help="Initial capital (default: 100000)",
+        )
+        backtest_parser.add_argument(
+            "--position-size",
+            type=float,
+            default=0.1,
+            help="Position size as fraction of capital (default: 0.1)",
+        )
+        backtest_parser.add_argument(
+            "--signal-frequency",
+            type=int,
+            default=1,
+            help="Check for signals every N bars (default: 1)",
+        )
+        backtest_parser.add_argument(
+            "--risk-free",
+            type=float,
+            default=0.02,
+            help="Risk-free rate for Sharpe calculation (default: 0.02)",
+        )
+        backtest_parser.add_argument("--ai", action="store_true", help="Enable AI-powered analysis")
+        backtest_parser.add_argument("--nvidia-key", help="NVIDIA API key for AI features")
+        backtest_parser.add_argument(
+            "--suggestions",
+            action="store_true",
+            help="Generate optimization suggestions (requires --ai)",
+        )
+        backtest_parser.add_argument(
+            "--focus",
+            choices=["returns", "risk", "consistency", "general"],
+            default="general",
+            help="Focus area for optimization suggestions",
+        )
+        backtest_parser.add_argument("--output", help="Save results to CSV file")
 
-    # List strategies command
-    list_parser = subparsers.add_parser("list", help="List available strategies")
+        # List strategies command
+        list_parser = subparsers.add_parser("list", help="List available strategies")
 
-    # Technical analysis command
-    analyze_parser = subparsers.add_parser(
-        "analyze", help="Run Phase 3 technical analysis on OHLCV CSV"
-    )
-    analyze_parser.add_argument(
-        "--data",
-        required=True,
-        help="Path to CSV file with OHLCV data (requires timestamp/date index column)",
-    )
-    analyze_parser.add_argument(
-        "--breakout-lookback",
-        type=int,
-        default=20,
-        help="Lookback window for breakout detection (default: 20)",
-    )
-    analyze_parser.add_argument(
-        "--breakout-volume-mult",
-        type=float,
-        default=1.5,
-        help="Volume multiplier for breakout confirmation (default: 1.5x)",
-    )
-    analyze_parser.add_argument(
-        "--save-ichimoku",
-        help="Optional path to save Ichimoku cloud HTML plot",
-    )
+        # Technical analysis command
+        analyze_parser = subparsers.add_parser(
+            "analyze", help="Run Phase 3 technical analysis on OHLCV CSV"
+        )
+        analyze_parser.add_argument(
+            "--data",
+            required=True,
+            help="Path to CSV file with OHLCV data (requires timestamp/date index column)",
+        )
+        analyze_parser.add_argument(
+            "--breakout-lookback",
+            type=int,
+            default=20,
+            help="Lookback window for breakout detection (default: 20)",
+        )
+        analyze_parser.add_argument(
+            "--breakout-volume-mult",
+            type=float,
+            default=1.5,
+            help="Volume multiplier for breakout confirmation (default: 1.5x)",
+        )
+        analyze_parser.add_argument(
+            "--save-ichimoku",
+            help="Optional path to save Ichimoku cloud HTML plot",
+        )
 
-    # Parse arguments
-    args = parser.parse_args()
+        # Parse arguments
+        args = parser.parse_args()
 
-    # Execute command
-    result = 0
-    if args.command == "backtest":
-        result = run_backtest(args)
-    elif args.command == "list":
-        result = list_strategies(args)
-    elif args.command == "analyze":
-        result = analyze_market(args)
-    else:
-        parser.print_help()
+        # Execute command
+        result = 0
+        if args.command == "backtest":
+            result = run_backtest(args)
+        elif args.command == "list":
+            result = list_strategies(args)
+        elif args.command == "analyze":
+            result = analyze_market(args)
+        else:
+            parser.print_help()
 
-    return result
+        return result
 
     finally:
         # Shutdown tracing gracefully

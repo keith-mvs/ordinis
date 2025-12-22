@@ -70,7 +70,7 @@ class NVIDIAProvider(BaseProvider):
                 model=model.model_id,
                 nvidia_api_key=self._api_key,
                 temperature=model.default_temperature,
-                max_tokens=model.max_output_tokens,
+                max_completion_tokens=model.max_output_tokens,
             )
         except ImportError as e:
             msg = "NVIDIA SDK not installed. Run: pip install langchain-nvidia-ai-endpoints"
@@ -115,11 +115,11 @@ class NVIDIAProvider(BaseProvider):
         try:
             client = self._ensure_chat_client(model)
 
-            # Override temperature/max_tokens if specified
+            # Override temperature/max_completion_tokens if specified
             if temperature is not None:
                 client.temperature = temperature
             if max_tokens is not None:
-                client.max_tokens = max_tokens
+                client.max_completion_tokens = max_tokens
 
             # Convert messages to langchain format
             langchain_messages = [msg.to_dict() for msg in messages]

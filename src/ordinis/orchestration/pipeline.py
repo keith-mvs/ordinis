@@ -8,7 +8,8 @@ from dataclasses import dataclass
 from datetime import datetime
 
 from ordinis.engines.flowroute.core.engine import FlowRouteEngine
-from ordinis.engines.flowroute.core.orders import Order, OrderSide
+from ordinis.domain.enums import OrderSide
+from ordinis.domain.orders import Order
 from ordinis.engines.portfolio.engine import RebalancingEngine
 from ordinis.engines.riskguard.core.engine import (
     PortfolioState,

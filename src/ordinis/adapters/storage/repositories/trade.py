@@ -135,8 +135,9 @@ class TradeRepository:
                 INSERT INTO trades (
                     trade_id, symbol, side, entry_time, exit_time, entry_price,
                     exit_price, quantity, pnl, pnl_pct, commission, duration_seconds,
-                    entry_order_id, exit_order_id, strategy_id, metadata
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    entry_order_id, exit_order_id, strategy_id, session_id,
+                    chroma_synced, chroma_id, metadata
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """,
                 trade.to_insert_tuple(),
             )

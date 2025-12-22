@@ -515,13 +515,14 @@ class FlowRouteEngine:
             return False, order.error_message
 
         # Estimate order cost (quantity * limit_price or use a reasonable estimate)
-        price_estimate = order.limit_price or Decimal("0")
-        if price_estimate == Decimal("0"):
+        if order.limit_price:
+            price_estimate = Decimal(str(order.limit_price))
+        else:
             # For market orders without price, we need to estimate
             # Use last known price from position or skip validation
             existing_pos = self._positions.get(order.symbol)
             if existing_pos:
-                price_estimate = existing_pos.avg_entry_price
+                price_estimate = Decimal(str(existing_pos.avg_entry_price))
             else:
                 # Query current price would add latency; for now use conservative estimate
                 # In production, this should fetch current market price

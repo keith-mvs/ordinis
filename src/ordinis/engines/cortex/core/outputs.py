@@ -7,7 +7,9 @@ All Cortex outputs are advisory and must be validated before use.
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
-from typing import Any
+from typing import Any, Literal
+
+from pydantic import BaseModel, Field
 
 
 class OutputType(Enum):
@@ -20,6 +22,110 @@ class OutputType(Enum):
     REVIEW = "review"  # Review of engine outputs
     CODE_ANALYSIS = "code_analysis"  # Code analysis and suggestions
     MARKET_INSIGHT = "market_insight"  # Market condition analysis
+
+
+# --- Pydantic Models for Structured LLM Output ---
+
+
+class StructuredHypothesis(BaseModel):
+    """
+    Pydantic model for structured LLM hypothesis output.
+    
+    Used with LangChain's with_structured_output for JSON mode.
+    """
+    
+    name: str = Field(
+        ..., 
+        description="Short name for the strategy hypothesis",
+        min_length=3,
+        max_length=100,
+    )
+    description: str = Field(
+        ..., 
+        description="Detailed description of the trading strategy",
+        min_length=10,
+        max_length=1000,
+    )
+    rationale: str = Field(
+        ..., 
+        description="Reasoning behind the strategy based on market conditions",
+        min_length=10,
+        max_length=2000,
+    )
+    
+    # Strategy classification
+    instrument_class: Literal["equity", "options", "futures", "forex", "crypto"] = Field(
+        default="equity",
+        description="Asset class for the strategy",
+    )
+    time_horizon: Literal["intraday", "swing", "position", "long_term"] = Field(
+        default="swing",
+        description="Trading time horizon",
+    )
+    strategy_type: Literal["mean_reversion", "trend_following", "momentum", "arbitrage", "adaptive"] = Field(
+        default="adaptive",
+        description="Core strategy type",
+    )
+    
+    # Entry/exit conditions
+    entry_conditions: list[str] = Field(
+        default_factory=list,
+        description="List of conditions that must be met to enter a trade",
+        min_length=1,
+        max_length=10,
+    )
+    exit_conditions: list[str] = Field(
+        default_factory=list,
+        description="List of conditions that trigger trade exit",
+        min_length=1,
+        max_length=10,
+    )
+    
+    # Risk parameters
+    max_position_size_pct: float = Field(
+        default=5.0,
+        description="Maximum position size as percentage of portfolio",
+        ge=0.1,
+        le=25.0,
+    )
+    stop_loss_pct: float = Field(
+        default=2.0,
+        description="Stop loss percentage from entry price",
+        ge=0.1,
+        le=50.0,
+    )
+    take_profit_pct: float | None = Field(
+        default=None,
+        description="Take profit percentage from entry price",
+        ge=0.1,
+        le=100.0,
+    )
+    
+    # Performance expectations
+    expected_sharpe: float | None = Field(
+        default=None,
+        description="Expected Sharpe ratio",
+        ge=-5.0,
+        le=10.0,
+    )
+    expected_win_rate: float | None = Field(
+        default=None,
+        description="Expected win rate (0.0 to 1.0)",
+        ge=0.0,
+        le=1.0,
+    )
+    confidence: float = Field(
+        default=0.5,
+        description="Confidence level in the hypothesis (0.0 to 1.0)",
+        ge=0.0,
+        le=1.0,
+    )
+    
+    # Additional parameters
+    parameters: dict[str, Any] = Field(
+        default_factory=dict,
+        description="Strategy-specific parameters like lookback periods, thresholds",
+    )
 
 
 @dataclass

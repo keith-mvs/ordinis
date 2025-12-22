@@ -161,13 +161,12 @@ class TestRegimeHook:
         hook.set_regime(MarketRegime.TRENDING_UP, confidence=0.8)
 
         context = PreflightContext(
-            operation="generate_signal",
-            parameters={"symbol": "AAPL"},
-            timestamp=datetime.now(UTC),
+            engine="signalcore",
+            action="generate_signal",
+            inputs={"symbol": "AAPL", "direction": "long"},
             trace_id="test-1",
+            metadata={"timestamp": datetime.now(UTC)},
         )
-        context.action = "generate_signal"
-        context.inputs = {"symbol": "AAPL", "direction": "long"}
 
         result = await hook.preflight(context)
 
@@ -183,13 +182,12 @@ class TestRegimeHook:
         hook.set_regime(MarketRegime.RISK_OFF, confidence=0.9)
 
         context = PreflightContext(
-            operation="generate_signal",
-            parameters={"symbol": "AAPL"},
-            timestamp=datetime.now(UTC),
+            engine="signalcore",
+            action="generate_signal",
+            inputs={"symbol": "AAPL"},
             trace_id="test-2",
+            metadata={"timestamp": datetime.now(UTC)},
         )
-        context.action = "generate_signal"
-        context.inputs = {"symbol": "AAPL"}
 
         result = await hook.preflight(context)
 
@@ -369,12 +367,12 @@ class TestDrawdownHook:
         from ordinis.engines.base.hooks import Decision, PreflightContext
 
         context = PreflightContext(
-            operation="calculate_position_size",
-            parameters={},
-            timestamp=datetime.now(UTC),
+            engine="signalcore",
+            action="calculate_position_size",
+            inputs={},
             trace_id="test-1",
+            metadata={"timestamp": datetime.now(UTC)},
         )
-        context.action = "calculate_position_size"
 
         result = await hook.preflight(context)
 

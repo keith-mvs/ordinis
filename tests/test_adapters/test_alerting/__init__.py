@@ -1,1 +1,1 @@
-"""Tests for alerting adapters."""
+"""Tests for alerting module."""

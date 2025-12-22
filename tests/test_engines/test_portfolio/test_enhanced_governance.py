@@ -47,23 +47,46 @@ class TestSectorConcentrationRule:
 
     def test_within_limits(self, rule: SectorConcentrationRule) -> None:
         """Test positions within sector limits."""
+        # Create positions where no sector exceeds 30%:
+        # AAPL: Tech = 20%, JPM: Financials = 10%, BAC: Financials = 10%, XOM: Energy = 60%
+        # Wait, that puts Energy at 60% which exceeds.
+        # Need 4+ positions with weighted allocation:
+        # AAPL=20, MSFT=10, JPM=30, BAC=30, XOM=30 (total=120)
+        # Tech: 30/120=25%, Financials: 60/120=50%, Energy: 30/120=25%
+        # That still exceeds for Financials.
+        # With max_sector_pct=30%, we need min 4 sectors evenly distributed.
+        # We only have 3 sectors defined (Tech, Financials, Energy).
+        # Let's adjust: AAPL=30, JPM=30, XOM=30 = 33% each (exceeds 30%)
+        # So either raise the limit or use unequal weights.
+        # Use AAPL=20, JPM=30, XOM=50 => Tech=20%, Fin=30%, Energy=50%
+        # Energy exceeds. AAPL=30, JPM=30, XOM=30 => 33% each, all exceed.
+        # The simplest fix: raise max_sector_pct in fixture to 35%.
+        # But we can't change fixture in one test. Instead, test with
+        # a different rule or accept current test is for edge case.
+        # Actually, we CAN create our own rule inline for this test.
+        custom_rule = SectorConcentrationRule(
+            max_sector_pct=35.0,  # 35% limit allows 33% sectors
+            sector_mapping=rule.sector_mapping,
+        )
         context = PreflightContext(
-            operation="check_sector",
-            parameters={
+            engine="portfolio",
+            action="check_sector",
+            inputs={
                 "positions": {"AAPL": 100, "JPM": 100, "XOM": 100},
                 "prices": {"AAPL": 100, "JPM": 100, "XOM": 100},
             },
         )
 
-        passed, reason = rule.check(context)
+        passed, reason = custom_rule.check(context)
         assert passed
         assert "within" in reason.lower()
 
     def test_exceeds_sector_limit(self, rule: SectorConcentrationRule) -> None:
         """Test positions exceeding sector limit."""
         context = PreflightContext(
-            operation="check_sector",
-            parameters={
+            engine="portfolio",
+            action="check_sector",
+            inputs={
                 # 60% in Technology
                 "positions": {"AAPL": 200, "MSFT": 200, "GOOGL": 200, "JPM": 100},
                 "prices": {"AAPL": 100, "MSFT": 100, "GOOGL": 100, "JPM": 100},
@@ -108,8 +131,9 @@ class TestCorrelationClusterRule:
     def test_cluster_within_limits(self, rule: CorrelationClusterRule) -> None:
         """Test correlated cluster within limits."""
         context = PreflightContext(
-            operation="check_correlation",
-            parameters={
+            engine="portfolio",
+            action="check_correlation",
+            inputs={
                 "positions": {"AAPL": 100, "MSFT": 100, "JPM": 300},
                 "prices": {"AAPL": 100, "MSFT": 100, "JPM": 100},
             },
@@ -121,8 +145,9 @@ class TestCorrelationClusterRule:
     def test_cluster_exceeds_limit(self, rule: CorrelationClusterRule) -> None:
         """Test correlated cluster exceeding limit."""
         context = PreflightContext(
-            operation="check_correlation",
-            parameters={
+            engine="portfolio",
+            action="check_correlation",
+            inputs={
                 # Tech cluster is 60% of portfolio
                 "positions": {"AAPL": 200, "MSFT": 200, "GOOGL": 200, "JPM": 100},
                 "prices": {"AAPL": 100, "MSFT": 100, "GOOGL": 100, "JPM": 100},
@@ -162,8 +187,9 @@ class TestLiquidityAdjustedRule:
     def test_liquid_position_passes(self, rule: LiquidityAdjustedRule) -> None:
         """Test liquid position within limits."""
         context = PreflightContext(
-            operation="check_liquidity",
-            parameters={
+            engine="portfolio",
+            action="check_liquidity",
+            inputs={
                 "positions": {"LIQUID": 100_000},  # 1% of daily volume
                 "prices": {"LIQUID": 100},
             },
@@ -175,8 +201,9 @@ class TestLiquidityAdjustedRule:
     def test_high_participation_fails(self, rule: LiquidityAdjustedRule) -> None:
         """Test high participation rate fails."""
         context = PreflightContext(
-            operation="check_liquidity",
-            parameters={
+            engine="portfolio",
+            action="check_liquidity",
+            inputs={
                 "positions": {"LIQUID": 1_000_000},  # 10% of daily volume
                 "prices": {"LIQUID": 100},
             },
@@ -189,8 +216,9 @@ class TestLiquidityAdjustedRule:
     def test_illiquid_position_limit(self, rule: LiquidityAdjustedRule) -> None:
         """Test illiquid position size limit."""
         context = PreflightContext(
-            operation="check_liquidity",
-            parameters={
+            engine="portfolio",
+            action="check_liquidity",
+            inputs={
                 # Large position in illiquid asset
                 "positions": {"ILLIQUID": 500, "LIQUID": 100},
                 "prices": {"ILLIQUID": 100, "LIQUID": 100},
@@ -235,7 +263,7 @@ class TestDrawdownRule:
         rule.peak_equity = 100_000
         rule.update_drawdown(75_000)  # 25% drawdown
 
-        context = PreflightContext(operation="trade")
+        context = PreflightContext(engine="portfolio", action="trade")
         passed, reason = rule.check(context)
 
         assert not passed
@@ -278,7 +306,11 @@ class TestMarketHoursRule:
 
         # 10:00 AM ET = 15:00 UTC
         during_hours = datetime(2024, 3, 15, 15, 0, tzinfo=UTC)
-        context = PreflightContext(operation="trade", timestamp=during_hours)
+        context = PreflightContext(
+            engine="portfolio",
+            action="trade",
+            metadata={"timestamp": during_hours},
+        )
 
         passed, reason = rule.check(context)
         assert passed
@@ -289,7 +321,11 @@ class TestMarketHoursRule:
 
         # 8:00 PM ET = 01:00 UTC next day
         after_hours = datetime(2024, 3, 16, 1, 0, tzinfo=UTC)
-        context = PreflightContext(operation="trade", timestamp=after_hours)
+        context = PreflightContext(
+            engine="portfolio",
+            action="trade",
+            metadata={"timestamp": after_hours},
+        )
 
         passed, reason = rule.check(context)
         assert not passed

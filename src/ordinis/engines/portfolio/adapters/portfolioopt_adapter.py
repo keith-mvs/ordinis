@@ -55,6 +55,19 @@ class DriftBandConfig:
     threshold_pct: float = 5.0  # 5% absolute drift
     cooldown_days: int = 7
 
+    @classmethod
+    def alpaca_default(cls) -> "DriftBandConfig":
+        """Create Alpaca-style default configuration.
+
+        Returns:
+            DriftBandConfig with relative drift, 5% threshold, 7-day cooldown.
+        """
+        return cls(
+            drift_type=DriftType.RELATIVE,
+            threshold_pct=5.0,
+            cooldown_days=7,
+        )
+
 
 @dataclass
 class CalendarConfig:

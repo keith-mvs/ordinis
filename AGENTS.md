@@ -30,3 +30,7 @@
 ## Security & Configuration Tips
 - Copy `.env.example` to `.env` and inject API keys locally; keep secrets and datasets out of Git.
 - Use `configs/dev.yaml` for local runs; enable live-trading adapters only with explicit credentials and governance checks in place.
+- Use `governance.yml` to define and enforce risk parameters throughout the development lifecycle of the artificial intelligence system, Ordinis. This configuration establishes clear boundaries for safety, compliance, and decision-
+making, ensuring that system behavior aligns with organizational and regulatory expectations from design through
+deployment.
+

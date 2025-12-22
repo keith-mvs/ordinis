@@ -14,6 +14,7 @@ from ordinis.engines.portfolio import (
     EventHooks,
     FlowRouteAdapter,
     FlowRouteOrderRequest,
+    PortfolioEngineConfig,
     ProofBenchAdapter,
     RebalanceEvent,
     RebalanceEventType,
@@ -245,52 +246,55 @@ class TestRebalancingEngineWithEvents:
         """Fixture: Sample prices."""
         return {"AAPL": 200.0, "MSFT": 300.0, "GOOGL": 500.0}
 
-    def test_engine_emits_rebalance_started(self, target_strategy, sample_positions, sample_prices):
+    @pytest.mark.asyncio
+    async def test_engine_emits_rebalance_started(self, target_strategy, sample_positions, sample_prices):
         """Test engine emits REBALANCE_STARTED event."""
-        hooks = EventHooks()
         events_received = []
-        hooks.register(RebalanceEventType.REBALANCE_STARTED, lambda e: events_received.append(e))
 
-        engine = RebalancingEngine(event_hooks=hooks)
+        config = PortfolioEngineConfig(enable_governance=False)
+        engine = RebalancingEngine(config)
+        engine.event_hooks.register(RebalanceEventType.REBALANCE_STARTED, lambda e: events_received.append(e))
         engine.register_strategy(StrategyType.TARGET_ALLOCATION, target_strategy)
 
-        engine.generate_rebalancing_decisions(sample_positions, sample_prices)
+        await engine.generate_rebalancing_decisions(sample_positions, sample_prices)
 
         assert len(events_received) == 1
         assert events_received[0].event_type == RebalanceEventType.REBALANCE_STARTED
 
-    def test_engine_emits_decisions_generated(
+    @pytest.mark.asyncio
+    async def test_engine_emits_decisions_generated(
         self, target_strategy, sample_positions, sample_prices
     ):
         """Test engine emits DECISIONS_GENERATED event."""
-        hooks = EventHooks()
         events_received = []
-        hooks.register(RebalanceEventType.DECISIONS_GENERATED, lambda e: events_received.append(e))
 
-        engine = RebalancingEngine(event_hooks=hooks)
+        config = PortfolioEngineConfig(enable_governance=False)
+        engine = RebalancingEngine(config)
+        engine.event_hooks.register(RebalanceEventType.DECISIONS_GENERATED, lambda e: events_received.append(e))
         engine.register_strategy(StrategyType.TARGET_ALLOCATION, target_strategy)
 
-        engine.generate_rebalancing_decisions(sample_positions, sample_prices)
+        await engine.generate_rebalancing_decisions(sample_positions, sample_prices)
 
         assert len(events_received) == 1
         assert events_received[0].event_type == RebalanceEventType.DECISIONS_GENERATED
 
-    def test_engine_emits_execution_events(self, target_strategy, sample_positions, sample_prices):
+    @pytest.mark.asyncio
+    async def test_engine_emits_execution_events(self, target_strategy, sample_positions, sample_prices):
         """Test engine emits execution events."""
-        hooks = EventHooks()
         events_received = []
-        hooks.register_global(lambda e: events_received.append(e))
 
-        engine = RebalancingEngine(event_hooks=hooks)
+        config = PortfolioEngineConfig(enable_governance=False)
+        engine = RebalancingEngine(config)
+        engine.event_hooks.register_global(lambda e: events_received.append(e))
         engine.register_strategy(StrategyType.TARGET_ALLOCATION, target_strategy)
 
-        decisions = engine.generate_rebalancing_decisions(sample_positions, sample_prices)
+        decisions = await engine.generate_rebalancing_decisions(sample_positions, sample_prices)
 
         # Execute decisions
         def success_callback(decision):
             return (True, None)
 
-        engine.execute_rebalancing(decisions, execution_callback=success_callback)
+        await engine.execute_rebalancing(decisions, execution_callback=success_callback)
 
         # Should have: REBALANCE_STARTED, DECISIONS_GENERATED, EXECUTION_STARTED,
         # ORDER_EXECUTED (x3), REBALANCE_COMPLETED
@@ -315,22 +319,23 @@ class TestRebalancingEngineWithEvents:
             == 1
         )
 
-    def test_engine_emits_order_failed(self, target_strategy, sample_positions, sample_prices):
+    @pytest.mark.asyncio
+    async def test_engine_emits_order_failed(self, target_strategy, sample_positions, sample_prices):
         """Test engine emits ORDER_FAILED events."""
-        hooks = EventHooks()
         failed_events = []
-        hooks.register(RebalanceEventType.ORDER_FAILED, lambda e: failed_events.append(e))
 
-        engine = RebalancingEngine(event_hooks=hooks)
+        config = PortfolioEngineConfig(enable_governance=False)
+        engine = RebalancingEngine(config)
+        engine.event_hooks.register(RebalanceEventType.ORDER_FAILED, lambda e: failed_events.append(e))
         engine.register_strategy(StrategyType.TARGET_ALLOCATION, target_strategy)
 
-        decisions = engine.generate_rebalancing_decisions(sample_positions, sample_prices)
+        decisions = await engine.generate_rebalancing_decisions(sample_positions, sample_prices)
 
         # Failing callback
         def failing_callback(decision):
             return (False, "Order rejected")
 
-        engine.execute_rebalancing(decisions, execution_callback=failing_callback)
+        await engine.execute_rebalancing(decisions, execution_callback=failing_callback)
 
         assert len(failed_events) == 3  # All 3 orders failed
 
@@ -338,15 +343,11 @@ class TestRebalancingEngineWithEvents:
 class TestSignalCoreAdapter:
     """Tests for SignalCore integration adapter."""
 
+    @pytest.mark.skip(reason="SignalCore availability check removed - adapter always available")
     def test_adapter_imports_fail_without_signalcore(self, monkeypatch):
         """Test adapter raises ImportError without SignalCore."""
-        # Mock the import check
-        import ordinis.engines.portfolio.adapters
-
-        monkeypatch.setattr(ordinis.engines.portfolio.adapters, "SIGNALCORE_AVAILABLE", False)
-
-        with pytest.raises(ImportError, match="SignalCore not available"):
-            SignalCoreAdapter()
+        # Legacy test - adapter no longer has availability checking
+        pass
 
     def test_convert_signal(self):
         """Test converting SignalCore signal to SignalInput."""
@@ -486,15 +487,11 @@ class TestSignalCoreAdapter:
 class TestProofBenchAdapter:
     """Tests for ProofBench integration adapter."""
 
+    @pytest.mark.skip(reason="ProofBench availability check removed - adapter always available")
     def test_adapter_imports_fail_without_proofbench(self, monkeypatch):
         """Test adapter raises ImportError without ProofBench."""
-        import ordinis.engines.portfolio.adapters
-
-        monkeypatch.setattr(ordinis.engines.portfolio.adapters, "PROOFBENCH_AVAILABLE", False)
-
-        hooks = EventHooks()
-        with pytest.raises(ImportError, match="ProofBench not available"):
-            ProofBenchAdapter(hooks)
+        # Legacy test - adapter no longer has availability checking
+        pass
 
     def test_emit_rebalance_started(self):
         """Test emitting rebalance started event."""

@@ -22,6 +22,7 @@ from ordinis.engines.base import (
 )
 from ordinis.engines.proofbench.core.config import ProofBenchEngineConfig
 from ordinis.engines.proofbench.core.execution import Order
+from ordinis.engines.proofbench.core.models import TradeResult
 from ordinis.engines.proofbench.core.simulator import (
     SimulationConfig,
     SimulationEngine,
@@ -68,6 +69,7 @@ class ProofBenchEngine(BaseEngine[ProofBenchEngineConfig]):
         self._last_backtest: datetime | None = None
         self._backtests_run: int = 0
         self._last_results: SimulationResults | None = None
+        self._trade_history: list[TradeResult] = []
 
     async def _do_initialize(self) -> None:
         """Initialize ProofBench engine resources."""
@@ -186,7 +188,7 @@ class ProofBenchEngine(BaseEngine[ProofBenchEngineConfig]):
         timestamp = datetime.now(UTC)
 
         # Governance preflight check
-        if self.config.enable_governance and self._governance_hook:
+        if self.config.enable_governance and self._governance:
             context = PreflightContext(
                 operation="run_backtest",
                 parameters={
@@ -300,4 +302,97 @@ class ProofBenchEngine(BaseEngine[ProofBenchEngineConfig]):
                 }
             )
 
+        return metrics
+
+    @property
+    def trade_history(self) -> list[TradeResult]:
+        """Get recorded trade history.
+
+        Returns:
+            List of TradeResult objects
+        """
+        return self._trade_history
+
+    async def record(self, trade_results: list[dict[str, Any]]) -> None:
+        """Record trade results for analytics.
+
+        Args:
+            trade_results: List of trade result dictionaries with keys:
+                symbol, side, quantity, price, timestamp, order_id, pnl (optional), fees (optional)
+        """
+        if not self.config.enabled:
+            return
+
+        for result in trade_results:
+            trade = TradeResult(
+                symbol=result.get("symbol", ""),
+                side=result.get("side", "buy"),
+                quantity=result.get("quantity", 0),
+                price=result.get("price", 0.0),
+                timestamp=result.get("timestamp", datetime.now(UTC)),
+                order_id=result.get("order_id", ""),
+                fees=result.get("fees", 0.0),
+                pnl=result.get("pnl"),
+            )
+            self._trade_history.append(trade)
+
+    def calculate_metrics(self) -> dict[str, float]:
+        """Calculate performance metrics from recorded trades.
+
+        Returns:
+            Dictionary with trade_count, total_pnl, win_rate, sharpe_ratio, max_drawdown
+        """
+        if not self._trade_history:
+            return {
+                "trade_count": 0,
+                "total_pnl": 0.0,
+                "win_rate": 0.0,
+                "sharpe_ratio": 0.0,
+                "max_drawdown": 0.0,
+            }
+
+        # Calculate basic metrics from trade history
+        pnls = [t.pnl for t in self._trade_history if t.pnl is not None]
+        total_pnl = sum(pnls) if pnls else 0.0
+        winners = [p for p in pnls if p > 0]
+        win_rate = len(winners) / len(pnls) if pnls else 0.0
+
+        # Calculate Sharpe ratio (simplified: assume daily returns)
+        import numpy as np
+
+        if len(pnls) > 1:
+            pnl_array = np.array(pnls)
+            sharpe_ratio = float(
+                (pnl_array.mean() / pnl_array.std()) * np.sqrt(252)
+                if pnl_array.std() > 0
+                else 0.0
+            )
+        else:
+            sharpe_ratio = 0.0
+
+        # Calculate max drawdown from cumulative PnL
+        if pnls:
+            cumulative = np.cumsum(pnls)
+            running_max = np.maximum.accumulate(cumulative)
+            drawdowns = running_max - cumulative
+            max_drawdown = float(drawdowns.max()) if len(drawdowns) > 0 else 0.0
+        else:
+            max_drawdown = 0.0
+
+        return {
+            "trade_count": len(self._trade_history),
+            "total_pnl": total_pnl,
+            "win_rate": win_rate,
+            "sharpe_ratio": sharpe_ratio,
+            "max_drawdown": max_drawdown,
+        }
+
+    def get_performance_summary(self) -> dict[str, Any]:
+        """Get a complete performance summary.
+
+        Returns:
+            Dictionary with all metrics plus timestamp
+        """
+        metrics = self.calculate_metrics()
+        metrics["timestamp"] = datetime.now(UTC).isoformat()
         return metrics

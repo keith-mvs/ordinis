@@ -21,9 +21,7 @@
       "Bash(if not exist logs mkdir logs)",
       "Bash(C:Userskjfle.condaenvsordinis-dev-1python.exe -m pip install alpaca-trade-api)",
       "Bash(pwsh -NoProfile -Command \"Write-Host \\([Environment]::GetEnvironmentVariable\\(''GITHUB_TOKEN'', ''User''\\).Length\\)\")",
-      "mcp__github__list_issues",
       "mcp__filesystem__list_allowed_directories",
-      "mcp__github__issue_write",
       "mcp__filesystem__write_file"
     ],
     "deny": [],
@@ -31,7 +29,6 @@
   },
   "enableAllProjectMcpServers": true,
   "enabledMcpjsonServers": [
-    "GitHub",
     "Microsoft Learn"
   ],
   "remote": {
