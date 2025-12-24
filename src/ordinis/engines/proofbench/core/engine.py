@@ -12,7 +12,6 @@ from typing import Any
 import pandas as pd
 
 from ordinis.engines.base import (
-    AuditRecord,
     BaseEngine,
     EngineMetrics,
     GovernanceHook,
