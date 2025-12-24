@@ -1,6 +1,15 @@
 """Quick test of Helix for development tasks."""
 
 import asyncio
+import os
+
+import pytest
+
+
+pytestmark = pytest.mark.skipif(
+    os.getenv("ORDINIS_RUN_LIVE_LLM_TESTS") != "1",
+    reason="Live LLM/provider test (set ORDINIS_RUN_LIVE_LLM_TESTS=1 to enable)",
+)
 
 from ordinis.ai.helix.config import HelixConfig
 from ordinis.ai.helix.engine import Helix

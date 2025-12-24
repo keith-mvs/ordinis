@@ -21,7 +21,7 @@ import numpy as np
 import pandas as pd
 
 from ordinis.engines.signalcore.core.model import Model, ModelConfig
-from ordinis.engines.signalcore.core.signal import Signal, SignalType
+from ordinis.engines.signalcore.core.signal import Direction, Signal, SignalType
 
 logger = logging.getLogger(__name__)
 
@@ -531,37 +531,47 @@ class HMMRegimeModel(Model):
 
         # Determine signal based on regime
         signal_type = SignalType.HOLD
-        direction = 0
+        direction = Direction.NEUTRAL
         position_mult = 1.0
+        score = 0.0
 
         if regime == MarketRegime.BULL:
             # Momentum long in uptrend
             if trend >= 0 and rsi > 50:
-                signal_type = SignalType.BUY
-                direction = 1
+                signal_type = SignalType.ENTRY
+                direction = Direction.LONG
+                score = 0.6
 
         elif regime == MarketRegime.BEAR:
             # Conservative: reduce exposure or short on weakness
             position_mult = self.hmm_config.bear_position_mult
             if trend < 0 and rsi < 45:
-                signal_type = SignalType.SELL
-                direction = -1
+                signal_type = SignalType.ENTRY
+                direction = Direction.SHORT
+                score = -0.6
 
         elif regime == MarketRegime.NEUTRAL:
             # Mean reversion in neutral regime
             if self.hmm_config.regime_mr_neutral:
                 if rsi < self.hmm_config.rsi_oversold:
-                    signal_type = SignalType.BUY
-                    direction = 1
+                    signal_type = SignalType.ENTRY
+                    direction = Direction.LONG
+                    score = 0.5
                 elif rsi > self.hmm_config.rsi_overbought:
-                    signal_type = SignalType.SELL
-                    direction = -1
+                    signal_type = SignalType.ENTRY
+                    direction = Direction.SHORT
+                    score = -0.5
 
         if signal_type == SignalType.HOLD:
             return Signal(
-                signal_type=SignalType.HOLD,
                 symbol=symbol,
                 timestamp=timestamp,
+                signal_type=SignalType.HOLD,
+                direction=Direction.NEUTRAL,
+                probability=0.0,
+                score=0.0,
+                model_id=self.config.model_id,
+                model_version=self.config.version,
                 confidence=0.0,
                 metadata={
                     "regime": regime.name,
@@ -575,7 +585,7 @@ class HMMRegimeModel(Model):
         # Calculate stops
         atr = self._calculate_atr(data)
 
-        if direction > 0:
+        if direction == Direction.LONG:
             stop_loss = current_price - (atr * self.hmm_config.atr_stop_mult)
             take_profit = current_price + (atr * self.hmm_config.atr_tp_mult)
         else:
@@ -588,9 +598,14 @@ class HMMRegimeModel(Model):
         confidence = 0.6 * regime_confidence + 0.4 * duration_confidence
 
         return Signal(
-            signal_type=signal_type,
             symbol=symbol,
             timestamp=timestamp,
+            signal_type=signal_type,
+            direction=direction,
+            probability=confidence,
+            score=float(score),
+            model_id=self.config.model_id,
+            model_version=self.config.version,
             confidence=confidence,
             metadata={
                 "strategy": "hmm_regime",
@@ -599,7 +614,7 @@ class HMMRegimeModel(Model):
                 "regime_duration": regime_state.regime_duration,
                 "transition_prob_bull": regime_state.transition_prob_bull,
                 "transition_prob_bear": regime_state.transition_prob_bear,
-                "direction": direction,
+                "direction": 1 if direction == Direction.LONG else (-1 if direction == Direction.SHORT else 0),
                 "position_mult": position_mult,
                 "rsi": rsi,
                 "trend": trend,

@@ -4,8 +4,11 @@ from datetime import datetime, timedelta
 from unittest.mock import patch
 
 import pandas as pd
-import plotly.graph_objects as go
 import pytest
+
+# Skip all tests if plotly is not installed
+plotly = pytest.importorskip("plotly")
+import plotly.graph_objects as go
 
 from ordinis.engines.signalcore.core.signal import Direction, Signal, SignalType
 from ordinis.visualization.indicators import IndicatorChart

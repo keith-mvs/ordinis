@@ -1,0 +1,5 @@
+# Optimizer configuration
+trials: 20
+seed: 42
+metric: total_return  # total_return | profit_factor | win_rate | sharpe
+direction: maximize

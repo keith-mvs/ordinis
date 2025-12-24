@@ -21,7 +21,7 @@ import numpy as np
 import pandas as pd
 
 from ordinis.engines.signalcore.core.model import Model, ModelConfig
-from ordinis.engines.signalcore.core.signal import Signal, SignalType
+from ordinis.engines.signalcore.core.signal import Direction, Signal, SignalType
 
 logger = logging.getLogger(__name__)
 
@@ -441,26 +441,34 @@ class NetworkRiskParityModel(Model):
 
         # Signal based on weight and momentum
         if target_weight > self.net_config.min_weight * 1.5 and momentum > 0:
-            signal_type = SignalType.BUY
-            direction = 1
+            signal_type = SignalType.ENTRY
+            direction = Direction.LONG
+            score = min(1.0, target_weight / max(self.net_config.max_weight, 1e-10))
         elif target_weight < self.net_config.min_weight * 1.5 or momentum < 0:
-            signal_type = SignalType.SELL
-            direction = -1
+            signal_type = SignalType.EXIT
+            direction = Direction.NEUTRAL
+            score = -min(1.0, target_weight / max(self.net_config.max_weight, 1e-10))
         else:
             signal_type = SignalType.HOLD
-            direction = 0
+            direction = Direction.NEUTRAL
+            score = 0.0
 
         return Signal(
-            signal_type=signal_type,
             symbol=symbol,
             timestamp=timestamp,
-            confidence=1.0 - centrality,  # Higher confidence for peripheral assets
+            signal_type=signal_type,
+            direction=direction,
+            probability=max(0.0, min(1.0, 1.0 - centrality)),
+            score=float(score),
+            model_id=self.config.model_id,
+            model_version=self.config.version,
+            confidence=1.0 - centrality,  # legacy alias
             metadata={
                 "strategy": "network_risk_parity",
                 "target_weight": target_weight,
                 "centrality": centrality,
                 "momentum": momentum,
-                "direction": direction,
+                "direction": 1 if direction == Direction.LONG else (-1 if direction == Direction.SHORT else 0),
             },
         )
 
@@ -506,17 +514,28 @@ class NetworkRiskParityModel(Model):
                 mom = 0.0
 
             if weight > 0.05 and mom > 0:
-                signal_type = SignalType.BUY
+                signal_type = SignalType.ENTRY
+                direction = Direction.LONG
+                score = min(1.0, weight / max(self.net_config.max_weight, 1e-10))
             elif weight < 0.05 or mom < 0:
-                signal_type = SignalType.SELL
+                signal_type = SignalType.EXIT
+                direction = Direction.NEUTRAL
+                score = -min(1.0, weight / max(self.net_config.max_weight, 1e-10))
             else:
                 signal_type = SignalType.HOLD
+                direction = Direction.NEUTRAL
+                score = 0.0
 
             signals[symbol] = Signal(
-                signal_type=signal_type,
                 symbol=symbol,
                 timestamp=timestamp,
-                confidence=1.0 - centrality,
+                signal_type=signal_type,
+                direction=direction,
+                probability=max(0.0, min(1.0, 1.0 - centrality)),
+                score=float(score),
+                model_id=self.config.model_id,
+                model_version=self.config.version,
+                confidence=1.0 - centrality,  # legacy alias
                 metadata={
                     "strategy": "network_risk_parity",
                     "target_weight": weight,

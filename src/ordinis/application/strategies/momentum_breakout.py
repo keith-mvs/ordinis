@@ -63,7 +63,7 @@ class MomentumBreakoutStrategy(BaseStrategy):
 
         return atr
 
-    def generate_signal(self, data: pd.DataFrame, timestamp: datetime) -> Signal | None:
+    async def generate_signal(self, data: pd.DataFrame, timestamp: datetime) -> Signal | None:
         """
         Generate momentum breakout signal.
 

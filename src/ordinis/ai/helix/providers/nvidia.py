@@ -70,7 +70,7 @@ class NVIDIAProvider(BaseProvider):
                 model=model.model_id,
                 nvidia_api_key=self._api_key,
                 temperature=model.default_temperature,
-                max_completion_tokens=model.max_output_tokens,
+                max_tokens=model.max_output_tokens,
             )
         except ImportError as e:
             msg = "NVIDIA SDK not installed. Run: pip install langchain-nvidia-ai-endpoints"
@@ -119,7 +119,7 @@ class NVIDIAProvider(BaseProvider):
             if temperature is not None:
                 client.temperature = temperature
             if max_tokens is not None:
-                client.max_completion_tokens = max_tokens
+                client.max_tokens = max_tokens
 
             # Convert messages to langchain format
             langchain_messages = [msg.to_dict() for msg in messages]

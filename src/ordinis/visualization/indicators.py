@@ -4,9 +4,20 @@ Technical Indicator Charts.
 Provides interactive visualizations for technical indicators used in trading strategies.
 """
 
+from typing import TYPE_CHECKING
+
 import pandas as pd
-import plotly.graph_objects as go
-from plotly.subplots import make_subplots
+
+if TYPE_CHECKING:
+    import plotly.graph_objects as go
+    from plotly.subplots import make_subplots
+
+try:
+    import plotly.graph_objects as go
+    from plotly.subplots import make_subplots
+except ImportError:
+    go = None  # type: ignore
+    make_subplots = None  # type: ignore
 
 from ordinis.analysis.technical import TrendIndicators
 from ordinis.engines.signalcore.core.signal import Signal, SignalType
@@ -23,7 +34,7 @@ class IndicatorChart:
         bb_std: float = 2.0,
         title: str = "Bollinger Bands",
         show_volume: bool = True,
-    ) -> go.Figure:
+    ) -> "go.Figure":
         """
         Plot candlestick chart with Bollinger Bands overlay.
 
@@ -186,7 +197,7 @@ class IndicatorChart:
         slow: int = 26,
         signal: int = 9,
         title: str = "MACD Indicator",
-    ) -> go.Figure:
+    ) -> "go.Figure":
         """
         Plot price with MACD indicator.
 
@@ -287,7 +298,7 @@ class IndicatorChart:
         signals: list[Signal],
         title: str = "Strategy Signals",
         show_volume: bool = True,
-    ) -> go.Figure:
+    ) -> "go.Figure":
         """
         Plot price with strategy entry/exit signals annotated.
 
@@ -416,7 +427,7 @@ class IndicatorChart:
         oversold: int = 30,
         overbought: int = 70,
         title: str = "RSI Indicator",
-    ) -> go.Figure:
+    ) -> "go.Figure":
         """
         Plot price with RSI indicator.
 
@@ -485,7 +496,7 @@ class IndicatorChart:
         return fig
 
     @staticmethod
-    def plot_ichimoku_cloud(data: pd.DataFrame, title: str = "Ichimoku Cloud") -> go.Figure:
+    def plot_ichimoku_cloud(data: pd.DataFrame, title: str = "Ichimoku Cloud") -> "go.Figure":
         """
         Plot Ichimoku Cloud using Phase 3 analytics.
 

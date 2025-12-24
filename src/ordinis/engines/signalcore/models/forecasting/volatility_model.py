@@ -82,7 +82,7 @@ class GARCHVolatilityModel(Model):
         self.horizon = horizon
         self.high_vol_threshold = high_vol_threshold
 
-    def generate(self, data: pd.DataFrame, timestamp: datetime) -> Signal:
+    async def generate(self, symbol: str, data: pd.DataFrame, timestamp: datetime) -> Signal:
         """
         Generate trading signal based on volatility forecast.
 
@@ -98,7 +98,7 @@ class GARCHVolatilityModel(Model):
         Returns:
             Signal with volatility-adjusted direction
         """
-        symbol = data.attrs.get("symbol", "UNKNOWN")
+        symbol = symbol or data.attrs.get("symbol", "UNKNOWN")
 
         # Get volatility forecast
         vol_forecast = self._forecast(data)

@@ -1,20 +1,40 @@
 # Bollinger Bands Strategy
 
+Mean-reversion strategy using Bollinger Band extremes, with volatility-compression (“squeeze”) avoidance and trend-risk controls.
+
 ---
 
 **Title:** Bollinger Bands Mean Reversion with Squeeze Detection
-**Description:** Trades band touches with volatility expansion/contraction filtering
+**Description:** Trades band extremes with volatility and trend gating
 **Author:** Ordinis Quantitative Team
-**Version:** 1.0.0
-**Date:** 2025-12-17
+**Version:** 1.1.0
+**Date:** 2025-12-23
+**Status:** review
 **Tags:** mean-reversion, volatility, bollinger, squeeze, bands
-**References:** John Bollinger (1983), Bollinger on Bollinger Bands
+**References:** John Bollinger (1983), *Bollinger on Bollinger Bands*
 
 ---
 
 ## Overview
 
-The Bollinger Bands strategy combines mean reversion at band extremes with volatility-based filtering. It enters positions when price touches outer bands (2 standard deviations) and exits at the moving average centerline. The strategy filters signals using band width to avoid trades during low-volatility "squeeze" conditions where breakouts are more likely.
+The Bollinger Bands strategy combines mean reversion at band extremes with volatility-based filtering. It targets overshoots at the outer bands and seeks a return toward the middle band (the moving-average “anchor”).
+
+Version 1.1 tightens the specification to reduce false touches, avoid low-volatility traps, and limit fading during strong trends.
+
+### What changed in v1.1
+
+- Entry is defined using **close-based re-entry** (overshoot then re-enter) rather than “touch” ambiguity.
+- Squeeze detection is defined using a **rolling quantile** (adaptive per symbol/timeframe).
+- Adds an explicit **trend-risk gate** recommendation (e.g., ADX) to avoid “walking the band.”
+
+### Implementation status (important)
+
+The current implemented model(s) may lag this spec. See:
+
+- SignalEngine model (SignalCore implementation): `src/ordinis/engines/signalcore/models/bollinger_bands.py`
+- Application strategy wrapper: `src/ordinis/application/strategies/bollinger_bands.py`
+
+Where this document proposes logic not yet present in code, it is labeled **Spec v1.1 (recommended)**.
 
 ## Mathematical Basis
 
@@ -54,12 +74,43 @@ $$
 
 ## Signal Logic
 
-| Condition | Action |
-|-----------|--------|
-| Price ≤ Lower Band AND BandWidth > min | **LONG** - oversold |
-| Price ≥ Upper Band AND BandWidth > min | **SHORT** - overbought |
-| Price crosses Middle Band | **EXIT** - mean reversion complete |
-| Opposite band touch | **REVERSE** position |
+### Spec v1.1 (recommended)
+
+Definitions:
+
+- $C_t$ = close price at time $t$
+- $L_t, M_t, U_t$ = lower, middle, upper bands
+- $BW_t$ = BandWidth at time $t$
+
+**Long entry (re-entry confirmation):**
+
+- Setup: $C_{t-1} < L_{t-1}$ (closed outside lower band)
+- Trigger: $C_t > L_t$ (close re-enters the bands)
+- Gate: not in squeeze, and trend filter allows mean reversion
+
+**Short entry (re-entry confirmation):**
+
+- Setup: $C_{t-1} > U_{t-1}$
+- Trigger: $C_t < U_t$
+- Gate: not in squeeze, and trend filter allows mean reversion
+
+**Exit (mean reversion target):**
+
+- Primary: close crosses the middle band $M_t$ (direction-specific)
+- Safety: time stop after $T$ bars if target not reached
+- Risk: stop-loss (ATR- or band-range based; see Risk section)
+
+**Reversals:** only allow reversal (flip) in explicitly sideways/mean-reverting regimes; otherwise exit-only.
+
+### Current implementation (as of repo state)
+
+The SignalEngine model (SignalCore implementation) currently:
+
+- Uses “touch/cross” logic near the bands.
+- Uses a minimum band width threshold (`min_band_width`) as a low-volatility gate.
+- Emits ENTRY on lower-band interactions and EXIT on upper-band interactions.
+
+If you want the runtime to match Spec v1.1, you should update the model logic accordingly.
 
 ## Key Parameters
 
@@ -67,10 +118,16 @@ $$
 |-----------|---------|-------------|
 | `period` | 20 | SMA and std dev period |
 | `std_dev` | 2.0 | Standard deviation multiplier |
-| `min_band_width` | 0.01 | Minimum band width (1%) |
+| `min_band_width` | 0.01 | Minimum band width (1%); implemented gate |
+| `squeeze_quantile` | 0.15 | Rolling BandWidth quantile for squeeze (Spec v1.1) |
+| `squeeze_lookback` | 252 | Lookback window for squeeze quantile (Spec v1.1) |
+| `use_squeeze_filter` | True | Avoid trades during volatility compression |
+| `trend_filter` | adx | Trend gate type (Spec v1.1) |
+| `adx_period` | 14 | ADX window (Spec v1.1) |
+| `max_adx` | 25 | Do not fade when ADX exceeds this (Spec v1.1) |
+| `time_stop_bars` | 10 | Exit if mean reversion does not occur in time (Spec v1.1) |
 | `min_bars` | 50 | Minimum data required |
-| `use_squeeze_filter` | True | Filter during low volatility |
-| `exit_at_middle` | True | Exit at centerline |
+| `exit_at_middle` | True | Exit at centerline (primary target) |
 
 ## Edge Source
 
@@ -80,32 +137,40 @@ $$
 
 ## Risk Considerations
 
-- **Trend Breakouts:** Strong trends can ride the band for extended periods
-- **Squeeze Breakouts:** Compression often leads to explosive moves
+- **Trend breakouts (“walk the band”):** Strong trends can ride the band for extended periods; avoid fading when trend strength is high.
+- **Squeeze breakouts:** Compression often leads to explosive moves; avoid fading during compression and require expansion confirmation if trading breakouts.
 - **Stop Placement:** Fixed stops may be too tight/wide vs. band width
 - **Volatility Regime:** Works best in moderate, stable volatility
+
+### Trend-risk gating (Spec v1.1)
+
+Use at least one of:
+
+- ADX filter (recommended): avoid new fades when $ADX > 25$.
+- Middle-band slope filter: avoid fading when the midline slope is large in magnitude.
 
 ## Implementation Notes
 
 ```python
-# GPU-accelerated implementation
-middle = gpu_engine.compute_sma(close, period)
-std = gpu_engine.compute_rolling_std(close, period)
+# Reference-style pseudocode (Spec v1.1)
+middle = sma(close, period)
+std = rolling_std(close, period)
 upper = middle + std_dev * std
 lower = middle - std_dev * std
 
-# Band width filter
 band_width = (upper - lower) / middle
-is_valid_width = band_width > min_band_width
 
-# Signal generation
-touch_lower = (close[i] <= lower[i]) and is_valid_width[i]
-touch_upper = (close[i] >= upper[i]) and is_valid_width[i]
+# Squeeze filter (adaptive)
+q = rolling_quantile(band_width, lookback=squeeze_lookback, quantile=squeeze_quantile)
+in_squeeze = band_width < q
 
-# Risk management - bands as targets/stops
-if touch_lower:
-    stop_loss = lower[i] - (upper[i] - lower[i]) * 0.5
-    take_profit = upper[i]  # Opposite band
+# Re-entry confirmation
+long_reentry = (close[i - 1] < lower[i - 1]) and (close[i] > lower[i])
+short_reentry = (close[i - 1] > upper[i - 1]) and (close[i] < upper[i])
+
+if (not in_squeeze[i]) and long_reentry:
+    take_profit = middle[i]
+    stop_loss = close[i] - atr_mult * atr[i]
 ```
 
 ## Performance Expectations
@@ -120,19 +185,21 @@ if touch_lower:
 
 | Regime | Suitability | Notes |
 |--------|-------------|-------|
-| BULL | ⚠️ Medium | Trade lower band bounces only |
-| BEAR | ⚠️ Medium | Trade upper band fades only |
-| SIDEWAYS | ✅ High | Optimal regime for BB mean reversion |
-| VOLATILE | ⚠️ Medium | Bands widen, signals less reliable |
-| TRANSITIONAL | ❌ Low | Watch for squeeze breakouts |
+| BULL | Medium | Prefer long-only fades near lower band; avoid short fades when trend is strong |
+| BEAR | Medium | Prefer short-only fades near upper band; avoid long fades when trend is strong |
+| SIDEWAYS | High | Optimal regime for BB mean reversion |
+| VOLATILE | Medium | Wider bands; signals can be noisier, use stricter confirmation |
+| TRANSITIONAL | Low | High breakout risk; use squeeze awareness and trend filters |
 
 ## Squeeze Detection
 
-The "Bollinger Squeeze" indicates low volatility compression:
+The “Bollinger Squeeze” indicates low volatility compression. For robustness across symbols/timeframes, v1.1 defines squeeze using a rolling quantile:
 
 $$
-\text{Squeeze} = \text{BandWidth}_t < \text{BandWidth}_{\text{min}(n)}
+    ext{Squeeze}_t = BW_t < Q_q(BW_{t-L:t})
 $$
+
+Where $q$ is a low percentile (e.g., 0.15) and $L$ is a sufficiently long lookback window.
 
 **Trading Implications:**
 - Avoid mean reversion entries during squeeze
@@ -143,4 +210,22 @@ $$
 
 **File:** `src/ordinis/application/strategies/bollinger_bands.py`
 **Model:** `BollingerBandsModel`
-**Status:** ✅ Production Ready
+**Status:** review
+
+---
+
+## Document Metadata
+
+```yaml
+version: "1.1.0"
+created: "2025-12-17"
+last_updated: "2025-12-23"
+status: "review"
+applies_to:
+    - "src/ordinis/application/strategies/bollinger_bands.py"
+    - "src/ordinis/engines/signalcore/models/bollinger_bands.py"
+```
+
+---
+
+**END OF DOCUMENT**

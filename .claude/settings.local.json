@@ -3,30 +3,12 @@
     "allow": [
       "Bash",
       "WebSearch",
-      "WebFetch(domain:docs.alpaca.markets)",
-      "WebFetch(domain:docs.python.org/3.11/",
-      "WebFetch(domain:alpaca.markets)",
-      "Bash(Get-ChildItem -Path \"tests\" -Recurse -File -Filter \"test_*.py\")",
-      "Bash(Measure-Object)",
-      "Bash(Select-Object -ExpandProperty Count)",
-      "Bash(conda create:*)",
-      "Bash(xargs git add)",
-      "Bash(xargs:*)",
-      "Bash(if not exist \"scripts\\dev\" mkdir \"scripts\\dev\")",
-      "Bash(mypy:*)",
-      "Bash(wmic OS:*)",
-      "Bash(ls:*)",
-      "Bash(pwsh:*)",
-      "Bash(if not exist logs mkdir logs)",
-      "GetEnvironmentVariable\\(''GITHUB_TOKEN'', ''User''\\).Length\\)\")",
-      "mcp__filesystem__list_allowed_directories",
-      "mcp__filesystem__write_file"
+      "WebFetch",
+      "Skill",
+      "Filesystem",
+      "mcp__filesystem__list_directory"
     ],
     "deny": [],
     "ask": []
-  },
-  "enableAllProjectMcpServers": true,
-  "enabledMcpjsonServers": [
-    "Microsoft Learn"
-  ]
+  }
 }

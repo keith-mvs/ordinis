@@ -17,6 +17,8 @@ from ordinis.data.training_data_generator import (
     TrainingDataGenerator,
 )
 
+pytest.importorskip("yfinance")
+
 
 # ==================== FIXTURES ====================
 

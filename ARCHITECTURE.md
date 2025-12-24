@@ -1,4 +1,4 @@
----
+nvi---
 title: System Architecture
 filename: ARCHTIECTURE.md
 date: 2025-12-15

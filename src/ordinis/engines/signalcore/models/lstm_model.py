@@ -141,7 +141,8 @@ class LSTMModel(Model):
                 timestamp=timestamp,
                 signal_type=SignalType.HOLD,
                 direction=Direction.NEUTRAL,
-                strength=0.0,
+                probability=0.5,
+                score=0.0,
                 model_id=self.config.model_id,
                 metadata={"reason": "Model not trained"},
             )
@@ -153,7 +154,8 @@ class LSTMModel(Model):
                 timestamp=timestamp,
                 signal_type=SignalType.HOLD,
                 direction=Direction.NEUTRAL,
-                strength=0.0,
+                probability=0.5,
+                score=0.0,
                 model_id=self.config.model_id,
                 metadata={"reason": "Insufficient data"},
             )
@@ -173,14 +175,15 @@ class LSTMModel(Model):
             prob = torch.sigmoid(output).item()
 
         direction = Direction.LONG if prob > 0.5 else Direction.SHORT
-        strength = abs(prob - 0.5) * 2
+        score = abs(prob - 0.5) * 2
 
         return Signal(
             symbol=data["symbol"].iloc[-1] if "symbol" in data.columns else "UNKNOWN",
             timestamp=timestamp,
-            signal_type=SignalType.ENTRY if strength > 0.2 else SignalType.HOLD,
+            signal_type=SignalType.ENTRY if score > 0.2 else SignalType.HOLD,
             direction=direction,
-            strength=strength,
+            probability=prob,
+            score=score,
             model_id=self.config.model_id,
             metadata={"probability": prob},
         )
@@ -245,7 +248,7 @@ class LSTMModel(Model):
         # Load scaler parameters (G-ML-2: restore for inference parity)
         scaler_path = path / "scaler.pt"
         if scaler_path.exists():
-            scaler_state = torch.load(scaler_path, weights_only=True)
+            scaler_state = torch.load(scaler_path, weights_only=False)  # Allow numpy arrays
             if scaler_state.get("mean") is not None:
                 model.mean = scaler_state["mean"]
             if scaler_state.get("std") is not None:
@@ -262,7 +265,7 @@ class LSTMModel(Model):
                 output_dim=params.get("output_dim", 1),
             ).to(model.device)
             model.model.load_state_dict(
-                torch.load(model_path, map_location=model.device, weights_only=True)
+                torch.load(model_path, map_location=model.device, weights_only=False)  # Allow numpy
             )
             model.model.eval()
 

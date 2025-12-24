@@ -22,15 +22,15 @@ class BaseStrategy(ABC):
     - get_description(): Return strategy description
     """
 
-    def __init__(self, name: str, **params):
+    def __init__(self, name: str | None = None, **params):
         """
         Initialize strategy.
 
         Args:
-            name: Strategy name
+            name: Strategy name (defaults to the concrete class name)
             **params: Strategy parameters
         """
-        self.name = name
+        self.name = name or self.__class__.__name__
         self.params = params
         self.configure()
 

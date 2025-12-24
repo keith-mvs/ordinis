@@ -39,6 +39,13 @@ class OptimizedConfig:
     atr_stop_mult: float = 1.5
     atr_tp_mult: float = 2.0
 
+    # New tunable parameters
+    atr_scale: float = 1.0
+    require_volume_confirmation: bool = False
+    volume_mean_period: int = 10
+    enforce_regime_gate: bool = False
+    regime_sma_period: int = 200
+
 
 # Optimized configs by symbol
 OPTIMIZED_CONFIGS = {
@@ -85,6 +92,13 @@ class ATROptimizedRSIModel(Model):
         self._entry_price = None
         self._stop_loss = None
         self._take_profit = None
+
+        # Runtime tunables (can be overridden per-symbol via OptimizedConfig)
+        self.atr_scale = params.get("atr_scale", 1.0)
+        self.require_volume_confirmation = params.get("require_volume_confirmation", False)
+        self.volume_mean_period = params.get("volume_mean_period", 10)
+        self.enforce_regime_gate = params.get("enforce_regime_gate", False)
+        self.regime_sma_period = params.get("regime_sma_period", 200)
 
     def _get_config_for_symbol(self, symbol: str) -> OptimizedConfig:
         """Get optimized config for symbol, or default."""
@@ -142,7 +156,9 @@ class ATROptimizedRSIModel(Model):
         if self._position == "long":
             hit_stop = current_price <= self._stop_loss
             hit_tp = current_price >= self._take_profit
-            rsi_exit = current_rsi > cfg.rsi_exit
+            # Use optimized config if enabled, otherwise model-level param
+            rsi_exit_threshold = cfg.rsi_exit if self.use_optimized else self.rsi_exit
+            rsi_exit = current_rsi > rsi_exit_threshold
 
             if hit_stop or hit_tp or rsi_exit:
                 reason = "stop_loss" if hit_stop else ("take_profit" if hit_tp else "rsi_exit")
@@ -166,11 +182,26 @@ class ATROptimizedRSIModel(Model):
                 )
 
         # Check for entry
-        if self._position is None and current_rsi < cfg.rsi_oversold:
+        rsi_oversold_threshold = cfg.rsi_oversold if self.use_optimized else self.rsi_oversold
+        if self._position is None and current_rsi < rsi_oversold_threshold:
+            # Enforce optional regime gate (e.g., price above long SMA)
+            if (self.enforce_regime_gate or cfg.enforce_regime_gate) and "close" in data:
+                sma = close.rolling(self.regime_sma_period).mean()
+                if len(sma.dropna()) == 0 or current_price <= sma.iloc[-1]:
+                    return None
+
+            # Enforce optional volume confirmation (declining volume on pullback)
+            if (self.require_volume_confirmation or cfg.require_volume_confirmation) and "volume" in data:
+                vol_mean = data["volume"].rolling(self.volume_mean_period).mean()
+                if len(vol_mean.dropna()) == 0 or data["volume"].iloc[-1] > vol_mean.iloc[-1]:
+                    return None
+
+            effective_atr = current_atr * (cfg.atr_scale if cfg.atr_scale is not None else self.atr_scale)
+
             self._position = "long"
             self._entry_price = current_price
-            self._stop_loss = current_price - (cfg.atr_stop_mult * current_atr)
-            self._take_profit = current_price + (cfg.atr_tp_mult * current_atr)
+            self._stop_loss = current_price - (cfg.atr_stop_mult * effective_atr)
+            self._take_profit = current_price + (cfg.atr_tp_mult * effective_atr)
 
             return Signal(
                 symbol=symbol,
@@ -183,6 +214,9 @@ class ATROptimizedRSIModel(Model):
                     "model": "atr_optimized_rsi",
                     "rsi": current_rsi,
                     "atr": current_atr,
+                    "atr_scale": cfg.atr_scale if cfg.atr_scale is not None else self.atr_scale,
+                    "require_volume_confirmation": cfg.require_volume_confirmation if cfg.require_volume_confirmation is not None else self.require_volume_confirmation,
+                    "enforce_regime_gate": cfg.enforce_regime_gate if cfg.enforce_regime_gate is not None else self.enforce_regime_gate,
                     "stop_loss": self._stop_loss,
                     "take_profit": self._take_profit,
                     "stop_distance_pct": (current_price - self._stop_loss) / current_price * 100,
@@ -220,6 +254,11 @@ def backtest(
     atr_tp_mult: float = 2.0,
     rsi_period: int = 14,
     atr_period: int = 14,
+    atr_scale: float = 1.0,
+    require_volume_confirmation: bool = False,
+    volume_mean_period: int = 10,
+    enforce_regime_gate: bool = False,
+    regime_sma_period: int = 200,
 ) -> dict:
     """
     Run a simple backtest of the ATR-optimized RSI strategy.
@@ -256,10 +295,24 @@ def backtest(
         if position is None:
             # Entry
             if curr_rsi < rsi_os:
+                # Regime gate (optional)
+                if enforce_regime_gate and "close" in df:
+                    sma = close.rolling(regime_sma_period).mean()
+                    if len(sma.dropna()) == 0 or curr_price <= sma.iloc[-1]:
+                        continue
+
+                # Volume confirmation (optional)
+                if require_volume_confirmation and "volume" in df:
+                    vol_mean = df["volume"].rolling(volume_mean_period).mean()
+                    if len(vol_mean.dropna()) == 0 or df["volume"].iloc[i] > vol_mean.iloc[-1]:
+                        continue
+
+                effective_atr = curr_atr * atr_scale
+
                 position = "long"
                 entry_price = curr_price
-                stop_loss = entry_price - (atr_stop_mult * curr_atr)
-                take_profit = entry_price + (atr_tp_mult * curr_atr)
+                stop_loss = entry_price - (atr_stop_mult * effective_atr)
+                take_profit = entry_price + (atr_tp_mult * effective_atr)
 
         elif position == "long":
             # Exit conditions

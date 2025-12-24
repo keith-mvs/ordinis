@@ -43,7 +43,7 @@ class NewsAPIDataPlugin(DataPlugin):
     def __init__(self, config: PluginConfig):
         super().__init__(config)
         self._session: aiohttp.ClientSession | None = None
-        self._api_key = config.options.get("api_key", "")
+        self._api_key = config.extra.get("api_key", "")
 
     async def initialize(self) -> bool:
         """Initialize the NewsAPI connection."""

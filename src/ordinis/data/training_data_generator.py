@@ -15,10 +15,20 @@ from dataclasses import dataclass
 from datetime import datetime, timedelta
 from enum import Enum
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 import numpy as np
 import pandas as pd
-import yfinance as yf
+
+if TYPE_CHECKING:
+    import yfinance as yf
+
+# Optional dependency: yfinance is only required when actually fetching live historical data.
+# Tests patch `ordinis.data.training_data_generator.yf.Ticker`, so we expose `yf` when available.
+try:  # pragma: no cover
+    import yfinance as yf  # type: ignore
+except Exception:  # pragma: no cover
+    yf = None  # type: ignore
 
 
 class MarketRegime(Enum):
@@ -49,9 +59,9 @@ class DataChunk:
 class TrainingConfig:
     """Configuration for training data generation."""
 
-    symbols: list[str] = None
-    chunk_sizes_months: list[int] = None
-    lookback_years: list[int] = None
+    symbols: list[str] | None = None
+    chunk_sizes_months: list[int] | None = None
+    lookback_years: list[int] | None = None
     min_samples_per_regime: int = 20
     random_seed: int = 42
 
@@ -218,6 +228,7 @@ class HistoricalDataFetcher:
                     data.index = data.index.tz_localize(None)
                 return data
 
+        import yfinance as yf
         ticker = yf.Ticker(symbol)
         data = ticker.history(period=f"{years}y")
 
@@ -269,8 +280,8 @@ class TrainingDataGenerator:
         if len(full_data) < 252:  # At least 1 year of data
             raise ValueError(f"Insufficient data for {symbol}: {len(full_data)} days")
 
-        chunks = []
-        regime_counts = dict.fromkeys(MarketRegime, 0)
+        chunks: list[DataChunk] = []
+        regime_counts: dict[MarketRegime, int] = dict.fromkeys(MarketRegime, 0)
 
         attempts = 0
         max_attempts = num_chunks * 10

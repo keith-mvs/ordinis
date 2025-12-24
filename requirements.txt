@@ -27,10 +27,13 @@ yfinance>=0.2.0          # Real-time market data
 alpaca-py>=0.9.0         # Alpaca trading integration (modern SDK)
 
 # Development Tools
-# jupyter>=1.0.0           # Interactive notebooks
-# pytest>=7.0.0            # Testing framework
-# pytest-cov>=4.0.0        # Coverage reporting
-# ruff>=0.1.0              # Linter and formatter
+jupyter>=1.0.0           # Interactive notebooks
+pytest>=7.0.0            # Testing framework
+pytest-cov>=4.0.0        # Coverage reporting
+ruff>=0.1.0              # Linter and formatter
+
+# Optimization / Hyperparameter Search
+optuna>=3.0.0            # Hyperparameter optimization library (TPE, CMA-ES, pruning)
 
 # Excel Support
 # openpyxl>=3.1.0          # Excel file I/O

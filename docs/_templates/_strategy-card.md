@@ -85,7 +85,7 @@ Each card follows this template:
 
 - [STRATEGY_SUITE.md](../reference/STRATEGY_SUITE.md) - Master strategy index
 - [strategy-derivation-roadmap.md](../reference/strategies/strategy-derivation-roadmap.md) - Theory and derivation
-- [atr-optimized-rsi-technical-spec.md](../reference/strategies/atr-optimized-rsi-technical-spec.md) - Production strategy spec
+- [ATR-RSI.md](../strategies/ATR-RSI.md) - Production strategy spec
 
 ---
 

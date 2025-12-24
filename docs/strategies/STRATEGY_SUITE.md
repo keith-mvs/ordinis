@@ -241,8 +241,8 @@ signal = await model.generate("COIN", price_df, timestamp)
 
 ## Detailed Documentation
 
-- [ATR-Optimized RSI Technical Spec](strategies/atr-optimized-rsi-technical-spec.md)
-- [Strategy Derivation Roadmap](strategies/strategy-derivation-roadmap.md)
+- [ATR-Optimized RSI Strategy (Official)](./ATR-RSI.md)
+- [Strategy Derivation Roadmap](../reference/strategies/strategy-derivation-roadmap.md)
 
 ---
 

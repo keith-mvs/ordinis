@@ -10,11 +10,27 @@ from __future__ import annotations
 from datetime import UTC, datetime
 import json
 import logging
+import inspect
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, Literal
 
 from mcp.server.fastmcp import FastMCP
-from mcp.types import ToolAnnotations
+
+# NOTE: The upstream `mcp` package has had some API churn across versions.
+# Older versions may not export `ToolAnnotations` from `mcp.types`.
+# We keep Ordinis compatible by falling back to a lightweight dict-like shim.
+try:
+    from mcp.types import ToolAnnotations  # type: ignore
+except ImportError:  # pragma: no cover
+    class ToolAnnotations(dict[str, Any]):
+        """Fallback shim for MCP versions without `ToolAnnotations`.
+
+        The FastMCP decorator accepts an annotations mapping. Newer MCP versions
+        provide a dedicated type; older versions can work with a plain dict.
+        """
+
+        def __init__(self, **kwargs: Any) -> None:
+            super().__init__(**kwargs)
 import yaml
 
 if TYPE_CHECKING:
@@ -34,6 +50,25 @@ ordinis_mcp = FastMCP(
     name="Ordinis Trading System",
     instructions="AI-driven quantitative trading system with signal generation, risk management, and portfolio optimization. Use the available tools to generate signals, evaluate risk, and manage portfolios.",
 )
+
+# -----------------------------------------------------------------------------
+# Compatibility: FastMCP.tool signature differs across MCP versions.
+#
+# Some versions accept an `annotations=` kwarg (for readOnly hints), others only
+# accept name/description. Our server uses `annotations=` extensively; wrap the
+# decorator to ignore it when unsupported.
+# -----------------------------------------------------------------------------
+_original_tool = ordinis_mcp.tool
+_tool_supports_annotations = "annotations" in inspect.signature(_original_tool).parameters
+
+
+def _tool_compat(*args: Any, **kwargs: Any):
+    if not _tool_supports_annotations:
+        kwargs.pop("annotations", None)
+    return _original_tool(*args, **kwargs)
+
+
+ordinis_mcp.tool = _tool_compat  # type: ignore[method-assign]
 
 # =============================================================================
 # STATE MANAGEMENT

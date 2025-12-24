@@ -4,8 +4,11 @@ from pathlib import Path
 from unittest.mock import patch
 
 import pandas as pd
-import plotly.graph_objects as go
 import pytest
+
+# Skip all tests if plotly is not installed
+plotly = pytest.importorskip("plotly")
+import plotly.graph_objects as go
 
 from ordinis.visualization.charts import ChartUtils
 

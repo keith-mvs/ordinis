@@ -67,6 +67,7 @@ class EngineMetrics:
         latency_p95_ms: 95th percentile latency.
         latency_p99_ms: 99th percentile latency.
         uptime_seconds: Time since initialization.
+        custom_metrics: Engine-specific custom metrics.
     """
 
     requests_total: int = 0
@@ -75,6 +76,7 @@ class EngineMetrics:
     latency_p95_ms: float = 0.0
     latency_p99_ms: float = 0.0
     uptime_seconds: float = 0.0
+    custom_metrics: dict[str, Any] = field(default_factory=dict)
 
     @property
     def error_rate(self) -> float:

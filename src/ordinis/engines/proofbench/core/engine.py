@@ -18,8 +18,7 @@ from ordinis.engines.base import (
     GovernanceHook,
     HealthLevel,
     HealthStatus,
-    PreflightContext,
-)
+) 
 from ordinis.engines.proofbench.core.config import ProofBenchEngineConfig
 from ordinis.engines.proofbench.core.execution import Order
 from ordinis.engines.proofbench.core.models import TradeResult
@@ -187,30 +186,33 @@ class ProofBenchEngine(BaseEngine[ProofBenchEngineConfig]):
 
         timestamp = datetime.now(UTC)
 
-        # Governance preflight check
-        if self.config.enable_governance and self._governance:
-            context = PreflightContext(
-                operation="run_backtest",
-                parameters={
+        # Governance preflight check via standardized BaseEngine.preflight
+        result = await self.preflight(
+            "run_backtest",
+            inputs={
+                "start": start.isoformat() if start else None,
+                "end": end.isoformat() if end else None,
+                "symbols": self.config.loaded_symbols,
+                "initial_capital": self.config.initial_capital,
+            },
+            timestamp=timestamp,
+            trace_id=f"proofbench-{timestamp.timestamp()}",
+        )
+        if result.blocked:
+            # Record audit with metadata for blocked decision
+            await self.audit(
+                action="run_backtest",
+                inputs={
                     "start": start.isoformat() if start else None,
                     "end": end.isoformat() if end else None,
                     "symbols": self.config.loaded_symbols,
-                    "initial_capital": self.config.initial_capital,
                 },
-                timestamp=timestamp,
-                trace_id=f"proofbench-{timestamp.timestamp()}",
+                outputs={},
+                latency_ms=None,
+                decision=result.decision.name if hasattr(result, "decision") else None,
+                reason=result.reason,
             )
-            result = await self.preflight(context)
-            if not result.allowed:
-                self._audit(
-                    AuditRecord(
-                        timestamp=timestamp,
-                        operation="run_backtest",
-                        status="blocked",
-                        details={"reason": result.reason},
-                    )
-                )
-                raise PermissionError(f"Backtest blocked by governance: {result.reason}")
+            raise PermissionError(f"Backtest blocked by governance: {result.reason}")
 
         async with self.track_operation("run_backtest"):
             results = self._simulator.run(start, end)
@@ -219,20 +221,17 @@ class ProofBenchEngine(BaseEngine[ProofBenchEngineConfig]):
             self._last_results = results
 
             # Governance audit
-            if self.config.enable_governance:
-                self._audit(
-                    AuditRecord(
-                        timestamp=self._last_backtest,
-                        operation="run_backtest",
-                        status="success",
-                        details={
-                            "total_return": results.metrics.total_return,
-                            "sharpe_ratio": results.metrics.sharpe_ratio,
-                            "max_drawdown": results.metrics.max_drawdown,
-                            "total_trades": results.metrics.total_trades,
-                        },
-                    )
-                )
+            await self.audit(
+                action="run_backtest",
+                inputs={"symbols": self.config.loaded_symbols, "initial_capital": self.config.initial_capital},
+                outputs={
+                    "total_return": results.metrics.total_return,
+                    "sharpe_ratio": results.metrics.sharpe_ratio,
+                    "max_drawdown": results.metrics.max_drawdown,
+                    "num_trades": results.metrics.num_trades,
+                },
+                latency_ms=None,
+            )
 
             return results
 
@@ -276,6 +275,11 @@ class ProofBenchEngine(BaseEngine[ProofBenchEngineConfig]):
             Last SimulationResults or None
         """
         return self._last_results
+
+    @property
+    def backtests_run(self) -> int:
+        """Public accessor for the number of backtests run (read-only)."""
+        return self._backtests_run
 
     def get_metrics(self) -> EngineMetrics:
         """Get ProofBench engine metrics.

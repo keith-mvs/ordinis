@@ -20,7 +20,7 @@ import numpy as np
 import pandas as pd
 
 from ordinis.engines.signalcore.core.model import Model, ModelConfig
-from ordinis.engines.signalcore.core.signal import Signal, SignalType
+from ordinis.engines.signalcore.core.signal import Direction, Signal, SignalType
 
 logger = logging.getLogger(__name__)
 
@@ -324,22 +324,30 @@ class OUPairsModel(Model):
 
         # Determine signal
         signal_type = SignalType.HOLD
+        direction = Direction.NEUTRAL
         spread_direction = 0
 
         if z < -self.ou_config.entry_z:
             # Spread too low - long spread (buy A, sell B)
-            signal_type = SignalType.BUY
+            signal_type = SignalType.ENTRY
+            direction = Direction.LONG
             spread_direction = 1
         elif z > self.ou_config.entry_z:
             # Spread too high - short spread (sell A, buy B)
-            signal_type = SignalType.SELL
+            signal_type = SignalType.ENTRY
+            direction = Direction.SHORT
             spread_direction = -1
 
         if signal_type == SignalType.HOLD:
             return Signal(
-                signal_type=SignalType.HOLD,
                 symbol=f"{symbol_a}/{symbol_b}",
                 timestamp=timestamp,
+                signal_type=SignalType.HOLD,
+                direction=Direction.NEUTRAL,
+                probability=0.0,
+                score=0.0,
+                model_id=self.config.model_id,
+                model_version=self.config.version,
                 confidence=0.0,
                 metadata={
                     "spread_z": z,
@@ -358,10 +366,18 @@ class OUPairsModel(Model):
         # Expected holding period
         expected_hold = int(halflife * 1.5)
 
+        score = min(1.0, abs(z) / max(self.ou_config.stop_z, 1e-10))
+        score = score if direction == Direction.LONG else -score
+
         return Signal(
-            signal_type=signal_type,
             symbol=f"{symbol_a}/{symbol_b}",
             timestamp=timestamp,
+            signal_type=signal_type,
+            direction=direction,
+            probability=confidence,
+            score=float(score),
+            model_id=self.config.model_id,
+            model_version=self.config.version,
             confidence=confidence,
             metadata={
                 "strategy": "ou_pairs",

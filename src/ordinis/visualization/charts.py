@@ -5,9 +5,17 @@ Provides theming, export, and comparison utilities for trading charts.
 """
 
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 import pandas as pd
-import plotly.graph_objects as go
+
+if TYPE_CHECKING:
+    import plotly.graph_objects as go
+
+try:
+    import plotly.graph_objects as go
+except ImportError:
+    go = None  # type: ignore
 
 
 class ChartUtils:
@@ -31,7 +39,7 @@ class ChartUtils:
     }
 
     @staticmethod
-    def apply_theme(fig: go.Figure, theme: str = "dark") -> go.Figure:
+    def apply_theme(fig: "go.Figure", theme: str = "dark") -> "go.Figure":
         """
         Apply consistent theme to charts.
 
@@ -58,7 +66,7 @@ class ChartUtils:
 
     @staticmethod
     def export_chart(
-        fig: go.Figure,
+        fig: "go.Figure",
         filename: str | Path,
         file_format: str = "html",
         width: int | None = None,
@@ -91,7 +99,7 @@ class ChartUtils:
         strategies: dict[str, pd.DataFrame],
         metric: str = "cumulative_return",
         title: str = "Strategy Comparison",
-    ) -> go.Figure:
+    ) -> "go.Figure":
         """
         Create multi-strategy comparison chart.
 
@@ -147,7 +155,7 @@ class ChartUtils:
         equity_series: pd.Series,
         trades: pd.DataFrame | None = None,
         title: str = "Equity Curve",
-    ) -> go.Figure:
+    ) -> "go.Figure":
         """
         Create equity curve with optional trade markers.
 
@@ -216,7 +224,7 @@ class ChartUtils:
     def create_drawdown_chart(
         equity_series: pd.Series,
         title: str = "Drawdown",
-    ) -> go.Figure:
+    ) -> "go.Figure":
         """
         Create drawdown chart showing peak-to-trough declines.
 
@@ -264,7 +272,7 @@ class ChartUtils:
         returns: pd.Series,
         title: str = "Returns Distribution",
         bins: int = 50,
-    ) -> go.Figure:
+    ) -> "go.Figure":
         """
         Create histogram of returns distribution.
 

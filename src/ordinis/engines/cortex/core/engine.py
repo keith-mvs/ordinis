@@ -138,7 +138,7 @@ class CortexEngine(BaseEngine[CortexConfig]):
     @property
     def rag_enabled(self) -> bool:
         """Check if RAG is enabled."""
-        return self._config.rag_enabled and RAG_AVAILABLE
+        return self._config.rag_enabled and (RAG_AVAILABLE or self._rag_helper is not None)
 
     async def _do_initialize(self) -> None:
         """Initialize Cortex engine."""

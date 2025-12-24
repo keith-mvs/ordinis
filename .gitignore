@@ -19,6 +19,7 @@ venv-backup-*/
 # Testing
 .coverage
 .coverage.*
+coverage_report.xml
 htmlcov/
 .pytest_cache/
 .tox/
@@ -126,6 +127,7 @@ data/prometheus/
 data/promtail/
 data/temp/
 data/*.sqlite
+ordinis/.claude
 
 # Large PDFs (use Git LFS or external storage)
 docs/publications/*.pdf

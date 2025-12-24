@@ -1,4 +1,4 @@
-# --------
+#=====
 metadata:
   title: AI Governance
   description: Governance framework for AI-embedded trading systems
@@ -8,79 +8,75 @@ metadata:
   tags:
     - governance
     - policies
-    - ai-safety
-  references:
-    - "docs/knowledge-base/inbox/documents/governance-policies.md"
-    - "docs/knowledge-base/inbox/documents/security-policies.md"
-    - "docs/knowledge-base/inbox/documents/privacy-policies.md"
-    - "docs/knowledge-base/inbox/documents/privacy-policies.md"
-    - "docs/knowledge-base/inbox/documents/risk-management-policies.md"
+    - standards
 
-  #=============================================================================
-  # OVERARCHING PRINCIPLES
-  #=============================================================================
-  principles:
-    transparency: true
-    accountability: true
-    privacy: true
-    security: true
-    reliability: true
+#=============================================================================
+# PRINCIPLES
+#=============================================================================
+principles:
+  transparency: true
+  accuracy: true
+  accountability: true
+  privacy: true
+  security: true
+  reliability: true
+  excellence: true
+  quality: true
     
 #==============================================================================
 # SECURITY
 #==============================================================================
       
-  api_security:
-    require_api_keys: true
-    ip_whitelisting: false  # Set to true for production
+api_security:
+  require_api_keys: true
+  ip_whitelisting: false  # Set to true for production
 
-# ==============================================================================
+#==============================================================================
 # RISK MANAGEMENT POLICIES 
-# ==============================================================================    
+#============================================================================   
   
-  network:
-    allow_external_connections: true  # For market data
-    require_tls_version: "1.3"
-    validate_certificates: true
+network:
+  allow_external_connections: true  # For market data
+  require_tls_version: "1.3"
+  validate_certificates: true
+
+secrets_management:
+  never_log_secrets: true
+  encrypt_config_files: true
     
-  secrets_management:
-    use_vault: true
-    never_log_secrets: true
-    encrypt_config_files: true
-    
-# ==============================================================================
-# OPERATIONAL POLICIES
-# ==============================================================================
+#==============================================================================
+#OPERATIONAL POLICIES
+#==============================================================================
     
   monitoring:
     system_health:
       enabled: true
-      alert_on_anomaly: true
       track_uptime: true
       target_uptime_pct: 99.9
       
     performance:
       track_latency: true
       track_throughput: true
-      alert_on_degradation: true
-      sla_p95_latency_ms: 500
+      sla_p95_latency_ms: 500  # General system target; LLM calls may exceed this
+      target_p95_latency_ms: 200  # Aggressive target for core trading operations (see README KPIs)
 
-# ==============================================================================
-# AI-SPECIFIC SAFETY CONTROLS
-# ==============================================================================
-ai_safety:
+#==============================================================================
+#SAFETY CONTROLS
+#==============================================================================
+
+safety:
   guardrails:
     enabled: true
-    input_validation: false  # Not needed for trading system
     output_validation: true # Ensure outputs are within expected ranges
     content_filtering: false  # Not needed for trading system
     
   testing:
     test_edge_cases: true
     continuous_validation: true
-    accurate model_performance: true
-    accurate drift_detection: true
+    accurate_model_performance: true
+    accurate_drift_detection: true
     accurate_performance_metrics: true
+    historical_data: true
 
 # ==============================================================================
 # DOCUMENTATION REQUIREMENTS
@@ -106,51 +102,202 @@ documentation:
       include_code_metadata: true
       include_code_metadata_fields:
         - "title"
-        - "description"
-        - "author"
-        - "license"
-        - "version/revision"
-        - "date"
         - "tags/keywords"
         - "references"
-    use_standard_nomenclature: true
-    use_consistent_formatting: true
-    use_consistent_terminology: true
-
-  # =============================================================================
-  # FILENAME CONVENTIONS
-  # =============================================================================
+      use_standard_nomenclature: true
+      use_consistent_formatting: true
+      use_consistent_terminology: true
+  
+#=============================================================================
+#FILENAME CONVENTIONS
+#=============================================================================
     
-  filename_conventions:
+filename:
+  markdown_filename_standards:
     use_standard_volume_names: true
     use_standard_prefixes: true
     use_standard_suffixes: true
-    use_lowercase_for_code: true
-    use_uppercase_for_markdown: true
+    use_uppercase: true
     use_underscores: true
     no_spaces: true
     no_symbols: true
+  
+  code_filename_standards:
+    use_lowercase: true
 
-# ==============================================================================
-# REVIEW & UPDATES
-# ==============================================================================
+#==============================================================================
+#REVIEW & UPDATES
+#==============================================================================
     
   metrics:
     track_compliance_rate: true
     track_violation_count: true
     track_override_frequency: true
 
-    # ==============================================================================
-    # DESIGN SPECIFICATIONS
-    # ==============================================================================
-    # It is not recommended to include detailed system design (such as architecture diagrams, component interactions, or implementation specifics) directly in this governance YAML file.
-    # Instead, reference external design documentation here for traceability and clarity.
+#==============================================================================
+#DESIGN SPECIFICATIONS
+#==============================================================================
+# It is not recommended to include detailed system design (such as architecture diagrams, component interactions, or implementation specifics) directly in this governance YAML file. Instead, reference external design documentation here for traceability and clarity.
 
-    design:
-      reference_docs:
-        - "docs/knowledge-base/inbox/documents/system-specification.md"
-        - "docs/knowledge-base/inbox/documents/configuration-management.md"
+design:
+    reference_docs:
+        - "docs/architecture/PRODUCTION_ARCHITECTURE.md"
+        - "docs/architecture/LAYERED_SYSTEM_ARCHITECTURE.md"
+        - "docs/POSITION_SIZING_LOGIC.md"
+        - "README.md"
 
-      notes: |
-        Keep this YAML focused on governance, policies, and high-level requirements.
-        Place detailed design information in dedicated documentation files and link them here for maintainability.
+
+
+
+python_standards:
+  - id: GOV-PY-001
+    title: Temporal Data Standardization
+    standard: ISO 8601
+    requirement: "All Python services must use ISO 8601 strings for date/time exchange."
+    implementation_guidance: "Utilize datetime.fromisoformat() and datetime.isoformat() from the Python standard library (available since Python 3.7, with extended format support in Python 3.11+). Avoid custom strftime formatting for interchange."
+    enforcement: "Code reviews must verify ISO 8601 compliance for all datetime serialization."
+    severity: high
+
+  - id: GOV-PY-002
+    title: Geographic and Monetary Data Integrity
+    standard: "ISO 3166, ISO 4217, ISO 639"
+    requirement: "Country codes, currency symbols, and language identifiers must be validated against ISO standards."
+    implementation_guidance: "Use the [pycountry](https://pypi.org/project/pycountry/) library to resolve and validate codes. Do not hardcode custom mapping dictionaries for these values."
+    enforcement: "Validation functions must be tested against official ISO code sets during CI/CD."
+    severity: medium
+
+  - id: GOV-PY-003
+    title: Code Quality and Maintainability
+    standard: "PEP 8"
+    requirement: "All Python source code must adhere to the PEP 8 style guide."
+    implementation_guidance: "Configure [Ruff](https://github.com/astral-sh/ruff) as the primary linter with [Flake8](https://flake8.pycqa.org/) as fallback for legacy systems. Maximum line length: 100 characters. Use consistent import sorting via isort or Ruff's import rules."
+    enforcement: "Automated linting must pass during the CI/CD pipeline. No merge without clean lint status."
+    severity: medium
+
+  - id: GOV-PY-004
+    title: Secure Coding Practices
+    standard: "ISO/IEC 24772-4"
+    requirement: "Applications must be scanned for Python-specific language vulnerabilities (e.g., insecure deserialization, shell injection, SQL injection, path traversal)."
+    implementation_guidance: "Configure [Bandit](https://github.com/PyCQA/bandit) with high and medium severity checks enabled. Address all critical findings before production deployment."
+    enforcement: "Mandatory Bandit scans on all pull requests. Critical findings block merge."
+    severity: critical
+
+  - id: GOV-PY-005
+    title: Supply Chain Security
+    standard: "ISO/IEC 27001, NIST SP 800-218"
+    requirement: "All third-party Python dependencies must be pinned with cryptographic hashes and scanned for known vulnerabilities."
+    implementation_guidance: "Use requirements.txt with --hash or pyproject.toml with lock files (poetry.lock, uv.lock, or requirements.lock). Scan using [pip-audit](https://pypi.org/project/pip-audit/) or [Safety](https://pypi.org/project/safety/). Implement automated dependency updates via Dependabot or Renovate."
+    enforcement: "CI/CD pipeline must fail on high or critical severity vulnerabilities. Monthly dependency update review required."
+    severity: critical
+
+  - id: GOV-PY-006
+    title: Type Safety and Static Analysis
+    standard: "PEP 484, PEP 604"
+    requirement: "All public interfaces and complex functions must include type hints. Type checking must be enforced via static analysis."
+    implementation_guidance: "Use [mypy](https://mypy-lang.org/) in strict mode or [Pyright](https://github.com/microsoft/pyright) for type checking. Minimum coverage: 80% of functions with type annotations."
+    enforcement: "Type checking must pass in CI/CD. New code without type hints requires documented justification."
+    severity: high
+
+  - id: GOV-PY-007
+    title: Testing Standards
+    standard: "ISO/IEC 29119-4"
+    requirement: "All Python services must maintain minimum test coverage of 80% for critical paths and 70% overall."
+    implementation_guidance: "Use [pytest](https://pytest.org/) as the standard testing framework. Organize tests following the Arrange-Act-Assert pattern. Include unit, integration, and end-to-end tests as appropriate. Use [pytest-cov](https://pypi.org/project/pytest-cov/) for coverage reporting."
+    enforcement: "CI/CD pipeline must measure and enforce coverage thresholds. Pull requests reducing coverage below thresholds require approval exception."
+    severity: high
+
+  - id: GOV-PY-008
+    title: Documentation Standards
+    standard: "PEP 257"
+    requirement: "All modules, classes, and public functions must include docstrings following PEP 257 conventions."
+    implementation_guidance: "Use Google-style or NumPy-style docstrings consistently across the codebase. Generate API documentation using [Sphinx](https://www.sphinx-doc.org/) with autodoc extension. Include type information in docstrings for clarity."
+    enforcement: "Documentation coverage must be measured via [interrogate](https://pypi.org/project/interrogate/) or similar tools. Minimum 90% docstring coverage required."
+    severity: medium
+
+  - id: GOV-PY-009
+    title: Dependency Management and Reproducibility
+    standard: "PEP 621, PEP 665"
+    requirement: "All Python projects must use isolated virtual environments and maintain reproducible dependency specifications."
+    implementation_guidance: "Create virtual environments using venv, virtualenv, or [uv](https://github.com/astral-sh/uv). Specify dependencies in pyproject.toml with lock files for production deployments. Use Poetry, pip-tools, or uv for deterministic builds."
+    enforcement: "Production deployments must use lock files. Development environments must be documented in README with setup instructions."
+    severity: high
+
+  - id: GOV-PY-010
+    title: Logging and Observability
+    standard: "ISO/IEC 25010"
+    requirement: "Applications must implement structured logging with appropriate log levels and PII protection."
+    implementation_guidance: "Use Python's standard logging module with structured formatters (JSON preferred). Configure appropriate log levels: DEBUG for development, INFO for production operations, WARNING for concerning events, ERROR for failures, CRITICAL for system-threatening conditions. Never log sensitive data (passwords, tokens, PII) without masking."
+    enforcement: "Code reviews must verify logging practices. Automated scans for common PII patterns in log statements required."
+    severity: high
+
+  - id: GOV-PY-011
+    title: Error Handling and Exception Management
+    standard: "ISO/IEC 24765"
+    requirement: "Applications must implement consistent error handling with appropriate exception hierarchies and recovery mechanisms."
+    implementation_guidance: "Define custom exception classes inheriting from appropriate base exceptions. Avoid bare except clauses. Use context managers for resource management. Log exceptions with full context before re-raising or handling. Implement graceful degradation for non-critical failures."
+    enforcement: "Code reviews must verify exception handling patterns. Bandit scans will flag bare except usage."
+    severity: medium
+
+ai_llm_standards:
+  - id: GOV-AI-001
+    title: LLM Output Validation and Content Safety
+    standard: "AI Safety Best Practices, NIST AI RMF"
+    requirement: "All LLM outputs must be validated for safety, relevance, and correctness before use in trading decisions or code generation."
+    implementation_guidance: "Implement multi-layer validation: (1) Content safety filtering using Nemoguard (nvidia/llama-3.1-nemoguard-8b-content-safety), (2) Output schema validation for structured responses, (3) Semantic relevance checks against input context, (4) Human-in-the-loop review for code generation affecting trading logic. Log all validation failures with trace_id for audit."
+    enforcement: "All LLM calls through Helix must pass content safety checks. Code generation outputs require approval before merge. Zero tolerance for content safety violations."
+    severity: critical
+
+  - id: GOV-AI-002
+    title: LLM Rate Limiting and Cost Controls
+    standard: "Operational Cost Management"
+    requirement: "LLM API calls must be rate-limited and cost-monitored to prevent runaway usage and ensure system availability."
+    implementation_guidance: "Implement per-component rate limits: Cortex (code analysis) - 100 req/hour, Helix (general) - 500 req/hour, CodeGenService - 50 req/hour. Use exponential backoff for retries. Set monthly cost alerts at $500, $1000, $2000 thresholds. Cache responses where appropriate (TTL: 1 hour for static queries). Track token usage per trace_id."
+    enforcement: "Rate limiters must be configured in Helix engine. Cost monitoring dashboards required in production. Exceeded rate limits logged as WARNING; cost threshold breaches escalated to engineering lead."
+    severity: high
+
+  - id: GOV-AI-003
+    title: Prompt Injection Protection and Input Sanitization
+    standard: "OWASP LLM Top 10"
+    requirement: "All user inputs and external data fed to LLMs must be sanitized to prevent prompt injection attacks."
+    implementation_guidance: "Implement input validation: (1) Escape or remove special characters and control sequences, (2) Use structured prompts with clear role separation (system/user/assistant), (3) Validate input length (max 4000 chars for user prompts), (4) Strip executable code patterns from free-text inputs, (5) Use separate system prompts that cannot be overridden by user input. For Synapse RAG, sanitize retrieved documents before inclusion in context."
+    enforcement: "All external inputs must pass sanitization before LLM submission. Automated tests for common injection patterns required. Failed injection attempts logged as SECURITY events with full context."
+    severity: critical
+
+  - id: GOV-AI-004
+    title: Temporal Data Format Compliance for AI Tracing
+    standard: "ISO 8601, GOV-PY-001"
+    requirement: "All AI system traces, logs, and telemetry must use ISO 8601 datetime strings, not Unix epoch timestamps."
+    implementation_guidance: "Update trace logging in artifacts/traces/ to serialize timestamps using datetime.isoformat(). Format: 'YYYY-MM-DDTHH:MM:SS.ffffffZ' (UTC). Ensure backward compatibility by accepting both formats during transition period (90 days). Update trace ingestion pipelines to normalize timestamps to ISO 8601."
+    enforcement: "New trace logs must use ISO 8601 immediately. Legacy traces have 90-day conversion period. CI/CD linting checks for timestamp format compliance."
+    severity: high
+
+  - id: GOV-AI-005
+    title: LLM Model Version Control and Governance
+    standard: "Model Governance Best Practices"
+    requirement: "All LLM models used in production must be versioned, documented, and approved through governance review."
+    implementation_guidance: "Maintain model registry in configs/helix_models.yaml with version pinning. Document model selection rationale (cost, latency, quality). Require governance approval for: (1) New model providers, (2) Model version upgrades affecting trading logic, (3) Changes to default models. Log model_id and provider in all trace records. Test new models in shadow mode before production promotion."
+    enforcement: "Model changes require pull request approval from engineering lead. Shadow mode testing mandatory for 7 days minimum. Trace logs must include model metadata for audit."
+    severity: high
+
+severity_definitions:
+  critical:
+    description: "Security vulnerabilities, data integrity risks, or compliance violations that could result in significant financial, legal, or reputational damage."
+    remediation_timeline: "Immediate (within 24 hours for production, before merge for new code)"
+    escalation: "Requires senior engineering and security team approval for any exceptions."
+  
+  high:
+    description: "Significant quality, maintainability, or operational risks that could impact system reliability or development velocity."
+    remediation_timeline: "Within 1 week for production systems, within sprint for new development"
+    escalation: "Requires engineering lead approval for exceptions."
+  
+  medium:
+    description: "Code quality or maintainability concerns that should be addressed but do not pose immediate operational risk."
+    remediation_timeline: "Within 2 sprints or next major release"
+    escalation: "Team lead discretion for exception handling."
+
+compliance_notes:
+  - "All standards apply to new development immediately upon adoption."
+  - "Existing codebases have 90-day grace period for high/medium severity items, 30-day for critical."
+  - "Automated tooling configuration files must be maintained in version control."
+  - "Standard exceptions require documented justification and time-bound remediation plan."
+  - "Annual review of standards required to align with emerging standards and tooling."
