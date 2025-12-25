@@ -132,3 +132,13 @@ ordinis/.claude
 # Large PDFs (use Git LFS or external storage)
 docs/publications/*.pdf
 docs/external/
+
+
+# SQLite databases (except test fixtures)
+*.sqlite3
+*.sqlite3-shm
+*.sqlite3-wal
+!tests/fixtures/**/*.sqlite3
+
+# ChromaDB storage (already covered by data/chromadb/ on line 48)
+# Database backups (already covered by data/backups/ on line 122)

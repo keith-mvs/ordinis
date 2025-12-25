@@ -6,14 +6,9 @@ Contains:
 - strategies/: Trading strategy implementations
 """
 
-from ordinis.application.services import (
-    OrchestratorConfig,
-    OrdinisOrchestrator,
-    PositionReconciliation,
-    ReconciliationResult,
-    SystemComponents,
-    SystemState,
-)
+# NOTE: Avoid importing services at package import time to prevent heavy optional
+# dependencies (e.g., aiosqlite) from being required for light-weight tools.
+# Import strategy implementations directly when needed.
 from ordinis.application.strategies import (
     ADXFilteredRSIStrategy,
     BaseStrategy,
@@ -35,13 +30,9 @@ __all__ = [
     "MACDStrategy",
     "MomentumBreakoutStrategy",
     "MovingAverageCrossoverStrategy",
-    "OrchestratorConfig",
-    # Services
-    "OrdinisOrchestrator",
+    # Services (import explicitly in components that need them)
     "ParabolicSARStrategy",
     "PositionReconciliation",
     "RSIMeanReversionStrategy",
-    "ReconciliationResult",
-    "SystemComponents",
-    "SystemState",
 ]
+

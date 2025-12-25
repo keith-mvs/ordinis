@@ -1,0 +1,51 @@
+{
+  "strategy_name": "fibonacci_adx",
+  "best_params": {
+    "adx_period": 9,
+    "adx_threshold": 20.292949778959155,
+    "swing_lookback": 55,
+    "tolerance": 0.024521439494565127,
+    "fib_382_weight": 0.1764993341639638,
+    "fib_500_weight": 0.6398895895108581,
+    "fib_618_weight": 0.368144690990448,
+    "take_profit_1272_mult": 2.9487498700618744,
+    "take_profit_1618_mult": 3.0916190333664417,
+    "require_volume_confirmation": 0,
+    "max_pyramids": 2
+  },
+  "oos_metrics": {
+    "cagr": 0,
+    "sharpe": 0,
+    "sortino": 0,
+    "max_dd": 0,
+    "calmar": 0,
+    "n_trades": 0,
+    "win_rate": 0,
+    "profit_factor": 0
+  },
+  "test_metrics": {
+    "cagr": 0.0,
+    "sharpe": 0.0,
+    "sortino": 0.0,
+    "max_dd": 0.0,
+    "calmar": 0.0
+  },
+  "bootstrap_ci": {
+    "sharpe": [
+      0.0,
+      0.0
+    ],
+    "cagr": [
+      0.0,
+      0.0
+    ]
+  },
+  "edge_zone_params": [
+    "adx_period",
+    "take_profit_1272_mult",
+    "require_volume_confirmation"
+  ],
+  "n_cycles": 320,
+  "optimization_time_sec": 63.1662859916687,
+  "timestamp": "2025-12-25T04:23:03.562586"
+}

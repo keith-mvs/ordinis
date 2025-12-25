@@ -10,5 +10,12 @@
     ],
     "deny": [],
     "ask": []
+  },
+  "enabledMcpjsonServers": [
+    "filesystem",
+    "azure"
+  ],
+  "remote": {
+    "defaultEnvironmentId": "env_011CUthQLyyWnx5ythFHPfnJ"
   }
 }

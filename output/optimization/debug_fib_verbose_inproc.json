@@ -1,0 +1,166 @@
+{
+  "results": {
+    "AAPL": {
+      "symbol": "AAPL",
+      "rows": 5028,
+      "start": "2005-12-15 00:00:00-05:00",
+      "end": "2025-12-10 00:00:00-05:00",
+      "required_bars": 75,
+      "adx_threshold": 20.292949778959155,
+      "checked": 30,
+      "adx_ok": 28,
+      "fib_ok": 30,
+      "combined": 7
+    },
+    "MSFT": {
+      "symbol": "MSFT",
+      "rows": 5028,
+      "start": "2005-12-15 00:00:00-05:00",
+      "end": "2025-12-10 00:00:00-05:00",
+      "required_bars": 75,
+      "adx_threshold": 20.292949778959155,
+      "checked": 30,
+      "adx_ok": 29,
+      "fib_ok": 30,
+      "combined": 2
+    },
+    "GOOGL": {
+      "symbol": "GOOGL",
+      "rows": 5028,
+      "start": "2005-12-15 00:00:00-05:00",
+      "end": "2025-12-10 00:00:00-05:00",
+      "required_bars": 75,
+      "adx_threshold": 20.292949778959155,
+      "checked": 30,
+      "adx_ok": 27,
+      "fib_ok": 30,
+      "combined": 0
+    },
+    "NVDA": {
+      "symbol": "NVDA",
+      "rows": 5028,
+      "start": "2005-12-15 00:00:00-05:00",
+      "end": "2025-12-10 00:00:00-05:00",
+      "required_bars": 75,
+      "adx_threshold": 20.292949778959155,
+      "checked": 30,
+      "adx_ok": 27,
+      "fib_ok": 30,
+      "combined": 1
+    },
+    "META": {
+      "symbol": "META",
+      "rows": 3411,
+      "start": "2012-05-18 00:00:00-04:00",
+      "end": "2025-12-10 00:00:00-05:00",
+      "required_bars": 75,
+      "adx_threshold": 20.292949778959155,
+      "checked": 30,
+      "adx_ok": 29,
+      "fib_ok": 30,
+      "combined": 4
+    },
+    "JPM": {
+      "symbol": "JPM",
+      "rows": 5028,
+      "start": "2005-12-15 00:00:00-05:00",
+      "end": "2025-12-10 00:00:00-05:00",
+      "required_bars": 75,
+      "adx_threshold": 20.292949778959155,
+      "checked": 30,
+      "adx_ok": 29,
+      "fib_ok": 30,
+      "combined": 3
+    },
+    "BAC": {
+      "symbol": "BAC",
+      "rows": 5028,
+      "start": "2005-12-15 00:00:00-05:00",
+      "end": "2025-12-10 00:00:00-05:00",
+      "required_bars": 75,
+      "adx_threshold": 20.292949778959155,
+      "checked": 30,
+      "adx_ok": 28,
+      "fib_ok": 30,
+      "combined": 3
+    },
+    "GS": {
+      "symbol": "GS",
+      "rows": 5028,
+      "start": "2005-12-15 00:00:00-05:00",
+      "end": "2025-12-10 00:00:00-05:00",
+      "required_bars": 75,
+      "adx_threshold": 20.292949778959155,
+      "checked": 30,
+      "adx_ok": 24,
+      "fib_ok": 30,
+      "combined": 4
+    },
+    "MS": {
+      "symbol": "MS",
+      "rows": 5028,
+      "start": "2005-12-15 00:00:00-05:00",
+      "end": "2025-12-10 00:00:00-05:00",
+      "required_bars": 75,
+      "adx_threshold": 20.292949778959155,
+      "checked": 30,
+      "adx_ok": 28,
+      "fib_ok": 30,
+      "combined": 3
+    },
+    "WFC": {
+      "symbol": "WFC",
+      "rows": 5028,
+      "start": "2005-12-15 00:00:00-05:00",
+      "end": "2025-12-10 00:00:00-05:00",
+      "required_bars": 75,
+      "adx_threshold": 20.292949778959155,
+      "checked": 30,
+      "adx_ok": 29,
+      "fib_ok": 30,
+      "combined": 3
+    }
+  },
+  "permissive": {
+    "AAPL": {
+      "rows": 5028,
+      "entries": 96
+    },
+    "MSFT": {
+      "rows": 5028,
+      "entries": 87
+    },
+    "GOOGL": {
+      "rows": 5028,
+      "entries": 29
+    },
+    "NVDA": {
+      "rows": 5028,
+      "entries": 62
+    },
+    "META": {
+      "rows": 3411,
+      "entries": 45
+    },
+    "JPM": {
+      "rows": 5028,
+      "entries": 71
+    },
+    "BAC": {
+      "rows": 5028,
+      "entries": 72
+    },
+    "GS": {
+      "rows": 5028,
+      "entries": 53
+    },
+    "MS": {
+      "rows": 5028,
+      "entries": 75
+    },
+    "WFC": {
+      "rows": 5028,
+      "entries": 70
+    }
+  }
+}

@@ -5,17 +5,28 @@ from .atr_breakout import ATRBreakoutModel
 from .atr_optimized_rsi import ATROptimizedRSIModel
 from .bollinger_bands import BollingerBandsModel
 from .bollinger_rsi_confluence import BollingerRSIConfluenceModel
+from .chandelier_exit import ChandelierExitModel, ExitMode
 from .evt_risk_gate import EVTGatedStrategy, EVTRiskGate
 from .fibonacci_retracement import FibonacciRetracementModel
+from .fractal_swing import FractalSwingModel, SwingPoint
 from .fundamental_value import FundamentalValueModel
 from .garch_breakout import GARCHBreakoutModel
 from .hmm_regime import HMMRegimeModel
 from .kalman_hybrid import KalmanHybridModel
-from .llm_enhanced import LLMEnhancedModel, LLMFeatureEngineer
-from .lstm_model import LSTMModel
+try:
+    from .llm_enhanced import LLMEnhancedModel, LLMFeatureEngineer
+except Exception:
+    LLMEnhancedModel = None
+    LLMFeatureEngineer = None
+
+try:
+    from .lstm_model import LSTMModel
+except Exception:
+    LSTMModel = None
 from .macd import MACDModel
 from .mi_ensemble import MIEnsembleModel
 from .momentum_breakout import MomentumBreakoutModel
+from .mtf_alignment import MTFAlignmentModel, TimeframeAlignment
 from .mtf_momentum import MTFMomentumModel
 from .multi_signal_confluence import MultiSignalConfluenceModel
 from .network_parity import NetworkRiskParityModel
@@ -28,6 +39,7 @@ from .sentiment_momentum import SentimentMomentumModel
 from .sma_crossover import SMACrossoverModel
 from .statistical_reversion import StatisticalReversionModel
 from .trend_following import TrendFollowingModel
+from .volume_profile import VolumeProfileModel
 from .volume_trend import VolumeTrendModel
 
 __all__ = [
@@ -37,14 +49,21 @@ __all__ = [
     "ATROptimizedRSIModel",
     "BollingerBandsModel",
     "BollingerRSIConfluenceModel",
+    "ChandelierExitModel",
+    "ExitMode",
     "FibonacciRetracementModel",
+    "FractalSwingModel",
+    "SwingPoint",
     "MACDModel",
     "MomentumBreakoutModel",
+    "MTFAlignmentModel",
+    "TimeframeAlignment",
     "ParabolicSARModel",
     "RSIMeanReversionModel",
     "RSIVolumeReversionModel",
     "SMACrossoverModel",
     "TrendFollowingModel",
+    "VolumeProfileModel",
     "VolumeTrendModel",
     # Quantitative
     "EVTRiskGate",

@@ -51,9 +51,11 @@ class ADXTrendModel(Model):
         self.adx_threshold = params.get("adx_threshold", 25)
         self.strong_trend = params.get("strong_trend", 40)
         self.di_threshold = params.get("di_threshold", 5)
+        self.slope_lookback = params.get("slope_lookback", 5)  # Bars for slope calculation
+        self.slope_threshold = params.get("slope_threshold", 2.0)  # Min slope for "accelerating"
 
-        # Update min data points (ADX needs period + smoothing)
-        self.config.min_data_points = (self.adx_period * 2) + 30
+        # Update min data points (ADX needs period + smoothing + slope lookback)
+        self.config.min_data_points = (self.adx_period * 2) + 30 + self.slope_lookback
 
     async def generate(self, data: pd.DataFrame, timestamp: datetime) -> Signal:
         """
@@ -77,17 +79,32 @@ class ADXTrendModel(Model):
         else:
             symbol = "UNKNOWN"
 
-        high = data["high"]
-        low = data["low"]
-        close = data["close"]
+        # Normalize series-like columns to pd.Series if necessary
+        def _as_series(col):
+            if isinstance(col, pd.DataFrame):
+                if col.shape[1] >= 1:
+                    s = col.iloc[:, 0]
+                else:
+                    raise ValueError("Column is empty DataFrame")
+            else:
+                s = col
+            # Ensure numeric dtype
+            s = pd.to_numeric(s, errors="coerce")
+            if s.isnull().all():
+                raise ValueError("Column contains only nulls or non-numeric values")
+            return s
+
+        high = _as_series(data["high"])
+        low = _as_series(data["low"])
+        close = _as_series(data["close"])
 
         # Calculate ADX using inline calculation to avoid circular imports
         # (TrendIndicators would be ideal but causes import issues)
         # Calculate True Range
         prev_close = close.shift(1)
         tr1 = high - low
-        tr2 = abs(high - prev_close)
-        tr3 = abs(low - prev_close)
+        tr2 = (high - prev_close).abs()
+        tr3 = (low - prev_close).abs()
         tr = pd.concat([tr1, tr2, tr3], axis=1).max(axis=1)
 
         # Calculate +DM and -DM
@@ -97,8 +114,20 @@ class ADXTrendModel(Model):
         plus_dm = pd.Series(0.0, index=high.index)
         minus_dm = pd.Series(0.0, index=high.index)
 
-        plus_dm[(up_move > down_move) & (up_move > 0)] = up_move
-        minus_dm[(down_move > up_move) & (down_move > 0)] = down_move
+        # Use boolean indexing with aligned indices
+        mask_plus = (up_move > down_move) & (up_move > 0)
+        mask_minus = (down_move > up_move) & (down_move > 0)
+
+        plus_dm.loc[mask_plus.index] = plus_dm.loc[mask_plus.index]
+        minus_dm.loc[mask_minus.index] = minus_dm.loc[mask_minus.index]
+
+        try:
+            plus_dm.loc[mask_plus] = up_move.loc[mask_plus]
+            minus_dm.loc[mask_minus] = down_move.loc[mask_minus]
+        except Exception:
+            # Fallback: assign using where to avoid index alignment issues
+            plus_dm = up_move.where(mask_plus, 0.0).reindex_like(plus_dm).fillna(0.0)
+            minus_dm = down_move.where(mask_minus, 0.0).reindex_like(minus_dm).fillna(0.0)
 
         # Smooth DM and TR
         plus_dm_smooth = plus_dm.rolling(window=self.adx_period).sum()
@@ -124,6 +153,16 @@ class ADXTrendModel(Model):
         prev_adx = adx.iloc[-2] if len(adx) > 1 else current_adx
         prev_plus_di = plus_di.iloc[-2] if len(plus_di) > 1 else current_plus_di
         prev_minus_di = minus_di.iloc[-2] if len(minus_di) > 1 else current_minus_di
+
+        # Calculate ADX slope (rate of change over slope_lookback bars)
+        if len(adx) > self.slope_lookback:
+            adx_slope = current_adx - adx.iloc[-1 - self.slope_lookback]
+        else:
+            adx_slope = 0.0
+
+        # Determine if trend is accelerating (ADX slope positive and above threshold)
+        trend_accelerating = adx_slope > self.slope_threshold
+        trend_decelerating = adx_slope < -self.slope_threshold
 
         # Calculate DI difference for trend direction strength
         di_diff = abs(current_plus_di - current_minus_di)
@@ -194,6 +233,8 @@ class ADXTrendModel(Model):
             "plus_di": float(current_plus_di),
             "minus_di": float(current_minus_di),
             "di_difference": float(di_diff),
+            "adx_slope": float(adx_slope),
+            "trend_accelerating": 1.0 if trend_accelerating else 0.0,
             "trend_strength": adx_strength if signal_type == SignalType.ENTRY else 0.0,
         }
 
@@ -238,5 +279,9 @@ class ADXTrendModel(Model):
                 "trend_strength": trend_strength,
                 "di_difference": float(di_diff),
                 "adx_threshold": self.adx_threshold,
+                "adx_slope": float(adx_slope),
+                "slope_lookback": self.slope_lookback,
+                "trend_accelerating": trend_accelerating,
+                "trend_decelerating": trend_decelerating,
             },
         )

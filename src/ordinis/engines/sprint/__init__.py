@@ -4,11 +4,25 @@ Sprint Engine - GPU-accelerated strategy development and testing.
 This module provides:
 - GPU-accelerated numerical computations for backtesting
 - AI-powered parameter optimization using LLMs
+- ML-based profit optimization (Bayesian, Evolutionary, Bandit)
 - Walk-forward validation framework
 - Strategy visualization and reporting
 """
 
 from ordinis.engines.sprint.core.accelerator import GPUBacktestEngine, GPUConfig
+from ordinis.engines.sprint.core.ml_profit_optimizer import (
+    BayesianOptimizer,
+    ContextualBanditOptimizer,
+    EvolutionaryOptimizer,
+    MLProfitOptimizer,
+    OptimizationConfig,
+    OptimizationMethod,
+    OptimizationResult,
+    ParameterSpec,
+    ProfitMetric,
+    TrialResult,
+    create_fibonacci_adx_optimizer,
+)
 from ordinis.engines.sprint.core.optimizer import (
     AIOptimizerConfig,
     AIStrategyOptimizer,
@@ -47,6 +61,18 @@ __all__ = [
     "SprintConfig",
     "StrategyResult",
     "run_sprint",
+    # ML Profit Optimizer
+    "MLProfitOptimizer",
+    "OptimizationConfig",
+    "OptimizationMethod",
+    "OptimizationResult",
+    "ParameterSpec",
+    "ProfitMetric",
+    "TrialResult",
+    "BayesianOptimizer",
+    "EvolutionaryOptimizer",
+    "ContextualBanditOptimizer",
+    "create_fibonacci_adx_optimizer",
     # Strategy profiles
     "GARCH_BREAKOUT_PROFILE",
     "KALMAN_TREND_PROFILE",

@@ -8,9 +8,18 @@ Provides SQLite-based state persistence for:
 - System state (kill switch, checkpoints)
 
 Uses aiosqlite for async operations with WAL mode for concurrent reads.
+Includes governance hooks for path validation and audit logging.
 """
 
 from ordinis.adapters.storage.database import DatabaseManager, get_database
+from ordinis.adapters.storage.governance import (
+    BackupValidationRule,
+    ChromaDBPathRule,
+    DatabaseIntegrityRule,
+    PathValidationRule,
+    StorageGovernanceHook,
+    StorageRule,
+)
 from ordinis.adapters.storage.models import (
     OrderRow,
     PositionRow,
@@ -23,14 +32,24 @@ from ordinis.adapters.storage.repositories.system_state import SystemStateReposi
 from ordinis.adapters.storage.repositories.trade import TradeRepository
 
 __all__ = [
+    # Database
     "DatabaseManager",
-    "OrderRepository",
-    "OrderRow",
-    "PositionRepository",
-    "PositionRow",
-    "SystemStateRepository",
-    "SystemStateRow",
-    "TradeRepository",
-    "TradeRow",
     "get_database",
+    # Repositories
+    "OrderRepository",
+    "PositionRepository",
+    "SystemStateRepository",
+    "TradeRepository",
+    # Models
+    "OrderRow",
+    "PositionRow",
+    "SystemStateRow",
+    "TradeRow",
+    # Governance
+    "StorageGovernanceHook",
+    "StorageRule",
+    "PathValidationRule",
+    "DatabaseIntegrityRule",
+    "ChromaDBPathRule",
+    "BackupValidationRule",
 ]

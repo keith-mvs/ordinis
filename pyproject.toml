@@ -163,12 +163,9 @@ addopts = [
     "-v",
     "--strict-markers",
     "--strict-config",
-    "--cov=src",
-    "--cov-report=term-missing",
-    "--cov-report=html:htmlcov",
-    "--cov-report=xml:coverage_report.xml",
-    "--cov-fail-under=45",  # Current: 45%, target: 50% - gradually increasing
 ]
+# Coverage options moved to Makefile targets to avoid fail-under issues
+# when running individual test files. Use `make coverage` for full coverage check.
 markers = [
     "unit: Unit tests (fast, isolated)",
     "integration: Integration tests (slower, external dependencies)",

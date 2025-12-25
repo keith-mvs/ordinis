@@ -2,13 +2,9 @@
 metadata:
   title: AI Governance
   description: Governance framework for AI-embedded trading systems
-  author: Ordinis AI
   version: 1.0.1
-  date: 2025-12-15
-  tags:
-    - governance
-    - policies
-    - standards
+  last_modified_date: 2025-12-15
+  tags: ["governance", "policies", "standards"]
 
 #=============================================================================
 # PRINCIPLES

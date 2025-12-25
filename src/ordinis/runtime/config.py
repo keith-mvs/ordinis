@@ -29,7 +29,7 @@ class SystemConfig(BaseModel):
 class DatabaseConfig(BaseModel):
     """Database configuration."""
 
-    path: str = "data/ordinis.db"
+    path: str = "data/ordinis.sqlite3"
     backup_dir: str = "data/backups"
     journal_mode: str = "WAL"
     synchronous: str = "NORMAL"

@@ -1,0 +1,116 @@
+{
+  "chunk_size": 500,
+  "total_terms": 5409,
+  "parts": [
+    {
+      "file": "IEEE_24765_vocabulary_part001_with_ids.jsonl",
+      "start_line": 1,
+      "end_line": 500,
+      "count": 500,
+      "first_term": "-ilities",
+      "last_term": "blocking bug",
+      "first_identifier": "3.(1)",
+      "last_identifier": "3.(500)"
+    },
+    {
+      "file": "IEEE_24765_vocabulary_part002_with_ids.jsonl",
+      "start_line": 501,
+      "end_line": 1000,
+      "count": 500,
+      "first_term": "blocking factor",
+      "last_term": "contractual requirement",
+      "first_identifier": "3.(501)",
+      "last_identifier": "3.(1000)"
+    },
+    {
+      "file": "IEEE_24765_vocabulary_part003_with_ids.jsonl",
+      "start_line": 1001,
+      "end_line": 1500,
+      "count": 500,
+      "first_term": "contravariance",
+      "last_term": "DTCF",
+      "first_identifier": "3.(1001)",
+      "last_identifier": "3.(1500)"
+    },
+    {
+      "file": "IEEE_24765_vocabulary_part004_with_ids.jsonl",
+      "start_line": 1501,
+      "end_line": 2000,
+      "count": 500,
+      "first_term": "DTCS",
+      "last_term": "functionality",
+      "first_identifier": "3.(1501)",
+      "last_identifier": "3.(2000)"
+    },
+    {
+      "file": "IEEE_24765_vocabulary_part005_with_ids.jsonl",
+      "start_line": 2001,
+      "end_line": 2500,
+      "count": 500,
+      "first_term": "FUR",
+      "last_term": "IT asset management system (ITAMS)",
+      "first_identifier": "3.(2001)",
+      "last_identifier": "3.(2500)"
+    },
+    {
+      "file": "IEEE_24765_vocabulary_part006_with_ids.jsonl",
+      "start_line": 2501,
+      "end_line": 3000,
+      "count": 500,
+      "first_term": "IT asset portfolio",
+      "last_term": "mutation testing",
+      "first_identifier": "3.(2501)",
+      "last_identifier": "3.(3000)"
+    },
+    {
+      "file": "IEEE_24765_vocabulary_part007_with_ids.jsonl",
+      "start_line": 3001,
+      "end_line": 3500,
+      "count": 500,
+      "first_term": "mutual exclusion",
+      "last_term": "primary information structure",
+      "first_identifier": "3.(3001)",
+      "last_identifier": "3.(3500)"
+    },
+    {
+      "file": "IEEE_24765_vocabulary_part008_with_ids.jsonl",
+      "start_line": 3501,
+      "end_line": 4000,
+      "count": 500,
+      "first_term": "primary intent",
+      "last_term": "restart",
+      "first_identifier": "3.(3501)",
+      "last_identifier": "3.(4000)"
+    },
+    {
+      "file": "IEEE_24765_vocabulary_part009_with_ids.jsonl",
+      "start_line": 4001,
+      "end_line": 4500,
+      "count": 500,
+      "first_term": "restart point",
+      "last_term": "source address",
+      "first_identifier": "3.(4001)",
+      "last_identifier": "3.(4500)"
+    },
+    {
+      "file": "IEEE_24765_vocabulary_part010_with_ids.jsonl",
+      "start_line": 4501,
+      "end_line": 5000,
+      "count": 500,
+      "first_term": "source code",
+      "last_term": "time-critical task",
+      "first_identifier": "3.(4501)",
+      "last_identifier": "3.(5000)"
+    },
+    {
+      "file": "IEEE_24765_vocabulary_part011_with_ids.jsonl",
+      "start_line": 5001,
+      "end_line": 5409,
+      "count": 409,
+      "first_term": "time-scaled schedule network diagram",
+      "last_term": "zero-address instruction",
+      "first_identifier": "3.(5001)",
+      "last_identifier": "3.(5409)"
+    }
+  ]
+}

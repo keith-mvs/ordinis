@@ -1,0 +1,12 @@
+file,start_line,end_line,count,first_term,last_term,first_identifier,last_identifier
+IEEE_24765_vocabulary_part001_with_ids.jsonl,1,500,500,-ilities,blocking bug,3.(1),3.(500)
+IEEE_24765_vocabulary_part002_with_ids.jsonl,501,1000,500,blocking factor,contractual requirement,3.(501),3.(1000)
+IEEE_24765_vocabulary_part003_with_ids.jsonl,1001,1500,500,contravariance,DTCF,3.(1001),3.(1500)
+IEEE_24765_vocabulary_part004_with_ids.jsonl,1501,2000,500,DTCS,functionality,3.(1501),3.(2000)
+IEEE_24765_vocabulary_part005_with_ids.jsonl,2001,2500,500,FUR,IT asset management system (ITAMS),3.(2001),3.(2500)
+IEEE_24765_vocabulary_part006_with_ids.jsonl,2501,3000,500,IT asset portfolio,mutation testing,3.(2501),3.(3000)
+IEEE_24765_vocabulary_part007_with_ids.jsonl,3001,3500,500,mutual exclusion,primary information structure,3.(3001),3.(3500)
+IEEE_24765_vocabulary_part008_with_ids.jsonl,3501,4000,500,primary intent,restart,3.(3501),3.(4000)
+IEEE_24765_vocabulary_part009_with_ids.jsonl,4001,4500,500,restart point,source address,3.(4001),3.(4500)
+IEEE_24765_vocabulary_part010_with_ids.jsonl,4501,5000,500,source code,time-critical task,3.(4501),3.(5000)
+IEEE_24765_vocabulary_part011_with_ids.jsonl,5001,5409,409,time-scaled schedule network diagram,zero-address instruction,3.(5001),3.(5409)

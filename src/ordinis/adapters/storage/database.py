@@ -29,7 +29,7 @@ from ordinis.utils.paths import resolve_project_path
 logger = logging.getLogger(__name__)
 
 # Default database location
-DEFAULT_DB_PATH = Path("data/ordinis.db")
+DEFAULT_DB_PATH = Path("data/ordinis.sqlite3")
 DEFAULT_BACKUP_DIR = Path("data/backups")
 
 
@@ -203,7 +203,7 @@ class DatabaseManager:
 
         timestamp = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
         suffix_part = f"_{suffix}" if suffix else ""
-        backup_name = f"ordinis_{timestamp}{suffix_part}.db"
+        backup_name = f"ordinis_{timestamp}{suffix_part}.sqlite3"
         backup_path = self.backup_dir / backup_name
 
         try:
@@ -229,7 +229,7 @@ class DatabaseManager:
         """Remove old backup files, keeping the most recent."""
         try:
             backups = sorted(
-                self.backup_dir.glob("ordinis_*.db"),
+                self.backup_dir.glob("ordinis_*.sqlite3"),
                 key=lambda p: p.stat().st_mtime,
                 reverse=True,
             )

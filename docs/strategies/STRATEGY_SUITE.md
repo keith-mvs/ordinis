@@ -1,52 +1,147 @@
 # Ordinis Strategy Suite
 
-**Complete Trading Strategy Library**
-**Version:** 1.0.0
-**Last Updated:** 2025-12-17
+---
+
+**Title:** Complete Trading Strategy Library
+**Description:** Master index and classification of all trading strategies in the Ordinis platform
+**Author:** Ordinis Quantitative Research
+**Version:** 2.0.0
+**Date:** 2025-12-25
+**Status:** current
+**Tags:** strategies, index, classification, signalcore, application-strategies
+**References:** See individual strategy documentation for academic references
 
 ---
 
 ## Overview
 
-This document serves as the master index for all trading strategies implemented in the Ordinis platform. Strategies are organized by complexity tier and include implementation status, key parameters, and performance characteristics.
+This document serves as the master index for all trading strategies implemented in the Ordinis platform. The suite contains **21 documented strategies** across multiple categories, with implementations in both the Application Strategies layer (`src/ordinis/application/strategies/`) and the SignalCore Models layer (`src/ordinis/engines/signalcore/models/`).
 
 ---
 
-## Strategy Tiers
+## Strategy Classification
 
-### Tier 1: Quick Wins (Low Complexity, Fast Implementation)
+```mermaid
+%%{init: {"flowchart": {"useMaxWidth": true, "nodeSpacing": 30, "rankSpacing": 60}}}%%
+flowchart LR
+    %% Centered, uniform node style
+    classDef uniform fill:#f9f9f9,stroke:#333,stroke-width:2px,font-size:14px,color:#000,height:48px,width:180px,text-align:center;
 
-| Strategy | File | Status | Expected Edge | Complexity |
-|----------|------|--------|---------------|------------|
-| **ATR-Optimized RSI** | `atr_optimized_rsi.py` | ✅ Production | +60% (21d) | 2/5 |
-| **GARCH Volatility Breakout** | `garch_breakout.py` | ✅ Complete | 3/5 | 2/5 |
-| **EVT Risk Gate** | `evt_risk_gate.py` | ✅ Complete | 3/5 (risk) | 2/5 |
-| **Multi-Timeframe Momentum** | `mtf_momentum.py` | ✅ Complete | 4/5 | 2/5 |
+    subgraph TECHNICAL["Technical Analysis"]
+        direction TB
+        T1[ATR-Optimized RSI]
+        T2[Bollinger Bands]
+        T3[MACD]
+        T4[Moving Average Crossover]
+        T5[Parabolic SAR]
+        T6[RSI Mean Reversion]
+        T7[Fibonacci ADX]
+    end
 
-### Tier 2: Core Quantitative (Medium Complexity)
+    subgraph MOMENTUM["Momentum & Trend"]
+        direction TB
+        M1[Momentum Breakout]
+        M2[Trend Following EMA]
+        M3[MTF Momentum]
+        M4[Volume-Price Confirm]
+        M5[Volatility Squeeze]
+    end
 
-| Strategy | File | Status | Expected Edge | Complexity |
-|----------|------|--------|---------------|------------|
-| **Kalman Filter Hybrid** | `kalman_hybrid.py` | ✅ Complete | 4/5 | 3/5 |
-| **OU Pairs Trading** | `ou_pairs.py` | ✅ Complete | 4/5 | 3/5 |
-| **MI-Weighted Ensemble** | `mi_ensemble.py` | ✅ Complete | 4/5 | 3/5 |
+    subgraph QUANT["Quantitative"]
+        direction TB
+        Q1[GARCH Breakout]
+        Q2[Kalman Hybrid]
+        Q3[OU Pairs Trading]
+        Q4[EVT Risk Gate]
+        Q5[Network Risk Parity]
+    end
 
-### Tier 3: Advanced (High Complexity)
+    subgraph ADVANCED["Advanced/ML"]
+        direction TB
+        A1[HMM Regime Switching]
+        A2[MI-Weighted Ensemble]
+        A3[Regime Adaptive Manager]
+    end
 
-| Strategy | File | Status | Expected Edge | Complexity |
-|----------|------|--------|---------------|------------|
-| **HMM Regime Switching** | `hmm_regime.py` | ✅ Complete | 4/5 | 4/5 |
-| **Network Risk Parity** | `network_parity.py` | ✅ Complete | 3/5 | 3/5 |
+    subgraph OPTIONS["Options"]
+        direction TB
+        O1[Covered Call]
+        O2[Bull Put Spread]
+        O3[Iron Condor]
+    end
 
-### Tier 4: Sprint 3 Small-Cap Strategies (GPU-Accelerated)
+    %% Apply the uniform style to all nodes
+    class T1,T2,T3,T4,T5,T6,T7 uniform;
+    class M1,M2,M3,M4,M5 uniform;
+    class Q1,Q2,Q3,Q4,Q5 uniform;
+    class A1,A2,A3 uniform;
+    class O1,O2,O3 uniform;
+```
 
-| Strategy | File | Status | Expected Edge | Complexity |
-|----------|------|--------|---------------|------------|
-| **Momentum Breakout** | `sprint3_smallcap_gpu.py` | ✅ Complete | 3/5 | 2/5 |
-| **Mean Reversion RSI** | `sprint3_smallcap_gpu.py` | ✅ Complete | 4/5 | 2/5 |
-| **Volatility Squeeze** | `sprint3_smallcap_gpu.py` | ✅ Complete | 4/5 | 2/5 |
-| **Trend Following EMA** | `sprint3_smallcap_gpu.py` | ✅ Complete | 4/5 | 2/5 |
-| **Volume-Price Confirm** | `sprint3_smallcap_gpu.py` | ✅ Complete | 3/5 | 2/5 |
+---
+
+## Summary by Category
+
+| Category | Count | Strategies | Primary Use Case |
+|----------|-------|------------|------------------|
+| **Technical Analysis** | 7 | ATR-RSI, Bollinger Bands, MACD, MA Crossover, Parabolic SAR, RSI Mean Reversion, Fibonacci ADX | Classic indicator-based signals |
+| **Momentum & Trend** | 5 | Momentum Breakout, Trend Following EMA, MTF Momentum, Volume-Price Confirm, Volatility Squeeze | Trend capture & breakout detection |
+| **Quantitative** | 5 | GARCH Breakout, Kalman Hybrid, OU Pairs, EVT Risk Gate, Network Risk Parity | Statistical & volatility modeling |
+| **Advanced/ML** | 3 | HMM Regime, MI Ensemble, Regime Adaptive Manager | Regime detection & meta-strategies |
+| **Options** | 3 | Covered Call, Bull Put Spread, Iron Condor | Options income & hedging |
+| **Total** | **23** | — | — |
+
+---
+
+## Complete Strategy Index
+
+### Technical Analysis Strategies
+
+| Strategy | Implementation | Status | Complexity | Documentation |
+|----------|---------------|--------|------------|---------------|
+| **ATR-Optimized RSI** | `signalcore/models/atr_optimized_rsi.py` | ✅ Production | ⭐⭐ | [ATR-RSI/](./ATR-RSI/) |
+| **Bollinger Bands** | `application/strategies/bollinger_bands.py`, `signalcore/models/bollinger_bands.py` | ✅ Complete | ⭐⭐ | [BOLLINGER_BANDS/](./BOLLINGER_BANDS/) |
+| **MACD** | `application/strategies/macd.py`, `signalcore/models/macd.py` | ✅ Complete | ⭐⭐ | [MACD/](./MACD/) |
+| **Moving Average Crossover** | `application/strategies/moving_average_crossover.py`, `signalcore/models/sma_crossover.py` | ✅ Complete | ⭐ | [MOVING_AVERAGE_CROSSOVER/](./MOVING_AVERAGE_CROSSOVER/) |
+| **Parabolic SAR** | `application/strategies/parabolic_sar_trend.py`, `signalcore/models/parabolic_sar.py` | ✅ Complete | ⭐⭐ | [PARABOLIC_SAR/](./PARABOLIC_SAR/) |
+| **RSI Mean Reversion** | `application/strategies/rsi_mean_reversion.py`, `signalcore/models/rsi_mean_reversion.py` | ✅ Complete | ⭐⭐ | [RSI_MEAN_REVERSION/](./RSI_MEAN_REVERSION/) |
+| **Fibonacci ADX** | `application/strategies/fibonacci_adx.py`, `signalcore/models/fibonacci_retracement.py` | ✅ Complete | ⭐⭐⭐ | [FIBONACCI_ADX/](./FIBONACCI_ADX/) |
+
+### Momentum & Trend Strategies
+
+| Strategy | Implementation | Status | Complexity | Documentation |
+|----------|---------------|--------|------------|---------------|
+| **Momentum Breakout** | `application/strategies/momentum_breakout.py`, `signalcore/models/momentum_breakout.py` | ✅ Complete | ⭐⭐ | [MOMENTUM_BREAKOUT/](./MOMENTUM_BREAKOUT/) |
+| **Trend Following EMA** | `signalcore/models/trend_following.py` | ✅ Complete | ⭐⭐ | [TREND_FOLLOWING_EMA/](./TREND_FOLLOWING_EMA/) |
+| **Multi-Timeframe Momentum** | `signalcore/models/mtf_momentum.py` | ✅ Complete | ⭐⭐⭐ | [MTF_MOMENTUM/](./MTF_MOMENTUM/) |
+| **Volume-Price Confirm** | `signalcore/models/volume_trend.py` | ✅ Complete | ⭐⭐ | [VOLUME_PRICE_CONFIRM/](./VOLUME_PRICE_CONFIRM/) |
+| **Volatility Squeeze** | `signalcore/models/atr_breakout.py` | ✅ Complete | ⭐⭐⭐ | [VOLATILITY_SQUEEZE/](./VOLATILITY_SQUEEZE/) |
+
+### Quantitative Strategies
+
+| Strategy | Implementation | Status | Complexity | Documentation |
+|----------|---------------|--------|------------|---------------|
+| **GARCH Volatility Breakout** | `signalcore/models/garch_breakout.py` | ✅ Complete | ⭐⭐⭐ | [GARCH_BREAKOUT/](./GARCH_BREAKOUT/) |
+| **Kalman Filter Hybrid** | `signalcore/models/kalman_hybrid.py` | ✅ Complete | ⭐⭐⭐⭐ | [KALMAN_HYBRID/](./KALMAN_HYBRID/) |
+| **OU Pairs Trading** | `signalcore/models/ou_pairs.py` | ✅ Complete | ⭐⭐⭐⭐ | [OU_PAIRS/](./OU_PAIRS/) |
+| **EVT Risk Gate** | `signalcore/models/evt_risk_gate.py` | ✅ Complete | ⭐⭐⭐ | [EVT_RISK_GATE/](./EVT_RISK_GATE/) |
+| **Network Risk Parity** | `signalcore/models/network_parity.py` | ✅ Complete | ⭐⭐⭐⭐ | [NETWORK_PARITY/](./NETWORK_PARITY/) |
+
+### Advanced / Machine Learning Strategies
+
+| Strategy | Implementation | Status | Complexity | Documentation |
+|----------|---------------|--------|------------|---------------|
+| **HMM Regime Switching** | `signalcore/models/hmm_regime.py` | ✅ Complete | ⭐⭐⭐⭐ | [HMM_REGIME/](./HMM_REGIME/) |
+| **MI-Weighted Ensemble** | `signalcore/models/mi_ensemble.py` | ✅ Complete | ⭐⭐⭐⭐ | [MI_ENSEMBLE/](./MI_ENSEMBLE/) |
+| **Regime Adaptive Manager** | `application/strategies/regime_adaptive/` | ✅ Complete | ⭐⭐⭐⭐⭐ | [REGIME_ADAPTIVE_MANAGER/](./REGIME_ADAPTIVE_MANAGER/) |
+
+### Options Strategies
+
+| Strategy | Implementation | Status | Complexity | Documentation |
+|----------|---------------|--------|------------|---------------|
+| **Covered Call** | `signalcore/models/options_signal.py` | ✅ Complete | ⭐⭐⭐ | [OPTIONS_TRADING/COVERED_CALL.md](./OPTIONS_TRADING/COVERED_CALL.md) |
+| **Bull Put Spread** | `signalcore/models/options_signal.py` | ✅ Complete | ⭐⭐⭐ | [OPTIONS_TRADING/BULL_PUT_SPREAD.md](./OPTIONS_TRADING/BULL_PUT_SPREAD.md) |
+| **Iron Condor** | `signalcore/models/options_signal.py` | ✅ Complete | ⭐⭐⭐⭐ | [OPTIONS_TRADING/IRON_CONDOR.md](./OPTIONS_TRADING/IRON_CONDOR.md) |
 
 ---
 
@@ -178,72 +273,104 @@ Portfolio allocation using correlation network centrality. Underweights highly c
 
 ---
 
-## Directory Structure
+### 10. Fibonacci ADX
+**Location:** `src/ordinis/application/strategies/fibonacci_adx.py`
 
-```
-src/ordinis/engines/signalcore/models/
-├── __init__.py
-├── atr_optimized_rsi.py      # ✅ Complete
-├── garch_breakout.py         # 🔨 Building
-├── evt_risk_gate.py          # 🔨 Building
-├── mtf_momentum.py           # 🔨 Building
-├── kalman_hybrid.py          # 🔨 Building
-├── ou_pairs.py               # 🔨 Building
-├── mi_ensemble.py            # 🔨 Building
-├── hmm_regime.py             # 🔨 Building
-└── network_parity.py         # 🔨 Building
+Combines Fibonacci retracement levels with ADX trend confirmation. Enters at key Fibonacci levels when ADX confirms trend strength.
 
-configs/strategies/
-├── atr_optimized_rsi.yaml    # ✅ Complete
-├── garch_breakout.yaml
-├── evt_risk_gate.yaml
-├── mtf_momentum.yaml
-├── kalman_hybrid.yaml
-├── ou_pairs.yaml
-├── mi_ensemble.yaml
-├── hmm_regime.yaml
-└── network_parity.yaml
-```
+**Key Parameters:**
+- Fibonacci levels: 38.2%, 50%, 61.8%
+- ADX threshold: >25 (trending)
+- Entry confirmation: Price at Fib level + ADX strong
+
+**Edge:** Structured entry with trend confirmation reduces false signals.
+
+---
+
+## Implementation Layers
+
+### Application Strategies (`src/ordinis/application/strategies/`)
+High-level strategy implementations extending `BaseStrategy`:
+- `ADXFilteredRSIStrategy`
+- `BollingerBandsStrategy`
+- `BollingerRSIConfluenceStrategy`
+- `FibonacciADXStrategy`
+- `MACDStrategy`
+- `MomentumBreakoutStrategy`
+- `MovingAverageCrossoverStrategy`
+- `ParabolicSARStrategy`
+- `RSIMeanReversionStrategy`
+
+### SignalCore Models (`src/ordinis/engines/signalcore/models/`)
+Signal generation models for the SignalCore engine:
+- **Classic Technical:** ADXTrendModel, ATRBreakoutModel, ATROptimizedRSIModel, BollingerBandsModel, FibonacciRetracementModel, MACDModel, MomentumBreakoutModel, ParabolicSARModel, RSIMeanReversionModel, SMACrossoverModel, TrendFollowingModel, VolumeTrendModel
+- **Quantitative:** EVTRiskGate, GARCHBreakoutModel, HMMRegimeModel, KalmanHybridModel, MIEnsembleModel, MTFMomentumModel, NetworkRiskParityModel, OUPairsModel
+- **ML/AI:** FundamentalValueModel, LLMEnhancedModel, LSTMModel, SentimentMomentumModel, StatisticalReversionModel
+- **Options:** OptionsSignalModel
 
 ---
 
 ## Dependencies
 
-| Strategy | Required Libraries |
-|----------|-------------------|
-| ATR-Optimized RSI | numpy, pandas |
-| GARCH Breakout | arch |
-| EVT Risk Gate | scipy |
-| MTF Momentum | numpy, pandas |
-| Kalman Hybrid | filterpy (optional) |
-| OU Pairs | statsmodels |
-| MI Ensemble | sklearn |
-| HMM Regime | hmmlearn |
-| Network Parity | networkx |
+| Category | Strategies | Required Libraries |
+|----------|-----------|-------------------|
+| Technical | ATR-RSI, Bollinger, MACD, MA Crossover, Parabolic SAR, RSI | numpy, pandas |
+| Quantitative | GARCH Breakout | arch |
+| Quantitative | EVT Risk Gate | scipy |
+| Quantitative | Kalman Hybrid | filterpy (optional) |
+| Quantitative | OU Pairs | statsmodels |
+| Advanced | MI Ensemble | sklearn |
+| Advanced | HMM Regime | hmmlearn |
+| Quantitative | Network Parity | networkx |
+| ML | LSTM Model | torch |
 
 ---
 
 ## Quick Start
 
 ```python
-from ordinis.engines.signalcore.strategy_loader import StrategyLoader
+# Application Strategy Usage
+from ordinis.application.strategies import BollingerBandsStrategy
 
-# Load any strategy
-loader = StrategyLoader()
-loader.load_strategy("configs/strategies/garch_breakout.yaml")
+strategy = BollingerBandsStrategy(name="bb-test")
+async with strategy.managed_lifecycle():
+    signal = await strategy.generate_signal(price_df, timestamp)
 
-# Get model and generate signals
-model = loader.get_model("COIN")
-signal = await model.generate("COIN", price_df, timestamp)
+# SignalCore Model Usage
+from ordinis.engines.signalcore.models import GARCHBreakoutModel
+
+model = GARCHBreakoutModel(config)
+signal = await model.generate("AAPL", price_df, timestamp)
 ```
 
 ---
 
-## Detailed Documentation
+## Documentation Index
 
-- [ATR-Optimized RSI Strategy (Official)](./ATR-RSI.md)
-- [Strategy Derivation Roadmap](../reference/strategies/strategy-derivation-roadmap.md)
+| Strategy | Documentation Folder |
+|----------|---------------------|
+| ATR-Optimized RSI | [ATR-RSI/](./ATR-RSI/) |
+| Bollinger Bands | [BOLLINGER_BANDS/](./BOLLINGER_BANDS/) |
+| EVT Risk Gate | [EVT_RISK_GATE/](./EVT_RISK_GATE/) |
+| Fibonacci ADX | [FIBONACCI_ADX/](./FIBONACCI_ADX/) |
+| GARCH Breakout | [GARCH_BREAKOUT/](./GARCH_BREAKOUT/) |
+| HMM Regime | [HMM_REGIME/](./HMM_REGIME/) |
+| Kalman Hybrid | [KALMAN_HYBRID/](./KALMAN_HYBRID/) |
+| MACD | [MACD/](./MACD/) |
+| MI Ensemble | [MI_ENSEMBLE/](./MI_ENSEMBLE/) |
+| Momentum Breakout | [MOMENTUM_BREAKOUT/](./MOMENTUM_BREAKOUT/) |
+| Moving Average Crossover | [MOVING_AVERAGE_CROSSOVER/](./MOVING_AVERAGE_CROSSOVER/) |
+| MTF Momentum | [MTF_MOMENTUM/](./MTF_MOMENTUM/) |
+| Network Parity | [NETWORK_PARITY/](./NETWORK_PARITY/) |
+| Options Trading | [OPTIONS_TRADING/](./OPTIONS_TRADING/) |
+| OU Pairs | [OU_PAIRS/](./OU_PAIRS/) |
+| Parabolic SAR | [PARABOLIC_SAR/](./PARABOLIC_SAR/) |
+| Regime Adaptive Manager | [REGIME_ADAPTIVE_MANAGER/](./REGIME_ADAPTIVE_MANAGER/) |
+| RSI Mean Reversion | [RSI_MEAN_REVERSION/](./RSI_MEAN_REVERSION/) |
+| Trend Following EMA | [TREND_FOLLOWING_EMA/](./TREND_FOLLOWING_EMA/) |
+| Volatility Squeeze | [VOLATILITY_SQUEEZE/](./VOLATILITY_SQUEEZE/) |
+| Volume-Price Confirm | [VOLUME_PRICE_CONFIRM/](./VOLUME_PRICE_CONFIRM/) |
 
 ---
 
-*Ordinis Quantitative Research - Strategy Suite v1.0.0*
+*Ordinis Quantitative Research - Strategy Suite v2.0.0*

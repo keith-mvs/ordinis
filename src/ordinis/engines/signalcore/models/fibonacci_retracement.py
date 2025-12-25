@@ -78,20 +78,46 @@ class FibonacciRetracementModel(Model):
         else:
             symbol = "UNKNOWN"
 
-        close = data["close"]
-        high = data["high"]
-        low = data["low"]
+        # Normalize numeric series
+        def _as_series(col):
+            if isinstance(col, pd.DataFrame):
+                if col.shape[1] >= 1:
+                    s = col.iloc[:, 0]
+                else:
+                    raise ValueError("Column is empty DataFrame")
+            else:
+                s = col
+            s = pd.to_numeric(s, errors="coerce")
+            if s.isnull().all():
+                raise ValueError("Column contains only nulls or non-numeric values")
+            return s
+
+        close = _as_series(data["close"])
+        high = _as_series(data["high"])
+        low = _as_series(data["low"])
 
         # Find recent swing high and low (inline to avoid imports)
         start_index = max(0, len(data) - self.swing_lookback)
         window = data.iloc[start_index:]
 
-        swing_high = float(window["high"].max())
-        swing_low = float(window["low"].min())
+        # Work with normalized window columns
+        window_high = _as_series(window["high"]) if "high" in window.columns else high.iloc[start_index:]
+        window_low = _as_series(window["low"]) if "low" in window.columns else low.iloc[start_index:]
+
+        swing_high = float(window_high.max())
+        swing_low = float(window_low.min())
 
         # Get positional index instead of index value
-        high_idx_pos = window["high"].argmax()
-        low_idx_pos = window["low"].argmin()
+        # Use idxmax/idxmin then convert to integer positions if possible
+        try:
+            high_idx_pos = window_high.idxmax()
+            low_idx_pos = window_low.idxmin()
+            # Convert to integer positions relative to original data
+            high_idx_pos = window.index.get_loc(high_idx_pos)
+            low_idx_pos = window.index.get_loc(low_idx_pos)
+        except Exception:
+            high_idx_pos = int(window_high.argmax())
+            low_idx_pos = int(window_low.argmin())
 
         # Convert to simple comparison (higher position = more recent)
         high_idx = start_index + high_idx_pos

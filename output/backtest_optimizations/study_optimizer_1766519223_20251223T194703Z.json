@@ -1,0 +1,78 @@
+{
+  "study_name": "optimizer_1766519223",
+  "best_value": 0.0,
+  "best_params": {
+    "rsi_period": 34,
+    "rsi_oversold": 37,
+    "rsi_exit": 30,
+    "atr_period": 7,
+    "atr_stop_mult": 7.78,
+    "atr_tp_mult": 13.7
+  },
+  "n_trials": 3,
+  "trials": [
+    {
+      "number": 0,
+      "value": -4.624654002866329,
+      "params": {
+        "rsi_period": 19,
+        "rsi_oversold": 43,
+        "rsi_exit": 50,
+        "atr_period": 38,
+        "atr_stop_mult": 1.95,
+        "atr_tp_mult": 14.27
+      },
+      "state": "COMPLETE",
+      "user_attrs": {
+        "trades": 7,
+        "backtest_summary": {
+          "total_return": -4.624654002866329,
+          "profit_factor": 0.6278317005001736,
+          "win_rate": 28.57142857142857
+        }
+      }
+    },
+    {
+      "number": 1,
+      "value": -8.44069007542043,
+      "params": {
+        "rsi_period": 36,
+        "rsi_oversold": 47,
+        "rsi_exit": 67,
+        "atr_period": 30,
+        "atr_stop_mult": 3.42,
+        "atr_tp_mult": 14.91
+      },
+      "state": "COMPLETE",
+      "user_attrs": {
+        "trades": 2,
+        "backtest_summary": {
+          "total_return": -8.44069007542043,
+          "profit_factor": 0.0,
+          "win_rate": 0.0
+        }
+      }
+    },
+    {
+      "number": 2,
+      "value": 0.0,
+      "params": {
+        "rsi_period": 34,
+        "rsi_oversold": 37,
+        "rsi_exit": 30,
+        "atr_period": 7,
+        "atr_stop_mult": 7.78,
+        "atr_tp_mult": 13.7
+      },
+      "state": "COMPLETE",
+      "user_attrs": {
+        "trades": 0,
+        "backtest_summary": {
+          "total_return": 0,
+          "profit_factor": 0,
+          "win_rate": 0
+        }
+      }
+    }
+  ]
+}

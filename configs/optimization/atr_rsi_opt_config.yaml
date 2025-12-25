@@ -1,0 +1,40 @@
+study_name: "atr_rsi_optimization_v1"
+trials: 20  # Lower for demo speed
+metric: "sharpe"
+direction: "maximize"
+symbols:
+  mid_cap:
+    - DKNG
+    - ROKU
+    - PLTR
+    - NET
+    - DDOG
+    - ZS
+    - OKTA
+    - TWLO
+    - SQ
+    - U
+    - RBLX
+    - SOFI
+    - AFRM
+    - HOOD
+    - COIN
+  small_cap:
+    - RDFN
+    - OPEN
+    - LC
+    - UPST
+    - FUBO
+    - SDC
+    - BYND
+    - SPCE
+    - NKLA
+    - QS
+    - LAZR
+    - MVIS
+    - CLOV
+    - WISH
+    - SENS
+data_source: "alphavantage"
+start_date: "2020-01-01"  # Adjusted for demo symbols availability
+end_date: "2023-12-31"

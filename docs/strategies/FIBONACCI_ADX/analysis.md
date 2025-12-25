@@ -101,14 +101,86 @@ No unit tests were found specifically targeting `FibonacciADXStrategy`.
 
 ## Proposed Implementation Tasks (Actionable TODOs) 📋
 
-- [ ] Task A: **Tiered stops** — modify `src/ordinis/application/strategies/fibonacci_adx.py` and `fibonacci_retracement.py` to compute and include next-level stops; add tests.
-- [ ] Task B: **Extensions** — add extension computations (1.272, 1.618) and return `take_profit_2/3` in signal metadata; add tests.
-- [ ] Task C: **Chandelier Exit** — implement a `ChandelierExitModel` in `src/ordinis/engines/signalcore/models/chandelier_exit.py` and support switching exit type in `PortfolioEngine`/position manager.
-- [ ] Task D: **ADX slope** — extend `ADXTrendModel` to provide `adx_slope` and `trend_accelerating` metadata; optionally expose as strategy gating parameter.
-- [ ] Task E: **Volume confirmation** — add optional checks (config-driven) to require declining volume on pullback and increasing volume on bounce.
-- [ ] Task F: **Fractal swing detection** — investigate and implement more robust swing detection methods (fractal or local extrema) and add tests.
-- [ ] Task G: **Testing** — add unit and integration tests validating all behaviors above.
-- [ ] Task H: **Documentation** — update `FIBONACCI_ADX.md` with precise algorithmic rules and an examples section showing how to enable the enhancements.
+- [x] Task A: **Tiered stops** — modify `src/ordinis/application/strategies/fibonacci_adx.py` and `fibonacci_retracement.py` to compute and include next-level stops; add tests. ✅ **COMPLETED 2025-12-25**
+- [x] Task B: **Extensions** — add extension computations (1.272, 1.618) and return `take_profit_2/3` in signal metadata; add tests. ✅ **COMPLETED 2025-12-25**
+- [x] Task C: **Chandelier Exit** — implement a `ChandelierExitModel` in `src/ordinis/engines/signalcore/models/chandelier_exit.py` and support switching exit type in `PortfolioEngine`/position manager. ✅ **COMPLETED 2025-12-25**
+- [x] Task D: **ADX slope** — extend `ADXTrendModel` to provide `adx_slope` and `trend_accelerating` metadata; optionally expose as strategy gating parameter. ✅ **COMPLETED 2025-12-25**
+- [x] Task E: **Volume confirmation** — add optional checks (config-driven) to require declining volume on pullback and increasing volume on bounce. ✅ **COMPLETED 2025-12-26**
+- [x] Task F: **Fractal swing detection** — implement robust swing detection using fractal logic with strength calculation. ✅ **COMPLETED 2025-12-26**
+- [x] Task G: **Testing** — add unit and integration tests validating all behaviors above. ✅ **COMPLETED 2025-12-26** (10 tests in `tests/test_application/test_fibonacci_adx_strategy.py`, 11 tests in `test_v12_features.py`, 18 tests in `test_v14_features.py`)
+- [x] Task H: **Documentation** — update `FIBONACCI_ADX.md` with precise algorithmic rules and an examples section showing how to enable the enhancements. ✅ **COMPLETED 2025-12-25**
+- [x] Task I: **Multi-Timeframe Alignment** — implement MTFAlignmentModel to confirm higher timeframe trend alignment. ✅ **COMPLETED 2025-12-26**
+
+---
+
+## v1.4 Enhancement Summary (Completed 2025-12-26) 🎉
+
+All roadmap items from the original strategy specification have been implemented:
+
+### Core Features (v1.0-v1.2)
+- ✅ Tiered stop-loss based on entry level
+- ✅ Fibonacci extension targets (127.2%, 161.8%)
+- ✅ Multi-target take profits (TP1, TP2, TP3)
+- ✅ ADX slope gating with `trend_accelerating` boolean
+- ✅ Chandelier Exit model for trailing stops
+
+### Advanced Features (v1.3-v1.4)
+- ✅ Volume Profile Confirmation (`VolumeProfileModel`)
+- ✅ Fractal Swing Detection (`FractalSwingModel`)
+- ✅ Multi-Timeframe Alignment (`MTFAlignmentModel`)
+
+### New Models Created
+| Model | File | Purpose |
+|-------|------|---------|
+| `VolumeProfileModel` | `volume_profile.py` | Confirms volume patterns during pullbacks and bounces |
+| `FractalSwingModel` | `fractal_swing.py` | Detects swing highs/lows using fractal logic with strength calculation |
+| `MTFAlignmentModel` | `mtf_alignment.py` | Confirms higher timeframe trend alignment |
+
+### Test Coverage
+| Test File | Tests | Status |
+|-----------|-------|--------|
+| `test_fibonacci_adx_strategy.py` | 10 | ✅ Passing |
+| `test_v12_features.py` | 11 | ✅ Passing |
+| `test_v14_features.py` | 18 | ✅ Passing |
+| **Total** | **39** | ✅ All Passing |
+
+### Strategy Parameters (v1.4)
+```python
+FibonacciADXStrategy(
+    # Core parameters
+    adx_threshold=25,
+    di_threshold=20,
+    swing_lookback=20,
+    level_tolerance=0.01,
+    min_retracement=0.382,
+    max_retracement=0.618,
+    
+    # v1.2 enhancements
+    require_trend_accelerating=True,  # ADX slope gating
+    
+    # v1.4 enhancements
+    require_volume_confirmation=True,
+    volume_lookback=20,
+    
+    use_fractal_swings=True,
+    fractal_period=5,
+    
+    require_mtf_alignment=True,
+    htf_sma_period=50,
+    htf_multiplier=4,
+)
+```
+
+---
+
+## Ready for Backtesting ▶️
+
+The strategy is now feature-complete and ready for backtesting/walk-forward testing:
+
+1. **ProofBench Integration** — Use the backtest harness in `src/ordinis/engines/proofbench/`
+2. **Historical Data** — Load data from `data/historical/` or use market data adapters
+3. **Configuration** — See `configs/strategies/` for example configurations
+4. **Scripts** — Run `scripts/run_backtest.py` or the ProofBench demo
 
 ---
 
