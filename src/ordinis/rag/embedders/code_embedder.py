@@ -92,14 +92,25 @@ class CodeEmbedder(BaseEmbedder):
             from sentence_transformers import SentenceTransformer
             import torch
 
+            # Set HuggingFace token for gated models (NeMo Retriever)
+            hf_token = os.getenv("HF_TOKEN") or os.getenv("TOKEN_FG_HUGGING_FACE")
+            if hf_token:
+                os.environ["HF_TOKEN"] = hf_token
+                logger.debug("HuggingFace token configured for gated model access")
+
             # Detect device (CUDA if available)
             device = "cuda" if torch.cuda.is_available() else "cpu"
             logger.info(
                 f"Loading local code embedding model: {self.model_name} on {device.upper()}"
             )
 
-            # Load model with GPU support
-            self._model = SentenceTransformer(self.model_name, device=device)
+            # Load model with GPU support and token
+            self._model = SentenceTransformer(
+                self.model_name, 
+                device=device,
+                token=hf_token,
+                trust_remote_code=True,  # Required for NVIDIA models
+            )
 
             logger.success(f"Local code embedding model loaded on {device.upper()}")
             if device == "cuda":

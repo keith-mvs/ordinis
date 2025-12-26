@@ -93,18 +93,7 @@ AZURE_MODELS: dict[str, ModelInfo] = {
 
 # Pre-defined NVIDIA models
 NVIDIA_MODELS: dict[str, ModelInfo] = {
-    # Primary reasoning/strategy model (DeepSeek R1)
-    "deepseek-r1": ModelInfo(
-        model_id="deepseek-ai/deepseek-r1",
-        display_name="DeepSeek R1",
-        model_type=ModelType.CHAT,
-        provider=ProviderType.NVIDIA_API,
-        context_length=128000,
-        supports_function_calling=True,
-        default_temperature=0.6,
-        max_output_tokens=8192,
-    ),
-    # Fallback reasoning model (Nemotron Ultra)
+    # Primary reasoning/strategy model (Nemotron Ultra)
     "nemotron-ultra": ModelInfo(
         model_id="nvidia/llama-3.1-nemotron-ultra-253b-v1",
         display_name="Nemotron Ultra 253B",
@@ -113,7 +102,7 @@ NVIDIA_MODELS: dict[str, ModelInfo] = {
         context_length=128000,
         supports_function_calling=True,
         default_temperature=0.6,
-        max_output_tokens=4096,
+        max_output_tokens=8192,
     ),
     # Fast synthesis/RAG model (Super)
     "nemotron-super": ModelInfo(
@@ -257,7 +246,7 @@ class HelixConfig(BaseEngineConfig):
             "default": "nemotron-super",
             "fast": "nemotron-8b",
             "code": "nemotron-super",
-            "reasoning": "deepseek-r1",
+            "reasoning": "nemotron-ultra",
             "embedding": "nv-embedqa",
             "embedding_fallback": "nemoretriever",
         }

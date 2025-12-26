@@ -9,7 +9,7 @@ aliases:
 
   # Specialized tasks
   code: nemotron-super
-  reasoning: deepseek-r1
+  reasoning: nemotron-ultra
   safety: nemoguard-8b
 
   # Embeddings

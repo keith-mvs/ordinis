@@ -11,7 +11,7 @@ from typing import Any
 from ordinis.engines.base.config import AIEngineConfig
 
 # Model ID constants
-MODEL_DEEPSEEK_R1 = "deepseek-r1"
+MODEL_NEMOTRON_ULTRA = "nemotron-ultra"
 MODEL_NEMOTRON_49B = "nemotron-super-49b-v1.5"
 MODEL_NEMOTRON_8B = "nemotron-8b-v3.1"
 
@@ -28,7 +28,7 @@ class ModelConfig:
         timeout_seconds: Timeout for this operation.
     """
 
-    primary: str = MODEL_DEEPSEEK_R1
+    primary: str = MODEL_NEMOTRON_ULTRA
     fallback: list[str] = field(default_factory=list)
     temperature: float = 0.6
     max_tokens: int = 4096
@@ -88,19 +88,19 @@ class CortexConfig(AIEngineConfig):
 
     # Model configurations per task
     hypothesis_model: ModelConfig = field(default_factory=lambda: ModelConfig(
-        primary=MODEL_DEEPSEEK_R1,
+        primary=MODEL_NEMOTRON_ULTRA,
         fallback=[MODEL_NEMOTRON_49B, MODEL_NEMOTRON_8B],
         temperature=0.6,
         max_tokens=4096,
     ))
     code_analysis_model: ModelConfig = field(default_factory=lambda: ModelConfig(
-        primary=MODEL_DEEPSEEK_R1,
+        primary=MODEL_NEMOTRON_ULTRA,
         fallback=[MODEL_NEMOTRON_49B],
         temperature=0.2,
         max_tokens=4096,
     ))
     research_model: ModelConfig = field(default_factory=lambda: ModelConfig(
-        primary=MODEL_DEEPSEEK_R1,
+        primary=MODEL_NEMOTRON_ULTRA,
         fallback=[MODEL_NEMOTRON_49B],
         temperature=0.4,
         max_tokens=8192,

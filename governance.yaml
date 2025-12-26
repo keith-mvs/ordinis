@@ -142,8 +142,532 @@ design:
         - "docs/POSITION_SIZING_LOGIC.md"
         - "README.md"
 
+#==============================================================================
+# OUTPERFORMING THE MARKET
+#==============================================================================
+# Performance thresholds and benchmarks that strategies must meet before
+# production deployment. Governance preflight checks enforce these limits.
 
+market_outperformance:
+  enabled: true
+  benchmark_index: "SPY"  # S&P 500 ETF as primary benchmark
+  
+  # Minimum acceptable performance thresholds (backtest & live)
+  thresholds:
+    sharpe_ratio:
+      minimum: 1.5
+      target: 2.0
+      description: "Risk-adjusted return; (mean - risk_free) / std_dev"
+      
+    sortino_ratio:
+      minimum: 2.0
+      target: 3.0
+      description: "Downside risk-adjusted return; penalizes only negative volatility"
+      
+    calmar_ratio:
+      minimum: 2.0
+      target: 3.0
+      description: "CAGR / Max Drawdown"
+      
+    max_drawdown_pct:
+      maximum: 20.0
+      target: 15.0
+      description: "Largest peak-to-trough loss; must not exceed this limit"
+      
+    profit_factor:
+      minimum: 1.8
+      target: 2.0
+      description: "Gross profit / gross loss"
+      
+    win_rate_pct:
+      minimum: 50.0
+      target: 58.0
+      description: "Winning trades / total trades"
+      
+    avg_win_loss_ratio:
+      minimum: 1.2
+      target: 1.5
+      description: "Average win / average loss"
+      
+  # Alpha generation requirements
+  alpha_generation:
+    require_positive_alpha: true
+    minimum_alpha_pct: 0.0
+    target_alpha_pct: 5.0
+    statistical_significance: 0.05  # p-value threshold
+    description: "Excess return over benchmark; must be positive and significant"
+    
+  # Information ratio (alpha / tracking error)
+  information_ratio:
+    minimum: 0.5
+    target: 1.0
+    description: "(Strategy - Benchmark) / tracking_error"
+    
+  # Beta constraints for market-neutral strategies
+  beta_constraints:
+    market_neutral_max_beta: 0.3
+    directional_max_beta: 1.5
+    description: "Regression slope vs market; near 0 for market-neutral"
+    
+  # Risk metrics
+  risk_metrics:
+    var_95_max_pct: 2.0        # 1-day 95% VaR as % of equity
+    cvar_95_max_pct: 3.0       # Expected shortfall beyond VaR
+    max_leverage: 5.0          # Gross exposure / equity
+    max_concentration: 0.15    # Herfindahl index (diversification)
+    
+  # Transaction cost awareness
+  transaction_costs:
+    max_slippage_bps: 5        # Basis points
+    max_cost_ratio_pct: 10.0   # Transaction costs / gross profit
+    max_annual_turnover_pct: 150.0
+    
+  # Pre-deployment acceptance criteria (all must pass)
+  acceptance_criteria:
+    require_all_thresholds: true
+    minimum_backtest_periods: 3      # Number of benchmark packs
+    governance_pass_rate_pct: 100.0  # No policy violations allowed
+    simulation_uptime_pct: 99.9
+    e2e_latency_p95_ms: 200
+    
+  # Shadow mode requirements before live trading
+  shadow_mode:
+    enabled: true
+    minimum_duration_days: 7
+    compare_vs_production: true
+    auto_promote_on_pass: false  # Requires human approval
 
+#==============================================================================
+# VERIFIABLE PERFORMANCE REQUIREMENTS
+#==============================================================================
+# Formal, testable requirements for strategy performance validation.
+# Each requirement has a unique ID, acceptance criteria, and verification method.
+
+performance_requirements:
+
+  # --- RISK-ADJUSTED RETURN REQUIREMENTS ---
+  
+  - id: PERF-RAR-001
+    title: Sharpe Ratio Minimum Threshold
+    category: risk_adjusted_return
+    requirement: "Strategy Sharpe ratio SHALL be ≥ 1.5 over rolling 252-day periods."
+    acceptance_criteria:
+      - "sharpe_ratio >= 1.5"
+      - "Measured using daily returns, annualized"
+      - "Risk-free rate: 3-month T-bill yield"
+    verification_method: "Automated: analytics.calculate_sharpe(returns, rf_rate)"
+    test_command: "pytest tests/test_analytics/test_metrics.py::test_sharpe_threshold -v"
+    governance_check: "governance.preflight() with operation='sharpe_validation'"
+    severity: critical
+    blocks_deployment: true
+
+  - id: PERF-RAR-002
+    title: Sortino Ratio Minimum Threshold
+    category: risk_adjusted_return
+    requirement: "Strategy Sortino ratio SHALL be ≥ 2.0 over rolling 252-day periods."
+    acceptance_criteria:
+      - "sortino_ratio >= 2.0"
+      - "Downside deviation calculated using negative returns only"
+      - "Target return: risk-free rate"
+    verification_method: "Automated: analytics.calculate_sortino(returns, target)"
+    test_command: "pytest tests/test_analytics/test_metrics.py::test_sortino_threshold -v"
+    governance_check: "governance.preflight() with operation='sortino_validation'"
+    severity: high
+    blocks_deployment: true
+
+  - id: PERF-RAR-003
+    title: Calmar Ratio Minimum Threshold
+    category: risk_adjusted_return
+    requirement: "Strategy Calmar ratio SHALL be ≥ 2.0 (CAGR / Max Drawdown)."
+    acceptance_criteria:
+      - "calmar_ratio >= 2.0"
+      - "CAGR annualized over backtest period"
+      - "Max drawdown measured peak-to-trough"
+    verification_method: "Automated: analytics.calculate_calmar(equity_curve)"
+    test_command: "pytest tests/test_analytics/test_metrics.py::test_calmar_threshold -v"
+    governance_check: "governance.preflight() with operation='calmar_validation'"
+    severity: high
+    blocks_deployment: true
+
+  # --- DRAWDOWN REQUIREMENTS ---
+
+  - id: PERF-DD-001
+    title: Maximum Drawdown Limit
+    category: drawdown
+    requirement: "Strategy maximum drawdown SHALL NOT exceed 20% of peak equity."
+    acceptance_criteria:
+      - "max_drawdown_pct <= 20.0"
+      - "Measured as (peak - trough) / peak × 100"
+      - "Applies to both backtest and live trading"
+    verification_method: "Automated: analytics.calculate_max_drawdown(equity_curve)"
+    test_command: "pytest tests/test_analytics/test_metrics.py::test_max_drawdown_limit -v"
+    governance_check: "governance.preflight() with operation='drawdown_check'"
+    severity: critical
+    blocks_deployment: true
+    live_action: "Kill switch activation if breached"
+
+  - id: PERF-DD-002
+    title: Drawdown Recovery Time
+    category: drawdown
+    requirement: "Strategy SHALL recover from 10%+ drawdowns within 60 trading days (median)."
+    acceptance_criteria:
+      - "median_recovery_days <= 60 for drawdowns >= 10%"
+      - "Measured across all historical drawdown events"
+    verification_method: "Automated: analytics.calculate_recovery_periods(equity_curve)"
+    test_command: "pytest tests/test_analytics/test_metrics.py::test_recovery_time -v"
+    governance_check: "governance.preflight() with operation='recovery_analysis'"
+    severity: medium
+    blocks_deployment: false
+
+  # --- PROFITABILITY REQUIREMENTS ---
+
+  - id: PERF-PF-001
+    title: Profit Factor Minimum
+    category: profitability
+    requirement: "Strategy profit factor SHALL be ≥ 1.8 (gross profit / gross loss)."
+    acceptance_criteria:
+      - "profit_factor >= 1.8"
+      - "Calculated as sum(winning_trades) / abs(sum(losing_trades))"
+    verification_method: "Automated: analytics.calculate_profit_factor(trades)"
+    test_command: "pytest tests/test_analytics/test_metrics.py::test_profit_factor -v"
+    governance_check: "governance.preflight() with operation='profit_factor_check'"
+    severity: high
+    blocks_deployment: true
+
+  - id: PERF-PF-002
+    title: Win Rate Minimum
+    category: profitability
+    requirement: "Strategy win rate SHALL be ≥ 50%."
+    acceptance_criteria:
+      - "win_rate_pct >= 50.0"
+      - "Calculated as winning_trades / total_trades × 100"
+      - "Minimum 100 trades for statistical validity"
+    verification_method: "Automated: analytics.calculate_win_rate(trades)"
+    test_command: "pytest tests/test_analytics/test_metrics.py::test_win_rate -v"
+    governance_check: "governance.preflight() with operation='win_rate_check'"
+    severity: high
+    blocks_deployment: true
+
+  - id: PERF-PF-003
+    title: Average Win/Loss Ratio
+    category: profitability
+    requirement: "Strategy average win/loss ratio SHALL be ≥ 1.2."
+    acceptance_criteria:
+      - "avg_win_loss_ratio >= 1.2"
+      - "Calculated as mean(winning_trade_pnl) / abs(mean(losing_trade_pnl))"
+    verification_method: "Automated: analytics.calculate_win_loss_ratio(trades)"
+    test_command: "pytest tests/test_analytics/test_metrics.py::test_win_loss_ratio -v"
+    governance_check: "governance.preflight() with operation='win_loss_check'"
+    severity: medium
+    blocks_deployment: true
+
+  # --- ALPHA GENERATION REQUIREMENTS ---
+
+  - id: PERF-ALPHA-001
+    title: Positive Alpha vs Benchmark
+    category: alpha_generation
+    requirement: "Strategy SHALL generate positive alpha versus SPY benchmark."
+    acceptance_criteria:
+      - "alpha > 0.0"
+      - "Measured via CAPM regression: r_strategy = alpha + beta * r_benchmark + epsilon"
+      - "Alpha must be annualized"
+    verification_method: "Automated: analytics.calculate_alpha(strategy_returns, benchmark_returns)"
+    test_command: "pytest tests/test_analytics/test_alpha.py::test_positive_alpha -v"
+    governance_check: "governance.preflight() with operation='alpha_validation'"
+    severity: critical
+    blocks_deployment: true
+
+  - id: PERF-ALPHA-002
+    title: Alpha Statistical Significance
+    category: alpha_generation
+    requirement: "Strategy alpha SHALL be statistically significant (p-value < 0.05)."
+    acceptance_criteria:
+      - "alpha_p_value < 0.05"
+      - "Determined via t-test on regression alpha coefficient"
+      - "Minimum 252 daily observations required"
+    verification_method: "Automated: analytics.test_alpha_significance(returns, benchmark)"
+    test_command: "pytest tests/test_analytics/test_alpha.py::test_alpha_significance -v"
+    governance_check: "governance.preflight() with operation='alpha_significance'"
+    severity: high
+    blocks_deployment: true
+
+  - id: PERF-ALPHA-003
+    title: Information Ratio Minimum
+    category: alpha_generation
+    requirement: "Strategy information ratio SHALL be ≥ 0.5."
+    acceptance_criteria:
+      - "information_ratio >= 0.5"
+      - "Calculated as (strategy_return - benchmark_return) / tracking_error"
+      - "Annualized tracking error"
+    verification_method: "Automated: analytics.calculate_information_ratio(strategy, benchmark)"
+    test_command: "pytest tests/test_analytics/test_alpha.py::test_information_ratio -v"
+    governance_check: "governance.preflight() with operation='ir_validation'"
+    severity: high
+    blocks_deployment: true
+
+  # --- RISK METRIC REQUIREMENTS ---
+
+  - id: PERF-RISK-001
+    title: Value at Risk (VaR) Limit
+    category: risk_metrics
+    requirement: "Strategy 1-day 95% VaR SHALL NOT exceed 2% of portfolio equity."
+    acceptance_criteria:
+      - "var_95_pct <= 2.0"
+      - "Calculated using historical simulation (1000+ days)"
+      - "Verified daily during live trading"
+    verification_method: "Automated: risk.calculate_var(returns, confidence=0.95)"
+    test_command: "pytest tests/test_risk/test_var.py::test_var_limit -v"
+    governance_check: "governance.preflight() with operation='var_check'"
+    severity: critical
+    blocks_deployment: true
+    live_action: "Position reduction if approaching limit"
+
+  - id: PERF-RISK-002
+    title: Conditional VaR (CVaR) Limit
+    category: risk_metrics
+    requirement: "Strategy 95% CVaR (Expected Shortfall) SHALL NOT exceed 3% of equity."
+    acceptance_criteria:
+      - "cvar_95_pct <= 3.0"
+      - "Calculated as mean of losses beyond VaR"
+    verification_method: "Automated: risk.calculate_cvar(returns, confidence=0.95)"
+    test_command: "pytest tests/test_risk/test_var.py::test_cvar_limit -v"
+    governance_check: "governance.preflight() with operation='cvar_check'"
+    severity: critical
+    blocks_deployment: true
+
+  - id: PERF-RISK-003
+    title: Maximum Leverage Limit
+    category: risk_metrics
+    requirement: "Strategy gross leverage SHALL NOT exceed 5.0x equity."
+    acceptance_criteria:
+      - "gross_leverage <= 5.0"
+      - "Calculated as sum(abs(positions)) / equity"
+      - "Checked before each trade execution"
+    verification_method: "Automated: risk.calculate_leverage(positions, equity)"
+    test_command: "pytest tests/test_risk/test_leverage.py::test_max_leverage -v"
+    governance_check: "governance.preflight() with operation='leverage_check'"
+    severity: critical
+    blocks_deployment: true
+    live_action: "Order rejection if would breach limit"
+
+  - id: PERF-RISK-004
+    title: Portfolio Concentration Limit
+    category: risk_metrics
+    requirement: "No single position SHALL exceed 15% of portfolio equity."
+    acceptance_criteria:
+      - "max_position_weight <= 0.15"
+      - "Measured as position_value / total_equity"
+    verification_method: "Automated: risk.check_concentration(positions, equity)"
+    test_command: "pytest tests/test_risk/test_concentration.py::test_position_limit -v"
+    governance_check: "governance.preflight() with operation='concentration_check'"
+    severity: high
+    blocks_deployment: true
+
+  # --- BETA REQUIREMENTS ---
+
+  - id: PERF-BETA-001
+    title: Market-Neutral Beta Constraint
+    category: beta_exposure
+    requirement: "Market-neutral strategies SHALL maintain |beta| ≤ 0.3."
+    acceptance_criteria:
+      - "abs(portfolio_beta) <= 0.3"
+      - "Measured via rolling 60-day regression vs SPY"
+      - "Applies only to strategies tagged 'market_neutral'"
+    verification_method: "Automated: analytics.calculate_beta(strategy, benchmark)"
+    test_command: "pytest tests/test_analytics/test_beta.py::test_market_neutral_beta -v"
+    governance_check: "governance.preflight() with operation='beta_check'"
+    severity: high
+    blocks_deployment: true
+    strategy_tags: ["market_neutral"]
+
+  - id: PERF-BETA-002
+    title: Directional Strategy Beta Limit
+    category: beta_exposure
+    requirement: "Directional strategies SHALL maintain beta ≤ 1.5."
+    acceptance_criteria:
+      - "portfolio_beta <= 1.5"
+      - "Prevents excessive market exposure"
+    verification_method: "Automated: analytics.calculate_beta(strategy, benchmark)"
+    test_command: "pytest tests/test_analytics/test_beta.py::test_directional_beta -v"
+    governance_check: "governance.preflight() with operation='beta_check'"
+    severity: medium
+    blocks_deployment: false
+    strategy_tags: ["directional", "long_only", "long_short"]
+
+  # --- TRANSACTION COST REQUIREMENTS ---
+
+  - id: PERF-TC-001
+    title: Maximum Slippage
+    category: transaction_costs
+    requirement: "Average trade slippage SHALL NOT exceed 5 basis points."
+    acceptance_criteria:
+      - "avg_slippage_bps <= 5"
+      - "Measured as (execution_price - signal_price) / signal_price × 10000"
+      - "Tracked per trade, aggregated daily"
+    verification_method: "Automated: analytics.calculate_slippage(trades)"
+    test_command: "pytest tests/test_execution/test_slippage.py::test_slippage_limit -v"
+    governance_check: "governance.preflight() with operation='slippage_check'"
+    severity: medium
+    blocks_deployment: false
+
+  - id: PERF-TC-002
+    title: Transaction Cost Ratio
+    category: transaction_costs
+    requirement: "Total transaction costs SHALL NOT exceed 10% of gross profit."
+    acceptance_criteria:
+      - "transaction_cost_ratio <= 0.10"
+      - "Includes commissions, slippage, market impact"
+      - "Calculated over rolling 30-day periods"
+    verification_method: "Automated: analytics.calculate_cost_ratio(trades)"
+    test_command: "pytest tests/test_execution/test_costs.py::test_cost_ratio -v"
+    governance_check: "governance.preflight() with operation='cost_ratio_check'"
+    severity: high
+    blocks_deployment: true
+
+  - id: PERF-TC-003
+    title: Annual Turnover Limit
+    category: transaction_costs
+    requirement: "Strategy annual turnover SHALL NOT exceed 150%."
+    acceptance_criteria:
+      - "annual_turnover_pct <= 150.0"
+      - "Calculated as sum(trade_values) / avg_portfolio_value × 100"
+    verification_method: "Automated: analytics.calculate_turnover(trades, equity)"
+    test_command: "pytest tests/test_execution/test_turnover.py::test_turnover_limit -v"
+    governance_check: "governance.preflight() with operation='turnover_check'"
+    severity: medium
+    blocks_deployment: false
+
+  # --- OPERATIONAL REQUIREMENTS ---
+
+  - id: PERF-OPS-001
+    title: End-to-End Latency
+    category: operational
+    requirement: "Signal-to-execution latency SHALL be ≤ 200ms at p95."
+    acceptance_criteria:
+      - "e2e_latency_p95_ms <= 200"
+      - "Measured from signal generation to order acknowledgement"
+      - "Excludes market data latency"
+    verification_method: "Automated: telemetry.measure_latency(trace_id)"
+    test_command: "pytest tests/test_performance/test_latency.py::test_e2e_latency -v"
+    governance_check: "governance.preflight() with operation='latency_check'"
+    severity: high
+    blocks_deployment: true
+
+  - id: PERF-OPS-002
+    title: System Uptime
+    category: operational
+    requirement: "Trading system uptime SHALL be ≥ 99.9% during market hours."
+    acceptance_criteria:
+      - "uptime_pct >= 99.9"
+      - "Measured during NYSE regular hours (9:30-16:00 ET)"
+      - "Excludes scheduled maintenance windows"
+    verification_method: "Automated: monitoring.calculate_uptime(start, end)"
+    test_command: "pytest tests/test_operations/test_uptime.py::test_uptime_sla -v"
+    governance_check: "governance.preflight() with operation='uptime_check'"
+    severity: critical
+    blocks_deployment: true
+
+  - id: PERF-OPS-003
+    title: Governance Pass Rate
+    category: operational
+    requirement: "Strategy SHALL have 100% governance preflight pass rate in shadow mode."
+    acceptance_criteria:
+      - "governance_pass_rate_pct == 100.0"
+      - "No policy violations during 7-day shadow period"
+      - "All preflight checks must pass"
+    verification_method: "Automated: governance.get_pass_rate(strategy_id, period)"
+    test_command: "pytest tests/test_governance/test_compliance.py::test_pass_rate -v"
+    governance_check: "governance.preflight() with operation='compliance_check'"
+    severity: critical
+    blocks_deployment: true
+
+  # --- SHADOW MODE REQUIREMENTS ---
+
+  - id: PERF-SHADOW-001
+    title: Shadow Mode Duration
+    category: shadow_mode
+    requirement: "New strategies SHALL run in shadow mode for minimum 7 calendar days."
+    acceptance_criteria:
+      - "shadow_duration_days >= 7"
+      - "Clock starts from first signal generation"
+      - "Resets if strategy code changes"
+    verification_method: "Automated: deployment.get_shadow_duration(strategy_id)"
+    test_command: "pytest tests/test_deployment/test_shadow.py::test_duration -v"
+    governance_check: "governance.preflight() with operation='shadow_duration'"
+    severity: critical
+    blocks_deployment: true
+
+  - id: PERF-SHADOW-002
+    title: Shadow Mode Performance Comparison
+    category: shadow_mode
+    requirement: "Shadow mode signals SHALL be compared against production baseline."
+    acceptance_criteria:
+      - "Simulated PnL tracked for all shadow signals"
+      - "Comparison metrics: Sharpe, max DD, win rate"
+      - "Must meet or exceed production performance"
+    verification_method: "Automated: shadow.compare_performance(strategy_id)"
+    test_command: "pytest tests/test_deployment/test_shadow.py::test_comparison -v"
+    governance_check: "governance.preflight() with operation='shadow_comparison'"
+    severity: high
+    blocks_deployment: true
+
+  - id: PERF-SHADOW-003
+    title: Human Approval for Promotion
+    category: shadow_mode
+    requirement: "Promotion from shadow to live SHALL require human approval."
+    acceptance_criteria:
+      - "auto_promote_on_pass == false"
+      - "Approval recorded in audit log with approver_id"
+      - "Minimum reviewer level: engineering_lead"
+    verification_method: "Manual: Review approval record in audit log"
+    test_command: "N/A - Manual verification required"
+    governance_check: "governance.preflight() with operation='promotion_approval'"
+    severity: critical
+    blocks_deployment: true
+
+  # --- BACKTEST VALIDATION REQUIREMENTS ---
+
+  - id: PERF-BT-001
+    title: Minimum Backtest Periods
+    category: backtest_validation
+    requirement: "Strategy SHALL be backtested across minimum 3 distinct market regimes."
+    acceptance_criteria:
+      - "backtest_periods >= 3"
+      - "Must include: bull market, bear market, sideways/volatile"
+      - "Minimum 252 trading days per period"
+    verification_method: "Automated: backtest.validate_periods(results)"
+    test_command: "pytest tests/test_backtest/test_validation.py::test_periods -v"
+    governance_check: "governance.preflight() with operation='backtest_validation'"
+    severity: high
+    blocks_deployment: true
+
+  - id: PERF-BT-002
+    title: Out-of-Sample Validation
+    category: backtest_validation
+    requirement: "Strategy SHALL demonstrate consistent performance on out-of-sample data."
+    acceptance_criteria:
+      - "OOS Sharpe ratio >= 80% of in-sample Sharpe"
+      - "OOS max drawdown <= 120% of in-sample max drawdown"
+      - "Minimum 20% of data reserved for OOS testing"
+    verification_method: "Automated: backtest.validate_oos(results)"
+    test_command: "pytest tests/test_backtest/test_oos.py::test_consistency -v"
+    governance_check: "governance.preflight() with operation='oos_validation'"
+    severity: high
+    blocks_deployment: true
+
+  - id: PERF-BT-003
+    title: Walk-Forward Validation
+    category: backtest_validation
+    requirement: "Strategy SHALL pass walk-forward optimization with stable parameters."
+    acceptance_criteria:
+      - "Parameter stability: <20% variance across windows"
+      - "Minimum 5 walk-forward windows"
+      - "No parameter overfitting detected"
+    verification_method: "Automated: backtest.walk_forward_analysis(strategy)"
+    test_command: "pytest tests/test_backtest/test_walkforward.py::test_stability -v"
+    governance_check: "governance.preflight() with operation='walkforward_validation'"
+    severity: medium
+    blocks_deployment: false
 
 python_standards:
   - id: GOV-PY-001

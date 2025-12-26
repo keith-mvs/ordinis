@@ -29,26 +29,26 @@ class RAGConfig(BaseModel):
 
     # Embedding models
     text_embedding_model: str = Field(
-        default="nvidia/llama-3.2-nemoretriever-300m-embed-v2",
-        description="Text embedding model (lightweight, works on CPU/GPU)",
+        default="nvidia/llama-nemotron-embed-1b-v2",
+        description="Text embedding model (NVIDIA 1B param, 2048-dim)",
     )
     code_embedding_model: str = Field(
-        default="nvidia/llama-3.2-nemoretriever-300m-embed-v2",
-        description="Code embedding model (uses same model as text for simplicity)",
+        default="nvidia/llama-nemotron-embed-1b-v2",
+        description="Code embedding model (uses same model as text)",
     )
     rerank_model: str = Field(
-        default="nvidia/llama-3.2-nemoretriever-500m-rerank-v2",
+        default="nvidia/llama-nemoretriever-colembed-1b-v1",
         description="NVIDIA reranking model",
     )
 
     # Embedding strategy
     use_local_embeddings: bool = Field(
-        default=False,
+        default=True,
         description="Use local GPU for embeddings (vs API)",
     )
     text_embedding_dimension: int = Field(
-        default=1024,
-        description="Matryoshka embedding dimension for text (768 → 384)",
+        default=2048,
+        description="Embedding dimension (nvidia/llama-nemotron-embed-1b-v2 = 2048)",
     )
 
     # Retrieval parameters

@@ -1,0 +1,226 @@
+# Small/Mid-Cap Stock Universe Configuration
+# Focus: Stocks < $49/share with market cap $300M - $10B
+
+metadata:
+  name: "Small-Cap Trading Universe"
+  version: "1.0.0"
+  last_updated: "2025-12-25"
+  description: "Curated small/mid-cap stocks under $49/share for MI Ensemble optimization"
+
+# Selection Criteria
+selection_criteria:
+  max_price: 49.0  # Maximum share price
+  min_market_cap: 300_000_000  # $300M minimum
+  max_market_cap: 10_000_000_000  # $10B maximum (small-mid cap)
+  min_daily_volume: 100_000  # Minimum 100k shares/day
+  min_history_days: 504  # At least 2 years of data
+
+# Core Universe (65 stocks across sectors)
+universe:
+  energy:
+    - CEIX  # CONSOL Energy
+    - BTU   # Peabody Energy
+    - ARCH  # Arch Resources
+    - AMR   # Alpha Metallurgical Resources
+    - HCC   # Warrior Met Coal
+    - METC  # Ramaco Resources
+    - CRC   # California Resources
+    - SM    # SM Energy
+    - REI   # Ring Energy
+    - VTLE  # Vital Energy
+    
+  materials:
+    - ARLP  # Alliance Resource Partners
+    - USAC  # USA Compression Partners
+    - PRIM  # Primoris Services
+    - MATX  # Matson
+    - CMRE  # Costamare
+    
+  financials:
+    - APAM  # Artisan Partners
+    - CADE  # Cadence Bank
+    - CZFS  # Citizens Financial Services
+    - WSFS  # WSFS Financial
+    - IBOC  # International Bancshares
+    - WAFD  # Washington Federal
+    - CBSH  # Commerce Bancshares
+    - FFIN  # First Financial Bankshares
+    - BANR  # Banner Corporation
+    - SFNC  # Simmons First National
+    - UBSI  # United Bankshares
+    - UMBF  # UMB Financial
+    - CATY  # Cathay General Bancorp
+    - BOKF  # BOK Financial
+    - FULT  # Fulton Financial
+    
+  healthcare:
+    - TMDX  # TransMedics Group
+    - IOVA  # Iovance Biotherapeutics
+    - NVAX  # Novavax
+    - COGT  # Cogent Biosciences
+    - PCRX  # Pacira BioSciences
+    - HALO  # Halozyme Therapeutics
+    - SNDX  # Syndax Pharmaceuticals
+    - RGNX  # REGENXBIO
+    - DNLI  # Denali Therapeutics
+    - KYMR  # Kymera Therapeutics
+    - ALEC  # Alector
+    - AKRO  # Akero Therapeutics
+    - VKTX  # Viking Therapeutics
+    
+  technology:
+    - LITE  # Lumentum Holdings
+    - SMCI  # Super Micro Computer
+    - AVNW  # Aviat Networks
+    - PLAB  # Photronics
+    - CALX  # Calix
+    - CSGS  # CSG Systems
+    - EXTR  # Extreme Networks
+    - VIAV  # Viavi Solutions
+    - INFN  # Infinera
+    - ATEN  # A10 Networks
+    - NTCT  # NetScout Systems
+    - OSIS  # OSI Systems
+    
+  consumer_discretionary:
+    - OLLI  # Ollie's Bargain Outlet
+    - BOOT  # Boot Barn Holdings
+    - HIBB  # Hibbett Sports
+    - BGFV  # Big 5 Sporting Goods
+    - SHOO  # Steven Madden
+    - CAL   # Caleres
+    - AEO   # American Eagle Outfitters
+    - URBN  # Urban Outfitters
+    - FIVE  # Five Below
+    
+  industrials:
+    - JBHT  # J.B. Hunt Transport
+    - WERN  # Werner Enterprises
+    - MRTN  # Marten Transport
+    - HTLD  # Heartland Express
+    - SNDR  # Schneider National
+    - ARCB  # ArcBest
+    - CVLG  # Covenant Logistics Group
+    - SAIA  # Saia
+    - ODFL  # Old Dominion Freight Line
+    
+  real_estate:
+    - ALEX  # Alexander & Baldwin
+    - BRX   # Brixmor Property Group
+    - ELME  # Elme Communities
+    - NXRT  # NexPoint Residential Trust
+    - PECO  # Phillips Edison & Company
+
+# Sector Weights (for portfolio construction)
+sector_weights:
+  energy: 0.15
+  materials: 0.08
+  financials: 0.25
+  healthcare: 0.20
+  technology: 0.18
+  consumer_discretionary: 0.08
+  industrials: 0.06
+  real_estate: 0.00  # Exclude REITs for now
+
+# Risk Parameters (small-cap specific)
+risk_parameters:
+  max_position_size: 0.04  # 4% max per position
+  max_sector_exposure: 0.35  # 35% max per sector
+  min_daily_volume_coverage: 0.02  # Max 2% of daily volume
+  max_correlation: 0.75  # Allow higher correlation in small-caps
+  stop_loss_pct: 0.12  # 12% stop loss (wider for volatility)
+  target_profit_pct: 0.20  # 20% target profit
+
+# Backtesting Configuration
+backtesting:
+  start_date: "2020-01-01"
+  end_date: "2025-12-25"
+  initial_capital: 100_000
+  commission_pct: 0.001  # 10 bps
+  slippage_pct: 0.002  # 20 bps (higher for small-caps)
+  
+  timeframes:
+    - "1D"   # Daily
+    - "1W"   # Weekly
+    - "1M"   # Monthly
+  
+  validation:
+    n_splits: 5
+    test_size_days: 126
+    gap_days: 5
+
+# Optimization Settings
+optimization:
+  n_trials: 200
+  timeout_hours: 12
+  parallel_jobs: 1  # Sequential for NVIDIA model integration
+  
+  objective:
+    primary_metric: "total_return"
+    
+    constraints:
+      sharpe_ratio: 
+        operator: ">="
+        threshold: 0.8
+      max_drawdown:
+        operator: "<="
+        threshold: 0.35
+      win_rate:
+        operator: ">="
+        threshold: 0.42
+      profit_factor:
+        operator: ">="
+        threshold: 1.15
+    
+    penalty_weight: 80.0
+  
+  parameter_space:
+    mi_lookback: [63, 252]
+    mi_bins: [5, 20]
+    forward_period: [1, 10]
+    min_weight: [0.0, 0.1]
+    max_weight: [0.3, 0.7]
+    recalc_frequency: [5, 63]
+    ensemble_threshold: [0.15, 0.45]
+    min_signals_agree: [1, 3]
+
+# NVIDIA Model Integration
+nvidia_models:
+  enabled: true
+  model: "nvidia/llama-3.1-nemotron-70b-instruct"
+  
+  use_cases:
+    - "signal_quality_assessment"
+    - "parameter_validation"
+    - "regime_detection"
+    - "risk_analysis"
+  
+  rate_limits:
+    requests_per_minute: 20
+    tokens_per_minute: 50000
+
+# Data Sources
+data_sources:
+  primary: "yahoo_finance"  # Free historical data
+  
+  alternatives:
+    - "alpha_vantage"
+    - "twelve_data"
+    - "finnhub"
+  
+  cache_dir: "data/cache/small_cap"
+  update_frequency: "daily"
+  
+# Monitoring & Alerts
+monitoring:
+  track_metrics:
+    - "daily_pnl"
+    - "sharpe_ratio_rolling_30d"
+    - "max_drawdown_current"
+    - "position_count"
+    - "sector_exposures"
+  
+  alerts:
+    max_drawdown_breach: 0.30
+    daily_loss_breach: 0.05
+    position_limit_breach: 0.90
