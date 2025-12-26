@@ -1,0 +1,142 @@
+{
+  "schema_version": "1.0",
+  "sequence_id": "seq_20251225-211200_d808523b",
+  "configuration_id": "cfg_20251225-210841_21e0c357",
+  "iteration_number": 4,
+  "timestamp": "2025-12-25T21:12:00.180964Z",
+  "is_baseline": false,
+  "tested_parameters": {
+    "corr_lookback": 10,
+    "corr_threshold": 0.2,
+    "recalc_frequency": 2,
+    "centrality_method": "eigenvector",
+    "weight_decay": 0.6987103647857907,
+    "min_weight": 0.021549739486909705,
+    "max_weight": 0.29623997541678715,
+    "vol_target": 0.14904735050682033,
+    "momentum_lookback": 6,
+    "z_score_entry": 2.007088914438383,
+    "z_score_exit": 0.6462049151096956,
+    "momentum_threshold": 0.0,
+    "stop_loss_pct": 0.07269136081199255,
+    "take_profit_pct": 0.11927594342843607,
+    "trailing_stop_pct": 0.035898747537704986,
+    "max_portfolio_drawdown": 0.15,
+    "max_positions": 10
+  },
+  "performance_metrics": {
+    "total_return": 0.0022831580392517208,
+    "annualized_return": 0.04519941301159425,
+    "sharpe_ratio": 1.4975671869006193,
+    "sortino_ratio": 2.7916442906626506,
+    "max_drawdown": 0.00404728920901324,
+    "win_rate": 0.6666666666666666,
+    "profit_factor": 0.6586083885079627,
+    "num_trades": 6,
+    "avg_trade_pnl": -80.52634031277186,
+    "avg_trade_pnl_pct": -0.02962932107191821
+  },
+  "network_metrics": {
+    "avg_centrality": 0.17662589501191509,
+    "network_density": 0.0,
+    "rebalance_count": 7
+  },
+  "backtest_results": {
+    "period": "N/A to N/A",
+    "symbols_traded": 6,
+    "equity_curve_sample": [
+      99990.53947062543,
+      99926.26021145315,
+      99585.84883922256,
+      100087.91101884544,
+      100311.37076758158,
+      100311.37076758158,
+      100299.07834324888,
+      100140.64265184975,
+      100279.2256755526,
+      100287.4364442375,
+      100251.88301390686,
+      100045.90188729532,
+      100228.31580392517
+    ],
+    "trades_sample": [
+      {
+        "symbol": "OPEN",
+        "entry_date": "2025-12-01T00:00:00+00:00",
+        "exit_date": "2025-12-04T00:00:00+00:00",
+        "entry_price": 7.15,
+        "exit_price": 7.55,
+        "direction": 1,
+        "shares": 441.05032049271784,
+        "pnl": 166.43033843792685,
+        "pnl_pct": 0.0527762237762237,
+        "exit_reason": "z_score_exit"
+      },
+      {
+        "symbol": "TLRY",
+        "entry_date": "2025-12-02T00:00:00+00:00",
+        "exit_date": "2025-12-05T00:00:00+00:00",
+        "entry_price": 7.74,
+        "exit_price": 7.33,
+        "direction": -1,
+        "shares": 487.0420189973033,
+        "pnl": 188.9771737911437,
+        "pnl_pct": 0.050130490956072374,
+        "exit_reason": "z_score_exit"
+      },
+      {
+        "symbol": "WKHS",
+        "entry_date": "2025-12-08T00:00:00+00:00",
+        "exit_date": "2025-12-10T00:00:00+00:00",
+        "entry_price": 7.5,
+        "exit_price": 6.6,
+        "direction": -1,
+        "shares": 546.329970341842,
+        "pnl": 480.8796398948895,
+        "pnl_pct": 0.11736000000000005,
+        "exit_reason": "take_profit"
+      },
+      {
+        "symbol": "SNDL",
+        "entry_date": "2025-12-11T00:00:00+00:00",
+        "exit_date": "2025-12-12T00:00:00+00:00",
+        "entry_price": 2.03,
+        "exit_price": 2.2499,
+        "direction": -1,
+        "shares": 1432.5401840719453,
+        "pnl": -324.68480295785116,
+        "pnl_pct": -0.11165009852216749,
+        "exit_reason": "stop_loss"
+      },
+      {
+        "symbol": "CGC",
+        "entry_date": "2025-12-11T00:00:00+00:00",
+        "exit_date": "2025-12-12T00:00:00+00:00",
+        "entry_price": 1.4001,
+        "exit_price": 1.8401,
+        "direction": -1,
+        "shares": 2447.869683657296,
+        "pnl": -1090.575635823904,
+        "pnl_pct": -0.3182060567102351,
+        "exit_reason": "stop_loss"
+      },
+      {
+        "symbol": "UPST",
+        "entry_date": "2025-12-10T00:00:00+00:00",
+        "exit_date": "2025-12-16T00:00:00+00:00",
+        "entry_price": 48.69,
+        "exit_price": 47.0,
+        "direction": -1,
+        "shares": 61.85619417763967,
+        "pnl": 95.81524478116371,
+        "pnl_pct": 0.031813514068597205,
+        "exit_reason": "z_score_exit"
+      }
+    ]
+  },
+  "nemo_suggestions": [],
+  "score": 0.1982160844679921,
+  "convergence_status": {
+    "improvement_vs_previous": Infinity
+  }
+}

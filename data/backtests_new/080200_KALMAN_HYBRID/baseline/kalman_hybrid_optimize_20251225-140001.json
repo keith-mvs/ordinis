@@ -1,0 +1,231 @@
+{
+  "mode": "optimized",
+  "results": [
+    {
+      "symbol": "SOFI",
+      "period": "backtest",
+      "params": {
+        "q": 5e-05,
+        "r": 0.005,
+        "residual_z_entry": 0.75,
+        "residual_z_exit": 0.1,
+        "trend_slope_min": 1e-05,
+        "atr_stop_mult": 2.0,
+        "atr_tp_mult": 3.0
+      },
+      "total_return": 0.0101729857864909,
+      "sharpe_ratio": 0.366959217880025,
+      "max_drawdown": 0.004291795500145323,
+      "win_rate": 0.75,
+      "profit_factor": 3.4997557664203955,
+      "num_trades": 4,
+      "avg_trade_pnl": 0.02542498944485462,
+      "avg_hold_days": 2.75,
+      "avg_entry_z": 0.8415162220289508,
+      "trend_alignment_rate": 1.0
+    },
+    {
+      "symbol": "HOOD",
+      "period": "backtest",
+      "params": {
+        "q": 5e-05,
+        "r": 0.005,
+        "residual_z_entry": 1.0,
+        "residual_z_exit": 0.1,
+        "trend_slope_min": 0.0,
+        "atr_stop_mult": 1.5,
+        "atr_tp_mult": 4.0
+      },
+      "total_return": 0.028849765787582728,
+      "sharpe_ratio": 0.27513184019484543,
+      "max_drawdown": 0.04820680084621479,
+      "win_rate": 0.5859375,
+      "profit_factor": 1.1457518773326982,
+      "num_trades": 128,
+      "avg_trade_pnl": 0.002299736677910633,
+      "avg_hold_days": 1.1171875,
+      "avg_entry_z": 1.9578416807755958,
+      "trend_alignment_rate": 0.015625
+    },
+    {
+      "symbol": "RIOT",
+      "period": "backtest",
+      "params": {
+        "q": 1e-06,
+        "r": 0.005,
+        "residual_z_entry": 2.0,
+        "residual_z_exit": 0.3,
+        "trend_slope_min": 1e-06,
+        "atr_stop_mult": 2.5,
+        "atr_tp_mult": 2.0
+      },
+      "total_return": 0.014506008931884135,
+      "sharpe_ratio": 0.23122288364089266,
+      "max_drawdown": 0.01821802507308176,
+      "win_rate": 0.75,
+      "profit_factor": 2.2367968461512784,
+      "num_trades": 4,
+      "avg_trade_pnl": 0.03652651214291042,
+      "avg_hold_days": 6.5,
+      "avg_entry_z": 2.371123526146094,
+      "trend_alignment_rate": 1.0
+    },
+    {
+      "symbol": "MARA",
+      "period": "backtest",
+      "params": {
+        "q": 1e-06,
+        "r": 0.005,
+        "residual_z_entry": 2.0,
+        "residual_z_exit": 0.2,
+        "trend_slope_min": 0.0,
+        "atr_stop_mult": 2.5,
+        "atr_tp_mult": 2.5
+      },
+      "total_return": 0.06400874695715975,
+      "sharpe_ratio": 0.5111860896962416,
+      "max_drawdown": 0.03990844319512671,
+      "win_rate": 0.6333333333333333,
+      "profit_factor": 1.661685251482992,
+      "num_trades": 30,
+      "avg_trade_pnl": 0.02106879834411468,
+      "avg_hold_days": 2.466666666666667,
+      "avg_entry_z": 2.580965553752638,
+      "trend_alignment_rate": 0.06666666666666667
+    },
+    {
+      "symbol": "PLTR",
+      "period": "backtest",
+      "params": {
+        "q": 5e-05,
+        "r": 0.005,
+        "residual_z_entry": 0.75,
+        "residual_z_exit": 0.5,
+        "trend_slope_min": 1e-05,
+        "atr_stop_mult": 1.5,
+        "atr_tp_mult": 2.0
+      },
+      "total_return": 0.00606962839975371,
+      "sharpe_ratio": 0.3636905572273753,
+      "max_drawdown": 0.002601772697172649,
+      "win_rate": 1.0,
+      "profit_factor": 606.9628399753713,
+      "num_trades": 4,
+      "avg_trade_pnl": 0.015156349155348418,
+      "avg_hold_days": 1.75,
+      "avg_entry_z": 0.8900061546979542,
+      "trend_alignment_rate": 1.0
+    },
+    {
+      "symbol": "SNAP",
+      "period": "backtest",
+      "params": {
+        "q": 1e-06,
+        "r": 0.02,
+        "residual_z_entry": 1.5,
+        "residual_z_exit": 0.3,
+        "trend_slope_min": 0.0,
+        "atr_stop_mult": 1.5,
+        "atr_tp_mult": 3.0
+      },
+      "total_return": -0.0019999075195458135,
+      "sharpe_ratio": -0.003920877637691337,
+      "max_drawdown": 0.06729564620542576,
+      "win_rate": 0.38596491228070173,
+      "profit_factor": 0.9866264768924007,
+      "num_trades": 57,
+      "avg_trade_pnl": -0.0001061748540009329,
+      "avg_hold_days": 2.9298245614035086,
+      "avg_entry_z": 2.7723335457637224,
+      "trend_alignment_rate": 0.3508771929824561
+    }
+  ],
+  "filter_params": {
+    "SOFI": {
+      "symbol": "SOFI",
+      "cluster": "sub25_volatile",
+      "best_q": 5e-05,
+      "best_r": 0.005,
+      "score": 1.7499323221876506
+    },
+    "HOOD": {
+      "symbol": "HOOD",
+      "cluster": "sub25_volatile",
+      "best_q": 5e-05,
+      "best_r": 0.005,
+      "score": 0.3910178944223529
+    },
+    "RIOT": {
+      "symbol": "RIOT",
+      "cluster": "sub25_volatile",
+      "best_q": 1e-06,
+      "best_r": 0.005,
+      "score": -0.05687981402849309
+    },
+    "MARA": {
+      "symbol": "MARA",
+      "cluster": "sub25_volatile",
+      "best_q": 1e-06,
+      "best_r": 0.005,
+      "score": -0.00393821718306579
+    },
+    "PLTR": {
+      "symbol": "PLTR",
+      "cluster": "sub25_tech",
+      "best_q": 5e-05,
+      "best_r": 0.005,
+      "score": 0.25159960015991695
+    },
+    "SNAP": {
+      "symbol": "SNAP",
+      "cluster": "sub25_growth",
+      "best_q": 1e-06,
+      "best_r": 0.02,
+      "score": -0.056168093201375086
+    }
+  },
+  "trading_params": {
+    "SOFI": {
+      "residual_z_entry": 0.75,
+      "residual_z_exit": 0.1,
+      "trend_slope_min": 1e-05,
+      "atr_stop_mult": 2.0,
+      "atr_tp_mult": 3.0
+    },
+    "HOOD": {
+      "residual_z_entry": 1.0,
+      "residual_z_exit": 0.1,
+      "trend_slope_min": 0.0,
+      "atr_stop_mult": 1.5,
+      "atr_tp_mult": 4.0
+    },
+    "RIOT": {
+      "residual_z_entry": 2.0,
+      "residual_z_exit": 0.3,
+      "trend_slope_min": 1e-06,
+      "atr_stop_mult": 2.5,
+      "atr_tp_mult": 2.0
+    },
+    "MARA": {
+      "residual_z_entry": 2.0,
+      "residual_z_exit": 0.2,
+      "trend_slope_min": 0.0,
+      "atr_stop_mult": 2.5,
+      "atr_tp_mult": 2.5
+    },
+    "PLTR": {
+      "residual_z_entry": 0.75,
+      "residual_z_exit": 0.5,
+      "trend_slope_min": 1e-05,
+      "atr_stop_mult": 1.5,
+      "atr_tp_mult": 2.0
+    },
+    "SNAP": {
+      "residual_z_entry": 1.5,
+      "residual_z_exit": 0.3,
+      "trend_slope_min": 0.0,
+      "atr_stop_mult": 1.5,
+      "atr_tp_mult": 3.0
+    }
+  }
+}

@@ -1,0 +1,111 @@
+{
+  "schema_version": "1.0",
+  "summary_id": "sum_20251225-211340",
+  "configuration_id": "cfg_20251225-210841_21e0c357",
+  "timestamp": "2025-12-25T21:13:40.637876Z",
+  "optimization_summary": {
+    "total_iterations": 7,
+    "converged": true,
+    "convergence_reason": "Early stopping after 3 iterations without improvement",
+    "total_time_seconds": 299.18421268463135
+  },
+  "baseline_performance": {
+    "total_return": 0.0,
+    "sharpe_ratio": 0.0,
+    "sortino_ratio": 0.0,
+    "max_drawdown": 0.0,
+    "score": -Infinity
+  },
+  "optimized_performance": {
+    "total_return": 0.0022831580392517208,
+    "sharpe_ratio": 1.4975671869006193,
+    "sortino_ratio": 2.7916442906626506,
+    "max_drawdown": 0.00404728920901324,
+    "score": 0.1982160844679921
+  },
+  "improvement": {
+    "score_delta": Infinity,
+    "return_delta": 0.0022831580392517208
+  },
+  "best_parameters": {
+    "corr_lookback": 10,
+    "corr_threshold": 0.2,
+    "recalc_frequency": 2,
+    "centrality_method": "eigenvector",
+    "weight_decay": 0.6987103647857907,
+    "min_weight": 0.021549739486909705,
+    "max_weight": 0.29623997541678715,
+    "vol_target": 0.14904735050682033,
+    "momentum_lookback": 6,
+    "z_score_entry": 2.007088914438383,
+    "z_score_exit": 0.6462049151096956,
+    "momentum_threshold": 0.0,
+    "stop_loss_pct": 0.07269136081199255,
+    "take_profit_pct": 0.11927594342843607,
+    "trailing_stop_pct": 0.035898747537704986,
+    "max_portfolio_drawdown": 0.15,
+    "max_positions": 10
+  },
+  "iteration_history": [
+    {
+      "iteration": 1,
+      "score": -0.06556369152610317,
+      "return": -0.0036073650656905376,
+      "sharpe": -2.5135482539227567,
+      "sortino": -3.4241244842554024
+    },
+    {
+      "iteration": 2,
+      "score": -Infinity,
+      "return": 0.0,
+      "sharpe": 0.0,
+      "sortino": 0.0
+    },
+    {
+      "iteration": 3,
+      "score": -Infinity,
+      "return": 0.0,
+      "sharpe": 0.0,
+      "sortino": 0.0
+    },
+    {
+      "iteration": 4,
+      "score": 0.1982160844679921,
+      "return": 0.0022831580392517208,
+      "sharpe": 1.4975671869006193,
+      "sortino": 2.7916442906626506
+    },
+    {
+      "iteration": 5,
+      "score": -Infinity,
+      "return": 0.0,
+      "sharpe": 0.0,
+      "sortino": 0.0
+    },
+    {
+      "iteration": 6,
+      "score": -Infinity,
+      "return": 0.0,
+      "sharpe": 0.0,
+      "sortino": 0.0
+    },
+    {
+      "iteration": 7,
+      "score": -Infinity,
+      "return": 0.0,
+      "sharpe": 0.0,
+      "sortino": 0.0
+    }
+  ],
+  "configuration_reference": {
+    "config_file": "configs/cfg_20251225-210841_21e0c357.json",
+    "iterations_dir": "iterations/",
+    "baseline_dir": "baseline/"
+  },
+  "reproducibility": {
+    "random_seed": 42,
+    "gpu_available": true,
+    "python_version": "3.11+",
+    "schema_version": "1.0"
+  }
+}

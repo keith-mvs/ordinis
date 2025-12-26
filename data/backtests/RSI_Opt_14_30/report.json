@@ -1,0 +1,56 @@
+{
+  "config": {
+    "name": "RSI_Opt_14_30",
+    "symbols": [
+      "NVDA"
+    ],
+    "start_date": "2025-12-12",
+    "end_date": "2025-12-17",
+    "initial_capital": 100000.0,
+    "commission_pct": 0.0,
+    "slippage_bps": 1,
+    "max_position_size": 0.1,
+    "max_portfolio_exposure": 1.0,
+    "rebalance_freq": "5min",
+    "stop_loss_pct": 0.1,
+    "take_profit_pct": 0.0
+  },
+  "metrics": {
+    "total_return": -0.059903555968252475,
+    "annualized_return": -4.58231604211562,
+    "volatility": 1.9814499170344921,
+    "downside_deviation": 1.5832571658636445,
+    "sharpe_ratio": -1.0021214233045885,
+    "sortino_ratio": -1.2541572233985236,
+    "calmar_ratio": -1.2702945703710737,
+    "max_drawdown": -3.607286175187737,
+    "avg_drawdown": -1.3596980920540025,
+    "max_drawdown_duration": 3.0722222222222224,
+    "num_trades": 0,
+    "win_rate": 0.0,
+    "profit_factor": 0.0,
+    "avg_win": 0.0,
+    "avg_loss": 0.0,
+    "largest_win": 0.0,
+    "largest_loss": 0.0,
+    "avg_trade_duration": 0.0,
+    "expectancy": 0.0,
+    "recovery_factor": -0.016606266611252394,
+    "equity_final": 99940.09644403175,
+    "model_metrics": {},
+    "ic_mean": 0.0,
+    "ic_std": 0.0,
+    "ic_pvalue": 1.0,
+    "hit_rate": 0.0,
+    "false_positive_rate": 0.0,
+    "avg_turnover": 0.0,
+    "total_transaction_costs": 0.0,
+    "signal_decay_halflife": 0.0,
+    "avg_signal_age": 0.0
+  },
+  "timestamp": "2025-12-17T01:25:15.106971",
+  "symbols_traded": [
+    "NVDA"
+  ],
+  "trades_count": 0
+}

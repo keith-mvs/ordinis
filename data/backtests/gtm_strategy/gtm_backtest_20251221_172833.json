@@ -1,0 +1,202 @@
+{
+  "timestamp": "20251221_172833",
+  "data_source": "Massive historical exports",
+  "config": {
+    "gpu_enabled": true,
+    "days": 252,
+    "symbols": [
+      "AAPL",
+      "MSFT",
+      "GOOGL",
+      "NVDA",
+      "META",
+      "JPM",
+      "BAC",
+      "GS",
+      "MS",
+      "WFC",
+      "JNJ",
+      "UNH",
+      "PFE",
+      "ABBV",
+      "TMO",
+      "WMT",
+      "HD",
+      "NKE",
+      "MCD",
+      "SBUX",
+      "XOM",
+      "CVX",
+      "COP",
+      "EOG",
+      "SLB"
+    ],
+    "cost_bps": 8.0
+  },
+  "results": {
+    "atr_rsi": {
+      "status": "FAILED",
+      "net_sharpe": 0.3124863870349614,
+      "gross_sharpe": 0.3676310435705428,
+      "max_drawdown_pct": 9.62768893338157,
+      "n_trades": 151,
+      "win_rate_pct": 57.41529581529581,
+      "bootstrap_ci_lower": 0.08472859755509675,
+      "bootstrap_ci_upper": 0.8774584700511331,
+      "walk_forward_win_rate": 56.25,
+      "criteria_results": {
+        "net_sharpe": [
+          false,
+          "Net Sharpe 0.31 < 1.0"
+        ],
+        "max_drawdown": [
+          "True",
+          "Max DD 9.6% \u2264 20.0%"
+        ],
+        "walk_forward_win_rate": [
+          false,
+          "WF win rate 56.2% < 60.0%"
+        ],
+        "sample_size": [
+          false,
+          "OOS trades 151 < 500"
+        ],
+        "bootstrap_ci": [
+          true,
+          "Sharpe 95% CI lower 0.08 \u2265 0.0"
+        ],
+        "stress_tests": [
+          false,
+          "No stress tests performed"
+        ],
+        "lookahead_audit": [
+          false,
+          "Lookahead audit not performed"
+        ]
+      }
+    },
+    "mtf_momentum": {
+      "status": "FAILED",
+      "net_sharpe": 0.3124863870349614,
+      "gross_sharpe": 0.3676310435705428,
+      "max_drawdown_pct": 0.0,
+      "n_trades": 0,
+      "win_rate_pct": 0.0,
+      "bootstrap_ci_lower": 0.08390439751384782,
+      "bootstrap_ci_upper": 0.8697114093737762,
+      "walk_forward_win_rate": 0.0,
+      "criteria_results": {
+        "net_sharpe": [
+          false,
+          "Net Sharpe 0.31 < 1.0"
+        ],
+        "max_drawdown": [
+          "True",
+          "Max DD 0.0% \u2264 20.0%"
+        ],
+        "walk_forward_win_rate": [
+          false,
+          "WF win rate 0.0% < 60.0%"
+        ],
+        "sample_size": [
+          false,
+          "OOS trades 0 < 500"
+        ],
+        "bootstrap_ci": [
+          true,
+          "Sharpe 95% CI lower 0.08 \u2265 0.0"
+        ],
+        "stress_tests": [
+          false,
+          "No stress tests performed"
+        ],
+        "lookahead_audit": [
+          false,
+          "Lookahead audit not performed"
+        ]
+      }
+    },
+    "mi_ensemble": {
+      "status": "FAILED",
+      "net_sharpe": 0.3124863870349614,
+      "gross_sharpe": 0.3676310435705428,
+      "max_drawdown_pct": 14.582032323714323,
+      "n_trades": 830,
+      "win_rate_pct": 468.7259455815419,
+      "bootstrap_ci_lower": 0.0900353802826399,
+      "bootstrap_ci_upper": 0.905088137107642,
+      "walk_forward_win_rate": 81.25,
+      "criteria_results": {
+        "net_sharpe": [
+          false,
+          "Net Sharpe 0.31 < 1.0"
+        ],
+        "max_drawdown": [
+          "True",
+          "Max DD 14.6% \u2264 20.0%"
+        ],
+        "walk_forward_win_rate": [
+          true,
+          "WF win rate 81.2% \u2265 60.0%"
+        ],
+        "sample_size": [
+          true,
+          "OOS trades 830 \u2265 500"
+        ],
+        "bootstrap_ci": [
+          true,
+          "Sharpe 95% CI lower 0.09 \u2265 0.0"
+        ],
+        "stress_tests": [
+          false,
+          "No stress tests performed"
+        ],
+        "lookahead_audit": [
+          false,
+          "Lookahead audit not performed"
+        ]
+      }
+    },
+    "kalman_hybrid": {
+      "status": "FAILED",
+      "net_sharpe": 0.3124863870349614,
+      "gross_sharpe": 0.3676310435705428,
+      "max_drawdown_pct": 28.14861439636565,
+      "n_trades": 888,
+      "win_rate_pct": 301.2168526970679,
+      "bootstrap_ci_lower": 0.10636742227360974,
+      "bootstrap_ci_upper": 0.8860121008562296,
+      "walk_forward_win_rate": 25.0,
+      "criteria_results": {
+        "net_sharpe": [
+          false,
+          "Net Sharpe 0.31 < 1.0"
+        ],
+        "max_drawdown": [
+          "False",
+          "Max DD 28.1% > 20.0%"
+        ],
+        "walk_forward_win_rate": [
+          false,
+          "WF win rate 25.0% < 60.0%"
+        ],
+        "sample_size": [
+          true,
+          "OOS trades 888 \u2265 500"
+        ],
+        "bootstrap_ci": [
+          true,
+          "Sharpe 95% CI lower 0.11 \u2265 0.0"
+        ],
+        "stress_tests": [
+          false,
+          "No stress tests performed"
+        ],
+        "lookahead_audit": [
+          false,
+          "Lookahead audit not performed"
+        ]
+      }
+    }
+  }
+}

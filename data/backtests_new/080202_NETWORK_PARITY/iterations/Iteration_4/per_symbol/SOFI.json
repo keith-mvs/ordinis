@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.0",
+  "configuration_id": "cfg_20251225-210841_21e0c357",
+  "iteration_number": 4,
+  "symbol": "SOFI",
+  "timestamp": "2025-12-25T21:12:00.249329Z",
+  "params": {
+    "corr_lookback": 10,
+    "corr_threshold": 0.2,
+    "recalc_frequency": 2,
+    "centrality_method": "eigenvector",
+    "weight_decay": 0.6987103647857907,
+    "min_weight": 0.021549739486909705,
+    "max_weight": 0.29623997541678715,
+    "vol_target": 0.14904735050682033,
+    "momentum_lookback": 6,
+    "z_score_entry": 2.007088914438383,
+    "z_score_exit": 0.6462049151096956,
+    "momentum_threshold": 0.0,
+    "stop_loss_pct": 0.07269136081199255,
+    "take_profit_pct": 0.11927594342843607,
+    "trailing_stop_pct": 0.035898747537704986,
+    "max_portfolio_drawdown": 0.15,
+    "max_positions": 10
+  },
+  "metrics": {
+    "total_return": 0.01898706639256212,
+    "sharpe_ratio": 3.5621288399788087,
+    "sortino_ratio": Infinity,
+    "max_drawdown": 0.0008887199262503418,
+    "win_rate": 1.0,
+    "profit_factor": 0.0,
+    "num_trades": 1,
+    "avg_trade_pnl": 947.7936421435047
+  },
+  "trades": [
+    {
+      "symbol": "SOFI",
+      "entry_date": "2025-12-15T00:00:00+00:00",
+      "exit_date": "2025-12-16T00:00:00+00:00",
+      "entry_price": 25.65,
+      "exit_price": 26.5503,
+      "direction": 1,
+      "shares": 1154.9316780381566,
+      "pnl": 947.7936421435047,
+      "pnl_pct": 0.031994116959064386,
+      "exit_reason": "z_score_exit"
+    }
+  ],
+  "equity_curve": [
+    100000.0,
+    100000.0,
+    100000.0,
+    100000.0,
+    100000.0,
+    100000.0,
+    100000.0,
+    100000.0,
+    100000.0,
+    100000.0,
+    100000.0,
+    100000.0,
+    100000.0,
+    100000.0,
+    100000.0,
+    100000.0,
+    100000.0,
+    99911.12800737497,
+    101898.70663925621,
+    101898.70663925621
+  ],
+  "score": -Infinity
+}

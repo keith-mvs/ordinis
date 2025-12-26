@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0",
+  "configuration_id": "cfg_20251225-210841_21e0c357",
+  "iteration_number": 1,
+  "symbol": "WKHS",
+  "timestamp": "2025-12-25T21:10:19.891690Z",
+  "params": {
+    "corr_lookback": 10,
+    "corr_threshold": 0.25437753236389965,
+    "recalc_frequency": 2,
+    "centrality_method": "eigenvector",
+    "weight_decay": 0.5542740132017648,
+    "min_weight": 0.02069714438070447,
+    "max_weight": 0.2807293661142537,
+    "vol_target": 0.14196553471426474,
+    "momentum_lookback": 6,
+    "z_score_entry": 1.9679911638865073,
+    "z_score_exit": 0.4853094161003327,
+    "momentum_threshold": 0.0,
+    "stop_loss_pct": 0.05728503326753981,
+    "take_profit_pct": 0.11175705007549129,
+    "trailing_stop_pct": 0.028229064204151548,
+    "max_portfolio_drawdown": 0.15,
+    "max_positions": 10
+  },
+  "metrics": {
+    "total_return": -0.001583313624884322,
+    "sharpe_ratio": -0.36873489815800325,
+    "sortino_ratio": -0.2592049461613915,
+    "max_drawdown": 0.011697056921427139,
+    "win_rate": 1.0,
+    "profit_factor": 0.0,
+    "num_trades": 1,
+    "avg_trade_pnl": 3294.639840716883
+  },
+  "trades": [
+    {
+      "symbol": "WKHS",
+      "entry_date": "2025-12-08T00:00:00+00:00",
+      "exit_date": "2025-12-10T00:00:00+00:00",
+      "entry_price": 7.5,
+      "exit_price": 6.6,
+      "direction": -1,
+      "shares": 3743.058214856716,
+      "pnl": 3294.639840716883,
+      "pnl_pct": 0.11736000000000006,
+      "exit_reason": "take_profit"
+    }
+  ],
+  "equity_curve": [
+    100000.0,
+    100000.0,
+    100000.0,
+    100000.0,
+    100000.0,
+    100000.0,
+    100000.0,
+    100000.0,
+    100000.0,
+    100000.0,
+    100000.0,
+    99915.78119016573,
+    98830.29430785729,
+    99841.66863751157,
+    99841.66863751157,
+    99841.66863751157,
+    99841.66863751157,
+    99841.66863751157,
+    99841.66863751157
+  ],
+  "score": -Infinity
+}

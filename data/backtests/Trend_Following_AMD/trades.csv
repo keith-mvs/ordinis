@@ -1,0 +1,2 @@
+trade_id,symbol,side,entry_time,exit_time,entry_price,exit_price,quantity,pnl,pnl_pct,commission,duration
+9c04331d-8081-4778-be46-6dd2d06ff317,AMD,LONG,2024-09-27,2024-10-25,169.15479568481445,153.84599395751954,59,-912.2962155538931,-9.050173047307357,9.076913643493654,2419200.0

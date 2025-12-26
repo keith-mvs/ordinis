@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.1",
+  "strategy": "Kalman_Hybrid",
+  "symbol": "PLTR",
+  "trial": 39,
+  "params": {
+    "residual_z_entry": 0.75,
+    "residual_z_exit": 0.2,
+    "trend_slope_min": 0.0,
+    "atr_stop_mult": 1.0,
+    "atr_tp_mult": 4.0
+  },
+  "filter_params": {
+    "symbol": "PLTR",
+    "cluster": "sub25_tech",
+    "best_q": 5e-05,
+    "best_r": 0.005,
+    "score": 0.25159960015991695
+  },
+  "metrics": {
+    "symbol": "PLTR",
+    "period": "backtest",
+    "params": {
+      "q": 5e-05,
+      "r": 0.005,
+      "residual_z_entry": 0.75,
+      "residual_z_exit": 0.2,
+      "trend_slope_min": 0.0,
+      "atr_stop_mult": 1.0,
+      "atr_tp_mult": 4.0
+    },
+    "total_return": 0.03013322962912498,
+    "sharpe_ratio": 0.25420543309540217,
+    "max_drawdown": 0.02909967830378618,
+    "win_rate": 0.5058139534883721,
+    "profit_factor": 1.1367425424034756,
+    "num_trades": 172,
+    "avg_trade_pnl": 0.0017889615975957755,
+    "avg_hold_days": 0.7441860465116279,
+    "avg_entry_z": 1.871061029839643,
+    "trend_alignment_rate": 0.011627906976744186
+  }
+}

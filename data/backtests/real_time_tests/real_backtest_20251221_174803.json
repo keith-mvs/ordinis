@@ -1,0 +1,28 @@
+{
+  "timestamp": "20251221_174803",
+  "config": {
+    "days": 500,
+    "gpu": true,
+    "symbols": [
+      "AAPL",
+      "NVDA",
+      "GOOGL"
+    ],
+    "benchmark": "SPY",
+    "cost_bps": 8.0
+  },
+  "results": {
+    "atr_rsi": {
+      "n_symbols": 3,
+      "portfolio_cagr_pct": 7.522748969754422,
+      "benchmark_cagr_pct": 0.0,
+      "excess_cagr_pct": 7.522748969754422,
+      "avg_sharpe": -0.024818849886172445,
+      "sharpe_ci_lower": -0.826892681083163,
+      "sharpe_ci_upper": 1.2255079253570724,
+      "avg_alpha_pct": 0.0,
+      "alpha_ci_lower": 0.0,
+      "alpha_ci_upper": 0.0,
+      "avg_max_dd_pct": 18.353777718661426,
+      "total_trades": 42,
+      "beats_benchmark": 

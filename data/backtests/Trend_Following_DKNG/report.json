@@ -1,0 +1,56 @@
+{
+  "config": {
+    "name": "Trend_Following_DKNG",
+    "symbols": [
+      "DKNG"
+    ],
+    "start_date": "2024-08-01",
+    "end_date": "2024-10-30",
+    "initial_capital": 100000.0,
+    "commission_pct": 0.001,
+    "slippage_bps": 5,
+    "max_position_size": 0.1,
+    "max_portfolio_exposure": 1.0,
+    "rebalance_freq": "1d",
+    "stop_loss_pct": 0.1,
+    "take_profit_pct": 0.0
+  },
+  "metrics": {
+    "total_return": -1.0696900527140825,
+    "annualized_return": -4.2706686555932905,
+    "volatility": 1.712029296904012,
+    "downside_deviation": 1.5274627640938758,
+    "sharpe_ratio": -3.672247429846711,
+    "sortino_ratio": -4.115972796958892,
+    "calmar_ratio": -3.992435607639326,
+    "max_drawdown": -1.0696900527140825,
+    "avg_drawdown": -0.8887070549757804,
+    "max_drawdown_duration": 33.0,
+    "num_trades": 1,
+    "win_rate": 0.0,
+    "profit_factor": 0.0,
+    "avg_win": 0.0,
+    "avg_loss": 1059.5786198149115,
+    "largest_win": 0.0,
+    "largest_loss": -1059.5786198149115,
+    "avg_trade_duration": 20.0,
+    "expectancy": -1059.5786198149115,
+    "recovery_factor": -1.0,
+    "equity_final": 98930.30994728592,
+    "model_metrics": {},
+    "ic_mean": 0.0,
+    "ic_std": 0.0,
+    "ic_pvalue": 1.0,
+    "hit_rate": 0.0,
+    "false_positive_rate": 0.0,
+    "avg_turnover": 0.0,
+    "total_transaction_costs": 0.0,
+    "signal_decay_halflife": 0.0,
+    "avg_signal_age": 0.0
+  },
+  "timestamp": "2025-12-17T02:25:08.278994",
+  "symbols_traded": [
+    "DKNG"
+  ],
+  "trades_count": 1
+}

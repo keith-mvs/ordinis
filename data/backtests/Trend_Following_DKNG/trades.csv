@@ -1,0 +1,2 @@
+trade_id,symbol,side,entry_time,exit_time,entry_price,exit_price,quantity,pnl,pnl_pct,commission,duration
+445a5ff8-cce3-4b09-bd8c-9b5974af1cad,DKNG,LONG,2024-09-27,2024-10-17,41.44029876708984,37.13489833831787,244,-1059.5786198149115,-10.389404895389278,9.06091519454956,1728000.0

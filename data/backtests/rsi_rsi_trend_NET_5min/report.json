@@ -1,0 +1,56 @@
+{
+  "config": {
+    "name": "rsi_rsi_trend_NET_5min",
+    "symbols": [
+      "NET"
+    ],
+    "start_date": "2025-11-18",
+    "end_date": "2025-12-17",
+    "initial_capital": 100000.0,
+    "commission_pct": 0.001,
+    "slippage_bps": 5,
+    "max_position_size": 0.1,
+    "max_portfolio_exposure": 1.0,
+    "rebalance_freq": "5min",
+    "stop_loss_pct": 0.1,
+    "take_profit_pct": 0.0
+  },
+  "metrics": {
+    "total_return": 0.0,
+    "annualized_return": 0.0,
+    "volatility": 0.0,
+    "downside_deviation": 0.0,
+    "sharpe_ratio": 0.0,
+    "sortino_ratio": 0.0,
+    "calmar_ratio": 0.0,
+    "max_drawdown": 0.0,
+    "avg_drawdown": 0.0,
+    "max_drawdown_duration": 0.0,
+    "num_trades": 0,
+    "win_rate": 0.0,
+    "profit_factor": 0.0,
+    "avg_win": 0.0,
+    "avg_loss": 0.0,
+    "largest_win": 0.0,
+    "largest_loss": 0.0,
+    "avg_trade_duration": 0.0,
+    "expectancy": 0.0,
+    "recovery_factor": 0.0,
+    "equity_final": 100000.0,
+    "model_metrics": {},
+    "ic_mean": 0.0,
+    "ic_std": 0.0,
+    "ic_pvalue": 1.0,
+    "hit_rate": 0.0,
+    "false_positive_rate": 0.0,
+    "avg_turnover": 0.0,
+    "total_transaction_costs": 0.0,
+    "signal_decay_halflife": 0.0,
+    "avg_signal_age": 0.0
+  },
+  "timestamp": "2025-12-17T03:20:47.607432",
+  "symbols_traded": [
+    "NET"
+  ],
+  "trades_count": 0
+}

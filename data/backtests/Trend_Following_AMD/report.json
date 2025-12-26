@@ -1,0 +1,56 @@
+{
+  "config": {
+    "name": "Trend_Following_AMD",
+    "symbols": [
+      "AMD"
+    ],
+    "start_date": "2024-08-01",
+    "end_date": "2024-10-30",
+    "initial_capital": 100000.0,
+    "commission_pct": 0.001,
+    "slippage_bps": 5,
+    "max_position_size": 0.1,
+    "max_portfolio_exposure": 1.0,
+    "rebalance_freq": "1d",
+    "stop_loss_pct": 0.1,
+    "take_profit_pct": 0.0
+  },
+  "metrics": {
+    "total_return": -0.9222763484993047,
+    "annualized_return": -3.6904513381935566,
+    "volatility": 2.0080435139637904,
+    "downside_deviation": 1.6502157828376522,
+    "sharpe_ratio": -2.8316588428473177,
+    "sortino_ratio": -3.4456670650429504,
+    "calmar_ratio": -3.151247191214062,
+    "max_drawdown": -1.1711081721811099,
+    "avg_drawdown": -0.7553646307471387,
+    "max_drawdown_duration": 21.0,
+    "num_trades": 1,
+    "win_rate": 0.0,
+    "profit_factor": 0.0,
+    "avg_win": 0.0,
+    "avg_loss": 912.2962155538931,
+    "largest_win": 0.0,
+    "largest_loss": -912.2962155538931,
+    "avg_trade_duration": 28.0,
+    "expectancy": -912.2962155538931,
+    "recovery_factor": -0.7875244750291746,
+    "equity_final": 99077.7236515007,
+    "model_metrics": {},
+    "ic_mean": 0.0,
+    "ic_std": 0.0,
+    "ic_pvalue": 1.0,
+    "hit_rate": 0.0,
+    "false_positive_rate": 0.0,
+    "avg_turnover": 0.0,
+    "total_transaction_costs": 0.0,
+    "signal_decay_halflife": 0.0,
+    "avg_signal_age": 0.0
+  },
+  "timestamp": "2025-12-17T02:25:06.821068",
+  "symbols_traded": [
+    "AMD"
+  ],
+  "trades_count": 1
+}

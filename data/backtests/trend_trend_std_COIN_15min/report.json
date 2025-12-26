@@ -1,0 +1,56 @@
+{
+  "config": {
+    "name": "trend_trend_std_COIN_15min",
+    "symbols": [
+      "COIN"
+    ],
+    "start_date": "2025-11-18",
+    "end_date": "2025-12-17",
+    "initial_capital": 100000.0,
+    "commission_pct": 0.001,
+    "slippage_bps": 5,
+    "max_position_size": 0.1,
+    "max_portfolio_exposure": 1.0,
+    "rebalance_freq": "15min",
+    "stop_loss_pct": 0.1,
+    "take_profit_pct": 0.0
+  },
+  "metrics": {
+    "total_return": -0.8787120100440224,
+    "annualized_return": -10.639803017211646,
+    "volatility": 0.5300046292653283,
+    "downside_deviation": 0.4288525218248933,
+    "sharpe_ratio": -4.105013958302425,
+    "sortino_ratio": -5.073250803891588,
+    "calmar_ratio": -7.095094964195707,
+    "max_drawdown": -1.4995998039355014,
+    "avg_drawdown": -0.6933407376371103,
+    "max_drawdown_duration": 18.375,
+    "num_trades": 11,
+    "win_rate": 45.45454545454545,
+    "profit_factor": 0.5460575707634704,
+    "avg_win": 187.58596065868286,
+    "avg_loss": 286.27317384076304,
+    "largest_win": 344.0647677769661,
+    "largest_loss": -690.3714588490335,
+    "avg_trade_duration": 4.93655303030303,
+    "expectancy": -70.88265815919671,
+    "recovery_factor": -0.5859643404446699,
+    "equity_final": 99121.28798995598,
+    "model_metrics": {},
+    "ic_mean": 0.0,
+    "ic_std": 0.0,
+    "ic_pvalue": 1.0,
+    "hit_rate": 0.0,
+    "false_positive_rate": 0.0,
+    "avg_turnover": 0.0,
+    "total_transaction_costs": 0.0,
+    "signal_decay_halflife": 0.0,
+    "avg_signal_age": 0.0
+  },
+  "timestamp": "2025-12-17T02:39:32.682397",
+  "symbols_traded": [
+    "COIN"
+  ],
+  "trades_count": 11
+}

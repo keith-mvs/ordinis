@@ -1,0 +1,56 @@
+{
+  "config": {
+    "name": "trend_trend_quick_CRWD_5min",
+    "symbols": [
+      "CRWD"
+    ],
+    "start_date": "2025-11-18",
+    "end_date": "2025-12-17",
+    "initial_capital": 100000.0,
+    "commission_pct": 0.001,
+    "slippage_bps": 5,
+    "max_position_size": 0.1,
+    "max_portfolio_exposure": 1.0,
+    "rebalance_freq": "5min",
+    "stop_loss_pct": 0.1,
+    "take_profit_pct": 0.0
+  },
+  "metrics": {
+    "total_return": -7.981371682663564,
+    "annualized_return": -65.44131673501936,
+    "volatility": 2.0215439438405323,
+    "downside_deviation": 1.6528836997553156,
+    "sharpe_ratio": -1.3949781235787198,
+    "sortino_ratio": -1.7061149419817319,
+    "calmar_ratio": -7.456287691896545,
+    "max_drawdown": -8.77666198504393,
+    "avg_drawdown": -3.5902026087429606,
+    "max_drawdown_duration": 26.427083333333332,
+    "num_trades": 37,
+    "win_rate": 13.513513513513514,
+    "profit_factor": 0.059136478969778215,
+    "avg_win": 69.29500676660803,
+    "avg_loss": 183.09079261915196,
+    "largest_win": 125.68523417107097,
+    "largest_loss": -558.8495830538928,
+    "avg_trade_duration": 14.036411411411413,
+    "expectancy": -148.98460351296816,
+    "recovery_factor": -0.9093857888414071,
+    "equity_final": 92018.62831733644,
+    "model_metrics": {},
+    "ic_mean": 0.0,
+    "ic_std": 0.0,
+    "ic_pvalue": 1.0,
+    "hit_rate": 0.0,
+    "false_positive_rate": 0.0,
+    "avg_turnover": 0.0,
+    "total_transaction_costs": 0.0,
+    "signal_decay_halflife": 0.0,
+    "avg_signal_age": 0.0
+  },
+  "timestamp": "2025-12-17T02:41:02.485729",
+  "symbols_traded": [
+    "CRWD"
+  ],
+  "trades_count": 37
+}

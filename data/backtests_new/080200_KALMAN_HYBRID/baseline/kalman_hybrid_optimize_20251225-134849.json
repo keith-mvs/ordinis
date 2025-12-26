@@ -1,0 +1,56 @@
+{
+  "mode": "optimized",
+  "results": [],
+  "filter_params": {
+    "AAPL": {
+      "symbol": "AAPL",
+      "cluster": "med_vol",
+      "best_q": 5e-05,
+      "best_r": 0.005,
+      "score": 0.00441876249065469
+    },
+    "MSFT": {
+      "symbol": "MSFT",
+      "cluster": "med_vol",
+      "best_q": 5e-05,
+      "best_r": 0.005,
+      "score": 0.001806671631880881
+    },
+    "JPM": {
+      "symbol": "JPM",
+      "cluster": "med_vol",
+      "best_q": 5e-05,
+      "best_r": 0.005,
+      "score": 0.00909536098854456
+    },
+    "NVDA": {
+      "symbol": "NVDA",
+      "cluster": "high_vol",
+      "best_q": 0.0005,
+      "best_r": 0.001,
+      "score": 0.0481852905497798
+    },
+    "GOOGL": {
+      "symbol": "GOOGL",
+      "cluster": "med_vol",
+      "best_q": 5e-05,
+      "best_r": 0.005,
+      "score": 0.007020593335379228
+    },
+    "META": {
+      "symbol": "META",
+      "cluster": "high_vol",
+      "best_q": 0.0005,
+      "best_r": 0.001,
+      "score": 0.0018474033513104153
+    }
+  },
+  "trading_params": {
+    "AAPL": null,
+    "MSFT": null,
+    "JPM": null,
+    "NVDA": null,
+    "GOOGL": null,
+    "META": null
+  }
+}

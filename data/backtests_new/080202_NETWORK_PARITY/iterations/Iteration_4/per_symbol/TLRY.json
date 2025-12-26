@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.0",
+  "configuration_id": "cfg_20251225-210841_21e0c357",
+  "iteration_number": 4,
+  "symbol": "TLRY",
+  "timestamp": "2025-12-25T21:12:00.247934Z",
+  "params": {
+    "corr_lookback": 10,
+    "corr_threshold": 0.2,
+    "recalc_frequency": 2,
+    "centrality_method": "eigenvector",
+    "weight_decay": 0.6987103647857907,
+    "min_weight": 0.021549739486909705,
+    "max_weight": 0.29623997541678715,
+    "vol_target": 0.14904735050682033,
+    "momentum_lookback": 6,
+    "z_score_entry": 2.007088914438383,
+    "z_score_exit": 0.6462049151096956,
+    "momentum_threshold": 0.0,
+    "stop_loss_pct": 0.07269136081199255,
+    "take_profit_pct": 0.11927594342843607,
+    "trailing_stop_pct": 0.035898747537704986,
+    "max_portfolio_drawdown": 0.15,
+    "max_positions": 10
+  },
+  "metrics": {
+    "total_return": -0.001730362957182515,
+    "sharpe_ratio": -0.15630785564747482,
+    "sortino_ratio": -0.09533989615515959,
+    "max_drawdown": 0.024239625482036207,
+    "win_rate": 1.0,
+    "profit_factor": 0.0,
+    "num_trades": 1,
+    "avg_trade_pnl": 1485.0655408458351
+  },
+  "trades": [
+    {
+      "symbol": "TLRY",
+      "entry_date": "2025-12-02T00:00:00+00:00",
+      "exit_date": "2025-12-05T00:00:00+00:00",
+      "entry_price": 7.74,
+      "exit_price": 7.33,
+      "direction": -1,
+      "shares": 3827.389863265984,
+      "pnl": 1485.0655408458351,
+      "pnl_pct": 0.050130490956072374,
+      "exit_reason": "z_score_exit"
+    }
+  ],
+  "equity_curve": [
+    100000.0,
+    100000.0,
+    100000.0,
+    100000.0,
+    100000.0,
+    100000.0,
+    99911.12800737497,
+    97576.03745179638,
+    98070.91896111668,
+    99826.96370428175,
+    99826.96370428175,
+    99826.96370428175,
+    99826.96370428175,
+    99826.96370428175,
+    99826.96370428175,
+    99826.96370428175,
+    99826.96370428175,
+    99826.96370428175,
+    99826.96370428175,
+    99826.96370428175
+  ],
+  "score": -Infinity
+}

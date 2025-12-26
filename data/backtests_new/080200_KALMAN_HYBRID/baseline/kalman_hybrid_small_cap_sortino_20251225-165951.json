@@ -1,0 +1,8196 @@
+{
+  "timestamp": "20251225-165951",
+  "n_trials": 50,
+  "aggregate_mins": 5,
+  "symbols": [
+    "BLNK",
+    "XXII",
+    "BNGO",
+    "CGC",
+    "AMC",
+    "SNDL",
+    "PLUG",
+    "BITF",
+    "CLOV",
+    "EVGO",
+    "KULR",
+    "MPW",
+    "ACB",
+    "WKHS",
+    "OPEN",
+    "CHPT",
+    "IVR",
+    "ABR",
+    "FCEL",
+    "TWO",
+    "AGNC",
+    "MARA",
+    "SOUN",
+    "QUBT",
+    "CLSK",
+    "CLF",
+    "WULF",
+    "RIOT",
+    "TLRY",
+    "AI",
+    "CIFR",
+    "NLY",
+    "GME",
+    "RGTI"
+  ],
+  "results": {
+    "BLNK": {
+      "symbol": "BLNK",
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.08
+      },
+      "total_return": 0.21012082368747026,
+      "sharpe_ratio": 13.694456886146039,
+      "sortino_ratio": 15.484451989831616,
+      "max_drawdown": 0.032860769254807166,
+      "win_rate": 0.9026915113871635,
+      "profit_factor": 2.0521384751289076,
+      "num_trades": 483,
+      "avg_trade_pnl": 0.0039628399193987725
+    },
+    "XXII": {
+      "symbol": "XXII",
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.08
+      },
+      "total_return": 1.016066617936279,
+      "sharpe_ratio": 36.17458917135049,
+      "sortino_ratio": 53.361995001140095,
+      "max_drawdown": 0.015863182993878466,
+      "win_rate": 0.9073033707865169,
+      "profit_factor": 4.761165263118505,
+      "num_trades": 356,
+      "avg_trade_pnl": 0.013176014123112312
+    },
+    "BNGO": {
+      "symbol": "BNGO",
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.08
+      },
+      "total_return": 0.3021304034862609,
+      "sharpe_ratio": 22.35356800708798,
+      "sortino_ratio": 33.64451870422739,
+      "max_drawdown": 0.0098362449926953,
+      "win_rate": 0.9316239316239316,
+      "profit_factor": 4.334696797748815,
+      "num_trades": 234,
+      "avg_trade_pnl": 0.007542466065178223
+    },
+    "CGC": {
+      "symbol": "CGC",
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.08
+      },
+      "total_return": 0.3427942607589238,
+      "sharpe_ratio": 12.878818382021853,
+      "sortino_ratio": 15.399708758941529,
+      "max_drawdown": 0.03648838320034107,
+      "win_rate": 0.8841309823677582,
+      "profit_factor": 2.016679400087743,
+      "num_trades": 397,
+      "avg_trade_pnl": 0.004980409075831481
+    },
+    "AMC": {
+      "symbol": "AMC",
+      "config": {
+        "q": 0.001,
+        "r": 0.01,
+        "z_entry": 0.75,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "total_return": 0.11381143275444221,
+      "sharpe_ratio": 14.401702127470344,
+      "sortino_ratio": 18.374969930297144,
+      "max_drawdown": 0.007269906948560728,
+      "win_rate": 0.9681528662420382,
+      "profit_factor": 4.466355785584278,
+      "num_trades": 314,
+      "avg_trade_pnl": 0.003435733163369145
+    },
+    "SNDL": {
+      "symbol": "SNDL",
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.08
+      },
+      "total_return": 0.4011898507993386,
+      "sharpe_ratio": 21.212284944879165,
+      "sortino_ratio": 26.033967839491122,
+      "max_drawdown": 0.026695572048179017,
+      "win_rate": 0.95,
+      "profit_factor": 4.308854605270527,
+      "num_trades": 320,
+      "avg_trade_pnl": 0.007046241734618164
+    },
+    "PLUG": {
+      "symbol": "PLUG",
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "total_return": 0.28142587108324163,
+      "sharpe_ratio": 7.478256641328601,
+      "sortino_ratio": 11.036296185020094,
+      "max_drawdown": 0.03540905141835303,
+      "win_rate": 0.9842767295597484,
+      "profit_factor": 3.7807365672301643,
+      "num_trades": 318,
+      "avg_trade_pnl": 0.003925410934149505
+    },
+    "BITF": {
+      "symbol": "BITF",
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.08
+      },
+      "total_return": 0.10357025207737781,
+      "sharpe_ratio": 6.652351415595691,
+      "sortino_ratio": 8.718882280802033,
+      "max_drawdown": 0.013863791926915118,
+      "win_rate": 0.906396255850234,
+      "profit_factor": 1.467516721816851,
+      "num_trades": 641,
+      "avg_trade_pnl": 0.0015458180484601268
+    },
+    "CLOV": {
+      "symbol": "CLOV",
+      "config": {
+        "q": 0.001,
+        "r": 0.01,
+        "z_entry": 0.75,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "total_return": 0.157637714627987,
+      "sharpe_ratio": 21.434409138917584,
+      "sortino_ratio": 30.81002098036467,
+      "max_drawdown": 0.006971350340532548,
+      "win_rate": 0.9595141700404858,
+      "profit_factor": 5.5219015569909935,
+      "num_trades": 247,
+      "avg_trade_pnl": 0.005933055819031608
+    },
+    "EVGO": {
+      "symbol": "EVGO",
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.08
+      },
+      "total_return": 0.23905538000145665,
+      "sharpe_ratio": 19.711717942186752,
+      "sortino_ratio": 28.73801016853147,
+      "max_drawdown": 0.011657634515486652,
+      "win_rate": 0.9491525423728814,
+      "profit_factor": 3.9951243292161536,
+      "num_trades": 295,
+      "avg_trade_pnl": 0.004854197109769389
+    },
+    "KULR": {
+      "symbol": "KULR",
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "total_return": 0.7437866702021251,
+      "sharpe_ratio": 24.05238645331238,
+      "sortino_ratio": 28.223724386508913,
+      "max_drawdown": 0.034826414471306494,
+      "win_rate": 0.9410430839002267,
+      "profit_factor": 3.88841218871577,
+      "num_trades": 441,
+      "avg_trade_pnl": 0.006324119449428192
+    },
+    "MPW": {
+      "symbol": "MPW",
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "total_return": 0.03168475078752395,
+      "sharpe_ratio": 11.229549301827191,
+      "sortino_ratio": 13.555709824650846,
+      "max_drawdown": 0.004107253314686898,
+      "win_rate": 0.9621212121212122,
+      "profit_factor": 3.4731004472089655,
+      "num_trades": 132,
+      "avg_trade_pnl": 0.002365568099872782
+    },
+    "ACB": {
+      "symbol": "ACB",
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.08
+      },
+      "total_return": 0.09896340895626592,
+      "sharpe_ratio": 10.808194520107886,
+      "sortino_ratio": 14.211725288249417,
+      "max_drawdown": 0.01591308884187644,
+      "win_rate": 0.921875,
+      "profit_factor": 2.0770753782635305,
+      "num_trades": 320,
+      "avg_trade_pnl": 0.0029597531223524527
+    },
+    "WKHS": {
+      "symbol": "WKHS",
+      "config": {
+        "q": 1e-05,
+        "r": 0.0005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "total_return": 5.255463026715925,
+      "sharpe_ratio": 3.7460121310794063,
+      "sortino_ratio": 52.22649879474003,
+      "max_drawdown": 0.08494726749760312,
+      "win_rate": 0.9144981412639405,
+      "profit_factor": 5.53001181632187,
+      "num_trades": 269,
+      "avg_trade_pnl": 0.053857611140633824
+    },
+    "OPEN": {
+      "symbol": "OPEN",
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "total_return": 0.06426858998038268,
+      "sharpe_ratio": 4.714771242274369,
+      "sortino_ratio": 6.1116480259717125,
+      "max_drawdown": 0.01927225550174401,
+      "win_rate": 0.96,
+      "profit_factor": 1.958196269804937,
+      "num_trades": 250,
+      "avg_trade_pnl": 0.0025043640910022394
+    },
+    "CHPT": {
+      "symbol": "CHPT",
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "total_return": 0.06618121150936916,
+      "sharpe_ratio": 10.004536226467442,
+      "sortino_ratio": 8.885484738214226,
+      "max_drawdown": 0.012312847531602658,
+      "win_rate": 0.9021739130434783,
+      "profit_factor": 2.024776653786223,
+      "num_trades": 184,
+      "avg_trade_pnl": 0.0034936332253897103
+    },
+    "IVR": {
+      "symbol": "IVR",
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.07,
+        "take_profit": 0.08
+      },
+      "total_return": 0.08250058200333601,
+      "sharpe_ratio": 16.283992320829416,
+      "sortino_ratio": 19.442185883137885,
+      "max_drawdown": 0.00620060790273554,
+      "win_rate": 0.9910714285714286,
+      "profit_factor": 0,
+      "num_trades": 112,
+      "avg_trade_pnl": 0.0035414092831465814
+    },
+    "ABR": {
+      "symbol": "ABR",
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "total_return": 0.05842139081797563,
+      "sharpe_ratio": 8.856497479829292,
+      "sortino_ratio": 9.759936994453495,
+      "max_drawdown": 0.014671587815483578,
+      "win_rate": 0.9668508287292817,
+      "profit_factor": 2.6597141381981464,
+      "num_trades": 181,
+      "avg_trade_pnl": 0.0015728519109654442
+    },
+    "FCEL": {
+      "symbol": "FCEL",
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "total_return": 0.12397515444826088,
+      "sharpe_ratio": 12.91653548774326,
+      "sortino_ratio": 17.513430913074096,
+      "max_drawdown": 0.014159566677195583,
+      "win_rate": 0.968944099378882,
+      "profit_factor": 4.650863790407905,
+      "num_trades": 161,
+      "avg_trade_pnl": 0.007274410757621552
+    },
+    "TWO": {
+      "symbol": "TWO",
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "total_return": 0.016080155744047663,
+      "sharpe_ratio": 8.378795447409109,
+      "sortino_ratio": 10.526184154876463,
+      "max_drawdown": 0.003505869086569156,
+      "win_rate": 0.9746835443037974,
+      "profit_factor": 5.4435133048594295,
+      "num_trades": 79,
+      "avg_trade_pnl": 0.0020205336929533116
+    },
+    "AGNC": {
+      "symbol": "AGNC",
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "total_return": 0.022751593652456794,
+      "sharpe_ratio": 5.7758809716667985,
+      "sortino_ratio": 6.938786739745652,
+      "max_drawdown": 0.007285089849441466,
+      "win_rate": 0.9902912621359223,
+      "profit_factor": 58.14087469067891,
+      "num_trades": 103,
+      "avg_trade_pnl": 0.0010922671451755778
+    },
+    "MARA": {
+      "symbol": "MARA",
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "total_return": 0.059946998164539106,
+      "sharpe_ratio": 5.797624333827154,
+      "sortino_ratio": 7.129954394297859,
+      "max_drawdown": 0.013319609614235265,
+      "win_rate": 0.9885057471264368,
+      "profit_factor": 3.8708451621295863,
+      "num_trades": 174,
+      "avg_trade_pnl": 0.003353862381795274
+    },
+    "SOUN": {
+      "symbol": "SOUN",
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 0.75,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "total_return": 0.13238501160886212,
+      "sharpe_ratio": 6.611728934294443,
+      "sortino_ratio": 8.368174647651339,
+      "max_drawdown": 0.02069982081420919,
+      "win_rate": 0.9616519174041298,
+      "profit_factor": 1.9207881587443922,
+      "num_trades": 339,
+      "avg_trade_pnl": 0.001847361323835538
+    },
+    "QUBT": {
+      "symbol": "QUBT",
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "total_return": 0.14854465573756695,
+      "sharpe_ratio": 5.9371379654336485,
+      "sortino_ratio": 7.256968531033402,
+      "max_drawdown": 0.01898064165204675,
+      "win_rate": 0.9741379310344828,
+      "profit_factor": 2.901217646438841,
+      "num_trades": 232,
+      "avg_trade_pnl": 0.002999854420196844
+    },
+    "CLSK": {
+      "symbol": "CLSK",
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.05
+      },
+      "total_return": 0.09771938764341802,
+      "sharpe_ratio": 4.296596209647246,
+      "sortino_ratio": 4.681896961057561,
+      "max_drawdown": 0.04698920107802873,
+      "win_rate": 0.9435483870967742,
+      "profit_factor": 1.5493682365077164,
+      "num_trades": 248,
+      "avg_trade_pnl": 0.0025423362359868256
+    },
+    "CLF": {
+      "symbol": "CLF",
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.08
+      },
+      "total_return": 0.050158617601466685,
+      "sharpe_ratio": 8.437934395703598,
+      "sortino_ratio": 11.937909843700234,
+      "max_drawdown": 0.007642139912253096,
+      "win_rate": 0.9517241379310345,
+      "profit_factor": 2.0769223728056403,
+      "num_trades": 290,
+      "avg_trade_pnl": 0.0016916142585000858
+    },
+    "WULF": {
+      "symbol": "WULF",
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.08
+      },
+      "total_return": 0.019279177218433325,
+      "sharpe_ratio": 1.375410480138195,
+      "sortino_ratio": 1.6546945528488481,
+      "max_drawdown": 0.03090727213658932,
+      "win_rate": 0.8908450704225352,
+      "profit_factor": 1.0877724018797468,
+      "num_trades": 568,
+      "avg_trade_pnl": 0.0003456618588946886
+    },
+    "RIOT": {
+      "symbol": "RIOT",
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.75,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "total_return": 0.11620048441617109,
+      "sharpe_ratio": 6.985075715701851,
+      "sortino_ratio": 9.445164658397829,
+      "max_drawdown": 0.034664430351763496,
+      "win_rate": 0.9837662337662337,
+      "profit_factor": 2.6838393971788643,
+      "num_trades": 308,
+      "avg_trade_pnl": 0.0023919613609220285
+    },
+    "TLRY": {
+      "symbol": "TLRY",
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.2,
+        "stop_loss": 0.1,
+        "take_profit": 0.15
+      },
+      "total_return": 2.0904844457731984,
+      "sharpe_ratio": 2.661360156906205,
+      "sortino_ratio": 56.89419004948073,
+      "max_drawdown": 0.07243105673579045,
+      "win_rate": 0.9402985074626866,
+      "profit_factor": 4.728058982508723,
+      "num_trades": 201,
+      "avg_trade_pnl": 0.04671068269823566
+    },
+    "AI": {
+      "symbol": "AI",
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 0.75,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "total_return": 0.15737361392865365,
+      "sharpe_ratio": 10.164868524068131,
+      "sortino_ratio": 15.216286060393884,
+      "max_drawdown": 0.019737587880992512,
+      "win_rate": 0.9761904761904762,
+      "profit_factor": 3.557443474024914,
+      "num_trades": 252,
+      "avg_trade_pnl": 0.002908901935908557
+    },
+    "CIFR": {
+      "symbol": "CIFR",
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "total_return": 0.1022366911857795,
+      "sharpe_ratio": 5.722525034534944,
+      "sortino_ratio": 6.883097060842572,
+      "max_drawdown": 0.021206226244148068,
+      "win_rate": 0.9654255319148937,
+      "profit_factor": 1.9249087833405403,
+      "num_trades": 376,
+      "avg_trade_pnl": 0.002603417018886421
+    },
+    "NLY": {
+      "symbol": "NLY",
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "total_return": 0.02689297854735429,
+      "sharpe_ratio": 8.293922938940808,
+      "sortino_ratio": 11.819452869459223,
+      "max_drawdown": 0.0060661138248323965,
+      "win_rate": 0.9849624060150376,
+      "profit_factor": 3.179318921610819,
+      "num_trades": 133,
+      "avg_trade_pnl": 0.000999443427807571
+    },
+    "GME": {
+      "symbol": "GME",
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 0.75,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.08
+      },
+      "total_return": 0.04671879610697855,
+      "sharpe_ratio": 5.9843178977809774,
+      "sortino_ratio": 7.722507906989798,
+      "max_drawdown": 0.010722301416018702,
+      "win_rate": 0.9880239520958084,
+      "profit_factor": 4.788836678368455,
+      "num_trades": 167,
+      "avg_trade_pnl": 0.001826098977117941
+    },
+    "RGTI": {
+      "symbol": "RGTI",
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "total_return": 0.05796302507228014,
+      "sharpe_ratio": 2.4418009010571424,
+      "sortino_ratio": 3.274231867605766,
+      "max_drawdown": 0.039310626267156874,
+      "win_rate": 0.9746192893401016,
+      "profit_factor": 1.5720511044195753,
+      "num_trades": 197,
+      "avg_trade_pnl": 0.0014571146239238267
+    }
+  },
+  "all_trials": [
+    {
+      "trial": 0,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.10440762179689496,
+      "sharpe": 3.7710291012964023,
+      "sortino": 3.8684972798144943,
+      "trades": 119
+    },
+    {
+      "trial": 1,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": 0.26235673523321473,
+      "sharpe": 8.663374929454355,
+      "sortino": 9.086313090525175,
+      "trades": 214
+    },
+    {
+      "trial": 2,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.07,
+        "take_profit": 0.08
+      },
+      "return": 0.24899323424141373,
+      "sharpe": 9.173865175161,
+      "sortino": 9.290405359936612,
+      "trades": 137
+    },
+    {
+      "trial": 3,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.1156572106781567,
+      "sharpe": 8.197353174898483,
+      "sortino": 8.816089147759525,
+      "trades": 166
+    },
+    {
+      "trial": 4,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.2
+      },
+      "return": 0.0641715941334133,
+      "sharpe": 3.1284178317044864,
+      "sortino": 3.4554355000711223,
+      "trades": 60
+    },
+    {
+      "trial": 5,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.15750561907471086,
+      "sharpe": 5.581487678761249,
+      "sortino": 5.469739956690023,
+      "trades": 147
+    },
+    {
+      "trial": 6,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.1
+      },
+      "return": 0.12436924094537986,
+      "sharpe": 9.309421136896885,
+      "sortino": 9.325185069928555,
+      "trades": 174
+    },
+    {
+      "trial": 7,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.2,
+        "stop_loss": 0.1,
+        "take_profit": 0.15
+      },
+      "return": 0.2236474613418398,
+      "sharpe": 7.785142228148782,
+      "sortino": 8.632812744287602,
+      "trades": 145
+    },
+    {
+      "trial": 8,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.13182455907748372,
+      "sharpe": 11.455711835147927,
+      "sortino": 8.557223837392868,
+      "trades": 197
+    },
+    {
+      "trial": 9,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.34842911245029273,
+      "sharpe": 12.026780006230767,
+      "sortino": 11.154621012419797,
+      "trades": 224
+    },
+    {
+      "trial": 10,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": 0.1301878613333775,
+      "sharpe": 8.474560378581641,
+      "sortino": 9.967321839531564,
+      "trades": 251
+    },
+    {
+      "trial": 11,
+      "config": {
+        "q": 0.0005,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.09591880994000297,
+      "sharpe": 6.949183196418039,
+      "sortino": 7.819534211121047,
+      "trades": 121
+    },
+    {
+      "trial": 12,
+      "config": {
+        "q": 5e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.06728983354006661,
+      "sharpe": 4.652806320541268,
+      "sortino": 5.267476726760492,
+      "trades": 70
+    },
+    {
+      "trial": 13,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.15
+      },
+      "return": 0.2536506847189606,
+      "sharpe": 9.142951321961052,
+      "sortino": 8.8978048711549,
+      "trades": 176
+    },
+    {
+      "trial": 14,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.16843114201497011,
+      "sharpe": 12.354336777590621,
+      "sortino": 10.46523075924653,
+      "trades": 285
+    },
+    {
+      "trial": 15,
+      "config": {
+        "q": 0.0001,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.1
+      },
+      "return": 0.13397892590725183,
+      "sharpe": 4.647896767940192,
+      "sortino": 5.262049688102135,
+      "trades": 77
+    },
+    {
+      "trial": 16,
+      "config": {
+        "q": 0.0001,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.09428387755472926,
+      "sharpe": 6.870470271027648,
+      "sortino": 6.138313302434182,
+      "trades": 224
+    },
+    {
+      "trial": 17,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.75,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.09025149904502643,
+      "sharpe": 4.110336674773531,
+      "sortino": 4.241169497514045,
+      "trades": 217
+    },
+    {
+      "trial": 18,
+      "config": {
+        "q": 0.001,
+        "r": 0.01,
+        "z_entry": 0.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.09540128193554177,
+      "sharpe": 6.404517901739236,
+      "sortino": 6.546941705178473,
+      "trades": 220
+    },
+    {
+      "trial": 19,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.34270670827702765,
+      "sharpe": 11.382666628269703,
+      "sortino": 10.194500329083072,
+      "trades": 357
+    },
+    {
+      "trial": 20,
+      "config": {
+        "q": 0.001,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.14695912393489446,
+      "sharpe": 10.269393582218665,
+      "sortino": 10.56937472615361,
+      "trades": 218
+    },
+    {
+      "trial": 21,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.15
+      },
+      "return": 0.15123847327960596,
+      "sharpe": 6.541309791470946,
+      "sortino": 6.84999322152083,
+      "trades": 238
+    },
+    {
+      "trial": 22,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.2736865586050255,
+      "sharpe": 10.154294488168693,
+      "sortino": 10.968683620646372,
+      "trades": 145
+    },
+    {
+      "trial": 23,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.08
+      },
+      "return": 0.25523487840059084,
+      "sharpe": 11.000308618116254,
+      "sortino": 11.154356430784771,
+      "trades": 366
+    },
+    {
+      "trial": 24,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.05
+      },
+      "return": 0.27143366072938063,
+      "sharpe": 10.216016458595938,
+      "sortino": 8.852314475670845,
+      "trades": 179
+    },
+    {
+      "trial": 25,
+      "config": {
+        "q": 5e-05,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.17569010564630125,
+      "sharpe": 6.011096640759112,
+      "sortino": 6.453232723268484,
+      "trades": 150
+    },
+    {
+      "trial": 26,
+      "config": {
+        "q": 5e-05,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.1,
+        "take_profit": 0.1
+      },
+      "return": 0.10584649171974175,
+      "sharpe": 7.076479109040619,
+      "sortino": 8.123061094490748,
+      "trades": 121
+    },
+    {
+      "trial": 27,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0001,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.19051032867050555,
+      "sharpe": 14.689579116518138,
+      "sortino": 13.463412072358626,
+      "trades": 296
+    },
+    {
+      "trial": 28,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.07,
+        "take_profit": 0.05
+      },
+      "return": 0.24899323424141373,
+      "sharpe": 9.173865175161,
+      "sortino": 9.290405359936612,
+      "trades": 137
+    },
+    {
+      "trial": 29,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": -0.004258418182311288,
+      "sharpe": -0.11541647496770126,
+      "sortino": -0.1205531762854719,
+      "trades": 71
+    },
+    {
+      "trial": 30,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.05
+      },
+      "return": 0.12070193390132933,
+      "sharpe": 5.352174040193687,
+      "sortino": 5.637196679610337,
+      "trades": 163
+    },
+    {
+      "trial": 31,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.08
+      },
+      "return": 0.21012082368747026,
+      "sharpe": 13.694456886146039,
+      "sortino": 15.484451989831616,
+      "trades": 483
+    },
+    {
+      "trial": 32,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.23759552736956363,
+      "sharpe": 7.355601383561349,
+      "sortino": 8.425458365790009,
+      "trades": 265
+    },
+    {
+      "trial": 33,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.1,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.1173141788956632,
+      "sharpe": 8.292734238335045,
+      "sortino": 8.724606507310199,
+      "trades": 211
+    },
+    {
+      "trial": 34,
+      "config": {
+        "q": 1e-05,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.15
+      },
+      "return": 0.07524081386665304,
+      "sharpe": 5.31026709628629,
+      "sortino": 5.689782176305338,
+      "trades": 135
+    },
+    {
+      "trial": 35,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.1721330973108884,
+      "sharpe": 8.410452453301419,
+      "sortino": 8.480798295792964,
+      "trades": 158
+    },
+    {
+      "trial": 36,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.08069338657110871,
+      "sharpe": 3.901316210722631,
+      "sortino": 4.331879599041543,
+      "trades": 73
+    },
+    {
+      "trial": 37,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 0.75,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.13291089095546718,
+      "sharpe": 4.626717872852608,
+      "sortino": 4.814955622417545,
+      "trades": 252
+    },
+    {
+      "trial": 38,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 0.75,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.05
+      },
+      "return": 0.15242688440903118,
+      "sharpe": 5.286277733328397,
+      "sortino": 5.053650103299908,
+      "trades": 283
+    },
+    {
+      "trial": 39,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": 0.21328563110812362,
+      "sharpe": 6.891161935220653,
+      "sortino": 7.6306226584202355,
+      "trades": 149
+    },
+    {
+      "trial": 40,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.07882939035122749,
+      "sharpe": 5.651978271445337,
+      "sortino": 6.279262281133155,
+      "trades": 110
+    },
+    {
+      "trial": 41,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.1,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.2185286419684942,
+      "sharpe": 7.313143945775865,
+      "sortino": 7.857565560037719,
+      "trades": 162
+    },
+    {
+      "trial": 42,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 0.75,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.08
+      },
+      "return": 0.1766375353854733,
+      "sharpe": 7.668167895411223,
+      "sortino": 8.62243937091473,
+      "trades": 230
+    },
+    {
+      "trial": 43,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.16163436027896722,
+      "sharpe": 14.576937099420828,
+      "sortino": 10.449632419257352,
+      "trades": 247
+    },
+    {
+      "trial": 44,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.230240665522293,
+      "sharpe": 9.587897954904589,
+      "sortino": 7.290600512433666,
+      "trades": 178
+    },
+    {
+      "trial": 45,
+      "config": {
+        "q": 0.001,
+        "r": 0.01,
+        "z_entry": 0.75,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.19238985894102195,
+      "sharpe": 13.542317303748012,
+      "sortino": 12.713899205429446,
+      "trades": 353
+    },
+    {
+      "trial": 46,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.08576596058718482,
+      "sharpe": 5.956526770302333,
+      "sortino": 6.540545847049464,
+      "trades": 166
+    },
+    {
+      "trial": 47,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.1776724863506426,
+      "sharpe": 12.18980468320253,
+      "sortino": 11.455971924698364,
+      "trades": 335
+    },
+    {
+      "trial": 48,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.09075268070054691,
+      "sharpe": 6.127493799264985,
+      "sortino": 6.385733734289906,
+      "trades": 216
+    },
+    {
+      "trial": 49,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.25,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.13080347647421353,
+      "sharpe": 10.337618547869052,
+      "sortino": 8.102395903310441,
+      "trades": 213
+    },
+    {
+      "trial": 0,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.6066414859952105,
+      "sharpe": 20.590279730757608,
+      "sortino": 28.763874224885736,
+      "trades": 109
+    },
+    {
+      "trial": 1,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": 0.8727270170604982,
+      "sharpe": 27.08109993362822,
+      "sortino": 33.54093158946164,
+      "trades": 217
+    },
+    {
+      "trial": 2,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.07,
+        "take_profit": 0.08
+      },
+      "return": 0.7656560675134987,
+      "sharpe": 29.65245018746789,
+      "sortino": 31.862876585450685,
+      "trades": 151
+    },
+    {
+      "trial": 3,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.37834752504943286,
+      "sharpe": 28.29847128594018,
+      "sortino": 37.766260605758795,
+      "trades": 190
+    },
+    {
+      "trial": 4,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.2
+      },
+      "return": 0.32396359643157574,
+      "sharpe": 16.87952490162638,
+      "sortino": 18.225421381354895,
+      "trades": 91
+    },
+    {
+      "trial": 5,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.6022966929629873,
+      "sharpe": 20.86135824404259,
+      "sortino": 28.254706696919385,
+      "trades": 121
+    },
+    {
+      "trial": 6,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.1
+      },
+      "return": 0.3371956341749293,
+      "sharpe": 27.18965807844698,
+      "sortino": 34.64631502665227,
+      "trades": 153
+    },
+    {
+      "trial": 7,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.2,
+        "stop_loss": 0.1,
+        "take_profit": 0.15
+      },
+      "return": 0.7436728949455643,
+      "sharpe": 26.286655491577907,
+      "sortino": 25.12390469842341,
+      "trades": 172
+    },
+    {
+      "trial": 8,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.29938451950247996,
+      "sharpe": 26.92122087135709,
+      "sortino": 29.94041628660357,
+      "trades": 145
+    },
+    {
+      "trial": 9,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.8549507999312161,
+      "sharpe": 29.937531770935784,
+      "sortino": 35.27432014980405,
+      "trades": 186
+    },
+    {
+      "trial": 10,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": 0.40720802518005017,
+      "sharpe": 25.589499403231407,
+      "sortino": 40.061488208995875,
+      "trades": 264
+    },
+    {
+      "trial": 11,
+      "config": {
+        "q": 0.0005,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.3096189724685166,
+      "sharpe": 22.4742083288788,
+      "sortino": 27.37681496493833,
+      "trades": 159
+    },
+    {
+      "trial": 12,
+      "config": {
+        "q": 5e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.23063985214674976,
+      "sharpe": 17.645455516942896,
+      "sortino": 19.941004657456503,
+      "trades": 107
+    },
+    {
+      "trial": 13,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.15
+      },
+      "return": 0.7698058756005546,
+      "sharpe": 26.952748039730857,
+      "sortino": 33.613302590070944,
+      "trades": 155
+    },
+    {
+      "trial": 14,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.4262474080233008,
+      "sharpe": 31.227404806958603,
+      "sortino": 44.4662768989069,
+      "trades": 224
+    },
+    {
+      "trial": 15,
+      "config": {
+        "q": 0.0001,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.1
+      },
+      "return": 0.581066113151458,
+      "sharpe": 20.111348390107732,
+      "sortino": 23.40356898970242,
+      "trades": 122
+    },
+    {
+      "trial": 16,
+      "config": {
+        "q": 0.0001,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.40171160935803785,
+      "sharpe": 29.53633142646418,
+      "sortino": 43.48684736117467,
+      "trades": 182
+    },
+    {
+      "trial": 17,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.75,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.3602569520303304,
+      "sharpe": 15.455400957365963,
+      "sortino": 20.084135376305394,
+      "trades": 198
+    },
+    {
+      "trial": 18,
+      "config": {
+        "q": 0.001,
+        "r": 0.01,
+        "z_entry": 0.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.3726540262206702,
+      "sharpe": 23.457803699273835,
+      "sortino": 36.039134093315354,
+      "trades": 187
+    },
+    {
+      "trial": 19,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.9936690116750656,
+      "sharpe": 30.602122630433794,
+      "sortino": 37.83548442629978,
+      "trades": 283
+    },
+    {
+      "trial": 20,
+      "config": {
+        "q": 0.001,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.4120868892314614,
+      "sharpe": 29.94833721371622,
+      "sortino": 42.74173915975839,
+      "trades": 206
+    },
+    {
+      "trial": 21,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.15
+      },
+      "return": 0.5898611599261369,
+      "sharpe": 22.650743813128187,
+      "sortino": 33.24032181703358,
+      "trades": 205
+    },
+    {
+      "trial": 22,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.45291532257754674,
+      "sharpe": 17.978052485078905,
+      "sortino": 17.734380484700566,
+      "trades": 112
+    },
+    {
+      "trial": 23,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.08
+      },
+      "return": 1.016066617936279,
+      "sharpe": 36.17458917135049,
+      "sortino": 53.361995001140095,
+      "trades": 356
+    },
+    {
+      "trial": 24,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.05
+      },
+      "return": 0.761290632907894,
+      "sharpe": 29.380619223105477,
+      "sortino": 32.88817158637859,
+      "trades": 152
+    },
+    {
+      "trial": 25,
+      "config": {
+        "q": 5e-05,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.7570347145945716,
+      "sharpe": 23.432092445846482,
+      "sortino": 33.08561380591506,
+      "trades": 140
+    },
+    {
+      "trial": 26,
+      "config": {
+        "q": 5e-05,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.1,
+        "take_profit": 0.1
+      },
+      "return": 0.2780411235347149,
+      "sharpe": 18.770915904953778,
+      "sortino": 28.079924108651237,
+      "trades": 122
+    },
+    {
+      "trial": 27,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0001,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.41066057838625536,
+      "sharpe": 31.242224516188063,
+      "sortino": 41.815036705480296,
+      "trades": 229
+    },
+    {
+      "trial": 28,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.07,
+        "take_profit": 0.05
+      },
+      "return": 0.7656560675134987,
+      "sharpe": 29.65245018746789,
+      "sortino": 31.862876585450685,
+      "trades": 151
+    },
+    {
+      "trial": 29,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.4435571520962598,
+      "sharpe": 19.349057349289897,
+      "sortino": 26.99164216229083,
+      "trades": 116
+    },
+    {
+      "trial": 30,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.05
+      },
+      "return": 0.612906430539054,
+      "sharpe": 24.000719128746194,
+      "sortino": 39.2006516897166,
+      "trades": 162
+    },
+    {
+      "trial": 31,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.08
+      },
+      "return": 0.5535710025015884,
+      "sharpe": 34.01153830629734,
+      "sortino": 48.70736396027596,
+      "trades": 454
+    },
+    {
+      "trial": 32,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.7649264381989703,
+      "sharpe": 20.65808289469647,
+      "sortino": 27.991399192584804,
+      "trades": 246
+    },
+    {
+      "trial": 33,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.1,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.3976168506280309,
+      "sharpe": 28.395884638307333,
+      "sortino": 36.19469711237635,
+      "trades": 227
+    },
+    {
+      "trial": 34,
+      "config": {
+        "q": 1e-05,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.15
+      },
+      "return": 0.2689139702782109,
+      "sharpe": 18.98426209626562,
+      "sortino": 25.98476209630238,
+      "trades": 122
+    },
+    {
+      "trial": 35,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.5515572498166177,
+      "sharpe": 27.89377134896179,
+      "sortino": 36.87509711119233,
+      "trades": 149
+    },
+    {
+      "trial": 36,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.3479215242832911,
+      "sharpe": 19.134099244880364,
+      "sortino": 18.942623287898062,
+      "trades": 113
+    },
+    {
+      "trial": 37,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 0.75,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 1.2240810217272915,
+      "sharpe": 31.999395254489396,
+      "sortino": 51.091514156456526,
+      "trades": 273
+    },
+    {
+      "trial": 38,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 0.75,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.05
+      },
+      "return": 1.207877818794387,
+      "sharpe": 31.869642392749135,
+      "sortino": 50.23030446142763,
+      "trades": 275
+    },
+    {
+      "trial": 39,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": 0.9727577902489438,
+      "sharpe": 27.025218853203835,
+      "sortino": 40.490469085457946,
+      "trades": 180
+    },
+    {
+      "trial": 40,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.33951554454029365,
+      "sharpe": 27.502869057844926,
+      "sortino": 29.565936464627608,
+      "trades": 176
+    },
+    {
+      "trial": 41,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.1,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.7653777458403193,
+      "sharpe": 23.54876447688925,
+      "sortino": 35.21324118552392,
+      "trades": 132
+    },
+    {
+      "trial": 42,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 0.75,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.08
+      },
+      "return": 0.5729184724158756,
+      "sharpe": 23.645130878285052,
+      "sortino": 33.18211487170642,
+      "trades": 241
+    },
+    {
+      "trial": 43,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.277430811505413,
+      "sharpe": 26.309804082755953,
+      "sortino": 27.532186124248227,
+      "trades": 167
+    },
+    {
+      "trial": 44,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.6323058420616577,
+      "sharpe": 25.244072670942906,
+      "sortino": 29.456422203891638,
+      "trades": 125
+    },
+    {
+      "trial": 45,
+      "config": {
+        "q": 0.001,
+        "r": 0.01,
+        "z_entry": 0.75,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.4848942899507066,
+      "sharpe": 33.598044183611165,
+      "sortino": 44.766178390884605,
+      "trades": 293
+    },
+    {
+      "trial": 46,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.2741074578663806,
+      "sharpe": 18.527761752004814,
+      "sortino": 27.784718725863506,
+      "trades": 134
+    },
+    {
+      "trial": 47,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.5101336982380182,
+      "sharpe": 33.93058306720439,
+      "sortino": 48.17726655240184,
+      "trades": 283
+    },
+    {
+      "trial": 48,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.3687676386474693,
+      "sharpe": 24.03198363723761,
+      "sortino": 35.428319690145614,
+      "trades": 209
+    },
+    {
+      "trial": 49,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.25,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.33023287038287874,
+      "sharpe": 27.532450496209655,
+      "sortino": 36.10769091974446,
+      "trades": 159
+    },
+    {
+      "trial": 0,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.28262545429585517,
+      "sharpe": 17.84460439788051,
+      "sortino": 23.008741595845944,
+      "trades": 90
+    },
+    {
+      "trial": 1,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": 0.28983544816678053,
+      "sharpe": 16.869305127199564,
+      "sortino": 20.65630911217097,
+      "trades": 157
+    },
+    {
+      "trial": 2,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.07,
+        "take_profit": 0.08
+      },
+      "return": 0.29741797901421874,
+      "sharpe": 18.660306201689245,
+      "sortino": 22.863683240597275,
+      "trades": 125
+    },
+    {
+      "trial": 3,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.12200005254520817,
+      "sharpe": 15.314521472014944,
+      "sortino": 21.588036261105323,
+      "trades": 128
+    },
+    {
+      "trial": 4,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.2
+      },
+      "return": 0.1781390308299969,
+      "sharpe": 15.803822627843292,
+      "sortino": 19.80229688099873,
+      "trades": 72
+    },
+    {
+      "trial": 5,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.2829896055079585,
+      "sharpe": 18.026094181499285,
+      "sortino": 23.109880768269075,
+      "trades": 99
+    },
+    {
+      "trial": 6,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.1
+      },
+      "return": 0.15045027401264408,
+      "sharpe": 19.125015854604854,
+      "sortino": 26.022363391758702,
+      "trades": 118
+    },
+    {
+      "trial": 7,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.2,
+        "stop_loss": 0.1,
+        "take_profit": 0.15
+      },
+      "return": 0.2736455384375536,
+      "sharpe": 16.735531709135348,
+      "sortino": 21.0903669412121,
+      "trades": 127
+    },
+    {
+      "trial": 8,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.14536604347434726,
+      "sharpe": 19.878125455997527,
+      "sortino": 25.575005441634342,
+      "trades": 125
+    },
+    {
+      "trial": 9,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.3411454311087602,
+      "sharpe": 20.991057970712582,
+      "sortino": 24.91567302173231,
+      "trades": 158
+    },
+    {
+      "trial": 10,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": 0.06428755553975861,
+      "sharpe": 7.676419613168127,
+      "sortino": 10.918626103585538,
+      "trades": 121
+    },
+    {
+      "trial": 11,
+      "config": {
+        "q": 0.0005,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.14587291221590304,
+      "sharpe": 17.783848354786144,
+      "sortino": 26.307717867225183,
+      "trades": 105
+    },
+    {
+      "trial": 12,
+      "config": {
+        "q": 5e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.13849180872307523,
+      "sharpe": 18.098267149564176,
+      "sortino": 23.563945034859312,
+      "trades": 80
+    },
+    {
+      "trial": 13,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.15
+      },
+      "return": 0.30928593646166785,
+      "sharpe": 18.509030843182153,
+      "sortino": 24.82443607168909,
+      "trades": 119
+    },
+    {
+      "trial": 14,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.17009132294085183,
+      "sharpe": 21.48729402544272,
+      "sortino": 29.511577394103877,
+      "trades": 163
+    },
+    {
+      "trial": 15,
+      "config": {
+        "q": 0.0001,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.1
+      },
+      "return": 0.32986793283759386,
+      "sharpe": 19.204043601694156,
+      "sortino": 27.56813687945275,
+      "trades": 88
+    },
+    {
+      "trial": 16,
+      "config": {
+        "q": 0.0001,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.14836419755080163,
+      "sharpe": 18.738484836636143,
+      "sortino": 23.94523619283518,
+      "trades": 137
+    },
+    {
+      "trial": 17,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.75,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.11981312294467236,
+      "sharpe": 9.305765656221016,
+      "sortino": 12.35548521235777,
+      "trades": 113
+    },
+    {
+      "trial": 18,
+      "config": {
+        "q": 0.001,
+        "r": 0.01,
+        "z_entry": 0.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.09775749543037061,
+      "sharpe": 11.348115446758651,
+      "sortino": 14.056687377212064,
+      "trades": 135
+    },
+    {
+      "trial": 19,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.3409139274538631,
+      "sharpe": 20.671970626327838,
+      "sortino": 26.415588525842015,
+      "trades": 205
+    },
+    {
+      "trial": 20,
+      "config": {
+        "q": 0.001,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.15486429197117585,
+      "sharpe": 19.09657238855678,
+      "sortino": 27.519562266108416,
+      "trades": 156
+    },
+    {
+      "trial": 21,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.15
+      },
+      "return": 0.13667668181347967,
+      "sharpe": 10.351471388882342,
+      "sortino": 13.124022238903565,
+      "trades": 131
+    },
+    {
+      "trial": 22,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.14368095852855622,
+      "sharpe": 9.279224323135137,
+      "sortino": 11.5428223028695,
+      "trades": 89
+    },
+    {
+      "trial": 23,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.08
+      },
+      "return": 0.3021304034862609,
+      "sharpe": 22.35356800708798,
+      "sortino": 33.64451870422739,
+      "trades": 234
+    },
+    {
+      "trial": 24,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.05
+      },
+      "return": 0.32198586759944564,
+      "sharpe": 20.12570290346211,
+      "sortino": 23.65824916618659,
+      "trades": 132
+    },
+    {
+      "trial": 25,
+      "config": {
+        "q": 5e-05,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.2997083819941472,
+      "sharpe": 17.904319786959743,
+      "sortino": 24.528618284442697,
+      "trades": 113
+    },
+    {
+      "trial": 26,
+      "config": {
+        "q": 5e-05,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.1,
+        "take_profit": 0.1
+      },
+      "return": 0.15965098764760943,
+      "sharpe": 18.873936179212265,
+      "sortino": 29.017394849927925,
+      "trades": 108
+    },
+    {
+      "trial": 27,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0001,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.15980491248434017,
+      "sharpe": 20.38041974583938,
+      "sortino": 27.716211462256048,
+      "trades": 164
+    },
+    {
+      "trial": 28,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.07,
+        "take_profit": 0.05
+      },
+      "return": 0.29741797901421874,
+      "sharpe": 18.660306201689245,
+      "sortino": 22.863683240597275,
+      "trades": 125
+    },
+    {
+      "trial": 29,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.20601666791900627,
+      "sharpe": 16.22508334438101,
+      "sortino": 22.42407351971313,
+      "trades": 94
+    },
+    {
+      "trial": 30,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.05
+      },
+      "return": 0.20607496588421215,
+      "sharpe": 15.49085425420175,
+      "sortino": 22.350434975237995,
+      "trades": 144
+    },
+    {
+      "trial": 31,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.08
+      },
+      "return": 0.1873064357786758,
+      "sharpe": 21.382300297965948,
+      "sortino": 32.342370199516836,
+      "trades": 296
+    },
+    {
+      "trial": 32,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.18853122528243868,
+      "sharpe": 10.429854713105096,
+      "sortino": 13.393436786907925,
+      "trades": 158
+    },
+    {
+      "trial": 33,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.1,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.13788679212006957,
+      "sharpe": 17.1965380599374,
+      "sortino": 20.906074021764024,
+      "trades": 150
+    },
+    {
+      "trial": 34,
+      "config": {
+        "q": 1e-05,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.15
+      },
+      "return": 0.14873065350312434,
+      "sharpe": 18.13655642803523,
+      "sortino": 26.102515394616642,
+      "trades": 105
+    },
+    {
+      "trial": 35,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.2172698630152302,
+      "sharpe": 18.037762190554762,
+      "sortino": 25.56216822653705,
+      "trades": 113
+    },
+    {
+      "trial": 36,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.19833712590902577,
+      "sharpe": 16.521525766981775,
+      "sortino": 22.319250790075216,
+      "trades": 90
+    },
+    {
+      "trial": 37,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 0.75,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.40384912194574046,
+      "sharpe": 21.96871872716485,
+      "sortino": 32.93299375142645,
+      "trades": 225
+    },
+    {
+      "trial": 38,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 0.75,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.05
+      },
+      "return": 0.41641597884514603,
+      "sharpe": 22.791945660387384,
+      "sortino": 33.015122852698774,
+      "trades": 240
+    },
+    {
+      "trial": 39,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": 0.3009600911253226,
+      "sharpe": 17.153506108929488,
+      "sortino": 25.189752580001265,
+      "trades": 136
+    },
+    {
+      "trial": 40,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.12815624350073412,
+      "sharpe": 16.622222344283337,
+      "sortino": 21.17815381891217,
+      "trades": 124
+    },
+    {
+      "trial": 41,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.1,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.28771394941413836,
+      "sharpe": 16.502959880294334,
+      "sortino": 22.46631853426205,
+      "trades": 112
+    },
+    {
+      "trial": 42,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 0.75,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.08
+      },
+      "return": 0.23656174593644552,
+      "sharpe": 17.97864533091906,
+      "sortino": 23.698018841122487,
+      "trades": 201
+    },
+    {
+      "trial": 43,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.1541202921186667,
+      "sharpe": 21.513849516427406,
+      "sortino": 25.55146053602247,
+      "trades": 148
+    },
+    {
+      "trial": 44,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.2932732311406991,
+      "sharpe": 18.706350789198144,
+      "sortino": 22.204692543479357,
+      "trades": 113
+    },
+    {
+      "trial": 45,
+      "config": {
+        "q": 0.001,
+        "r": 0.01,
+        "z_entry": 0.75,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.17454274843034845,
+      "sharpe": 21.25780137881361,
+      "sortino": 29.38895314506775,
+      "trades": 205
+    },
+    {
+      "trial": 46,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.1534447629606207,
+      "sharpe": 18.321544086466297,
+      "sortino": 26.200240393334923,
+      "trades": 128
+    },
+    {
+      "trial": 47,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.18374540844951945,
+      "sharpe": 22.158900603846988,
+      "sortino": 31.129100406032908,
+      "trades": 204
+    },
+    {
+      "trial": 48,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.08991343364208558,
+      "sharpe": 10.51585947724328,
+      "sortino": 12.938338748893425,
+      "trades": 135
+    },
+    {
+      "trial": 49,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.25,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.13892193818653484,
+      "sharpe": 18.30471558352761,
+      "sortino": 23.67564299079928,
+      "trades": 126
+    },
+    {
+      "trial": 0,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.21910938866250698,
+      "sharpe": 7.229219604659928,
+      "sortino": 7.5478925073243435,
+      "trades": 135
+    },
+    {
+      "trial": 1,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": 0.17538759728119593,
+      "sharpe": 5.6661123657905,
+      "sortino": 5.2894509310515065,
+      "trades": 239
+    },
+    {
+      "trial": 2,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.07,
+        "take_profit": 0.08
+      },
+      "return": 0.27154070505390077,
+      "sharpe": 9.831060853304908,
+      "sortino": 7.892861398727468,
+      "trades": 206
+    },
+    {
+      "trial": 3,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.11242859963800816,
+      "sharpe": 7.420968177269859,
+      "sortino": 7.499558750813879,
+      "trades": 215
+    },
+    {
+      "trial": 4,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.2
+      },
+      "return": 0.16855183489207323,
+      "sharpe": 7.681695256669393,
+      "sortino": 7.436559437981185,
+      "trades": 106
+    },
+    {
+      "trial": 5,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.2183276343595369,
+      "sharpe": 7.304944452968953,
+      "sortino": 7.175520713912143,
+      "trades": 163
+    },
+    {
+      "trial": 6,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.1
+      },
+      "return": 0.14105794223725387,
+      "sharpe": 10.361769771038844,
+      "sortino": 9.883511433250773,
+      "trades": 199
+    },
+    {
+      "trial": 7,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.2,
+        "stop_loss": 0.1,
+        "take_profit": 0.15
+      },
+      "return": 0.22258405066718362,
+      "sharpe": 7.128957234729192,
+      "sortino": 5.996769199903515,
+      "trades": 213
+    },
+    {
+      "trial": 8,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.13006249899329153,
+      "sharpe": 10.833192649918244,
+      "sortino": 8.308008054434085,
+      "trades": 216
+    },
+    {
+      "trial": 9,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.24863572709664047,
+      "sharpe": 8.340860262928233,
+      "sortino": 6.419989175371559,
+      "trades": 263
+    },
+    {
+      "trial": 10,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": 0.2047359447336616,
+      "sharpe": 11.561372246042897,
+      "sortino": 13.589912548055402,
+      "trades": 340
+    },
+    {
+      "trial": 11,
+      "config": {
+        "q": 0.0005,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.15154160737606565,
+      "sharpe": 10.013171059922692,
+      "sortino": 10.849261591000184,
+      "trades": 186
+    },
+    {
+      "trial": 12,
+      "config": {
+        "q": 5e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.11651024311454501,
+      "sharpe": 7.752257614570004,
+      "sortino": 8.004974084887357,
+      "trades": 123
+    },
+    {
+      "trial": 13,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.15
+      },
+      "return": 0.3029492333691512,
+      "sharpe": 10.585799886579387,
+      "sortino": 9.623562862150623,
+      "trades": 213
+    },
+    {
+      "trial": 14,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.16923731707716463,
+      "sharpe": 11.361516075608803,
+      "sortino": 10.284218807222274,
+      "trades": 336
+    },
+    {
+      "trial": 15,
+      "config": {
+        "q": 0.0001,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.1
+      },
+      "return": 0.27175259121972745,
+      "sharpe": 8.768290654848904,
+      "sortino": 9.072252015881768,
+      "trades": 142
+    },
+    {
+      "trial": 16,
+      "config": {
+        "q": 0.0001,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.17539551553627739,
+      "sharpe": 12.080110059219994,
+      "sortino": 11.69510748875435,
+      "trades": 275
+    },
+    {
+      "trial": 17,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.75,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.130293525422752,
+      "sharpe": 5.308678127948491,
+      "sortino": 5.572252153804224,
+      "trades": 227
+    },
+    {
+      "trial": 18,
+      "config": {
+        "q": 0.001,
+        "r": 0.01,
+        "z_entry": 0.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.09611430091551768,
+      "sharpe": 5.633306759291452,
+      "sortino": 6.610380111304016,
+      "trades": 174
+    },
+    {
+      "trial": 19,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.31663945464227056,
+      "sharpe": 10.052922900001283,
+      "sortino": 8.731013870120217,
+      "trades": 371
+    },
+    {
+      "trial": 20,
+      "config": {
+        "q": 0.001,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.1442231856530055,
+      "sharpe": 9.43409100310349,
+      "sortino": 9.314058881885368,
+      "trades": 262
+    },
+    {
+      "trial": 21,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.15
+      },
+      "return": 0.16801668891688853,
+      "sharpe": 6.339596482951523,
+      "sortino": 7.0840620654391495,
+      "trades": 234
+    },
+    {
+      "trial": 22,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.23328239831316924,
+      "sharpe": 8.123729028955259,
+      "sortino": 6.643168960336749,
+      "trades": 202
+    },
+    {
+      "trial": 23,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.08
+      },
+      "return": 0.3427942607589238,
+      "sharpe": 12.878818382021853,
+      "sortino": 15.399708758941529,
+      "trades": 397
+    },
+    {
+      "trial": 24,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.05
+      },
+      "return": 0.23679875933874922,
+      "sharpe": 8.692686742996457,
+      "sortino": 7.234230964438682,
+      "trades": 210
+    },
+    {
+      "trial": 25,
+      "config": {
+        "q": 5e-05,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.2762873733844687,
+      "sharpe": 8.551782925452903,
+      "sortino": 9.229172994612496,
+      "trades": 187
+    },
+    {
+      "trial": 26,
+      "config": {
+        "q": 5e-05,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.1,
+        "take_profit": 0.1
+      },
+      "return": 0.14364047116620043,
+      "sharpe": 8.865293876893423,
+      "sortino": 9.956238308072834,
+      "trades": 186
+    },
+    {
+      "trial": 27,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0001,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.17042239614887977,
+      "sharpe": 11.537733423665896,
+      "sortino": 10.212723565984357,
+      "trades": 343
+    },
+    {
+      "trial": 28,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.07,
+        "take_profit": 0.05
+      },
+      "return": 0.27154070505390077,
+      "sharpe": 9.831060853304908,
+      "sortino": 7.892861398727468,
+      "trades": 206
+    },
+    {
+      "trial": 29,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.21135099353548314,
+      "sharpe": 8.712838126589446,
+      "sortino": 9.673848062326561,
+      "trades": 150
+    },
+    {
+      "trial": 30,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.05
+      },
+      "return": 0.19455651136869986,
+      "sharpe": 7.702391376518456,
+      "sortino": 9.443915406492097,
+      "trades": 195
+    },
+    {
+      "trial": 31,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.08
+      },
+      "return": 0.212784687715248,
+      "sharpe": 12.15242858523711,
+      "sortino": 12.98740711697852,
+      "trades": 554
+    },
+    {
+      "trial": 32,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.2777080969826851,
+      "sharpe": 7.5887926753346004,
+      "sortino": 8.48841252455579,
+      "trades": 288
+    },
+    {
+      "trial": 33,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.1,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.13158234679753456,
+      "sharpe": 8.569732911463637,
+      "sortino": 8.464446739396045,
+      "trades": 284
+    },
+    {
+      "trial": 34,
+      "config": {
+        "q": 1e-05,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.15
+      },
+      "return": 0.11331906387112263,
+      "sharpe": 7.3403957966446525,
+      "sortino": 8.01321437092948,
+      "trades": 155
+    },
+    {
+      "trial": 35,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.2094170480751882,
+      "sharpe": 10.224392439178631,
+      "sortino": 9.628937242081895,
+      "trades": 190
+    },
+    {
+      "trial": 36,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.15599214979875964,
+      "sharpe": 7.865870180171126,
+      "sortino": 6.915364484979248,
+      "trades": 139
+    },
+    {
+      "trial": 37,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 0.75,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.2286126307269391,
+      "sharpe": 6.855101192309441,
+      "sortino": 6.96788533121684,
+      "trades": 303
+    },
+    {
+      "trial": 38,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 0.75,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.05
+      },
+      "return": 0.28367236488490205,
+      "sharpe": 8.380909236687101,
+      "sortino": 8.87910033549988,
+      "trades": 311
+    },
+    {
+      "trial": 39,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": 0.380979934571895,
+      "sharpe": 11.20316787100781,
+      "sortino": 12.717475221590949,
+      "trades": 216
+    },
+    {
+      "trial": 40,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.10661940267175843,
+      "sharpe": 7.1090477786041975,
+      "sortino": 6.031136771872499,
+      "trades": 201
+    },
+    {
+      "trial": 41,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.1,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.25872872352639403,
+      "sharpe": 8.166816320395714,
+      "sortino": 8.628010535235745,
+      "trades": 196
+    },
+    {
+      "trial": 42,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 0.75,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.08
+      },
+      "return": 0.24804224578243694,
+      "sharpe": 9.832156278882614,
+      "sortino": 10.662797529082358,
+      "trades": 267
+    },
+    {
+      "trial": 43,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.10195925058927983,
+      "sharpe": 8.018802354585345,
+      "sortino": 4.976468586674929,
+      "trades": 266
+    },
+    {
+      "trial": 44,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.2121685288210628,
+      "sharpe": 8.602558221293567,
+      "sortino": 6.411527766733957,
+      "trades": 181
+    },
+    {
+      "trial": 45,
+      "config": {
+        "q": 0.001,
+        "r": 0.01,
+        "z_entry": 0.75,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.2110362111040439,
+      "sharpe": 13.348714071061774,
+      "sortino": 12.739999078964736,
+      "trades": 414
+    },
+    {
+      "trial": 46,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.13587346495859484,
+      "sharpe": 8.661494658644783,
+      "sortino": 9.434830074137789,
+      "trades": 206
+    },
+    {
+      "trial": 47,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.2209995213075196,
+      "sharpe": 13.782626649106476,
+      "sortino": 13.572169949988714,
+      "trades": 401
+    },
+    {
+      "trial": 48,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.09869775377851096,
+      "sharpe": 5.788251618396064,
+      "sortino": 6.760964273685579,
+      "trades": 182
+    },
+    {
+      "trial": 49,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.25,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.1489543101322271,
+      "sharpe": 11.951194837157407,
+      "sortino": 9.45630856736586,
+      "trades": 243
+    },
+    {
+      "trial": 0,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.084347685069711,
+      "sharpe": 5.643493910796836,
+      "sortino": 7.032494045052203,
+      "trades": 104
+    },
+    {
+      "trial": 1,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": 0.024702158331942774,
+      "sharpe": 1.646111171685619,
+      "sortino": 2.1604564544021,
+      "trades": 106
+    },
+    {
+      "trial": 2,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.07,
+        "take_profit": 0.08
+      },
+      "return": 0.03934486561506958,
+      "sharpe": 2.7707607621009864,
+      "sortino": 3.4191856360288253,
+      "trades": 105
+    },
+    {
+      "trial": 3,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.02216771593743615,
+      "sharpe": 2.9227739761116185,
+      "sortino": 3.9010903707575024,
+      "trades": 105
+    },
+    {
+      "trial": 4,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.2
+      },
+      "return": 0.046215933082470295,
+      "sharpe": 4.267811097260173,
+      "sortino": 5.09725797477899,
+      "trades": 86
+    },
+    {
+      "trial": 5,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.0835285766738822,
+      "sharpe": 5.773214991661433,
+      "sortino": 6.961013583637502,
+      "trades": 126
+    },
+    {
+      "trial": 6,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.1
+      },
+      "return": 0.03870908693354693,
+      "sharpe": 5.210272738908593,
+      "sortino": 6.584283064589262,
+      "trades": 150
+    },
+    {
+      "trial": 7,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.2,
+        "stop_loss": 0.1,
+        "take_profit": 0.15
+      },
+      "return": 0.10554715367068886,
+      "sharpe": 6.793625603095924,
+      "sortino": 8.212029655018837,
+      "trades": 179
+    },
+    {
+      "trial": 8,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.07614991786669445,
+      "sharpe": 11.797104492007602,
+      "sortino": 12.9035522193623,
+      "trades": 186
+    },
+    {
+      "trial": 9,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.10947025829033707,
+      "sharpe": 7.197563307703093,
+      "sortino": 9.326609662953306,
+      "trades": 192
+    },
+    {
+      "trial": 10,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": 0.020872425146017923,
+      "sharpe": 2.6568634891987535,
+      "sortino": 3.7962565825122345,
+      "trades": 114
+    },
+    {
+      "trial": 11,
+      "config": {
+        "q": 0.0005,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.020539335928089278,
+      "sharpe": 2.6387794736737673,
+      "sortino": 3.5423635003263256,
+      "trades": 85
+    },
+    {
+      "trial": 12,
+      "config": {
+        "q": 5e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.0025491776281184866,
+      "sharpe": 0.3649088804651617,
+      "sortino": 0.48959721925122524,
+      "trades": 53
+    },
+    {
+      "trial": 13,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.15
+      },
+      "return": 0.08741562619746487,
+      "sharpe": 5.878771077717807,
+      "sortino": 7.260429855262809,
+      "trades": 165
+    },
+    {
+      "trial": 14,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.0802768815951825,
+      "sharpe": 10.523975387370777,
+      "sortino": 13.409681487715517,
+      "trades": 220
+    },
+    {
+      "trial": 15,
+      "config": {
+        "q": 0.0001,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.1
+      },
+      "return": 0.005748909876407124,
+      "sharpe": 0.431948082817247,
+      "sortino": 0.5764291463676464,
+      "trades": 60
+    },
+    {
+      "trial": 16,
+      "config": {
+        "q": 0.0001,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.07171075208579655,
+      "sharpe": 9.596779502308639,
+      "sortino": 12.002112942458098,
+      "trades": 209
+    },
+    {
+      "trial": 17,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.75,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.06074981305436493,
+      "sharpe": 5.007227674806238,
+      "sortino": 7.10793029275013,
+      "trades": 167
+    },
+    {
+      "trial": 18,
+      "config": {
+        "q": 0.001,
+        "r": 0.01,
+        "z_entry": 0.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.009308115579769074,
+      "sharpe": 1.2042312692086483,
+      "sortino": 1.6927177465854737,
+      "trades": 87
+    },
+    {
+      "trial": 19,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.21892367126155907,
+      "sharpe": 13.613996558486043,
+      "sortino": 17.11857442221203,
+      "trades": 351
+    },
+    {
+      "trial": 20,
+      "config": {
+        "q": 0.001,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.04610766484992579,
+      "sharpe": 6.000140847749788,
+      "sortino": 7.799196311569974,
+      "trades": 190
+    },
+    {
+      "trial": 21,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.15
+      },
+      "return": 0.09348748658830082,
+      "sharpe": 7.4474155154714365,
+      "sortino": 10.275971789631113,
+      "trades": 202
+    },
+    {
+      "trial": 22,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.08580028968083905,
+      "sharpe": 5.74025255127093,
+      "sortino": 6.697238957534474,
+      "trades": 148
+    },
+    {
+      "trial": 23,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.08
+      },
+      "return": 0.11612762207764608,
+      "sharpe": 9.415812618669095,
+      "sortino": 12.899838563346824,
+      "trades": 275
+    },
+    {
+      "trial": 24,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.05
+      },
+      "return": 0.08342042903552224,
+      "sharpe": 5.776487924233487,
+      "sortino": 7.0491476022998185,
+      "trades": 163
+    },
+    {
+      "trial": 25,
+      "config": {
+        "q": 5e-05,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.1089563785707837,
+      "sharpe": 6.999596089270301,
+      "sortino": 9.013971731844759,
+      "trades": 138
+    },
+    {
+      "trial": 26,
+      "config": {
+        "q": 5e-05,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.1,
+        "take_profit": 0.1
+      },
+      "return": 0.018598060744178073,
+      "sharpe": 2.4301166082703425,
+      "sortino": 3.3196970774720813,
+      "trades": 91
+    },
+    {
+      "trial": 27,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0001,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.08774209360228152,
+      "sharpe": 11.679958711947219,
+      "sortino": 14.318292505734785,
+      "trades": 240
+    },
+    {
+      "trial": 28,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.07,
+        "take_profit": 0.05
+      },
+      "return": 0.03934486561506958,
+      "sharpe": 2.7707607621009864,
+      "sortino": 3.4191856360288253,
+      "trades": 105
+    },
+    {
+      "trial": 29,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.08217326200247145,
+      "sharpe": 7.1772886200976,
+      "sortino": 9.319127445048244,
+      "trades": 137
+    },
+    {
+      "trial": 30,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.05
+      },
+      "return": 0.09540880520725521,
+      "sharpe": 7.7361613770717454,
+      "sortino": 10.7160332036685,
+      "trades": 178
+    },
+    {
+      "trial": 31,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.08
+      },
+      "return": 0.06453968934643547,
+      "sharpe": 7.9213889698477375,
+      "sortino": 10.92189852948987,
+      "trades": 305
+    },
+    {
+      "trial": 32,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.04016229841593435,
+      "sharpe": 2.558937964800241,
+      "sortino": 3.6040724368198145,
+      "trades": 133
+    },
+    {
+      "trial": 33,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.1,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.003050319070933765,
+      "sharpe": 0.41852162093217404,
+      "sortino": 0.570452395276658,
+      "trades": 88
+    },
+    {
+      "trial": 34,
+      "config": {
+        "q": 1e-05,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.15
+      },
+      "return": 0.028769705300519272,
+      "sharpe": 3.755922157847046,
+      "sortino": 5.0123306213497605,
+      "trades": 108
+    },
+    {
+      "trial": 35,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.07393251932752144,
+      "sharpe": 6.76399655610966,
+      "sortino": 7.97045476876261,
+      "trades": 156
+    },
+    {
+      "trial": 36,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.062250930145208404,
+      "sharpe": 5.753451768225346,
+      "sortino": 6.607766030888532,
+      "trades": 116
+    },
+    {
+      "trial": 37,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 0.75,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.1951182713412431,
+      "sharpe": 11.42670380846342,
+      "sortino": 15.276374120164029,
+      "trades": 299
+    },
+    {
+      "trial": 38,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 0.75,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.05
+      },
+      "return": 0.18449900297951127,
+      "sharpe": 10.900795299338249,
+      "sortino": 14.95649131244733,
+      "trades": 278
+    },
+    {
+      "trial": 39,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": 0.11913187243465087,
+      "sharpe": 7.280805479274024,
+      "sortino": 9.837332830935223,
+      "trades": 167
+    },
+    {
+      "trial": 40,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.049418396802348,
+      "sharpe": 6.58575757728996,
+      "sortino": 7.910494615123326,
+      "trades": 174
+    },
+    {
+      "trial": 41,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.1,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.13198346793376317,
+      "sharpe": 8.434451091218271,
+      "sortino": 10.79243459443171,
+      "trades": 155
+    },
+    {
+      "trial": 42,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 0.75,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.08
+      },
+      "return": 0.04470417881948073,
+      "sharpe": 3.785609005989775,
+      "sortino": 5.206756916671177,
+      "trades": 160
+    },
+    {
+      "trial": 43,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.08470081747975332,
+      "sharpe": 13.383831705900338,
+      "sortino": 13.92304118190464,
+      "trades": 243
+    },
+    {
+      "trial": 44,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.11550319013597836,
+      "sharpe": 8.59006242888069,
+      "sortino": 8.804469693861023,
+      "trades": 153
+    },
+    {
+      "trial": 45,
+      "config": {
+        "q": 0.001,
+        "r": 0.01,
+        "z_entry": 0.75,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.11381143275444221,
+      "sharpe": 14.401702127470344,
+      "sortino": 18.374969930297144,
+      "trades": 314
+    },
+    {
+      "trial": 46,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.04328051149821782,
+      "sharpe": 5.543322302694677,
+      "sortino": 7.478363109585307,
+      "trades": 141
+    },
+    {
+      "trial": 47,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.10260411854896345,
+      "sharpe": 12.9149868668702,
+      "sortino": 16.99300284130098,
+      "trades": 280
+    },
+    {
+      "trial": 48,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.008876926703013596,
+      "sharpe": 1.1508015283089306,
+      "sortino": 1.6148285330894467,
+      "trades": 89
+    },
+    {
+      "trial": 49,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.25,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.0769263211946626,
+      "sharpe": 11.16675731621682,
+      "sortino": 12.137403416627068,
+      "trades": 200
+    },
+    {
+      "trial": 0,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.25865223986532526,
+      "sharpe": 11.969785762546625,
+      "sortino": 12.02219315212604,
+      "trades": 124
+    },
+    {
+      "trial": 1,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": 0.13557712477155684,
+      "sharpe": 5.9483923621175725,
+      "sortino": 6.796416130198954,
+      "trades": 101
+    },
+    {
+      "trial": 2,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.07,
+        "take_profit": 0.08
+      },
+      "return": 0.22007302264237383,
+      "sharpe": 10.253339987810707,
+      "sortino": 8.358194420436128,
+      "trades": 148
+    },
+    {
+      "trial": 3,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.10235083307551147,
+      "sharpe": 9.233379673284533,
+      "sortino": 10.709217987771753,
+      "trades": 112
+    },
+    {
+      "trial": 4,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.2
+      },
+      "return": 0.1304641786162628,
+      "sharpe": 8.010665609771225,
+      "sortino": 8.008612668211942,
+      "trades": 83
+    },
+    {
+      "trial": 5,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.26002784876944396,
+      "sharpe": 12.00464099984741,
+      "sortino": 12.375082602153482,
+      "trades": 134
+    },
+    {
+      "trial": 6,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.1
+      },
+      "return": 0.1711563873375213,
+      "sharpe": 16.39456473271036,
+      "sortino": 15.596395204061965,
+      "trades": 172
+    },
+    {
+      "trial": 7,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.2,
+        "stop_loss": 0.1,
+        "take_profit": 0.15
+      },
+      "return": 0.24687149356698487,
+      "sharpe": 10.703165891142586,
+      "sortino": 10.124805728689855,
+      "trades": 154
+    },
+    {
+      "trial": 8,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.15309343309519755,
+      "sharpe": 16.575074182344768,
+      "sortino": 10.18804708424922,
+      "trades": 184
+    },
+    {
+      "trial": 9,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.3621104130819597,
+      "sharpe": 16.095684949014494,
+      "sortino": 12.653368512412824,
+      "trades": 217
+    },
+    {
+      "trial": 10,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": 0.14194220735452953,
+      "sharpe": 12.192507339565594,
+      "sortino": 15.273159887378899,
+      "trades": 226
+    },
+    {
+      "trial": 11,
+      "config": {
+        "q": 0.0005,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.09601224373971942,
+      "sharpe": 8.623851859290733,
+      "sortino": 9.934192098032675,
+      "trades": 101
+    },
+    {
+      "trial": 12,
+      "config": {
+        "q": 5e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.09273599469973313,
+      "sharpe": 8.359741509887916,
+      "sortino": 9.024926947459244,
+      "trades": 92
+    },
+    {
+      "trial": 13,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.15
+      },
+      "return": 0.4034916188547021,
+      "sharpe": 18.17986106765947,
+      "sortino": 15.77425673280155,
+      "trades": 191
+    },
+    {
+      "trial": 14,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.2344454159721626,
+      "sharpe": 21.80952001298117,
+      "sortino": 21.843443266839945,
+      "trades": 254
+    },
+    {
+      "trial": 15,
+      "config": {
+        "q": 0.0001,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.1
+      },
+      "return": 0.13443907967269594,
+      "sharpe": 6.045182246669537,
+      "sortino": 6.760156418191279,
+      "trades": 68
+    },
+    {
+      "trial": 16,
+      "config": {
+        "q": 0.0001,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.17597261754968263,
+      "sharpe": 16.430462231309875,
+      "sortino": 17.68128250060849,
+      "trades": 181
+    },
+    {
+      "trial": 17,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.75,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.1906529470393325,
+      "sharpe": 10.694919608849348,
+      "sortino": 11.830434183526167,
+      "trades": 199
+    },
+    {
+      "trial": 18,
+      "config": {
+        "q": 0.001,
+        "r": 0.01,
+        "z_entry": 0.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.14242857459722916,
+      "sharpe": 12.009370463887812,
+      "sortino": 14.58161890066562,
+      "trades": 191
+    },
+    {
+      "trial": 19,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.44570238331722445,
+      "sharpe": 19.655873529881152,
+      "sortino": 18.384202791876657,
+      "trades": 297
+    },
+    {
+      "trial": 20,
+      "config": {
+        "q": 0.001,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.17919750004496818,
+      "sharpe": 16.146170324355637,
+      "sortino": 17.813832031494194,
+      "trades": 201
+    },
+    {
+      "trial": 21,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.15
+      },
+      "return": 0.17551695783090415,
+      "sharpe": 9.798007174557146,
+      "sortino": 12.445992680459392,
+      "trades": 175
+    },
+    {
+      "trial": 22,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.2656738965817237,
+      "sharpe": 12.08752496181323,
+      "sortino": 10.96538273384744,
+      "trades": 148
+    },
+    {
+      "trial": 23,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.08
+      },
+      "return": 0.4011898507993386,
+      "sharpe": 21.212284944879165,
+      "sortino": 26.033967839491122,
+      "trades": 320
+    },
+    {
+      "trial": 24,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.05
+      },
+      "return": 0.32481166085472274,
+      "sharpe": 15.255433242163932,
+      "sortino": 10.875370815146024,
+      "trades": 185
+    },
+    {
+      "trial": 25,
+      "config": {
+        "q": 5e-05,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.1710795653107432,
+      "sharpe": 7.6589833210867635,
+      "sortino": 8.525899336326836,
+      "trades": 97
+    },
+    {
+      "trial": 26,
+      "config": {
+        "q": 5e-05,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.1,
+        "take_profit": 0.1
+      },
+      "return": 0.09828174742383607,
+      "sharpe": 8.720953327611612,
+      "sortino": 10.265388163298708,
+      "trades": 100
+    },
+    {
+      "trial": 27,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0001,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.2306810224299661,
+      "sharpe": 21.71231348714058,
+      "sortino": 20.95328532235285,
+      "trades": 261
+    },
+    {
+      "trial": 28,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.07,
+        "take_profit": 0.05
+      },
+      "return": 0.22007302264237383,
+      "sharpe": 10.253339987810707,
+      "sortino": 8.358194420436128,
+      "trades": 148
+    },
+    {
+      "trial": 29,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.07628850840471249,
+      "sharpe": 4.6540381105313955,
+      "sortino": 5.326090947819411,
+      "trades": 67
+    },
+    {
+      "trial": 30,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.05
+      },
+      "return": 0.2039649086096784,
+      "sharpe": 11.575329315260651,
+      "sortino": 13.65784382024945,
+      "trades": 164
+    },
+    {
+      "trial": 31,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.08
+      },
+      "return": 0.1695904502833108,
+      "sharpe": 14.559516337952319,
+      "sortino": 16.513631838060526,
+      "trades": 378
+    },
+    {
+      "trial": 32,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.12268780909266003,
+      "sharpe": 5.1648156586851295,
+      "sortino": 6.052953203660887,
+      "trades": 120
+    },
+    {
+      "trial": 33,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.1,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.09089026775364342,
+      "sharpe": 8.221867485870279,
+      "sortino": 9.101784919323128,
+      "trades": 134
+    },
+    {
+      "trial": 34,
+      "config": {
+        "q": 1e-05,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.15
+      },
+      "return": 0.0866761668220193,
+      "sharpe": 8.157804329587886,
+      "sortino": 9.666047123669035,
+      "trades": 92
+    },
+    {
+      "trial": 35,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.21807378431293648,
+      "sharpe": 13.523729271125472,
+      "sortino": 13.399839897604865,
+      "trades": 145
+    },
+    {
+      "trial": 36,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.18917832610656246,
+      "sharpe": 11.294602837972116,
+      "sortino": 10.869816906512469,
+      "trades": 124
+    },
+    {
+      "trial": 37,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 0.75,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.36287496493634475,
+      "sharpe": 14.94816578149231,
+      "sortino": 16.86539354740425,
+      "trades": 259
+    },
+    {
+      "trial": 38,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 0.75,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.05
+      },
+      "return": 0.35448703561292755,
+      "sharpe": 14.787996069978652,
+      "sortino": 16.550410750270526,
+      "trades": 263
+    },
+    {
+      "trial": 39,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": 0.1972423616806997,
+      "sharpe": 8.467254577261754,
+      "sortino": 9.834979372518891,
+      "trades": 112
+    },
+    {
+      "trial": 40,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.1263953250262147,
+      "sharpe": 11.533058941936652,
+      "sortino": 10.76702256591293,
+      "trades": 159
+    },
+    {
+      "trial": 41,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.1,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.27659185014995424,
+      "sharpe": 11.784340333301314,
+      "sortino": 12.593827241942273,
+      "trades": 138
+    },
+    {
+      "trial": 42,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 0.75,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.08
+      },
+      "return": 0.15851357395642945,
+      "sharpe": 9.264028137788374,
+      "sortino": 10.64348433769302,
+      "trades": 179
+    },
+    {
+      "trial": 43,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.15246431636446317,
+      "sharpe": 16.81444229400499,
+      "sortino": 10.902589067335361,
+      "trades": 204
+    },
+    {
+      "trial": 44,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.32610520818035293,
+      "sharpe": 16.398284358050645,
+      "sortino": 13.270815675235037,
+      "trades": 166
+    },
+    {
+      "trial": 45,
+      "config": {
+        "q": 0.001,
+        "r": 0.01,
+        "z_entry": 0.75,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.22067503064222954,
+      "sharpe": 19.955162048632015,
+      "sortino": 20.931091779547575,
+      "trades": 286
+    },
+    {
+      "trial": 46,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.09017411171075364,
+      "sharpe": 7.9864444485342245,
+      "sortino": 9.6823285587549,
+      "trades": 101
+    },
+    {
+      "trial": 47,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.21824152689660303,
+      "sharpe": 19.359112729822147,
+      "sortino": 20.670997649091724,
+      "trades": 270
+    },
+    {
+      "trial": 48,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.13969227454907013,
+      "sharpe": 11.832396477669132,
+      "sortino": 14.312325581602227,
+      "trades": 195
+    },
+    {
+      "trial": 49,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.25,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.15918952562089703,
+      "sharpe": 15.723249724955963,
+      "sortino": 13.825204668702344,
+      "trades": 184
+    },
+    {
+      "trial": 0,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.13758451664717578,
+      "sharpe": 4.288975230587702,
+      "sortino": 3.7967067988352885,
+      "trades": 136
+    },
+    {
+      "trial": 1,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": 0.03276121661835059,
+      "sharpe": 1.1129876108507613,
+      "sortino": 1.0130606429351057,
+      "trades": 207
+    },
+    {
+      "trial": 2,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.07,
+        "take_profit": 0.08
+      },
+      "return": 0.11327757167858814,
+      "sharpe": 3.7622042923858765,
+      "sortino": 3.0072514532363193,
+      "trades": 169
+    },
+    {
+      "trial": 3,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.022316202585203865,
+      "sharpe": 1.4501245530027167,
+      "sortino": 1.3483136412047165,
+      "trades": 145
+    },
+    {
+      "trial": 4,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.2
+      },
+      "return": 0.08153310281502549,
+      "sharpe": 3.5424816002990185,
+      "sortino": 2.993823191178038,
+      "trades": 104
+    },
+    {
+      "trial": 5,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.12210653134972527,
+      "sharpe": 3.9830317917321136,
+      "sortino": 3.187828633608948,
+      "trades": 176
+    },
+    {
+      "trial": 6,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.1
+      },
+      "return": 0.08241742229483469,
+      "sharpe": 5.2190155179905435,
+      "sortino": 4.579513169537083,
+      "trades": 198
+    },
+    {
+      "trial": 7,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.2,
+        "stop_loss": 0.1,
+        "take_profit": 0.15
+      },
+      "return": 0.12807286683987085,
+      "sharpe": 3.8917463426250776,
+      "sortino": 3.612280303811492,
+      "trades": 212
+    },
+    {
+      "trial": 8,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.06153808995726242,
+      "sharpe": 4.45442682756926,
+      "sortino": 2.8404402252322023,
+      "trades": 228
+    },
+    {
+      "trial": 9,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.17517460029860216,
+      "sharpe": 5.459540330802566,
+      "sortino": 4.612119928916437,
+      "trades": 263
+    },
+    {
+      "trial": 10,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": 0.04747745405337089,
+      "sharpe": 2.8922999302094645,
+      "sortino": 2.9345379882562135,
+      "trades": 263
+    },
+    {
+      "trial": 11,
+      "config": {
+        "q": 0.0005,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.018865442388825614,
+      "sharpe": 1.1715589945861247,
+      "sortino": 1.1675804340423002,
+      "trades": 117
+    },
+    {
+      "trial": 12,
+      "config": {
+        "q": 5e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.031701113736408444,
+      "sharpe": 1.9940163771032617,
+      "sortino": 1.8919717013409625,
+      "trades": 92
+    },
+    {
+      "trial": 13,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.15
+      },
+      "return": 0.17810953710048097,
+      "sharpe": 5.482639047921212,
+      "sortino": 4.6367134939069174,
+      "trades": 212
+    },
+    {
+      "trial": 14,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.07036442756961406,
+      "sharpe": 4.567317474940822,
+      "sortino": 3.7459430627871,
+      "trades": 331
+    },
+    {
+      "trial": 15,
+      "config": {
+        "q": 0.0001,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.1
+      },
+      "return": 0.06904739694032586,
+      "sharpe": 2.1985409436540584,
+      "sortino": 2.018283864696857,
+      "trades": 101
+    },
+    {
+      "trial": 16,
+      "config": {
+        "q": 0.0001,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.07215533950694633,
+      "sharpe": 4.69103217643711,
+      "sortino": 3.8870992083054925,
+      "trades": 248
+    },
+    {
+      "trial": 17,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.75,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.20328494206588774,
+      "sharpe": 7.49308368299573,
+      "sortino": 11.036680509599972,
+      "trades": 283
+    },
+    {
+      "trial": 18,
+      "config": {
+        "q": 0.001,
+        "r": 0.01,
+        "z_entry": 0.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.0967330175278851,
+      "sharpe": 5.525756902766553,
+      "sortino": 8.372146526178422,
+      "trades": 194
+    },
+    {
+      "trial": 19,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.22118285735863072,
+      "sharpe": 6.661417894853289,
+      "sortino": 5.5705410528658845,
+      "trades": 499
+    },
+    {
+      "trial": 20,
+      "config": {
+        "q": 0.001,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.03219143017226321,
+      "sharpe": 2.0612941443942137,
+      "sortino": 1.9283053757666007,
+      "trades": 220
+    },
+    {
+      "trial": 21,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.15
+      },
+      "return": 0.09401241253555097,
+      "sharpe": 3.591529515024198,
+      "sortino": 5.698648845534034,
+      "trades": 115
+    },
+    {
+      "trial": 22,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.09534637558237577,
+      "sharpe": 3.0589687746767407,
+      "sortino": 2.560195917632588,
+      "trades": 172
+    },
+    {
+      "trial": 23,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.08
+      },
+      "return": 0.11253528736995387,
+      "sharpe": 4.439920589262072,
+      "sortino": 4.217038519484969,
+      "trades": 411
+    },
+    {
+      "trial": 24,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.05
+      },
+      "return": 0.1064540213098719,
+      "sharpe": 3.583782473870947,
+      "sortino": 2.789942858700117,
+      "trades": 200
+    },
+    {
+      "trial": 25,
+      "config": {
+        "q": 5e-05,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.09271371149335464,
+      "sharpe": 2.908774199089908,
+      "sortino": 2.7359258236245307,
+      "trades": 160
+    },
+    {
+      "trial": 26,
+      "config": {
+        "q": 5e-05,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.1,
+        "take_profit": 0.1
+      },
+      "return": 0.0544276398733526,
+      "sharpe": 3.2053188878615915,
+      "sortino": 4.6993295210261214,
+      "trades": 112
+    },
+    {
+      "trial": 27,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0001,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.06642098537357219,
+      "sharpe": 4.354411518878782,
+      "sortino": 3.507996193365834,
+      "trades": 336
+    },
+    {
+      "trial": 28,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.07,
+        "take_profit": 0.05
+      },
+      "return": 0.11327757167858814,
+      "sharpe": 3.7622042923858765,
+      "sortino": 3.0072514532363193,
+      "trades": 169
+    },
+    {
+      "trial": 29,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.09293650722337625,
+      "sharpe": 3.8796852614235506,
+      "sortino": 3.5247089154271265,
+      "trades": 147
+    },
+    {
+      "trial": 30,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.05
+      },
+      "return": 0.058468329915401115,
+      "sharpe": 2.351561823217556,
+      "sortino": 2.2969822387575234,
+      "trades": 189
+    },
+    {
+      "trial": 31,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.08
+      },
+      "return": 0.09978090249165922,
+      "sharpe": 5.912481579200267,
+      "sortino": 5.687051684233383,
+      "trades": 558
+    },
+    {
+      "trial": 32,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.28142587108324163,
+      "sharpe": 7.478256641328601,
+      "sortino": 11.036296185020094,
+      "trades": 318
+    },
+    {
+      "trial": 33,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.1,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.07616082854510518,
+      "sharpe": 4.7717921169842805,
+      "sortino": 4.285601416910105,
+      "trades": 291
+    },
+    {
+      "trial": 34,
+      "config": {
+        "q": 1e-05,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.15
+      },
+      "return": 0.08793895310500695,
+      "sharpe": 5.4152494173406485,
+      "sortino": 4.979553282441896,
+      "trades": 169
+    },
+    {
+      "trial": 35,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.1064299475402369,
+      "sharpe": 4.506915946630326,
+      "sortino": 3.8746485963404385,
+      "trades": 178
+    },
+    {
+      "trial": 36,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.02522274607044994,
+      "sharpe": 1.1476512852710528,
+      "sortino": 0.985869308384663,
+      "trades": 108
+    },
+    {
+      "trial": 37,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 0.75,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.09868449980285761,
+      "sharpe": 3.0435575885710664,
+      "sortino": 2.9441786277461026,
+      "trades": 281
+    },
+    {
+      "trial": 38,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 0.75,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.05
+      },
+      "return": 0.1557274102403123,
+      "sharpe": 4.656416180609168,
+      "sortino": 4.414995177715186,
+      "trades": 324
+    },
+    {
+      "trial": 39,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": -0.022416115685818513,
+      "sharpe": -0.6164802698145594,
+      "sortino": -0.5954715248145127,
+      "trades": 129
+    },
+    {
+      "trial": 40,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.10809901923089041,
+      "sharpe": 6.483588158037446,
+      "sortino": 8.99141363570649,
+      "trades": 196
+    },
+    {
+      "trial": 41,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.1,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.11435292992720628,
+      "sharpe": 3.534586983527438,
+      "sortino": 3.299087532920332,
+      "trades": 179
+    },
+    {
+      "trial": 42,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 0.75,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.08
+      },
+      "return": 0.16512824768281528,
+      "sharpe": 6.489090360333837,
+      "sortino": 6.07225174187469,
+      "trades": 397
+    },
+    {
+      "trial": 43,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.03529272396668457,
+      "sharpe": 2.614652944838965,
+      "sortino": 1.6755996672698348,
+      "trades": 285
+    },
+    {
+      "trial": 44,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.10459928017966741,
+      "sharpe": 3.760275960406034,
+      "sortino": 2.388945046346707,
+      "trades": 207
+    },
+    {
+      "trial": 45,
+      "config": {
+        "q": 0.001,
+        "r": 0.01,
+        "z_entry": 0.75,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.06874766612491628,
+      "sharpe": 4.326234805648632,
+      "sortino": 3.877838417684368,
+      "trades": 366
+    },
+    {
+      "trial": 46,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.07084679270537322,
+      "sharpe": 4.30061984117833,
+      "sortino": 4.247766155642686,
+      "trades": 186
+    },
+    {
+      "trial": 47,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.06808333643305318,
+      "sharpe": 4.245194936367516,
+      "sortino": 3.8881933131324056,
+      "trades": 348
+    },
+    {
+      "trial": 48,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.09884820924683634,
+      "sharpe": 5.658109746811155,
+      "sortino": 8.527863978848965,
+      "trades": 204
+    },
+    {
+      "trial": 49,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.25,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.08119721368653875,
+      "sharpe": 5.561696999437968,
+      "sortino": 4.012360621793486,
+      "trades": 265
+    },
+    {
+      "trial": 0,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.03920417417169141,
+      "sharpe": 1.4695739571659314,
+      "sortino": 1.69093324189773,
+      "trades": 124
+    },
+    {
+      "trial": 1,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": -0.04291205924104841,
+      "sharpe": -1.4392035027942627,
+      "sortino": -1.7063932928695604,
+      "trades": 183
+    },
+    {
+      "trial": 2,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.07,
+        "take_profit": 0.08
+      },
+      "return": -0.04677262532701235,
+      "sharpe": -1.736382640498187,
+      "sortino": -1.9507029479212012,
+      "trades": 147
+    },
+    {
+      "trial": 3,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": -0.023743368621487463,
+      "sharpe": -1.6488845658033005,
+      "sortino": -1.9693442651006388,
+      "trades": 157
+    },
+    {
+      "trial": 4,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.2
+      },
+      "return": 0.048355379218079614,
+      "sharpe": 2.292429936184485,
+      "sortino": 2.9638764918825697,
+      "trades": 77
+    },
+    {
+      "trial": 5,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.03299802014314948,
+      "sharpe": 1.2568161703982785,
+      "sortino": 1.3193465901600703,
+      "trades": 162
+    },
+    {
+      "trial": 6,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.1
+      },
+      "return": -0.0031470734921151596,
+      "sharpe": -0.1968454410415449,
+      "sortino": -0.2266045799519559,
+      "trades": 175
+    },
+    {
+      "trial": 7,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.2,
+        "stop_loss": 0.1,
+        "take_profit": 0.15
+      },
+      "return": -0.04118821219663092,
+      "sharpe": -1.3139213525371336,
+      "sortino": -1.701650017842323,
+      "trades": 84
+    },
+    {
+      "trial": 8,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.015280611102299007,
+      "sharpe": 1.3242298265983137,
+      "sortino": 1.2182646825883512,
+      "trades": 243
+    },
+    {
+      "trial": 9,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.04336124839860757,
+      "sharpe": 1.6899250012928984,
+      "sortino": 1.9478816997377557,
+      "trades": 217
+    },
+    {
+      "trial": 10,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": 0.01710354043172498,
+      "sharpe": 1.1658559715646313,
+      "sortino": 1.5086440994869574,
+      "trades": 290
+    },
+    {
+      "trial": 11,
+      "config": {
+        "q": 0.0005,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": -0.0060020717301534025,
+      "sharpe": -0.37574231961034465,
+      "sortino": -0.47178746524266174,
+      "trades": 113
+    },
+    {
+      "trial": 12,
+      "config": {
+        "q": 5e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": -0.00011915124671824742,
+      "sharpe": 0.030511838995517362,
+      "sortino": 0.03909685958523635,
+      "trades": 76
+    },
+    {
+      "trial": 13,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.15
+      },
+      "return": 0.009106589054780633,
+      "sharpe": 0.4095412737470062,
+      "sortino": 0.4681771453657804,
+      "trades": 182
+    },
+    {
+      "trial": 14,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.024203447063681962,
+      "sharpe": 1.8518684045566416,
+      "sortino": 1.9907147044124884,
+      "trades": 335
+    },
+    {
+      "trial": 15,
+      "config": {
+        "q": 0.0001,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.1
+      },
+      "return": -0.03511427174610144,
+      "sharpe": -1.1523533565992847,
+      "sortino": -1.4146376973512935,
+      "trades": 94
+    },
+    {
+      "trial": 16,
+      "config": {
+        "q": 0.0001,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.029392485991876893,
+      "sharpe": 2.2287772537920216,
+      "sortino": 2.4328127552614167,
+      "trades": 273
+    },
+    {
+      "trial": 17,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.75,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": -0.010806972432914917,
+      "sharpe": -0.4082283628515131,
+      "sortino": -0.5508940689422124,
+      "trades": 132
+    },
+    {
+      "trial": 18,
+      "config": {
+        "q": 0.001,
+        "r": 0.01,
+        "z_entry": 0.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": -0.019523610522231758,
+      "sharpe": -1.2464714352857174,
+      "sortino": -1.6836440115632554,
+      "trades": 106
+    },
+    {
+      "trial": 19,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.10103413589459291,
+      "sharpe": 3.676123607225037,
+      "sortino": 4.367450614932369,
+      "trades": 433
+    },
+    {
+      "trial": 20,
+      "config": {
+        "q": 0.001,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.0022300227025095955,
+      "sharpe": 0.1928631997472086,
+      "sortino": 0.24078368637301178,
+      "trades": 214
+    },
+    {
+      "trial": 21,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.15
+      },
+      "return": -0.04040464554227583,
+      "sharpe": -1.7006535232247788,
+      "sortino": -2.2717550691613964,
+      "trades": 102
+    },
+    {
+      "trial": 22,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.08610485169350417,
+      "sharpe": 3.299526631601446,
+      "sortino": 3.631760684721155,
+      "trades": 171
+    },
+    {
+      "trial": 23,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.08
+      },
+      "return": 0.09300025544252435,
+      "sharpe": 4.069724386741331,
+      "sortino": 5.157028138637623,
+      "trades": 461
+    },
+    {
+      "trial": 24,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.05
+      },
+      "return": 0.04290237855343599,
+      "sharpe": 1.7435213456340997,
+      "sortino": 1.8455734820788074,
+      "trades": 201
+    },
+    {
+      "trial": 25,
+      "config": {
+        "q": 5e-05,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.07174712033574687,
+      "sharpe": 2.6157417600422677,
+      "sortino": 3.1217320114560057,
+      "trades": 156
+    },
+    {
+      "trial": 26,
+      "config": {
+        "q": 5e-05,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.1,
+        "take_profit": 0.1
+      },
+      "return": -0.022432909948407177,
+      "sharpe": -1.518253135317878,
+      "sortino": -1.888090426310139,
+      "trades": 117
+    },
+    {
+      "trial": 27,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0001,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.021625370856431837,
+      "sharpe": 1.677771485260978,
+      "sortino": 1.773056211702362,
+      "trades": 343
+    },
+    {
+      "trial": 28,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.07,
+        "take_profit": 0.05
+      },
+      "return": -0.04677262532701235,
+      "sharpe": -1.736382640498187,
+      "sortino": -1.9507029479212012,
+      "trades": 147
+    },
+    {
+      "trial": 29,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.03688278699999646,
+      "sharpe": 1.7885894992113904,
+      "sortino": 2.2072899653868485,
+      "trades": 128
+    },
+    {
+      "trial": 30,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.05
+      },
+      "return": 0.006780183761812514,
+      "sharpe": 0.3652023927278225,
+      "sortino": 0.44701934755531225,
+      "trades": 177
+    },
+    {
+      "trial": 31,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.08
+      },
+      "return": 0.10357025207737781,
+      "sharpe": 6.652351415595691,
+      "sortino": 8.718882280802033,
+      "trades": 641
+    },
+    {
+      "trial": 32,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.11697099238316136,
+      "sharpe": 3.6859917832225313,
+      "sortino": 4.911295346060993,
+      "trades": 285
+    },
+    {
+      "trial": 33,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.1,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.0032588596384109407,
+      "sharpe": 0.26308214491264603,
+      "sortino": 0.31741364038962194,
+      "trades": 193
+    },
+    {
+      "trial": 34,
+      "config": {
+        "q": 1e-05,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.15
+      },
+      "return": 0.019319045787037175,
+      "sharpe": 1.369450229537439,
+      "sortino": 1.5956432315494025,
+      "trades": 137
+    },
+    {
+      "trial": 35,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": -0.018070403154406812,
+      "sharpe": -0.8412272592601919,
+      "sortino": -0.9211433336593201,
+      "trades": 160
+    },
+    {
+      "trial": 36,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": -0.05332896846608914,
+      "sharpe": -2.4628081127988484,
+      "sortino": -2.9685095510622794,
+      "trades": 78
+    },
+    {
+      "trial": 37,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 0.75,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.0527765987223771,
+      "sharpe": 1.8415162828964184,
+      "sortino": 2.374433241548484,
+      "trades": 301
+    },
+    {
+      "trial": 38,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 0.75,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.05
+      },
+      "return": 0.04543893809822068,
+      "sharpe": 1.605918926960253,
+      "sortino": 2.0579411462671584,
+      "trades": 308
+    },
+    {
+      "trial": 39,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": -0.0016097365045416518,
+      "sharpe": 0.0210317912565898,
+      "sortino": 0.02597536686232955,
+      "trades": 173
+    },
+    {
+      "trial": 40,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": -0.019166948163665803,
+      "sharpe": -1.2502297139568592,
+      "sortino": -1.615155248502294,
+      "trades": 83
+    },
+    {
+      "trial": 41,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.1,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.012386045552308352,
+      "sharpe": 0.517687040618458,
+      "sortino": 0.5985364420200837,
+      "trades": 145
+    },
+    {
+      "trial": 42,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 0.75,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.08
+      },
+      "return": -0.020544946683862943,
+      "sharpe": -0.8624416795383718,
+      "sortino": -1.1016192813027412,
+      "trades": 222
+    },
+    {
+      "trial": 43,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.04632300895716442,
+      "sharpe": 4.160029071224703,
+      "sortino": 3.9724717779477934,
+      "trades": 286
+    },
+    {
+      "trial": 44,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.03340599522176373,
+      "sharpe": 1.4874368732316465,
+      "sortino": 1.3060418672194938,
+      "trades": 226
+    },
+    {
+      "trial": 45,
+      "config": {
+        "q": 0.001,
+        "r": 0.01,
+        "z_entry": 0.75,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.05273907370917383,
+      "sharpe": 3.7199106440373826,
+      "sortino": 4.373985121901775,
+      "trades": 401
+    },
+    {
+      "trial": 46,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.011379481004168484,
+      "sharpe": 0.8214110381609674,
+      "sortino": 0.9619785415618146,
+      "trades": 167
+    },
+    {
+      "trial": 47,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.05087337814814702,
+      "sharpe": 3.5469568364632593,
+      "sortino": 4.274587989665405,
+      "trades": 379
+    },
+    {
+      "trial": 48,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": -0.019479796227274783,
+      "sharpe": -1.2511997703416822,
+      "sortino": -1.673895330361062,
+      "trades": 119
+    },
+    {
+      "trial": 49,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.25,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.023821279757867596,
+      "sharpe": 1.9747372053916665,
+      "sortino": 1.8617571134914468,
+      "trades": 278
+    },
+    {
+      "trial": 0,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.13884313980265114,
+      "sharpe": 9.782070649210707,
+      "sortino": 10.989304039998425,
+      "trades": 86
+    },
+    {
+      "trial": 1,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": 0.18382448640253177,
+      "sharpe": 12.158578856284876,
+      "sortino": 14.821556666927632,
+      "trades": 141
+    },
+    {
+      "trial": 2,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.07,
+        "take_profit": 0.08
+      },
+      "return": 0.23289064899920514,
+      "sharpe": 16.655074308416847,
+      "sortino": 16.47291679832663,
+      "trades": 157
+    },
+    {
+      "trial": 3,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.09583964356883617,
+      "sharpe": 12.949271877874414,
+      "sortino": 15.177216768347352,
+      "trades": 140
+    },
+    {
+      "trial": 4,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.2
+      },
+      "return": 0.09223102523090827,
+      "sharpe": 8.944508415728903,
+      "sortino": 10.616036902882053,
+      "trades": 70
+    },
+    {
+      "trial": 5,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.17631454025206666,
+      "sharpe": 12.497086960020802,
+      "sortino": 14.45520611832068,
+      "trades": 103
+    },
+    {
+      "trial": 6,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.1
+      },
+      "return": 0.08247923922700953,
+      "sharpe": 11.982885995401432,
+      "sortino": 12.755546736523195,
+      "trades": 129
+    },
+    {
+      "trial": 7,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.2,
+        "stop_loss": 0.1,
+        "take_profit": 0.15
+      },
+      "return": 0.17880433894195666,
+      "sharpe": 11.758630399824266,
+      "sortino": 13.62492491724766,
+      "trades": 114
+    },
+    {
+      "trial": 8,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.12780147624111793,
+      "sharpe": 20.67885093906027,
+      "sortino": 20.13787085763002,
+      "trades": 163
+    },
+    {
+      "trial": 9,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.34292762661004,
+      "sharpe": 23.16963371472606,
+      "sortino": 29.908910377753024,
+      "trades": 205
+    },
+    {
+      "trial": 10,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": 0.06518494143605814,
+      "sharpe": 8.576970955791948,
+      "sortino": 10.684581377674036,
+      "trades": 162
+    },
+    {
+      "trial": 11,
+      "config": {
+        "q": 0.0005,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.08337469621404991,
+      "sharpe": 11.56049524990176,
+      "sortino": 14.13736688530853,
+      "trades": 122
+    },
+    {
+      "trial": 12,
+      "config": {
+        "q": 5e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.04716286818983659,
+      "sharpe": 6.659339299891966,
+      "sortino": 8.440329143503828,
+      "trades": 59
+    },
+    {
+      "trial": 13,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.15
+      },
+      "return": 0.23741074498613526,
+      "sharpe": 16.58841169269132,
+      "sortino": 16.623643074299444,
+      "trades": 167
+    },
+    {
+      "trial": 14,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.13327252585575597,
+      "sharpe": 18.372049677443773,
+      "sortino": 22.40522892306781,
+      "trades": 200
+    },
+    {
+      "trial": 15,
+      "config": {
+        "q": 0.0001,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.1
+      },
+      "return": 0.09889434160784207,
+      "sharpe": 6.9780073445751585,
+      "sortino": 8.59682610861448,
+      "trades": 68
+    },
+    {
+      "trial": 16,
+      "config": {
+        "q": 0.0001,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.11981436684712012,
+      "sharpe": 17.363229422004792,
+      "sortino": 21.75043307157625,
+      "trades": 170
+    },
+    {
+      "trial": 17,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.75,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.09166673277878479,
+      "sharpe": 8.245998135343719,
+      "sortino": 10.272573094188965,
+      "trades": 120
+    },
+    {
+      "trial": 18,
+      "config": {
+        "q": 0.001,
+        "r": 0.01,
+        "z_entry": 0.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.09616544625552255,
+      "sharpe": 12.338090235810995,
+      "sortino": 16.03446335912157,
+      "trades": 154
+    },
+    {
+      "trial": 19,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.3263377636835925,
+      "sharpe": 20.98527326435447,
+      "sortino": 26.177287636142744,
+      "trades": 238
+    },
+    {
+      "trial": 20,
+      "config": {
+        "q": 0.001,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.11118272670220045,
+      "sharpe": 15.246170186398025,
+      "sortino": 18.025092234313657,
+      "trades": 171
+    },
+    {
+      "trial": 21,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.15
+      },
+      "return": 0.09883616172313414,
+      "sharpe": 8.428039872790809,
+      "sortino": 10.602285632747478,
+      "trades": 115
+    },
+    {
+      "trial": 22,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.15482254993022215,
+      "sharpe": 10.636206329605798,
+      "sortino": 11.441935473106088,
+      "trades": 103
+    },
+    {
+      "trial": 23,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.08
+      },
+      "return": 0.21997579739259818,
+      "sharpe": 18.30151276784569,
+      "sortino": 25.109543157036892,
+      "trades": 254
+    },
+    {
+      "trial": 24,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.05
+      },
+      "return": 0.2574395596881624,
+      "sharpe": 18.963117098376316,
+      "sortino": 22.648526028617,
+      "trades": 165
+    },
+    {
+      "trial": 25,
+      "config": {
+        "q": 5e-05,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.18662352763746415,
+      "sharpe": 12.86439948193422,
+      "sortino": 15.062520439720132,
+      "trades": 118
+    },
+    {
+      "trial": 26,
+      "config": {
+        "q": 5e-05,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.1,
+        "take_profit": 0.1
+      },
+      "return": 0.07946436037950727,
+      "sharpe": 10.850593990201354,
+      "sortino": 13.237656215051592,
+      "trades": 114
+    },
+    {
+      "trial": 27,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0001,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.13720566456541927,
+      "sharpe": 19.065120736258514,
+      "sortino": 23.19817113095335,
+      "trades": 207
+    },
+    {
+      "trial": 28,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.07,
+        "take_profit": 0.05
+      },
+      "return": 0.23289064899920514,
+      "sharpe": 16.655074308416847,
+      "sortino": 16.47291679832663,
+      "trades": 157
+    },
+    {
+      "trial": 29,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.04863627790932296,
+      "sharpe": 4.497858108183608,
+      "sortino": 5.305261563662501,
+      "trades": 69
+    },
+    {
+      "trial": 30,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.05
+      },
+      "return": 0.061703419263955145,
+      "sharpe": 5.511046619134679,
+      "sortino": 6.838836930869671,
+      "trades": 104
+    },
+    {
+      "trial": 31,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.08
+      },
+      "return": 0.12853759137831336,
+      "sharpe": 17.132630974641852,
+      "sortino": 22.16227359163793,
+      "trades": 340
+    },
+    {
+      "trial": 32,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.12819283554292255,
+      "sharpe": 8.121679545469025,
+      "sortino": 10.056710200901392,
+      "trades": 136
+    },
+    {
+      "trial": 33,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.1,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.09187647435211126,
+      "sharpe": 12.540680586594208,
+      "sortino": 15.493359010927106,
+      "trades": 148
+    },
+    {
+      "trial": 34,
+      "config": {
+        "q": 1e-05,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.15
+      },
+      "return": 0.06666828976752848,
+      "sharpe": 9.407265006206181,
+      "sortino": 11.105076314070946,
+      "trades": 96
+    },
+    {
+      "trial": 35,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.11955476578065645,
+      "sharpe": 11.44700501848582,
+      "sortino": 12.12351294299219,
+      "trades": 119
+    },
+    {
+      "trial": 36,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.12443251406619354,
+      "sharpe": 12.039181099229646,
+      "sortino": 14.258407809323385,
+      "trades": 99
+    },
+    {
+      "trial": 37,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 0.75,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.15040555984076462,
+      "sharpe": 9.752283974881161,
+      "sortino": 11.689868147208145,
+      "trades": 180
+    },
+    {
+      "trial": 38,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 0.75,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.05
+      },
+      "return": 0.1567095725641062,
+      "sharpe": 10.18429729056787,
+      "sortino": 12.05099897418361,
+      "trades": 188
+    },
+    {
+      "trial": 39,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": 0.06588973267390581,
+      "sharpe": 4.429854945047292,
+      "sortino": 5.236947174057941,
+      "trades": 87
+    },
+    {
+      "trial": 40,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.13085471582468644,
+      "sharpe": 18.635059829102264,
+      "sortino": 22.241765617796464,
+      "trades": 160
+    },
+    {
+      "trial": 41,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.1,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.1915723208590466,
+      "sharpe": 13.246448989694532,
+      "sortino": 15.413465956062993,
+      "trades": 123
+    },
+    {
+      "trial": 42,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 0.75,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.08
+      },
+      "return": 0.10528234263185063,
+      "sharpe": 9.604420888764617,
+      "sortino": 12.170515930516382,
+      "trades": 150
+    },
+    {
+      "trial": 43,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.1379959091735135,
+      "sharpe": 22.4064210547367,
+      "sortino": 23.318469958582302,
+      "trades": 192
+    },
+    {
+      "trial": 44,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.21524023787006255,
+      "sharpe": 16.580271725185263,
+      "sortino": 15.785736730366716,
+      "trades": 136
+    },
+    {
+      "trial": 45,
+      "config": {
+        "q": 0.001,
+        "r": 0.01,
+        "z_entry": 0.75,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.157637714627987,
+      "sharpe": 21.434409138917584,
+      "sortino": 30.81002098036467,
+      "trades": 247
+    },
+    {
+      "trial": 46,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.07171369711313091,
+      "sharpe": 9.770013686883146,
+      "sortino": 11.142572311637169,
+      "trades": 114
+    },
+    {
+      "trial": 47,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.15247349116379671,
+      "sharpe": 20.546130761022113,
+      "sortino": 29.472149977108952,
+      "trades": 232
+    },
+    {
+      "trial": 48,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.07658979168125006,
+      "sharpe": 10.039672032190465,
+      "sortino": 13.082693888928118,
+      "trades": 112
+    },
+    {
+      "trial": 49,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.25,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.13161748400348283,
+      "sharpe": 19.848027382542593,
+      "sortino": 21.10530345327862,
+      "trades": 176
+    },
+    {
+      "trial": 0,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.09525680559580098,
+      "sharpe": 6.669727847011325,
+      "sortino": 8.02888298077231,
+      "trades": 75
+    },
+    {
+      "trial": 1,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": 0.17211019644109254,
+      "sharpe": 11.325966560856736,
+      "sortino": 13.850266005040153,
+      "trades": 179
+    },
+    {
+      "trial": 2,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.07,
+        "take_profit": 0.08
+      },
+      "return": 0.21048714517082365,
+      "sharpe": 15.486430433134645,
+      "sortino": 16.0841378531257,
+      "trades": 144
+    },
+    {
+      "trial": 3,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.036216897335389076,
+      "sharpe": 5.041141276771786,
+      "sortino": 6.293363224631233,
+      "trades": 108
+    },
+    {
+      "trial": 4,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.2
+      },
+      "return": 0.12726372411430684,
+      "sharpe": 12.455912019341742,
+      "sortino": 15.41853317464546,
+      "trades": 88
+    },
+    {
+      "trial": 5,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.11281910690388482,
+      "sharpe": 8.038118136948418,
+      "sortino": 9.410256025130964,
+      "trades": 97
+    },
+    {
+      "trial": 6,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.1
+      },
+      "return": 0.10830650840496266,
+      "sharpe": 15.90642805668564,
+      "sortino": 19.477242672842966,
+      "trades": 150
+    },
+    {
+      "trial": 7,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.2,
+        "stop_loss": 0.1,
+        "take_profit": 0.15
+      },
+      "return": 0.19989438290773803,
+      "sharpe": 13.908014704816386,
+      "sortino": 16.228091030583457,
+      "trades": 158
+    },
+    {
+      "trial": 8,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.13100125912711855,
+      "sharpe": 20.994381248033175,
+      "sortino": 21.946966031046518,
+      "trades": 157
+    },
+    {
+      "trial": 9,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.29373291642076366,
+      "sharpe": 20.824596589519246,
+      "sortino": 24.48107047847301,
+      "trades": 201
+    },
+    {
+      "trial": 10,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": 0.06661333274849268,
+      "sharpe": 8.705246309945357,
+      "sortino": 11.841323912970637,
+      "trades": 180
+    },
+    {
+      "trial": 11,
+      "config": {
+        "q": 0.0005,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.020844938341823434,
+      "sharpe": 2.8715315278993625,
+      "sortino": 3.7098942517759044,
+      "trades": 63
+    },
+    {
+      "trial": 12,
+      "config": {
+        "q": 5e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.10006401722076218,
+      "sharpe": 14.478513205938086,
+      "sortino": 18.98017769009119,
+      "trades": 106
+    },
+    {
+      "trial": 13,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.15
+      },
+      "return": 0.22789932750313413,
+      "sharpe": 15.97961705352974,
+      "sortino": 19.185582872499364,
+      "trades": 155
+    },
+    {
+      "trial": 14,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.12085370748264598,
+      "sharpe": 16.663941218735406,
+      "sortino": 20.858664151523598,
+      "trades": 195
+    },
+    {
+      "trial": 15,
+      "config": {
+        "q": 0.0001,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.1
+      },
+      "return": 0.20540038563212817,
+      "sharpe": 14.390755832679362,
+      "sortino": 18.798388794946106,
+      "trades": 109
+    },
+    {
+      "trial": 16,
+      "config": {
+        "q": 0.0001,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.08274265381940393,
+      "sharpe": 11.844154776817398,
+      "sortino": 14.811241854310383,
+      "trades": 143
+    },
+    {
+      "trial": 17,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.75,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.07013179990090794,
+      "sharpe": 6.022395516732289,
+      "sortino": 8.258999791295327,
+      "trades": 111
+    },
+    {
+      "trial": 18,
+      "config": {
+        "q": 0.001,
+        "r": 0.01,
+        "z_entry": 0.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.06114489178152333,
+      "sharpe": 7.802453214034377,
+      "sortino": 11.068067214829739,
+      "trades": 116
+    },
+    {
+      "trial": 19,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.2895384331290147,
+      "sharpe": 18.775617103931395,
+      "sortino": 25.854451908010034,
+      "trades": 258
+    },
+    {
+      "trial": 20,
+      "config": {
+        "q": 0.001,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.08686637589269522,
+      "sharpe": 11.919703428715495,
+      "sortino": 15.333994516856722,
+      "trades": 165
+    },
+    {
+      "trial": 21,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.15
+      },
+      "return": 0.06535059001979593,
+      "sharpe": 5.502341716685616,
+      "sortino": 7.732584736375174,
+      "trades": 105
+    },
+    {
+      "trial": 22,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.2560978124120159,
+      "sharpe": 18.719539407229817,
+      "sortino": 20.67952449299152,
+      "trades": 169
+    },
+    {
+      "trial": 23,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.08
+      },
+      "return": 0.23905538000145665,
+      "sharpe": 19.711717942186752,
+      "sortino": 28.73801016853147,
+      "trades": 295
+    },
+    {
+      "trial": 24,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.05
+      },
+      "return": 0.2822797932698781,
+      "sharpe": 21.1867711192369,
+      "sortino": 23.93069475668294,
+      "trades": 172
+    },
+    {
+      "trial": 25,
+      "config": {
+        "q": 5e-05,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.11886734405989918,
+      "sharpe": 8.079267765448767,
+      "sortino": 10.60749736848159,
+      "trades": 104
+    },
+    {
+      "trial": 26,
+      "config": {
+        "q": 5e-05,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.1,
+        "take_profit": 0.1
+      },
+      "return": 0.04686154385705857,
+      "sharpe": 6.242461737920509,
+      "sortino": 8.52935882179091,
+      "trades": 74
+    },
+    {
+      "trial": 27,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0001,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.11023070922715575,
+      "sharpe": 15.488934920335524,
+      "sortino": 19.07179838871475,
+      "trades": 195
+    },
+    {
+      "trial": 28,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.07,
+        "take_profit": 0.05
+      },
+      "return": 0.21048714517082365,
+      "sharpe": 15.486430433134645,
+      "sortino": 16.0841378531257,
+      "trades": 144
+    },
+    {
+      "trial": 29,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.09566794962677988,
+      "sharpe": 8.614369934433117,
+      "sortino": 11.693758690540665,
+      "trades": 80
+    },
+    {
+      "trial": 30,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.05
+      },
+      "return": 0.08212097091245188,
+      "sharpe": 7.114428334760853,
+      "sortino": 9.369643281080842,
+      "trades": 113
+    },
+    {
+      "trial": 31,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.08
+      },
+      "return": 0.11379504542272785,
+      "sharpe": 14.807622375378516,
+      "sortino": 21.921332221116444,
+      "trades": 314
+    },
+    {
+      "trial": 32,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.09069686877688175,
+      "sharpe": 5.68841112388353,
+      "sortino": 8.06950611125843,
+      "trades": 119
+    },
+    {
+      "trial": 33,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.1,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.05028827463778478,
+      "sharpe": 6.957696609725633,
+      "sortino": 8.285639466247552,
+      "trades": 157
+    },
+    {
+      "trial": 34,
+      "config": {
+        "q": 1e-05,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.15
+      },
+      "return": 0.026966602244047243,
+      "sharpe": 3.71791016140865,
+      "sortino": 4.622932955933494,
+      "trades": 58
+    },
+    {
+      "trial": 35,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.15538327882547862,
+      "sharpe": 14.900436240896733,
+      "sortino": 19.669415622975873,
+      "trades": 136
+    },
+    {
+      "trial": 36,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.1510467675672147,
+      "sharpe": 15.00348154363529,
+      "sortino": 18.01611965829156,
+      "trades": 111
+    },
+    {
+      "trial": 37,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 0.75,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.15309027707416215,
+      "sharpe": 9.945003322559204,
+      "sortino": 13.40239965902037,
+      "trades": 170
+    },
+    {
+      "trial": 38,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 0.75,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.05
+      },
+      "return": 0.1410489634361156,
+      "sharpe": 9.230115775704745,
+      "sortino": 12.41392251996008,
+      "trades": 171
+    },
+    {
+      "trial": 39,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": 0.15374642802605012,
+      "sharpe": 10.017920445879838,
+      "sortino": 13.660530258799188,
+      "trades": 110
+    },
+    {
+      "trial": 40,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.09024894751313055,
+      "sharpe": 13.004222183174802,
+      "sortino": 15.414100040559445,
+      "trades": 148
+    },
+    {
+      "trial": 41,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.1,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.15079005447318253,
+      "sharpe": 10.192389382003189,
+      "sortino": 14.11682962256622,
+      "trades": 116
+    },
+    {
+      "trial": 42,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 0.75,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.08
+      },
+      "return": 0.09307028223596164,
+      "sharpe": 8.211087427314464,
+      "sortino": 10.768460961484909,
+      "trades": 161
+    },
+    {
+      "trial": 43,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.14706812779319675,
+      "sharpe": 24.492673665199753,
+      "sortino": 28.73979487454036,
+      "trades": 193
+    },
+    {
+      "trial": 44,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.20342708008037225,
+      "sharpe": 16.126981518005792,
+      "sortino": 17.11689748609548,
+      "trades": 131
+    },
+    {
+      "trial": 45,
+      "config": {
+        "q": 0.001,
+        "r": 0.01,
+        "z_entry": 0.75,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.11819259755961335,
+      "sharpe": 16.055533820418418,
+      "sortino": 20.983445965368396,
+      "trades": 250
+    },
+    {
+      "trial": 46,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.07047050542362951,
+      "sharpe": 9.491243662176135,
+      "sortino": 12.826262383173558,
+      "trades": 107
+    },
+    {
+      "trial": 47,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.1303717747168208,
+      "sharpe": 17.345120655865287,
+      "sortino": 23.704445088709527,
+      "trades": 247
+    },
+    {
+      "trial": 48,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.03803924199096349,
+      "sharpe": 4.8770758251223985,
+      "sortino": 6.753942199725072,
+      "trades": 96
+    },
+    {
+      "trial": 49,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.25,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.11291899495026621,
+      "sharpe": 17.314690370027545,
+      "sortino": 20.446237639741707,
+      "trades": 157
+    }
+  ],
+  "summary": {
+    "avg_return": 0.3775818536775044,
+    "profitable_pct": 1.0,
+    "high_return_count": 10
+  }
+}

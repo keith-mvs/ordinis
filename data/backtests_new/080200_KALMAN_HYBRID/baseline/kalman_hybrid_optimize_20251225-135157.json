@@ -1,0 +1,160 @@
+{
+  "mode": "optimized",
+  "results": [
+    {
+      "symbol": "AAPL",
+      "period": "backtest",
+      "params": {
+        "q": 5e-05,
+        "r": 0.005,
+        "residual_z_entry": 1.0,
+        "residual_z_exit": 0.3,
+        "trend_slope_min": 0.0,
+        "atr_stop_mult": 2.0,
+        "atr_tp_mult": 2.5
+      },
+      "total_return": 0.0018438816823190428,
+      "sharpe_ratio": 0.14467435623453415,
+      "max_drawdown": 0.0059489212254076876,
+      "win_rate": 0.75,
+      "profit_factor": 1.3339069139553208,
+      "num_trades": 4,
+      "avg_trade_pnl": 0.004668307691540726,
+      "avg_hold_days": 4.25,
+      "avg_entry_z": 1.3235935032457988,
+      "trend_alignment_rate": 1.0
+    },
+    {
+      "symbol": "JPM",
+      "period": "backtest",
+      "params": {
+        "q": 5e-05,
+        "r": 0.005,
+        "residual_z_entry": 1.0,
+        "residual_z_exit": 0.5,
+        "trend_slope_min": 5e-05,
+        "atr_stop_mult": 1.5,
+        "atr_tp_mult": 2.0
+      },
+      "total_return": -0.008521830539936782,
+      "sharpe_ratio": -0.5755740336876888,
+      "max_drawdown": 0.009953899759513593,
+      "win_rate": 0.3333333333333333,
+      "profit_factor": 0.14510674195203807,
+      "num_trades": 3,
+      "avg_trade_pnl": -0.028423412286875237,
+      "avg_hold_days": 5.333333333333333,
+      "avg_entry_z": 1.113468622225226,
+      "trend_alignment_rate": 1.0
+    },
+    {
+      "symbol": "GOOGL",
+      "period": "backtest",
+      "params": {
+        "q": 5e-05,
+        "r": 0.005,
+        "residual_z_entry": 1.0,
+        "residual_z_exit": 0.3,
+        "trend_slope_min": 0.0,
+        "atr_stop_mult": 2.0,
+        "atr_tp_mult": 2.5
+      },
+      "total_return": 0.004233319529211003,
+      "sharpe_ratio": 0.2850420983971531,
+      "max_drawdown": 0.00547577786179508,
+      "win_rate": 0.75,
+      "profit_factor": 2.1061867645171786,
+      "num_trades": 4,
+      "avg_trade_pnl": 0.010608639099517423,
+      "avg_hold_days": 6.25,
+      "avg_entry_z": 1.1561030071953915,
+      "trend_alignment_rate": 1.0
+    }
+  ],
+  "filter_params": {
+    "AAPL": {
+      "symbol": "AAPL",
+      "cluster": "med_vol",
+      "best_q": 5e-05,
+      "best_r": 0.005,
+      "score": 0.004418763328278789
+    },
+    "MSFT": {
+      "symbol": "MSFT",
+      "cluster": "med_vol",
+      "best_q": 5e-05,
+      "best_r": 0.005,
+      "score": 0.001806671718604064
+    },
+    "JPM": {
+      "symbol": "JPM",
+      "cluster": "med_vol",
+      "best_q": 5e-05,
+      "best_r": 0.005,
+      "score": 0.00909535976741951
+    },
+    "NVDA": {
+      "symbol": "NVDA",
+      "cluster": "high_vol",
+      "best_q": 0.0005,
+      "best_r": 0.001,
+      "score": 0.048185283518894936
+    },
+    "GOOGL": {
+      "symbol": "GOOGL",
+      "cluster": "med_vol",
+      "best_q": 5e-05,
+      "best_r": 0.005,
+      "score": 0.007020594845297727
+    },
+    "META": {
+      "symbol": "META",
+      "cluster": "high_vol",
+      "best_q": 0.0005,
+      "best_r": 0.001,
+      "score": 0.0018474034269146116
+    },
+    "AMZN": {
+      "symbol": "AMZN",
+      "cluster": "med_vol",
+      "best_q": 5e-05,
+      "best_r": 0.005,
+      "score": 0.0016021393571407265
+    },
+    "XOM": {
+      "symbol": "XOM",
+      "cluster": "med_vol",
+      "best_q": 5e-05,
+      "best_r": 0.005,
+      "score": 0.029313587377301987
+    }
+  },
+  "trading_params": {
+    "AAPL": {
+      "residual_z_entry": 1.0,
+      "residual_z_exit": 0.3,
+      "trend_slope_min": 0.0,
+      "atr_stop_mult": 2.0,
+      "atr_tp_mult": 2.5
+    },
+    "MSFT": null,
+    "JPM": {
+      "residual_z_entry": 1.0,
+      "residual_z_exit": 0.5,
+      "trend_slope_min": 5e-05,
+      "atr_stop_mult": 1.5,
+      "atr_tp_mult": 2.0
+    },
+    "NVDA": null,
+    "GOOGL": {
+      "residual_z_entry": 1.0,
+      "residual_z_exit": 0.3,
+      "trend_slope_min": 0.0,
+      "atr_stop_mult": 2.0,
+      "atr_tp_mult": 2.5
+    },
+    "META": null,
+    "AMZN": null,
+    "XOM": null
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "optimization_id": "SHORT_v3_calmar_20251225_223848",
+  "batch_name": "v3_calmar",
+  "data_directory": "../historical_data_v2",
+  "strategy_type": "long_short",
+  "device": "cuda",
+  "cuda_available": true,
+  "target_return": 0.3,
+  "actual_return": 0.03622777083749945,
+  "target_achieved": false,
+  "avg_sharpe": 1.176231687449287,
+  "avg_sortino": 27.040156754203,
+  "avg_win_rate": 0.4846153846153846,
+  "avg_max_dd": 0.21459630001047303,
+  "best_params": {
+    "momentum_lookback": 6,
+    "momentum_threshold": 0.01177119333371367,
+    "zscore_lookback": 7,
+    "zscore_entry": 1.810343953695709,
+    "zscore_exit": 0.46953795055882236,
+    "concentration_factor": 8.0,
+    "max_position_pct": 0.5264284048796658,
+    "min_position_pct": 0.08380473116254056,
+    "short_leverage": 2.5,
+    "long_leverage": 1.5990514720878024,
+    "market_direction_lookback": 4,
+    "bear_threshold": -0.03,
+    "bull_threshold": 0.014049616310024812,
+    "stop_loss_pct": 0.1608863785089935,
+    "take_profit_pct": 0.15,
+    "max_short_pct": 0.8,
+    "vol_threshold": 0.03755802544138261,
+    "trend_threshold": 0.01606674553701597
+  },
+  "period_results": {
+    "2006_bull": {
+      "total_return": 0.42654137845099727,
+      "sharpe": 12.129150347743481,
+      "sortino": 163.49295553756988,
+      "max_dd": 0.008848633617162755,
+      "win_rate": 0.7333333333333333,
+      "n_days": 15.0
+    },
+    "2012_recovery": {
+      "total_return": 0.045628149907679605,
+      "sharpe": 1.5587371592712276,
+      "sortino": 2.265032196914312,
+      "max_dd": 0.11844264230924638,
+      "win_rate": 0.3333333333333333,
+      "n_days": 12.0
+    },
+    "2015_volatility": {
+      "total_return": -0.1911721455121398,
+      "sharpe": -6.30517817853084,
+      "sortino": -7.623663624430072,
+      "max_dd": 0.2000913089393801,
+      "win_rate": 0.42857142857142855,
+      "n_days": 14.0
+    },
+    "2019_bull": {
+      "total_return": 0.24507044966814595,
+      "sharpe": 3.157865540087887,
+      "sortino": 10.923827333611529,
+      "max_dd": 0.31352277023605346,
+      "win_rate": 0.3076923076923077,
+      "n_days": 13.0
+    },
+    "2022_bear": {
+      "total_return": -0.10815331855336485,
+      "sharpe": -0.847385154731315,
+      "sortino": -1.366819458628827,
+      "max_dd": 0.33805876372577454,
+      "win_rate": 0.5714285714285714,
+      "n_days": 14.0
+    },
+    "2023_rebound": {
+      "total_return": -0.20054788893632147,
+      "sharpe": -2.635799589144719,
+      "sortino": -5.4503914598188254,
+      "max_dd": 0.3086136812352209,
+      "win_rate": 0.5333333333333333,
+      "n_days": 15.0
+    }
+  },
+  "reports_directory": "/home/kjfle/projects/ordinis/data/backtests_new/080202a_NETWORK_PARITY/iterations/shortselling_v3_calmar_20251225_223847",
+  "timestamp": "2025-12-25T22:38:48.034807"
+}

@@ -45,7 +45,7 @@ import httpx
 # =============================================================================
 
 MASSIVE_DATA_DIR = Path(__file__).parent.parent / "data" / "massive"
-OUTPUT_DIR = Path(__file__).parent.parent / "data" / "backtest_results" / "small_cap_kalman"
+OUTPUT_DIR = Path(__file__).parent.parent / "data" / "backtest_results" / "kalman_hybrid"
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 # NVIDIA API
@@ -501,12 +501,49 @@ def run_aggressive_backtest(
 # OPTIMIZATION
 # =============================================================================
 
+def save_trial_report(symbol: str, trial: int, result: BacktestResult, score: float) -> Path:
+    """Save individual trial report to symbol folder."""
+    symbol_dir = OUTPUT_DIR / symbol / f"Kalman_Opt_{trial}"
+    symbol_dir.mkdir(parents=True, exist_ok=True)
+
+    report = {
+        "schema_version": "1.1",
+        "strategy": "Kalman_Hybrid_SmallCap",
+        "symbol": symbol,
+        "trial": trial,
+        "params": result.config,
+        "metrics": {
+            "symbol": symbol,
+            "period": "backtest",
+            "params": result.config,
+            "total_return": result.total_return,
+            "sharpe_ratio": result.sharpe_ratio,
+            "sortino_ratio": result.sortino_ratio,
+            "max_drawdown": result.max_drawdown,
+            "win_rate": result.win_rate,
+            "profit_factor": result.profit_factor,
+            "num_trades": result.num_trades,
+            "avg_trade_pnl": result.avg_trade_pnl,
+        },
+        "score": score,
+        "trades_sample": result.trades[:20] if result.trades else [],
+        "equity_curve_sample": result.equity_curve[:50] if result.equity_curve else [],
+    }
+
+    report_path = symbol_dir / "report.json"
+    with open(report_path, "w") as f:
+        json.dump(report, f, indent=2, default=str)
+
+    return report_path
+
+
 def run_optimization(
     df: pd.DataFrame,
     symbol: str,
     n_trials: int = 50,
+    save_reports: bool = True,
 ) -> tuple[dict, BacktestResult, list]:
-    """Run n_trials of random parameter search."""
+    """Run n_trials of random parameter search with per-trial report saving."""
     param_grid = {
         "process_noise_q": [1e-5, 5e-5, 1e-4, 5e-4, 1e-3],
         "observation_noise_r": [1e-4, 5e-4, 1e-3, 5e-3, 1e-2],
@@ -538,16 +575,6 @@ def run_optimization(
 
         result = run_aggressive_backtest(df, symbol, config)
 
-        trial_data = {
-            "trial": trial,
-            "config": result.config,
-            "return": result.total_return,
-            "sharpe": result.sharpe_ratio,
-            "sortino": result.sortino_ratio,
-            "trades": result.num_trades,
-        }
-        all_results.append(trial_data)
-
         # Score: prioritize Sortino for volatile small-caps (downside-only volatility)
         if result.num_trades < 3:
             score = -np.inf
@@ -556,6 +583,21 @@ def run_optimization(
         else:
             # Use Sortino ratio (better for volatile assets) + return emphasis
             score = result.total_return * 0.5 + result.sortino_ratio * 0.35 + result.win_rate * 0.15
+
+        # Save individual trial report for traceability
+        if save_reports:
+            save_trial_report(symbol, trial, result, score)
+
+        trial_data = {
+            "trial": trial,
+            "config": result.config,
+            "return": result.total_return,
+            "sharpe": result.sharpe_ratio,
+            "sortino": result.sortino_ratio,
+            "trades": result.num_trades,
+            "score": score if score != -np.inf else None,
+        }
+        all_results.append(trial_data)
 
         if score > best_score:
             best_score = score
@@ -719,9 +761,11 @@ async def main():
         analysis = await analyze_with_nemotron(all_optimization_results)
         print(analysis)
 
-        # Save results
+        # Save aggregate results to baseline folder
         timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
-        output_file = OUTPUT_DIR / f"small_cap_optimization_{timestamp}.json"
+        baseline_dir = OUTPUT_DIR / "baseline"
+        baseline_dir.mkdir(parents=True, exist_ok=True)
+        output_file = baseline_dir / f"kalman_hybrid_small_cap_{timestamp}.json"
 
         with open(output_file, "w") as f:
             json.dump({

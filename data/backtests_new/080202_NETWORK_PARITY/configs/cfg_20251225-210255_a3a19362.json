@@ -1,0 +1,157 @@
+{
+  "schema_version": "1.0",
+  "configuration_id": "cfg_20251225-210255_a3a19362",
+  "timestamp": "2025-12-25T21:02:55.869912Z",
+  "random_seed": 42,
+  "equity_universe": {
+    "market_cap_category": "small_cap",
+    "sector_count": 6,
+    "target_stocks_per_sector": 5,
+    "total_stocks": 33,
+    "symbols": [
+      "RIOT",
+      "MARA",
+      "AI",
+      "IONQ",
+      "SOUN",
+      "KULR",
+      "BNGO",
+      "SNDL",
+      "TLRY",
+      "CGC",
+      "ACB",
+      "XXII",
+      "PLUG",
+      "FCEL",
+      "BE",
+      "CHPT",
+      "BLNK",
+      "EVGO",
+      "SOFI",
+      "HOOD",
+      "AFRM",
+      "UPST",
+      "OPEN",
+      "GME",
+      "AMC",
+      "WKHS",
+      "WISH",
+      "CLOV",
+      "GOEV",
+      "BITF",
+      "CLSK",
+      "CIFR",
+      "WULF"
+    ],
+    "sector_allocation": {
+      "technology": [
+        "RIOT",
+        "MARA",
+        "AI",
+        "IONQ",
+        "SOUN",
+        "KULR"
+      ],
+      "healthcare": [
+        "BNGO",
+        "SNDL",
+        "TLRY",
+        "CGC",
+        "ACB",
+        "XXII"
+      ],
+      "energy_materials": [
+        "PLUG",
+        "FCEL",
+        "BE",
+        "CHPT",
+        "BLNK",
+        "EVGO"
+      ],
+      "financials": [
+        "SOFI",
+        "HOOD",
+        "AFRM",
+        "UPST",
+        "OPEN"
+      ],
+      "consumer": [
+        "GME",
+        "AMC",
+        "WKHS",
+        "WISH",
+        "CLOV"
+      ],
+      "industrials": [
+        "GOEV",
+        "BITF",
+        "CLSK",
+        "CIFR",
+        "WULF"
+      ]
+    }
+  },
+  "baseline_strategy": {
+    "name": "Network Parity",
+    "version": "1.0.0",
+    "initial_params": {
+      "corr_lookback": 60,
+      "corr_threshold": 0.3,
+      "recalc_frequency": 5,
+      "centrality_method": "eigenvector",
+      "weight_decay": 0.5,
+      "min_weight": 0.02,
+      "max_weight": 0.3,
+      "vol_target": 0.15,
+      "momentum_lookback": 20,
+      "z_score_entry": 2.0,
+      "z_score_exit": 0.5,
+      "momentum_threshold": 0.0,
+      "stop_loss_pct": 0.05,
+      "take_profit_pct": 0.1,
+      "trailing_stop_pct": 0.03,
+      "max_portfolio_drawdown": 0.15,
+      "max_positions": 10
+    }
+  },
+  "backtesting_config": {
+    "time_aggregations": [
+      "1min",
+      "1D"
+    ],
+    "sample_years": [
+      2004,
+      2008,
+      2010,
+      2017,
+      2024
+    ],
+    "period_length_days": 21,
+    "min_stocks_required": 30,
+    "initial_capital": 100000.0,
+    "transaction_cost_bps": 30.0
+  },
+  "nemo_parameters": {
+    "model": "nvidia/llama-3.1-nemotron-ultra-253b-v1",
+    "temperature": 0.7,
+    "max_tokens": 2048,
+    "max_suggestions": 3,
+    "confidence_threshold": 2.0
+  },
+  "optimization_hyperparameters": {
+    "max_iterations": 10,
+    "convergence_threshold": 0.001,
+    "early_stopping_patience": 3,
+    "objective_weights": {
+      "return": 0.4,
+      "sortino": 0.35,
+      "win_rate": 0.15,
+      "drawdown_penalty": 0.1
+    },
+    "constraints": {
+      "min_sharpe": 1.0,
+      "max_drawdown": 0.2,
+      "min_trades": 20
+    }
+  }
+}

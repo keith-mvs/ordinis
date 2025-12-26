@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.1",
+  "strategy": "Kalman_Hybrid",
+  "symbol": "SNAP",
+  "trial": 23,
+  "params": {
+    "residual_z_entry": 1.5,
+    "residual_z_exit": 0.1,
+    "trend_slope_min": 0.0,
+    "atr_stop_mult": 1.0,
+    "atr_tp_mult": 1.0
+  },
+  "filter_params": {
+    "symbol": "SNAP",
+    "cluster": "sub25_growth",
+    "best_q": 1e-06,
+    "best_r": 0.02,
+    "score": -0.056168093201375086
+  },
+  "metrics": {
+    "symbol": "SNAP",
+    "period": "backtest",
+    "params": {
+      "q": 1e-06,
+      "r": 0.02,
+      "residual_z_entry": 1.5,
+      "residual_z_exit": 0.1,
+      "trend_slope_min": 0.0,
+      "atr_stop_mult": 1.0,
+      "atr_tp_mult": 1.0
+    },
+    "total_return": -0.009399703770000633,
+    "sharpe_ratio": -0.05841068093124743,
+    "max_drawdown": 0.06594151780203641,
+    "win_rate": 0.29577464788732394,
+    "profit_factor": 0.9387925792421599,
+    "num_trades": 71,
+    "avg_trade_pnl": -0.0011423004818097249,
+    "avg_hold_days": 2.380281690140845,
+    "avg_entry_z": 2.8066339930995174,
+    "trend_alignment_rate": 0.352112676056338
+  }
+}

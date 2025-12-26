@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.0",
+  "configuration_id": "cfg_20251225-210841_21e0c357",
+  "iteration_number": 1,
+  "symbol": "ACB",
+  "timestamp": "2025-12-25T21:10:19.888905Z",
+  "params": {
+    "corr_lookback": 10,
+    "corr_threshold": 0.25437753236389965,
+    "recalc_frequency": 2,
+    "centrality_method": "eigenvector",
+    "weight_decay": 0.5542740132017648,
+    "min_weight": 0.02069714438070447,
+    "max_weight": 0.2807293661142537,
+    "vol_target": 0.14196553471426474,
+    "momentum_lookback": 6,
+    "z_score_entry": 1.9679911638865073,
+    "z_score_exit": 0.4853094161003327,
+    "momentum_threshold": 0.0,
+    "stop_loss_pct": 0.05728503326753981,
+    "take_profit_pct": 0.11175705007549129,
+    "trailing_stop_pct": 0.028229064204151548,
+    "max_portfolio_drawdown": 0.15,
+    "max_positions": 10
+  },
+  "metrics": {
+    "total_return": -0.0017334356975599076,
+    "sharpe_ratio": -5.442402747775531,
+    "sortino_ratio": -58.17677628787936,
+    "max_drawdown": 0.0017334356975599076,
+    "win_rate": 0.0,
+    "profit_factor": 0.0,
+    "num_trades": 1,
+    "avg_trade_pnl": -1724.441455732895
+  },
+  "trades": [
+    {
+      "symbol": "ACB",
+      "entry_date": "2025-12-11T00:00:00+00:00",
+      "exit_date": "2025-12-12T00:00:00+00:00",
+      "entry_price": 5.15,
+      "exit_price": 5.45,
+      "direction": -1,
+      "shares": 5451.055652703954,
+      "pnl": -1724.441455732895,
+      "pnl_pct": -0.06142718446601938,
+      "exit_reason": "stop_loss"
+    }
+  ],
+  "equity_curve": [
+    100000.0,
+    100000.0,
+    100000.0,
+    100000.0,
+    100000.0,
+    100000.0,
+    100000.0,
+    100000.0,
+    100000.0,
+    100000.0,
+    100000.0,
+    100000.0,
+    100000.0,
+    100000.0,
+    99915.78119016573,
+    99826.65643024401,
+    99826.65643024401,
+    99826.65643024401,
+    99826.65643024401,
+    99826.65643024401
+  ],
+  "score": -Infinity
+}

@@ -1,0 +1,71 @@
+{
+  "optimization_id": "SHORT_v5_hourly_20251225_232036",
+  "batch_name": "v5_hourly",
+  "data_directory": "../historical_data_hourly",
+  "strategy_type": "long_short",
+  "device": "cuda",
+  "cuda_available": true,
+  "target_return": 0.3,
+  "actual_return": 0.43251056182961706,
+  "target_achieved": true,
+  "avg_sharpe": 2.134754661033895,
+  "avg_sortino": 3.2740828652525384,
+  "avg_win_rate": 0.5271478627123893,
+  "avg_max_dd": 0.12329944923651706,
+  "best_params": {
+    "momentum_lookback": 2,
+    "momentum_threshold": 0.010610185978504286,
+    "zscore_lookback": 7,
+    "zscore_entry": 1.2810086037073067,
+    "zscore_exit": 0.1324113817002425,
+    "concentration_factor": 3.0,
+    "max_position_pct": 0.538434325993874,
+    "min_position_pct": 0.1,
+    "short_leverage": 1.5818483878163738,
+    "long_leverage": 1.831054215308574,
+    "market_direction_lookback": 4,
+    "bear_threshold": -0.017706549340673942,
+    "bull_threshold": 0.010469715139009416,
+    "stop_loss_pct": 0.08,
+    "take_profit_pct": 0.4121234578205895,
+    "max_short_pct": 0.6811923775078091,
+    "vol_threshold": 0.05026307992567579,
+    "trend_threshold": 0.02087704861851231
+  },
+  "period_results": {
+    "2019_bull": {
+      "total_return": 0.08629918214606369,
+      "sharpe": 0.45920775197706487,
+      "sortino": 0.4505602418612705,
+      "max_dd": 0.249970232470207,
+      "win_rate": 0.4194915254237288,
+      "n_days": 236.0
+    },
+    "2022_bear": {
+      "total_return": 0.18521146700486235,
+      "sharpe": 1.0785819463863475,
+      "sortino": 1.1515318499026175,
+      "max_dd": 0.16599472692954623,
+      "win_rate": 0.5485436893203883,
+      "n_days": 206.0
+    },
+    "2023_rebound": {
+      "total_return": 0.635148875879175,
+      "sharpe": 3.307808983502195,
+      "sortino": 5.100973043102552,
+      "max_dd": 0.04131282664544635,
+      "win_rate": 0.5527426160337553,
+      "n_days": 237.0
+    },
+    "2024_recent": {
+      "total_return": 0.8233827222883672,
+      "sharpe": 3.6934199622699735,
+      "sortino": 6.3932663261437135,
+      "max_dd": 0.03592001090086869,
+      "win_rate": 0.5878136200716846,
+      "n_days": 279.0
+    }
+  },
+  "reports_directory": "/home/kjfle/projects/ordinis/data/backtests_new/080202a_NETWORK_PARITY/iterations/shortselling_v5_hourly_20251225_232036",
+  "timestamp": "2025-12-25T23:20:36.587099"
+}

@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.1",
+  "strategy": "Kalman_Hybrid",
+  "symbol": "SOFI",
+  "trial": 34,
+  "params": {
+    "residual_z_entry": 0.75,
+    "residual_z_exit": 0.1,
+    "trend_slope_min": 1e-05,
+    "atr_stop_mult": 2.0,
+    "atr_tp_mult": 3.0
+  },
+  "filter_params": {
+    "symbol": "SOFI",
+    "cluster": "sub25_volatile",
+    "best_q": 5e-05,
+    "best_r": 0.005,
+    "score": 1.7499323221876506
+  },
+  "metrics": {
+    "symbol": "SOFI",
+    "period": "backtest",
+    "params": {
+      "q": 5e-05,
+      "r": 0.005,
+      "residual_z_entry": 0.75,
+      "residual_z_exit": 0.1,
+      "trend_slope_min": 1e-05,
+      "atr_stop_mult": 2.0,
+      "atr_tp_mult": 3.0
+    },
+    "total_return": 0.0101729857864909,
+    "sharpe_ratio": 0.366959217880025,
+    "max_drawdown": 0.004291795500145323,
+    "win_rate": 0.75,
+    "profit_factor": 3.4997557664203955,
+    "num_trades": 4,
+    "avg_trade_pnl": 0.02542498944485462,
+    "avg_hold_days": 2.75,
+    "avg_entry_z": 0.8415162220289508,
+    "trend_alignment_rate": 1.0
+  }
+}

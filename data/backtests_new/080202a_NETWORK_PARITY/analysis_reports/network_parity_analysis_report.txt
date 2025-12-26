@@ -1,0 +1,143 @@
+====================================================================================================
+NETWORK PARITY STRATEGY - COMPREHENSIVE STATISTICAL ANALYSIS
+Generated: 2025-12-25 23:40:34
+====================================================================================================
+
+----------------------------------------------------------------------------------------------------
+EXECUTIVE SUMMARY: VERSION COMPARISON
+----------------------------------------------------------------------------------------------------
+
+Metric                    | v2 Sortino      | v3 Calmar       | v4 VolFilter    | v5 Hourly      
+-------------------------------------------------------------------------------------------------
+Total Return              |          -1.46% |           3.62% |           9.80% |          43.25%
+Sharpe Ratio              |            0.79 |            1.18 |            3.48 |            2.13
+Sortino Ratio             |          100.00 |           27.04 |          100.00 |            3.27
+Win Rate                  |          36.23% |          48.46% |          50.09% |          52.71%
+Max Drawdown              |          10.09% |          21.46% |           4.93% |          12.33%
+30% Target Achieved       |              NO |              NO |              NO |             YES
+
+
+====================================================================================================
+DETAILED ANALYSIS: v5 HOURLY (BEST PERFORMER)
+====================================================================================================
+
+----------------------------------------------------------------------------------------------------
+PERIOD-BY-PERIOD PERFORMANCE
+----------------------------------------------------------------------------------------------------
+
+Period             |     Return |       CAGR |   Sharpe |  Sortino |   Max DD | Win Rate |   Calmar |   Days
+--------------------------------------------------------------------------------------------------------------
+2019_bull          |      8.63% |      9.24% |     0.46 |     0.45 |   25.00% |    41.9% |     0.37 |    236
+2022_bear          |     18.52% |     23.10% |     1.08 |     1.15 |   16.60% |    54.9% |     1.39 |    206
+2023_rebound       |     63.51% |     68.68% |     3.31 |     5.10 |    4.13% |    55.3% |    16.63 |    237
+2024_recent        |     82.34% |     72.04% |     3.69 |     6.39 |    3.59% |    58.8% |    20.06 |    279
+--------------------------------------------------------------------------------------------------------------
+AVERAGE            |     43.25% |     43.27% |     2.13 |     3.27 |   12.33% |    52.7% |     9.61 |    958
+
+
+----------------------------------------------------------------------------------------------------
+RISK-ADJUSTED RETURN METRICS
+----------------------------------------------------------------------------------------------------
+
+Time-Weighted Return Analysis:
+  - Total Days Traded: 958.0
+  - Years Equivalent: 3.80
+  - Average Return per Period: 43.25%
+  - Annualized (CAGR) Average: 43.27%
+
+Compounded Performance (if invested sequentially):
+  - Compound Total Return: 283.87%
+  - Compound CAGR: 42.45%
+  - $100,000 -> $383,866.69
+
+Risk Metrics:
+  - Average Sharpe Ratio: 2.13
+  - Average Sortino Ratio: 3.27
+  - Average Calmar Ratio: 9.61
+  - Average Max Drawdown: 12.33%
+  - Worst Period Drawdown: 25.00%
+  - Best Period Drawdown: 3.59%
+
+----------------------------------------------------------------------------------------------------
+WIN/LOSS ANALYSIS
+----------------------------------------------------------------------------------------------------
+
+Period Outcomes:
+  - Winning Periods: 4 of 4
+  - Losing Periods: 0 of 4
+  - Period Win Rate: 100.0%
+
+Winning Periods:
+  - Average Win: 43.25%
+  - Best Win: 82.34%
+
+
+----------------------------------------------------------------------------------------------------
+OPTIMIZED PARAMETERS (v5 Hourly)
+----------------------------------------------------------------------------------------------------
+
+
+Signal Generation:
+  - momentum_lookback: 2
+  - momentum_threshold: 0.010610
+  - zscore_lookback: 7
+  - zscore_entry: 1.2810
+  - zscore_exit: 0.1324
+
+Position Sizing:
+  - concentration_factor: 3.0000
+  - max_position_pct: 0.5384
+  - min_position_pct: 0.1000
+
+Leverage:
+  - short_leverage: 1.5818
+  - long_leverage: 1.8311
+
+Regime Detection:
+  - market_direction_lookback: 4
+  - bear_threshold: -0.017707
+  - bull_threshold: 0.010470
+
+Risk Management:
+  - stop_loss_pct: 0.080000
+  - take_profit_pct: 0.4121
+  - max_short_pct: 0.6812
+  - vol_threshold: 0.050263
+  - trend_threshold: 0.020877
+
+
+====================================================================================================
+MARKET REGIME ANALYSIS
+====================================================================================================
+
+Regime          | Period          |     Return |      Strategy Performance
+--------------------------------------------------------------------------------
+Bull Market     | 2019_bull       |      8.63% |          MODERATE (5-20%)
+Bear Market     | 2022_bear       |     18.52% |          MODERATE (5-20%)
+Recovery        | 2023_rebound    |     63.51% |          EXCELLENT (>50%)
+Mixed/Bull      | 2024_recent     |     82.34% |          EXCELLENT (>50%)
+
+Key Insight: Strategy performs best in recovery/trending regimes (2023, 2024)
+             Struggled in 2019 bull (cannabis sector weakness)
+
+
+====================================================================================================
+STRATEGY VERSION EVOLUTION
+====================================================================================================
+
+Version      | Key Changes                              |     Return |                    Result
+----------------------------------------------------------------------------------------------------
+v2 Sortino   | Daily bars, Sortino-weighted scoring     |      -1.5% |       Baseline long/short
+v3 Calmar    | Daily bars, Calmar scoring               |      +3.6% | Better drawdown management
+v4 VolFilter | Daily bars, Volatility filter added      |      +9.8% | Protected in choppy markets
+v5 Hourly    | HOURLY bars, fine-tuned params           |     +43.3% |          TARGET ACHIEVED!
+
+Critical Finding: Hourly data resolution was the KEY breakthrough
+  - More frequent signals
+  - Better intraday risk management
+  - Tighter stop losses effective
+  - Turn bear market into profit (+18.5% in 2022)
+
+====================================================================================================
+END OF REPORT
+====================================================================================================

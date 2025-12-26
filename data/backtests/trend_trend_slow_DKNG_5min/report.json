@@ -1,0 +1,56 @@
+{
+  "config": {
+    "name": "trend_trend_slow_DKNG_5min",
+    "symbols": [
+      "DKNG"
+    ],
+    "start_date": "2025-11-18",
+    "end_date": "2025-12-17",
+    "initial_capital": 100000.0,
+    "commission_pct": 0.001,
+    "slippage_bps": 5,
+    "max_position_size": 0.1,
+    "max_portfolio_exposure": 1.0,
+    "rebalance_freq": "5min",
+    "stop_loss_pct": 0.1,
+    "take_profit_pct": 0.0
+  },
+  "metrics": {
+    "total_return": -1.3491857226400026,
+    "annualized_return": -15.894201198420099,
+    "volatility": 0.46768550138926723,
+    "downside_deviation": 0.3531250241886564,
+    "sharpe_ratio": -4.594075321793312,
+    "sortino_ratio": -6.084480773430228,
+    "calmar_ratio": -8.189896281575294,
+    "max_drawdown": -1.94070848420597,
+    "avg_drawdown": -0.7566808313697378,
+    "max_drawdown_duration": 15.17361111111111,
+    "num_trades": 13,
+    "win_rate": 23.076923076923077,
+    "profit_factor": 0.4736576097150329,
+    "avg_win": 360.2104986740657,
+    "avg_loss": 228.14612789021558,
+    "largest_win": 654.8292597344838,
+    "largest_loss": -402.30464375938135,
+    "avg_trade_duration": 12.481837606837606,
+    "expectancy": -92.37152175999684,
+    "recovery_factor": -0.6952026714058573,
+    "equity_final": 98650.81427736,
+    "model_metrics": {},
+    "ic_mean": 0.0,
+    "ic_std": 0.0,
+    "ic_pvalue": 1.0,
+    "hit_rate": 0.0,
+    "false_positive_rate": 0.0,
+    "avg_turnover": 0.0,
+    "total_transaction_costs": 0.0,
+    "signal_decay_halflife": 0.0,
+    "avg_signal_age": 0.0
+  },
+  "timestamp": "2025-12-17T03:19:48.209771",
+  "symbols_traded": [
+    "DKNG"
+  ],
+  "trades_count": 13
+}

@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.0",
+  "configuration_id": "cfg_20251225-210841_21e0c357",
+  "iteration_number": 1,
+  "symbol": "OPEN",
+  "timestamp": "2025-12-25T21:10:19.891147Z",
+  "params": {
+    "corr_lookback": 10,
+    "corr_threshold": 0.25437753236389965,
+    "recalc_frequency": 2,
+    "centrality_method": "eigenvector",
+    "weight_decay": 0.5542740132017648,
+    "min_weight": 0.02069714438070447,
+    "max_weight": 0.2807293661142537,
+    "vol_target": 0.14196553471426474,
+    "momentum_lookback": 6,
+    "z_score_entry": 1.9679911638865073,
+    "z_score_exit": 0.4853094161003327,
+    "momentum_threshold": 0.0,
+    "stop_loss_pct": 0.05728503326753981,
+    "take_profit_pct": 0.11175705007549129,
+    "trailing_stop_pct": 0.028229064204151548,
+    "max_portfolio_drawdown": 0.15,
+    "max_positions": 10
+  },
+  "metrics": {
+    "total_return": -0.0001162180312864075,
+    "sharpe_ratio": 0.03836003625954459,
+    "sortino_ratio": 0.04921942235092999,
+    "max_drawdown": 0.014759795179548464,
+    "win_rate": 0.0,
+    "profit_factor": 0.0,
+    "num_trades": 1,
+    "avg_trade_pnl": -5.9286901095474605
+  },
+  "trades": [
+    {
+      "symbol": "OPEN",
+      "entry_date": "2025-12-01T00:00:00+00:00",
+      "exit_date": "2025-12-05T00:00:00+00:00",
+      "entry_price": 7.15,
+      "exit_price": 7.17,
+      "direction": 1,
+      "shares": 3926.2848407587926,
+      "pnl": -5.9286901095474605,
+      "pnl_pct": -0.00021118881118887116,
+      "exit_reason": "z_score_exit"
+    }
+  ],
+  "equity_curve": [
+    100000.0,
+    100000.0,
+    100000.0,
+    100000.0,
+    100000.0,
+    99915.78119016573,
+    99444.2343807906,
+    99059.06583791216,
+    101486.29512646925,
+    99988.37819687136,
+    99988.37819687136,
+    99988.37819687136,
+    99988.37819687136,
+    99988.37819687136,
+    99988.37819687136,
+    99988.37819687136,
+    99988.37819687136,
+    99988.37819687136,
+    99988.37819687136,
+    99988.37819687136
+  ],
+  "score": -Infinity
+}

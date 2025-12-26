@@ -1,0 +1,21 @@
+Married Put Backtest Summary - AAPL
+============================================================
+
+Date: 2025-12-11 00:04:01
+
+Performance:
+  Initial Capital:       $100,000.00
+  Final Equity:          $115,738.41
+  Total Return:          15.74%
+  Premium Paid:          $20,334.93
+  Sharpe Ratio:          0.48
+  Max Drawdown:          -24.38%
+
+Comparison:
+  Buy-and-Hold Return:   44.69%
+  Buy-and-Hold Final:    $144,686.82
+
+Trade Statistics:
+  Total Puts:            17
+  Expired Worthless:     13
+  Protection Events:     3

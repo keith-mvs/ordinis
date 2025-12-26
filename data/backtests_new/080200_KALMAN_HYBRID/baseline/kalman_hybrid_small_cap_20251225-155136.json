@@ -1,0 +1,7662 @@
+{
+  "timestamp": "20251225-155136",
+  "n_trials": 50,
+  "aggregate_mins": 5,
+  "symbols": [
+    "BLNK",
+    "XXII",
+    "BNGO",
+    "CGC",
+    "AMC",
+    "SNDL",
+    "PLUG",
+    "BITF",
+    "CLOV",
+    "EVGO",
+    "KULR",
+    "MPW",
+    "ACB",
+    "WKHS",
+    "OPEN",
+    "CHPT",
+    "IVR",
+    "ABR",
+    "FCEL",
+    "TWO",
+    "AGNC",
+    "MARA",
+    "SOUN",
+    "QUBT",
+    "CLSK",
+    "CLF",
+    "WULF",
+    "RIOT",
+    "TLRY",
+    "AI",
+    "CIFR",
+    "NLY",
+    "GME",
+    "RGTI"
+  ],
+  "results": {
+    "BLNK": {
+      "symbol": "BLNK",
+      "config": {
+        "q": 1e-05,
+        "r": 0.0001,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "total_return": 0.19051032867050555,
+      "sharpe_ratio": 14.689579116518138,
+      "max_drawdown": 0.029526421904244295,
+      "win_rate": 0.8885135135135135,
+      "profit_factor": 2.4035287473046454,
+      "num_trades": 296,
+      "avg_trade_pnl": 0.005908931578808153
+    },
+    "XXII": {
+      "symbol": "XXII",
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.08
+      },
+      "total_return": 1.016066617936279,
+      "sharpe_ratio": 36.17458917135049,
+      "max_drawdown": 0.015863182993878466,
+      "win_rate": 0.9073033707865169,
+      "profit_factor": 4.761165263118505,
+      "num_trades": 356,
+      "avg_trade_pnl": 0.013176014123112312
+    },
+    "BNGO": {
+      "symbol": "BNGO",
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 0.75,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.05
+      },
+      "total_return": 0.41641597884514603,
+      "sharpe_ratio": 22.791945660387384,
+      "max_drawdown": 0.0125972939940391,
+      "win_rate": 0.9708333333333333,
+      "profit_factor": 6.4376709227783975,
+      "num_trades": 240,
+      "avg_trade_pnl": 0.007276030213465203
+    },
+    "CGC": {
+      "symbol": "CGC",
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "total_return": 0.2209995213075196,
+      "sharpe_ratio": 13.782626649106476,
+      "max_drawdown": 0.02442800113376436,
+      "win_rate": 0.9002493765586035,
+      "profit_factor": 2.1290640051534835,
+      "num_trades": 401,
+      "avg_trade_pnl": 0.004997895496826851
+    },
+    "AMC": {
+      "symbol": "AMC",
+      "config": {
+        "q": 0.001,
+        "r": 0.01,
+        "z_entry": 0.75,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "total_return": 0.11381143275444221,
+      "sharpe_ratio": 14.401702127470344,
+      "max_drawdown": 0.007269906948560728,
+      "win_rate": 0.9681528662420382,
+      "profit_factor": 4.466355785584278,
+      "num_trades": 314,
+      "avg_trade_pnl": 0.003435733163369145
+    },
+    "SNDL": {
+      "symbol": "SNDL",
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "total_return": 0.2344454159721626,
+      "sharpe_ratio": 21.80952001298117,
+      "max_drawdown": 0.016328021042921245,
+      "win_rate": 0.9488188976377953,
+      "profit_factor": 4.753028668490308,
+      "num_trades": 254,
+      "avg_trade_pnl": 0.008306664609963592
+    },
+    "PLUG": {
+      "symbol": "PLUG",
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "total_return": 0.28142587108324163,
+      "sharpe_ratio": 7.478256641328601,
+      "max_drawdown": 0.03540905141835303,
+      "win_rate": 0.9842767295597484,
+      "profit_factor": 3.7807365672301643,
+      "num_trades": 318,
+      "avg_trade_pnl": 0.003925410934149505
+    },
+    "BITF": {
+      "symbol": "BITF",
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.08
+      },
+      "total_return": 0.10357025207737781,
+      "sharpe_ratio": 6.652351415595691,
+      "max_drawdown": 0.013863791926915118,
+      "win_rate": 0.906396255850234,
+      "profit_factor": 1.467516721816851,
+      "num_trades": 641,
+      "avg_trade_pnl": 0.0015458180484601268
+    },
+    "CLOV": {
+      "symbol": "CLOV",
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "total_return": 0.34292762661004,
+      "sharpe_ratio": 23.16963371472606,
+      "max_drawdown": 0.015095868744024474,
+      "win_rate": 0.9853658536585366,
+      "profit_factor": 10.496539648233654,
+      "num_trades": 205,
+      "avg_trade_pnl": 0.007206891344631493
+    },
+    "EVGO": {
+      "symbol": "EVGO",
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "total_return": 0.14706812779319675,
+      "sharpe_ratio": 24.492673665199753,
+      "max_drawdown": 0.004347826086956488,
+      "win_rate": 0.9896373056994818,
+      "profit_factor": 18.71843260806333,
+      "num_trades": 193,
+      "avg_trade_pnl": 0.007115174361234799
+    },
+    "KULR": {
+      "symbol": "KULR",
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "total_return": 0.7437866702021251,
+      "sharpe_ratio": 24.05238645331238,
+      "max_drawdown": 0.034826414471306494,
+      "win_rate": 0.9410430839002267,
+      "profit_factor": 3.88841218871577,
+      "num_trades": 441,
+      "avg_trade_pnl": 0.006324119449428192
+    },
+    "MPW": {
+      "symbol": "MPW",
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "total_return": 0.03168475078752395,
+      "sharpe_ratio": 11.229549301827191,
+      "max_drawdown": 0.004107253314686898,
+      "win_rate": 0.9621212121212122,
+      "profit_factor": 3.4731004472089655,
+      "num_trades": 132,
+      "avg_trade_pnl": 0.002365568099872782
+    },
+    "ACB": {
+      "symbol": "ACB",
+      "config": {
+        "q": 0.001,
+        "r": 0.01,
+        "z_entry": 0.75,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "total_return": 0.12104758591011283,
+      "sharpe_ratio": 13.653779871749839,
+      "max_drawdown": 0.021547196729036027,
+      "win_rate": 0.9304347826086956,
+      "profit_factor": 2.684788220068231,
+      "num_trades": 230,
+      "avg_trade_pnl": 0.004982811324294348
+    },
+    "WKHS": {
+      "symbol": "WKHS",
+      "config": {
+        "q": 1e-05,
+        "r": 0.0005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "total_return": 5.255463026715925,
+      "sharpe_ratio": 3.7460121310794063,
+      "max_drawdown": 0.08494726749760312,
+      "win_rate": 0.9144981412639405,
+      "profit_factor": 5.53001181632187,
+      "num_trades": 269,
+      "avg_trade_pnl": 0.053857611140633824
+    },
+    "OPEN": {
+      "symbol": "OPEN",
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "total_return": 0.06426858998038268,
+      "sharpe_ratio": 4.714771242274369,
+      "max_drawdown": 0.01927225550174401,
+      "win_rate": 0.96,
+      "profit_factor": 1.958196269804937,
+      "num_trades": 250,
+      "avg_trade_pnl": 0.0025043640910022394
+    },
+    "CHPT": {
+      "symbol": "CHPT",
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "total_return": 0.06618121150936916,
+      "sharpe_ratio": 10.004536226467442,
+      "max_drawdown": 0.012312847531602658,
+      "win_rate": 0.9021739130434783,
+      "profit_factor": 2.024776653786223,
+      "num_trades": 184,
+      "avg_trade_pnl": 0.0034936332253897103
+    },
+    "IVR": {
+      "symbol": "IVR",
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.07,
+        "take_profit": 0.08
+      },
+      "total_return": 0.08250058200333601,
+      "sharpe_ratio": 16.283992320829416,
+      "max_drawdown": 0.00620060790273554,
+      "win_rate": 0.9910714285714286,
+      "profit_factor": 0,
+      "num_trades": 112,
+      "avg_trade_pnl": 0.0035414092831465814
+    },
+    "ABR": {
+      "symbol": "ABR",
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "total_return": 0.05842139081797563,
+      "sharpe_ratio": 8.856497479829292,
+      "max_drawdown": 0.014671587815483578,
+      "win_rate": 0.9668508287292817,
+      "profit_factor": 2.6597141381981464,
+      "num_trades": 181,
+      "avg_trade_pnl": 0.0015728519109654442
+    },
+    "FCEL": {
+      "symbol": "FCEL",
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "total_return": 0.13066819868564444,
+      "sharpe_ratio": 16.487369937122523,
+      "max_drawdown": 0.007991442221722591,
+      "win_rate": 0.9354838709677419,
+      "profit_factor": 3.4879841524133384,
+      "num_trades": 217,
+      "avg_trade_pnl": 0.005669953817641183
+    },
+    "TWO": {
+      "symbol": "TWO",
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "total_return": 0.016080155744047663,
+      "sharpe_ratio": 8.378795447409109,
+      "max_drawdown": 0.003505869086569156,
+      "win_rate": 0.9746835443037974,
+      "profit_factor": 5.4435133048594295,
+      "num_trades": 79,
+      "avg_trade_pnl": 0.0020205336929533116
+    },
+    "AGNC": {
+      "symbol": "AGNC",
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "total_return": 0.022751593652456794,
+      "sharpe_ratio": 5.7758809716667985,
+      "max_drawdown": 0.007285089849441466,
+      "win_rate": 0.9902912621359223,
+      "profit_factor": 58.14087469067891,
+      "num_trades": 103,
+      "avg_trade_pnl": 0.0010922671451755778
+    },
+    "MARA": {
+      "symbol": "MARA",
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "total_return": 0.059946998164539106,
+      "sharpe_ratio": 5.797624333827154,
+      "max_drawdown": 0.013319609614235265,
+      "win_rate": 0.9885057471264368,
+      "profit_factor": 3.8708451621295863,
+      "num_trades": 174,
+      "avg_trade_pnl": 0.003353862381795274
+    },
+    "SOUN": {
+      "symbol": "SOUN",
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 0.75,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "total_return": 0.13238501160886212,
+      "sharpe_ratio": 6.611728934294443,
+      "max_drawdown": 0.02069982081420919,
+      "win_rate": 0.9616519174041298,
+      "profit_factor": 1.9207881587443922,
+      "num_trades": 339,
+      "avg_trade_pnl": 0.001847361323835538
+    },
+    "QUBT": {
+      "symbol": "QUBT",
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "total_return": 0.14854465573756695,
+      "sharpe_ratio": 5.9371379654336485,
+      "max_drawdown": 0.01898064165204675,
+      "win_rate": 0.9741379310344828,
+      "profit_factor": 2.901217646438841,
+      "num_trades": 232,
+      "avg_trade_pnl": 0.002999854420196844
+    },
+    "CLSK": {
+      "symbol": "CLSK",
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.05
+      },
+      "total_return": 0.09771938764341802,
+      "sharpe_ratio": 4.296596209647246,
+      "max_drawdown": 0.04698920107802873,
+      "win_rate": 0.9435483870967742,
+      "profit_factor": 1.5493682365077164,
+      "num_trades": 248,
+      "avg_trade_pnl": 0.0025423362359868256
+    },
+    "CLF": {
+      "symbol": "CLF",
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.08
+      },
+      "total_return": 0.050158617601466685,
+      "sharpe_ratio": 8.437934395703598,
+      "max_drawdown": 0.007642139912253096,
+      "win_rate": 0.9517241379310345,
+      "profit_factor": 2.0769223728056403,
+      "num_trades": 290,
+      "avg_trade_pnl": 0.0016916142585000858
+    },
+    "WULF": {
+      "symbol": "WULF",
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "total_return": 0.030020320648758935,
+      "sharpe_ratio": 1.5223806650378684,
+      "max_drawdown": 0.040209904406520024,
+      "win_rate": 0.9354838709677419,
+      "profit_factor": 1.2539402224914393,
+      "num_trades": 124,
+      "avg_trade_pnl": 0.0016508331945094222
+    },
+    "RIOT": {
+      "symbol": "RIOT",
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.75,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "total_return": 0.11620048441617109,
+      "sharpe_ratio": 6.985075715701851,
+      "max_drawdown": 0.034664430351763496,
+      "win_rate": 0.9837662337662337,
+      "profit_factor": 2.6838393971788643,
+      "num_trades": 308,
+      "avg_trade_pnl": 0.0023919613609220285
+    },
+    "TLRY": {
+      "symbol": "TLRY",
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "total_return": 0.14674830471023118,
+      "sharpe_ratio": 8.304252632102394,
+      "max_drawdown": 0.034491630932760274,
+      "win_rate": 0.8849557522123894,
+      "profit_factor": 1.744208087450721,
+      "num_trades": 339,
+      "avg_trade_pnl": 0.004065269501583719
+    },
+    "AI": {
+      "symbol": "AI",
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "total_return": 0.0697989616044599,
+      "sharpe_ratio": 11.426144841989865,
+      "max_drawdown": 0.008551313642708978,
+      "win_rate": 0.9568965517241379,
+      "profit_factor": 3.1996009409521733,
+      "num_trades": 232,
+      "avg_trade_pnl": 0.002912534151718552
+    },
+    "CIFR": {
+      "symbol": "CIFR",
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "total_return": 0.1022366911857795,
+      "sharpe_ratio": 5.722525034534944,
+      "max_drawdown": 0.021206226244148068,
+      "win_rate": 0.9654255319148937,
+      "profit_factor": 1.9249087833405403,
+      "num_trades": 376,
+      "avg_trade_pnl": 0.002603417018886421
+    },
+    "NLY": {
+      "symbol": "NLY",
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "total_return": 0.02689297854735429,
+      "sharpe_ratio": 8.293922938940808,
+      "max_drawdown": 0.0060661138248323965,
+      "win_rate": 0.9849624060150376,
+      "profit_factor": 3.179318921610819,
+      "num_trades": 133,
+      "avg_trade_pnl": 0.000999443427807571
+    },
+    "GME": {
+      "symbol": "GME",
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.08
+      },
+      "total_return": 0.05417651530344825,
+      "sharpe_ratio": 6.396760674607364,
+      "max_drawdown": 0.011348038154470781,
+      "win_rate": 0.9679144385026738,
+      "profit_factor": 2.748042098357772,
+      "num_trades": 187,
+      "avg_trade_pnl": 0.0018858410003351404
+    },
+    "RGTI": {
+      "symbol": "RGTI",
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "total_return": 0.05796302507228014,
+      "sharpe_ratio": 2.4418009010571424,
+      "max_drawdown": 0.039310626267156874,
+      "win_rate": 0.9746192893401016,
+      "profit_factor": 1.5720511044195753,
+      "num_trades": 197,
+      "avg_trade_pnl": 0.0014571146239238267
+    }
+  },
+  "all_trials": [
+    {
+      "trial": 0,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.10440762179689496,
+      "sharpe": 3.7710291012964023,
+      "trades": 119
+    },
+    {
+      "trial": 1,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": 0.26235673523321473,
+      "sharpe": 8.663374929454355,
+      "trades": 214
+    },
+    {
+      "trial": 2,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.07,
+        "take_profit": 0.08
+      },
+      "return": 0.24899323424141373,
+      "sharpe": 9.173865175161,
+      "trades": 137
+    },
+    {
+      "trial": 3,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.1156572106781567,
+      "sharpe": 8.197353174898483,
+      "trades": 166
+    },
+    {
+      "trial": 4,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.2
+      },
+      "return": 0.0641715941334133,
+      "sharpe": 3.1284178317044864,
+      "trades": 60
+    },
+    {
+      "trial": 5,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.15750561907471086,
+      "sharpe": 5.581487678761249,
+      "trades": 147
+    },
+    {
+      "trial": 6,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.1
+      },
+      "return": 0.12436924094537986,
+      "sharpe": 9.309421136896885,
+      "trades": 174
+    },
+    {
+      "trial": 7,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.2,
+        "stop_loss": 0.1,
+        "take_profit": 0.15
+      },
+      "return": 0.2236474613418398,
+      "sharpe": 7.785142228148782,
+      "trades": 145
+    },
+    {
+      "trial": 8,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.13182455907748372,
+      "sharpe": 11.455711835147927,
+      "trades": 197
+    },
+    {
+      "trial": 9,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.34842911245029273,
+      "sharpe": 12.026780006230767,
+      "trades": 224
+    },
+    {
+      "trial": 10,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": 0.1301878613333775,
+      "sharpe": 8.474560378581641,
+      "trades": 251
+    },
+    {
+      "trial": 11,
+      "config": {
+        "q": 0.0005,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.09591880994000297,
+      "sharpe": 6.949183196418039,
+      "trades": 121
+    },
+    {
+      "trial": 12,
+      "config": {
+        "q": 5e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.06728983354006661,
+      "sharpe": 4.652806320541268,
+      "trades": 70
+    },
+    {
+      "trial": 13,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.15
+      },
+      "return": 0.2536506847189606,
+      "sharpe": 9.142951321961052,
+      "trades": 176
+    },
+    {
+      "trial": 14,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.16843114201497011,
+      "sharpe": 12.354336777590621,
+      "trades": 285
+    },
+    {
+      "trial": 15,
+      "config": {
+        "q": 0.0001,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.1
+      },
+      "return": 0.13397892590725183,
+      "sharpe": 4.647896767940192,
+      "trades": 77
+    },
+    {
+      "trial": 16,
+      "config": {
+        "q": 0.0001,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.09428387755472926,
+      "sharpe": 6.870470271027648,
+      "trades": 224
+    },
+    {
+      "trial": 17,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.75,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.09025149904502643,
+      "sharpe": 4.110336674773531,
+      "trades": 217
+    },
+    {
+      "trial": 18,
+      "config": {
+        "q": 0.001,
+        "r": 0.01,
+        "z_entry": 0.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.09540128193554177,
+      "sharpe": 6.404517901739236,
+      "trades": 220
+    },
+    {
+      "trial": 19,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.34270670827702765,
+      "sharpe": 11.382666628269703,
+      "trades": 357
+    },
+    {
+      "trial": 20,
+      "config": {
+        "q": 0.001,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.14695912393489446,
+      "sharpe": 10.269393582218665,
+      "trades": 218
+    },
+    {
+      "trial": 21,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.15
+      },
+      "return": 0.15123847327960596,
+      "sharpe": 6.541309791470946,
+      "trades": 238
+    },
+    {
+      "trial": 22,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.2736865586050255,
+      "sharpe": 10.154294488168693,
+      "trades": 145
+    },
+    {
+      "trial": 23,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.08
+      },
+      "return": 0.25523487840059084,
+      "sharpe": 11.000308618116254,
+      "trades": 366
+    },
+    {
+      "trial": 24,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.05
+      },
+      "return": 0.27143366072938063,
+      "sharpe": 10.216016458595938,
+      "trades": 179
+    },
+    {
+      "trial": 25,
+      "config": {
+        "q": 5e-05,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.17569010564630125,
+      "sharpe": 6.011096640759112,
+      "trades": 150
+    },
+    {
+      "trial": 26,
+      "config": {
+        "q": 5e-05,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.1,
+        "take_profit": 0.1
+      },
+      "return": 0.10584649171974175,
+      "sharpe": 7.076479109040619,
+      "trades": 121
+    },
+    {
+      "trial": 27,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0001,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.19051032867050555,
+      "sharpe": 14.689579116518138,
+      "trades": 296
+    },
+    {
+      "trial": 28,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.07,
+        "take_profit": 0.05
+      },
+      "return": 0.24899323424141373,
+      "sharpe": 9.173865175161,
+      "trades": 137
+    },
+    {
+      "trial": 29,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": -0.004258418182311288,
+      "sharpe": -0.11541647496770126,
+      "trades": 71
+    },
+    {
+      "trial": 30,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.05
+      },
+      "return": 0.12070193390132933,
+      "sharpe": 5.352174040193687,
+      "trades": 163
+    },
+    {
+      "trial": 31,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.08
+      },
+      "return": 0.21012082368747026,
+      "sharpe": 13.694456886146039,
+      "trades": 483
+    },
+    {
+      "trial": 32,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.23759552736956363,
+      "sharpe": 7.355601383561349,
+      "trades": 265
+    },
+    {
+      "trial": 33,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.1,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.1173141788956632,
+      "sharpe": 8.292734238335045,
+      "trades": 211
+    },
+    {
+      "trial": 34,
+      "config": {
+        "q": 1e-05,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.15
+      },
+      "return": 0.07524081386665304,
+      "sharpe": 5.31026709628629,
+      "trades": 135
+    },
+    {
+      "trial": 35,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.1721330973108884,
+      "sharpe": 8.410452453301419,
+      "trades": 158
+    },
+    {
+      "trial": 36,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.08069338657110871,
+      "sharpe": 3.901316210722631,
+      "trades": 73
+    },
+    {
+      "trial": 37,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 0.75,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.13291089095546718,
+      "sharpe": 4.626717872852608,
+      "trades": 252
+    },
+    {
+      "trial": 38,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 0.75,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.05
+      },
+      "return": 0.15242688440903118,
+      "sharpe": 5.286277733328397,
+      "trades": 283
+    },
+    {
+      "trial": 39,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": 0.21328563110812362,
+      "sharpe": 6.891161935220653,
+      "trades": 149
+    },
+    {
+      "trial": 40,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.07882939035122749,
+      "sharpe": 5.651978271445337,
+      "trades": 110
+    },
+    {
+      "trial": 41,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.1,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.2185286419684942,
+      "sharpe": 7.313143945775865,
+      "trades": 162
+    },
+    {
+      "trial": 42,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 0.75,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.08
+      },
+      "return": 0.1766375353854733,
+      "sharpe": 7.668167895411223,
+      "trades": 230
+    },
+    {
+      "trial": 43,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.16163436027896722,
+      "sharpe": 14.576937099420828,
+      "trades": 247
+    },
+    {
+      "trial": 44,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.230240665522293,
+      "sharpe": 9.587897954904589,
+      "trades": 178
+    },
+    {
+      "trial": 45,
+      "config": {
+        "q": 0.001,
+        "r": 0.01,
+        "z_entry": 0.75,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.19238985894102195,
+      "sharpe": 13.542317303748012,
+      "trades": 353
+    },
+    {
+      "trial": 46,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.08576596058718482,
+      "sharpe": 5.956526770302333,
+      "trades": 166
+    },
+    {
+      "trial": 47,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.1776724863506426,
+      "sharpe": 12.18980468320253,
+      "trades": 335
+    },
+    {
+      "trial": 48,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.09075268070054691,
+      "sharpe": 6.127493799264985,
+      "trades": 216
+    },
+    {
+      "trial": 49,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.25,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.13080347647421353,
+      "sharpe": 10.337618547869052,
+      "trades": 213
+    },
+    {
+      "trial": 0,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.6066414859952105,
+      "sharpe": 20.590279730757608,
+      "trades": 109
+    },
+    {
+      "trial": 1,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": 0.8727270170604982,
+      "sharpe": 27.08109993362822,
+      "trades": 217
+    },
+    {
+      "trial": 2,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.07,
+        "take_profit": 0.08
+      },
+      "return": 0.7656560675134987,
+      "sharpe": 29.65245018746789,
+      "trades": 151
+    },
+    {
+      "trial": 3,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.37834752504943286,
+      "sharpe": 28.29847128594018,
+      "trades": 190
+    },
+    {
+      "trial": 4,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.2
+      },
+      "return": 0.32396359643157574,
+      "sharpe": 16.87952490162638,
+      "trades": 91
+    },
+    {
+      "trial": 5,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.6022966929629873,
+      "sharpe": 20.86135824404259,
+      "trades": 121
+    },
+    {
+      "trial": 6,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.1
+      },
+      "return": 0.3371956341749293,
+      "sharpe": 27.18965807844698,
+      "trades": 153
+    },
+    {
+      "trial": 7,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.2,
+        "stop_loss": 0.1,
+        "take_profit": 0.15
+      },
+      "return": 0.7436728949455643,
+      "sharpe": 26.286655491577907,
+      "trades": 172
+    },
+    {
+      "trial": 8,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.29938451950247996,
+      "sharpe": 26.92122087135709,
+      "trades": 145
+    },
+    {
+      "trial": 9,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.8549507999312161,
+      "sharpe": 29.937531770935784,
+      "trades": 186
+    },
+    {
+      "trial": 10,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": 0.40720802518005017,
+      "sharpe": 25.589499403231407,
+      "trades": 264
+    },
+    {
+      "trial": 11,
+      "config": {
+        "q": 0.0005,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.3096189724685166,
+      "sharpe": 22.4742083288788,
+      "trades": 159
+    },
+    {
+      "trial": 12,
+      "config": {
+        "q": 5e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.23063985214674976,
+      "sharpe": 17.645455516942896,
+      "trades": 107
+    },
+    {
+      "trial": 13,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.15
+      },
+      "return": 0.7698058756005546,
+      "sharpe": 26.952748039730857,
+      "trades": 155
+    },
+    {
+      "trial": 14,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.4262474080233008,
+      "sharpe": 31.227404806958603,
+      "trades": 224
+    },
+    {
+      "trial": 15,
+      "config": {
+        "q": 0.0001,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.1
+      },
+      "return": 0.581066113151458,
+      "sharpe": 20.111348390107732,
+      "trades": 122
+    },
+    {
+      "trial": 16,
+      "config": {
+        "q": 0.0001,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.40171160935803785,
+      "sharpe": 29.53633142646418,
+      "trades": 182
+    },
+    {
+      "trial": 17,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.75,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.3602569520303304,
+      "sharpe": 15.455400957365963,
+      "trades": 198
+    },
+    {
+      "trial": 18,
+      "config": {
+        "q": 0.001,
+        "r": 0.01,
+        "z_entry": 0.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.3726540262206702,
+      "sharpe": 23.457803699273835,
+      "trades": 187
+    },
+    {
+      "trial": 19,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.9936690116750656,
+      "sharpe": 30.602122630433794,
+      "trades": 283
+    },
+    {
+      "trial": 20,
+      "config": {
+        "q": 0.001,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.4120868892314614,
+      "sharpe": 29.94833721371622,
+      "trades": 206
+    },
+    {
+      "trial": 21,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.15
+      },
+      "return": 0.5898611599261369,
+      "sharpe": 22.650743813128187,
+      "trades": 205
+    },
+    {
+      "trial": 22,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.45291532257754674,
+      "sharpe": 17.978052485078905,
+      "trades": 112
+    },
+    {
+      "trial": 23,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.08
+      },
+      "return": 1.016066617936279,
+      "sharpe": 36.17458917135049,
+      "trades": 356
+    },
+    {
+      "trial": 24,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.05
+      },
+      "return": 0.761290632907894,
+      "sharpe": 29.380619223105477,
+      "trades": 152
+    },
+    {
+      "trial": 25,
+      "config": {
+        "q": 5e-05,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.7570347145945716,
+      "sharpe": 23.432092445846482,
+      "trades": 140
+    },
+    {
+      "trial": 26,
+      "config": {
+        "q": 5e-05,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.1,
+        "take_profit": 0.1
+      },
+      "return": 0.2780411235347149,
+      "sharpe": 18.770915904953778,
+      "trades": 122
+    },
+    {
+      "trial": 27,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0001,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.41066057838625536,
+      "sharpe": 31.242224516188063,
+      "trades": 229
+    },
+    {
+      "trial": 28,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.07,
+        "take_profit": 0.05
+      },
+      "return": 0.7656560675134987,
+      "sharpe": 29.65245018746789,
+      "trades": 151
+    },
+    {
+      "trial": 29,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.4435571520962598,
+      "sharpe": 19.349057349289897,
+      "trades": 116
+    },
+    {
+      "trial": 30,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.05
+      },
+      "return": 0.612906430539054,
+      "sharpe": 24.000719128746194,
+      "trades": 162
+    },
+    {
+      "trial": 31,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.08
+      },
+      "return": 0.5535710025015884,
+      "sharpe": 34.01153830629734,
+      "trades": 454
+    },
+    {
+      "trial": 32,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.7649264381989703,
+      "sharpe": 20.65808289469647,
+      "trades": 246
+    },
+    {
+      "trial": 33,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.1,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.3976168506280309,
+      "sharpe": 28.395884638307333,
+      "trades": 227
+    },
+    {
+      "trial": 34,
+      "config": {
+        "q": 1e-05,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.15
+      },
+      "return": 0.2689139702782109,
+      "sharpe": 18.98426209626562,
+      "trades": 122
+    },
+    {
+      "trial": 35,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.5515572498166177,
+      "sharpe": 27.89377134896179,
+      "trades": 149
+    },
+    {
+      "trial": 36,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.3479215242832911,
+      "sharpe": 19.134099244880364,
+      "trades": 113
+    },
+    {
+      "trial": 37,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 0.75,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 1.2240810217272915,
+      "sharpe": 31.999395254489396,
+      "trades": 273
+    },
+    {
+      "trial": 38,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 0.75,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.05
+      },
+      "return": 1.207877818794387,
+      "sharpe": 31.869642392749135,
+      "trades": 275
+    },
+    {
+      "trial": 39,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": 0.9727577902489438,
+      "sharpe": 27.025218853203835,
+      "trades": 180
+    },
+    {
+      "trial": 40,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.33951554454029365,
+      "sharpe": 27.502869057844926,
+      "trades": 176
+    },
+    {
+      "trial": 41,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.1,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.7653777458403193,
+      "sharpe": 23.54876447688925,
+      "trades": 132
+    },
+    {
+      "trial": 42,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 0.75,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.08
+      },
+      "return": 0.5729184724158756,
+      "sharpe": 23.645130878285052,
+      "trades": 241
+    },
+    {
+      "trial": 43,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.277430811505413,
+      "sharpe": 26.309804082755953,
+      "trades": 167
+    },
+    {
+      "trial": 44,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.6323058420616577,
+      "sharpe": 25.244072670942906,
+      "trades": 125
+    },
+    {
+      "trial": 45,
+      "config": {
+        "q": 0.001,
+        "r": 0.01,
+        "z_entry": 0.75,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.4848942899507066,
+      "sharpe": 33.598044183611165,
+      "trades": 293
+    },
+    {
+      "trial": 46,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.2741074578663806,
+      "sharpe": 18.527761752004814,
+      "trades": 134
+    },
+    {
+      "trial": 47,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.5101336982380182,
+      "sharpe": 33.93058306720439,
+      "trades": 283
+    },
+    {
+      "trial": 48,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.3687676386474693,
+      "sharpe": 24.03198363723761,
+      "trades": 209
+    },
+    {
+      "trial": 49,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.25,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.33023287038287874,
+      "sharpe": 27.532450496209655,
+      "trades": 159
+    },
+    {
+      "trial": 0,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.28262545429585517,
+      "sharpe": 17.84460439788051,
+      "trades": 90
+    },
+    {
+      "trial": 1,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": 0.28983544816678053,
+      "sharpe": 16.869305127199564,
+      "trades": 157
+    },
+    {
+      "trial": 2,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.07,
+        "take_profit": 0.08
+      },
+      "return": 0.29741797901421874,
+      "sharpe": 18.660306201689245,
+      "trades": 125
+    },
+    {
+      "trial": 3,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.12200005254520817,
+      "sharpe": 15.314521472014944,
+      "trades": 128
+    },
+    {
+      "trial": 4,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.2
+      },
+      "return": 0.1781390308299969,
+      "sharpe": 15.803822627843292,
+      "trades": 72
+    },
+    {
+      "trial": 5,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.2829896055079585,
+      "sharpe": 18.026094181499285,
+      "trades": 99
+    },
+    {
+      "trial": 6,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.1
+      },
+      "return": 0.15045027401264408,
+      "sharpe": 19.125015854604854,
+      "trades": 118
+    },
+    {
+      "trial": 7,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.2,
+        "stop_loss": 0.1,
+        "take_profit": 0.15
+      },
+      "return": 0.2736455384375536,
+      "sharpe": 16.735531709135348,
+      "trades": 127
+    },
+    {
+      "trial": 8,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.14536604347434726,
+      "sharpe": 19.878125455997527,
+      "trades": 125
+    },
+    {
+      "trial": 9,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.3411454311087602,
+      "sharpe": 20.991057970712582,
+      "trades": 158
+    },
+    {
+      "trial": 10,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": 0.06428755553975861,
+      "sharpe": 7.676419613168127,
+      "trades": 121
+    },
+    {
+      "trial": 11,
+      "config": {
+        "q": 0.0005,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.14587291221590304,
+      "sharpe": 17.783848354786144,
+      "trades": 105
+    },
+    {
+      "trial": 12,
+      "config": {
+        "q": 5e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.13849180872307523,
+      "sharpe": 18.098267149564176,
+      "trades": 80
+    },
+    {
+      "trial": 13,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.15
+      },
+      "return": 0.30928593646166785,
+      "sharpe": 18.509030843182153,
+      "trades": 119
+    },
+    {
+      "trial": 14,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.17009132294085183,
+      "sharpe": 21.48729402544272,
+      "trades": 163
+    },
+    {
+      "trial": 15,
+      "config": {
+        "q": 0.0001,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.1
+      },
+      "return": 0.32986793283759386,
+      "sharpe": 19.204043601694156,
+      "trades": 88
+    },
+    {
+      "trial": 16,
+      "config": {
+        "q": 0.0001,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.14836419755080163,
+      "sharpe": 18.738484836636143,
+      "trades": 137
+    },
+    {
+      "trial": 17,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.75,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.11981312294467236,
+      "sharpe": 9.305765656221016,
+      "trades": 113
+    },
+    {
+      "trial": 18,
+      "config": {
+        "q": 0.001,
+        "r": 0.01,
+        "z_entry": 0.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.09775749543037061,
+      "sharpe": 11.348115446758651,
+      "trades": 135
+    },
+    {
+      "trial": 19,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.3409139274538631,
+      "sharpe": 20.671970626327838,
+      "trades": 205
+    },
+    {
+      "trial": 20,
+      "config": {
+        "q": 0.001,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.15486429197117585,
+      "sharpe": 19.09657238855678,
+      "trades": 156
+    },
+    {
+      "trial": 21,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.15
+      },
+      "return": 0.13667668181347967,
+      "sharpe": 10.351471388882342,
+      "trades": 131
+    },
+    {
+      "trial": 22,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.14368095852855622,
+      "sharpe": 9.279224323135137,
+      "trades": 89
+    },
+    {
+      "trial": 23,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.08
+      },
+      "return": 0.3021304034862609,
+      "sharpe": 22.35356800708798,
+      "trades": 234
+    },
+    {
+      "trial": 24,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.05
+      },
+      "return": 0.32198586759944564,
+      "sharpe": 20.12570290346211,
+      "trades": 132
+    },
+    {
+      "trial": 25,
+      "config": {
+        "q": 5e-05,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.2997083819941472,
+      "sharpe": 17.904319786959743,
+      "trades": 113
+    },
+    {
+      "trial": 26,
+      "config": {
+        "q": 5e-05,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.1,
+        "take_profit": 0.1
+      },
+      "return": 0.15965098764760943,
+      "sharpe": 18.873936179212265,
+      "trades": 108
+    },
+    {
+      "trial": 27,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0001,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.15980491248434017,
+      "sharpe": 20.38041974583938,
+      "trades": 164
+    },
+    {
+      "trial": 28,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.07,
+        "take_profit": 0.05
+      },
+      "return": 0.29741797901421874,
+      "sharpe": 18.660306201689245,
+      "trades": 125
+    },
+    {
+      "trial": 29,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.20601666791900627,
+      "sharpe": 16.22508334438101,
+      "trades": 94
+    },
+    {
+      "trial": 30,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.05
+      },
+      "return": 0.20607496588421215,
+      "sharpe": 15.49085425420175,
+      "trades": 144
+    },
+    {
+      "trial": 31,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.08
+      },
+      "return": 0.1873064357786758,
+      "sharpe": 21.382300297965948,
+      "trades": 296
+    },
+    {
+      "trial": 32,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.18853122528243868,
+      "sharpe": 10.429854713105096,
+      "trades": 158
+    },
+    {
+      "trial": 33,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.1,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.13788679212006957,
+      "sharpe": 17.1965380599374,
+      "trades": 150
+    },
+    {
+      "trial": 34,
+      "config": {
+        "q": 1e-05,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.15
+      },
+      "return": 0.14873065350312434,
+      "sharpe": 18.13655642803523,
+      "trades": 105
+    },
+    {
+      "trial": 35,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.2172698630152302,
+      "sharpe": 18.037762190554762,
+      "trades": 113
+    },
+    {
+      "trial": 36,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.19833712590902577,
+      "sharpe": 16.521525766981775,
+      "trades": 90
+    },
+    {
+      "trial": 37,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 0.75,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.40384912194574046,
+      "sharpe": 21.96871872716485,
+      "trades": 225
+    },
+    {
+      "trial": 38,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 0.75,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.05
+      },
+      "return": 0.41641597884514603,
+      "sharpe": 22.791945660387384,
+      "trades": 240
+    },
+    {
+      "trial": 39,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": 0.3009600911253226,
+      "sharpe": 17.153506108929488,
+      "trades": 136
+    },
+    {
+      "trial": 40,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.12815624350073412,
+      "sharpe": 16.622222344283337,
+      "trades": 124
+    },
+    {
+      "trial": 41,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.1,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.28771394941413836,
+      "sharpe": 16.502959880294334,
+      "trades": 112
+    },
+    {
+      "trial": 42,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 0.75,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.08
+      },
+      "return": 0.23656174593644552,
+      "sharpe": 17.97864533091906,
+      "trades": 201
+    },
+    {
+      "trial": 43,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.1541202921186667,
+      "sharpe": 21.513849516427406,
+      "trades": 148
+    },
+    {
+      "trial": 44,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.2932732311406991,
+      "sharpe": 18.706350789198144,
+      "trades": 113
+    },
+    {
+      "trial": 45,
+      "config": {
+        "q": 0.001,
+        "r": 0.01,
+        "z_entry": 0.75,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.17454274843034845,
+      "sharpe": 21.25780137881361,
+      "trades": 205
+    },
+    {
+      "trial": 46,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.1534447629606207,
+      "sharpe": 18.321544086466297,
+      "trades": 128
+    },
+    {
+      "trial": 47,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.18374540844951945,
+      "sharpe": 22.158900603846988,
+      "trades": 204
+    },
+    {
+      "trial": 48,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.08991343364208558,
+      "sharpe": 10.51585947724328,
+      "trades": 135
+    },
+    {
+      "trial": 49,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.25,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.13892193818653484,
+      "sharpe": 18.30471558352761,
+      "trades": 126
+    },
+    {
+      "trial": 0,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.21910938866250698,
+      "sharpe": 7.229219604659928,
+      "trades": 135
+    },
+    {
+      "trial": 1,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": 0.17538759728119593,
+      "sharpe": 5.6661123657905,
+      "trades": 239
+    },
+    {
+      "trial": 2,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.07,
+        "take_profit": 0.08
+      },
+      "return": 0.27154070505390077,
+      "sharpe": 9.831060853304908,
+      "trades": 206
+    },
+    {
+      "trial": 3,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.11242859963800816,
+      "sharpe": 7.420968177269859,
+      "trades": 215
+    },
+    {
+      "trial": 4,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.2
+      },
+      "return": 0.16855183489207323,
+      "sharpe": 7.681695256669393,
+      "trades": 106
+    },
+    {
+      "trial": 5,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.2183276343595369,
+      "sharpe": 7.304944452968953,
+      "trades": 163
+    },
+    {
+      "trial": 6,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.1
+      },
+      "return": 0.14105794223725387,
+      "sharpe": 10.361769771038844,
+      "trades": 199
+    },
+    {
+      "trial": 7,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.2,
+        "stop_loss": 0.1,
+        "take_profit": 0.15
+      },
+      "return": 0.22258405066718362,
+      "sharpe": 7.128957234729192,
+      "trades": 213
+    },
+    {
+      "trial": 8,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.13006249899329153,
+      "sharpe": 10.833192649918244,
+      "trades": 216
+    },
+    {
+      "trial": 9,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.24863572709664047,
+      "sharpe": 8.340860262928233,
+      "trades": 263
+    },
+    {
+      "trial": 10,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": 0.2047359447336616,
+      "sharpe": 11.561372246042897,
+      "trades": 340
+    },
+    {
+      "trial": 11,
+      "config": {
+        "q": 0.0005,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.15154160737606565,
+      "sharpe": 10.013171059922692,
+      "trades": 186
+    },
+    {
+      "trial": 12,
+      "config": {
+        "q": 5e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.11651024311454501,
+      "sharpe": 7.752257614570004,
+      "trades": 123
+    },
+    {
+      "trial": 13,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.15
+      },
+      "return": 0.3029492333691512,
+      "sharpe": 10.585799886579387,
+      "trades": 213
+    },
+    {
+      "trial": 14,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.16923731707716463,
+      "sharpe": 11.361516075608803,
+      "trades": 336
+    },
+    {
+      "trial": 15,
+      "config": {
+        "q": 0.0001,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.1
+      },
+      "return": 0.27175259121972745,
+      "sharpe": 8.768290654848904,
+      "trades": 142
+    },
+    {
+      "trial": 16,
+      "config": {
+        "q": 0.0001,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.17539551553627739,
+      "sharpe": 12.080110059219994,
+      "trades": 275
+    },
+    {
+      "trial": 17,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.75,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.130293525422752,
+      "sharpe": 5.308678127948491,
+      "trades": 227
+    },
+    {
+      "trial": 18,
+      "config": {
+        "q": 0.001,
+        "r": 0.01,
+        "z_entry": 0.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.09611430091551768,
+      "sharpe": 5.633306759291452,
+      "trades": 174
+    },
+    {
+      "trial": 19,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.31663945464227056,
+      "sharpe": 10.052922900001283,
+      "trades": 371
+    },
+    {
+      "trial": 20,
+      "config": {
+        "q": 0.001,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.1442231856530055,
+      "sharpe": 9.43409100310349,
+      "trades": 262
+    },
+    {
+      "trial": 21,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.15
+      },
+      "return": 0.16801668891688853,
+      "sharpe": 6.339596482951523,
+      "trades": 234
+    },
+    {
+      "trial": 22,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.23328239831316924,
+      "sharpe": 8.123729028955259,
+      "trades": 202
+    },
+    {
+      "trial": 23,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.08
+      },
+      "return": 0.3427942607589238,
+      "sharpe": 12.878818382021853,
+      "trades": 397
+    },
+    {
+      "trial": 24,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.05
+      },
+      "return": 0.23679875933874922,
+      "sharpe": 8.692686742996457,
+      "trades": 210
+    },
+    {
+      "trial": 25,
+      "config": {
+        "q": 5e-05,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.2762873733844687,
+      "sharpe": 8.551782925452903,
+      "trades": 187
+    },
+    {
+      "trial": 26,
+      "config": {
+        "q": 5e-05,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.1,
+        "take_profit": 0.1
+      },
+      "return": 0.14364047116620043,
+      "sharpe": 8.865293876893423,
+      "trades": 186
+    },
+    {
+      "trial": 27,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0001,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.17042239614887977,
+      "sharpe": 11.537733423665896,
+      "trades": 343
+    },
+    {
+      "trial": 28,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.07,
+        "take_profit": 0.05
+      },
+      "return": 0.27154070505390077,
+      "sharpe": 9.831060853304908,
+      "trades": 206
+    },
+    {
+      "trial": 29,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.21135099353548314,
+      "sharpe": 8.712838126589446,
+      "trades": 150
+    },
+    {
+      "trial": 30,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.05
+      },
+      "return": 0.19455651136869986,
+      "sharpe": 7.702391376518456,
+      "trades": 195
+    },
+    {
+      "trial": 31,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.08
+      },
+      "return": 0.212784687715248,
+      "sharpe": 12.15242858523711,
+      "trades": 554
+    },
+    {
+      "trial": 32,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.2777080969826851,
+      "sharpe": 7.5887926753346004,
+      "trades": 288
+    },
+    {
+      "trial": 33,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.1,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.13158234679753456,
+      "sharpe": 8.569732911463637,
+      "trades": 284
+    },
+    {
+      "trial": 34,
+      "config": {
+        "q": 1e-05,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.15
+      },
+      "return": 0.11331906387112263,
+      "sharpe": 7.3403957966446525,
+      "trades": 155
+    },
+    {
+      "trial": 35,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.2094170480751882,
+      "sharpe": 10.224392439178631,
+      "trades": 190
+    },
+    {
+      "trial": 36,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.15599214979875964,
+      "sharpe": 7.865870180171126,
+      "trades": 139
+    },
+    {
+      "trial": 37,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 0.75,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.2286126307269391,
+      "sharpe": 6.855101192309441,
+      "trades": 303
+    },
+    {
+      "trial": 38,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 0.75,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.05
+      },
+      "return": 0.28367236488490205,
+      "sharpe": 8.380909236687101,
+      "trades": 311
+    },
+    {
+      "trial": 39,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": 0.380979934571895,
+      "sharpe": 11.20316787100781,
+      "trades": 216
+    },
+    {
+      "trial": 40,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.10661940267175843,
+      "sharpe": 7.1090477786041975,
+      "trades": 201
+    },
+    {
+      "trial": 41,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.1,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.25872872352639403,
+      "sharpe": 8.166816320395714,
+      "trades": 196
+    },
+    {
+      "trial": 42,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 0.75,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.08
+      },
+      "return": 0.24804224578243694,
+      "sharpe": 9.832156278882614,
+      "trades": 267
+    },
+    {
+      "trial": 43,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.10195925058927983,
+      "sharpe": 8.018802354585345,
+      "trades": 266
+    },
+    {
+      "trial": 44,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.2121685288210628,
+      "sharpe": 8.602558221293567,
+      "trades": 181
+    },
+    {
+      "trial": 45,
+      "config": {
+        "q": 0.001,
+        "r": 0.01,
+        "z_entry": 0.75,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.2110362111040439,
+      "sharpe": 13.348714071061774,
+      "trades": 414
+    },
+    {
+      "trial": 46,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.13587346495859484,
+      "sharpe": 8.661494658644783,
+      "trades": 206
+    },
+    {
+      "trial": 47,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.2209995213075196,
+      "sharpe": 13.782626649106476,
+      "trades": 401
+    },
+    {
+      "trial": 48,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.09869775377851096,
+      "sharpe": 5.788251618396064,
+      "trades": 182
+    },
+    {
+      "trial": 49,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.25,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.1489543101322271,
+      "sharpe": 11.951194837157407,
+      "trades": 243
+    },
+    {
+      "trial": 0,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.084347685069711,
+      "sharpe": 5.643493910796836,
+      "trades": 104
+    },
+    {
+      "trial": 1,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": 0.024702158331942774,
+      "sharpe": 1.646111171685619,
+      "trades": 106
+    },
+    {
+      "trial": 2,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.07,
+        "take_profit": 0.08
+      },
+      "return": 0.03934486561506958,
+      "sharpe": 2.7707607621009864,
+      "trades": 105
+    },
+    {
+      "trial": 3,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.02216771593743615,
+      "sharpe": 2.9227739761116185,
+      "trades": 105
+    },
+    {
+      "trial": 4,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.2
+      },
+      "return": 0.046215933082470295,
+      "sharpe": 4.267811097260173,
+      "trades": 86
+    },
+    {
+      "trial": 5,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.0835285766738822,
+      "sharpe": 5.773214991661433,
+      "trades": 126
+    },
+    {
+      "trial": 6,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.1
+      },
+      "return": 0.03870908693354693,
+      "sharpe": 5.210272738908593,
+      "trades": 150
+    },
+    {
+      "trial": 7,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.2,
+        "stop_loss": 0.1,
+        "take_profit": 0.15
+      },
+      "return": 0.10554715367068886,
+      "sharpe": 6.793625603095924,
+      "trades": 179
+    },
+    {
+      "trial": 8,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.07614991786669445,
+      "sharpe": 11.797104492007602,
+      "trades": 186
+    },
+    {
+      "trial": 9,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.10947025829033707,
+      "sharpe": 7.197563307703093,
+      "trades": 192
+    },
+    {
+      "trial": 10,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": 0.020872425146017923,
+      "sharpe": 2.6568634891987535,
+      "trades": 114
+    },
+    {
+      "trial": 11,
+      "config": {
+        "q": 0.0005,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.020539335928089278,
+      "sharpe": 2.6387794736737673,
+      "trades": 85
+    },
+    {
+      "trial": 12,
+      "config": {
+        "q": 5e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.0025491776281184866,
+      "sharpe": 0.3649088804651617,
+      "trades": 53
+    },
+    {
+      "trial": 13,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.15
+      },
+      "return": 0.08741562619746487,
+      "sharpe": 5.878771077717807,
+      "trades": 165
+    },
+    {
+      "trial": 14,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.0802768815951825,
+      "sharpe": 10.523975387370777,
+      "trades": 220
+    },
+    {
+      "trial": 15,
+      "config": {
+        "q": 0.0001,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.1
+      },
+      "return": 0.005748909876407124,
+      "sharpe": 0.431948082817247,
+      "trades": 60
+    },
+    {
+      "trial": 16,
+      "config": {
+        "q": 0.0001,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.07171075208579655,
+      "sharpe": 9.596779502308639,
+      "trades": 209
+    },
+    {
+      "trial": 17,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.75,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.06074981305436493,
+      "sharpe": 5.007227674806238,
+      "trades": 167
+    },
+    {
+      "trial": 18,
+      "config": {
+        "q": 0.001,
+        "r": 0.01,
+        "z_entry": 0.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.009308115579769074,
+      "sharpe": 1.2042312692086483,
+      "trades": 87
+    },
+    {
+      "trial": 19,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.21892367126155907,
+      "sharpe": 13.613996558486043,
+      "trades": 351
+    },
+    {
+      "trial": 20,
+      "config": {
+        "q": 0.001,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.04610766484992579,
+      "sharpe": 6.000140847749788,
+      "trades": 190
+    },
+    {
+      "trial": 21,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.15
+      },
+      "return": 0.09348748658830082,
+      "sharpe": 7.4474155154714365,
+      "trades": 202
+    },
+    {
+      "trial": 22,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.08580028968083905,
+      "sharpe": 5.74025255127093,
+      "trades": 148
+    },
+    {
+      "trial": 23,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.08
+      },
+      "return": 0.11612762207764608,
+      "sharpe": 9.415812618669095,
+      "trades": 275
+    },
+    {
+      "trial": 24,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.05
+      },
+      "return": 0.08342042903552224,
+      "sharpe": 5.776487924233487,
+      "trades": 163
+    },
+    {
+      "trial": 25,
+      "config": {
+        "q": 5e-05,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.1089563785707837,
+      "sharpe": 6.999596089270301,
+      "trades": 138
+    },
+    {
+      "trial": 26,
+      "config": {
+        "q": 5e-05,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.1,
+        "take_profit": 0.1
+      },
+      "return": 0.018598060744178073,
+      "sharpe": 2.4301166082703425,
+      "trades": 91
+    },
+    {
+      "trial": 27,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0001,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.08774209360228152,
+      "sharpe": 11.679958711947219,
+      "trades": 240
+    },
+    {
+      "trial": 28,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.07,
+        "take_profit": 0.05
+      },
+      "return": 0.03934486561506958,
+      "sharpe": 2.7707607621009864,
+      "trades": 105
+    },
+    {
+      "trial": 29,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.08217326200247145,
+      "sharpe": 7.1772886200976,
+      "trades": 137
+    },
+    {
+      "trial": 30,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.05
+      },
+      "return": 0.09540880520725521,
+      "sharpe": 7.7361613770717454,
+      "trades": 178
+    },
+    {
+      "trial": 31,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.08
+      },
+      "return": 0.06453968934643547,
+      "sharpe": 7.9213889698477375,
+      "trades": 305
+    },
+    {
+      "trial": 32,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.04016229841593435,
+      "sharpe": 2.558937964800241,
+      "trades": 133
+    },
+    {
+      "trial": 33,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.1,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.003050319070933765,
+      "sharpe": 0.41852162093217404,
+      "trades": 88
+    },
+    {
+      "trial": 34,
+      "config": {
+        "q": 1e-05,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.15
+      },
+      "return": 0.028769705300519272,
+      "sharpe": 3.755922157847046,
+      "trades": 108
+    },
+    {
+      "trial": 35,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.07393251932752144,
+      "sharpe": 6.76399655610966,
+      "trades": 156
+    },
+    {
+      "trial": 36,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.062250930145208404,
+      "sharpe": 5.753451768225346,
+      "trades": 116
+    },
+    {
+      "trial": 37,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 0.75,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.1951182713412431,
+      "sharpe": 11.42670380846342,
+      "trades": 299
+    },
+    {
+      "trial": 38,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 0.75,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.05
+      },
+      "return": 0.18449900297951127,
+      "sharpe": 10.900795299338249,
+      "trades": 278
+    },
+    {
+      "trial": 39,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": 0.11913187243465087,
+      "sharpe": 7.280805479274024,
+      "trades": 167
+    },
+    {
+      "trial": 40,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.049418396802348,
+      "sharpe": 6.58575757728996,
+      "trades": 174
+    },
+    {
+      "trial": 41,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.1,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.13198346793376317,
+      "sharpe": 8.434451091218271,
+      "trades": 155
+    },
+    {
+      "trial": 42,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 0.75,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.08
+      },
+      "return": 0.04470417881948073,
+      "sharpe": 3.785609005989775,
+      "trades": 160
+    },
+    {
+      "trial": 43,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.08470081747975332,
+      "sharpe": 13.383831705900338,
+      "trades": 243
+    },
+    {
+      "trial": 44,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.11550319013597836,
+      "sharpe": 8.59006242888069,
+      "trades": 153
+    },
+    {
+      "trial": 45,
+      "config": {
+        "q": 0.001,
+        "r": 0.01,
+        "z_entry": 0.75,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.11381143275444221,
+      "sharpe": 14.401702127470344,
+      "trades": 314
+    },
+    {
+      "trial": 46,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.04328051149821782,
+      "sharpe": 5.543322302694677,
+      "trades": 141
+    },
+    {
+      "trial": 47,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.10260411854896345,
+      "sharpe": 12.9149868668702,
+      "trades": 280
+    },
+    {
+      "trial": 48,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.008876926703013596,
+      "sharpe": 1.1508015283089306,
+      "trades": 89
+    },
+    {
+      "trial": 49,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.25,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.0769263211946626,
+      "sharpe": 11.16675731621682,
+      "trades": 200
+    },
+    {
+      "trial": 0,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.25865223986532526,
+      "sharpe": 11.969785762546625,
+      "trades": 124
+    },
+    {
+      "trial": 1,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": 0.13557712477155684,
+      "sharpe": 5.9483923621175725,
+      "trades": 101
+    },
+    {
+      "trial": 2,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.07,
+        "take_profit": 0.08
+      },
+      "return": 0.22007302264237383,
+      "sharpe": 10.253339987810707,
+      "trades": 148
+    },
+    {
+      "trial": 3,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.10235083307551147,
+      "sharpe": 9.233379673284533,
+      "trades": 112
+    },
+    {
+      "trial": 4,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.2
+      },
+      "return": 0.1304641786162628,
+      "sharpe": 8.010665609771225,
+      "trades": 83
+    },
+    {
+      "trial": 5,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.26002784876944396,
+      "sharpe": 12.00464099984741,
+      "trades": 134
+    },
+    {
+      "trial": 6,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.1
+      },
+      "return": 0.1711563873375213,
+      "sharpe": 16.39456473271036,
+      "trades": 172
+    },
+    {
+      "trial": 7,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.2,
+        "stop_loss": 0.1,
+        "take_profit": 0.15
+      },
+      "return": 0.24687149356698487,
+      "sharpe": 10.703165891142586,
+      "trades": 154
+    },
+    {
+      "trial": 8,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.15309343309519755,
+      "sharpe": 16.575074182344768,
+      "trades": 184
+    },
+    {
+      "trial": 9,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.3621104130819597,
+      "sharpe": 16.095684949014494,
+      "trades": 217
+    },
+    {
+      "trial": 10,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": 0.14194220735452953,
+      "sharpe": 12.192507339565594,
+      "trades": 226
+    },
+    {
+      "trial": 11,
+      "config": {
+        "q": 0.0005,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.09601224373971942,
+      "sharpe": 8.623851859290733,
+      "trades": 101
+    },
+    {
+      "trial": 12,
+      "config": {
+        "q": 5e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.09273599469973313,
+      "sharpe": 8.359741509887916,
+      "trades": 92
+    },
+    {
+      "trial": 13,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.15
+      },
+      "return": 0.4034916188547021,
+      "sharpe": 18.17986106765947,
+      "trades": 191
+    },
+    {
+      "trial": 14,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.2344454159721626,
+      "sharpe": 21.80952001298117,
+      "trades": 254
+    },
+    {
+      "trial": 15,
+      "config": {
+        "q": 0.0001,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.1
+      },
+      "return": 0.13443907967269594,
+      "sharpe": 6.045182246669537,
+      "trades": 68
+    },
+    {
+      "trial": 16,
+      "config": {
+        "q": 0.0001,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.17597261754968263,
+      "sharpe": 16.430462231309875,
+      "trades": 181
+    },
+    {
+      "trial": 17,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.75,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.1906529470393325,
+      "sharpe": 10.694919608849348,
+      "trades": 199
+    },
+    {
+      "trial": 18,
+      "config": {
+        "q": 0.001,
+        "r": 0.01,
+        "z_entry": 0.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.14242857459722916,
+      "sharpe": 12.009370463887812,
+      "trades": 191
+    },
+    {
+      "trial": 19,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.44570238331722445,
+      "sharpe": 19.655873529881152,
+      "trades": 297
+    },
+    {
+      "trial": 20,
+      "config": {
+        "q": 0.001,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.17919750004496818,
+      "sharpe": 16.146170324355637,
+      "trades": 201
+    },
+    {
+      "trial": 21,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.15
+      },
+      "return": 0.17551695783090415,
+      "sharpe": 9.798007174557146,
+      "trades": 175
+    },
+    {
+      "trial": 22,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.2656738965817237,
+      "sharpe": 12.08752496181323,
+      "trades": 148
+    },
+    {
+      "trial": 23,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.08
+      },
+      "return": 0.4011898507993386,
+      "sharpe": 21.212284944879165,
+      "trades": 320
+    },
+    {
+      "trial": 24,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.05
+      },
+      "return": 0.32481166085472274,
+      "sharpe": 15.255433242163932,
+      "trades": 185
+    },
+    {
+      "trial": 25,
+      "config": {
+        "q": 5e-05,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.1710795653107432,
+      "sharpe": 7.6589833210867635,
+      "trades": 97
+    },
+    {
+      "trial": 26,
+      "config": {
+        "q": 5e-05,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.1,
+        "take_profit": 0.1
+      },
+      "return": 0.09828174742383607,
+      "sharpe": 8.720953327611612,
+      "trades": 100
+    },
+    {
+      "trial": 27,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0001,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.2306810224299661,
+      "sharpe": 21.71231348714058,
+      "trades": 261
+    },
+    {
+      "trial": 28,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.07,
+        "take_profit": 0.05
+      },
+      "return": 0.22007302264237383,
+      "sharpe": 10.253339987810707,
+      "trades": 148
+    },
+    {
+      "trial": 29,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.07628850840471249,
+      "sharpe": 4.6540381105313955,
+      "trades": 67
+    },
+    {
+      "trial": 30,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.05
+      },
+      "return": 0.2039649086096784,
+      "sharpe": 11.575329315260651,
+      "trades": 164
+    },
+    {
+      "trial": 31,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.08
+      },
+      "return": 0.1695904502833108,
+      "sharpe": 14.559516337952319,
+      "trades": 378
+    },
+    {
+      "trial": 32,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.12268780909266003,
+      "sharpe": 5.1648156586851295,
+      "trades": 120
+    },
+    {
+      "trial": 33,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.1,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.09089026775364342,
+      "sharpe": 8.221867485870279,
+      "trades": 134
+    },
+    {
+      "trial": 34,
+      "config": {
+        "q": 1e-05,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.15
+      },
+      "return": 0.0866761668220193,
+      "sharpe": 8.157804329587886,
+      "trades": 92
+    },
+    {
+      "trial": 35,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.21807378431293648,
+      "sharpe": 13.523729271125472,
+      "trades": 145
+    },
+    {
+      "trial": 36,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.18917832610656246,
+      "sharpe": 11.294602837972116,
+      "trades": 124
+    },
+    {
+      "trial": 37,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 0.75,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.36287496493634475,
+      "sharpe": 14.94816578149231,
+      "trades": 259
+    },
+    {
+      "trial": 38,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 0.75,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.05
+      },
+      "return": 0.35448703561292755,
+      "sharpe": 14.787996069978652,
+      "trades": 263
+    },
+    {
+      "trial": 39,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": 0.1972423616806997,
+      "sharpe": 8.467254577261754,
+      "trades": 112
+    },
+    {
+      "trial": 40,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.1263953250262147,
+      "sharpe": 11.533058941936652,
+      "trades": 159
+    },
+    {
+      "trial": 41,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.1,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.27659185014995424,
+      "sharpe": 11.784340333301314,
+      "trades": 138
+    },
+    {
+      "trial": 42,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 0.75,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.08
+      },
+      "return": 0.15851357395642945,
+      "sharpe": 9.264028137788374,
+      "trades": 179
+    },
+    {
+      "trial": 43,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.15246431636446317,
+      "sharpe": 16.81444229400499,
+      "trades": 204
+    },
+    {
+      "trial": 44,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.32610520818035293,
+      "sharpe": 16.398284358050645,
+      "trades": 166
+    },
+    {
+      "trial": 45,
+      "config": {
+        "q": 0.001,
+        "r": 0.01,
+        "z_entry": 0.75,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.22067503064222954,
+      "sharpe": 19.955162048632015,
+      "trades": 286
+    },
+    {
+      "trial": 46,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.09017411171075364,
+      "sharpe": 7.9864444485342245,
+      "trades": 101
+    },
+    {
+      "trial": 47,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.21824152689660303,
+      "sharpe": 19.359112729822147,
+      "trades": 270
+    },
+    {
+      "trial": 48,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.13969227454907013,
+      "sharpe": 11.832396477669132,
+      "trades": 195
+    },
+    {
+      "trial": 49,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.25,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.15918952562089703,
+      "sharpe": 15.723249724955963,
+      "trades": 184
+    },
+    {
+      "trial": 0,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.13758451664717578,
+      "sharpe": 4.288975230587702,
+      "trades": 136
+    },
+    {
+      "trial": 1,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": 0.03276121661835059,
+      "sharpe": 1.1129876108507613,
+      "trades": 207
+    },
+    {
+      "trial": 2,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.07,
+        "take_profit": 0.08
+      },
+      "return": 0.11327757167858814,
+      "sharpe": 3.7622042923858765,
+      "trades": 169
+    },
+    {
+      "trial": 3,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.022316202585203865,
+      "sharpe": 1.4501245530027167,
+      "trades": 145
+    },
+    {
+      "trial": 4,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.2
+      },
+      "return": 0.08153310281502549,
+      "sharpe": 3.5424816002990185,
+      "trades": 104
+    },
+    {
+      "trial": 5,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.12210653134972527,
+      "sharpe": 3.9830317917321136,
+      "trades": 176
+    },
+    {
+      "trial": 6,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.1
+      },
+      "return": 0.08241742229483469,
+      "sharpe": 5.2190155179905435,
+      "trades": 198
+    },
+    {
+      "trial": 7,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.2,
+        "stop_loss": 0.1,
+        "take_profit": 0.15
+      },
+      "return": 0.12807286683987085,
+      "sharpe": 3.8917463426250776,
+      "trades": 212
+    },
+    {
+      "trial": 8,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.06153808995726242,
+      "sharpe": 4.45442682756926,
+      "trades": 228
+    },
+    {
+      "trial": 9,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.17517460029860216,
+      "sharpe": 5.459540330802566,
+      "trades": 263
+    },
+    {
+      "trial": 10,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": 0.04747745405337089,
+      "sharpe": 2.8922999302094645,
+      "trades": 263
+    },
+    {
+      "trial": 11,
+      "config": {
+        "q": 0.0005,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.018865442388825614,
+      "sharpe": 1.1715589945861247,
+      "trades": 117
+    },
+    {
+      "trial": 12,
+      "config": {
+        "q": 5e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.031701113736408444,
+      "sharpe": 1.9940163771032617,
+      "trades": 92
+    },
+    {
+      "trial": 13,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.15
+      },
+      "return": 0.17810953710048097,
+      "sharpe": 5.482639047921212,
+      "trades": 212
+    },
+    {
+      "trial": 14,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.07036442756961406,
+      "sharpe": 4.567317474940822,
+      "trades": 331
+    },
+    {
+      "trial": 15,
+      "config": {
+        "q": 0.0001,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.1
+      },
+      "return": 0.06904739694032586,
+      "sharpe": 2.1985409436540584,
+      "trades": 101
+    },
+    {
+      "trial": 16,
+      "config": {
+        "q": 0.0001,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.07215533950694633,
+      "sharpe": 4.69103217643711,
+      "trades": 248
+    },
+    {
+      "trial": 17,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.75,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.20328494206588774,
+      "sharpe": 7.49308368299573,
+      "trades": 283
+    },
+    {
+      "trial": 18,
+      "config": {
+        "q": 0.001,
+        "r": 0.01,
+        "z_entry": 0.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.0967330175278851,
+      "sharpe": 5.525756902766553,
+      "trades": 194
+    },
+    {
+      "trial": 19,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.22118285735863072,
+      "sharpe": 6.661417894853289,
+      "trades": 499
+    },
+    {
+      "trial": 20,
+      "config": {
+        "q": 0.001,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.03219143017226321,
+      "sharpe": 2.0612941443942137,
+      "trades": 220
+    },
+    {
+      "trial": 21,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.15
+      },
+      "return": 0.09401241253555097,
+      "sharpe": 3.591529515024198,
+      "trades": 115
+    },
+    {
+      "trial": 22,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.09534637558237577,
+      "sharpe": 3.0589687746767407,
+      "trades": 172
+    },
+    {
+      "trial": 23,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.08
+      },
+      "return": 0.11253528736995387,
+      "sharpe": 4.439920589262072,
+      "trades": 411
+    },
+    {
+      "trial": 24,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.05
+      },
+      "return": 0.1064540213098719,
+      "sharpe": 3.583782473870947,
+      "trades": 200
+    },
+    {
+      "trial": 25,
+      "config": {
+        "q": 5e-05,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.09271371149335464,
+      "sharpe": 2.908774199089908,
+      "trades": 160
+    },
+    {
+      "trial": 26,
+      "config": {
+        "q": 5e-05,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.1,
+        "take_profit": 0.1
+      },
+      "return": 0.0544276398733526,
+      "sharpe": 3.2053188878615915,
+      "trades": 112
+    },
+    {
+      "trial": 27,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0001,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.06642098537357219,
+      "sharpe": 4.354411518878782,
+      "trades": 336
+    },
+    {
+      "trial": 28,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.07,
+        "take_profit": 0.05
+      },
+      "return": 0.11327757167858814,
+      "sharpe": 3.7622042923858765,
+      "trades": 169
+    },
+    {
+      "trial": 29,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.09293650722337625,
+      "sharpe": 3.8796852614235506,
+      "trades": 147
+    },
+    {
+      "trial": 30,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.05
+      },
+      "return": 0.058468329915401115,
+      "sharpe": 2.351561823217556,
+      "trades": 189
+    },
+    {
+      "trial": 31,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.08
+      },
+      "return": 0.09978090249165922,
+      "sharpe": 5.912481579200267,
+      "trades": 558
+    },
+    {
+      "trial": 32,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.28142587108324163,
+      "sharpe": 7.478256641328601,
+      "trades": 318
+    },
+    {
+      "trial": 33,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.1,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.07616082854510518,
+      "sharpe": 4.7717921169842805,
+      "trades": 291
+    },
+    {
+      "trial": 34,
+      "config": {
+        "q": 1e-05,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.15
+      },
+      "return": 0.08793895310500695,
+      "sharpe": 5.4152494173406485,
+      "trades": 169
+    },
+    {
+      "trial": 35,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.1064299475402369,
+      "sharpe": 4.506915946630326,
+      "trades": 178
+    },
+    {
+      "trial": 36,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.02522274607044994,
+      "sharpe": 1.1476512852710528,
+      "trades": 108
+    },
+    {
+      "trial": 37,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 0.75,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.09868449980285761,
+      "sharpe": 3.0435575885710664,
+      "trades": 281
+    },
+    {
+      "trial": 38,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 0.75,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.05
+      },
+      "return": 0.1557274102403123,
+      "sharpe": 4.656416180609168,
+      "trades": 324
+    },
+    {
+      "trial": 39,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": -0.022416115685818513,
+      "sharpe": -0.6164802698145594,
+      "trades": 129
+    },
+    {
+      "trial": 40,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.10809901923089041,
+      "sharpe": 6.483588158037446,
+      "trades": 196
+    },
+    {
+      "trial": 41,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.1,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.11435292992720628,
+      "sharpe": 3.534586983527438,
+      "trades": 179
+    },
+    {
+      "trial": 42,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 0.75,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.08
+      },
+      "return": 0.16512824768281528,
+      "sharpe": 6.489090360333837,
+      "trades": 397
+    },
+    {
+      "trial": 43,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.03529272396668457,
+      "sharpe": 2.614652944838965,
+      "trades": 285
+    },
+    {
+      "trial": 44,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.10459928017966741,
+      "sharpe": 3.760275960406034,
+      "trades": 207
+    },
+    {
+      "trial": 45,
+      "config": {
+        "q": 0.001,
+        "r": 0.01,
+        "z_entry": 0.75,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.06874766612491628,
+      "sharpe": 4.326234805648632,
+      "trades": 366
+    },
+    {
+      "trial": 46,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.07084679270537322,
+      "sharpe": 4.30061984117833,
+      "trades": 186
+    },
+    {
+      "trial": 47,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.06808333643305318,
+      "sharpe": 4.245194936367516,
+      "trades": 348
+    },
+    {
+      "trial": 48,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.09884820924683634,
+      "sharpe": 5.658109746811155,
+      "trades": 204
+    },
+    {
+      "trial": 49,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.25,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.08119721368653875,
+      "sharpe": 5.561696999437968,
+      "trades": 265
+    },
+    {
+      "trial": 0,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.03920417417169141,
+      "sharpe": 1.4695739571659314,
+      "trades": 124
+    },
+    {
+      "trial": 1,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": -0.04291205924104841,
+      "sharpe": -1.4392035027942627,
+      "trades": 183
+    },
+    {
+      "trial": 2,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.07,
+        "take_profit": 0.08
+      },
+      "return": -0.04677262532701235,
+      "sharpe": -1.736382640498187,
+      "trades": 147
+    },
+    {
+      "trial": 3,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": -0.023743368621487463,
+      "sharpe": -1.6488845658033005,
+      "trades": 157
+    },
+    {
+      "trial": 4,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.2
+      },
+      "return": 0.048355379218079614,
+      "sharpe": 2.292429936184485,
+      "trades": 77
+    },
+    {
+      "trial": 5,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.03299802014314948,
+      "sharpe": 1.2568161703982785,
+      "trades": 162
+    },
+    {
+      "trial": 6,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.1
+      },
+      "return": -0.0031470734921151596,
+      "sharpe": -0.1968454410415449,
+      "trades": 175
+    },
+    {
+      "trial": 7,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.2,
+        "stop_loss": 0.1,
+        "take_profit": 0.15
+      },
+      "return": -0.04118821219663092,
+      "sharpe": -1.3139213525371336,
+      "trades": 84
+    },
+    {
+      "trial": 8,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.015280611102299007,
+      "sharpe": 1.3242298265983137,
+      "trades": 243
+    },
+    {
+      "trial": 9,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.04336124839860757,
+      "sharpe": 1.6899250012928984,
+      "trades": 217
+    },
+    {
+      "trial": 10,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": 0.01710354043172498,
+      "sharpe": 1.1658559715646313,
+      "trades": 290
+    },
+    {
+      "trial": 11,
+      "config": {
+        "q": 0.0005,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": -0.0060020717301534025,
+      "sharpe": -0.37574231961034465,
+      "trades": 113
+    },
+    {
+      "trial": 12,
+      "config": {
+        "q": 5e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": -0.00011915124671824742,
+      "sharpe": 0.030511838995517362,
+      "trades": 76
+    },
+    {
+      "trial": 13,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.15
+      },
+      "return": 0.009106589054780633,
+      "sharpe": 0.4095412737470062,
+      "trades": 182
+    },
+    {
+      "trial": 14,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.024203447063681962,
+      "sharpe": 1.8518684045566416,
+      "trades": 335
+    },
+    {
+      "trial": 15,
+      "config": {
+        "q": 0.0001,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.1
+      },
+      "return": -0.03511427174610144,
+      "sharpe": -1.1523533565992847,
+      "trades": 94
+    },
+    {
+      "trial": 16,
+      "config": {
+        "q": 0.0001,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.029392485991876893,
+      "sharpe": 2.2287772537920216,
+      "trades": 273
+    },
+    {
+      "trial": 17,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.75,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": -0.010806972432914917,
+      "sharpe": -0.4082283628515131,
+      "trades": 132
+    },
+    {
+      "trial": 18,
+      "config": {
+        "q": 0.001,
+        "r": 0.01,
+        "z_entry": 0.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": -0.019523610522231758,
+      "sharpe": -1.2464714352857174,
+      "trades": 106
+    },
+    {
+      "trial": 19,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.10103413589459291,
+      "sharpe": 3.676123607225037,
+      "trades": 433
+    },
+    {
+      "trial": 20,
+      "config": {
+        "q": 0.001,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.0022300227025095955,
+      "sharpe": 0.1928631997472086,
+      "trades": 214
+    },
+    {
+      "trial": 21,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.15
+      },
+      "return": -0.04040464554227583,
+      "sharpe": -1.7006535232247788,
+      "trades": 102
+    },
+    {
+      "trial": 22,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.08610485169350417,
+      "sharpe": 3.299526631601446,
+      "trades": 171
+    },
+    {
+      "trial": 23,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.08
+      },
+      "return": 0.09300025544252435,
+      "sharpe": 4.069724386741331,
+      "trades": 461
+    },
+    {
+      "trial": 24,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.05
+      },
+      "return": 0.04290237855343599,
+      "sharpe": 1.7435213456340997,
+      "trades": 201
+    },
+    {
+      "trial": 25,
+      "config": {
+        "q": 5e-05,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.07174712033574687,
+      "sharpe": 2.6157417600422677,
+      "trades": 156
+    },
+    {
+      "trial": 26,
+      "config": {
+        "q": 5e-05,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.1,
+        "take_profit": 0.1
+      },
+      "return": -0.022432909948407177,
+      "sharpe": -1.518253135317878,
+      "trades": 117
+    },
+    {
+      "trial": 27,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0001,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.021625370856431837,
+      "sharpe": 1.677771485260978,
+      "trades": 343
+    },
+    {
+      "trial": 28,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.07,
+        "take_profit": 0.05
+      },
+      "return": -0.04677262532701235,
+      "sharpe": -1.736382640498187,
+      "trades": 147
+    },
+    {
+      "trial": 29,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.03688278699999646,
+      "sharpe": 1.7885894992113904,
+      "trades": 128
+    },
+    {
+      "trial": 30,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.05
+      },
+      "return": 0.006780183761812514,
+      "sharpe": 0.3652023927278225,
+      "trades": 177
+    },
+    {
+      "trial": 31,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.08
+      },
+      "return": 0.10357025207737781,
+      "sharpe": 6.652351415595691,
+      "trades": 641
+    },
+    {
+      "trial": 32,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.11697099238316136,
+      "sharpe": 3.6859917832225313,
+      "trades": 285
+    },
+    {
+      "trial": 33,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.1,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.0032588596384109407,
+      "sharpe": 0.26308214491264603,
+      "trades": 193
+    },
+    {
+      "trial": 34,
+      "config": {
+        "q": 1e-05,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.15
+      },
+      "return": 0.019319045787037175,
+      "sharpe": 1.369450229537439,
+      "trades": 137
+    },
+    {
+      "trial": 35,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": -0.018070403154406812,
+      "sharpe": -0.8412272592601919,
+      "trades": 160
+    },
+    {
+      "trial": 36,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": -0.05332896846608914,
+      "sharpe": -2.4628081127988484,
+      "trades": 78
+    },
+    {
+      "trial": 37,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 0.75,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.0527765987223771,
+      "sharpe": 1.8415162828964184,
+      "trades": 301
+    },
+    {
+      "trial": 38,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 0.75,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.05
+      },
+      "return": 0.04543893809822068,
+      "sharpe": 1.605918926960253,
+      "trades": 308
+    },
+    {
+      "trial": 39,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": -0.0016097365045416518,
+      "sharpe": 0.0210317912565898,
+      "trades": 173
+    },
+    {
+      "trial": 40,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": -0.019166948163665803,
+      "sharpe": -1.2502297139568592,
+      "trades": 83
+    },
+    {
+      "trial": 41,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.1,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.012386045552308352,
+      "sharpe": 0.517687040618458,
+      "trades": 145
+    },
+    {
+      "trial": 42,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 0.75,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.08
+      },
+      "return": -0.020544946683862943,
+      "sharpe": -0.8624416795383718,
+      "trades": 222
+    },
+    {
+      "trial": 43,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.04632300895716442,
+      "sharpe": 4.160029071224703,
+      "trades": 286
+    },
+    {
+      "trial": 44,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.03340599522176373,
+      "sharpe": 1.4874368732316465,
+      "trades": 226
+    },
+    {
+      "trial": 45,
+      "config": {
+        "q": 0.001,
+        "r": 0.01,
+        "z_entry": 0.75,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.05273907370917383,
+      "sharpe": 3.7199106440373826,
+      "trades": 401
+    },
+    {
+      "trial": 46,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.011379481004168484,
+      "sharpe": 0.8214110381609674,
+      "trades": 167
+    },
+    {
+      "trial": 47,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.05087337814814702,
+      "sharpe": 3.5469568364632593,
+      "trades": 379
+    },
+    {
+      "trial": 48,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": -0.019479796227274783,
+      "sharpe": -1.2511997703416822,
+      "trades": 119
+    },
+    {
+      "trial": 49,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.25,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.023821279757867596,
+      "sharpe": 1.9747372053916665,
+      "trades": 278
+    },
+    {
+      "trial": 0,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.13884313980265114,
+      "sharpe": 9.782070649210707,
+      "trades": 86
+    },
+    {
+      "trial": 1,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": 0.18382448640253177,
+      "sharpe": 12.158578856284876,
+      "trades": 141
+    },
+    {
+      "trial": 2,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.07,
+        "take_profit": 0.08
+      },
+      "return": 0.23289064899920514,
+      "sharpe": 16.655074308416847,
+      "trades": 157
+    },
+    {
+      "trial": 3,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.09583964356883617,
+      "sharpe": 12.949271877874414,
+      "trades": 140
+    },
+    {
+      "trial": 4,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.2
+      },
+      "return": 0.09223102523090827,
+      "sharpe": 8.944508415728903,
+      "trades": 70
+    },
+    {
+      "trial": 5,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.17631454025206666,
+      "sharpe": 12.497086960020802,
+      "trades": 103
+    },
+    {
+      "trial": 6,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.1
+      },
+      "return": 0.08247923922700953,
+      "sharpe": 11.982885995401432,
+      "trades": 129
+    },
+    {
+      "trial": 7,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.2,
+        "stop_loss": 0.1,
+        "take_profit": 0.15
+      },
+      "return": 0.17880433894195666,
+      "sharpe": 11.758630399824266,
+      "trades": 114
+    },
+    {
+      "trial": 8,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.12780147624111793,
+      "sharpe": 20.67885093906027,
+      "trades": 163
+    },
+    {
+      "trial": 9,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.34292762661004,
+      "sharpe": 23.16963371472606,
+      "trades": 205
+    },
+    {
+      "trial": 10,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": 0.06518494143605814,
+      "sharpe": 8.576970955791948,
+      "trades": 162
+    },
+    {
+      "trial": 11,
+      "config": {
+        "q": 0.0005,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.08337469621404991,
+      "sharpe": 11.56049524990176,
+      "trades": 122
+    },
+    {
+      "trial": 12,
+      "config": {
+        "q": 5e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.04716286818983659,
+      "sharpe": 6.659339299891966,
+      "trades": 59
+    },
+    {
+      "trial": 13,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.15
+      },
+      "return": 0.23741074498613526,
+      "sharpe": 16.58841169269132,
+      "trades": 167
+    },
+    {
+      "trial": 14,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.13327252585575597,
+      "sharpe": 18.372049677443773,
+      "trades": 200
+    },
+    {
+      "trial": 15,
+      "config": {
+        "q": 0.0001,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.1
+      },
+      "return": 0.09889434160784207,
+      "sharpe": 6.9780073445751585,
+      "trades": 68
+    },
+    {
+      "trial": 16,
+      "config": {
+        "q": 0.0001,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.11981436684712012,
+      "sharpe": 17.363229422004792,
+      "trades": 170
+    },
+    {
+      "trial": 17,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.75,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.09166673277878479,
+      "sharpe": 8.245998135343719,
+      "trades": 120
+    },
+    {
+      "trial": 18,
+      "config": {
+        "q": 0.001,
+        "r": 0.01,
+        "z_entry": 0.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.09616544625552255,
+      "sharpe": 12.338090235810995,
+      "trades": 154
+    },
+    {
+      "trial": 19,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.3263377636835925,
+      "sharpe": 20.98527326435447,
+      "trades": 238
+    },
+    {
+      "trial": 20,
+      "config": {
+        "q": 0.001,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.11118272670220045,
+      "sharpe": 15.246170186398025,
+      "trades": 171
+    },
+    {
+      "trial": 21,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.15
+      },
+      "return": 0.09883616172313414,
+      "sharpe": 8.428039872790809,
+      "trades": 115
+    },
+    {
+      "trial": 22,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.15482254993022215,
+      "sharpe": 10.636206329605798,
+      "trades": 103
+    },
+    {
+      "trial": 23,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.08
+      },
+      "return": 0.21997579739259818,
+      "sharpe": 18.30151276784569,
+      "trades": 254
+    },
+    {
+      "trial": 24,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.05
+      },
+      "return": 0.2574395596881624,
+      "sharpe": 18.963117098376316,
+      "trades": 165
+    },
+    {
+      "trial": 25,
+      "config": {
+        "q": 5e-05,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.18662352763746415,
+      "sharpe": 12.86439948193422,
+      "trades": 118
+    },
+    {
+      "trial": 26,
+      "config": {
+        "q": 5e-05,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.1,
+        "take_profit": 0.1
+      },
+      "return": 0.07946436037950727,
+      "sharpe": 10.850593990201354,
+      "trades": 114
+    },
+    {
+      "trial": 27,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0001,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.13720566456541927,
+      "sharpe": 19.065120736258514,
+      "trades": 207
+    },
+    {
+      "trial": 28,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.07,
+        "take_profit": 0.05
+      },
+      "return": 0.23289064899920514,
+      "sharpe": 16.655074308416847,
+      "trades": 157
+    },
+    {
+      "trial": 29,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.04863627790932296,
+      "sharpe": 4.497858108183608,
+      "trades": 69
+    },
+    {
+      "trial": 30,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.05
+      },
+      "return": 0.061703419263955145,
+      "sharpe": 5.511046619134679,
+      "trades": 104
+    },
+    {
+      "trial": 31,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.08
+      },
+      "return": 0.12853759137831336,
+      "sharpe": 17.132630974641852,
+      "trades": 340
+    },
+    {
+      "trial": 32,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.12819283554292255,
+      "sharpe": 8.121679545469025,
+      "trades": 136
+    },
+    {
+      "trial": 33,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.1,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.09187647435211126,
+      "sharpe": 12.540680586594208,
+      "trades": 148
+    },
+    {
+      "trial": 34,
+      "config": {
+        "q": 1e-05,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.15
+      },
+      "return": 0.06666828976752848,
+      "sharpe": 9.407265006206181,
+      "trades": 96
+    },
+    {
+      "trial": 35,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.11955476578065645,
+      "sharpe": 11.44700501848582,
+      "trades": 119
+    },
+    {
+      "trial": 36,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.12443251406619354,
+      "sharpe": 12.039181099229646,
+      "trades": 99
+    },
+    {
+      "trial": 37,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 0.75,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.15040555984076462,
+      "sharpe": 9.752283974881161,
+      "trades": 180
+    },
+    {
+      "trial": 38,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 0.75,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.05
+      },
+      "return": 0.1567095725641062,
+      "sharpe": 10.18429729056787,
+      "trades": 188
+    },
+    {
+      "trial": 39,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": 0.06588973267390581,
+      "sharpe": 4.429854945047292,
+      "trades": 87
+    },
+    {
+      "trial": 40,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.13085471582468644,
+      "sharpe": 18.635059829102264,
+      "trades": 160
+    },
+    {
+      "trial": 41,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.1,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.1915723208590466,
+      "sharpe": 13.246448989694532,
+      "trades": 123
+    },
+    {
+      "trial": 42,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 0.75,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.08
+      },
+      "return": 0.10528234263185063,
+      "sharpe": 9.604420888764617,
+      "trades": 150
+    },
+    {
+      "trial": 43,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.1379959091735135,
+      "sharpe": 22.4064210547367,
+      "trades": 192
+    },
+    {
+      "trial": 44,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.21524023787006255,
+      "sharpe": 16.580271725185263,
+      "trades": 136
+    },
+    {
+      "trial": 45,
+      "config": {
+        "q": 0.001,
+        "r": 0.01,
+        "z_entry": 0.75,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.157637714627987,
+      "sharpe": 21.434409138917584,
+      "trades": 247
+    },
+    {
+      "trial": 46,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.07171369711313091,
+      "sharpe": 9.770013686883146,
+      "trades": 114
+    },
+    {
+      "trial": 47,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.15247349116379671,
+      "sharpe": 20.546130761022113,
+      "trades": 232
+    },
+    {
+      "trial": 48,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.07658979168125006,
+      "sharpe": 10.039672032190465,
+      "trades": 112
+    },
+    {
+      "trial": 49,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.25,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.13161748400348283,
+      "sharpe": 19.848027382542593,
+      "trades": 176
+    },
+    {
+      "trial": 0,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.09525680559580098,
+      "sharpe": 6.669727847011325,
+      "trades": 75
+    },
+    {
+      "trial": 1,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": 0.17211019644109254,
+      "sharpe": 11.325966560856736,
+      "trades": 179
+    },
+    {
+      "trial": 2,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.07,
+        "take_profit": 0.08
+      },
+      "return": 0.21048714517082365,
+      "sharpe": 15.486430433134645,
+      "trades": 144
+    },
+    {
+      "trial": 3,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.036216897335389076,
+      "sharpe": 5.041141276771786,
+      "trades": 108
+    },
+    {
+      "trial": 4,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.2
+      },
+      "return": 0.12726372411430684,
+      "sharpe": 12.455912019341742,
+      "trades": 88
+    },
+    {
+      "trial": 5,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.11281910690388482,
+      "sharpe": 8.038118136948418,
+      "trades": 97
+    },
+    {
+      "trial": 6,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.1
+      },
+      "return": 0.10830650840496266,
+      "sharpe": 15.90642805668564,
+      "trades": 150
+    },
+    {
+      "trial": 7,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.2,
+        "stop_loss": 0.1,
+        "take_profit": 0.15
+      },
+      "return": 0.19989438290773803,
+      "sharpe": 13.908014704816386,
+      "trades": 158
+    },
+    {
+      "trial": 8,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.13100125912711855,
+      "sharpe": 20.994381248033175,
+      "trades": 157
+    },
+    {
+      "trial": 9,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.29373291642076366,
+      "sharpe": 20.824596589519246,
+      "trades": 201
+    },
+    {
+      "trial": 10,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": 0.06661333274849268,
+      "sharpe": 8.705246309945357,
+      "trades": 180
+    },
+    {
+      "trial": 11,
+      "config": {
+        "q": 0.0005,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.020844938341823434,
+      "sharpe": 2.8715315278993625,
+      "trades": 63
+    },
+    {
+      "trial": 12,
+      "config": {
+        "q": 5e-05,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.10006401722076218,
+      "sharpe": 14.478513205938086,
+      "trades": 106
+    },
+    {
+      "trial": 13,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.15
+      },
+      "return": 0.22789932750313413,
+      "sharpe": 15.97961705352974,
+      "trades": 155
+    },
+    {
+      "trial": 14,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.12085370748264598,
+      "sharpe": 16.663941218735406,
+      "trades": 195
+    },
+    {
+      "trial": 15,
+      "config": {
+        "q": 0.0001,
+        "r": 0.005,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.1
+      },
+      "return": 0.20540038563212817,
+      "sharpe": 14.390755832679362,
+      "trades": 109
+    },
+    {
+      "trial": 16,
+      "config": {
+        "q": 0.0001,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.08274265381940393,
+      "sharpe": 11.844154776817398,
+      "trades": 143
+    },
+    {
+      "trial": 17,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.75,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.07013179990090794,
+      "sharpe": 6.022395516732289,
+      "trades": 111
+    },
+    {
+      "trial": 18,
+      "config": {
+        "q": 0.001,
+        "r": 0.01,
+        "z_entry": 0.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.06114489178152333,
+      "sharpe": 7.802453214034377,
+      "trades": 116
+    },
+    {
+      "trial": 19,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.2895384331290147,
+      "sharpe": 18.775617103931395,
+      "trades": 258
+    },
+    {
+      "trial": 20,
+      "config": {
+        "q": 0.001,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.08686637589269522,
+      "sharpe": 11.919703428715495,
+      "trades": 165
+    },
+    {
+      "trial": 21,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.1,
+        "take_profit": 0.15
+      },
+      "return": 0.06535059001979593,
+      "sharpe": 5.502341716685616,
+      "trades": 105
+    },
+    {
+      "trial": 22,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.2560978124120159,
+      "sharpe": 18.719539407229817,
+      "trades": 169
+    },
+    {
+      "trial": 23,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.08
+      },
+      "return": 0.23905538000145665,
+      "sharpe": 19.711717942186752,
+      "trades": 295
+    },
+    {
+      "trial": 24,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.05
+      },
+      "return": 0.2822797932698781,
+      "sharpe": 21.1867711192369,
+      "trades": 172
+    },
+    {
+      "trial": 25,
+      "config": {
+        "q": 5e-05,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.11886734405989918,
+      "sharpe": 8.079267765448767,
+      "trades": 104
+    },
+    {
+      "trial": 26,
+      "config": {
+        "q": 5e-05,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.1,
+        "take_profit": 0.1
+      },
+      "return": 0.04686154385705857,
+      "sharpe": 6.242461737920509,
+      "trades": 74
+    },
+    {
+      "trial": 27,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0001,
+        "z_entry": 1.0,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.11023070922715575,
+      "sharpe": 15.488934920335524,
+      "trades": 195
+    },
+    {
+      "trial": 28,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.07,
+        "take_profit": 0.05
+      },
+      "return": 0.21048714517082365,
+      "sharpe": 15.486430433134645,
+      "trades": 144
+    },
+    {
+      "trial": 29,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 1.0,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.09566794962677988,
+      "sharpe": 8.614369934433117,
+      "trades": 80
+    },
+    {
+      "trial": 30,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 0.5,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.05
+      },
+      "return": 0.08212097091245188,
+      "sharpe": 7.114428334760853,
+      "trades": 113
+    },
+    {
+      "trial": 31,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.03,
+        "take_profit": 0.08
+      },
+      "return": 0.11379504542272785,
+      "sharpe": 14.807622375378516,
+      "trades": 314
+    },
+    {
+      "trial": 32,
+      "config": {
+        "q": 0.0005,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.15,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.09069686877688175,
+      "sharpe": 5.68841112388353,
+      "trades": 119
+    },
+    {
+      "trial": 33,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.1,
+        "stop_loss": 0.07,
+        "take_profit": 0.1
+      },
+      "return": 0.05028827463778478,
+      "sharpe": 6.957696609725633,
+      "trades": 157
+    },
+    {
+      "trial": 34,
+      "config": {
+        "q": 1e-05,
+        "r": 0.01,
+        "z_entry": 1.0,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.15
+      },
+      "return": 0.026966602244047243,
+      "sharpe": 3.71791016140865,
+      "trades": 58
+    },
+    {
+      "trial": 35,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.25,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.15538327882547862,
+      "sharpe": 14.900436240896733,
+      "trades": 136
+    },
+    {
+      "trial": 36,
+      "config": {
+        "q": 0.0001,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.1,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.1510467675672147,
+      "sharpe": 15.00348154363529,
+      "trades": 111
+    },
+    {
+      "trial": 37,
+      "config": {
+        "q": 0.001,
+        "r": 0.001,
+        "z_entry": 0.75,
+        "z_exit": 0.05,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.15309027707416215,
+      "sharpe": 9.945003322559204,
+      "trades": 170
+    },
+    {
+      "trial": 38,
+      "config": {
+        "q": 0.0001,
+        "r": 0.0001,
+        "z_entry": 0.75,
+        "z_exit": 0.15,
+        "stop_loss": 0.05,
+        "take_profit": 0.05
+      },
+      "return": 0.1410489634361156,
+      "sharpe": 9.230115775704745,
+      "trades": 171
+    },
+    {
+      "trial": 39,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.07,
+        "take_profit": 0.15
+      },
+      "return": 0.15374642802605012,
+      "sharpe": 10.017920445879838,
+      "trades": 110
+    },
+    {
+      "trial": 40,
+      "config": {
+        "q": 5e-05,
+        "r": 0.0001,
+        "z_entry": 1.25,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.08
+      },
+      "return": 0.09024894751313055,
+      "sharpe": 13.004222183174802,
+      "trades": 148
+    },
+    {
+      "trial": 41,
+      "config": {
+        "q": 1e-05,
+        "r": 0.001,
+        "z_entry": 1.0,
+        "z_exit": 0.1,
+        "stop_loss": 0.05,
+        "take_profit": 0.2
+      },
+      "return": 0.15079005447318253,
+      "sharpe": 10.192389382003189,
+      "trades": 116
+    },
+    {
+      "trial": 42,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 0.75,
+        "z_exit": 0.3,
+        "stop_loss": 0.07,
+        "take_profit": 0.08
+      },
+      "return": 0.09307028223596164,
+      "sharpe": 8.211087427314464,
+      "trades": 161
+    },
+    {
+      "trial": 43,
+      "config": {
+        "q": 0.001,
+        "r": 0.0005,
+        "z_entry": 1.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.14706812779319675,
+      "sharpe": 24.492673665199753,
+      "trades": 193
+    },
+    {
+      "trial": 44,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.20342708008037225,
+      "sharpe": 16.126981518005792,
+      "trades": 131
+    },
+    {
+      "trial": 45,
+      "config": {
+        "q": 0.001,
+        "r": 0.01,
+        "z_entry": 0.75,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.1
+      },
+      "return": 0.11819259755961335,
+      "sharpe": 16.055533820418418,
+      "trades": 250
+    },
+    {
+      "trial": 46,
+      "config": {
+        "q": 1e-05,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.2,
+        "stop_loss": 0.05,
+        "take_profit": 0.08
+      },
+      "return": 0.07047050542362951,
+      "sharpe": 9.491243662176135,
+      "trades": 107
+    },
+    {
+      "trial": 47,
+      "config": {
+        "q": 0.0005,
+        "r": 0.005,
+        "z_entry": 0.75,
+        "z_exit": 0.1,
+        "stop_loss": 0.03,
+        "take_profit": 0.2
+      },
+      "return": 0.1303717747168208,
+      "sharpe": 17.345120655865287,
+      "trades": 247
+    },
+    {
+      "trial": 48,
+      "config": {
+        "q": 1e-05,
+        "r": 0.0001,
+        "z_entry": 0.5,
+        "z_exit": 0.3,
+        "stop_loss": 0.1,
+        "take_profit": 0.05
+      },
+      "return": 0.03803924199096349,
+      "sharpe": 4.8770758251223985,
+      "trades": 96
+    },
+    {
+      "trial": 49,
+      "config": {
+        "q": 5e-05,
+        "r": 0.001,
+        "z_entry": 1.25,
+        "z_exit": 0.3,
+        "stop_loss": 0.03,
+        "take_profit": 0.05
+      },
+      "return": 0.11291899495026621,
+      "sharpe": 17.314690370027545,
+      "trades": 157
+    }
+  ],
+  "summary": {
+    "avg_return": 0.31626137886185723,
+    "profitable_pct": 1.0,
+    "high_return_count": 8
+  }
+}

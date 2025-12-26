@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.0",
+  "configuration_id": "cfg_20251225-210841_21e0c357",
+  "iteration_number": 1,
+  "symbol": "XXII",
+  "timestamp": "2025-12-25T21:10:19.889172Z",
+  "params": {
+    "corr_lookback": 10,
+    "corr_threshold": 0.25437753236389965,
+    "recalc_frequency": 2,
+    "centrality_method": "eigenvector",
+    "weight_decay": 0.5542740132017648,
+    "min_weight": 0.02069714438070447,
+    "max_weight": 0.2807293661142537,
+    "vol_target": 0.14196553471426474,
+    "momentum_lookback": 6,
+    "z_score_entry": 1.9679911638865073,
+    "z_score_exit": 0.4853094161003327,
+    "momentum_threshold": 0.0,
+    "stop_loss_pct": 0.05728503326753981,
+    "take_profit_pct": 0.11175705007549129,
+    "trailing_stop_pct": 0.028229064204151548,
+    "max_portfolio_drawdown": 0.15,
+    "max_positions": 10
+  },
+  "metrics": {
+    "total_return": -0.0016656333831243683,
+    "sharpe_ratio": -0.38874812661682134,
+    "sortino_ratio": -0.23976261106167163,
+    "max_drawdown": 0.01171335264280321,
+    "win_rate": 1.0,
+    "profit_factor": 0.0,
+    "num_trades": 1,
+    "avg_trade_pnl": 542.4159235604253
+  },
+  "trades": [
+    {
+      "symbol": "XXII",
+      "entry_date": "2025-11-26T00:00:00+00:00",
+      "exit_date": "2025-12-01T00:00:00+00:00",
+      "entry_price": 1.02,
+      "exit_price": 0.9973,
+      "direction": -1,
+      "shares": 27522.48687394644,
+      "pnl": 542.4159235604253,
+      "pnl_pct": 0.01932166666666672,
+      "exit_reason": "z_score_exit"
+    }
+  ],
+  "equity_curve": [
+    100000.0,
+    100000.0,
+    99915.78119016573,
+    100741.45579638412,
+    101016.6806651236,
+    99833.43666168756,
+    99833.43666168756,
+    99833.43666168756,
+    99833.43666168756,
+    99833.43666168756,
+    99833.43666168756,
+    99833.43666168756,
+    99833.43666168756,
+    99833.43666168756,
+    99833.43666168756,
+    99833.43666168756,
+    99833.43666168756,
+    99833.43666168756,
+    99833.43666168756,
+    99833.43666168756
+  ],
+  "score": -Infinity
+}

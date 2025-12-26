@@ -165,3 +165,6 @@ pytest -m integration    # External dependencies
 pytest -m slow           # Tests > 1 second
 pytest -m requires_api   # Needs API keys
 ```
+- optimizer script shall save individual trial reports for each symbol for each symbol in addition to the summary report json with the optimized parameters.
+- always leverage local hardware (CPU, GPU, VRAM, etc.) to maximum extent possible
+- fetch historical data from MASSIVE <https://massive.com/docs/flat-files/stocks/overview>

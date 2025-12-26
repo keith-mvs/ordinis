@@ -1,0 +1,657 @@
+{
+  "timestamp": "20251225-111909",
+  "params": {
+    "adx_period": 14,
+    "adx_threshold": 35,
+    "fib_lookback": 390,
+    "min_bars_between_trades": 30,
+    "position_size": 0.05,
+    "profit_target": 0.005,
+    "stop_loss": 0.003,
+    "trailing_stop": 0.002,
+    "volume_filter": true
+  },
+  "config": {
+    "capital": 100000.0,
+    "days": 7,
+    "gpu": true
+  },
+  "results": {
+    "Small Cap": [
+      {
+        "final_equity": 81037.26959228516,
+        "total_return": -18.962730407714844,
+        "sharpe_ratio": -9.815982319206759,
+        "max_drawdown": 18.967762184143066,
+        "signals": 22,
+        "trades": 3,
+        "bars": 2045,
+        "timing": {
+          "transfer": 0.004415463998157065,
+          "adx": 0.4007644830053323,
+          "fibonacci": 0.5255956729961326,
+          "signals": 0.2780111539977952,
+          "simulation": 0.26793974499742035,
+          "copy": 0.00026903000252787024,
+          "metrics": 0.00019046500528929755
+        },
+        "symbol": "CPRX",
+        "category": "Small Cap",
+        "elapsed": 1.477239596999425
+      },
+      {
+        "final_equity": 81041.07005882263,
+        "total_return": -18.95892994117737,
+        "sharpe_ratio": -9.471354306525525,
+        "max_drawdown": 18.95892994117737,
+        "signals": 10,
+        "trades": 3,
+        "bars": 2191,
+        "timing": {
+          "transfer": 0.0005763599983765744,
+          "adx": 0.004355942000984214,
+          "fibonacci": 0.5094788190035615,
+          "signals": 0.16608191499835812,
+          "simulation": 0.001436047998140566,
+          "copy": 0.0001476720062782988,
+          "metrics": 0.00013100499927531928
+        },
+        "symbol": "RCUS",
+        "category": "Small Cap",
+        "elapsed": 0.6822532570004114
+      },
+      {
+        "final_equity": 81001.56717205048,
+        "total_return": -18.998432827949525,
+        "sharpe_ratio": -9.428272275122877,
+        "max_drawdown": 19.003290106773377,
+        "signals": 4,
+        "trades": 2,
+        "bars": 2217,
+        "timing": {
+          "transfer": 0.0005329890045686625,
+          "adx": 0.004254001993103884,
+          "fibonacci": 0.5110913000025903,
+          "signals": 0.16990033400361426,
+          "simulation": 0.0013259610059321858,
+          "copy": 0.00013886800297768787,
+          "metrics": 0.00016064599913079292
+        },
+        "symbol": "PAYO",
+        "category": "Small Cap",
+        "elapsed": 0.6874371889934991
+      },
+      {
+        "final_equity": 90221.81475830078,
+        "total_return": -9.77818524169922,
+        "sharpe_ratio": -8.27186379197476,
+        "max_drawdown": 9.77818524169922,
+        "signals": 2,
+        "trades": 1,
+        "bars": 1448,
+        "timing": {
+          "transfer": 0.0005167550043552183,
+          "adx": 0.003651445993455127,
+          "fibonacci": 0.2931787819979945,
+          "signals": 0.10862355399876833,
+          "simulation": 0.0011599279969232157,
+          "copy": 0.0001292770029976964,
+          "metrics": 0.0001495710021117702
+        },
+        "symbol": "ESLT",
+        "category": "Small Cap",
+        "elapsed": 0.40744628100219416
+      },
+      {
+        "final_equity": 81026.11456298828,
+        "total_return": -18.97388543701172,
+        "sharpe_ratio": -11.966750086037548,
+        "max_drawdown": 18.994105262756346,
+        "signals": 27,
+        "trades": 4,
+        "bars": 1376,
+        "timing": {
+          "transfer": 0.00046591300633735955,
+          "adx": 0.0036229739998816513,
+          "fibonacci": 0.2733945389991277,
+          "signals": 0.10317524200218031,
+          "simulation": 0.0012893120001535863,
+          "copy": 0.00013767700147582218,
+          "metrics": 0.00011975399684160948
+        },
+        "symbol": "PRGS",
+        "category": "Small Cap",
+        "elapsed": 0.3822450529987691
+      },
+      {
+        "final_equity": 72964.44558525085,
+        "total_return": -27.035554414749146,
+        "sharpe_ratio": -11.808958928886039,
+        "max_drawdown": 27.035554414749146,
+        "signals": 21,
+        "trades": 3,
+        "bars": 2115,
+        "timing": {
+          "transfer": 0.0004602050030371174,
+          "adx": 0.003983828006312251,
+          "fibonacci": 0.4673686899986933,
+          "signals": 0.1571386799987522,
+          "simulation": 0.0013989200015203096,
+          "copy": 0.00013535499601857737,
+          "metrics": 0.00011538299440871924
+        },
+        "symbol": "PGNY",
+        "category": "Small Cap",
+        "elapsed": 0.6306323290045839
+      },
+      {
+        "final_equity": 81105.3547706604,
+        "total_return": -18.8946452293396,
+        "sharpe_ratio": -10.84315468775343,
+        "max_drawdown": 18.8946452293396,
+        "signals": 5,
+        "trades": 2,
+        "bars": 1672,
+        "timing": {
+          "transfer": 0.00046029300574446097,
+          "adx": 0.004083268002432305,
+          "fibonacci": 0.356849105002766,
+          "signals": 0.12785170999995898,
+          "simulation": 0.0011753829967346974,
+          "copy": 0.00013115000183461234,
+          "metrics": 0.00012986199726583436
+        },
+        "symbol": "CALX",
+        "category": "Small Cap",
+        "elapsed": 0.49071856799855595
+      },
+      {
+        "final_equity": 81111.3147277832,
+        "total_return": -18.888685272216797,
+        "sharpe_ratio": -10.421514491172179,
+        "max_drawdown": 18.888685272216797,
+        "signals": 4,
+        "trades": 2,
+        "bars": 1815,
+        "timing": {
+          "transfer": 0.0004832889972021803,
+          "adx": 0.003758699996978976,
+          "fibonacci": 0.3910015390065382,
+          "signals": 0.13631350499781547,
+          "simulation": 0.001241163001395762,
+          "copy": 0.00012918900029035285,
+          "metrics": 0.00012039799912599847
+        },
+        "symbol": "SPSC",
+        "category": "Small Cap",
+        "elapsed": 0.5330855430001975
+      },
+      {
+        "final_equity": 100000.0,
+        "total_return": 0.0,
+        "sharpe_ratio": 0.0,
+        "max_drawdown": 0.0,
+        "signals": 0,
+        "trades": 0,
+        "bars": 774,
+        "timing": {
+          "transfer": 0.0004799430025741458,
+          "adx": 0.003454856007010676,
+          "fibonacci": 0.10657976299989969,
+          "signals": 0.05585663300007582,
+          "simulation": 0.001042964002408553,
+          "copy": 0.000139978998049628,
+          "metrics": 0.00012739300291286781
+        },
+        "symbol": "APOG",
+        "category": "Small Cap",
+        "elapsed": 0.16771873599645915
+      },
+      {
+        "final_equity": 90129.00820672512,
+        "total_return": -9.870991793274879,
+        "sharpe_ratio": -6.250969790674068,
+        "max_drawdown": 10.051486305440006,
+        "signals": 15,
+        "trades": 5,
+        "bars": 2445,
+        "timing": {
+          "transfer": 0.0005061999981990084,
+          "adx": 0.004599077998136636,
+          "fibonacci": 0.563604495000618,
+          "signals": 0.18440945600013947,
+          "simulation": 0.0014641730012954213,
+          "copy": 0.0001309950021095574,
+          "metrics": 0.00013036999735049903
+        },
+        "symbol": "GERN",
+        "category": "Small Cap",
+        "elapsed": 0.7548795699985931
+      }
+    ],
+    "Mid Cap": [
+      {
+        "final_equity": 66032.90036010742,
+        "total_return": -33.96709963989258,
+        "sharpe_ratio": -13.46170547131138,
+        "max_drawdown": 33.977639770507814,
+        "signals": 37,
+        "trades": 5,
+        "bars": 2168,
+        "timing": {
+          "transfer": 0.0004654220028896816,
+          "adx": 0.004059470003994647,
+          "fibonacci": 0.4874678709966247,
+          "signals": 0.16284151499712607,
+          "simulation": 0.0013745530013693497,
+          "copy": 0.00012948099902132526,
+          "metrics": 0.00011283600179012865
+        },
+        "symbol": "WSM",
+        "category": "Mid Cap",
+        "elapsed": 0.6564897580028628
+      },
+      {
+        "final_equity": 65648.48465919495,
+        "total_return": -34.35151534080506,
+        "sharpe_ratio": -12.509524808947791,
+        "max_drawdown": 34.35151534080506,
+        "signals": 34,
+        "trades": 7,
+        "bars": 2526,
+        "timing": {
+          "transfer": 0.0005103099974803627,
+          "adx": 0.004426485000294633,
+          "fibonacci": 0.5908450660062954,
+          "signals": 0.19126274400332477,
+          "simulation": 0.0023379159974865615,
+          "copy": 0.00014147999900160357,
+          "metrics": 0.00014695599384140223
+        },
+        "symbol": "SIRI",
+        "category": "Mid Cap",
+        "elapsed": 0.7897047639999073
+      },
+      {
+        "final_equity": 81314.8296508789,
+        "total_return": -18.685170349121094,
+        "sharpe_ratio": -9.320725574213766,
+        "max_drawdown": 18.70442007446289,
+        "signals": 10,
+        "trades": 2,
+        "bars": 2266,
+        "timing": {
+          "transfer": 0.00045459499960998073,
+          "adx": 0.004120427001907956,
+          "fibonacci": 0.5252741500007687,
+          "signals": 0.17390768300538184,
+          "simulation": 0.0014194129980751313,
+          "copy": 0.0001420560001861304,
+          "metrics": 0.00011462299880804494
+        },
+        "symbol": "TRGP",
+        "category": "Mid Cap",
+        "elapsed": 0.7054720749947592
+      },
+      {
+        "final_equity": 59815.7950592041,
+        "total_return": -40.1842049407959,
+        "sharpe_ratio": -14.969675180266732,
+        "max_drawdown": 40.18572497558594,
+        "signals": 29,
+        "trades": 5,
+        "bars": 2202,
+        "timing": {
+          "transfer": 0.00045582500024465844,
+          "adx": 0.004033716999401804,
+          "fibonacci": 0.49994758299726527,
+          "signals": 0.16638252999837277,
+          "simulation": 0.001403750000463333,
+          "copy": 0.00014985199959482998,
+          "metrics": 0.0001150820025941357
+        },
+        "symbol": "RJF",
+        "category": "Mid Cap",
+        "elapsed": 0.6725239100051112
+      },
+      {
+        "final_equity": 81188.55982971191,
+        "total_return": -18.811440170288087,
+        "sharpe_ratio": -9.388526659681919,
+        "max_drawdown": 18.81263996887207,
+        "signals": 108,
+        "trades": 1,
+        "bars": 2223,
+        "timing": {
+          "transfer": 0.0005145100003574044,
+          "adx": 0.004369037997093983,
+          "fibonacci": 0.5199417450057808,
+          "signals": 0.17544022600486642,
+          "simulation": 0.0022270079934969544,
+          "copy": 0.00016345099720638245,
+          "metrics": 0.0001148249939433299
+        },
+        "symbol": "HOLX",
+        "category": "Mid Cap",
+        "elapsed": 0.7028075910056941
+      },
+      {
+        "final_equity": 90076.96044921875,
+        "total_return": -9.92303955078125,
+        "sharpe_ratio": -7.0476382725056474,
+        "max_drawdown": 9.92303955078125,
+        "signals": 7,
+        "trades": 1,
+        "bars": 1988,
+        "timing": {
+          "transfer": 0.0004883490037173033,
+          "adx": 0.003942786999687087,
+          "fibonacci": 0.4523226719975355,
+          "signals": 0.15072552300262032,
+          "simulation": 0.0013030480040470138,
+          "copy": 0.00013706299796467647,
+          "metrics": 0.00011587300105020404
+        },
+        "symbol": "EME",
+        "category": "Mid Cap",
+        "elapsed": 0.6090728330018464
+      },
+      {
+        "final_equity": 59845.730072021484,
+        "total_return": -40.15426992797851,
+        "sharpe_ratio": -14.02129604054399,
+        "max_drawdown": 40.15426992797851,
+        "signals": 57,
+        "trades": 7,
+        "bars": 2508,
+        "timing": {
+          "transfer": 0.0005666849974659272,
+          "adx": 0.004810124999494292,
+          "fibonacci": 0.5969719139975496,
+          "signals": 0.19434273300430505,
+          "simulation": 0.001514561998192221,
+          "copy": 0.00013375200069276616,
+          "metrics": 0.0001222179998876527
+        },
+        "symbol": "FFIV",
+        "category": "Mid Cap",
+        "elapsed": 0.7984992300043814
+      },
+      {
+        "final_equity": 90089.49977111816,
+        "total_return": -9.910500228881835,
+        "sharpe_ratio": -7.844874699582927,
+        "max_drawdown": 9.933299835205078,
+        "signals": 16,
+        "trades": 2,
+        "bars": 1595,
+        "timing": {
+          "transfer": 0.0005221800020080991,
+          "adx": 0.0038232470033108257,
+          "fibonacci": 0.33775166499981424,
+          "signals": 0.12137046300631482,
+          "simulation": 0.00126602499949513,
+          "copy": 0.00013362400204641744,
+          "metrics": 0.00012728900037473068
+        },
+        "symbol": "AVY",
+        "category": "Mid Cap",
+        "elapsed": 0.4650364460030687
+      },
+      {
+        "final_equity": 90204.62013244629,
+        "total_return": -9.795379867553711,
+        "sharpe_ratio": -6.408240953734683,
+        "max_drawdown": 9.795379867553711,
+        "signals": 1,
+        "trades": 1,
+        "bars": 2404,
+        "timing": {
+          "transfer": 0.0006225809993338771,
+          "adx": 0.00484384699666407,
+          "fibonacci": 0.6954527880006935,
+          "signals": 0.18303170899889665,
+          "simulation": 0.00181105500087142,
+          "copy": 0.00013727100304095075,
+          "metrics": 0.0001335869965259917
+        },
+        "symbol": "NRG",
+        "category": "Mid Cap",
+        "elapsed": 0.8860753609988024
+      },
+      {
+        "final_equity": 81854.36462402344,
+        "total_return": -18.145635375976564,
+        "sharpe_ratio": -9.375534071518056,
+        "max_drawdown": 18.161674304578465,
+        "signals": 17,
+        "trades": 5,
+        "bars": 2249,
+        "timing": {
+          "transfer": 0.0005278999960864894,
+          "adx": 0.00405766300536925,
+          "fibonacci": 0.5254184980003629,
+          "signals": 0.17270742099935887,
+          "simulation": 0.0014975950034568086,
+          "copy": 0.00016916399908950552,
+          "metrics": 0.0002002239998546429
+        },
+        "symbol": "ULTA",
+        "category": "Mid Cap",
+        "elapsed": 0.7046319610017235
+      }
+    ],
+    "Random Picks": [
+      {
+        "final_equity": 81583.86944580078,
+        "total_return": -18.41613055419922,
+        "sharpe_ratio": -8.790976974475747,
+        "max_drawdown": 18.41613055419922,
+        "signals": 29,
+        "trades": 3,
+        "bars": 2550,
+        "timing": {
+          "transfer": 0.000475706001452636,
+          "adx": 0.004509930993663147,
+          "fibonacci": 0.60504197699629,
+          "signals": 0.20067771500180243,
+          "simulation": 0.001497242999903392,
+          "copy": 0.00013333200331544504,
+          "metrics": 0.00013607599976239726
+        },
+        "symbol": "PLTR",
+        "category": "Random Picks",
+        "elapsed": 0.8125082519982243
+      },
+      {
+        "final_equity": 100000.0,
+        "total_return": 0.0,
+        "sharpe_ratio": 0.0,
+        "max_drawdown": 0.0,
+        "signals": 0,
+        "trades": 0,
+        "bars": 2550,
+        "timing": {
+          "transfer": 0.00046490800013998523,
+          "adx": 0.004329636998591013,
+          "fibonacci": 0.6051326079978026,
+          "signals": 0.19680975699884584,
+          "simulation": 0.001440893996914383,
+          "copy": 0.00014567800099030137,
+          "metrics": 0.0001402300040354021
+        },
+        "symbol": "RKLB",
+        "category": "Random Picks",
+        "elapsed": 0.8085020810030983
+      },
+      {
+        "final_equity": 100000.0,
+        "total_return": 0.0,
+        "sharpe_ratio": 0.0,
+        "max_drawdown": 0.0,
+        "signals": 0,
+        "trades": 0,
+        "bars": 2550,
+        "timing": {
+          "transfer": 0.0004618320017470978,
+          "adx": 0.004926751003949903,
+          "fibonacci": 0.6106102720004856,
+          "signals": 0.808212662996084,
+          "simulation": 0.002426354003546294,
+          "copy": 0.0004010639968328178,
+          "metrics": 0.00017514100181870162
+        },
+        "symbol": "SOFI",
+        "category": "Random Picks",
+        "elapsed": 1.4272752059987397
+      },
+      {
+        "final_equity": 89993.681432724,
+        "total_return": -10.006318567276,
+        "sharpe_ratio": -6.225156035030162,
+        "max_drawdown": 10.007474962234497,
+        "signals": 4,
+        "trades": 1,
+        "bars": 2550,
+        "timing": {
+          "transfer": 0.0004832009944948368,
+          "adx": 0.004318803999922238,
+          "fibonacci": 0.6408615770051256,
+          "signals": 0.18935407599929022,
+          "simulation": 0.0014111180062172934,
+          "copy": 0.0001453949953429401,
+          "metrics": 0.0001418289975845255
+        },
+        "symbol": "RIVN",
+        "category": "Random Picks",
+        "elapsed": 0.8367542720006895
+      },
+      {
+        "final_equity": 73062.48248291016,
+        "total_return": -26.937517517089844,
+        "sharpe_ratio": -10.743313805749231,
+        "max_drawdown": 26.992454447430607,
+        "signals": 26,
+        "trades": 8,
+        "bars": 2550,
+        "timing": {
+          "transfer": 0.0004530299993348308,
+          "adx": 0.004326982998463791,
+          "fibonacci": 0.6403331759938737,
+          "signals": 0.19083633000263944,
+          "simulation": 0.0014569880004273728,
+          "copy": 0.000174141998286359,
+          "metrics": 0.0001319049988524057
+        },
+        "symbol": "DKNG",
+        "category": "Random Picks",
+        "elapsed": 0.8377490140046575
+      },
+      {
+        "final_equity": 81884.07186889648,
+        "total_return": -18.115928131103516,
+        "sharpe_ratio": -8.72723913155438,
+        "max_drawdown": 18.174406323671136,
+        "signals": 35,
+        "trades": 4,
+        "bars": 2546,
+        "timing": {
+          "transfer": 0.00045154800318414345,
+          "adx": 0.00425253200228326,
+          "fibonacci": 0.5927299840041087,
+          "signals": 0.19117153900151607,
+          "simulation": 0.0014741620034328662,
+          "copy": 0.00014079199900152162,
+          "metrics": 0.00020099699759157375
+        },
+        "symbol": "CRWD",
+        "category": "Random Picks",
+        "elapsed": 0.7904641189961694
+      },
+      {
+        "final_equity": 60163.31118774414,
+        "total_return": -39.83668881225586,
+        "sharpe_ratio": -13.961903513033143,
+        "max_drawdown": 39.841693740844725,
+        "signals": 34,
+        "trades": 8,
+        "bars": 2529,
+        "timing": {
+          "transfer": 0.0005292659989208914,
+          "adx": 0.004389882997202221,
+          "fibonacci": 0.5863145540060941,
+          "signals": 0.1906626249983674,
+          "simulation": 0.0016296659960062243,
+          "copy": 0.00014643199392594397,
+          "metrics": 0.00013773899991065264
+        },
+        "symbol": "ZS",
+        "category": "Random Picks",
+        "elapsed": 0.7838641080015805
+      },
+      {
+        "final_equity": 66215.70211791992,
+        "total_return": -33.784297882080075,
+        "sharpe_ratio": -12.471068413993043,
+        "max_drawdown": 33.813037811279294,
+        "signals": 36,
+        "trades": 5,
+        "bars": 2529,
+        "timing": {
+          "transfer": 0.0004639409962692298,
+          "adx": 0.004266183001163881,
+          "fibonacci": 0.5935092200015788,
+          "signals": 0.19175696399906883,
+          "simulation": 0.001444888999685645,
+          "copy": 0.0001339110021945089,
+          "metrics": 0.00015946799976518378
+        },
+        "symbol": "SNOW",
+        "category": "Random Picks",
+        "elapsed": 0.791769438998017
+      },
+      {
+        "final_equity": 81011.54438877106,
+        "total_return": -18.988455611228943,
+        "sharpe_ratio": -8.780132986599213,
+        "max_drawdown": 18.99255982875824,
+        "signals": 5,
+        "trades": 2,
+        "bars": 2550,
+        "timing": {
+          "transfer": 0.0005181660017115064,
+          "adx": 0.004332912998506799,
+          "fibonacci": 0.7988447099996847,
+          "signals": 0.1945997700022417,
+          "simulation": 0.001433026001905091,
+          "copy": 0.00013891600247006863,
+          "metrics": 0.00012086200149497017
+        },
+        "symbol": "MARA",
+        "category": "Random Picks",
+        "elapsed": 1.0000294170022244
+      },
+      {
+        "final_equity": 100014.22971343994,
+        "total_return": 0.014229713439941406,
+        "sharpe_ratio": 1.841799663901853,
+        "max_drawdown": 0.035588712268293125,
+        "signals": 3,
+        "trades": 2,
+        "bars": 2536,
+        "timing": {
+          "transfer": 0.0005147369956830516,
+          "adx": 0.004831926999031566,
+          "fibonacci": 0.604575092002051,
+          "signals": 0.19451695099996869,
+          "simulation": 0.0021835500010638498,
+          "copy": 0.00017408400162821636,
+          "metrics": 0.00013563399988925084
+        },
+        "symbol": "IONQ",
+        "category": "Random Picks",
+        "elapsed": 0.806972215003043
+      }
+    ]
+  }
+}

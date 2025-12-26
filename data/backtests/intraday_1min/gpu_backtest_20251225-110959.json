@@ -1,0 +1,38 @@
+{
+  "AAPL": {
+    "initial_capital": 100000.0,
+    "final_equity": 101081.85577468279,
+    "total_return_pct": 1.0818557746827864,
+    "sharpe_ratio": 0.05849358062073292,
+    "max_drawdown_pct": 3.3440530566443147,
+    "num_signals": 25,
+    "num_trades": 50
+  },
+  "MSFT": {
+    "initial_capital": 100000.0,
+    "final_equity": 104429.09342260273,
+    "total_return_pct": 4.429093422602731,
+    "sharpe_ratio": 0.4174592790874002,
+    "max_drawdown_pct": 1.353145942431527,
+    "num_signals": 29,
+    "num_trades": 52
+  },
+  "NVDA": {
+    "initial_capital": 100000.0,
+    "final_equity": 102001.18183753917,
+    "total_return_pct": 2.001181837539174,
+    "sharpe_ratio": 0.08819979618557953,
+    "max_drawdown_pct": 5.290196574961404,
+    "num_signals": 18,
+    "num_trades": 32
+  },
+  "GOOGL": {
+    "initial_capital": 100000.0,
+    "final_equity": 100112.98669846618,
+    "total_return_pct": 0.11298669846617851,
+    "sharpe_ratio": 0.013268218107809824,
+    "max_drawdown_pct": 1.733093297717028,
+    "num_signals": 12,
+    "num_trades": 24
+  }
+}

@@ -1,0 +1,128 @@
+{
+  "small_cap": [
+    {
+      "symbol": "CPRX",
+      "status": "no_valid_periods"
+    },
+    {
+      "symbol": "PAYO",
+      "status": "no_valid_periods"
+    },
+    {
+      "symbol": "ESLT",
+      "status": "no_valid_periods"
+    },
+    {
+      "symbol": "PRGS",
+      "status": "no_valid_periods"
+    },
+    {
+      "symbol": "PGNY",
+      "status": "no_valid_periods"
+    },
+    {
+      "symbol": "CALX",
+      "status": "no_valid_periods"
+    },
+    {
+      "symbol": "SPSC",
+      "status": "no_valid_periods"
+    },
+    {
+      "symbol": "GERN",
+      "status": "no_valid_periods"
+    },
+    {
+      "symbol": "AMBA",
+      "status": "no_valid_periods"
+    },
+    {
+      "symbol": "SCYX",
+      "status": "no_valid_periods"
+    }
+  ],
+  "mid_cap": [
+    {
+      "symbol": "WSM",
+      "status": "no_valid_periods"
+    },
+    {
+      "symbol": "TRGP",
+      "status": "no_valid_periods"
+    },
+    {
+      "symbol": "RJF",
+      "status": "no_valid_periods"
+    },
+    {
+      "symbol": "HOLX",
+      "status": "no_valid_periods"
+    },
+    {
+      "symbol": "EME",
+      "status": "no_valid_periods"
+    },
+    {
+      "symbol": "FFIV",
+      "status": "no_valid_periods"
+    },
+    {
+      "symbol": "AVY",
+      "status": "no_valid_periods"
+    },
+    {
+      "symbol": "NRG",
+      "status": "no_valid_periods"
+    },
+    {
+      "symbol": "ULTA",
+      "status": "no_valid_periods"
+    },
+    {
+      "symbol": "GNRC",
+      "status": "no_valid_periods"
+    }
+  ],
+  "large_cap": [
+    {
+      "symbol": "AAPL",
+      "status": "no_valid_periods"
+    },
+    {
+      "symbol": "MSFT",
+      "status": "no_valid_periods"
+    },
+    {
+      "symbol": "GOOGL",
+      "status": "no_valid_periods"
+    },
+    {
+      "symbol": "AMZN",
+      "status": "no_valid_periods"
+    },
+    {
+      "symbol": "NVDA",
+      "status": "no_valid_periods"
+    },
+    {
+      "symbol": "META",
+      "status": "no_valid_periods"
+    },
+    {
+      "symbol": "TSLA",
+      "status": "no_valid_periods"
+    },
+    {
+      "symbol": "JPM",
+      "status": "no_valid_periods"
+    },
+    {
+      "symbol": "V",
+      "status": "no_valid_periods"
+    },
+    {
+      "symbol": "JNJ",
+      "status": "no_valid_periods"
+    }
+  ]
+}

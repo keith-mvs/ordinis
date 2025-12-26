@@ -89,28 +89,40 @@ class KBIndexer:
             except Exception as e:
                 logger.warning(f"Failed to process {file_path}: {e}")
 
-        # Embed and store in batches
-        logger.info(f"Embedding {len(all_texts)} chunks in batches of {batch_size}")
+        # Embed and store in batches with memory management
+        import gc
+        total_batches = (len(all_texts) - 1) // batch_size + 1
+        logger.info(f"Embedding {len(all_texts)} chunks in {total_batches} batches of {batch_size}")
 
         for i in range(0, len(all_texts), batch_size):
+            batch_num = i // batch_size + 1
             batch_texts = all_texts[i : i + batch_size]
             batch_metadata = all_metadata[i : i + batch_size]
             batch_ids = all_ids[i : i + batch_size]
 
-            # Embed batch
-            embeddings = self.text_embedder.embed(batch_texts)
+            try:
+                # Embed batch
+                embeddings = self.text_embedder.embed(batch_texts)
 
-            # Store in ChromaDB
-            self.chroma_client.add_texts(
-                texts=batch_texts,
-                embeddings=embeddings,
-                metadata=[m.model_dump(exclude_none=True) for m in batch_metadata],
-                ids=batch_ids,
-            )
+                # Store in ChromaDB
+                self.chroma_client.add_texts(
+                    texts=batch_texts,
+                    embeddings=embeddings,
+                    metadata=[m.model_dump(exclude_none=True) for m in batch_metadata],
+                    ids=batch_ids,
+                )
 
-            logger.info(
-                f"Indexed batch {i // batch_size + 1}/{(len(all_texts) - 1) // batch_size + 1}"
-            )
+                logger.info(f"Indexed batch {batch_num}/{total_batches}")
+                
+                # Clear references and collect garbage every 10 batches
+                if batch_num % 10 == 0:
+                    del embeddings
+                    gc.collect()
+                    
+            except Exception as e:
+                logger.error(f"Failed batch {batch_num}: {e}")
+                gc.collect()
+                raise
 
         stats = {
             "files_processed": len(md_files),

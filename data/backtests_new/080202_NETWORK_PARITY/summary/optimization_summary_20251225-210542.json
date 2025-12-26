@@ -1,0 +1,83 @@
+{
+  "schema_version": "1.0",
+  "summary_id": "sum_20251225-210542",
+  "configuration_id": "cfg_20251225-210255_a3a19362",
+  "timestamp": "2025-12-25T21:05:42.473070Z",
+  "optimization_summary": {
+    "total_iterations": 3,
+    "converged": true,
+    "convergence_reason": "Early stopping after 3 iterations without improvement",
+    "total_time_seconds": 166.60346722602844
+  },
+  "baseline_performance": {
+    "total_return": 0.0,
+    "sharpe_ratio": 0.0,
+    "sortino_ratio": 0.0,
+    "max_drawdown": 0.0,
+    "score": -Infinity
+  },
+  "optimized_performance": {
+    "total_return": 0.0,
+    "sharpe_ratio": 0.0,
+    "sortino_ratio": 0.0,
+    "max_drawdown": 0.0,
+    "score": -Infinity
+  },
+  "improvement": {
+    "score_delta": NaN,
+    "return_delta": 0.0
+  },
+  "best_parameters": {
+    "corr_lookback": 60,
+    "corr_threshold": 0.3,
+    "recalc_frequency": 5,
+    "centrality_method": "eigenvector",
+    "weight_decay": 0.5,
+    "min_weight": 0.02,
+    "max_weight": 0.3,
+    "vol_target": 0.15,
+    "momentum_lookback": 20,
+    "z_score_entry": 2.0,
+    "z_score_exit": 0.5,
+    "momentum_threshold": 0.0,
+    "stop_loss_pct": 0.05,
+    "take_profit_pct": 0.1,
+    "trailing_stop_pct": 0.03,
+    "max_portfolio_drawdown": 0.15,
+    "max_positions": 10
+  },
+  "iteration_history": [
+    {
+      "iteration": 1,
+      "score": -Infinity,
+      "return": 0.0,
+      "sharpe": 0.0,
+      "sortino": 0.0
+    },
+    {
+      "iteration": 2,
+      "score": -Infinity,
+      "return": 0.0,
+      "sharpe": 0.0,
+      "sortino": 0.0
+    },
+    {
+      "iteration": 3,
+      "score": -Infinity,
+      "return": 0.0,
+      "sharpe": 0.0,
+      "sortino": 0.0
+    }
+  ],
+  "configuration_reference": {
+    "config_file": "configs/cfg_20251225-210255_a3a19362.json",
+    "iterations_dir": "iterations/",
+    "baseline_dir": "baseline/"
+  },
+  "reproducibility": {
+    "random_seed": 42,
+    "gpu_available": true,
+    "python_version": "3.11+",
+    "schema_version": "1.0"
+  }
+}

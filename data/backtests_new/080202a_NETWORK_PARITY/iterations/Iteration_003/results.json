@@ -1,0 +1,93 @@
+{
+  "iteration": 3,
+  "params": {
+    "corr_lookback": 7,
+    "corr_threshold": 0.34247352403039377,
+    "recalc_frequency": 4,
+    "centrality_method": "eigenvector",
+    "weight_decay": 0.44613315764562894,
+    "min_weight": 0.024514275398536636,
+    "max_weight": 0.24484090121605753,
+    "vol_target": 0.1539567454505025,
+    "momentum_lookback": 9,
+    "z_score_entry": 2.3885650887208594,
+    "z_score_exit": 0.6068895814776739,
+    "momentum_threshold": 0.0,
+    "stop_loss_pct": 0.05106879441289349,
+    "take_profit_pct": 0.09405176699858932,
+    "trailing_stop_pct": 0.03303164410265434,
+    "max_portfolio_drawdown": 0.15,
+    "max_positions": 10
+  },
+  "avg_return": -0.09572997166631415,
+  "avg_sharpe": -1.3179891589499035,
+  "composite_score": -0.041886311801147255,
+  "period_results": [
+    {
+      "period_name": "2004_recovery",
+      "n_symbols": 36,
+      "total_return": 0.029170530164256192,
+      "avg_return_per_symbol": 0.000810292504562672,
+      "sharpe_ratio": 3.2067549642335416,
+      "sortino_ratio": 8.545902581092971,
+      "max_drawdown": 0.01719105105899062,
+      "win_rate": 0.6,
+      "n_trades": 20
+    },
+    {
+      "period_name": "2008_crisis",
+      "n_symbols": 36,
+      "total_return": -0.2502241933021102,
+      "avg_return_per_symbol": -0.006950672036169728,
+      "sharpe_ratio": -3.6273985660482144,
+      "sortino_ratio": -5.752827748915189,
+      "max_drawdown": 0.2910470163190643,
+      "win_rate": 0.36363636363636365,
+      "n_trades": 22
+    },
+    {
+      "period_name": "2010_flash_crash",
+      "n_symbols": 36,
+      "total_return": -0.10370586541312876,
+      "avg_return_per_symbol": -0.0028807184836980213,
+      "sharpe_ratio": -4.2773574158131655,
+      "sortino_ratio": -7.967413641518427,
+      "max_drawdown": 0.10025659647070125,
+      "win_rate": 0.2631578947368421,
+      "n_trades": 19
+    },
+    {
+      "period_name": "2017_bull",
+      "n_symbols": 8,
+      "total_return": 0.08554888774032099,
+      "avg_return_per_symbol": 0.010693610967540124,
+      "sharpe_ratio": 4.031932672377342,
+      "sortino_ratio": 10.306796901901485,
+      "max_drawdown": 0.045694509488175133,
+      "win_rate": 0.5714285714285714,
+      "n_trades": 21
+    },
+    {
+      "period_name": "2024_recent",
+      "n_symbols": 32,
+      "total_return": -0.0913423452609815,
+      "avg_return_per_symbol": -0.002854448289405672,
+      "sharpe_ratio": -3.8900294475486508,
+      "sortino_ratio": -7.005611905469633,
+      "max_drawdown": 0.13430697890122997,
+      "win_rate": 0.4444444444444444,
+      "n_trades": 18
+    },
+    {
+      "period_name": "2025_current",
+      "n_symbols": 31,
+      "total_return": -0.24382684392624165,
+      "avg_return_per_symbol": -0.007865382062136828,
+      "sharpe_ratio": -3.3518371609002733,
+      "sortino_ratio": -4.806574442793794,
+      "max_drawdown": 0.26033131794378367,
+      "win_rate": 0.45454545454545453,
+      "n_trades": 33
+    }
+  ]
+}

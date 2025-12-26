@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.0",
+  "configuration_id": "cfg_20251225-210841_21e0c357",
+  "iteration_number": 3,
+  "symbol": "SNDL",
+  "timestamp": "2025-12-25T21:11:27.168170Z",
+  "params": {
+    "corr_lookback": 9,
+    "corr_threshold": 0.2330379543581972,
+    "recalc_frequency": 2,
+    "centrality_method": "eigenvector",
+    "weight_decay": 0.6792142876264095,
+    "min_weight": 0.018077512220594793,
+    "max_weight": 0.3252937003310728,
+    "vol_target": 0.13967791112669542,
+    "momentum_lookback": 6,
+    "z_score_entry": 2.0025115095970993,
+    "z_score_exit": 0.5716525995109446,
+    "momentum_threshold": 0.0,
+    "stop_loss_pct": 0.06660349717029321,
+    "take_profit_pct": 0.11930154417350775,
+    "trailing_stop_pct": 0.033539506608080846,
+    "max_portfolio_drawdown": 0.15,
+    "max_positions": 10
+  },
+  "metrics": {
+    "total_return": -0.002057474642433954,
+    "sharpe_ratio": -5.4367442734269815,
+    "sortino_ratio": -32.217291620390355,
+    "max_drawdown": 0.002057474642433954,
+    "win_rate": 0.0,
+    "profit_factor": 0.0,
+    "num_trades": 1,
+    "avg_trade_pnl": -3631.9073690604705
+  },
+  "trades": [
+    {
+      "symbol": "SNDL",
+      "entry_date": "2025-12-11T00:00:00+00:00",
+      "exit_date": "2025-12-12T00:00:00+00:00",
+      "entry_price": 2.03,
+      "exit_price": 2.2499,
+      "direction": -1,
+      "shares": 16024.320213353341,
+      "pnl": -3631.9073690604705,
+      "pnl_pct": -0.11165009852216749,
+      "exit_reason": "stop_loss"
+    }
+  ],
+  "equity_curve": [
+    100000.0,
+    100000.0,
+    100000.0,
+    100000.0,
+    100000.0,
+    100000.0,
+    100000.0,
+    100000.0,
+    100000.0,
+    100000.0,
+    100000.0,
+    100000.0,
+    100000.0,
+    100000.0,
+    99902.41188990067,
+    99794.2525357566,
+    99794.2525357566,
+    99794.2525357566,
+    99794.2525357566,
+    99794.2525357566
+  ],
+  "score": -Infinity
+}

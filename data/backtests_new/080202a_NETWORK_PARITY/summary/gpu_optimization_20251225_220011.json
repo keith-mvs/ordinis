@@ -1,0 +1,76 @@
+{
+  "optimization_id": "GPU_R1_20251225_220011",
+  "device": "cuda",
+  "cuda_available": true,
+  "target_return": 0.3,
+  "actual_return": -0.01850858987779234,
+  "target_achieved": false,
+  "avg_sharpe": 1.5903095862002299,
+  "avg_sortino": 7.594133625706832,
+  "avg_win_rate": 0.5477513227513228,
+  "best_params": {
+    "momentum_lookback": 13,
+    "momentum_threshold": 0.003970457777381497,
+    "zscore_lookback": 9,
+    "zscore_entry": 2.049191440447143,
+    "zscore_exit": 1.4338839897713842,
+    "concentration_factor": 1.6086247554309703,
+    "max_position_pct": 0.4,
+    "min_position_pct": 0.01,
+    "stop_loss_pct": 0.11162209972051614,
+    "take_profit_pct": 0.21940958661992854,
+    "vol_threshold": 0.016082100318249175,
+    "trend_threshold": 0.010884355471290942
+  },
+  "period_results": {
+    "2004_recovery": {
+      "total_return": 0.018678033720553433,
+      "sharpe": 7.112030381242302,
+      "sortino": 32.63172272826191,
+      "max_dd": 0.009171379888443559,
+      "win_rate": 0.7142857142857143,
+      "n_days": 7.0
+    },
+    "2008_crisis": {
+      "total_return": -0.21040520975132482,
+      "sharpe": -6.2763648725194985,
+      "sortino": -11.592490971539648,
+      "max_dd": 0.20421802866753047,
+      "win_rate": 0.2222222222222222,
+      "n_days": 9.0
+    },
+    "2010_flash_crash": {
+      "total_return": 0.01818536751734312,
+      "sharpe": 2.9899694777778727,
+      "sortino": 15.741240500763018,
+      "max_dd": 0.017670616231006103,
+      "win_rate": 0.5,
+      "n_days": 6.0
+    },
+    "2017_bull": {
+      "total_return": 0.016889671148557772,
+      "sharpe": 1.128879366946874,
+      "sortino": 3.7403733541479185,
+      "max_dd": 0.10803365574178786,
+      "win_rate": 0.5,
+      "n_days": 8.0
+    },
+    "2024_recent": {
+      "total_return": 0.012488798544440405,
+      "sharpe": 3.50325626629158,
+      "sortino": 3.50325626629158,
+      "max_dd": 0.01616589725017547,
+      "win_rate": 0.8,
+      "n_days": 5.0
+    },
+    "2025_current": {
+      "total_return": 0.03311179955367605,
+      "sharpe": 1.0840868974622486,
+      "sortino": 1.5406998763162092,
+      "max_dd": 0.1333173666941125,
+      "win_rate": 0.55,
+      "n_days": 20.0
+    }
+  },
+  "timestamp": "2025-12-25T22:00:11.835347"
+}

@@ -1,0 +1,27 @@
+{
+  "periods": {
+    "2019_bull": {
+      "start": "2019-11-01",
+      "end": "2019-11-30",
+      "description": "Late cycle bull market"
+    },
+    "2022_bear": {
+      "start": "2022-06-01",
+      "end": "2022-06-30",
+      "description": "Inflation bear market"
+    },
+    "2023_rebound": {
+      "start": "2023-05-01",
+      "end": "2023-05-31",
+      "description": "AI/Tech rebound"
+    },
+    "2024_recent": {
+      "start": "2024-10-01",
+      "end": "2024-10-31",
+      "description": "Recent market (Oct 2024)"
+    }
+  },
+  "timespan": "hour",
+  "total_bars": 36678,
+  "fetch_timestamp": "2025-12-25T22:51:53.650803"
+}

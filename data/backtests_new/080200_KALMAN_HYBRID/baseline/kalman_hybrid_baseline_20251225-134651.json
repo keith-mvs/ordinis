@@ -1,0 +1,120 @@
+{
+  "mode": "baseline",
+  "results": [
+    {
+      "symbol": "AAPL",
+      "period": "backtest",
+      "params": {
+        "q": 1e-05,
+        "r": 0.01,
+        "residual_z_entry": 2.0,
+        "residual_z_exit": 0.5,
+        "trend_slope_min": 0.0001,
+        "atr_stop_mult": 1.5,
+        "atr_tp_mult": 2.0
+      },
+      "total_return": 0.0,
+      "sharpe_ratio": 0.0,
+      "max_drawdown": 0.0,
+      "win_rate": 0,
+      "profit_factor": 0,
+      "num_trades": 0,
+      "avg_trade_pnl": 0,
+      "avg_hold_days": 0,
+      "avg_entry_z": 0,
+      "trend_alignment_rate": 0
+    },
+    {
+      "symbol": "MSFT",
+      "period": "backtest",
+      "params": {
+        "q": 1e-05,
+        "r": 0.01,
+        "residual_z_entry": 2.0,
+        "residual_z_exit": 0.5,
+        "trend_slope_min": 0.0001,
+        "atr_stop_mult": 1.5,
+        "atr_tp_mult": 2.0
+      },
+      "total_return": -0.01226544927809693,
+      "sharpe_ratio": -1.1626458419450527,
+      "max_drawdown": 0.014544944374550835,
+      "win_rate": 0.0,
+      "profit_factor": 0.0,
+      "num_trades": 3,
+      "avg_trade_pnl": -0.0410516555751112,
+      "avg_hold_days": 10.333333333333334,
+      "avg_entry_z": 2.2443105591745502,
+      "trend_alignment_rate": 1.0
+    },
+    {
+      "symbol": "JPM",
+      "period": "backtest",
+      "params": {
+        "q": 1e-05,
+        "r": 0.01,
+        "residual_z_entry": 2.0,
+        "residual_z_exit": 0.5,
+        "trend_slope_min": 0.0001,
+        "atr_stop_mult": 1.5,
+        "atr_tp_mult": 2.0
+      },
+      "total_return": 0.007331427571119421,
+      "sharpe_ratio": 0.7623356650219323,
+      "max_drawdown": 0.004595526249403229,
+      "win_rate": 1.0,
+      "profit_factor": 733.1427571119416,
+      "num_trades": 2,
+      "avg_trade_pnl": 0.03659053029373456,
+      "avg_hold_days": 13.0,
+      "avg_entry_z": 2.3505428805060613,
+      "trend_alignment_rate": 1.0
+    },
+    {
+      "symbol": "JNJ",
+      "period": "backtest",
+      "params": {
+        "q": 1e-05,
+        "r": 0.01,
+        "residual_z_entry": 2.0,
+        "residual_z_exit": 0.5,
+        "trend_slope_min": 0.0001,
+        "atr_stop_mult": 1.5,
+        "atr_tp_mult": 2.0
+      },
+      "total_return": 0.0,
+      "sharpe_ratio": 0.0,
+      "max_drawdown": 0.0,
+      "win_rate": 0,
+      "profit_factor": 0,
+      "num_trades": 0,
+      "avg_trade_pnl": 0,
+      "avg_hold_days": 0,
+      "avg_entry_z": 0,
+      "trend_alignment_rate": 0
+    },
+    {
+      "symbol": "NVDA",
+      "period": "backtest",
+      "params": {
+        "q": 1e-05,
+        "r": 0.01,
+        "residual_z_entry": 2.0,
+        "residual_z_exit": 0.5,
+        "trend_slope_min": 0.0001,
+        "atr_stop_mult": 1.5,
+        "atr_tp_mult": 2.0
+      },
+      "total_return": 0.0,
+      "sharpe_ratio": 0.0,
+      "max_drawdown": 0.0,
+      "win_rate": 0,
+      "profit_factor": 0,
+      "num_trades": 0,
+      "avg_trade_pnl": 0,
+      "avg_hold_days": 0,
+      "avg_entry_z": 0,
+      "trend_alignment_rate": 0
+    }
+  ]
+}

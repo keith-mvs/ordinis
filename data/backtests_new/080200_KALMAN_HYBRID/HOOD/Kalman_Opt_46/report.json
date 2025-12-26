@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.1",
+  "strategy": "Kalman_Hybrid",
+  "symbol": "HOOD",
+  "trial": 46,
+  "params": {
+    "residual_z_entry": 1.25,
+    "residual_z_exit": 0.5,
+    "trend_slope_min": 0.0,
+    "atr_stop_mult": 2.0,
+    "atr_tp_mult": 2.0
+  },
+  "filter_params": {
+    "symbol": "HOOD",
+    "cluster": "sub25_volatile",
+    "best_q": 5e-05,
+    "best_r": 0.005,
+    "score": 0.3910178944223529
+  },
+  "metrics": {
+    "symbol": "HOOD",
+    "period": "backtest",
+    "params": {
+      "q": 5e-05,
+      "r": 0.005,
+      "residual_z_entry": 1.25,
+      "residual_z_exit": 0.5,
+      "trend_slope_min": 0.0,
+      "atr_stop_mult": 2.0,
+      "atr_tp_mult": 2.0
+    },
+    "total_return": -0.014614301338094665,
+    "sharpe_ratio": -0.14403732299826358,
+    "max_drawdown": 0.050205183539805784,
+    "win_rate": 0.6276595744680851,
+    "profit_factor": 0.9097209465749202,
+    "num_trades": 94,
+    "avg_trade_pnl": -0.001476830382428925,
+    "avg_hold_days": 1.148936170212766,
+    "avg_entry_z": 2.2087457062972065,
+    "trend_alignment_rate": 0.0
+  }
+}

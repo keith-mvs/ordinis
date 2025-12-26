@@ -118,7 +118,12 @@ class TextEmbedder(BaseEmbedder):
 
         try:
             if self.use_local and self._model is not None:
-                embeddings = self._model.encode(texts, convert_to_numpy=True)
+                embeddings = self._model.encode(
+                    texts, 
+                    convert_to_numpy=True,
+                    show_progress_bar=False,  # Disable for cleaner output
+                    batch_size=128,  # GPU batch size for encoding
+                )
             elif self._client is not None:
                 # NVIDIA API returns list of embeddings
                 embeddings = np.array(self._client.embed_documents(texts))

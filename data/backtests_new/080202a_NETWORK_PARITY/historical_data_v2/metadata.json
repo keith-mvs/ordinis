@@ -1,0 +1,48 @@
+{
+  "periods": {
+    "2006_bull": {
+      "start": "2006-05-01",
+      "end": "2006-05-31",
+      "description": "Pre-crisis bull market",
+      "universe": "historical",
+      "file": "2006_bull.csv.gz"
+    },
+    "2012_recovery": {
+      "start": "2012-09-01",
+      "end": "2012-09-30",
+      "description": "European debt crisis recovery",
+      "universe": "historical",
+      "file": "2012_recovery.csv.gz"
+    },
+    "2015_volatility": {
+      "start": "2015-08-01",
+      "end": "2015-08-31",
+      "description": "China-induced volatility",
+      "universe": "historical",
+      "file": "2015_volatility.csv.gz"
+    },
+    "2019_bull": {
+      "start": "2019-11-01",
+      "end": "2019-11-30",
+      "description": "Late cycle bull market",
+      "universe": "modern",
+      "file": "2019_bull.csv.gz"
+    },
+    "2022_bear": {
+      "start": "2022-06-01",
+      "end": "2022-06-30",
+      "description": "Inflation bear market",
+      "universe": "modern",
+      "file": "2022_bear.csv.gz"
+    },
+    "2023_rebound": {
+      "start": "2023-05-01",
+      "end": "2023-05-31",
+      "description": "AI/Tech rebound",
+      "universe": "modern",
+      "file": "2023_rebound.csv.gz"
+    }
+  },
+  "total_trading_days": 125,
+  "fetch_timestamp": "2025-12-25T22:23:07.945282"
+}

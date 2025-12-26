@@ -1,0 +1,3518 @@
+{
+  "small_cap": [
+    {
+      "total_return": -0.02123885005810749,
+      "sharpe": -0.5008860753842828,
+      "max_drawdown": 0.03558432165676855,
+      "num_trades": 25,
+      "signals_generated": 25,
+      "actionable_signals": 25,
+      "win_rate": 0.32,
+      "avg_win": 0.060305068136315795,
+      "avg_loss": -0.04082058666763405,
+      "final_capital": 97876.11499418925,
+      "bars_processed": 752,
+      "trades": [
+        {
+          "entry_date": "2023-08-17",
+          "exit_date": "2023-08-24",
+          "entry": 14.239999771118164,
+          "exit": 13.850000381469727,
+          "pnl": -273.8759802787649,
+          "pnl_pct": -0.02738759802787649,
+          "days_held": 5,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-08-24",
+          "exit_date": "2023-09-05",
+          "entry": 13.850000381469727,
+          "exit": 12.9399995803833,
+          "pnl": -655.2407960118795,
+          "pnl_pct": -0.0657040271496266,
+          "days_held": 7,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-11-16",
+          "exit_date": "2023-11-24",
+          "entry": 13.380000114440918,
+          "exit": 14.0600004196167,
+          "pnl": 503.49947869915644,
+          "pnl_pct": 0.05082214494466729,
+          "days_held": 5,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2023-12-06",
+          "exit_date": "2023-12-12",
+          "entry": 14.010000228881836,
+          "exit": 13.350000381469727,
+          "pnl": -469.0869116066372,
+          "pnl_pct": -0.04710919604779944,
+          "days_held": 4,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-01-09",
+          "exit_date": "2024-01-11",
+          "entry": 15.289999961853027,
+          "exit": 14.710000038146973,
+          "pnl": -375.9389414057581,
+          "pnl_pct": -0.03793328483669684,
+          "days_held": 2,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-03-06",
+          "exit_date": "2024-03-20",
+          "entry": 15.859999656677246,
+          "exit": 16.90999984741211,
+          "pnl": 653.6308055930618,
+          "pnl_pct": 0.06620430097505084,
+          "days_held": 10,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2024-03-26",
+          "exit_date": "2024-04-02",
+          "entry": 15.75,
+          "exit": 15.260000228881836,
+          "pnl": -309.1913727237081,
+          "pnl_pct": -0.03111109657893105,
+          "days_held": 4,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-06-03",
+          "exit_date": "2024-06-06",
+          "entry": 16.18000030517578,
+          "exit": 15.760000228881836,
+          "pnl": -257.1755328334046,
+          "pnl_pct": -0.025957977031656327,
+          "days_held": 3,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-07-01",
+          "exit_date": "2024-07-03",
+          "entry": 15.770000457763672,
+          "exit": 15.3100004196167,
+          "pnl": -288.2412681980335,
+          "pnl_pct": -0.02916931038645035,
+          "days_held": 2,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-07-08",
+          "exit_date": "2024-07-11",
+          "entry": 15.449999809265137,
+          "exit": 16.309999465942383,
+          "pnl": 548.442547397397,
+          "pnl_pct": 0.05566340888635591,
+          "days_held": 3,
+          "exit_reason": "profit_target"
+        }
+      ],
+      "symbol": "CPRX",
+      "status": "success"
+    },
+    {
+      "total_return": -0.0116380803132031,
+      "sharpe": -0.3039045179954072,
+      "max_drawdown": 0.02998918025942754,
+      "num_trades": 12,
+      "signals_generated": 12,
+      "actionable_signals": 12,
+      "win_rate": 0.4166666666666667,
+      "avg_win": 0.05064782539765898,
+      "avg_loss": -0.05258506584422224,
+      "final_capital": 98836.19196867969,
+      "bars_processed": 752,
+      "trades": [
+        {
+          "entry_date": "2024-02-29",
+          "exit_date": "2024-03-05",
+          "entry": 4.860000133514404,
+          "exit": 4.550000190734863,
+          "pnl": 637.8599470436047,
+          "pnl_pct": 0.06378599470436049,
+          "days_held": 3,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2024-04-18",
+          "exit_date": "2024-04-23",
+          "entry": 4.849999904632568,
+          "exit": 5.170000076293945,
+          "pnl": -664.0027441635038,
+          "pnl_pct": -0.0659794181347762,
+          "days_held": 3,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-07-19",
+          "exit_date": "2024-08-05",
+          "entry": 5.519999980926514,
+          "exit": 5.210000038146973,
+          "pnl": 561.4472847722899,
+          "pnl_pct": 0.056159410117879845,
+          "days_held": 11,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2025-06-04",
+          "exit_date": "2025-06-06",
+          "entry": 6.769999980926514,
+          "exit": 7.03000020980835,
+          "pnl": -386.10343059288147,
+          "pnl_pct": -0.03840476065204559,
+          "days_held": 2,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2025-08-05",
+          "exit_date": "2025-08-06",
+          "entry": 6.5,
+          "exit": 7.420000076293945,
+          "pnl": -1417.4965017426528,
+          "pnl_pct": -0.1415384732759916,
+          "days_held": 1,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2025-08-07",
+          "exit_date": "2025-08-08",
+          "entry": 6.989999771118164,
+          "exit": 6.639999866485596,
+          "pnl": -494.3646396292229,
+          "pnl_pct": -0.0500715187543676,
+          "days_held": 1,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2025-08-13",
+          "exit_date": "2025-09-04",
+          "entry": 6.809999942779541,
+          "exit": 6.699999809265137,
+          "pnl": -158.6801849871232,
+          "pnl_pct": -0.01615273633460665,
+          "days_held": 15,
+          "exit_reason": "max_hold"
+        },
+        {
+          "entry_date": "2025-09-05",
+          "exit_date": "2025-09-10",
+          "entry": 6.650000095367432,
+          "exit": 6.46999979019165,
+          "pnl": -265.4765177380385,
+          "pnl_pct": -0.02706771467585005,
+          "days_held": 3,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2025-10-24",
+          "exit_date": "2025-10-30",
+          "entry": 6.070000171661377,
+          "exit": 5.75,
+          "pnl": 515.6546051682687,
+          "pnl_pct": 0.052718313445087095,
+          "days_held": 4,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2025-11-10",
+          "exit_date": "2025-11-18",
+          "entry": 5.670000076293945,
+          "exit": 5.349999904632568,
+          "pnl": 554.9425847914982,
+          "pnl_pct": 0.056437419286691985,
+          "days_held": 6,
+          "exit_reason": "profit_target"
+        }
+      ],
+      "symbol": "PAYO",
+      "status": "success"
+    },
+    {
+      "total_return": 0.0072876755921254515,
+      "sharpe": 0.21266335524612384,
+      "max_drawdown": 0.018117234879925163,
+      "num_trades": 18,
+      "signals_generated": 18,
+      "actionable_signals": 18,
+      "win_rate": 0.4444444444444444,
+      "avg_win": 0.05067672889446147,
+      "avg_loss": -0.033093506922617685,
+      "final_capital": 100728.76755921255,
+      "bars_processed": 752,
+      "trades": [
+        {
+          "entry_date": "2023-04-10",
+          "exit_date": "2023-05-01",
+          "entry": 172.93060302734375,
+          "exit": 181.53330993652344,
+          "pnl": 497.4658480673562,
+          "pnl_pct": 0.04974658480673562,
+          "days_held": 15,
+          "exit_reason": "max_hold"
+        },
+        {
+          "entry_date": "2023-05-23",
+          "exit_date": "2023-05-30",
+          "entry": 191.31207275390625,
+          "exit": 200.9930877685547,
+          "pnl": 508.5499633160989,
+          "pnl_pct": 0.05060326238324533,
+          "days_held": 4,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2023-06-01",
+          "exit_date": "2023-06-09",
+          "entry": 192.0944061279297,
+          "exit": 201.9318389892578,
+          "pnl": 517.266441622977,
+          "pnl_pct": 0.05121144888923346,
+          "days_held": 6,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2023-08-30",
+          "exit_date": "2023-09-21",
+          "entry": 197.03868103027344,
+          "exit": 196.95045471191406,
+          "pnl": 4.545820837872061,
+          "pnl_pct": 0.0004477614136374559,
+          "days_held": 15,
+          "exit_reason": "max_hold"
+        },
+        {
+          "entry_date": "2023-12-14",
+          "exit_date": "2023-12-19",
+          "entry": 204.309326171875,
+          "exit": 210.4308624267578,
+          "pnl": -304.19868347600806,
+          "pnl_pct": -0.029962098987752896,
+          "days_held": 3,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-01-03",
+          "exit_date": "2024-01-23",
+          "entry": 206.4882354736328,
+          "exit": 200.30325317382812,
+          "pnl": -303.1971069273639,
+          "pnl_pct": -0.02995319460025348,
+          "days_held": 13,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-01-30",
+          "exit_date": "2024-02-21",
+          "entry": 203.70106506347656,
+          "exit": 203.11012268066406,
+          "pnl": -29.277294504797965,
+          "pnl_pct": -0.0029010274572121297,
+          "days_held": 15,
+          "exit_reason": "max_hold"
+        },
+        {
+          "entry_date": "2024-03-04",
+          "exit_date": "2024-03-06",
+          "entry": 217.2725830078125,
+          "exit": 211.33380126953125,
+          "pnl": -275.76905493909135,
+          "pnl_pct": -0.027333323220388596,
+          "days_held": 2,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-03-06",
+          "exit_date": "2024-03-11",
+          "entry": 211.33380126953125,
+          "exit": 203.2578125,
+          "pnl": -384.49539163338926,
+          "pnl_pct": -0.038214373285375594,
+          "days_held": 3,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-03-20",
+          "exit_date": "2024-03-27",
+          "entry": 200.72671508789062,
+          "exit": 207.95565795898438,
+          "pnl": -360.97007881204996,
+          "pnl_pct": -0.03601385529538741,
+          "days_held": 5,
+          "exit_reason": "stop_loss"
+        }
+      ],
+      "symbol": "ESLT",
+      "status": "success"
+    },
+    {
+      "total_return": 0.009869575423266651,
+      "sharpe": 0.2506094300711467,
+      "max_drawdown": 0.016797426483544577,
+      "num_trades": 21,
+      "signals_generated": 21,
+      "actionable_signals": 21,
+      "win_rate": 0.47619047619047616,
+      "avg_win": 0.048198231406207104,
+      "avg_loss": -0.03466426704482222,
+      "final_capital": 100986.95754232667,
+      "bars_processed": 752,
+      "trades": [
+        {
+          "entry_date": "2023-04-14",
+          "exit_date": "2023-05-03",
+          "entry": 55.563926696777344,
+          "exit": 52.5904426574707,
+          "pnl": 535.1464909118995,
+          "pnl_pct": 0.05351464909118995,
+          "days_held": 13,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2023-05-10",
+          "exit_date": "2023-05-17",
+          "entry": 54.111534118652344,
+          "exit": 55.60318374633789,
+          "pnl": -277.1372430573689,
+          "pnl_pct": -0.027566204728454974,
+          "days_held": 5,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-06-01",
+          "exit_date": "2023-06-15",
+          "entry": 58.61022186279297,
+          "exit": 56.59257507324219,
+          "pnl": -345.1364694698439,
+          "pnl_pct": -0.03442482770793991,
+          "days_held": 10,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-07-12",
+          "exit_date": "2023-08-01",
+          "entry": 56.43510437011719,
+          "exit": 59.50586700439453,
+          "pnl": 543.6487091421545,
+          "pnl_pct": 0.05441227882096973,
+          "days_held": 14,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2023-08-10",
+          "exit_date": "2023-08-31",
+          "entry": 59.03343963623047,
+          "exit": 60.0522346496582,
+          "pnl": 173.36716916453682,
+          "pnl_pct": 0.01725793075425799,
+          "days_held": 15,
+          "exit_reason": "max_hold"
+        },
+        {
+          "entry_date": "2023-10-10",
+          "exit_date": "2023-10-19",
+          "entry": 53.36001968383789,
+          "exit": 50.68511199951172,
+          "pnl": 504.4519549197261,
+          "pnl_pct": 0.05012943586181565,
+          "days_held": 7,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2023-11-07",
+          "exit_date": "2023-11-29",
+          "entry": 52.234779357910156,
+          "exit": 53.488338470458984,
+          "pnl": -242.70778171881676,
+          "pnl_pct": -0.02399855284080942,
+          "days_held": 15,
+          "exit_reason": "max_hold"
+        },
+        {
+          "entry_date": "2023-12-28",
+          "exit_date": "2024-01-03",
+          "entry": 53.8992919921875,
+          "exit": 51.98810958862305,
+          "pnl": -357.7455402555654,
+          "pnl_pct": -0.03545839533182499,
+          "days_held": 3,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-01-26",
+          "exit_date": "2024-01-31",
+          "entry": 57.84048843383789,
+          "exit": 56.25608825683594,
+          "pnl": -275.38824987378445,
+          "pnl_pct": -0.02739257948719268,
+          "days_held": 3,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-01-31",
+          "exit_date": "2024-02-13",
+          "entry": 56.25608825683594,
+          "exit": 54.443931579589844,
+          "pnl": -322.95901495337307,
+          "pnl_pct": -0.03221263215054577,
+          "days_held": 9,
+          "exit_reason": "stop_loss"
+        }
+      ],
+      "symbol": "PRGS",
+      "status": "success"
+    },
+    {
+      "total_return": -0.026999378393943334,
+      "sharpe": -0.48398560863655965,
+      "max_drawdown": 0.04158227370627243,
+      "num_trades": 28,
+      "signals_generated": 28,
+      "actionable_signals": 28,
+      "win_rate": 0.39285714285714285,
+      "avg_win": 0.0562966652282763,
+      "avg_loss": -0.05221742195521661,
+      "final_capital": 97300.06216060567,
+      "bars_processed": 752,
+      "trades": [
+        {
+          "entry_date": "2023-04-12",
+          "exit_date": "2023-04-19",
+          "entry": 32.2599983215332,
+          "exit": 34.060001373291016,
+          "pnl": -557.9674970275277,
+          "pnl_pct": -0.055796749702752765,
+          "days_held": 5,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-05-15",
+          "exit_date": "2023-05-22",
+          "entry": 35.9900016784668,
+          "exit": 38.709999084472656,
+          "pnl": 751.5478128412199,
+          "pnl_pct": 0.0755764734413242,
+          "days_held": 5,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2023-06-20",
+          "exit_date": "2023-06-22",
+          "entry": 38.61000061035156,
+          "exit": 37.47999954223633,
+          "pnl": -293.2371172892559,
+          "pnl_pct": -0.029267056468584324,
+          "days_held": 2,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-06-22",
+          "exit_date": "2023-07-14",
+          "entry": 37.47999954223633,
+          "exit": 38.79999923706055,
+          "pnl": 351.8367773358269,
+          "pnl_pct": 0.03521877563890328,
+          "days_held": 15,
+          "exit_reason": "max_hold"
+        },
+        {
+          "entry_date": "2023-07-14",
+          "exit_date": "2023-07-31",
+          "entry": 38.79999923706055,
+          "exit": 41.7599983215332,
+          "pnl": 764.810223659725,
+          "pnl_pct": 0.07628863769784196,
+          "days_held": 11,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2023-08-02",
+          "exit_date": "2023-08-08",
+          "entry": 40.900001525878906,
+          "exit": 39.77000045776367,
+          "pnl": -279.0936493022314,
+          "pnl_pct": -0.02762838694273011,
+          "days_held": 4,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-08-08",
+          "exit_date": "2023-08-10",
+          "entry": 39.77000045776367,
+          "exit": 37.790000915527344,
+          "pnl": -501.53630062718327,
+          "pnl_pct": -0.049786258975257416,
+          "days_held": 2,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-12-15",
+          "exit_date": "2023-12-19",
+          "entry": 34.5,
+          "exit": 36.97999954223633,
+          "pnl": 720.539500099769,
+          "pnl_pct": 0.07188404470250226,
+          "days_held": 2,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2024-02-26",
+          "exit_date": "2024-02-28",
+          "entry": 39.869998931884766,
+          "exit": 34.650001525878906,
+          "pnl": -1321.7827161523446,
+          "pnl_pct": -0.13092544634686037,
+          "days_held": 2,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-02-29",
+          "exit_date": "2024-03-05",
+          "entry": 36.52000045776367,
+          "exit": 34.5,
+          "pnl": 551.1034487796616,
+          "pnl_pct": 0.05531216956308242,
+          "days_held": 3,
+          "exit_reason": "profit_target"
+        }
+      ],
+      "symbol": "PGNY",
+      "status": "success"
+    },
+    {
+      "total_return": -0.031517900350007545,
+      "sharpe": -0.8253452906076695,
+      "max_drawdown": 0.041289169901079344,
+      "num_trades": 18,
+      "signals_generated": 18,
+      "actionable_signals": 18,
+      "win_rate": 0.16666666666666666,
+      "avg_win": 0.08400964270346684,
+      "avg_loss": -0.03796888479668267,
+      "final_capital": 96848.20996499925,
+      "bars_processed": 752,
+      "trades": [
+        {
+          "entry_date": "2023-04-24",
+          "exit_date": "2023-04-25",
+          "entry": 48.61000061035156,
+          "exit": 45.72999954223633,
+          "pnl": 592.4708973366962,
+          "pnl_pct": 0.05924708973366963,
+          "days_held": 1,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2023-06-22",
+          "exit_date": "2023-06-26",
+          "entry": 48.9900016784668,
+          "exit": 47.72999954223633,
+          "pnl": -258.7195833370549,
+          "pnl_pct": -0.02571957732314783,
+          "days_held": 2,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-07-14",
+          "exit_date": "2023-07-20",
+          "entry": 49.61000061035156,
+          "exit": 47.56999969482422,
+          "pnl": -412.5800081045426,
+          "pnl_pct": -0.041120759734513686,
+          "days_held": 4,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-09-21",
+          "exit_date": "2023-09-29",
+          "entry": 44.720001220703125,
+          "exit": 45.84000015258789,
+          "pnl": -250.24955742502917,
+          "pnl_pct": -0.02504469815099786,
+          "days_held": 6,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-07-23",
+          "exit_date": "2024-07-29",
+          "entry": 35.040000915527344,
+          "exit": 39.779998779296875,
+          "pnl": 1348.287510912521,
+          "pnl_pct": 0.13527390810281306,
+          "days_held": 4,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2024-08-02",
+          "exit_date": "2024-08-05",
+          "entry": 37.529998779296875,
+          "exit": 36.130001068115234,
+          "pnl": -376.83630788320653,
+          "pnl_pct": -0.03730343076786718,
+          "days_held": 1,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-08-14",
+          "exit_date": "2024-09-05",
+          "entry": 37.060001373291016,
+          "exit": 36.869998931884766,
+          "pnl": -51.59820793607574,
+          "pnl_pct": -0.005126887057893742,
+          "days_held": 15,
+          "exit_reason": "max_hold"
+        },
+        {
+          "entry_date": "2024-09-19",
+          "exit_date": "2024-10-03",
+          "entry": 38.650001525878906,
+          "exit": 37.20000076293945,
+          "pnl": -377.3782519133307,
+          "pnl_pct": -0.037516189021844545,
+          "days_held": 10,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-10-09",
+          "exit_date": "2024-10-11",
+          "entry": 37.20000076293945,
+          "exit": 38.220001220703125,
+          "pnl": -274.778785481558,
+          "pnl_pct": -0.02741936658183751,
+          "days_held": 2,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-11-29",
+          "exit_date": "2024-12-03",
+          "entry": 32.529998779296875,
+          "exit": 33.5,
+          "pnl": -298.00364220137135,
+          "pnl_pct": -0.029818667602301438,
+          "days_held": 2,
+          "exit_reason": "stop_loss"
+        }
+      ],
+      "symbol": "CALX",
+      "status": "success"
+    },
+    {
+      "total_return": -0.01993846944423669,
+      "sharpe": -0.41727697123173646,
+      "max_drawdown": 0.03515404615760136,
+      "num_trades": 27,
+      "signals_generated": 27,
+      "actionable_signals": 27,
+      "win_rate": 0.2962962962962963,
+      "avg_win": 0.074210506062802,
+      "avg_loss": -0.04159728881363883,
+      "final_capital": 98006.15305557633,
+      "bars_processed": 752,
+      "trades": [
+        {
+          "entry_date": "2023-04-17",
+          "exit_date": "2023-04-25",
+          "entry": 151.9199981689453,
+          "exit": 141.47999572753906,
+          "pnl": -687.2039604553089,
+          "pnl_pct": -0.06872039604553089,
+          "days_held": 6,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-05-03",
+          "exit_date": "2023-05-19",
+          "entry": 152.49000549316406,
+          "exit": 160.1199951171875,
+          "pnl": 496.92148732229623,
+          "pnl_pct": 0.050035998092776514,
+          "days_held": 12,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2023-05-24",
+          "exit_date": "2023-06-06",
+          "entry": 158.0399932861328,
+          "exit": 169.75999450683594,
+          "pnl": 740.1734123938086,
+          "pnl_pct": 0.07415845177545635,
+          "days_held": 8,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2023-08-21",
+          "exit_date": "2023-08-23",
+          "entry": 172.47000122070312,
+          "exit": 182.49000549316406,
+          "pnl": -584.1655532416927,
+          "pnl_pct": -0.05809708471932304,
+          "days_held": 2,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-09-13",
+          "exit_date": "2023-09-21",
+          "entry": 177.88999938964844,
+          "exit": 165.9499969482422,
+          "pnl": 670.9713920182694,
+          "pnl_pct": 0.06712014437221392,
+          "days_held": 6,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2023-09-28",
+          "exit_date": "2023-10-19",
+          "entry": 170.9600067138672,
+          "exit": 166.00999450683594,
+          "pnl": 291.3856211764997,
+          "pnl_pct": 0.02895421158537973,
+          "days_held": 15,
+          "exit_reason": "max_hold"
+        },
+        {
+          "entry_date": "2023-11-02",
+          "exit_date": "2023-11-06",
+          "entry": 163.1699981689453,
+          "exit": 168.22999572753906,
+          "pnl": -312.9839163231462,
+          "pnl_pct": -0.03101058782481971,
+          "days_held": 2,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-11-06",
+          "exit_date": "2023-11-14",
+          "entry": 168.22999572753906,
+          "exit": 186.41000366210938,
+          "pnl": -1087.3110237243448,
+          "pnl_pct": -0.10806638766141433,
+          "days_held": 6,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-11-15",
+          "exit_date": "2023-11-20",
+          "entry": 176.3800048828125,
+          "exit": 170.3800048828125,
+          "pnl": -338.5682663699652,
+          "pnl_pct": -0.034017461355590854,
+          "days_held": 3,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-11-20",
+          "exit_date": "2023-12-04",
+          "entry": 170.3800048828125,
+          "exit": 185.75999450683594,
+          "pnl": 895.3686572843188,
+          "pnl_pct": 0.09026874740731347,
+          "days_held": 9,
+          "exit_reason": "profit_target"
+        }
+      ],
+      "symbol": "SPSC",
+      "status": "success"
+    },
+    {
+      "total_return": -0.03117775697081859,
+      "sharpe": -0.5876921225023882,
+      "max_drawdown": 0.03378519620013651,
+      "num_trades": 22,
+      "signals_generated": 22,
+      "actionable_signals": 22,
+      "win_rate": 0.2727272727272727,
+      "avg_win": 0.08180478707050026,
+      "avg_loss": -0.050183898886419054,
+      "final_capital": 96882.22430291814,
+      "bars_processed": 752,
+      "trades": [
+        {
+          "entry_date": "2023-06-14",
+          "exit_date": "2023-06-16",
+          "entry": 3.0899999141693115,
+          "exit": 3.0,
+          "pnl": -291.2618662434698,
+          "pnl_pct": -0.029126186624346982,
+          "days_held": 2,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-07-11",
+          "exit_date": "2023-07-24",
+          "entry": 3.140000104904175,
+          "exit": 3.0299999713897705,
+          "pnl": -349.2985395171097,
+          "pnl_pct": -0.035031888483889474,
+          "days_held": 9,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-01-02",
+          "exit_date": "2024-01-03",
+          "entry": 2.140000104904175,
+          "exit": 2.009999990463257,
+          "pnl": -603.5858824696174,
+          "pnl_pct": -0.06074771405057437,
+          "days_held": 1,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-01-03",
+          "exit_date": "2024-01-08",
+          "entry": 2.009999990463257,
+          "exit": 2.1500000953674316,
+          "pnl": 687.8522360770057,
+          "pnl_pct": 0.06965179381513735,
+          "days_held": 3,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2024-01-25",
+          "exit_date": "2024-01-30",
+          "entry": 2.1600000858306885,
+          "exit": 2.009999990463257,
+          "pnl": -690.5817029230009,
+          "pnl_pct": -0.06944448583655723,
+          "days_held": 3,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-02-26",
+          "exit_date": "2024-02-28",
+          "entry": 2.069999933242798,
+          "exit": 1.9500000476837158,
+          "pnl": -572.4813521818937,
+          "pnl_pct": -0.05797096107684116,
+          "days_held": 2,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-02-29",
+          "exit_date": "2024-03-01",
+          "entry": 2.0,
+          "exit": 2.259999990463257,
+          "pnl": 1276.3483107894663,
+          "pnl_pct": 0.12999999523162842,
+          "days_held": 1,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2024-03-04",
+          "exit_date": "2024-03-08",
+          "entry": 2.0799999237060547,
+          "exit": 2.25,
+          "pnl": 812.8700342662117,
+          "pnl_pct": 0.08173080890841884,
+          "days_held": 4,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2024-03-11",
+          "exit_date": "2024-03-12",
+          "entry": 2.140000104904175,
+          "exit": 1.8799999952316284,
+          "pnl": -1218.232413116903,
+          "pnl_pct": -0.12149537239587599,
+          "days_held": 1,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-06-18",
+          "exit_date": "2024-06-28",
+          "entry": 4.489999771118164,
+          "exit": 4.239999771118164,
+          "pnl": -551.5124380508233,
+          "pnl_pct": -0.05567929014342498,
+          "days_held": 7,
+          "exit_reason": "stop_loss"
+        }
+      ],
+      "symbol": "GERN",
+      "status": "success"
+    },
+    {
+      "total_return": 0.00661717863812446,
+      "sharpe": 0.15461479278954413,
+      "max_drawdown": 0.01988971287854444,
+      "num_trades": 19,
+      "signals_generated": 19,
+      "actionable_signals": 19,
+      "win_rate": 0.42105263157894735,
+      "avg_win": 0.06813209322429617,
+      "avg_loss": -0.04325195548052662,
+      "final_capital": 100661.71786381245,
+      "bars_processed": 752,
+      "trades": [
+        {
+          "entry_date": "2023-05-31",
+          "exit_date": "2023-06-02",
+          "entry": 72.31999969482422,
+          "exit": 76.54000091552734,
+          "pnl": 583.5178703692861,
+          "pnl_pct": 0.058351787036928615,
+          "days_held": 2,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2024-01-25",
+          "exit_date": "2024-01-26",
+          "entry": 56.349998474121094,
+          "exit": 54.77000045776367,
+          "pnl": -282.0261987876008,
+          "pnl_pct": -0.028039007260719638,
+          "days_held": 1,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-03-04",
+          "exit_date": "2024-03-05",
+          "entry": 56.849998474121094,
+          "exit": 55.369998931884766,
+          "pnl": -261.1190250552716,
+          "pnl_pct": -0.02603341393069772,
+          "days_held": 1,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-03-05",
+          "exit_date": "2024-03-13",
+          "entry": 55.369998931884766,
+          "exit": 53.060001373291016,
+          "pnl": -417.36142501749316,
+          "pnl_pct": -0.041719299316502964,
+          "days_held": 6,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-06-25",
+          "exit_date": "2024-07-02",
+          "entry": 52.81999969482422,
+          "exit": 56.099998474121094,
+          "pnl": 618.6356627874941,
+          "pnl_pct": 0.062097667516993166,
+          "days_held": 5,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2024-07-18",
+          "exit_date": "2024-07-24",
+          "entry": 57.5099983215332,
+          "exit": 54.599998474121094,
+          "pnl": -507.2216756236977,
+          "pnl_pct": -0.050599894493868064,
+          "days_held": 4,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-08-19",
+          "exit_date": "2024-08-26",
+          "entry": 48.90999984741211,
+          "exit": 51.150001525878906,
+          "pnl": -456.7681058379082,
+          "pnl_pct": -0.04579843969444049,
+          "days_held": 5,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-09-18",
+          "exit_date": "2024-09-19",
+          "entry": 53.88999938964844,
+          "exit": 55.77000045776367,
+          "pnl": -346.3390304457099,
+          "pnl_pct": -0.03488589885707733,
+          "days_held": 1,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-09-19",
+          "exit_date": "2024-10-03",
+          "entry": 55.77000045776367,
+          "exit": 57.16999816894531,
+          "pnl": -248.3478890598551,
+          "pnl_pct": -0.025103060779816593,
+          "days_held": 10,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-10-21",
+          "exit_date": "2024-10-29",
+          "entry": 57.2599983215332,
+          "exit": 61.529998779296875,
+          "pnl": 735.9000003634854,
+          "pnl_pct": 0.0745721373197787,
+          "days_held": 6,
+          "exit_reason": "profit_target"
+        }
+      ],
+      "symbol": "AMBA",
+      "status": "success"
+    },
+    {
+      "total_return": -0.012956475979458773,
+      "sharpe": -0.18044122938294538,
+      "max_drawdown": 0.03500378611320839,
+      "num_trades": 34,
+      "signals_generated": 34,
+      "actionable_signals": 34,
+      "win_rate": 0.4411764705882353,
+      "avg_win": 0.06441508128149244,
+      "avg_loss": -0.0572480919541718,
+      "final_capital": 98704.35240205412,
+      "bars_processed": 752,
+      "trades": [
+        {
+          "entry_date": "2023-08-04",
+          "exit_date": "2023-08-14",
+          "entry": 2.9200000762939453,
+          "exit": 2.799999952316284,
+          "pnl": -410.95931795304915,
+          "pnl_pct": -0.041095931795304914,
+          "days_held": 6,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-08-14",
+          "exit_date": "2023-08-16",
+          "entry": 2.799999952316284,
+          "exit": 2.6700000762939453,
+          "pnl": -462.3772557974437,
+          "pnl_pct": -0.04642852794150843,
+          "days_held": 2,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-08-16",
+          "exit_date": "2023-08-18",
+          "entry": 2.6700000762939453,
+          "exit": 2.940000057220459,
+          "pnl": 1002.404362158145,
+          "pnl_pct": 0.1011235854724331,
+          "days_held": 2,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2023-08-18",
+          "exit_date": "2023-08-21",
+          "entry": 2.940000057220459,
+          "exit": 3.0899999141693115,
+          "pnl": 510.8620936178732,
+          "pnl_pct": 0.051020358513416394,
+          "days_held": 1,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2023-09-07",
+          "exit_date": "2023-09-08",
+          "entry": 3.1600000858306885,
+          "exit": 3.319999933242798,
+          "pnl": 509.5687654216169,
+          "pnl_pct": 0.050632861729827845,
+          "days_held": 1,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2023-09-08",
+          "exit_date": "2023-09-12",
+          "entry": 3.319999933242798,
+          "exit": 3.509999990463257,
+          "pnl": 578.8677987130014,
+          "pnl_pct": 0.05722893404846461,
+          "days_held": 2,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2023-09-13",
+          "exit_date": "2023-09-18",
+          "entry": 3.380000114440918,
+          "exit": 3.200000047683716,
+          "pnl": -541.7488796280344,
+          "pnl_pct": -0.05325445581737081,
+          "days_held": 3,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-01-03",
+          "exit_date": "2024-01-05",
+          "entry": 1.9600000381469727,
+          "exit": 1.8899999856948853,
+          "pnl": -361.38104077809345,
+          "pnl_pct": -0.03571431178045639,
+          "days_held": 2,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-01-05",
+          "exit_date": "2024-01-08",
+          "entry": 1.8899999856948853,
+          "exit": 2.0199999809265137,
+          "pnl": 693.506897713375,
+          "pnl_pct": 0.06878306678072914,
+          "days_held": 1,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2024-01-08",
+          "exit_date": "2024-01-16",
+          "entry": 2.0199999809265137,
+          "exit": 1.899999976158142,
+          "pnl": -603.081673758608,
+          "pnl_pct": -0.059405943515569326,
+          "days_held": 5,
+          "exit_reason": "stop_loss"
+        }
+      ],
+      "symbol": "SCYX",
+      "status": "success"
+    }
+  ],
+  "mid_cap": [
+    {
+      "total_return": -0.015264775013802282,
+      "sharpe": -0.23093098669923778,
+      "max_drawdown": 0.0405842849245937,
+      "num_trades": 17,
+      "signals_generated": 17,
+      "actionable_signals": 17,
+      "win_rate": 0.4117647058823529,
+      "avg_win": 0.07294622967325379,
+      "avg_loss": -0.06568853268822886,
+      "final_capital": 98473.52249861977,
+      "bars_processed": 752,
+      "trades": [
+        {
+          "entry_date": "2023-05-12",
+          "exit_date": "2023-05-18",
+          "entry": 54.52077865600586,
+          "exit": 56.51631164550781,
+          "pnl": -366.013295975209,
+          "pnl_pct": -0.0366013295975209,
+          "days_held": 4,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-06-08",
+          "exit_date": "2023-06-20",
+          "entry": 60.3734016418457,
+          "exit": 58.22951126098633,
+          "pnl": -353.8053843124474,
+          "pnl_pct": -0.03551051162526202,
+          "days_held": 7,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-06-20",
+          "exit_date": "2023-07-11",
+          "entry": 58.22951126098633,
+          "exit": 61.8856086730957,
+          "pnl": 623.3574799724354,
+          "pnl_pct": 0.06278770563130166,
+          "days_held": 14,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2023-09-12",
+          "exit_date": "2023-09-25",
+          "entry": 67.00435638427734,
+          "exit": 75.30160522460938,
+          "pnl": 1237.1203399026435,
+          "pnl_pct": 0.12383148332544824,
+          "days_held": 9,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2024-02-21",
+          "exit_date": "2024-02-27",
+          "entry": 107.05583953857422,
+          "exit": 113.61662292480469,
+          "pnl": 619.8278945038867,
+          "pnl_pct": 0.061283750746417676,
+          "days_held": 4,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2024-06-03",
+          "exit_date": "2024-06-04",
+          "entry": 145.46511840820312,
+          "exit": 138.16941833496094,
+          "pnl": 510.37252148960135,
+          "pnl_pct": 0.05015429233535595,
+          "days_held": 1,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2024-06-05",
+          "exit_date": "2024-06-12",
+          "entry": 145.64593505859375,
+          "exit": 151.97413635253906,
+          "pnl": -444.35883879090744,
+          "pnl_pct": -0.04344921326777476,
+          "days_held": 5,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-08-06",
+          "exit_date": "2024-08-13",
+          "entry": 136.439453125,
+          "exit": 139.94192504882812,
+          "pnl": -261.39393825881064,
+          "pnl_pct": -0.025670521565483773,
+          "days_held": 5,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-08-13",
+          "exit_date": "2024-08-22",
+          "entry": 139.94192504882812,
+          "exit": 128.03152465820312,
+          "pnl": 864.4164977913584,
+          "pnl_pct": 0.08510959375804826,
+          "days_held": 7,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2024-10-09",
+          "exit_date": "2024-10-16",
+          "entry": 141.9629364013672,
+          "exit": 148.0750732421875,
+          "pnl": -441.00472889263466,
+          "pnl_pct": -0.04305445488630685,
+          "days_held": 5,
+          "exit_reason": "stop_loss"
+        }
+      ],
+      "symbol": "WSM",
+      "status": "success"
+    },
+    {
+      "total_return": 0.027281754202326265,
+      "sharpe": 0.7414127641775217,
+      "max_drawdown": 0.01877916194304489,
+      "num_trades": 21,
+      "signals_generated": 21,
+      "actionable_signals": 21,
+      "win_rate": 0.5238095238095238,
+      "avg_win": 0.05676762963782738,
+      "avg_loss": -0.035273936518141584,
+      "final_capital": 102728.17542023263,
+      "bars_processed": 752,
+      "trades": [
+        {
+          "entry_date": "2023-05-02",
+          "exit_date": "2023-05-16",
+          "entry": 68.2953109741211,
+          "exit": 64.75106048583984,
+          "pnl": 518.9595651192305,
+          "pnl_pct": 0.05189595651192306,
+          "days_held": 10,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2023-05-16",
+          "exit_date": "2023-05-22",
+          "entry": 64.75106048583984,
+          "exit": 67.3312759399414,
+          "pnl": -400.55030906690604,
+          "pnl_pct": -0.03984823468128093,
+          "days_held": 4,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-06-05",
+          "exit_date": "2023-06-27",
+          "entry": 67.00992584228516,
+          "exit": 68.70172119140625,
+          "pnl": 252.76831306968572,
+          "pnl_pct": 0.025246936597167865,
+          "days_held": 15,
+          "exit_reason": "max_hold"
+        },
+        {
+          "entry_date": "2023-10-05",
+          "exit_date": "2023-10-09",
+          "entry": 76.22550201416016,
+          "exit": 79.069091796875,
+          "pnl": -374.4343395227389,
+          "pnl_pct": -0.0373049662852545,
+          "days_held": 2,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-10-09",
+          "exit_date": "2023-10-11",
+          "entry": 79.069091796875,
+          "exit": 81.31354522705078,
+          "pnl": -283.8505264796165,
+          "pnl_pct": -0.028385977114062252,
+          "days_held": 2,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-11-06",
+          "exit_date": "2023-11-08",
+          "entry": 83.74987030029297,
+          "exit": 79.76997375488281,
+          "pnl": -473.84789466427543,
+          "pnl_pct": -0.04752122637491695,
+          "days_held": 2,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-01-10",
+          "exit_date": "2024-01-25",
+          "entry": 80.1813735961914,
+          "exit": 82.2669677734375,
+          "pnl": -258.1302423806443,
+          "pnl_pct": -0.02601095595779565,
+          "days_held": 10,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-01-25",
+          "exit_date": "2024-02-08",
+          "entry": 82.2669677734375,
+          "exit": 84.58330535888672,
+          "pnl": -278.69413308504744,
+          "pnl_pct": -0.02815635057594917,
+          "days_held": 10,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-05-28",
+          "exit_date": "2024-06-12",
+          "entry": 111.86949920654297,
+          "exit": 117.65133666992188,
+          "pnl": 510.1302856147632,
+          "pnl_pct": 0.05168376996757612,
+          "days_held": 11,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2024-06-13",
+          "exit_date": "2024-06-20",
+          "entry": 116.4504165649414,
+          "exit": 122.33879852294922,
+          "pnl": 501.67292931681396,
+          "pnl_pct": 0.050565572298524264,
+          "days_held": 4,
+          "exit_reason": "profit_target"
+        }
+      ],
+      "symbol": "TRGP",
+      "status": "success"
+    },
+    {
+      "total_return": 0.039390251526053764,
+      "sharpe": 1.3154762974730745,
+      "max_drawdown": 0.007970969720171481,
+      "num_trades": 16,
+      "signals_generated": 16,
+      "actionable_signals": 16,
+      "win_rate": 0.625,
+      "avg_win": 0.05656200761104989,
+      "avg_loss": -0.029539970071732036,
+      "final_capital": 103939.02515260538,
+      "bars_processed": 752,
+      "trades": [
+        {
+          "entry_date": "2023-09-21",
+          "exit_date": "2023-10-03",
+          "entry": 99.17140197753906,
+          "exit": 93.54682159423828,
+          "pnl": 567.1574941105168,
+          "pnl_pct": 0.05671574941105169,
+          "days_held": 8,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2023-10-06",
+          "exit_date": "2023-10-17",
+          "entry": 96.54218292236328,
+          "exit": 100.74346923828125,
+          "pnl": -437.64436417451475,
+          "pnl_pct": -0.04351762295758875,
+          "days_held": 7,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-03-11",
+          "exit_date": "2024-03-21",
+          "entry": 116.01809692382812,
+          "exit": 123.12643432617188,
+          "pnl": 613.4856389924215,
+          "pnl_pct": 0.06126921222480266,
+          "days_held": 8,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2024-05-20",
+          "exit_date": "2024-05-29",
+          "entry": 122.61238861083984,
+          "exit": 119.26119995117188,
+          "pnl": -275.3463975707346,
+          "pnl_pct": -0.02733156655404802,
+          "days_held": 6,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-05-29",
+          "exit_date": "2024-06-20",
+          "entry": 119.26119995117188,
+          "exit": 116.66452026367188,
+          "pnl": 218.74868965793286,
+          "pnl_pct": 0.021773046796134343,
+          "days_held": 15,
+          "exit_reason": "max_hold"
+        },
+        {
+          "entry_date": "2024-06-20",
+          "exit_date": "2024-06-24",
+          "entry": 116.66452026367188,
+          "exit": 119.917724609375,
+          "pnl": -280.7652547189195,
+          "pnl_pct": -0.02788512170067303,
+          "days_held": 2,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-07-15",
+          "exit_date": "2024-07-16",
+          "entry": 119.10688018798828,
+          "exit": 111.63258361816406,
+          "pnl": 630.0740126125022,
+          "pnl_pct": 0.06275285321912065,
+          "days_held": 1,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2024-07-25",
+          "exit_date": "2024-08-02",
+          "entry": 116.05815887451172,
+          "exit": 107.1971664428711,
+          "pnl": 771.4034659112712,
+          "pnl_pct": 0.07634958642779784,
+          "days_held": 6,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2025-01-14",
+          "exit_date": "2025-01-16",
+          "entry": 155.19593811035156,
+          "exit": 163.29637145996094,
+          "pnl": 531.3810050192371,
+          "pnl_pct": 0.05219487989337446,
+          "days_held": 2,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2025-01-31",
+          "exit_date": "2025-02-10",
+          "entry": 166.841552734375,
+          "exit": 160.8404998779297,
+          "pnl": -368.0969778914205,
+          "pnl_pct": -0.03596857472310549,
+          "days_held": 6,
+          "exit_reason": "stop_loss"
+        }
+      ],
+      "symbol": "RJF",
+      "status": "success"
+    },
+    {
+      "total_return": 0.015511767101959558,
+      "sharpe": 0.42432721764357395,
+      "max_drawdown": 0.018378623917053347,
+      "num_trades": 26,
+      "signals_generated": 26,
+      "actionable_signals": 26,
+      "win_rate": 0.46153846153846156,
+      "avg_win": 0.043669533791731295,
+      "avg_loss": -0.026281154257343287,
+      "final_capital": 101551.17671019596,
+      "bars_processed": 752,
+      "trades": [
+        {
+          "entry_date": "2023-04-26",
+          "exit_date": "2023-05-16",
+          "entry": 83.58999633789062,
+          "exit": 81.33999633789062,
+          "pnl": -269.1709652558143,
+          "pnl_pct": -0.026917096525581427,
+          "days_held": 14,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-07-13",
+          "exit_date": "2023-07-24",
+          "entry": 79.27999877929688,
+          "exit": 81.31999969482422,
+          "pnl": -256.623342166736,
+          "pnl_pct": -0.025731596202547724,
+          "days_held": 7,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-07-27",
+          "exit_date": "2023-08-01",
+          "entry": 80.38999938964844,
+          "exit": 76.61000061035156,
+          "pnl": -467.73526426707116,
+          "pnl_pct": -0.047020758900311835,
+          "days_held": 3,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-08-01",
+          "exit_date": "2023-08-22",
+          "entry": 76.61000061035156,
+          "exit": 76.86000061035156,
+          "pnl": -32.30859862926714,
+          "pnl_pct": -0.003263281529934095,
+          "days_held": 15,
+          "exit_reason": "max_hold"
+        },
+        {
+          "entry_date": "2023-10-10",
+          "exit_date": "2023-10-25",
+          "entry": 70.7699966430664,
+          "exit": 66.62000274658203,
+          "pnl": 580.3902599776021,
+          "pnl_pct": 0.058640583486462054,
+          "days_held": 11,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2023-11-03",
+          "exit_date": "2023-11-10",
+          "entry": 68.66999816894531,
+          "exit": 72.12999725341797,
+          "pnl": -501.61448706879287,
+          "pnl_pct": -0.05038589160815464,
+          "days_held": 5,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-11-30",
+          "exit_date": "2023-12-05",
+          "entry": 71.30000305175781,
+          "exit": 69.26000213623047,
+          "pnl": -283.40543442652006,
+          "pnl_pct": -0.028611512317137974,
+          "days_held": 3,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-12-26",
+          "exit_date": "2024-01-18",
+          "entry": 71.11000061035156,
+          "exit": 73.55000305175781,
+          "pnl": 338.9085888881142,
+          "pnl_pct": 0.034313070179485504,
+          "days_held": 15,
+          "exit_reason": "max_hold"
+        },
+        {
+          "entry_date": "2024-02-27",
+          "exit_date": "2024-03-19",
+          "entry": 75.36000061035156,
+          "exit": 76.30999755859375,
+          "pnl": 124.93725517739395,
+          "pnl_pct": 0.012606116514703086,
+          "days_held": 15,
+          "exit_reason": "max_hold"
+        },
+        {
+          "entry_date": "2024-04-10",
+          "exit_date": "2024-04-16",
+          "entry": 77.61000061035156,
+          "exit": 75.11000061035156,
+          "pnl": -319.6539660862766,
+          "pnl_pct": -0.03221234351680384,
+          "days_held": 4,
+          "exit_reason": "stop_loss"
+        }
+      ],
+      "symbol": "HOLX",
+      "status": "success"
+    },
+    {
+      "total_return": 0.02519637298124173,
+      "sharpe": 0.9637108929359249,
+      "max_drawdown": 0.011890254557969965,
+      "num_trades": 10,
+      "signals_generated": 10,
+      "actionable_signals": 10,
+      "win_rate": 0.7,
+      "avg_win": 0.051975636829602004,
+      "avg_loss": -0.03789757154159515,
+      "final_capital": 102519.63729812417,
+      "bars_processed": 752,
+      "trades": [
+        {
+          "entry_date": "2023-05-02",
+          "exit_date": "2023-05-23",
+          "entry": 165.65504455566406,
+          "exit": 162.0387420654297,
+          "pnl": -218.30319142615733,
+          "pnl_pct": -0.021830319142615733,
+          "days_held": 15,
+          "exit_reason": "max_hold"
+        },
+        {
+          "entry_date": "2023-10-09",
+          "exit_date": "2023-10-18",
+          "entry": 206.8912811279297,
+          "exit": 195.52618408203125,
+          "pnl": 548.1278193316605,
+          "pnl_pct": 0.0549327017742759,
+          "days_held": 7,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2023-11-28",
+          "exit_date": "2023-12-19",
+          "entry": 210.64474487304688,
+          "exit": 217.1738739013672,
+          "pnl": 310.98158692691095,
+          "pnl_pct": 0.03099592649346815,
+          "days_held": 15,
+          "exit_reason": "max_hold"
+        },
+        {
+          "entry_date": "2023-12-20",
+          "exit_date": "2024-01-12",
+          "entry": 213.95909118652344,
+          "exit": 218.12771606445312,
+          "pnl": 196.08130049323938,
+          "pnl_pct": 0.019483279980356615,
+          "days_held": 15,
+          "exit_reason": "max_hold"
+        },
+        {
+          "entry_date": "2024-01-16",
+          "exit_date": "2024-02-01",
+          "entry": 219.4226531982422,
+          "exit": 232.8103790283203,
+          "pnl": 615.2403062932348,
+          "pnl_pct": 0.06101341696011073,
+          "days_held": 12,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2024-07-15",
+          "exit_date": "2024-07-17",
+          "entry": 379.430908203125,
+          "exit": 360.3291931152344,
+          "pnl": -510.7411122320544,
+          "pnl_pct": -0.05034306556192489,
+          "days_held": 2,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-09-04",
+          "exit_date": "2024-09-10",
+          "entry": 355.5612487792969,
+          "exit": 370.32391357421875,
+          "pnl": -419.1018737394049,
+          "pnl_pct": -0.041519329920244825,
+          "days_held": 4,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2025-01-14",
+          "exit_date": "2025-01-21",
+          "entry": 491.9389343261719,
+          "exit": 526.383544921875,
+          "pnl": 703.8375529468682,
+          "pnl_pct": 0.07001806157685661,
+          "days_held": 4,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2025-02-06",
+          "exit_date": "2025-02-12",
+          "entry": 466.48193359375,
+          "exit": 432.8515319824219,
+          "pnl": 729.7764188335312,
+          "pnl_pct": 0.07209368506994782,
+          "days_held": 4,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2025-10-10",
+          "exit_date": "2025-10-20",
+          "entry": 663.4938354492188,
+          "exit": 700.1799926757812,
+          "pnl": 563.7384906963565,
+          "pnl_pct": 0.05529238595219822,
+          "days_held": 6,
+          "exit_reason": "profit_target"
+        }
+      ],
+      "symbol": "EME",
+      "status": "success"
+    },
+    {
+      "total_return": 0.04781155337933975,
+      "sharpe": 0.9708815233826553,
+      "max_drawdown": 0.014365021427769109,
+      "num_trades": 26,
+      "signals_generated": 26,
+      "actionable_signals": 26,
+      "win_rate": 0.5384615384615384,
+      "avg_win": 0.05945965932680154,
+      "avg_loss": -0.030056372741062473,
+      "final_capital": 104781.15533793397,
+      "bars_processed": 752,
+      "trades": [
+        {
+          "entry_date": "2023-04-20",
+          "exit_date": "2023-05-11",
+          "entry": 134.16000366210938,
+          "exit": 134.8000030517578,
+          "pnl": -47.70418695428164,
+          "pnl_pct": -0.004770418695428164,
+          "days_held": 15,
+          "exit_reason": "max_hold"
+        },
+        {
+          "entry_date": "2023-07-25",
+          "exit_date": "2023-07-26",
+          "entry": 158.97999572753906,
+          "exit": 154.88999938964844,
+          "pnl": -257.14211525060625,
+          "pnl_pct": -0.025726484135149223,
+          "days_held": 1,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-07-26",
+          "exit_date": "2023-08-16",
+          "entry": 154.88999938964844,
+          "exit": 155.60000610351562,
+          "pnl": 45.69967637961416,
+          "pnl_pct": 0.004583941614468355,
+          "days_held": 15,
+          "exit_reason": "max_hold"
+        },
+        {
+          "entry_date": "2023-09-07",
+          "exit_date": "2023-09-26",
+          "entry": 161.4499969482422,
+          "exit": 155.61000061035156,
+          "pnl": -360.78428581822783,
+          "pnl_pct": -0.036172167533473645,
+          "days_held": 13,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-10-03",
+          "exit_date": "2023-10-13",
+          "entry": 159.50999450683594,
+          "exit": 150.50999450683594,
+          "pnl": 560.73014393896,
+          "pnl_pct": 0.056422796752176534,
+          "days_held": 8,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2023-10-16",
+          "exit_date": "2023-11-06",
+          "entry": 153.94000244140625,
+          "exit": 154.52999877929688,
+          "pnl": -38.303692748972175,
+          "pnl_pct": -0.003832638226150436,
+          "days_held": 15,
+          "exit_reason": "max_hold"
+        },
+        {
+          "entry_date": "2023-11-16",
+          "exit_date": "2023-11-29",
+          "entry": 161.0500030517578,
+          "exit": 170.0500030517578,
+          "pnl": 558.2877633147023,
+          "pnl_pct": 0.05588326500749959,
+          "days_held": 8,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2024-01-30",
+          "exit_date": "2024-02-21",
+          "entry": 186.83999633789062,
+          "exit": 181.08999633789062,
+          "pnl": -309.16801290597436,
+          "pnl_pct": -0.0307749952510244,
+          "days_held": 15,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-03-14",
+          "exit_date": "2024-04-05",
+          "entry": 191.00999450683594,
+          "exit": 192.4199981689453,
+          "pnl": 73.93023840956779,
+          "pnl_pct": 0.007381831855185532,
+          "days_held": 15,
+          "exit_reason": "max_hold"
+        },
+        {
+          "entry_date": "2024-04-11",
+          "exit_date": "2024-04-15",
+          "entry": 192.08999633789062,
+          "exit": 183.77999877929688,
+          "pnl": -433.58532694456085,
+          "pnl_pct": -0.04326095953469788,
+          "days_held": 2,
+          "exit_reason": "stop_loss"
+        }
+      ],
+      "symbol": "FFIV",
+      "status": "success"
+    },
+    {
+      "total_return": -0.021387811923093542,
+      "sharpe": -0.5164154024083378,
+      "max_drawdown": 0.02857966328665167,
+      "num_trades": 34,
+      "signals_generated": 34,
+      "actionable_signals": 34,
+      "win_rate": 0.35294117647058826,
+      "avg_win": 0.0405549480496271,
+      "avg_loss": -0.031824487505674154,
+      "final_capital": 97861.21880769065,
+      "bars_processed": 752,
+      "trades": [
+        {
+          "entry_date": "2023-04-25",
+          "exit_date": "2023-05-16",
+          "entry": 162.42918395996094,
+          "exit": 159.9190216064453,
+          "pnl": 154.53887610088495,
+          "pnl_pct": 0.015453887610088493,
+          "days_held": 15,
+          "exit_reason": "max_hold"
+        },
+        {
+          "entry_date": "2023-05-19",
+          "exit_date": "2023-05-31",
+          "entry": 162.400634765625,
+          "exit": 153.20619201660156,
+          "pnl": 567.0329891752796,
+          "pnl_pct": 0.056615805488031294,
+          "days_held": 7,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2023-06-02",
+          "exit_date": "2023-06-07",
+          "entry": 158.15048217773438,
+          "exit": 164.24794006347656,
+          "pnl": -388.32985785277657,
+          "pnl_pct": -0.038554785301822075,
+          "days_held": 3,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-06-08",
+          "exit_date": "2023-06-16",
+          "entry": 158.84942626953125,
+          "exit": 163.4739990234375,
+          "pnl": -292.09949837106296,
+          "pnl_pct": -0.029112933313711845,
+          "days_held": 6,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-09-05",
+          "exit_date": "2023-09-26",
+          "entry": 176.62350463867188,
+          "exit": 175.1649169921875,
+          "pnl": -82.61571691853834,
+          "pnl_pct": -0.008258174071838771,
+          "days_held": 15,
+          "exit_reason": "max_hold"
+        },
+        {
+          "entry_date": "2023-10-30",
+          "exit_date": "2023-11-03",
+          "entry": 165.65530395507812,
+          "exit": 173.9174346923828,
+          "pnl": -498.54752425490676,
+          "pnl_pct": -0.04987543736930503,
+          "days_held": 4,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-11-03",
+          "exit_date": "2023-11-14",
+          "entry": 173.9174346923828,
+          "exit": 180.35635375976562,
+          "pnl": -368.2291876499793,
+          "pnl_pct": -0.03702284982970038,
+          "days_held": 7,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-01-24",
+          "exit_date": "2024-02-14",
+          "entry": 191.23397827148438,
+          "exit": 198.87521362304688,
+          "pnl": 395.94605028103825,
+          "pnl_pct": 0.03995751916385203,
+          "days_held": 15,
+          "exit_reason": "max_hold"
+        },
+        {
+          "entry_date": "2024-03-06",
+          "exit_date": "2024-03-27",
+          "entry": 207.00323486328125,
+          "exit": 216.8881378173828,
+          "pnl": 475.07770689030855,
+          "pnl_pct": 0.04775240812362286,
+          "days_held": 15,
+          "exit_reason": "max_hold"
+        },
+        {
+          "entry_date": "2024-04-04",
+          "exit_date": "2024-04-12",
+          "entry": 210.02090454101562,
+          "exit": 204.30467224121094,
+          "pnl": -272.0731242616974,
+          "pnl_pct": -0.027217444436291087,
+          "days_held": 6,
+          "exit_reason": "stop_loss"
+        }
+      ],
+      "symbol": "AVY",
+      "status": "success"
+    },
+    {
+      "total_return": -0.0014719893575085735,
+      "sharpe": -0.028663701002419804,
+      "max_drawdown": 0.022889763419868238,
+      "num_trades": 21,
+      "signals_generated": 21,
+      "actionable_signals": 21,
+      "win_rate": 0.38095238095238093,
+      "avg_win": 0.06712534318475627,
+      "avg_loss": -0.042194439174952275,
+      "final_capital": 99852.80106424914,
+      "bars_processed": 752,
+      "trades": [
+        {
+          "entry_date": "2023-04-18",
+          "exit_date": "2023-04-26",
+          "entry": 32.41960144042969,
+          "exit": 31.241044998168945,
+          "pnl": -363.5320577355999,
+          "pnl_pct": -0.036353205773559986,
+          "days_held": 6,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-05-24",
+          "exit_date": "2023-06-01",
+          "entry": 32.149600982666016,
+          "exit": 30.645692825317383,
+          "pnl": -466.08384654157265,
+          "pnl_pct": -0.04677843927703767,
+          "days_held": 5,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-06-01",
+          "exit_date": "2023-06-07",
+          "entry": 30.645692825317383,
+          "exit": 32.22526550292969,
+          "pnl": 511.1544713275684,
+          "pnl_pct": 0.05154305652725754,
+          "days_held": 4,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2023-06-09",
+          "exit_date": "2023-06-26",
+          "entry": 32.23473358154297,
+          "exit": 33.965633392333984,
+          "pnl": -535.2572739855293,
+          "pnl_pct": -0.053696730776831916,
+          "days_held": 10,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-07-17",
+          "exit_date": "2023-07-20",
+          "entry": 34.38181686401367,
+          "exit": 36.61404037475586,
+          "pnl": 643.7026320638764,
+          "pnl_pct": 0.06492453611660597,
+          "days_held": 3,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2023-08-31",
+          "exit_date": "2023-09-08",
+          "entry": 35.87646484375,
+          "exit": 37.74911117553711,
+          "pnl": 520.8744734475745,
+          "pnl_pct": 0.052197069581490306,
+          "days_held": 5,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2023-09-11",
+          "exit_date": "2023-10-02",
+          "entry": 37.118526458740234,
+          "exit": 35.89556884765625,
+          "pnl": -330.49783883330974,
+          "pnl_pct": -0.032947364234498504,
+          "days_held": 15,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-10-20",
+          "exit_date": "2023-10-31",
+          "entry": 38.72364807128906,
+          "exit": 40.85673522949219,
+          "pnl": 550.7405262796735,
+          "pnl_pct": 0.05508487098829574,
+          "days_held": 7,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2024-07-22",
+          "exit_date": "2024-08-02",
+          "entry": 75.06564331054688,
+          "exit": 68.74784088134766,
+          "pnl": 846.1069627070103,
+          "pnl_pct": 0.08416370193568373,
+          "days_held": 9,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2024-08-07",
+          "exit_date": "2024-08-08",
+          "entry": 70.78081512451172,
+          "exit": 76.57527923583984,
+          "pnl": -829.9234654357357,
+          "pnl_pct": -0.08186489659853431,
+          "days_held": 1,
+          "exit_reason": "stop_loss"
+        }
+      ],
+      "symbol": "NRG",
+      "status": "success"
+    },
+    {
+      "total_return": -0.028492272431066813,
+      "sharpe": -1.0318435006203999,
+      "max_drawdown": 0.03755604506202757,
+      "num_trades": 17,
+      "signals_generated": 17,
+      "actionable_signals": 17,
+      "win_rate": 0.23529411764705882,
+      "avg_win": 0.04439532893890522,
+      "avg_loss": -0.03578807758336901,
+      "final_capital": 97150.77275689332,
+      "bars_processed": 752,
+      "trades": [
+        {
+          "entry_date": "2023-04-10",
+          "exit_date": "2023-05-01",
+          "entry": 529.4600219726562,
+          "exit": 532.8800048828125,
+          "pnl": 64.5937892990318,
+          "pnl_pct": 0.006459378929903179,
+          "days_held": 15,
+          "exit_reason": "max_hold"
+        },
+        {
+          "entry_date": "2023-05-11",
+          "exit_date": "2023-05-22",
+          "entry": 512.1099853515625,
+          "exit": 480.67999267578125,
+          "pnl": 614.1316396601089,
+          "pnl_pct": 0.06137352048350438,
+          "days_held": 7,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2023-06-15",
+          "exit_date": "2023-06-26",
+          "entry": 451.1400146484375,
+          "exit": 463.57000732421875,
+          "pnl": -277.39410804961904,
+          "pnl_pct": -0.027552405621717336,
+          "days_held": 6,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-07-21",
+          "exit_date": "2023-08-03",
+          "entry": 460.1099853515625,
+          "exit": 435.739990234375,
+          "pnl": 531.7815374469965,
+          "pnl_pct": 0.052965586257743974,
+          "days_held": 9,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2023-08-03",
+          "exit_date": "2023-08-09",
+          "entry": 435.739990234375,
+          "exit": 446.6499938964844,
+          "pnl": -252.71507219717603,
+          "pnl_pct": -0.025037875583191534,
+          "days_held": 4,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-08-14",
+          "exit_date": "2023-08-17",
+          "entry": 458.55999755859375,
+          "exit": 446.6700134277344,
+          "pnl": -261.05380720940076,
+          "pnl_pct": -0.025928960646725622,
+          "days_held": 3,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-08-17",
+          "exit_date": "2023-08-22",
+          "entry": 446.6700134277344,
+          "exit": 430.5799865722656,
+          "pnl": -361.7323511445585,
+          "pnl_pct": -0.03602217827875727,
+          "days_held": 3,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-07-12",
+          "exit_date": "2024-07-15",
+          "entry": 412.94000244140625,
+          "exit": 395.1600036621094,
+          "pnl": -430.8190541201378,
+          "pnl_pct": -0.04305709951609678,
+          "days_held": 1,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-07-15",
+          "exit_date": "2024-07-24",
+          "entry": 395.1600036621094,
+          "exit": 369.6099853515625,
+          "pnl": -644.1609350361463,
+          "pnl_pct": -0.06465739972103554,
+          "days_held": 7,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-09-06",
+          "exit_date": "2024-09-09",
+          "entry": 367.5899963378906,
+          "exit": 381.57000732421875,
+          "pnl": -376.4461197393436,
+          "pnl_pct": -0.03803153275552588,
+          "days_held": 1,
+          "exit_reason": "stop_loss"
+        }
+      ],
+      "symbol": "ULTA",
+      "status": "success"
+    },
+    {
+      "total_return": -0.020378286626044427,
+      "sharpe": -0.6480058432958479,
+      "max_drawdown": 0.029102150710437577,
+      "num_trades": 11,
+      "signals_generated": 11,
+      "actionable_signals": 11,
+      "win_rate": 0.2727272727272727,
+      "avg_win": 0.0600865311989324,
+      "avg_loss": -0.04807896082740544,
+      "final_capital": 97962.17133739556,
+      "bars_processed": 752,
+      "trades": [
+        {
+          "entry_date": "2023-11-01",
+          "exit_date": "2023-11-02",
+          "entry": 96.12999725341797,
+          "exit": 99.36000061035156,
+          "pnl": -336.00368763338844,
+          "pnl_pct": -0.03360036876333884,
+          "days_held": 1,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-02-06",
+          "exit_date": "2024-02-07",
+          "entry": 117.3499984741211,
+          "exit": 125.80000305175781,
+          "pnl": 717.6491146276297,
+          "pnl_pct": 0.0720068571581633,
+          "days_held": 1,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2024-02-07",
+          "exit_date": "2024-02-15",
+          "entry": 125.80000305175781,
+          "exit": 120.68000030517578,
+          "pnl": -408.548718461619,
+          "pnl_pct": -0.04069954389806741,
+          "days_held": 6,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-03-08",
+          "exit_date": "2024-03-27",
+          "entry": 117.0999984741211,
+          "exit": 124.58999633789062,
+          "pnl": -639.4519987520044,
+          "pnl_pct": -0.06396240786821879,
+          "days_held": 13,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-04-15",
+          "exit_date": "2024-04-19",
+          "entry": 128.50999450683594,
+          "exit": 135.14999389648438,
+          "pnl": 513.2482829648029,
+          "pnl_pct": 0.051669128266091637,
+          "days_held": 4,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2024-07-05",
+          "exit_date": "2024-07-11",
+          "entry": 140.5,
+          "exit": 148.4499969482422,
+          "pnl": 564.9697470347262,
+          "pnl_pct": 0.05658360817254226,
+          "days_held": 4,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2024-07-24",
+          "exit_date": "2024-08-01",
+          "entry": 152.05999755859375,
+          "exit": 145.5,
+          "pnl": -433.1853117207824,
+          "pnl_pct": -0.043140850084953906,
+          "days_held": 6,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-08-01",
+          "exit_date": "2024-08-06",
+          "entry": 145.5,
+          "exit": 139.63999938964844,
+          "pnl": -402.6633063577801,
+          "pnl_pct": -0.04027491828420318,
+          "days_held": 3,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-08-27",
+          "exit_date": "2024-09-03",
+          "entry": 156.05999755859375,
+          "exit": 147.02999877929688,
+          "pnl": -576.1702550511793,
+          "pnl_pct": -0.057862353713715155,
+          "days_held": 4,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-09-03",
+          "exit_date": "2024-09-06",
+          "entry": 147.02999877929688,
+          "exit": 139.61000061035156,
+          "pnl": -499.611416932048,
+          "pnl_pct": -0.05046587928007324,
+          "days_held": 3,
+          "exit_reason": "stop_loss"
+        }
+      ],
+      "symbol": "GNRC",
+      "status": "success"
+    }
+  ],
+  "large_cap": [
+    {
+      "total_return": 0.00504610007056006,
+      "sharpe": 0.13517289501881583,
+      "max_drawdown": 0.019864051601671515,
+      "num_trades": 26,
+      "signals_generated": 26,
+      "actionable_signals": 26,
+      "win_rate": 0.4230769230769231,
+      "avg_win": 0.04908059512393237,
+      "avg_loss": -0.03247045647567081,
+      "final_capital": 100504.610007056,
+      "bars_processed": 752,
+      "trades": [
+        {
+          "entry_date": "2023-04-11",
+          "exit_date": "2023-04-28",
+          "entry": 158.6520538330078,
+          "exit": 167.41342163085938,
+          "pnl": 552.2379059191697,
+          "pnl_pct": 0.055223790591916976,
+          "days_held": 13,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2023-06-07",
+          "exit_date": "2023-06-22",
+          "entry": 175.6873779296875,
+          "exit": 184.75729370117188,
+          "pnl": 519.1040695057447,
+          "pnl_pct": 0.05162531240641704,
+          "days_held": 10,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2023-07-21",
+          "exit_date": "2023-08-04",
+          "entry": 189.63803100585938,
+          "exit": 179.80734252929688,
+          "pnl": -523.9459994381705,
+          "pnl_pct": -0.05183922457125045,
+          "days_held": 10,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-08-23",
+          "exit_date": "2023-08-30",
+          "entry": 179.18942260742188,
+          "exit": 185.6498260498047,
+          "pnl": -362.5084190984985,
+          "pnl_pct": -0.036053486575134644,
+          "days_held": 5,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-10-31",
+          "exit_date": "2023-11-02",
+          "entry": 168.94976806640625,
+          "exit": 175.6772918701172,
+          "pnl": -398.93290385942,
+          "pnl_pct": -0.039819668773186254,
+          "days_held": 2,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-11-02",
+          "exit_date": "2023-11-08",
+          "entry": 175.6772918701172,
+          "exit": 180.94056701660156,
+          "pnl": -298.9577819094561,
+          "pnl_pct": -0.02995990597564341,
+          "days_held": 4,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-02-02",
+          "exit_date": "2024-02-26",
+          "entry": 184.1112518310547,
+          "exit": 179.6941375732422,
+          "pnl": 238.68472348969507,
+          "pnl_pct": 0.0239915497498532,
+          "days_held": 15,
+          "exit_reason": "max_hold"
+        },
+        {
+          "entry_date": "2024-02-27",
+          "exit_date": "2024-03-05",
+          "entry": 181.15225219726562,
+          "exit": 168.7434844970703,
+          "pnl": 683.1120240799447,
+          "pnl_pct": 0.06849910806895623,
+          "days_held": 5,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2024-03-19",
+          "exit_date": "2024-04-10",
+          "entry": 174.65525817871094,
+          "exit": 166.42239379882812,
+          "pnl": 473.3049488635847,
+          "pnl_pct": 0.04713779857379829,
+          "days_held": 15,
+          "exit_reason": "max_hold"
+        },
+        {
+          "entry_date": "2024-08-22",
+          "exit_date": "2024-09-13",
+          "entry": 223.2734375,
+          "exit": 221.25477600097656,
+          "pnl": 91.20959958302517,
+          "pnl_pct": 0.009041207595612163,
+          "days_held": 15,
+          "exit_reason": "max_hold"
+        }
+      ],
+      "symbol": "AAPL",
+      "status": "success"
+    },
+    {
+      "total_return": -0.0332705138240513,
+      "sharpe": -1.0133571181916419,
+      "max_drawdown": 0.03605534707825675,
+      "num_trades": 24,
+      "signals_generated": 24,
+      "actionable_signals": 24,
+      "win_rate": 0.25,
+      "avg_win": 0.04461180627045278,
+      "avg_loss": -0.033564897051444734,
+      "final_capital": 96672.94861759487,
+      "bars_processed": 752,
+      "trades": [
+        {
+          "entry_date": "2023-07-20",
+          "exit_date": "2023-07-26",
+          "entry": 340.3612976074219,
+          "exit": 331.4319763183594,
+          "pnl": -262.348314918041,
+          "pnl_pct": -0.026234831491804105,
+          "days_held": 4,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-07-28",
+          "exit_date": "2023-08-02",
+          "entry": 332.020751953125,
+          "exit": 321.354736328125,
+          "pnl": -320.4026691151162,
+          "pnl_pct": -0.03212454511429406,
+          "days_held": 3,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-10-02",
+          "exit_date": "2023-10-11",
+          "entry": 316.43023681640625,
+          "exit": 326.873046875,
+          "pnl": -328.09615745540214,
+          "pnl_pct": -0.033001934845602945,
+          "days_held": 7,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-10-25",
+          "exit_date": "2023-10-26",
+          "entry": 334.98541259765625,
+          "exit": 322.4186706542969,
+          "pnl": -371.725981648825,
+          "pnl_pct": -0.037514296058177965,
+          "days_held": 1,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-01-31",
+          "exit_date": "2024-02-09",
+          "entry": 391.7392272949219,
+          "exit": 414.37176513671875,
+          "pnl": 570.3349942418114,
+          "pnl_pct": 0.05777449962844265,
+          "days_held": 7,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2024-02-26",
+          "exit_date": "2024-03-18",
+          "entry": 402.29547119140625,
+          "exit": 411.9495849609375,
+          "pnl": 238.26650252538192,
+          "pnl_pct": 0.02399757009677587,
+          "days_held": 15,
+          "exit_reason": "max_hold"
+        },
+        {
+          "entry_date": "2024-03-26",
+          "exit_date": "2024-04-17",
+          "entry": 416.2239074707031,
+          "exit": 406.5401611328125,
+          "pnl": -231.55440989553787,
+          "pnl_pct": -0.02326571387197944,
+          "days_held": 15,
+          "exit_reason": "max_hold"
+        },
+        {
+          "entry_date": "2024-04-25",
+          "exit_date": "2024-05-06",
+          "entry": 393.90484619140625,
+          "exit": 408.2182922363281,
+          "pnl": -360.8094973648023,
+          "pnl_pct": -0.0363373189827847,
+          "days_held": 7,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-05-06",
+          "exit_date": "2024-05-20",
+          "entry": 408.2182922363281,
+          "exit": 420.6237487792969,
+          "pnl": -300.6521996970367,
+          "pnl_pct": -0.030389271570875395,
+          "days_held": 10,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-05-30",
+          "exit_date": "2024-06-12",
+          "entry": 410.07208251953125,
+          "exit": 436.1694030761719,
+          "pnl": 627.7085049962693,
+          "pnl_pct": 0.06364081260127637,
+          "days_held": 9,
+          "exit_reason": "profit_target"
+        }
+      ],
+      "symbol": "MSFT",
+      "status": "success"
+    },
+    {
+      "total_return": 0.031505358764716364,
+      "sharpe": 0.8930232883277944,
+      "max_drawdown": 0.016802293031340867,
+      "num_trades": 20,
+      "signals_generated": 20,
+      "actionable_signals": 20,
+      "win_rate": 0.6,
+      "avg_win": 0.05197738955461859,
+      "avg_loss": -0.03886254654891933,
+      "final_capital": 103150.53587647164,
+      "bars_processed": 752,
+      "trades": [
+        {
+          "entry_date": "2023-04-25",
+          "exit_date": "2023-05-10",
+          "entry": 103.07122039794922,
+          "exit": 110.9119873046875,
+          "pnl": 760.7135024176241,
+          "pnl_pct": 0.07607135024176241,
+          "days_held": 11,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2023-07-19",
+          "exit_date": "2023-07-26",
+          "entry": 121.11488342285156,
+          "exit": 128.30059814453125,
+          "pnl": 597.8107082458394,
+          "pnl_pct": 0.05932974147027012,
+          "days_held": 5,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2023-07-27",
+          "exit_date": "2023-08-17",
+          "entry": 128.4296112060547,
+          "exit": 128.94570922851562,
+          "pnl": 40.73120942549138,
+          "pnl_pct": 0.004018528263181463,
+          "days_held": 15,
+          "exit_reason": "max_hold"
+        },
+        {
+          "entry_date": "2023-08-24",
+          "exit_date": "2023-09-08",
+          "entry": 128.80674743652344,
+          "exit": 135.35726928710938,
+          "pnl": 515.670220296314,
+          "pnl_pct": 0.05085542474251254,
+          "days_held": 10,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2023-10-10",
+          "exit_date": "2023-10-25",
+          "entry": 137.024658203125,
+          "exit": 124.66804504394531,
+          "pnl": -919.048679120211,
+          "pnl_pct": -0.09017802577447248,
+          "days_held": 11,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-11-01",
+          "exit_date": "2023-11-06",
+          "entry": 125.50174713134766,
+          "exit": 129.2732391357422,
+          "pnl": -303.5058484385698,
+          "pnl_pct": -0.03005131076340604,
+          "days_held": 3,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-11-06",
+          "exit_date": "2023-11-14",
+          "entry": 129.2732391357422,
+          "exit": 132.6179656982422,
+          "pnl": -260.52449103448,
+          "pnl_pct": -0.02587330978059504,
+          "days_held": 6,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-01-04",
+          "exit_date": "2024-01-18",
+          "entry": 135.3672332763672,
+          "exit": 142.40402221679688,
+          "pnl": 522.0744270752099,
+          "pnl_pct": 0.05198295606783441,
+          "days_held": 9,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2024-01-31",
+          "exit_date": "2024-02-09",
+          "entry": 139.0493927001953,
+          "exit": 147.88265991210938,
+          "pnl": 641.3210035644171,
+          "pnl_pct": 0.06352611140819212,
+          "days_held": 7,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2024-03-11",
+          "exit_date": "2024-03-14",
+          "entry": 136.63760375976562,
+          "exit": 142.02688598632812,
+          "pnl": -400.71357900796966,
+          "pnl_pct": -0.03944215997843363,
+          "days_held": 3,
+          "exit_reason": "stop_loss"
+        }
+      ],
+      "symbol": "GOOGL",
+      "status": "success"
+    },
+    {
+      "total_return": -0.003310794593581959,
+      "sharpe": -0.08663201053522329,
+      "max_drawdown": 0.026409875796887416,
+      "num_trades": 23,
+      "signals_generated": 23,
+      "actionable_signals": 23,
+      "win_rate": 0.391304347826087,
+      "avg_win": 0.05524087224044429,
+      "avg_loss": -0.037685249439850375,
+      "final_capital": 99668.9205406418,
+      "bars_processed": 752,
+      "trades": [
+        {
+          "entry_date": "2023-05-01",
+          "exit_date": "2023-05-10",
+          "entry": 102.05000305175781,
+          "exit": 110.19000244140625,
+          "pnl": 797.6481279985837,
+          "pnl_pct": 0.07976481279985838,
+          "days_held": 7,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2023-08-15",
+          "exit_date": "2023-08-17",
+          "entry": 137.6699981689453,
+          "exit": 133.97999572753906,
+          "pnl": -270.17038761334385,
+          "pnl_pct": -0.026803243193756477,
+          "days_held": 2,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-08-17",
+          "exit_date": "2023-09-08",
+          "entry": 133.97999572753906,
+          "exit": 138.22999572753906,
+          "pnl": 318.88475445653376,
+          "pnl_pct": 0.031721153422356985,
+          "days_held": 15,
+          "exit_reason": "max_hold"
+        },
+        {
+          "entry_date": "2023-09-15",
+          "exit_date": "2023-09-20",
+          "entry": 140.38999938964844,
+          "exit": 135.2899932861328,
+          "pnl": -366.34879013965235,
+          "pnl_pct": -0.03632741737793376,
+          "days_held": 3,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-10-02",
+          "exit_date": "2023-10-23",
+          "entry": 129.4600067138672,
+          "exit": 126.55999755859375,
+          "pnl": 225.08338062246057,
+          "pnl_pct": 0.022400811099006386,
+          "days_held": 15,
+          "exit_reason": "max_hold"
+        },
+        {
+          "entry_date": "2024-01-31",
+          "exit_date": "2024-02-02",
+          "entry": 155.1999969482422,
+          "exit": 171.80999755859375,
+          "pnl": 1077.7781939071747,
+          "pnl_pct": 0.10702320191340499,
+          "days_held": 2,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2024-02-20",
+          "exit_date": "2024-02-29",
+          "entry": 167.0800018310547,
+          "exit": 176.75999450683594,
+          "pnl": 589.6920495722624,
+          "pnl_pct": 0.05793627345999979,
+          "days_held": 7,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2024-04-15",
+          "exit_date": "2024-04-19",
+          "entry": 183.6199951171875,
+          "exit": 174.6300048828125,
+          "pnl": -501.2135960283005,
+          "pnl_pct": -0.048959756417799316,
+          "days_held": 4,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-05-01",
+          "exit_date": "2024-05-02",
+          "entry": 179.0,
+          "exit": 184.72000122070312,
+          "pnl": -325.533110450367,
+          "pnl_pct": -0.03195531408214036,
+          "days_held": 1,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-05-02",
+          "exit_date": "2024-05-09",
+          "entry": 184.72000122070312,
+          "exit": 189.5,
+          "pnl": -262.7700819671784,
+          "pnl_pct": -0.02587699625221278,
+          "days_held": 5,
+          "exit_reason": "stop_loss"
+        }
+      ],
+      "symbol": "AMZN",
+      "status": "success"
+    },
+    {
+      "total_return": -0.031266034569229814,
+      "sharpe": -0.6706868809115042,
+      "max_drawdown": 0.05259405424892796,
+      "num_trades": 30,
+      "signals_generated": 30,
+      "actionable_signals": 30,
+      "win_rate": 0.3,
+      "avg_win": 0.06075849448723244,
+      "avg_loss": -0.040993447702428465,
+      "final_capital": 96873.39654307702,
+      "bars_processed": 752,
+      "trades": [
+        {
+          "entry_date": "2023-08-22",
+          "exit_date": "2023-08-29",
+          "entry": 45.63479995727539,
+          "exit": 48.748531341552734,
+          "pnl": 682.3151163569268,
+          "pnl_pct": 0.06823151163569269,
+          "days_held": 5,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2023-09-06",
+          "exit_date": "2023-09-08",
+          "entry": 47.03066635131836,
+          "exit": 45.54262161254883,
+          "pnl": -318.5576580541714,
+          "pnl_pct": -0.03163988210700354,
+          "days_held": 2,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-09-08",
+          "exit_date": "2023-09-15",
+          "entry": 45.54262161254883,
+          "exit": 43.871700286865234,
+          "pnl": -368.22637065013805,
+          "pnl_pct": -0.036689177445665265,
+          "days_held": 5,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-10-06",
+          "exit_date": "2023-10-17",
+          "entry": 45.732505798339844,
+          "exit": 43.90967559814453,
+          "pnl": -398.56743200316674,
+          "pnl_pct": -0.03985852444283698,
+          "days_held": 7,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-10-17",
+          "exit_date": "2023-10-18",
+          "entry": 43.90967559814453,
+          "exit": 42.168792724609375,
+          "pnl": -394.8711665989859,
+          "pnl_pct": -0.039646908108989076,
+          "days_held": 1,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-11-02",
+          "exit_date": "2023-11-03",
+          "entry": 43.47794723510742,
+          "exit": 44.97598648071289,
+          "pnl": -341.8023095505833,
+          "pnl_pct": -0.034455151194347035,
+          "days_held": 1,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-11-03",
+          "exit_date": "2023-11-08",
+          "entry": 44.97598648071289,
+          "exit": 46.543975830078125,
+          "pnl": -344.6547684798114,
+          "pnl_pct": -0.034862811737050775,
+          "days_held": 3,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-05-03",
+          "exit_date": "2024-05-06",
+          "entry": 88.74372100830078,
+          "exit": 92.09300994873047,
+          "pnl": -371.8092101532116,
+          "pnl_pct": -0.03774113708975992,
+          "days_held": 1,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-06-24",
+          "exit_date": "2024-06-25",
+          "entry": 118.05945587158203,
+          "exit": 126.03604888916016,
+          "pnl": 663.100937585022,
+          "pnl_pct": 0.06756420278825088,
+          "days_held": 1,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2024-08-12",
+          "exit_date": "2024-08-13",
+          "entry": 108.97335815429688,
+          "exit": 116.0903091430664,
+          "pnl": -645.2990618125285,
+          "pnl_pct": -0.06530909122477939,
+          "days_held": 1,
+          "exit_reason": "stop_loss"
+        }
+      ],
+      "symbol": "NVDA",
+      "status": "success"
+    },
+    {
+      "total_return": -0.052600092128882676,
+      "sharpe": -1.6972194400712513,
+      "max_drawdown": 0.05404890395100665,
+      "num_trades": 21,
+      "signals_generated": 21,
+      "actionable_signals": 21,
+      "win_rate": 0.09523809523809523,
+      "avg_win": 0.06314475641662406,
+      "avg_loss": -0.03499865963698711,
+      "final_capital": 94739.99078711173,
+      "bars_processed": 752,
+      "trades": [
+        {
+          "entry_date": "2023-08-28",
+          "exit_date": "2023-08-29",
+          "entry": 288.24652099609375,
+          "exit": 295.9228515625,
+          "pnl": -266.3112997818377,
+          "pnl_pct": -0.02663112997818377,
+          "days_held": 1,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-08-29",
+          "exit_date": "2023-09-11",
+          "entry": 295.9228515625,
+          "exit": 305.4264831542969,
+          "pnl": -320.2970739478843,
+          "pnl_pct": -0.032115233891593105,
+          "days_held": 8,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-09-27",
+          "exit_date": "2023-10-02",
+          "entry": 295.6745910644531,
+          "exit": 304.6916198730469,
+          "pnl": -303.1756678945353,
+          "pnl_pct": -0.030496461586813045,
+          "days_held": 3,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-10-04",
+          "exit_date": "2023-10-06",
+          "entry": 303.4602355957031,
+          "exit": 313.2419128417969,
+          "pnl": -319.46991090690665,
+          "pnl_pct": -0.03223380231974042,
+          "days_held": 2,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-10-18",
+          "exit_date": "2023-10-20",
+          "entry": 314.771240234375,
+          "exit": 306.5089111328125,
+          "pnl": -259.31265366725,
+          "pnl_pct": -0.02624867854957291,
+          "days_held": 2,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-10-23",
+          "exit_date": "2023-10-25",
+          "entry": 311.8317565917969,
+          "exit": 297.4521789550781,
+          "pnl": -454.3605217213544,
+          "pnl_pct": -0.04611325605153912,
+          "days_held": 2,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-11-06",
+          "exit_date": "2023-11-10",
+          "entry": 313.60931396484375,
+          "exit": 326.4894104003906,
+          "pnl": -402.807601833587,
+          "pnl_pct": -0.04107051628253222,
+          "days_held": 4,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-05-03",
+          "exit_date": "2024-05-06",
+          "entry": 449.301025390625,
+          "exit": 462.9403381347656,
+          "pnl": -296.5071913461172,
+          "pnl_pct": -0.03035673629340713,
+          "days_held": 1,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-05-06",
+          "exit_date": "2024-05-15",
+          "entry": 462.9403381347656,
+          "exit": 478.7070007324219,
+          "pnl": -331.6458147354779,
+          "pnl_pct": -0.03405765559592789,
+          "days_held": 7,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-05-30",
+          "exit_date": "2024-06-05",
+          "entry": 464.3022155761719,
+          "exit": 492.1474304199219,
+          "pnl": -582.0066661523463,
+          "pnl_pct": -0.05997217740862106,
+          "days_held": 4,
+          "exit_reason": "stop_loss"
+        }
+      ],
+      "symbol": "META",
+      "status": "success"
+    },
+    {
+      "total_return": 0.03125420847925808,
+      "sharpe": 0.7748623915595474,
+      "max_drawdown": 0.00834306775267355,
+      "num_trades": 13,
+      "signals_generated": 13,
+      "actionable_signals": 13,
+      "win_rate": 0.46153846153846156,
+      "avg_win": 0.09087526408997025,
+      "avg_loss": -0.03341206981362158,
+      "final_capital": 103125.42084792581,
+      "bars_processed": 752,
+      "trades": [
+        {
+          "entry_date": "2023-04-13",
+          "exit_date": "2023-04-20",
+          "entry": 185.89999389648438,
+          "exit": 162.99000549316406,
+          "pnl": 1232.382418262875,
+          "pnl_pct": 0.12323824182628751,
+          "days_held": 5,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2023-05-08",
+          "exit_date": "2023-05-18",
+          "entry": 171.7899932861328,
+          "exit": 176.88999938964844,
+          "pnl": -300.5330859677285,
+          "pnl_pct": -0.029687445735102118,
+          "days_held": 8,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-11-07",
+          "exit_date": "2023-11-09",
+          "entry": 222.17999267578125,
+          "exit": 209.97999572753906,
+          "pnl": 554.2210344886138,
+          "pnl_pct": 0.05491042105688236,
+          "days_held": 2,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2024-04-24",
+          "exit_date": "2024-04-25",
+          "entry": 162.1300048828125,
+          "exit": 170.17999267578125,
+          "pnl": -503.89292728355633,
+          "pnl_pct": -0.04965143743002585,
+          "days_held": 1,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-05-14",
+          "exit_date": "2024-05-21",
+          "entry": 177.5500030517578,
+          "exit": 186.60000610351562,
+          "pnl": 514.7220491650552,
+          "pnl_pct": 0.05097157361985308,
+          "days_held": 5,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2024-05-29",
+          "exit_date": "2024-06-11",
+          "entry": 176.19000244140625,
+          "exit": 170.66000366210938,
+          "pnl": -318.5638926711492,
+          "pnl_pct": -0.03138656395181067,
+          "days_held": 9,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-06-14",
+          "exit_date": "2024-06-17",
+          "entry": 178.00999450683594,
+          "exit": 187.44000244140625,
+          "pnl": 535.9881674734856,
+          "pnl_pct": 0.052974598199924,
+          "days_held": 1,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2024-08-23",
+          "exit_date": "2024-08-26",
+          "entry": 220.32000732421875,
+          "exit": 213.2100067138672,
+          "pnl": -328.24477124109745,
+          "pnl_pct": -0.03227124352755045,
+          "days_held": 1,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-08-26",
+          "exit_date": "2024-08-28",
+          "entry": 213.2100067138672,
+          "exit": 205.75,
+          "pnl": -354.73983685470523,
+          "pnl_pct": -0.03498900839058033,
+          "days_held": 2,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-08-30",
+          "exit_date": "2024-09-05",
+          "entry": 214.11000061035156,
+          "exit": 230.1699981689453,
+          "pnl": 757.817502943056,
+          "pnl_pct": 0.07500816175242819,
+          "days_held": 3,
+          "exit_reason": "profit_target"
+        }
+      ],
+      "symbol": "TSLA",
+      "status": "success"
+    },
+    {
+      "total_return": -0.0073378716863230515,
+      "sharpe": -0.23270306689569478,
+      "max_drawdown": 0.014299872598207242,
+      "num_trades": 17,
+      "signals_generated": 17,
+      "actionable_signals": 17,
+      "win_rate": 0.35294117647058826,
+      "avg_win": 0.05367287461474957,
+      "avg_loss": -0.03581059877650323,
+      "final_capital": 99266.2128313677,
+      "bars_processed": 752,
+      "trades": [
+        {
+          "entry_date": "2023-04-11",
+          "exit_date": "2023-04-14",
+          "entry": 121.1878662109375,
+          "exit": 130.81539916992188,
+          "pnl": -794.4304376336537,
+          "pnl_pct": -0.07944304376336536,
+          "days_held": 3,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-05-03",
+          "exit_date": "2023-05-24",
+          "entry": 128.22225952148438,
+          "exit": 127.61875915527344,
+          "pnl": -46.69282680283845,
+          "pnl_pct": -0.0047066739305886085,
+          "days_held": 15,
+          "exit_reason": "max_hold"
+        },
+        {
+          "entry_date": "2023-05-24",
+          "exit_date": "2023-06-15",
+          "entry": 127.61875915527344,
+          "exit": 134.92665100097656,
+          "pnl": 567.8180476925303,
+          "pnl_pct": 0.05726346106226931,
+          "days_held": 15,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2023-06-22",
+          "exit_date": "2023-07-03",
+          "entry": 131.61688232421875,
+          "exit": 138.2458038330078,
+          "pnl": 502.2763192496035,
+          "pnl_pct": 0.050365282870473205,
+          "days_held": 7,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2023-10-31",
+          "exit_date": "2023-11-03",
+          "entry": 133.00128173828125,
+          "exit": 136.76962280273438,
+          "pnl": -283.9799306571243,
+          "pnl_pct": -0.028333118412109993,
+          "days_held": 3,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-11-03",
+          "exit_date": "2023-11-14",
+          "entry": 136.76962280273438,
+          "exit": 141.9726104736328,
+          "pnl": -380.210565898252,
+          "pnl_pct": -0.03804198303890048,
+          "days_held": 7,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-05-21",
+          "exit_date": "2024-06-11",
+          "entry": 193.12379455566406,
+          "exit": 188.1291961669922,
+          "pnl": -257.49602420928784,
+          "pnl_pct": -0.025862159555032366,
+          "days_held": 14,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-07-05",
+          "exit_date": "2024-07-17",
+          "entry": 199.32321166992188,
+          "exit": 211.08074951171875,
+          "pnl": 585.7868467268455,
+          "pnl_pct": 0.058987298786191,
+          "days_held": 8,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2024-07-18",
+          "exit_date": "2024-08-02",
+          "entry": 204.37466430664062,
+          "exit": 193.82403564453125,
+          "pnl": -515.6875516517176,
+          "pnl_pct": -0.051623955923809486,
+          "days_held": 11,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-09-05",
+          "exit_date": "2024-09-10",
+          "entry": 211.82044982910156,
+          "exit": 200.07266235351562,
+          "pnl": -551.157542440532,
+          "pnl_pct": -0.055461063769169344,
+          "days_held": 3,
+          "exit_reason": "stop_loss"
+        }
+      ],
+      "symbol": "JPM",
+      "status": "success"
+    },
+    {
+      "total_return": -0.005293972324702917,
+      "sharpe": -0.1645522502972314,
+      "max_drawdown": 0.019059179314441663,
+      "num_trades": 27,
+      "signals_generated": 27,
+      "actionable_signals": 27,
+      "win_rate": 0.4074074074074074,
+      "avg_win": 0.03538560809447784,
+      "avg_loss": -0.027547711699095024,
+      "final_capital": 99470.60276752971,
+      "bars_processed": 752,
+      "trades": [
+        {
+          "entry_date": "2023-04-25",
+          "exit_date": "2023-05-16",
+          "entry": 224.898681640625,
+          "exit": 226.2008056640625,
+          "pnl": 57.89825062283906,
+          "pnl_pct": 0.005789825062283906,
+          "days_held": 15,
+          "exit_reason": "max_hold"
+        },
+        {
+          "entry_date": "2023-05-31",
+          "exit_date": "2023-06-02",
+          "entry": 216.93569946289062,
+          "exit": 224.5519561767578,
+          "pnl": -351.28687496504307,
+          "pnl_pct": -0.035108360370027694,
+          "days_held": 2,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-06-02",
+          "exit_date": "2023-06-26",
+          "entry": 224.5519561767578,
+          "exit": 222.1080780029297,
+          "pnl": 108.51422337889846,
+          "pnl_pct": 0.010883352857119657,
+          "days_held": 15,
+          "exit_reason": "max_hold"
+        },
+        {
+          "entry_date": "2023-07-07",
+          "exit_date": "2023-07-28",
+          "entry": 232.070068359375,
+          "exit": 231.383056640625,
+          "pnl": -29.548903690953352,
+          "pnl_pct": -0.002960363323055171,
+          "days_held": 15,
+          "exit_reason": "max_hold"
+        },
+        {
+          "entry_date": "2023-08-15",
+          "exit_date": "2023-09-06",
+          "entry": 235.83009338378906,
+          "exit": 242.0545196533203,
+          "pnl": 263.37095321081284,
+          "pnl_pct": 0.026393689542418323,
+          "days_held": 15,
+          "exit_reason": "max_hold"
+        },
+        {
+          "entry_date": "2023-10-05",
+          "exit_date": "2023-10-16",
+          "entry": 229.5859832763672,
+          "exit": 236.0660858154297,
+          "pnl": -282.3898177213675,
+          "pnl_pct": -0.02822516621697236,
+          "days_held": 7,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2024-01-26",
+          "exit_date": "2024-02-15",
+          "entry": 264.0321960449219,
+          "exit": 277.3983154296875,
+          "pnl": 505.04890787909426,
+          "pnl_pct": 0.0506230663721463,
+          "days_held": 14,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2024-03-05",
+          "exit_date": "2024-03-26",
+          "entry": 275.8187255859375,
+          "exit": 277.02313232421875,
+          "pnl": 43.78520659097425,
+          "pnl_pct": 0.0043666605148822285,
+          "days_held": 15,
+          "exit_reason": "max_hold"
+        },
+        {
+          "entry_date": "2024-04-11",
+          "exit_date": "2024-05-02",
+          "entry": 272.1658630371094,
+          "exit": 264.19873046875,
+          "pnl": 293.6540304344502,
+          "pnl_pct": 0.02927307811293391,
+          "days_held": 15,
+          "exit_reason": "max_hold"
+        },
+        {
+          "entry_date": "2024-05-28",
+          "exit_date": "2024-06-07",
+          "entry": 268.0209045410156,
+          "exit": 275.62689208984375,
+          "pnl": -285.51174107161785,
+          "pnl_pct": -0.028378336987756006,
+          "days_held": 8,
+          "exit_reason": "stop_loss"
+        }
+      ],
+      "symbol": "V",
+      "status": "success"
+    },
+    {
+      "total_return": 0.025177019026003545,
+      "sharpe": 0.8508944826181238,
+      "max_drawdown": 0.008928672610445632,
+      "num_trades": 27,
+      "signals_generated": 27,
+      "actionable_signals": 27,
+      "win_rate": 0.48148148148148145,
+      "avg_win": 0.04066850538395925,
+      "avg_loss": -0.019884856287542472,
+      "final_capital": 102517.70190260035,
+      "bars_processed": 752,
+      "trades": [
+        {
+          "entry_date": "2023-04-12",
+          "exit_date": "2023-05-03",
+          "entry": 150.70611572265625,
+          "exit": 149.74073791503906,
+          "pnl": -64.05697625395428,
+          "pnl_pct": -0.0064056976253954265,
+          "days_held": 15,
+          "exit_reason": "max_hold"
+        },
+        {
+          "entry_date": "2023-06-07",
+          "exit_date": "2023-06-29",
+          "entry": 146.84104919433594,
+          "exit": 152.00991821289062,
+          "pnl": 351.77888102110643,
+          "pnl_pct": 0.035200436437320584,
+          "days_held": 15,
+          "exit_reason": "max_hold"
+        },
+        {
+          "entry_date": "2023-06-29",
+          "exit_date": "2023-07-07",
+          "entry": 152.00991821289062,
+          "exit": 147.51722717285156,
+          "pnl": -296.40286300033574,
+          "pnl_pct": -0.029555249373577237,
+          "days_held": 5,
+          "exit_reason": "stop_loss"
+        },
+        {
+          "entry_date": "2023-07-31",
+          "exit_date": "2023-08-21",
+          "entry": 155.1872100830078,
+          "exit": 155.02049255371094,
+          "pnl": -10.74206157379992,
+          "pnl_pct": -0.0010742994168636691,
+          "days_held": 15,
+          "exit_reason": "max_hold"
+        },
+        {
+          "entry_date": "2023-10-06",
+          "exit_date": "2023-10-26",
+          "entry": 147.08609008789062,
+          "exit": 139.02450561523438,
+          "pnl": 547.9796671929441,
+          "pnl_pct": 0.05480861220689928,
+          "days_held": 14,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2023-11-02",
+          "exit_date": "2023-11-24",
+          "entry": 140.18153381347656,
+          "exit": 143.42967224121094,
+          "pnl": -232.93415262920664,
+          "pnl_pct": -0.023170943699733656,
+          "days_held": 15,
+          "exit_reason": "max_hold"
+        },
+        {
+          "entry_date": "2023-12-06",
+          "exit_date": "2023-12-28",
+          "entry": 147.30459594726562,
+          "exit": 147.2670135498047,
+          "pnl": -2.558881427935557,
+          "pnl_pct": -0.0002551339095651288,
+          "days_held": 15,
+          "exit_reason": "max_hold"
+        },
+        {
+          "entry_date": "2024-02-22",
+          "exit_date": "2024-03-14",
+          "entry": 152.05259704589844,
+          "exit": 150.87750244140625,
+          "pnl": -77.5085991358893,
+          "pnl_pct": -0.007728211338195524,
+          "days_held": 15,
+          "exit_reason": "max_hold"
+        },
+        {
+          "entry_date": "2024-04-05",
+          "exit_date": "2024-04-16",
+          "entry": 144.41444396972656,
+          "exit": 136.88998413085938,
+          "pnl": 522.1554701911634,
+          "pnl_pct": 0.05210323588161674,
+          "days_held": 7,
+          "exit_reason": "profit_target"
+        },
+        {
+          "entry_date": "2024-04-19",
+          "exit_date": "2024-05-10",
+          "entry": 140.16891479492188,
+          "exit": 142.06427001953125,
+          "pnl": -136.216896707173,
+          "pnl_pct": -0.013521936924334675,
+          "days_held": 15,
+          "exit_reason": "max_hold"
+        }
+      ],
+      "symbol": "JNJ",
+      "status": "success"
+    }
+  ]
+}

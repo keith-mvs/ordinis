@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0",
+  "sequence_id": "seq_20251225-211340_00e73dd9",
+  "configuration_id": "cfg_20251225-210841_21e0c357",
+  "iteration_number": 7,
+  "timestamp": "2025-12-25T21:13:40.569572Z",
+  "is_baseline": false,
+  "tested_parameters": {
+    "corr_lookback": 11,
+    "corr_threshold": 0.24426595673186802,
+    "recalc_frequency": 2,
+    "centrality_method": "eigenvector",
+    "weight_decay": 0.686216959878896,
+    "min_weight": 0.027751045691999557,
+    "max_weight": 0.2750616845581138,
+    "vol_target": 0.1790179085228189,
+    "momentum_lookback": 6,
+    "z_score_entry": 2.124750559508678,
+    "z_score_exit": 0.34663860095585514,
+    "momentum_threshold": 0.0,
+    "stop_loss_pct": 0.07666229295053772,
+    "take_profit_pct": 0.11941303906792204,
+    "trailing_stop_pct": 0.03511003271598158,
+    "max_portfolio_drawdown": 0.15,
+    "max_positions": 10
+  },
+  "performance_metrics": {
+    "total_return": 0.0,
+    "annualized_return": 0.0,
+    "sharpe_ratio": 0.0,
+    "sortino_ratio": 0.0,
+    "max_drawdown": 0.0,
+    "win_rate": 0.0,
+    "profit_factor": 0.0,
+    "num_trades": 0,
+    "avg_trade_pnl": 0.0,
+    "avg_trade_pnl_pct": 0.0
+  },
+  "network_metrics": {
+    "avg_centrality": 0.17326417008290743,
+    "network_density": 0.0,
+    "rebalance_count": 6
+  },
+  "backtest_results": {
+    "period": "N/A to N/A",
+    "symbols_traded": 0,
+    "equity_curve_sample": [
+      100000.0,
+      100000.0,
+      100000.0,
+      100000.0,
+      100000.0,
+      100000.0,
+      100000.0,
+      100000.0,
+      100000.0,
+      100000.0,
+      100000.0,
+      100000.0
+    ],
+    "trades_sample": []
+  },
+  "nemo_suggestions": [],
+  "score": -Infinity,
+  "convergence_status": {
+    "improvement_vs_previous": NaN
+  }
+}

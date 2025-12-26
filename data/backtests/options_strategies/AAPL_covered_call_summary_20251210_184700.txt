@@ -1,0 +1,17 @@
+Covered Call Backtest Summary - AAPL
+============================================================
+
+Date: 2025-12-10 18:47:00
+
+Performance:
+  Initial Capital:    $100,000.00
+  Final Equity:       $143,163.75
+  Total Return:       43.16%
+  Premium Collected:  $30,049.21
+  Sharpe Ratio:       0.80
+  Max Drawdown:       -32.41%
+
+Trade Statistics:
+  Total Trades:       24
+  Assignments:        9
+  Expired OTM:        14

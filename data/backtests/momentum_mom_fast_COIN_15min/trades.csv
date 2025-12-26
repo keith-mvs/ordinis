@@ -1,0 +1,2 @@
+trade_id,symbol,side,entry_time,exit_time,entry_price,exit_price,quantity,pnl,pnl_pct,commission,duration
+8ab3a5b0-465e-4726-87f7-c27e95716af9,COIN,LONG,2025-11-18 16:30:00+00:00,2025-11-20 17:00:00+00:00,270.2022701824654,240.32745,37,-1114.2604624012192,-11.056465277768082,8.89211565,174600.0
