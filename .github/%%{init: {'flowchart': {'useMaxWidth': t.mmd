@@ -1,0 +1,206 @@
+%%{init: {'flowchart': {'useMaxWidth': true, 'nodeSpacing': 40, 'rankSpacing': 60}}}%%
+flowchart LR Oh no. Uh oh.
+  %% Governance
+  Gov[Governance Engine<br/>(preflight &amp; audit)]
+
+  %% Left: Data & Adapters
+  subgraph ingestion["Data &amp; Adapters"]
+    direction TB
+    MarketAPIs[Market Data APIs<br/>(AlphaVantage, Finnhub, TwelveData)]
+    Market[Market / Alt Data<br/>(ticks, bars, news, on-chain)]
+    DataAdapters[Adapters<br/>(MarketData, Broker, Storage)]
+  end
+
+  %% Orchestration & Backtesting
+  subgraph orchestration["Orchestration &amp; Backtesting"]
+    direction TB
+    OrchestrationEngine[Orchestration Engine<br/>(lifecycle &amp; run_cycle)]
+    ProofBench[ProofBench<br/>(backtesting harness)]
+  end
+
+  %% Core Pipeline (center)
+  subgraph pipeline["Core Pipeline"]
+    direction LR
+    StreamingBus[StreamingBus<br/>(schema-validated event bus)]
+    SignalEngine[Signal Engine<br/>(signal generation)]
+    PF_Signal{Signal preflight<br/>OK?}
+    RiskEngine[Risk Engine<br/>(risk checks)]
+    PF_Risk{Risk preflight<br/>OK?}
+    ExecutionEngine[Execution Engine<br/>(order routing &amp; fills)]
+    PF_Exec{Execution preflight<br/>OK?}
+    CB_Health{Circuit<br/>healthy?}
+    ExecMode{Live<br/>trading?}
+    PortfolioEngine[Portfolio Engine<br/>(positions &amp; accounting)]
+    PF_Portfolio{Portfolio preflight<br/>OK?}
+  end
+
+  %% Analytics & Optimization
+  subgraph analytics_group["Analytics &amp; Optimization"]
+    direction TB
+    PortfolioOptEngine[PortfolioOpt<br/>(mean-CVaR / mean-variance)]
+    AnalyticsEngine[Analytics Engine<br/>(metrics, reports &amp; narratives)]
+    Benchmark[Benchmark Suite<br/>(acceptance tests)]
+    ModelStore[Model Store<br/>(versions &amp; metadata)]
+  end
+
+  %% AI & Learning
+  subgraph ai_services["AI &amp; Learning"]
+    direction TB
+    Helix[Helix<br/>(LLM façade)]
+    Cortex[Cortex<br/>(code review &amp; reasoning)]
+    Synapse[Synapse<br/>(RAG &amp; embeddings)]
+    LearningEngine[Learning Engine<br/>(record &amp; retrain)]
+    CodeGenService[CodeGen Service<br/>(code gen &amp; patching)]
+  end
+
+  %% Safety & Resilience
+  subgraph safety["Safety &amp; Resilience"]
+    direction TB
+    KillSwitch[Kill Switch<br/>(file-based fallback)]
+    CircuitBreaker[Circuit Breaker<br/>(API &amp; health)]
+    RiskGuard[Risk Guard<br/>(hard control gates)]
+  end
+
+  %% Storage & Audit
+  subgraph storage["Storage &amp; Audit"]
+    direction TB
+    RepoDB[SQLite Repos<br/>(Parquet snapshots)]
+    AuditLog[Audit Log<br/>(immutable JSON-lines)]
+    Artifacts[Artifacts Store<br/>(models, parquet, reports)]
+  end
+
+  %% Observability & Interface
+  subgraph ops["Observability &amp; Interface"]
+    direction TB
+    Dashboard[Dashboard<br/>(Streamlit / Grafana)]
+    Alerts[Alerting<br/>(email / slack / pager)]
+    Metrics[Metrics<br/>(Prometheus)]
+    Tracing[Tracing<br/>(Distributed Traces)]
+    CLI[CLI / tools]
+  end
+
+  %% External Systems
+  subgraph external["External Systems"]
+    direction TB
+    BrokerAPI[Broker API / Exchanges]
+    PaperTrader[PaperTrader / Simulator]
+    S3[Object Store / S3]
+  end
+
+  %% Flows
+  MarketAPIs --> Market
+  Market --> StreamingBus
+  DataAdapters --> StreamingBus
+  OrchestrationEngine --> StreamingBus
+  ProofBench --> StreamingBus
+
+  StreamingBus --> SignalEngine
+  SignalEngine --> PF_Signal
+  PF_Signal -.->|preflight| Gov
+  PF_Signal -->|allow| RiskEngine
+  PF_Signal -->|deny| AuditLog
+  PF_Signal -->|deny| Alerts
+
+  RiskEngine --> PF_Risk
+  PF_Risk -.->|preflight| Gov
+  PF_Risk -->|allow| ExecutionEngine
+  PF_Risk -->|deny| AuditLog
+  PF_Risk -->|deny| Alerts
+  RiskEngine -.->|hard gates| RiskGuard
+
+  ExecutionEngine --> PF_Exec
+  PF_Exec -.->|preflight| Gov
+  PF_Exec -->|allow| CB_Health
+  PF_Exec -->|deny| AuditLog
+  PF_Exec -->|deny| Alerts
+
+  CB_Health -->|yes| ExecMode
+  CB_Health -->|no| AuditLog
+  CB_Health -->|no| Alerts
+
+  ExecMode -->|live| BrokerAPI
+  ExecMode -->|paper| PaperTrader
+
+  BrokerAPI --> PortfolioEngine
+  PaperTrader --> PortfolioEngine
+
+  PortfolioEngine --> PF_Portfolio
+  PF_Portfolio -.->|preflight| Gov
+  PF_Portfolio -->|allow| AnalyticsEngine
+  PF_Portfolio -->|deny| AuditLog
+  PF_Portfolio -->|deny| Alerts
+
+  PortfolioEngine -->|request optimization| PortfolioOptEngine
+  PortfolioOptEngine -->|optimal weights &amp; risk metrics| PortfolioEngine
+  PortfolioOptEngine --> AnalyticsEngine
+
+  AnalyticsEngine --> RepoDB
+  AnalyticsEngine --> Artifacts
+  AnalyticsEngine --> LearningEngine
+
+  LearningEngine --> Benchmark
+  Benchmark -->|pass| ModelStore
+  ModelStore -->|promote / model_version| SignalEngine
+
+  %% AI interactions
+  SignalEngine -.->|LLM assist| Helix
+  AnalyticsEngine -.->|narrative generation| Cortex
+  Cortex -.->|retrieve docs / snippets| Synapse
+  CodeGenService -.->|uses| Cortex
+  CodeGenService -.->|uses| Synapse
+  LearningEngine --> Synapse
+
+  %% Shadow mode / logging
+  ExecutionEngine -.->|shadow / log-only| LearningEngine
+  ExecutionEngine -.->|emit execution events| StreamingBus
+
+  %% Kill switch & orchestration checks
+  OrchestrationEngine -.->|kill-switch check| KillSwitch
+  OrchestrationEngine -.->|check health| CircuitBreaker
+  KillSwitch -->|trigger| Alerts
+  KillSwitch -->|trigger| AuditLog
+
+  %% Governance auditing & storage
+  Gov -->|audit| AuditLog
+  AuditLog --> S3
+  Artifacts --> S3
+
+  %% Observability & alerts
+  AnalyticsEngine --> Dashboard
+  AnalyticsEngine --> Metrics
+  OrchestrationEngine --> Metrics
+  ExecutionEngine --> Alerts
+  Gov --> Alerts
+
+  %% Tracing & metrics (dotted)
+  StreamingBus -.-> Tracing
+  SignalEngine -.-> Tracing
+  RiskEngine -.-> Tracing
+  ExecutionEngine -.-> Tracing
+  PortfolioEngine -.-> Tracing
+  OrchestrationEngine -.-> Tracing
+
+  StreamingBus -.-> Metrics
+  ExecutionEngine -.-> Metrics
+  AnalyticsEngine -.-> Metrics
+
+  %% Styling
+  classDef data fill:#f2f8fc,stroke:#1f6feb,stroke-width:1px,color:#000;
+  classDef engine fill:#eef,stroke:#333,stroke-width:1px,color:#000;
+  classDef ai fill:#f3f0ff,stroke:#6b21a8,stroke-width:1px,color:#000;
+  classDef storage fill:#fff4e6,stroke:#b45309,stroke-width:1px,color:#000;
+  classDef safety fill:#fff1f2,stroke:#b91c1c,stroke-width:1px,color:#000;
+  classDef ops fill:#ecfccb,stroke:#365314,stroke-width:1px,color:#000;
+  classDef external fill:#f5f5f5,stroke:#666,stroke-width:1px,color:#000;
+  classDef gov fill:#ffffff,stroke:#000,stroke-width:2px,color:#000;
+  classDef decision fill:#fff7ed,stroke:#f97316,stroke-width:1px,color:#000;
+
+  class Market,MarketAPIs,DataAdapters data;
+  class StreamingBus,SignalEngine,RiskEngine,ExecutionEngine,PortfolioEngine,PortfolioOptEngine,AnalyticsEngine,OrchestrationEngine,ProofBench engine;
+  class Helix,Cortex,Synapse,LearningEngine,CodeGenService ai;
+  class RepoDB,AuditLog,Artifacts storage;
+  class KillSwitch,CircuitBreaker,RiskGuard safety;
+  class Dashboard,Alerts,Metrics,CLI,Tracing ops;
+  class BrokerAPI,PaperTrader,S3 external;
+  class Gov gov;
+  class PF_Signal,PF_Risk,PF_Exec,PF_Portfolio,CB_Health,ExecMode decision;
