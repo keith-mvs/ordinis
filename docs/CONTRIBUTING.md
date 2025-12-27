@@ -86,6 +86,8 @@ If no target is declared, default routing is **`artifacts/`**.
   * Any Markdown file
     **in the repository root**
 
+* **Repository fetch/pull policy:** No one may fetch, pull, or merge code from unverified accounts or forks directly into the repository or local branches **without prior authorization** from a project maintainer. All external contributions must be submitted through pull requests and pass code review and CI before merging. If you are unsure about an external source, open an issue to request authorization.
+
 * “README-style” outputs are **not README files** unless explicitly modifying the canonical project README.
 
 * Temporary analysis notes are **never committed**; they belong in `artifacts/notes/`.
